@@ -73,6 +73,23 @@ def _get_scores(ort_outputs):
     return candidates[0] if candidates else ort_outputs[-1]
 
 
+def _keyword_match(text: str):
+    """Fast keyword pre-filter for intents that always contain the app/feature name."""
+    t = text.lower()
+    if "translate" in t:
+        return "TRANSLATE"
+    if "transcribe" in t or "transcription" in t:
+        return "TRANSCRIBE"
+    if "telehear" in t:
+        return "TELEHEARAI"
+    if "selfcheck" in t or "self check" in t or "self-check" in t:
+        return "SELFCHECK"
+    # Standalone mute/unmute always means volume control, not memory preset
+    if t in ("mute", "unmute", "silence"):
+        return "VOLUME"
+    return None
+
+
 def predict(text: str) -> dict:
     """
     Classify text into an intent.
@@ -84,6 +101,15 @@ def predict(text: str) -> dict:
             confidence: model confidence score
             url: fallback URL (only if type == "GENAI")
     """
+    # Fast path: keyword rules for intents that always contain the feature name
+    keyword_intent = _keyword_match(text)
+    if keyword_intent:
+        return {
+            "type": "INTENT",
+            "intent": keyword_intent,
+            "confidence": 1.0
+        }
+
     X = _format_input(text)
     ort_outputs = session.run(None, {input_name: X})
     scores = _get_scores(ort_outputs)[0]

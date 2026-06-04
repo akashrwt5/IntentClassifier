@@ -32,7 +32,7 @@ LABELS_PATH = MODELS_DIR / "intent_labels.pkl"
 
 # ---------- 1. Load & clean data ----------
 # FIX: header=0 reads the first row as column names (was header=None — bug)
-data = pd.read_csv(DATA_PATH, encoding="latin1", header=0)
+data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
 
 data.columns = [c.strip().lower() for c in data.columns]
 data["text"] = data["text"].astype(str).str.lower().str.strip()
@@ -67,7 +67,7 @@ pipeline = Pipeline([
     ("clf", LogisticRegression(
         max_iter=2000,
         class_weight="balanced",
-        C=1.0
+        C=5.0
     ))
 ])
 
