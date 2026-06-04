@@ -136,6 +136,14 @@ def predict(text: str) -> dict:
 
     # Confident prediction
     if conf1 >= CONF_THRESHOLD and gap >= CONF_GAP_THRESHOLD:
+        if intent == "OUT OF SCOPE":
+            save_unknown(text, conf1)
+            return {
+                "type": "GENAI",
+                "intent": "GENAI",
+                "url": GENAI_BASE_URL + urllib.parse.quote(text),
+                "confidence": conf1
+            }
         return {
             "type": "INTENT",
             "intent": intent,
@@ -146,6 +154,7 @@ def predict(text: str) -> dict:
     save_unknown(text, conf1)
     return {
         "type": "GENAI",
+        "intent": "GENAI",
         "url": GENAI_BASE_URL + urllib.parse.quote(text),
         "confidence": conf1
     }
@@ -169,5 +178,5 @@ if __name__ == "__main__":
         if r["type"] == "INTENT":
             print(f"  ✅ INTENT → {r['intent']}  (confidence: {r['confidence']:.2f})\n")
         else:
-            print(f"  ❌ LOW CONFIDENCE  ({r['confidence']:.2f}) → GenAI fallback")
+            print(f"  🤖 GENAI  (confidence: {r['confidence']:.2f})")
             print(f"  🔗 {r['url']}\n")
