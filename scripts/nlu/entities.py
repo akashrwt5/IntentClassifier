@@ -196,6 +196,30 @@ class EntityExtractor:
 
         return None, None
 
+    # ---------------- open-ended (free-form) topic support ----------------
+    def is_open(self, entity: str) -> bool:
+        """True if the enum entity accepts free-form values (Dialogflow @sys.any)."""
+        return bool(self.entities.get(entity, {}).get("open"))
+
+    # time / recurrence expressions to peel off when deriving a free-form topic
+    _TIME_PATTERNS = [
+        r"\bin\s+\d+\s*(?:minute|min|hour|hr|day|week)s?\b",
+        r"\b\d{1,2}(?::\d{2})?\s*[ap]\.?\s*m\.?\b",   # 5 pm, 8 a.m., 5:30 pm
+        r"\b\d{1,2}:\d{2}\b",                          # 17:00
+        r"\b(?:tomorrow|today|tonight)\b",
+        r"\b(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)s?\b",
+        r"\b(?:every|each)\s+\w+\b",                   # every morning, each day
+        r"\b(?:morning|afternoon|evening|night|noon)\b",
+        r"\b(?:at|on|by|this|next)\b",
+    ]
+
+    def strip_datetime(self, text: str) -> str:
+        """Remove date/time/recurrence expressions, leaving the bare topic."""
+        t = text
+        for p in self._TIME_PATTERNS:
+            t = re.sub(p, " ", t, flags=re.I)
+        return re.sub(r"\s+", " ", t).strip(" .,")
+
     # ---------------- dispatch ----------------
     def extract(self, entity: str, text: str):
         """Extract a single entity of the given type from text."""

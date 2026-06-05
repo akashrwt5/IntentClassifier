@@ -63,6 +63,13 @@ def test_reminder_freeform_topic():
     assert r.parameters["name"] == "call my dentist"
 
 
+def test_reminder_oneshot_freeform_topic():
+    r = run(["do not let me forget to water flowers at 7 a.m. tomorrow"])
+    assert r.type == "FULFILL", f"got {r.type}"
+    assert r.parameters["name"] == "water flowers", r.parameters
+    assert r.parameters["date-time"].endswith("07:00")
+
+
 def test_reminder_recurrence():
     r = run(["remind me to clean hearing aids every morning"])
     assert r.parameters.get("recurrence") == "Daily"

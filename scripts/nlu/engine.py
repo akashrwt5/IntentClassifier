@@ -200,6 +200,7 @@ class NLUEngine:
         if cfg["slots"]:
             slots = {}
             self._extract_all_slots(cfg, text, slots)
+            self._fill_open_topics(cfg, text, slots)
             session.pending_intent = intent
             session.pending_slots = slots
             session.awaiting_slot = None
@@ -219,6 +220,37 @@ class NLUEngine:
             value, _ = self.entities.extract(slot["entity"], text)
             if value is not None:
                 slots[slot["name"]] = value
+
+    # Carrier phrases that wrap a free-form reminder topic. Stripped (along with
+    # any date/time expression) to recover the bare topic in one-shot utterances
+    # like "do not let me forget to water flowers at 7 a.m. tomorrow".
+    _CARRIER = [
+        r"^\s*please\s+",
+        r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*",
+        r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*",
+        r"^\s*set(?:\s+up)?\s+(?:a\s+)?reminder\b\s*(?:to|for|about)?\s*",
+        r"^\s*make\s+sure\s+(?:i|to)\b\s*",
+        r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
+    ]
+
+    def _fill_open_topics(self, cfg, text, slots: dict):
+        """For required open-ended enum slots not matched by a preset, derive the
+        topic from the utterance by peeling off carrier phrases and date/time."""
+        for slot in cfg["slots"]:
+            if slot["name"] in slots or not slot.get("required"):
+                continue
+            if not self.entities.is_open(slot["entity"]):
+                continue
+            topic = self._derive_topic(text)
+            if topic:
+                slots[slot["name"]] = topic
+
+    def _derive_topic(self, text: str):
+        t = text.strip()
+        for pat in self._CARRIER:
+            t = re.sub(pat, "", t, count=1, flags=re.I)
+        t = self.entities.strip_datetime(t)
+        return t or None
 
     @staticmethod
     def _slot_def(cfg, name):
