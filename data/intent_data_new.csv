@@ -69,7 +69,7 @@ raise the volume,VOLUME_INCREASE
 set the volume to 50%,VOLUME_INCREASE
 make it louder,VOLUME_INCREASE
 i think the volume needs adjusting,VOLUME_INCREASE
-"it's too loud, can you fix it?",VOLUME_INCREASE
+"it's too loud, can you fix it?",VOLUME_DECREASE
 the volume is too low,VOLUME_INCREASE
 "i can't hear it well, maybe increase the volume",VOLUME_INCREASE
 the sound needs to be adjusted,VOLUME_INCREASE
@@ -95,7 +95,7 @@ turn it down,VOLUME_DECREASE
 volume up,VOLUME_INCREASE
 volume down,VOLUME_DECREASE
 too quiet,VOLUME_DECREASE
-too loud,VOLUME_INCREASE
+too loud,VOLUME_DECREASE
 mute,VOLUME_MUTE
 unmute,VOLUME_UNMUTE
 silence,VOLUME_MUTE
@@ -498,7 +498,7 @@ i need it louder,VOLUME_INCREASE
 please make it louder,VOLUME_INCREASE
 volume too low,VOLUME_INCREASE
 volume too high,VOLUME_INCREASE
-way too loud,VOLUME_INCREASE
+way too loud,VOLUME_DECREASE
 a bit louder,VOLUME_INCREASE
 a bit quieter,VOLUME_DECREASE
 a little louder,VOLUME_INCREASE
@@ -515,7 +515,7 @@ max out the volume,VOLUME_INCREASE
 volume at max,VOLUME_INCREASE
 increase sound,VOLUME_INCREASE
 decrease sound,VOLUME_DECREASE
-the audio is too loud,VOLUME_INCREASE
+the audio is too loud,VOLUME_DECREASE
 the audio is very soft,VOLUME_DECREASE
 audio too low,VOLUME_INCREASE
 audio too high,VOLUME_INCREASE
@@ -4274,16 +4274,16 @@ i'm feeling lucky today,OUT_OF_SCOPE
 tell me something interesting,OUT_OF_SCOPE
 surprise me,OUT_OF_SCOPE
 do a barrel roll,OUT_OF_SCOPE
- p l a y   m y   v o i c e   m e s s a g e .   ,LISTEN_MESSAGE
- r e p l a y   l a s t   m e s s a g e .   ,LISTEN_MESSAGE
- p l e a s e   l e t   m e   h e a r   m y   m e s s a g e .   ,LISTEN_MESSAGE
- l e t   m e   h e a r   m y   m e s s a g e .   ,LISTEN_MESSAGE
- p l e a s e   l e t   m e   h e a r   i t .   ,LISTEN_MESSAGE
- p l a y   b a c k   m y   m e s s a g e .   ,LISTEN_MESSAGE
- p l e a s e   p l a y   m y   l a s t   m e s s a g e .   ,LISTEN_MESSAGE
- i   n e e d   t o   l i s t e n   t o   m y   m e s s a g e .   ,LISTEN_MESSAGE
- h e a r   i t .   ,LISTEN_MESSAGE
- h e a r   m y   m e s s a g e .   ,LISTEN_MESSAGE
+play my voice message. ,LISTEN_MESSAGE
+replay last message. ,LISTEN_MESSAGE
+please let me hear my message. ,LISTEN_MESSAGE
+let me hear my message. ,LISTEN_MESSAGE
+please let me hear it. ,LISTEN_MESSAGE
+play back my message. ,LISTEN_MESSAGE
+please play my last message. ,LISTEN_MESSAGE
+i need to listen to my message. ,LISTEN_MESSAGE
+hear it. ,LISTEN_MESSAGE
+hear my message. ,LISTEN_MESSAGE
 turn on my program for restaurant,MEMORY
 turn on restaurant program,MEMORY
 change to test one,MEMORY
@@ -4903,23 +4903,23 @@ set setting to number four,MEMORY
 program number four,MEMORY
 memory number four,MEMORY
 setting number four,MEMORY
- n o   s t o p .   ,PUSH_TO_TALK
- n o   n o t   t h i s   t i m e .   ,PUSH_TO_TALK
- s t o p   i t .   ,PUSH_TO_TALK
- s k i p   s e n d .   ,PUSH_TO_TALK
- p l e a s e   d o n ' t   s e n d .   ,PUSH_TO_TALK
- n o   d o n ' t   p u s h .   ,PUSH_TO_TALK
- s k i p .   ,PUSH_TO_TALK
- l e a v e   m e s s a g e .   ,PUSH_TO_TALK
- y e s   p u s h   s e n d .   ,PUSH_TO_TALK
- y e s   i   s a i d   s e n d .   ,PUSH_TO_TALK
- d o   i t .   ,PUSH_TO_TALK
- y e s   s e n d   n o w .   ,PUSH_TO_TALK
- y e s   g o .   ,PUSH_TO_TALK
- o k a y   s e n d .   ,PUSH_TO_TALK
- y e s   i   d o .   ,PUSH_TO_TALK
- i   a p p r o v e .   ,PUSH_TO_TALK
- y e s   s e n d .   ,PUSH_TO_TALK
+no stop. ,PUSH_TO_TALK
+no not this time. ,PUSH_TO_TALK
+stop it. ,PUSH_TO_TALK
+skip send. ,PUSH_TO_TALK
+please don't send. ,PUSH_TO_TALK
+no don't push. ,PUSH_TO_TALK
+skip. ,PUSH_TO_TALK
+leave message. ,PUSH_TO_TALK
+yes push send. ,PUSH_TO_TALK
+yes i said send. ,PUSH_TO_TALK
+do it. ,PUSH_TO_TALK
+yes send now. ,PUSH_TO_TALK
+yes go. ,PUSH_TO_TALK
+okay send. ,PUSH_TO_TALK
+yes i do. ,PUSH_TO_TALK
+i approve. ,PUSH_TO_TALK
+yes send. ,PUSH_TO_TALK
 tell me what how much do i owe you would be in español,TRANSLATE
 tell me what how much do i owe you is in español,TRANSLATE
 translate how much do i owe you in español,TRANSLATE
@@ -5134,3 +5134,20 @@ remind me tomorrow at 9 a.m.,REMINDER
 remind me to vitamin d at 7 p.m. everyday,REMINDER
 add reminder for meeting,REMINDER
 remind me to wash the car in 4 hours,REMINDER
+it's too loud,VOLUME_DECREASE
+its too loud,VOLUME_DECREASE
+it is too loud,VOLUME_DECREASE
+too loud in here,VOLUME_DECREASE
+its too loud here,VOLUME_DECREASE
+this is too loud,VOLUME_DECREASE
+that's too loud,VOLUME_DECREASE
+the sound is too loud,VOLUME_DECREASE
+everything is too loud,VOLUME_DECREASE
+it's so loud,VOLUME_DECREASE
+too loud please turn it down,VOLUME_DECREASE
+its painfully loud,VOLUME_DECREASE
+the volume is too loud,VOLUME_DECREASE
+make volume loud,VOLUME_INCREASE
+make it loud,VOLUME_INCREASE
+can you make volume loud,VOLUME_INCREASE
+set volume to loud,VOLUME_INCREASE
