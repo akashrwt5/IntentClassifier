@@ -69,6 +69,6 @@ weights = {
 with open(WEIGHTS_PATH, "w") as f:
     json.dump(weights, f, separators=(',', ':'))
 
-print(f"\n Exported to {WEIGHTS_PATH} ({WEIGHTS_PATH.stat().st_size/1024:.1f} KB)")
-print(f" Labels: {weights['labels']}")
-print(f" Vocab size: {len(weights['vocab'])}")
+print(f"\n✅ Exported to {WEIGHTS_PATH} ({WEIGHTS_PATH.stat().st_size/1024:.1f} KB)")
+print(f"✅ Labels: {weights['labels']}")
+print(f"✅ Vocab size: {len(weights['vocab'])}")
