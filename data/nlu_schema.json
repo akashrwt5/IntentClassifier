@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "confidence_threshold": 0.7,
+  "intents": {
+    "REMINDER": {
+      "slots": [
+        {
+          "name": "recurrence",
+          "entity": "recurrence",
+          "required": false,
+          "prompt": ""
+        },
+        {
+          "name": "name",
+          "entity": "remind",
+          "required": true,
+          "prompt": "What do you want to be reminded?"
+        },
+        {
+          "name": "date-time",
+          "entity": "sys.date-time",
+          "required": true,
+          "prompt": "When should I remind you?"
+        }
+      ],
+      "fulfillment": "Reminder created.",
+      "action": "reminders.add"
+    },
+    "MEMORY": {
+      "slots": [
+        {
+          "name": "MemoryName",
+          "entity": "memory",
+          "required": true,
+          "prompt": "What is the name of the memory?"
+        }
+      ],
+      "fulfillment": "Memory changed.",
+      "action": "memory.change"
+    },
+    "PUSH_TO_TALK": {
+      "slots": [],
+      "action": "message.compose",
+      "followup": {
+        "context": "send-message-confirm",
+        "lifespan": 2,
+        "prompt": "Do you want to send this message?",
+        "yes": {
+          "action": "message.send",
+          "fulfillment": "Message sent."
+        },
+        "no": {
+          "action": "message.cancel",
+          "fulfillment": "Okay, cancelled."
+        }
+      }
+    },
+    "VOLUME_INCREASE": {
+      "slots": [],
+      "action": "volume.increase",
+      "fulfillment": "Volume increased."
+    },
+    "VOLUME_DECREASE": {
+      "slots": [],
+      "action": "volume.decrease",
+      "fulfillment": "Volume decreased."
+    },
+    "VOLUME_MUTE": {
+      "slots": [],
+      "action": "volume.mute",
+      "fulfillment": "Muted."
+    },
+    "VOLUME_UNMUTE": {
+      "slots": [],
+      "action": "volume.unmute",
+      "fulfillment": "Unmuted."
+    },
+    "TRANSLATE": {
+      "slots": [],
+      "action": "translate.open",
+      "fulfillment": "Opening Translate."
+    },
+    "TRANSCRIBE": {
+      "slots": [],
+      "action": "transcribe.open",
+      "fulfillment": "Opening Transcribe."
+    },
+    "TELEHEARAI": {
+      "slots": [],
+      "action": "telehear.open",
+      "fulfillment": "Opening TeleHear AI."
+    },
+    "SELFCHECK": {
+      "slots": [],
+      "action": "selfcheck.run",
+      "fulfillment": "Running SelfCheck."
+    },
+    "BATTERY": {
+      "slots": [],
+      "action": "battery.level",
+      "fulfillment": "Checking battery level."
+    },
+    "FIND_MY_PHONE": {
+      "slots": [],
+      "action": "phone.find",
+      "fulfillment": "Finding your phone."
+    },
+    "LISTEN_MESSAGE": {
+      "slots": [],
+      "action": "message.listen",
+      "fulfillment": "Playing your message."
+    },
+    "ACTIVITY": {
+      "slots": [],
+      "action": "activity.show",
+      "fulfillment": "Showing your activity."
+    },
+    "NOTIFICATIONS": {
+      "slots": [],
+      "action": "notification.show",
+      "fulfillment": "Notification set."
+    },
+    "HELP": {
+      "slots": [],
+      "action": "help.show",
+      "fulfillment": "Here is some help."
+    },
+    "OUT_OF_SCOPE": {
+      "slots": [],
+      "action": "genai.fallback",
+      "fulfillment": ""
+    }
+  },
+  "affirmative": [
+    "yes",
+    "yeah",
+    "yep",
+    "yup",
+    "sure",
+    "ok",
+    "okay",
+    "send",
+    "send it",
+    "confirm",
+    "correct",
+    "do it",
+    "go ahead",
+    "please do",
+    "affirmative"
+  ],
+  "negative": [
+    "no",
+    "nope",
+    "nah",
+    "cancel",
+    "don't",
+    "dont",
+    "stop",
+    "negative",
+    "no thanks",
+    "do not",
+    "never mind",
+    "nevermind"
+  ]
+}
