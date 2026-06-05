@@ -871,10 +871,6 @@ change totest one,MEMORY
 change memory totest one,MEMORY
 change hearing aids tocar,MEMORY
 put hearing aids inauditoriumsetting,MEMORY
-go tooutdoors,MEMORY
-go topersonal,MEMORY
-go torestaurant,MEMORY
-go tomeeting,MEMORY
 maskmemory,MEMORY
 maskmode,MEMORY
 switch tomask,MEMORY
@@ -1240,93 +1236,42 @@ set program totinnitus,MEMORY
 set program totrain,MEMORY
 set program towork,MEMORY
 set program toworship,MEMORY
-personalmemory,MEMORY
-restaurantmemory,MEMORY
-outdoorsmemory,MEMORY
-meetingmemory,MEMORY
 crowdmemory,MEMORY
 carmemory,MEMORY
-auditoriummemory,MEMORY
 musicmemory,MEMORY
-televisionmemory,MEMORY
 mutememory,MEMORY
-telephonememory,MEMORY
-automaticmemory,MEMORY
-everydaymemory,MEMORY
 golfmemory,MEMORY
 gymmemory,MEMORY
 homememory,MEMORY
-kitchenmemory,MEMORY
-mastermemory,MEMORY
 noisememory,MEMORY
-officememory,MEMORY
 pubmemory,MEMORY
 quietmemory,MEMORY
-schoolmemory,MEMORY
-speechmemory,MEMORY
-theatermemory,MEMORY
-tinnitusmemory,MEMORY
 trainmemory,MEMORY
 workmemory,MEMORY
-worshipmemory,MEMORY
-personalprogram,MEMORY
-restaurantprogram,MEMORY
-outdoorsprogram,MEMORY
-meetingprogram,MEMORY
 crowdprogram,MEMORY
 carprogram,MEMORY
-auditoriumprogram,MEMORY
 musicprogram,MEMORY
-televisionprogram,MEMORY
 muteprogram,MEMORY
-telephoneprogram,MEMORY
-automaticprogram,MEMORY
-everydayprogram,MEMORY
 golfprogram,MEMORY
 gymprogram,MEMORY
 homeprogram,MEMORY
-kitchenprogram,MEMORY
-masterprogram,MEMORY
 noiseprogram,MEMORY
-officeprogram,MEMORY
 pubprogram,MEMORY
 quietprogram,MEMORY
-schoolprogram,MEMORY
-speechprogram,MEMORY
-theaterprogram,MEMORY
-tinnitusprogram,MEMORY
 trainprogram,MEMORY
 workprogram,MEMORY
-worshipprogram,MEMORY
-personalsetting,MEMORY
-restaurantsetting,MEMORY
-outdoorssetting,MEMORY
-meetingsetting,MEMORY
 crowdsetting,MEMORY
 carsetting,MEMORY
-auditoriumsetting,MEMORY
 musicsetting,MEMORY
-televisionsetting,MEMORY
 mutesetting,MEMORY
-telephonesetting,MEMORY
-automaticsetting,MEMORY
-everydaysetting,MEMORY
 golfsetting,MEMORY
 gymsetting,MEMORY
 homesetting,MEMORY
-kitchensetting,MEMORY
-mastersetting,MEMORY
 noisesetting,MEMORY
-officesetting,MEMORY
 pubsetting,MEMORY
 quietsetting,MEMORY
-schoolsetting,MEMORY
-speechsetting,MEMORY
-theatersetting,MEMORY
-tinnitussetting,MEMORY
 trainsetting,MEMORY
 worksetting,MEMORY
-worshipsetting,MEMORY
 change topersonal,MEMORY
 change torestaurant,MEMORY
 change tooutdoors,MEMORY
@@ -3998,3 +3943,1194 @@ complete my reminder.,REMINDER
 mark last reminder complete,REMINDER
 reminder completed.,REMINDER
 complete this reminder.,REMINDER
+mute sound,VOLUME_MUTE
+mute the audio,VOLUME_MUTE
+mute audio,VOLUME_MUTE
+mute everything,VOLUME_MUTE
+mute it now,VOLUME_MUTE
+please mute,VOLUME_MUTE
+please mute it,VOLUME_MUTE
+can you mute,VOLUME_MUTE
+can you mute it,VOLUME_MUTE
+could you mute the sound,VOLUME_MUTE
+mute the volume,VOLUME_MUTE
+turn off sound,VOLUME_MUTE
+turn off the audio,VOLUME_MUTE
+silence the audio,VOLUME_MUTE
+silence everything,VOLUME_MUTE
+silence the sound,VOLUME_MUTE
+go silent,VOLUME_MUTE
+make it silent,VOLUME_MUTE
+no sound,VOLUME_MUTE
+cut the sound,VOLUME_MUTE
+cut the audio,VOLUME_MUTE
+kill the sound,VOLUME_MUTE
+stop the sound,VOLUME_MUTE
+i want it muted,VOLUME_MUTE
+set it to mute,VOLUME_MUTE
+switch to mute,VOLUME_MUTE
+mute mode,VOLUME_MUTE
+enable mute,VOLUME_MUTE
+quiet it completely,VOLUME_MUTE
+mute hearing aid,VOLUME_MUTE
+mut the sound,VOLUME_MUTE
+myoot the volume,VOLUME_MUTE
+mute pls,VOLUME_MUTE
+shut off the sound,VOLUME_MUTE
+unmute sound,VOLUME_UNMUTE
+unmute the audio,VOLUME_UNMUTE
+unmute audio,VOLUME_UNMUTE
+unmute everything,VOLUME_UNMUTE
+unmute it now,VOLUME_UNMUTE
+please unmute,VOLUME_UNMUTE
+please unmute it,VOLUME_UNMUTE
+can you unmute,VOLUME_UNMUTE
+can you unmute it,VOLUME_UNMUTE
+could you unmute the sound,VOLUME_UNMUTE
+unmute the volume,VOLUME_UNMUTE
+turn on sound,VOLUME_UNMUTE
+turn on the audio,VOLUME_UNMUTE
+bring back the sound,VOLUME_UNMUTE
+restore the sound,VOLUME_UNMUTE
+restore audio,VOLUME_UNMUTE
+sound back on,VOLUME_UNMUTE
+audio back on,VOLUME_UNMUTE
+i want it unmuted,VOLUME_UNMUTE
+set it to unmute,VOLUME_UNMUTE
+switch off mute,VOLUME_UNMUTE
+disable mute,VOLUME_UNMUTE
+cancel mute,VOLUME_UNMUTE
+stop muting,VOLUME_UNMUTE
+un mute,VOLUME_UNMUTE
+un mute it,VOLUME_UNMUTE
+unmute hearing aid,VOLUME_UNMUTE
+unmute pls,VOLUME_UNMUTE
+let me hear again,VOLUME_UNMUTE
+give me sound back,VOLUME_UNMUTE
+sound on please,VOLUME_UNMUTE
+reactivate sound,VOLUME_UNMUTE
+turn the audio back on,VOLUME_UNMUTE
+enable sound,VOLUME_UNMUTE
+battery,BATTERY
+check battery,BATTERY
+check the battery,BATTERY
+check my battery,BATTERY
+what's my battery,BATTERY
+how much battery,BATTERY
+how much battery is left,BATTERY
+battery percentage,BATTERY
+show battery,BATTERY
+show me the battery,BATTERY
+battery status,BATTERY
+how's the battery,BATTERY
+hows my battery,BATTERY
+is my battery low,BATTERY
+do i need to charge,BATTERY
+how much charge is left,BATTERY
+charge level,BATTERY
+battery life,BATTERY
+how long will the battery last,BATTERY
+tell me the battery level,BATTERY
+what's the charge,BATTERY
+hearing aid battery,BATTERY
+battery of my hearing aids,BATTERY
+check hearing aid battery,BATTERY
+power level,BATTERY
+how much power is left,BATTERY
+is the battery full,BATTERY
+battry level,BATTERY
+batery check,BATTERY
+baterry status,BATTERY
+show power level,BATTERY
+whats the battery at,BATTERY
+how charged are they,BATTERY
+find my phone,FIND_MY_PHONE
+where is my phone,FIND_MY_PHONE
+locate my phone,FIND_MY_PHONE
+ring my phone,FIND_MY_PHONE
+ring the phone,FIND_MY_PHONE
+call my phone,FIND_MY_PHONE
+make my phone ring,FIND_MY_PHONE
+i lost my phone,FIND_MY_PHONE
+i can't find my phone,FIND_MY_PHONE
+help me find my phone,FIND_MY_PHONE
+ping my phone,FIND_MY_PHONE
+sound my phone,FIND_MY_PHONE
+buzz my phone,FIND_MY_PHONE
+find my mobile,FIND_MY_PHONE
+wheres my phone,FIND_MY_PHONE
+trace my phone,FIND_MY_PHONE
+track my phone,FIND_MY_PHONE
+look for my phone,FIND_MY_PHONE
+my phone is lost,FIND_MY_PHONE
+lost my phone,FIND_MY_PHONE
+find the phone for me,FIND_MY_PHONE
+beep my phone,FIND_MY_PHONE
+make the phone ring,FIND_MY_PHONE
+alert my phone,FIND_MY_PHONE
+find my cell,FIND_MY_PHONE
+find my cellphone,FIND_MY_PHONE
+find my smartphone,FIND_MY_PHONE
+fnd my phone,FIND_MY_PHONE
+where is the phone,FIND_MY_PHONE
+get my phone to ring,FIND_MY_PHONE
+i misplaced my phone,FIND_MY_PHONE
+listen to message,LISTEN_MESSAGE
+listen to my message,LISTEN_MESSAGE
+listen to the message,LISTEN_MESSAGE
+read my message,LISTEN_MESSAGE
+read the message,LISTEN_MESSAGE
+play the message,LISTEN_MESSAGE
+read out my message,LISTEN_MESSAGE
+read out the message,LISTEN_MESSAGE
+listen to my messages,LISTEN_MESSAGE
+read my messages,LISTEN_MESSAGE
+play my messages,LISTEN_MESSAGE
+any new messages,LISTEN_MESSAGE
+read new message,LISTEN_MESSAGE
+read out loud my message,LISTEN_MESSAGE
+speak my message,LISTEN_MESSAGE
+tell me my message,LISTEN_MESSAGE
+what does the message say,LISTEN_MESSAGE
+listen message,LISTEN_MESSAGE
+hear my message,LISTEN_MESSAGE
+play back the message,LISTEN_MESSAGE
+read the latest message,LISTEN_MESSAGE
+read aloud my message,LISTEN_MESSAGE
+check my messages,LISTEN_MESSAGE
+do i have any messages,LISTEN_MESSAGE
+read incoming message,LISTEN_MESSAGE
+listen to incoming message,LISTEN_MESSAGE
+lisen to my message,LISTEN_MESSAGE
+read my txt,LISTEN_MESSAGE
+read my text message,LISTEN_MESSAGE
+play my voicemail,LISTEN_MESSAGE
+listen to voicemail,LISTEN_MESSAGE
+transcribe my conversation,TRANSCRIBE
+transcribe the conversation,TRANSCRIBE
+transcribe speech,TRANSCRIBE
+transcribe what they say,TRANSCRIBE
+write down what they say,TRANSCRIBE
+write down the conversation,TRANSCRIBE
+caption this,TRANSCRIBE
+show captions,TRANSCRIBE
+live captions,TRANSCRIBE
+turn on captions,TRANSCRIBE
+enable captions,TRANSCRIBE
+caption the speech,TRANSCRIBE
+convert speech to text,TRANSCRIBE
+show me the text,TRANSCRIBE
+subtitle this,TRANSCRIBE
+real time captions,TRANSCRIBE
+caption mode on,TRANSCRIBE
+start captioning,TRANSCRIBE
+begin captioning,TRANSCRIBE
+transcribe now,TRANSCRIBE
+transcribe please now,TRANSCRIBE
+trans cribe this,TRANSCRIBE
+run a self check,SELFCHECK
+run a system check,SELFCHECK
+run a device check,SELFCHECK
+test my hearing aids,SELFCHECK
+test the hearing aids,SELFCHECK
+test my device,SELFCHECK
+diagnose my hearing aids,SELFCHECK
+diagnose the device,SELFCHECK
+run diagnostics now,SELFCHECK
+check my devices,SELFCHECK
+run a hearing aid check,SELFCHECK
+perform a device test,SELFCHECK
+is my hearing aid working,SELFCHECK
+check if my hearing aids work,SELFCHECK
+verify my hearing aids,SELFCHECK
+run health check,SELFCHECK
+device health check,SELFCHECK
+run the self test,SELFCHECK
+self test,SELFCHECK
+do a self test,SELFCHECK
+start self check,SELFCHECK
+check the hearing aids,SELFCHECK
+run sel check,SELFCHECK
+selfcheck now,SELFCHECK
+translate my conversation,TRANSLATE
+translate the conversation,TRANSLATE
+translate what they say,TRANSLATE
+translate this for me,TRANSLATE
+start translating,TRANSLATE
+begin translating,TRANSLATE
+translate to english,TRANSLATE
+translate to spanish,TRANSLATE
+live translation,TRANSLATE
+real time translation,TRANSLATE
+translate speech,TRANSLATE
+help me translate,TRANSLATE
+i need translation,TRANSLATE
+turn on translation,TRANSLATE
+enable translation,TRANSLATE
+translate now please,TRANSLATE
+translate their speech,TRANSLATE
+translate language,TRANSLATE
+language translation,TRANSLATE
+start a telehear session,TELEHEARAI
+begin telehear,TELEHEARAI
+telehear session,TELEHEARAI
+connect to telehear,TELEHEARAI
+open telehear ai now,TELEHEARAI
+launch telehear session,TELEHEARAI
+start remote session,TELEHEARAI
+start streaming session,TELEHEARAI
+begin streaming,TELEHEARAI
+start audio streaming,TELEHEARAI
+stream to my hearing aids,TELEHEARAI
+start a remote support session,TELEHEARAI
+connect with my provider,TELEHEARAI
+start telehealth session,TELEHEARAI
+telehear please,TELEHEARAI
+telehear ai now,TELEHEARAI
+open tele hear,TELEHEARAI
+remind me with a notification,NOTIFICATIONS
+send me a reminder notification,NOTIFICATIONS
+notify me about this,NOTIFICATIONS
+set a notification,NOTIFICATIONS
+create a notification,NOTIFICATIONS
+enable this notification,NOTIFICATIONS
+i want notifications,NOTIFICATIONS
+turn notifications on,NOTIFICATIONS
+manage notifications,NOTIFICATIONS
+notification for low battery,NOTIFICATIONS
+notify me later,NOTIFICATIONS
+i want to send a message,PUSH_TO_TALK
+let me send a message,PUSH_TO_TALK
+start push to talk,PUSH_TO_TALK
+begin push to talk,PUSH_TO_TALK
+record a message,PUSH_TO_TALK
+record a voice message,PUSH_TO_TALK
+send a quick message,PUSH_TO_TALK
+send a voice note to them,PUSH_TO_TALK
+compose a message,PUSH_TO_TALK
+i need to message someone,PUSH_TO_TALK
+talk to someone,PUSH_TO_TALK
+start a voice message,PUSH_TO_TALK
+show my activity,ACTIVITY
+show my steps today,ACTIVITY
+how many steps,ACTIVITY
+my step count,ACTIVITY
+how active was i,ACTIVITY
+show my exercise,ACTIVITY
+how far did i walk,ACTIVITY
+my activity summary,ACTIVITY
+todays activity,ACTIVITY
+show my fitness,ACTIVITY
+what's the stock market doing,OUT_OF_SCOPE
+who won the game last night,OUT_OF_SCOPE
+what's the score,OUT_OF_SCOPE
+play some jazz,OUT_OF_SCOPE
+set a timer for pasta,OUT_OF_SCOPE
+what's 50 times 12,OUT_OF_SCOPE
+convert miles to kilometers,OUT_OF_SCOPE
+spell encyclopedia,OUT_OF_SCOPE
+tell me a fun fact,OUT_OF_SCOPE
+what's the meaning of life,OUT_OF_SCOPE
+sing me a song,OUT_OF_SCOPE
+recommend a restaurant,OUT_OF_SCOPE
+what's trending today,OUT_OF_SCOPE
+read me the headlines,OUT_OF_SCOPE
+who is the president,OUT_OF_SCOPE
+how tall is everest,OUT_OF_SCOPE
+what's the population of india,OUT_OF_SCOPE
+define serendipity,OUT_OF_SCOPE
+translate nothing in particular,OUT_OF_SCOPE
+order me a coffee,OUT_OF_SCOPE
+book a table for two,OUT_OF_SCOPE
+call an uber,OUT_OF_SCOPE
+what's on my calendar tomorrow,OUT_OF_SCOPE
+add milk to my shopping list,OUT_OF_SCOPE
+whats the wifi password,OUT_OF_SCOPE
+take a selfie,OUT_OF_SCOPE
+open the camera,OUT_OF_SCOPE
+flip a coin,OUT_OF_SCOPE
+roll a dice,OUT_OF_SCOPE
+start a stopwatch,OUT_OF_SCOPE
+what's my horoscope,OUT_OF_SCOPE
+tell me a riddle,OUT_OF_SCOPE
+blah blah blah blah,OUT_OF_SCOPE
+random gibberish here,OUT_OF_SCOPE
+wxyz abcd qrst,OUT_OF_SCOPE
+ploink florble gleep,OUT_OF_SCOPE
+the cat sat on the mat,OUT_OF_SCOPE
+once upon a time,OUT_OF_SCOPE
+i like turtles,OUT_OF_SCOPE
+banana banana banana,OUT_OF_SCOPE
+what color is the sky,OUT_OF_SCOPE
+is water wet,OUT_OF_SCOPE
+why is the grass green,OUT_OF_SCOPE
+how do magnets work,OUT_OF_SCOPE
+good to see you,OUT_OF_SCOPE
+long time no see,OUT_OF_SCOPE
+what's cooking,OUT_OF_SCOPE
+how's it going buddy,OUT_OF_SCOPE
+catch you later,OUT_OF_SCOPE
+i'm feeling lucky today,OUT_OF_SCOPE
+tell me something interesting,OUT_OF_SCOPE
+surprise me,OUT_OF_SCOPE
+do a barrel roll,OUT_OF_SCOPE
+ p l a y   m y   v o i c e   m e s s a g e .   ,LISTEN_MESSAGE
+ r e p l a y   l a s t   m e s s a g e .   ,LISTEN_MESSAGE
+ p l e a s e   l e t   m e   h e a r   m y   m e s s a g e .   ,LISTEN_MESSAGE
+ l e t   m e   h e a r   m y   m e s s a g e .   ,LISTEN_MESSAGE
+ p l e a s e   l e t   m e   h e a r   i t .   ,LISTEN_MESSAGE
+ p l a y   b a c k   m y   m e s s a g e .   ,LISTEN_MESSAGE
+ p l e a s e   p l a y   m y   l a s t   m e s s a g e .   ,LISTEN_MESSAGE
+ i   n e e d   t o   l i s t e n   t o   m y   m e s s a g e .   ,LISTEN_MESSAGE
+ h e a r   i t .   ,LISTEN_MESSAGE
+ h e a r   m y   m e s s a g e .   ,LISTEN_MESSAGE
+turn on my program for restaurant,MEMORY
+turn on restaurant program,MEMORY
+change to test one,MEMORY
+change memory to test one,MEMORY
+change hearing aids to car,MEMORY
+put hearing aids in auditorium setting,MEMORY
+go to outdoors,MEMORY
+go to personal,MEMORY
+go to restaurant,MEMORY
+go to meeting,MEMORY
+mask memory,MEMORY
+mask mode,MEMORY
+switch to mask,MEMORY
+change to mask,MEMORY
+mask setting,MEMORY
+mask program,MEMORY
+set program to mask,MEMORY
+set memory to mask,MEMORY
+switch program to mask,MEMORY
+switch memory to mask,MEMORY
+change program to mask,MEMORY
+set to mask program,MEMORY
+switch to mask program,MEMORY
+change to mask memory,MEMORY
+change to mask mode memory,MEMORY
+change to mask mode,MEMORY
+change memory to mask,MEMORY
+change to outdoors memory,MEMORY
+change to meeting memory,MEMORY
+change to crowd memory,MEMORY
+change to auditorium memory,MEMORY
+change to music memory,MEMORY
+change to television memory,MEMORY
+change to mute memory,MEMORY
+change to telephone memory,MEMORY
+change to automatic memory,MEMORY
+change to everyday memory,MEMORY
+change to golf memory,MEMORY
+change to gym memory,MEMORY
+change to home memory,MEMORY
+change to kitchen memory,MEMORY
+change to master memory,MEMORY
+change to noise memory,MEMORY
+change to office memory,MEMORY
+change to pub memory,MEMORY
+change to quiet memory,MEMORY
+change to school memory,MEMORY
+change to speech memory,MEMORY
+change to theater memory,MEMORY
+change to tinnitus memory,MEMORY
+change to train memory,MEMORY
+change to work memory,MEMORY
+change to worship memory,MEMORY
+change to personal program,MEMORY
+change to restaurant program,MEMORY
+change to outdoors program,MEMORY
+change to meeting program,MEMORY
+change to crowd program,MEMORY
+change to car program,MEMORY
+change to auditorium program,MEMORY
+change to music program,MEMORY
+change to television program,MEMORY
+change to mute program,MEMORY
+change to telephone program,MEMORY
+change to automatic program,MEMORY
+change to everyday program,MEMORY
+change to golf program,MEMORY
+change to gym program,MEMORY
+change to home program,MEMORY
+change to kitchen program,MEMORY
+change to master program,MEMORY
+change to noise program,MEMORY
+change to office program,MEMORY
+change to pub program,MEMORY
+change to quiet program,MEMORY
+change to school program,MEMORY
+change to speech program,MEMORY
+change to theater program,MEMORY
+change to tinnitus program,MEMORY
+change to train program,MEMORY
+change to work program,MEMORY
+change to worship program,MEMORY
+switch to personal memory,MEMORY
+switch to restaurant memory,MEMORY
+switch to outdoors memory,MEMORY
+switch to meeting memory,MEMORY
+switch to crowd memory,MEMORY
+switch to car memory,MEMORY
+switch to auditorium memory,MEMORY
+switch to music memory,MEMORY
+switch to television memory,MEMORY
+switch to mute memory,MEMORY
+switch to telephone memory,MEMORY
+switch to automatic memory,MEMORY
+switch to everyday memory,MEMORY
+switch to golf memory,MEMORY
+switch to gym memory,MEMORY
+switch to home memory,MEMORY
+switch to kitchen memory,MEMORY
+switch to master memory,MEMORY
+switch to noise memory,MEMORY
+switch to office memory,MEMORY
+switch to pub memory,MEMORY
+switch to quiet memory,MEMORY
+switch to school memory,MEMORY
+switch to speech memory,MEMORY
+switch to theater memory,MEMORY
+switch to tinnitus memory,MEMORY
+switch to train memory,MEMORY
+switch to work memory,MEMORY
+switch to worship memory,MEMORY
+switch to personal program,MEMORY
+switch to restaurant program,MEMORY
+switch to outdoors program,MEMORY
+switch to meeting program,MEMORY
+switch to crowd program,MEMORY
+switch to car program,MEMORY
+switch to auditorium program,MEMORY
+switch to music program,MEMORY
+switch to television program,MEMORY
+switch to mute program,MEMORY
+switch to telephone program,MEMORY
+switch to automatic program,MEMORY
+switch to everyday program,MEMORY
+switch to golf program,MEMORY
+switch to gym program,MEMORY
+switch to home program,MEMORY
+switch to kitchen program,MEMORY
+switch to master program,MEMORY
+switch to noise program,MEMORY
+switch to office program,MEMORY
+switch to pub program,MEMORY
+switch to quiet program,MEMORY
+switch to school program,MEMORY
+switch to speech program,MEMORY
+switch to theater program,MEMORY
+switch to tinnitus program,MEMORY
+switch to train program,MEMORY
+switch to work program,MEMORY
+switch to worship program,MEMORY
+set to personal memory,MEMORY
+set to restaurant memory,MEMORY
+set to outdoors memory,MEMORY
+set to meeting memory,MEMORY
+set to crowd memory,MEMORY
+set to car memory,MEMORY
+set to auditorium memory,MEMORY
+set to music memory,MEMORY
+set to television memory,MEMORY
+set to mute memory,MEMORY
+set to telephone memory,MEMORY
+set to automatic memory,MEMORY
+set to everyday memory,MEMORY
+set to golf memory,MEMORY
+set to gym memory,MEMORY
+set to home memory,MEMORY
+set to kitchen memory,MEMORY
+set to master memory,MEMORY
+set to noise memory,MEMORY
+set to office memory,MEMORY
+set to pub memory,MEMORY
+set to quiet memory,MEMORY
+set to school memory,MEMORY
+set to speech memory,MEMORY
+set to theater memory,MEMORY
+set to tinnitus memory,MEMORY
+set to train memory,MEMORY
+set to work memory,MEMORY
+set to worship memory,MEMORY
+set to personal program,MEMORY
+set to restaurant program,MEMORY
+set to outdoors program,MEMORY
+set to meeting program,MEMORY
+set to crowd program,MEMORY
+set to car program,MEMORY
+set to auditorium program,MEMORY
+set to music program,MEMORY
+set to television program,MEMORY
+set to mute program,MEMORY
+set to telephone program,MEMORY
+set to automatic program,MEMORY
+set to everyday program,MEMORY
+set to golf program,MEMORY
+set to gym program,MEMORY
+set to home program,MEMORY
+set to kitchen program,MEMORY
+set to master program,MEMORY
+set to noise program,MEMORY
+set to office program,MEMORY
+set to pub program,MEMORY
+set to quiet program,MEMORY
+set to school program,MEMORY
+set to speech program,MEMORY
+set to theater program,MEMORY
+set to tinnitus program,MEMORY
+set to train program,MEMORY
+set to work program,MEMORY
+set to worship program,MEMORY
+change memory to personal,MEMORY
+change memory to restaurant,MEMORY
+change memory to outdoors,MEMORY
+change memory to meeting,MEMORY
+change memory to crowd,MEMORY
+change memory to car,MEMORY
+change memory to auditorium,MEMORY
+change memory to music,MEMORY
+change memory to television,MEMORY
+change memory to mute,MEMORY
+change memory to telephone,MEMORY
+change memory to automatic,MEMORY
+change memory to everyday,MEMORY
+change memory to golf,MEMORY
+change memory to gym,MEMORY
+change memory to home,MEMORY
+change memory to kitchen,MEMORY
+change memory to master,MEMORY
+change memory to noise,MEMORY
+change memory to office,MEMORY
+change memory to pub,MEMORY
+change memory to quiet,MEMORY
+change memory to school,MEMORY
+change memory to speech,MEMORY
+change memory to theater,MEMORY
+change memory to tinnitus,MEMORY
+change memory to train,MEMORY
+change memory to work,MEMORY
+change memory to worship,MEMORY
+change program to personal,MEMORY
+change program to restaurant,MEMORY
+change program to outdoors,MEMORY
+change program to meeting,MEMORY
+change program to crowd,MEMORY
+change program to car,MEMORY
+change program to auditorium,MEMORY
+change program to music,MEMORY
+change program to television,MEMORY
+change program to mute,MEMORY
+change program to telephone,MEMORY
+change program to automatic,MEMORY
+change program to everyday,MEMORY
+change program to golf,MEMORY
+change program to gym,MEMORY
+change program to home,MEMORY
+change program to kitchen,MEMORY
+change program to master,MEMORY
+change program to noise,MEMORY
+change program to office,MEMORY
+change program to pub,MEMORY
+change program to quiet,MEMORY
+change program to school,MEMORY
+change program to speech,MEMORY
+change program to theater,MEMORY
+change program to tinnitus,MEMORY
+change program to train,MEMORY
+change program to work,MEMORY
+change program to worship,MEMORY
+switch memory to personal,MEMORY
+switch memory to restaurant,MEMORY
+switch memory to outdoors,MEMORY
+switch memory to meeting,MEMORY
+switch memory to crowd,MEMORY
+switch memory to car,MEMORY
+switch memory to auditorium,MEMORY
+switch memory to music,MEMORY
+switch memory to television,MEMORY
+switch memory to mute,MEMORY
+switch memory to telephone,MEMORY
+switch memory to automatic,MEMORY
+switch memory to everyday,MEMORY
+switch memory to golf,MEMORY
+switch memory to gym,MEMORY
+switch memory to home,MEMORY
+switch memory to kitchen,MEMORY
+switch memory to master,MEMORY
+switch memory to noise,MEMORY
+switch memory to office,MEMORY
+switch memory to pub,MEMORY
+switch memory to quiet,MEMORY
+switch memory to school,MEMORY
+switch memory to speech,MEMORY
+switch memory to theater,MEMORY
+switch memory to tinnitus,MEMORY
+switch memory to train,MEMORY
+switch memory to work,MEMORY
+switch memory to worship,MEMORY
+switch program to personal,MEMORY
+switch program to restaurant,MEMORY
+switch program to outdoors,MEMORY
+switch program to meeting,MEMORY
+switch program to crowd,MEMORY
+switch program to car,MEMORY
+switch program to auditorium,MEMORY
+switch program to music,MEMORY
+switch program to television,MEMORY
+switch program to mute,MEMORY
+switch program to telephone,MEMORY
+switch program to automatic,MEMORY
+switch program to everyday,MEMORY
+switch program to golf,MEMORY
+switch program to gym,MEMORY
+switch program to home,MEMORY
+switch program to kitchen,MEMORY
+switch program to master,MEMORY
+switch program to noise,MEMORY
+switch program to office,MEMORY
+switch program to pub,MEMORY
+switch program to quiet,MEMORY
+switch program to school,MEMORY
+switch program to speech,MEMORY
+switch program to theater,MEMORY
+switch program to tinnitus,MEMORY
+switch program to train,MEMORY
+switch program to work,MEMORY
+switch program to worship,MEMORY
+set memory to personal,MEMORY
+set memory to outdoors,MEMORY
+set memory to meeting,MEMORY
+set memory to crowd,MEMORY
+set memory to auditorium,MEMORY
+set memory to music,MEMORY
+set memory to television,MEMORY
+set memory to mute,MEMORY
+set memory to telephone,MEMORY
+set memory to automatic,MEMORY
+set memory to everyday,MEMORY
+set memory to golf,MEMORY
+set memory to gym,MEMORY
+set memory to home,MEMORY
+set memory to kitchen,MEMORY
+set memory to master,MEMORY
+set memory to noise,MEMORY
+set memory to office,MEMORY
+set memory to pub,MEMORY
+set memory to quiet,MEMORY
+set memory to school,MEMORY
+set memory to speech,MEMORY
+set memory to theater,MEMORY
+set memory to tinnitus,MEMORY
+set memory to train,MEMORY
+set memory to work,MEMORY
+set memory to worship,MEMORY
+set program to personal,MEMORY
+set program to restaurant,MEMORY
+set program to outdoors,MEMORY
+set program to meeting,MEMORY
+set program to crowd,MEMORY
+set program to car,MEMORY
+set program to auditorium,MEMORY
+set program to music,MEMORY
+set program to television,MEMORY
+set program to mute,MEMORY
+set program to telephone,MEMORY
+set program to automatic,MEMORY
+set program to everyday,MEMORY
+set program to golf,MEMORY
+set program to gym,MEMORY
+set program to home,MEMORY
+set program to kitchen,MEMORY
+set program to master,MEMORY
+set program to noise,MEMORY
+set program to office,MEMORY
+set program to pub,MEMORY
+set program to quiet,MEMORY
+set program to school,MEMORY
+set program to speech,MEMORY
+set program to theater,MEMORY
+set program to tinnitus,MEMORY
+set program to train,MEMORY
+set program to work,MEMORY
+set program to worship,MEMORY
+personal memory,MEMORY
+restaurant memory,MEMORY
+outdoors memory,MEMORY
+meeting memory,MEMORY
+crowd memory,MEMORY
+car memory,MEMORY
+auditorium memory,MEMORY
+music memory,MEMORY
+television memory,MEMORY
+mute memory,MEMORY
+telephone memory,MEMORY
+automatic memory,MEMORY
+everyday memory,MEMORY
+golf memory,MEMORY
+gym memory,MEMORY
+home memory,MEMORY
+kitchen memory,MEMORY
+master memory,MEMORY
+noise memory,MEMORY
+office memory,MEMORY
+pub memory,MEMORY
+quiet memory,MEMORY
+school memory,MEMORY
+speech memory,MEMORY
+theater memory,MEMORY
+tinnitus memory,MEMORY
+train memory,MEMORY
+work memory,MEMORY
+worship memory,MEMORY
+personal program,MEMORY
+restaurant program,MEMORY
+outdoors program,MEMORY
+meeting program,MEMORY
+crowd program,MEMORY
+car program,MEMORY
+auditorium program,MEMORY
+music program,MEMORY
+television program,MEMORY
+mute program,MEMORY
+telephone program,MEMORY
+automatic program,MEMORY
+everyday program,MEMORY
+golf program,MEMORY
+gym program,MEMORY
+home program,MEMORY
+kitchen program,MEMORY
+master program,MEMORY
+noise program,MEMORY
+office program,MEMORY
+pub program,MEMORY
+quiet program,MEMORY
+school program,MEMORY
+speech program,MEMORY
+theater program,MEMORY
+tinnitus program,MEMORY
+train program,MEMORY
+work program,MEMORY
+worship program,MEMORY
+personal setting,MEMORY
+restaurant setting,MEMORY
+outdoors setting,MEMORY
+meeting setting,MEMORY
+crowd setting,MEMORY
+car setting,MEMORY
+auditorium setting,MEMORY
+music setting,MEMORY
+television setting,MEMORY
+mute setting,MEMORY
+telephone setting,MEMORY
+automatic setting,MEMORY
+everyday setting,MEMORY
+golf setting,MEMORY
+gym setting,MEMORY
+home setting,MEMORY
+kitchen setting,MEMORY
+master setting,MEMORY
+noise setting,MEMORY
+office setting,MEMORY
+pub setting,MEMORY
+quiet setting,MEMORY
+school setting,MEMORY
+speech setting,MEMORY
+theater setting,MEMORY
+tinnitus setting,MEMORY
+train setting,MEMORY
+work setting,MEMORY
+worship setting,MEMORY
+change to personal,MEMORY
+change to restaurant,MEMORY
+change to outdoors,MEMORY
+change to meeting,MEMORY
+change to crowd,MEMORY
+change to car,MEMORY
+change to auditorium,MEMORY
+change to music,MEMORY
+change to television,MEMORY
+change to mute,MEMORY
+change to telephone,MEMORY
+change to automatic,MEMORY
+change to everyday,MEMORY
+change to golf,MEMORY
+change to gym,MEMORY
+change to home,MEMORY
+change to kitchen,MEMORY
+change to master,MEMORY
+change to noise,MEMORY
+change to office,MEMORY
+change to pub,MEMORY
+change to quiet,MEMORY
+change to school,MEMORY
+change to speech,MEMORY
+change to theater,MEMORY
+change to tinnitus,MEMORY
+change to train,MEMORY
+change to work,MEMORY
+change to worship,MEMORY
+switch to personal,MEMORY
+switch to restaurant,MEMORY
+switch to outdoors,MEMORY
+switch to meeting,MEMORY
+switch to crowd,MEMORY
+switch to car,MEMORY
+switch to auditorium,MEMORY
+switch to music,MEMORY
+switch to television,MEMORY
+switch to mute,MEMORY
+switch to telephone,MEMORY
+switch to automatic,MEMORY
+switch to everyday,MEMORY
+switch to golf,MEMORY
+switch to gym,MEMORY
+switch to home,MEMORY
+switch to kitchen,MEMORY
+switch to master,MEMORY
+switch to noise,MEMORY
+switch to office,MEMORY
+switch to pub,MEMORY
+switch to quiet,MEMORY
+switch to school,MEMORY
+switch to speech,MEMORY
+switch to theater,MEMORY
+switch to tinnitus,MEMORY
+switch to train,MEMORY
+switch to work,MEMORY
+switch to worship,MEMORY
+switch to program two,MEMORY
+switch to memory one,MEMORY
+change to program one,MEMORY
+change to memory two,MEMORY
+change settings to three,MEMORY
+switch program to four,MEMORY
+change memory to three,MEMORY
+change memory to one,MEMORY
+change program to one,MEMORY
+change setting to one,MEMORY
+switch memory to one,MEMORY
+switch program to one,MEMORY
+switch setting to one,MEMORY
+set memory to one,MEMORY
+set program to one,MEMORY
+set setting to one,MEMORY
+program one,MEMORY
+memory one,MEMORY
+change memory to two,MEMORY
+change program to two,MEMORY
+change setting to two,MEMORY
+switch memory to two,MEMORY
+switch program to two,MEMORY
+switch setting to two,MEMORY
+set memory to two,MEMORY
+set program to two,MEMORY
+set setting to two,MEMORY
+program two,MEMORY
+memory two,MEMORY
+setting two,MEMORY
+change program to three,MEMORY
+change setting to three,MEMORY
+switch memory to three,MEMORY
+switch program to three,MEMORY
+switch setting to three,MEMORY
+set memory to three,MEMORY
+set program to three,MEMORY
+set setting to three,MEMORY
+program three,MEMORY
+memory three,MEMORY
+setting three,MEMORY
+change memory to four,MEMORY
+change program to four,MEMORY
+change setting to four,MEMORY
+switch memory to four,MEMORY
+switch setting to four,MEMORY
+set memory to four,MEMORY
+set program to four,MEMORY
+set setting to four,MEMORY
+program four,MEMORY
+memory four,MEMORY
+setting four,MEMORY
+switch to program number two,MEMORY
+switch to memory number one,MEMORY
+change to program number one,MEMORY
+change to memory number two,MEMORY
+change settings to number three,MEMORY
+switch program to number four,MEMORY
+change memory to number three,MEMORY
+change memory to number one,MEMORY
+change program to number one,MEMORY
+change setting to number one,MEMORY
+switch memory to number one,MEMORY
+switch program to number one,MEMORY
+switch setting to number one,MEMORY
+set memory to number one,MEMORY
+set program to number one,MEMORY
+set setting to number one,MEMORY
+program number one,MEMORY
+setting number one,MEMORY
+change memory to number two,MEMORY
+change program to number two,MEMORY
+change setting to number two,MEMORY
+switch memory to number two,MEMORY
+switch program to number two,MEMORY
+switch setting to number two,MEMORY
+set memory to number two,MEMORY
+set program to number two,MEMORY
+set setting to number two,MEMORY
+program number two,MEMORY
+memory number two,MEMORY
+setting number two,MEMORY
+change program to number three,MEMORY
+change setting to number three,MEMORY
+switch memory to number three,MEMORY
+switch program to number three,MEMORY
+switch setting to number three,MEMORY
+set memory to number three,MEMORY
+set program to number three,MEMORY
+set setting to number three,MEMORY
+program number three,MEMORY
+memory number three,MEMORY
+setting number three,MEMORY
+change memory to number four,MEMORY
+change program to number four,MEMORY
+change setting to number four,MEMORY
+switch memory to number four,MEMORY
+switch setting to number four,MEMORY
+set memory to number four,MEMORY
+set program to number four,MEMORY
+set setting to number four,MEMORY
+program number four,MEMORY
+memory number four,MEMORY
+setting number four,MEMORY
+ n o   s t o p .   ,PUSH_TO_TALK
+ n o   n o t   t h i s   t i m e .   ,PUSH_TO_TALK
+ s t o p   i t .   ,PUSH_TO_TALK
+ s k i p   s e n d .   ,PUSH_TO_TALK
+ p l e a s e   d o n ' t   s e n d .   ,PUSH_TO_TALK
+ n o   d o n ' t   p u s h .   ,PUSH_TO_TALK
+ s k i p .   ,PUSH_TO_TALK
+ l e a v e   m e s s a g e .   ,PUSH_TO_TALK
+ y e s   p u s h   s e n d .   ,PUSH_TO_TALK
+ y e s   i   s a i d   s e n d .   ,PUSH_TO_TALK
+ d o   i t .   ,PUSH_TO_TALK
+ y e s   s e n d   n o w .   ,PUSH_TO_TALK
+ y e s   g o .   ,PUSH_TO_TALK
+ o k a y   s e n d .   ,PUSH_TO_TALK
+ y e s   i   d o .   ,PUSH_TO_TALK
+ i   a p p r o v e .   ,PUSH_TO_TALK
+ y e s   s e n d .   ,PUSH_TO_TALK
+tell me what how much do i owe you would be in español,TRANSLATE
+tell me what how much do i owe you is in español,TRANSLATE
+translate how much do i owe you in español,TRANSLATE
+translate how much do i owe you to spanish,TRANSLATE
+start translation to german,TRANSLATE
+start translating in french,TRANSLATE
+open translation in spanish,TRANSLATE
+start translate for french,TRANSLATE
+how do i say take me to the hotel in spanish,TRANSLATE
+what is good morning in russian,TRANSLATE
+what is how much do i owe you in german,TRANSLATE
+translate for russian,TRANSLATE
+translate hebrew,TRANSLATE
+dutch translation,TRANSLATE
+start translation for german,TRANSLATE
+start translation for spanish,TRANSLATE
+remind me to drink water in 10 minutes,REMINDER
+set an alarm for 15 minutes,REMINDER
+set an alarm for doctors appointment tomorrow morning,REMINDER
+set an doctors appointment for tomorrow at 10 am,REMINDER
+set an alarm for 8 a.m.,REMINDER
+schedule appointment tomorrow,REMINDER
+schedule physical therapy appointment tomorrow morning 8:40 a.m.,REMINDER
+remember to work out,REMINDER
+remember to watch,REMINDER
+remember to wash the car in 4 hours,REMINDER
+remember to wash my car,REMINDER
+remember to wake up tomorrow,REMINDER
+remember to wake up at 7 a.m.,REMINDER
+remember to wake up at 6 a.m.,REMINDER
+remember to vitamin d at 7 p.m. everyday,REMINDER
+remember to visit my family on thanksgiving day,REMINDER
+remember to turn the lights on at 8 p.m.,REMINDER
+remember to turn off my phone everyday at 11 p.m.,REMINDER
+remember to take my medicine tuesday morning at 10 a.m.,REMINDER
+remember to take medicine tomorrow morning,REMINDER
+remember to take medicine today at 5 p.m.,REMINDER
+remember to take medicine next thursday at 4 p.m.,REMINDER
+remember to take medicine,REMINDER
+remember to take medication today at 5 p.m.,REMINDER
+remember to study tomorrow,REMINDER
+i want to be reminded,REMINDER
+remind me to go running every wednesday at 7 a.m.,REMINDER
+remind me to take medicine next thursday at 4 p.m.,REMINDER
+remind me to pick up my car friday morning,REMINDER
+remind me to pick up my car next friday morning,REMINDER
+remind me to take my medicine tuesday morning at 10 a.m.,REMINDER
+remind me to pick up my prescription tuesday at 5 p.m.,REMINDER
+remind me to pick up my prescription wednesday at 5 p.m.,REMINDER
+remind me to pick up my prescription thursday at 5 p.m.,REMINDER
+remind me to pick up my prescription saturday at 5 p.m.,REMINDER
+remind me to pick up my prescription sunday at 5 p.m.,REMINDER
+remind me to pick up my prescription at 5 p.m. on sunday,REMINDER
+remind me to pick up my prescription at 5 p.m. on saturday,REMINDER
+remind me to pick up my prescription at 5 p.m. on friday,REMINDER
+remind me to pick up my prescription at 5 p.m. on thursday,REMINDER
+remind me to pick up my prescription at 5 p.m. on wednesday,REMINDER
+remind me to pick up my prescription at 5 p.m. on tuesday,REMINDER
+remind me to pick up my prescription at 5 p.m. on monday,REMINDER
+remind me to pick up my prescription on monday at 5 p.m.,REMINDER
+remind me to pick up my prescription on friday at 5 p.m.,REMINDER
+create a reminder to take medicine today at 8 p.m.,REMINDER
+remind me to take medicine today at 5 p.m.,REMINDER
+remind me to drink water everyday at 10 in the morning,REMINDER
+remind me to drink water later today at 5 p.m.,REMINDER
+remind me to take medicine tomorrow morning,REMINDER
+remind me to pick up my prescription this afternoon,REMINDER
+remind me to refill my prescription tomorrow afternoon,REMINDER
+set a reminder to drink water today,REMINDER
+set a reminder to exercise today,REMINDER
+set a reminder to clean hearing aids today,REMINDER
+set a reminder to pick up prescription today at 5 p.m.,REMINDER
+set a reminder to refill prescription tomorrow,REMINDER
+set a reminder to take medication today at 5 p.m.,REMINDER
+remind me to drink water today,REMINDER
+remind me to exercise today,REMINDER
+remind me to clean hearing aids today,REMINDER
+remind me to pick up prescription today at 5 p.m.,REMINDER
+remind me to refill prescription tomorrow,REMINDER
+remind me to take medication today at 5 p.m.,REMINDER
+set reminder to drink water at 9 p.m. every tuesday,REMINDER
+set a reminder for 5 minutes,REMINDER
+setup reminder to take medicine at 1 p.m.,REMINDER
+set reminder to take medicine at 1 p.m.,REMINDER
+remind me to get groceries every month on the 15th at 1 p.m.,REMINDER
+remind me to go to the grocery story every sunday at noon,REMINDER
+remind me to send out christmas cards every year on december 1st at 5 p.m.,REMINDER
+create a daily reminder to take medication at 5 p.m.,REMINDER
+remind me to workout tomorrow morning at 6,REMINDER
+remind me to run at 2 p.m. on halloween,REMINDER
+remind me to have a dinner every sunday at 8 a.m.,REMINDER
+set reminder for 7 a.m. tomorrow about dinner please,REMINDER
+remind me for tomorrow,REMINDER
+remind about running everyday at 6 a.m.,REMINDER
+remind me to study tomorrow,REMINDER
+remind me of my doctors appointment,REMINDER
+remind me to wake up at 6 a.m.,REMINDER
+send me a reminder to leave for work in 10 minutes,REMINDER
+remind me on the 27th of august tomy flight,REMINDER
+remind me about dinner at 15 p.m.,REMINDER
+remind me at 7 p.m. on november 11 to do homework,REMINDER
+remind me to turn the lights on at 8 p.m.,REMINDER
+remind me tomorrow to call,REMINDER
+set reminder for tomorrow morning,REMINDER
+remind me at 2:35 p.m. tomorrow to not park in the back parking lot,REMINDER
+remind me to deliver to saint barbara catholic church on friday 9 to 9:30,REMINDER
+remind me to go to bed in 5 minutes,REMINDER
+remind me to pick up joe in 30 minutes,REMINDER
+remind me to brush my teeth,REMINDER
+remind me about dinner in 1 minute,REMINDER
+remind me to go to work the 19th of august,REMINDER
+remind me at 1 p.m. that i have to eat,REMINDER
+reminder for 4:15 p.m. today visit grandma please,REMINDER
+set reminder for everyday,REMINDER
+remind me at 12 o'clock,REMINDER
+remind me friday,REMINDER
+remind me tomorrow to,REMINDER
+remind me of a meeting on the 27th of august,REMINDER
+remind me to charge my phone everyday at 11:00 p.m.,REMINDER
+remind me to call someone everyday at 4 p.m.,REMINDER
+remind me to turn off my phone everyday at 11 p.m.,REMINDER
+i need a reminder for today,REMINDER
+add a reminder for tomorrow,REMINDER
+remind me to work out,REMINDER
+remind me to wake up tomorrow,REMINDER
+remind me tomorrow,REMINDER
+remind flight at 6 a.m.,REMINDER
+help me remind me to call bae tomorrow at 9,REMINDER
+new reminder eat an apple everyday at 9 a.m.,REMINDER
+don't let me forget to pick up milk today,REMINDER
+remind me everyday,REMINDER
+remind me of appointment,REMINDER
+remind me to buy bread at 11 a.m. tomorrow,REMINDER
+new reminder for everyday,REMINDER
+add reminder feed a cat in 3 minutes,REMINDER
+can you remind me to read my book wash dishes and sweep the floor,REMINDER
+reminder to play with my cat everyday at 7 p.m.,REMINDER
+remind me to wash my car,REMINDER
+i need a reminder tomorrow,REMINDER
+remind me at noon,REMINDER
+remind me on weekend,REMINDER
+remind me to take medicine,REMINDER
+set a reminder for thursday,REMINDER
+set a reminder for 1 hour,REMINDER
+remind me to boil water every morning by 7 a.m.,REMINDER
+set reminder for 7 am tomorrow yoga,REMINDER
+new reminder about fitness,REMINDER
+can you set a reminder for me tomorrow,REMINDER
+remind me of blood brothers,REMINDER
+remind me i have a doctor's appointment,REMINDER
+set reminder buy milk on november 11 at 5 p.m.,REMINDER
+remind me to see the table in 5 minutes,REMINDER
+remind me to check my computer,REMINDER
+remind me to go to sleep,REMINDER
+remind me to pay my credit card bill,REMINDER
+remind me i have a meeting,REMINDER
+set reminder for 5 minutes,REMINDER
+remind me about dinner in 1 hour,REMINDER
+set reminder about washing car,REMINDER
+remind me in 15 minutes to go to the bar,REMINDER
+remind me to buy movie tickets for friday evening,REMINDER
+reminder for today,REMINDER
+set reminder for dinner with tom please,REMINDER
+remind me to call dad,REMINDER
+remind me to watch,REMINDER
+remind me to visit my family on thanksgiving day,REMINDER
+remind me about the teacher meeting on friday,REMINDER
+remind me nutrition research tomorrow at 8 a.m.,REMINDER
+remind about business meeting every monday at 4 p.m.,REMINDER
+remind me that i have a doctor's appointment,REMINDER
+remind me at 11 o'clock in the morning,REMINDER
+remind about running at 6 a.m. on 7th december,REMINDER
+remind me to wake up at 7 a.m.,REMINDER
+remind me today,REMINDER
+remind me to book a parking spot for my carnival cruise,REMINDER
+remind me to call jose tomorrow,REMINDER
+remind me to do homework on november 11 at 7 p.m.,REMINDER
+can you please remind me to take my medication every morning at 7:00,REMINDER
+remind about party at 12 p.m. on friday,REMINDER
+set a reminder for 8 a.m.,REMINDER
+remind me to call mom on christmas,REMINDER
+remind me to call my brother on veterans day,REMINDER
+remind me of video everyday at noon,REMINDER
+new reminder about washing car,REMINDER
+remind me about the parent/teacher meeting on friday,REMINDER
+remind me of my appointment,REMINDER
+remind me about exams every friday at 7 p.m.,REMINDER
+remind me to drink some water in 5 minutes,REMINDER
+set reminder for tomorrow,REMINDER
+remind me to go running at 6 a.m.,REMINDER
+set reminder about dog walking repeat it everyday at 9 a.m.,REMINDER
+remind me on thursday,REMINDER
+reminder for this evening,REMINDER
+set reminder for 2 p.m.,REMINDER
+remind me to exercise tonight,REMINDER
+remind me once about running,REMINDER
+set reminder for 25th november,REMINDER
+remind me to wash the car,REMINDER
+remind me 10:30 p.m. to close the restaurant,REMINDER
+remind me everyday to read a book at 6 p.m.,REMINDER
+do not let me forget to water flowers at 7 a.m. tomorrow,REMINDER
+remind me to feed my cat please,REMINDER
+please remind me to call,REMINDER
+remind me to buy milk on tuesday at 8 p.m.,REMINDER
+set reminder to 5 p.m.,REMINDER
+send me a reminder to pay the cable bill on march 3,REMINDER
+remind me about dinner at 1523,REMINDER
+add reminder with title washing car,REMINDER
+remind me to buy shoes in paris,REMINDER
+remind me to go to the doctor,REMINDER
+remind me tomorrow at 9 a.m.,REMINDER
+remind me to vitamin d at 7 p.m. everyday,REMINDER
+add reminder for meeting,REMINDER
+remind me to wash the car in 4 hours,REMINDER

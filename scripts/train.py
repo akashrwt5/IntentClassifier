@@ -38,10 +38,28 @@ data.columns = [c.strip().lower() for c in data.columns]
 data["text"] = data["text"].astype(str).str.lower().str.strip()
 data["intent"] = data["intent"].astype(str).str.upper().str.strip()
 data = data.dropna()
+data = data.drop_duplicates(subset=["text", "intent"])
 
 print(f"Total samples: {len(data)}")
 print(f"Intents: {sorted(data['intent'].unique())}")
-print(f"\nSamples per intent:")
+print(f"\nSamples per intent (raw):")
+print(data["intent"].value_counts().to_string())
+
+# ---------- 1b. Cap over-represented intents ----------
+# HELP / MEMORY / OUT_OF_SCOPE dominate the dataset (up to 30x the smallest
+# class). Capping each intent prevents the giants from drowning out the small
+# command intents and stops the two generic buckets (HELP / OUT_OF_SCOPE) from
+# bleeding into each other. class_weight="balanced" then handles the residual.
+MAX_PER_INTENT = 500
+data = (
+    pd.concat([
+        g.sample(min(len(g), MAX_PER_INTENT), random_state=42)
+        for _, g in data.groupby("intent")
+    ])
+    .sample(frac=1, random_state=42)   # shuffle
+    .reset_index(drop=True)
+)
+print(f"\nSamples per intent (capped at {MAX_PER_INTENT}):")
 print(data["intent"].value_counts().to_string())
 
 X = data["text"]
@@ -65,9 +83,9 @@ pipeline = Pipeline([
         sublinear_tf=True
     )),
     ("clf", LogisticRegression(
-        max_iter=2000,
+        max_iter=3000,
         class_weight="balanced",
-        C=5.0
+        C=15.0
     ))
 ])
 
