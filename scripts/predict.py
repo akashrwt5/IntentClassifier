@@ -75,7 +75,7 @@ def _get_scores(ort_outputs):
 
 def _keyword_match(text: str):
     """Fast keyword pre-filter for intents that always contain the app/feature name."""
-    t = text.lower()
+    t = text.lower().strip()
     if "translate" in t:
         return "TRANSLATE"
     if "transcribe" in t or "transcription" in t:
@@ -84,9 +84,11 @@ def _keyword_match(text: str):
         return "TELEHEARAI"
     if "selfcheck" in t or "self check" in t or "self-check" in t:
         return "SELFCHECK"
-    # Standalone mute/unmute always means volume control, not memory preset
-    if t in ("mute", "unmute", "silence"):
-        return "VOLUME"
+    # Standalone mute/unmute/silence → volume control
+    if t in ("mute", "silence"):
+        return "VOLUME_MUTE"
+    if t == "unmute":
+        return "VOLUME_UNMUTE"
     return None
 
 
