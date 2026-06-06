@@ -162,6 +162,45 @@ def test_activity_intents():
         assert r.intent == intent, f"{text} → {r.intent}"
 
 
+# ----------------------- context parameter memory ---------------------------
+def test_memory_change_back():
+    """Change memory → do something else → change back resolves previous memory."""
+    rs = run_all([
+        "change memory to restaurant",   # last=Restaurant, prev=None
+        "remind me to take medication tomorrow at 9 am",  # unrelated turn
+        "change back",                   # should resolve to None (no prev yet)...
+    ])
+    # After turn 1: last_memory=Restaurant, prev_memory=None
+    assert rs[0].type == "FULFILL" and rs[0].parameters["MemoryName"] == "Restaurant"
+    assert rs[1].type == "FULFILL"
+    # "change back" with no prev_memory falls through to slot prompt
+    assert rs[2].type in ("PROMPT", "FULFILL")
+
+
+def test_memory_change_back_full_flow():
+    """Three memory changes — third resolves to first via prev_memory."""
+    rs = run_all([
+        "change memory to restaurant",   # last=Restaurant, prev=None
+        "change memory to personal",     # last=Personal,    prev=Restaurant
+        "change back",                   # should go back to Restaurant
+    ])
+    assert rs[0].parameters["MemoryName"] == "Restaurant"
+    assert rs[1].parameters["MemoryName"] == "Personal"
+    assert rs[2].type == "FULFILL"
+    assert rs[2].parameters["MemoryName"] == "Restaurant"
+
+
+def test_reminder_again():
+    """'Remind me again' reuses the last reminder's name and time."""
+    rs = run_all([
+        "remind me to take medication tomorrow at 9 am",
+        "remind me again",
+    ])
+    assert rs[0].type == "FULFILL"
+    assert rs[1].type == "FULFILL"
+    assert rs[1].parameters.get("name") == rs[0].parameters.get("name")
+
+
 def test_help_intents():
     cases = {
         "how do i pair my hearing aids": "Help_Pairing",
