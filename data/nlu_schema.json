@@ -24,6 +24,7 @@
       "action": "reminders.add"
     },
     "reminders.complete":   {"slots": [], "action": "reminders.complete",   "fulfillment": "Reminder marked as complete."},
+    "Cmd.SendMessage":      {"slots": [], "action": "message.compose",      "fulfillment": "Ready to record your message."},
     "Cmd.SendMessage - yes":{"slots": [], "action": "message.send",         "fulfillment": "Message sent."},
     "Cmd.SendMessage - no": {"slots": [], "action": "message.cancel",       "fulfillment": "Okay, cancelled."},
     "Cmd.FindMyPhone":      {"slots": [], "action": "phone.find",           "fulfillment": "Finding your phone."},

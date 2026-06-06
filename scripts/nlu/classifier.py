@@ -5,6 +5,7 @@ Thin, reusable layer over the TF-IDF + LogisticRegression ONNX model,
 plus the keyword pre-filter for app-name intents.
 """
 
+import re
 import numpy as np
 import joblib
 import onnxruntime as ort
@@ -20,7 +21,12 @@ def _keyword_match(text: str):
     if "translate" in t:                              return "Cmd.TranslationStart"
     if "transcribe" in t or "transcription" in t:    return "Cmd.TranscribeStart"
     if t in ("mute", "silence"):                      return "Cmd.VolumeMute"
-    if t == "unmute":                                  return "Cmd.VolumeUnmute"
+    if t == "unmute":                                 return "Cmd.VolumeUnmute"
+    if t in ("push to talk", "ptt"):                  return "Cmd.SendMessage"
+    # "send a/the/voice message" but NOT "yes send it" / "no don't send message"
+    if (re.search(r"\bsend\b.{0,30}\bmessage\b", t)
+            and not re.search(r"^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\s+send|send\s+it|send\s+now)\b", t)):
+        return "Cmd.SendMessage"
     return None
 
 

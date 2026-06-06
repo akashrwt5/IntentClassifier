@@ -94,13 +94,15 @@ def test_memory_fuzzy_asr_error():
 
 # --------------------------- send message -----------------------------------
 def test_send_message_yes():
-    r = run(["yes send the message"])
-    assert r.type == "FULFILL" and r.action == "message.send"
+    rs = run_all(["send a message", "yes send it"])
+    assert rs[0].type == "FULFILL" and rs[0].action == "message.compose"
+    assert rs[1].type == "FULFILL" and rs[1].action == "message.send"
 
 
 def test_send_message_no():
-    r = run(["no don't send"])
-    assert r.type == "FULFILL" and r.action == "message.cancel"
+    rs = run_all(["send a message", "no don't send"])
+    assert rs[0].type == "FULFILL" and rs[0].action == "message.compose"
+    assert rs[1].type == "FULFILL" and rs[1].action == "message.cancel"
 
 
 # ----------------------- intent interruption --------------------------------
