@@ -35,7 +35,7 @@ data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
 
 data.columns = [c.strip().lower() for c in data.columns]
 data["text"] = data["text"].astype(str).str.lower().str.strip()
-data["intent"] = data["intent"].astype(str).str.upper().str.strip()
+data["intent"] = data["intent"].astype(str).str.strip()   # preserve exact Dialogflow casing
 data = data.dropna()
 data = data.drop_duplicates(subset=["text", "intent"])
 

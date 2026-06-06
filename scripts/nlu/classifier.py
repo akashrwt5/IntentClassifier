@@ -17,12 +17,10 @@ LABELS_PATH = BASE_DIR / "models" / "intent_labels.pkl"
 
 def _keyword_match(text: str):
     t = text.lower().strip()
-    if "translate" in t:                             return "TRANSLATE"
-    if "transcribe" in t or "transcription" in t:   return "TRANSCRIBE"
-    if "telehear" in t:                              return "TELEHEARAI"
-    if "selfcheck" in t or "self check" in t:        return "SELFCHECK"
-    if t in ("mute", "silence"):                     return "VOLUME_MUTE"
-    if t == "unmute":                                 return "VOLUME_UNMUTE"
+    if "translate" in t:                              return "Cmd.TranslationStart"
+    if "transcribe" in t or "transcription" in t:    return "Cmd.TranscribeStart"
+    if t in ("mute", "silence"):                      return "Cmd.VolumeMute"
+    if t == "unmute":                                  return "Cmd.VolumeUnmute"
     return None
 
 

@@ -37,6 +37,7 @@ def run_all(turns):
     return [engine.handle(sid, t) for t in turns]
 
 
+# ----------------------------- slot filling ---------------------------------
 def test_reminder_step_by_step():
     rs = run_all(["set a reminder", "take medication", "at 5 pm"])
     assert rs[0].type == "PROMPT"
@@ -54,11 +55,31 @@ def test_reminder_one_shot():
     assert "date-time" in r.parameters
 
 
+def test_reminder_oneshot_freeform_topic():
+    r = run(["do not let me forget to water flowers at 7 a.m. tomorrow"])
+    assert r.type == "FULFILL", f"got {r.type}"
+    assert r.parameters["name"] == "water flowers", r.parameters
+    assert r.parameters["date-time"].endswith("07:00")
+
+
+def test_reminder_freeform_topic():
+    r = run(["set a reminder", "call my dentist", "tomorrow at 9 am"])
+    assert r.type == "FULFILL"
+    assert r.parameters["name"] == "call my dentist"
+
+
+def test_reminder_recurrence():
+    r = run(["remind me to clean hearing aids every morning"])
+    assert r.parameters.get("recurrence") == "Daily"
+
+
+# ------------------------------- memory -------------------------------------
 def test_memory_step_by_step():
     rs = run_all(["change memory", "restaurant"])
     assert rs[0].type == "PROMPT"
     assert rs[1].type == "FULFILL"
     assert rs[1].parameters["MemoryName"] == "Restaurant"
+    assert rs[1].action == "memory.change"
 
 
 def test_memory_one_shot():
@@ -66,27 +87,32 @@ def test_memory_one_shot():
     assert r.type == "FULFILL" and r.parameters["MemoryName"] == "Car"
 
 
+def test_memory_fuzzy_asr_error():
+    r = run(["change memory", "restraunt"])
+    assert r.type == "FULFILL" and r.parameters["MemoryName"] == "Restaurant"
+
+
+# --------------------------- send message -----------------------------------
 def test_send_message_yes():
-    rs = run_all(["send a message", "yes"])
-    assert rs[0].type == "CONFIRM"
-    assert rs[1].type == "FULFILL" and rs[1].action == "message.send"
+    r = run(["yes send the message"])
+    assert r.type == "FULFILL" and r.action == "message.send"
 
 
 def test_send_message_no():
-    rs = run_all(["send a message", "no"])
-    assert rs[1].action == "message.cancel"
+    r = run(["no don't send"])
+    assert r.type == "FULFILL" and r.action == "message.cancel"
 
 
+# ----------------------- simple fire-and-forget -----------------------------
 def test_simple_intents():
     cases = {
-        "increase the volume": ("VOLUME_INCREASE", "volume.increase"),
-        "turn it down": ("VOLUME_DECREASE", "volume.decrease"),
-        "mute": ("VOLUME_MUTE", "volume.mute"),
-        "unmute": ("VOLUME_UNMUTE", "volume.unmute"),
-        "open translate": ("TRANSLATE", "translate.open"),
-        "run selfcheck": ("SELFCHECK", "selfcheck.run"),
-        "check my battery": ("BATTERY", "battery.level"),
-        "find my phone": ("FIND_MY_PHONE", "phone.find"),
+        "increase the volume":    ("Cmd.VolumeIncrease",  "volume.increase"),
+        "turn it down":           ("Cmd.VolumeDecrease",  "volume.decrease"),
+        "mute":                   ("Cmd.VolumeMute",      "volume.mute"),
+        "unmute":                 ("Cmd.VolumeUnmute",    "volume.unmute"),
+        "open translate":         ("Cmd.TranslationStart","translate.open"),
+        "check my battery":       ("Cmd.BatteryLevel",    "battery.level"),
+        "find my phone":          ("Cmd.FindMyPhone",     "phone.find"),
     }
     for text, (intent, action) in cases.items():
         r = run([text])
@@ -95,11 +121,41 @@ def test_simple_intents():
         assert r.action == action
 
 
+def test_activity_intents():
+    cases = {
+        "start a run":   ("Cmd.ActivityRun",  "activity.run"),
+        "go for a walk": ("Cmd.ActivityWalk", "activity.walk"),
+    }
+    for text, (intent, action) in cases.items():
+        r = run([text])
+        assert r.type == "FULFILL", f"{text} → {r.type}"
+        assert r.intent == intent, f"{text} → {r.intent}"
+
+
+def test_help_intents():
+    cases = {
+        "how do i pair my hearing aids": "Help_Pairing",
+        "help with tinnitus":            "Help_Tinnitus",
+        "how does fall alert work":      "Help_FallAlert",
+    }
+    for text, intent in cases.items():
+        r = run([text])
+        assert r.type == "FULFILL", f"{text} → {r.type}"
+        assert r.intent == intent, f"{text} → {r.intent} (want {intent})"
+
+
+# ------------------------------ fallback ------------------------------------
 def test_out_of_scope_fallback():
     r = run(["how is the weather today"])
     assert r.type == "FALLBACK" and r.intent == "GENAI"
 
 
+def test_gibberish_fallback():
+    r = run(["asdfghjkl qwerty"])
+    assert r.type == "FALLBACK"
+
+
+# ------------------------------- runner -------------------------------------
 def main():
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     passed = failed = 0
