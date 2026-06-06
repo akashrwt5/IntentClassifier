@@ -125,7 +125,7 @@ class NLUEngine:
 
         if session.awaiting_slot:
             slot = self._slot_def(cfg, session.awaiting_slot)
-            value, _ = self.entities.extract(slot["entity"], text)
+            value, _, _conf = self.entities.extract(slot["entity"], text)
             if value is None and slot["entity"] in ("remind",):
                 value = text.strip()
             if value is not None:
@@ -187,7 +187,7 @@ class NLUEngine:
         for slot in cfg["slots"]:
             if slot["name"] in slots:
                 continue
-            value, _ = self.entities.extract(slot["entity"], text)
+            value, _, _conf = self.entities.extract(slot["entity"], text)
             if value is not None:
                 slots[slot["name"]] = value
 

@@ -48,14 +48,22 @@ class EntityExtractor:
                 self._lookup[name] = table
 
     def extract_enum(self, entity: str, text: str):
+        """Return (value, span, confidence) or (None, None, 0.0).
+
+        Confidence reflects match quality:
+          1.00 — exact / canonical match
+          0.95 — synonym / substring match
+          0.60–0.90 — fuzzy match (scales with edit distance ratio)
+        """
         table = self._lookup.get(entity, {})
         t = text.lower()
         for syn in sorted(table, key=len, reverse=True):
             if re.search(rf"\b{re.escape(syn)}\b", t):
-                return table[syn], syn
+                conf = 1.0 if syn == table[syn].lower() else 0.95
+                return table[syn], syn, conf
         if self.entities.get(entity, {}).get("fuzzy"):
             tokens = re.findall(r"[a-z0-9]+", t)
-            best, best_d = None, 99
+            best, best_span, best_d, best_len = None, None, 99, 1
             for syn, canon in table.items():
                 if " " in syn or len(syn) < 3:
                     continue
@@ -65,10 +73,13 @@ class EntityExtractor:
                         continue
                     d = _levenshtein(tok, syn)
                     if d <= limit and d < best_d:
-                        best, best_d = canon, d
+                        best, best_span, best_d, best_len = canon, tok, d, len(syn)
             if best:
-                return best, best
-        return None, None
+                # confidence scales from 0.90 (1 edit) down to 0.60 (at limit)
+                fuzzy_conf = round(1.0 - (best_d / best_len), 2)
+                fuzzy_conf = max(0.60, min(0.90, fuzzy_conf))
+                return best, best_span, fuzzy_conf
+        return None, None, 0.0
 
     _NUM_WORDS = {
         "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
@@ -79,13 +90,14 @@ class EntityExtractor:
     }
 
     def extract_number(self, text: str):
+        """Return (value, span, confidence) or (None, None, 0.0)."""
         t = text.lower()
         m = re.search(r"\b\d+\b", t)
-        if m: return int(m.group()), m.group()
+        if m: return int(m.group()), m.group(), 1.0
         for word, val in self._NUM_WORDS.items():
             if re.search(rf"\b{word}\b", t):
-                return val, word
-        return None, None
+                return val, word, 1.0
+        return None, None, 0.0
 
     _WEEKDAYS = ["monday", "tuesday", "wednesday", "thursday",
                  "friday", "saturday", "sunday"]
@@ -99,7 +111,7 @@ class EntityExtractor:
             delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
                      "hour": timedelta(hours=n), "hr": timedelta(hours=n),
                      "day": timedelta(days=n), "week": timedelta(weeks=n)}[unit]
-            return (now + delta).isoformat(timespec="minutes"), m.group()
+            return (now + delta).isoformat(timespec="minutes"), m.group(), 1.0
         base_day = now; span = None
         if re.search(r"\btomorrow\b", t):
             base_day = now + timedelta(days=1); span = "tomorrow"
@@ -130,11 +142,11 @@ class EntityExtractor:
                                   minute=minute or 0, second=0, microsecond=0)
             if span not in ("tomorrow",) and dt < now and base_day.date() == now.date():
                 dt += timedelta(days=1)
-            return dt.isoformat(timespec="minutes"), span
+            return dt.isoformat(timespec="minutes"), span, 1.0
         if _HAS_DATEPARSER:
             dt = dateparser.parse(t, settings={"PREFER_DATES_FROM": "future"})
-            if dt: return dt.isoformat(timespec="minutes"), t
-        return None, None
+            if dt: return dt.isoformat(timespec="minutes"), t, 0.85
+        return None, None, 0.0
 
     def is_open(self, entity: str) -> bool:
         return bool(self.entities.get(entity, {}).get("open"))
@@ -157,6 +169,7 @@ class EntityExtractor:
         return re.sub(r"\s+", " ", t).strip(" .,")
 
     def extract(self, entity: str, text: str):
+        """Return (value, span, confidence). confidence=0.0 means no match."""
         if entity == "sys.date-time":       return self.extract_datetime(text)
         if entity == "sys.number-integer":  return self.extract_number(text)
         return self.extract_enum(entity, text)
