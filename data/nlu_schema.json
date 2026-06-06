@@ -1,6 +1,7 @@
 {
   "version": 2,
   "confidence_threshold": 0.7,
+  "slot_confidence_threshold": 0.60,
   "intents": {
     "Cmd.VolumeIncrease":   {"slots": [], "action": "volume.increase",      "fulfillment": "Volume increased."},
     "Cmd.VolumeDecrease":   {"slots": [], "action": "volume.decrease",      "fulfillment": "Volume decreased."},

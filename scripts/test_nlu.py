@@ -103,6 +103,34 @@ def test_send_message_no():
     assert r.type == "FULFILL" and r.action == "message.cancel"
 
 
+# ----------------------- intent interruption --------------------------------
+def test_interrupt_reminder_with_volume():
+    """Saying 'mute' mid-reminder flow should abandon reminder and mute."""
+    rs = run_all(["set a reminder", "mute"])
+    assert rs[0].type == "PROMPT"                          # reminder started
+    assert rs[1].type == "FULFILL"                         # mute fired
+    assert rs[1].intent == "Cmd.VolumeMute"
+    assert rs[1].interrupted_intent == "reminders.add"    # abandoned flow reported
+
+
+def test_interrupt_memory_with_volume():
+    """Saying 'turn it down' mid-memory flow should abandon memory and decrease volume."""
+    rs = run_all(["change memory", "turn it down"])
+    assert rs[0].type == "PROMPT"
+    assert rs[1].type == "FULFILL"
+    assert rs[1].intent == "Cmd.VolumeDecrease"
+    assert rs[1].interrupted_intent == "Cmd.MemoryChange"
+
+
+def test_no_interrupt_on_slot_answer():
+    """A slot answer that happens to match another intent weakly should NOT interrupt."""
+    rs = run_all(["set a reminder", "take medication", "at 5 pm"])
+    # "take medication" could weakly resemble reminders.add but confidence
+    # should be below INTERRUPT_THRESHOLD — slot filling must continue
+    assert rs[1].type == "PROMPT"   # still collecting date-time, not interrupted
+    assert rs[2].type == "FULFILL"
+
+
 # ----------------------- simple fire-and-forget -----------------------------
 def test_simple_intents():
     cases = {

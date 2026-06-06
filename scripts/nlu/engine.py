@@ -3,8 +3,13 @@ NLUEngine — the orchestrator that replaces Dialogflow end-to-end.
 
 Per user turn priority order:
   1. CONFIRMATION — active yes/no follow-up context
-  2. SLOT FILLING — mid-collection intent
+  2. SLOT FILLING — mid-collection intent (with interruption detection)
   3. CLASSIFY     — fresh turn
+
+Intent interruption: if the user switches topic mid slot-filling with
+high confidence (>= INTERRUPT_THRESHOLD), the pending flow is abandoned
+and the new intent is handled immediately. The NLUResult carries
+interrupted_intent so the app can optionally notify the user.
 """
 
 import json
@@ -31,12 +36,18 @@ class NLUResult:
     confidence: float = 0.0
     complete: bool = False
     url: Optional[str] = None
+    interrupted_intent: Optional[str] = None  # set when a slot-filling flow was abandoned
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if v not in (None, {}, "")}
 
 
 class NLUEngine:
+    # Interruption requires stronger signal than normal classification to avoid
+    # abandoning a slot flow on an ambiguous utterance like "take medication"
+    # which could be a slot answer or a new reminder intent.
+    INTERRUPT_THRESHOLD = 0.85
+
     def __init__(self, schema_path: Path = SCHEMA_PATH):
         self.schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
         self.intents = self.schema["intents"]
@@ -98,6 +109,20 @@ class NLUEngine:
     def _handle_slot_filling(self, session, text):
         intent_name = session.pending_intent
         cfg = self.intents[intent_name]
+
+        # Check for intent interruption: re-classify every slot-filling turn.
+        # A different intent at high confidence means the user switched topics.
+        new_intent, new_conf = self.classifier.classify(text)
+        if (new_intent != intent_name
+                and new_intent != "Default Fallback Intent"
+                and new_conf >= self.INTERRUPT_THRESHOLD
+                and self.intents.get(new_intent) is not None):
+            abandoned = intent_name
+            session.reset_slot_filling()
+            result = self._handle_new_intent(session, text)
+            result.interrupted_intent = abandoned
+            return result
+
         if session.awaiting_slot:
             slot = self._slot_def(cfg, session.awaiting_slot)
             value, _ = self.entities.extract(slot["entity"], text)
@@ -125,10 +150,20 @@ class NLUEngine:
     def _handle_new_intent(self, session, text):
         session.decrement_contexts()
         intent, conf = self.classifier.classify(text)
-        if intent == "OUT_OF_SCOPE" or conf < self.threshold:
+
+        cfg = self.intents.get(intent)
+
+        # Slot-filling intents use a lower threshold: a prompt will resolve
+        # any ambiguity, while a fire-and-forget intent executing at low
+        # confidence causes a silent wrong action.
+        has_slots = bool(cfg and cfg.get("slots"))
+        effective_threshold = self.schema.get(
+            "slot_confidence_threshold", 0.60
+        ) if has_slots else self.threshold
+
+        if intent == "Default Fallback Intent" or conf < effective_threshold:
             return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
                              confidence=conf, url=self.genai_url + _quote(text))
-        cfg = self.intents.get(intent)
         if cfg is None:
             return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
                              confidence=conf, url=self.genai_url + _quote(text))
