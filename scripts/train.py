@@ -30,6 +30,7 @@ MODELS_DIR.mkdir(exist_ok=True)
 ONNX_PATH = MODELS_DIR / "intent_model.onnx"
 LABELS_PATH = MODELS_DIR / "intent_labels.pkl"
 LABELS_JSON_PATH = MODELS_DIR / "intent_labels.json"
+PIPELINE_PATH = MODELS_DIR / "intent_pipeline.pkl"
 
 # ---------- 1. Load & clean data ----------
 data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
@@ -119,8 +120,11 @@ import json as _json
 with open(LABELS_JSON_PATH, "w") as f:
     _json.dump(labels, f, indent=2)
 
+joblib.dump(pipeline, str(PIPELINE_PATH))
+
 print(f"\n✅ Model exported to {ONNX_PATH}")
 print(f"✅ Labels saved to {LABELS_PATH}")
 print(f"✅ Labels JSON saved to {LABELS_JSON_PATH}")
+print(f"✅ Pipeline saved to {PIPELINE_PATH}")
 print(f"✅ Intent labels: {labels}")
 print(f"✅ Model size: {ONNX_PATH.stat().st_size / 1024:.1f} KB")
