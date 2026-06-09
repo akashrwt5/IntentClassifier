@@ -25,6 +25,8 @@ from .context import SessionStore
 BASE_DIR = Path(__file__).parent.parent.parent
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 
+SEMANTIC_THRESHOLD = 0.82
+
 
 @dataclass
 class NLUResult:
@@ -37,6 +39,7 @@ class NLUResult:
     complete: bool = False
     url: Optional[str] = None
     interrupted_intent: Optional[str] = None  # set when a slot-filling flow was abandoned
+    semantic_rescue: bool = False             # True when Stage 3 semantic fallback rescued
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if v not in (None, {}, "")}
@@ -58,6 +61,17 @@ class NLUEngine:
         self.classifier = IntentClassifier()
         self.entities = EntityExtractor()
         self.sessions = SessionStore()
+        self.semantic = self._load_semantic()
+
+    @staticmethod
+    def _load_semantic():
+        try:
+            from .semantic import SemanticFallback
+            return SemanticFallback()
+        except FileNotFoundError:
+            return None
+        except Exception:
+            return None
 
     def handle(self, session_id: str, text: str) -> NLUResult:
         session = self.sessions.get(session_id)
@@ -218,19 +232,30 @@ class NLUEngine:
         ) if has_slots else self.threshold
 
         if intent == "Default Fallback Intent" or conf < effective_threshold:
+            if self.semantic is not None:
+                sem_intent, sem_conf = self.semantic.classify(text)
+                if sem_conf >= SEMANTIC_THRESHOLD:
+                    cfg = self.intents.get(sem_intent)
+                    if cfg is not None:
+                        intent, conf = sem_intent, sem_conf
+                        # fall through to normal fulfillment path below with semantic_rescue=True
+                        result = self._fulfill_intent(session, intent, conf, cfg, text)
+                        result.semantic_rescue = True
+                        return result
             return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
                              confidence=conf, url=self.genai_url + _quote(text))
         if cfg is None:
             return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
                              confidence=conf, url=self.genai_url + _quote(text))
+        return self._fulfill_intent(session, intent, conf, cfg, text)
+
+    def _fulfill_intent(self, session, intent, conf, cfg, text):
         if cfg.get("followup"):
             fu = cfg["followup"]
             session.set_context(fu["context"], fu.get("lifespan", 2))
             return NLUResult(type="CONFIRM", intent=intent, action=cfg.get("action"),
                              message=fu["prompt"], confidence=conf)
         if cfg["slots"]:
-            # Check for back-reference ("change back", "remind me again")
-            # before doing normal entity extraction.
             slots = self._resolve_back_reference(session, intent, text) or {}
             if not slots:
                 self._extract_all_slots(cfg, text, slots)
