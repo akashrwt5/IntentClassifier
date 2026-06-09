@@ -16,6 +16,8 @@ SESSION = "cli-user"
 
 
 def render(r):
+    if r.interrupted_intent:
+        print(f"  ⚠️  Interrupted: {r.interrupted_intent} flow cancelled")
     if r.type == "FULFILL":
         params = f"  {r.parameters}" if r.parameters else ""
         print(f"  ✅ {r.intent}  →  action={r.action}{params}")

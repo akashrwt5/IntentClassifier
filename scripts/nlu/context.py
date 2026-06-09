@@ -21,6 +21,14 @@ class Session:
     pending_slots: dict = field(default_factory=dict)
     awaiting_slot: Optional[str] = None
 
+    # --- context parameter memory ---
+    # Stores the last fulfilled parameters per intent family so the engine
+    # can resolve back-references ("change back", "remind me again") and
+    # pre-fill slots in follow-up turns without re-asking the user.
+    last_fulfilled: dict = field(default_factory=dict)  # {intent: {slot: value}}
+    last_memory: Optional[str] = None       # last active memory preset
+    prev_memory: Optional[str] = None       # memory before the last change
+
     def set_context(self, name: str, lifespan: int = 5, parameters: dict = None):
         self.contexts[name] = Context(name, lifespan, parameters or {})
 
@@ -40,6 +48,16 @@ class Session:
         self.pending_intent = None
         self.pending_slots = {}
         self.awaiting_slot = None
+
+    def record_fulfillment(self, intent: str, params: dict):
+        """Called after every FULFILL to persist parameters for later reuse."""
+        self.last_fulfilled[intent] = dict(params)
+        if intent == "Cmd.MemoryChange" and params.get("MemoryName"):
+            self.prev_memory = self.last_memory
+            self.last_memory = params["MemoryName"]
+
+    def get_last_params(self, intent: str) -> dict:
+        return dict(self.last_fulfilled.get(intent, {}))
 
 
 class SessionStore:

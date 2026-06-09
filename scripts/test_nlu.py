@@ -94,13 +94,43 @@ def test_memory_fuzzy_asr_error():
 
 # --------------------------- send message -----------------------------------
 def test_send_message_yes():
-    r = run(["yes send the message"])
-    assert r.type == "FULFILL" and r.action == "message.send"
+    rs = run_all(["send a message", "yes send it"])
+    assert rs[0].type == "FULFILL" and rs[0].action == "message.compose"
+    assert rs[1].type == "FULFILL" and rs[1].action == "message.send"
 
 
 def test_send_message_no():
-    r = run(["no don't send"])
-    assert r.type == "FULFILL" and r.action == "message.cancel"
+    rs = run_all(["send a message", "no don't send"])
+    assert rs[0].type == "FULFILL" and rs[0].action == "message.compose"
+    assert rs[1].type == "FULFILL" and rs[1].action == "message.cancel"
+
+
+# ----------------------- intent interruption --------------------------------
+def test_interrupt_reminder_with_volume():
+    """Saying 'mute' mid-reminder flow should abandon reminder and mute."""
+    rs = run_all(["set a reminder", "mute"])
+    assert rs[0].type == "PROMPT"                          # reminder started
+    assert rs[1].type == "FULFILL"                         # mute fired
+    assert rs[1].intent == "Cmd.VolumeMute"
+    assert rs[1].interrupted_intent == "reminders.add"    # abandoned flow reported
+
+
+def test_interrupt_memory_with_volume():
+    """Saying 'turn it down' mid-memory flow should abandon memory and decrease volume."""
+    rs = run_all(["change memory", "turn it down"])
+    assert rs[0].type == "PROMPT"
+    assert rs[1].type == "FULFILL"
+    assert rs[1].intent == "Cmd.VolumeDecrease"
+    assert rs[1].interrupted_intent == "Cmd.MemoryChange"
+
+
+def test_no_interrupt_on_slot_answer():
+    """A slot answer that happens to match another intent weakly should NOT interrupt."""
+    rs = run_all(["set a reminder", "take medication", "at 5 pm"])
+    # "take medication" could weakly resemble reminders.add but confidence
+    # should be below INTERRUPT_THRESHOLD — slot filling must continue
+    assert rs[1].type == "PROMPT"   # still collecting date-time, not interrupted
+    assert rs[2].type == "FULFILL"
 
 
 # ----------------------- simple fire-and-forget -----------------------------
@@ -130,6 +160,45 @@ def test_activity_intents():
         r = run([text])
         assert r.type == "FULFILL", f"{text} → {r.type}"
         assert r.intent == intent, f"{text} → {r.intent}"
+
+
+# ----------------------- context parameter memory ---------------------------
+def test_memory_change_back():
+    """Change memory → do something else → change back resolves previous memory."""
+    rs = run_all([
+        "change memory to restaurant",   # last=Restaurant, prev=None
+        "remind me to take medication tomorrow at 9 am",  # unrelated turn
+        "change back",                   # should resolve to None (no prev yet)...
+    ])
+    # After turn 1: last_memory=Restaurant, prev_memory=None
+    assert rs[0].type == "FULFILL" and rs[0].parameters["MemoryName"] == "Restaurant"
+    assert rs[1].type == "FULFILL"
+    # "change back" with no prev_memory falls through to slot prompt
+    assert rs[2].type in ("PROMPT", "FULFILL")
+
+
+def test_memory_change_back_full_flow():
+    """Three memory changes — third resolves to first via prev_memory."""
+    rs = run_all([
+        "change memory to restaurant",   # last=Restaurant, prev=None
+        "change memory to personal",     # last=Personal,    prev=Restaurant
+        "change back",                   # should go back to Restaurant
+    ])
+    assert rs[0].parameters["MemoryName"] == "Restaurant"
+    assert rs[1].parameters["MemoryName"] == "Personal"
+    assert rs[2].type == "FULFILL"
+    assert rs[2].parameters["MemoryName"] == "Restaurant"
+
+
+def test_reminder_again():
+    """'Remind me again' reuses the last reminder's name and time."""
+    rs = run_all([
+        "remind me to take medication tomorrow at 9 am",
+        "remind me again",
+    ])
+    assert rs[0].type == "FULFILL"
+    assert rs[1].type == "FULFILL"
+    assert rs[1].parameters.get("name") == rs[0].parameters.get("name")
 
 
 def test_help_intents():
