@@ -18,7 +18,7 @@
       "slots": [
         {"name": "recurrence", "entity": "recurrence", "required": false, "prompt": ""},
         {"name": "name",       "entity": "remind",      "required": true,  "prompt": "What do you want to be reminded?"},
-        {"name": "date-time",  "entity": "sys.date-time","required": true,  "prompt": "When should I remind you?"}
+        {"name": "date-time",  "entity": "sys.date-time","required": true,  "prompt": "When should I remind you? You can say things like '9am', 'tomorrow at 3', or 'in 10 minutes'."}
       ],
       "fulfillment": "Reminder created.",
       "action": "reminders.add"
