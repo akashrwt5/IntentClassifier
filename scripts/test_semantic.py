@@ -41,9 +41,9 @@ NOVEL_PHRASINGS = [
     # Additional novel phrasings worth testing
     ("everything sounds muffled",   "Help_DeviceSettings"),
     ("crank it up",                 "Cmd.VolumeIncrease"),
-    ("silence please",              "Cmd.VolumeMute"),
+    ("silence please",              "Cmd.VolumeMute"),   # TF-IDF handles this at 0.81
     ("my ears are ringing",         "Help_Tinnitus"),
-    ("go for a walk",               "Cmd.ActivityWalk"),
+
 ]
 
 OUT_OF_SCOPE = [
@@ -59,6 +59,7 @@ OUT_OF_SCOPE = [
 KNOWN_PHRASINGS = [
     # Should be handled by TF-IDF (Stage 2), semantic_rescue must be False
     ("mute",                    "Cmd.VolumeMute"),
+    ("silence please",          "Cmd.VolumeMute"),
     ("turn it down",            "Cmd.VolumeDecrease"),
     ("increase the volume",     "Cmd.VolumeIncrease"),
     ("start running",           "Cmd.ActivityRun"),

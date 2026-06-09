@@ -23,7 +23,7 @@ ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"
 
 # Similarity must exceed this to rescue a fallback.
 # Below this we consider the query genuinely out-of-scope → GenAI.
-DEFAULT_THRESHOLD = 0.82
+DEFAULT_THRESHOLD = 0.78
 
 
 class SemanticFallback:

@@ -25,7 +25,7 @@ from .context import SessionStore
 BASE_DIR = Path(__file__).parent.parent.parent
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 
-SEMANTIC_THRESHOLD = 0.82
+SEMANTIC_THRESHOLD = 0.78
 
 
 @dataclass
