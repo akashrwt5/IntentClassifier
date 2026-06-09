@@ -1,3 +1,16 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Optimum/HuggingFace export artefacts — not needed at runtime
+models/config.json
+models/ort_config.json
+models/special_tokens_map.json
+models/tokenizer.json
+models/tokenizer_config.json
+models/vocab.txt
+
+# Large model files — downloaded/built locally via scripts
+models/*.onnx
+models/minilm-vocab.txt
+models/semantic_index.npz
