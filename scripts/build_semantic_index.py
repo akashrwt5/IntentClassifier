@@ -139,7 +139,13 @@ def build_index():
     texts   = data["text"].tolist()
     intents = data["intent"].tolist()
 
-    embeddings = embed_with_sentence_transformers(texts)
+    # Use ONNX path if model exists — ensures index and runtime vectors are identical.
+    # Fall back to sentence-transformers only when ONNX model is not yet available.
+    if ONNX_PATH.exists() and VOCAB_PATH.exists():
+        print("Using ONNX runtime path for embeddings (matches runtime exactly)...")
+        embeddings = embed_with_onnx(texts)
+    else:
+        embeddings = embed_with_sentence_transformers(texts)
 
     # Save as float16 to halve storage (~5.7 MB vs 11.3 MB)
     np.savez_compressed(
