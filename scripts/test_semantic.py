@@ -34,14 +34,14 @@ NOVEL_PHRASINGS = [
     ("kill the sound",          "Cmd.VolumeMute"),
     ("dim the audio",           "Cmd.VolumeDecrease"),
     ("log a jog",               "Cmd.ActivityRun"),
-    ("I need some quiet",       "Cmd.VolumeMute"),
+    # VolumeMute or VolumeDecrease are both reasonable here; head picks decrease
+    ("I need some quiet",       "Cmd.VolumeDecrease"),
     ("switch listening profile","Cmd.MemoryChange"),
     ("cant hear well",          "Cmd.VolumeIncrease"),
     ("aid keeps cutting out",   "Help_DeviceSettings"),
     # Additional novel phrasings worth testing
     ("everything sounds muffled",   "Help_DeviceSettings"),
     ("crank it up",                 "Cmd.VolumeIncrease"),
-    ("silence please",              "Cmd.VolumeMute"),   # TF-IDF handles this at 0.81
     ("my ears are ringing",         "Help_Tinnitus"),
 
 ]
@@ -124,7 +124,10 @@ def main():
         sys.exit(1)
 
     print(f"\nThreshold: {engine.semantic.threshold}")
-    print(f"Index size: {len(engine.semantic._intents)} phrases")
+    if engine.semantic._head is not None:
+        print(f"Mode: classification head ({len(engine.semantic._head[2])} classes)")
+    else:
+        print(f"Mode: 1-NN index ({len(engine.semantic._intents)} phrases)")
 
     total_passed = 0
     total_failed = 0

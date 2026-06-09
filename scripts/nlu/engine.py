@@ -25,7 +25,10 @@ from .context import SessionStore
 BASE_DIR = Path(__file__).parent.parent.parent
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 
-SEMANTIC_THRESHOLD = 0.78
+# Minimum head probability for a semantic rescue. Chosen from the measured
+# rejection curve (see train_semantic_head.py): keeps 95.5% of in-scope
+# rescues while rejecting 73% of out-of-scope queries.
+SEMANTIC_THRESHOLD = 0.50
 
 
 @dataclass
@@ -234,12 +237,13 @@ class NLUEngine:
         if intent == "Default Fallback Intent" or conf < effective_threshold:
             if self.semantic is not None:
                 sem_intent, sem_conf = self.semantic.classify(text)
-                if sem_conf >= SEMANTIC_THRESHOLD:
+                # The head predicting the fallback class IS the rejection
+                # signal — never rescue with it.
+                if (sem_intent != "Default Fallback Intent"
+                        and sem_conf >= SEMANTIC_THRESHOLD):
                     cfg = self.intents.get(sem_intent)
                     if cfg is not None:
-                        intent, conf = sem_intent, sem_conf
-                        # fall through to normal fulfillment path below with semantic_rescue=True
-                        result = self._fulfill_intent(session, intent, conf, cfg, text)
+                        result = self._fulfill_intent(session, sem_intent, sem_conf, cfg, text)
                         result.semantic_rescue = True
                         return result
             return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",

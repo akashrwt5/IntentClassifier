@@ -38,52 +38,17 @@ def load_data():
     return data
 
 
-def embed_with_sentence_transformers(texts: list[str]) -> np.ndarray:
-    """
-    Use sentence-transformers to embed in batches.
-    Falls back to ONNX model if sentence-transformers is not installed.
-    """
-    try:
-        from sentence_transformers import SentenceTransformer  # type: ignore
-        print("Loading all-MiniLM-L6-v2 via sentence-transformers...")
-        model = SentenceTransformer("all-MiniLM-L6-v2")
-        print(f"Embedding {len(texts)} phrases in batches of 256...")
-        embeddings = model.encode(
-            texts,
-            batch_size=256,
-            show_progress_bar=True,
-            normalize_embeddings=True,    # L2 normalise — match runtime behaviour
-            convert_to_numpy=True,
-        )
-        return embeddings.astype(np.float32)
-    except ImportError:
-        print("sentence-transformers not installed — trying ONNX path...")
-        return embed_with_onnx(texts)
-
-
 def embed_with_onnx(texts: list[str]) -> np.ndarray:
-    """Embed using the ONNX model directly (no sentence-transformers needed)."""
+    """Embed with the ONNX model — the SAME path the runtime and the
+    semantic head use, so all artifacts share one embedding space."""
     if not ONNX_PATH.exists():
         print(f"\nERROR: ONNX model not found at {ONNX_PATH}")
-        print("Please either:")
-        print("  1. pip install sentence-transformers  (recommended)")
-        print("  2. Download the ONNX model manually — see scripts/download_minilm.py")
+        print("Run: python scripts/download_minilm.py")
         sys.exit(1)
 
     sys.path.insert(0, str(BASE_DIR / "scripts"))
-    from nlu.semantic import SemanticFallback
-    sf = SemanticFallback.__new__(SemanticFallback)
-    import onnxruntime as ort
-    sf.session   = ort.InferenceSession(str(ONNX_PATH))
-    sf.threshold = 0.82
-    sf._vocab_cache = None
-
-    embeddings = []
-    for i, text in enumerate(texts):
-        if i % 500 == 0:
-            print(f"  {i}/{len(texts)}...")
-        embeddings.append(sf._embed(text))
-    return np.array(embeddings, dtype=np.float32)
+    from train_semantic_head import embed_all
+    return embed_all(texts)
 
 
 def export_onnx_and_vocab():
@@ -139,13 +104,14 @@ def build_index():
     texts   = data["text"].tolist()
     intents = data["intent"].tolist()
 
-    embeddings = embed_with_sentence_transformers(texts)
+    embeddings = embed_with_onnx(texts)
 
     # Save as float16 to halve storage (~5.7 MB vs 11.3 MB)
     np.savez_compressed(
         INDEX_PATH,
         embeddings=embeddings.astype(np.float16),
         intents=np.array(intents, dtype=object),
+        embedder=np.array(["onnx"], dtype=object),
     )
 
     size_mb = INDEX_PATH.stat().st_size / 1024 / 1024

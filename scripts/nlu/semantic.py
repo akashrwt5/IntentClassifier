@@ -2,18 +2,25 @@
 SemanticFallback — Stage 3 of the NLU pipeline.
 
 Activates only when TF-IDF (Stage 2) confidence falls below threshold.
-Embeds the utterance with MiniLM-L6-v2 and finds the nearest training
-phrase in a pre-built index, returning the intent of the closest match.
+Embeds the utterance with MiniLM-L6-v2 and classifies it with a trained
+logistic-regression head (SetFit-style, frozen encoder).
 
-The index is built once by scripts/build_semantic_index.py and stored as
-models/semantic_index.npz.  At runtime the index is loaded into RAM
-(~5.7 MB float16) and searched with a vectorised cosine similarity.
+The head is trained by scripts/train_semantic_head.py on embeddings of
+ALL training phrases — including Default Fallback Intent phrases as an
+explicit out-of-scope class. Rejection is therefore learned, not
+threshold-guessed: when the head predicts the fallback class, the engine
+routes to GenAI.
 
-Runtime embedding strategy (in priority order):
-  1. sentence-transformers — highest quality, used when installed
-  2. ONNX + custom WordPiece — mobile/edge fallback, no heavy deps
+Artifacts:
+  models/semantic_head.npz   — head weights (~85 KB)
+  models/minilm-l6-v2.onnx   — INT8 MiniLM encoder (~23 MB)
+  models/minilm-vocab.txt    — WordPiece vocab for the runtime tokeniser
 
-Typical latency: ~8ms inference + ~1ms search over 6,469 phrases.
+Legacy: if the head is missing but models/semantic_index.npz exists,
+falls back to 1-NN cosine search over the index (deprecated — absolute
+cosine thresholds proved uncalibratable; see docs/semantic-understanding-plan.md).
+
+Typical latency: ~8ms embed + <1ms head.
 """
 
 import numpy as np
@@ -22,55 +29,81 @@ from typing import Optional, Tuple
 
 BASE_DIR   = Path(__file__).parent.parent.parent
 MODEL_DIR  = BASE_DIR / "models"
+HEAD_PATH  = MODEL_DIR / "semantic_head.npz"
 INDEX_PATH = MODEL_DIR / "semantic_index.npz"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"
 
-# Similarity must exceed this to rescue a fallback.
-# Below this we consider the query genuinely out-of-scope → GenAI.
-DEFAULT_THRESHOLD = 0.78
+FALLBACK_INTENT = "Default Fallback Intent"
+
+# Minimum softmax probability for the head's prediction to rescue a turn.
+# Measured on held-out data (train_semantic_head.py rejection curve):
+# 0.50 keeps 95.5% of in-scope rescues, rejects 73% of out-of-scope.
+DEFAULT_THRESHOLD = 0.50
+
+# Near-exact match: an utterance this close to a training phrase is
+# almost certainly that intent even when the head is unsure.
+NEAR_MATCH_THRESHOLD = 0.80
 
 
 class SemanticFallback:
     def __init__(
         self,
+        head_path: Path = HEAD_PATH,
         index_path: Path = INDEX_PATH,
         model_path: Path = ONNX_PATH,
         threshold: float = DEFAULT_THRESHOLD,
     ):
-        if not index_path.exists():
+        self.threshold    = threshold
+        self._st_model    = None
+        self._ort_session = None
+        self._head        = None   # (weights, bias, labels)
+        self._embeddings  = None   # legacy 1-NN index
+        self._intents     = None
+
+        embedder = None
+        if head_path.exists():
+            data   = np.load(head_path, allow_pickle=True)
+            self._head = (
+                data["weights"].astype(np.float32),
+                data["bias"].astype(np.float32),
+                data["labels"],
+            )
+            embedder = str(data["embedder"][0]) if "embedder" in data else "onnx"
+        if index_path.exists():
+            data = np.load(index_path, allow_pickle=True)
+            index_embedder = (str(data["embedder"][0])
+                              if "embedder" in data else "st")
+            # Only load the index if it was built with the same embedder as
+            # the head — mixed embedding spaces produced the original bug.
+            if embedder is None or index_embedder == embedder:
+                self._embeddings = data["embeddings"].astype(np.float32)
+                self._intents    = data["intents"]
+                norms = np.linalg.norm(self._embeddings, axis=1, keepdims=True)
+                norms = np.where(norms == 0, 1.0, norms)
+                self._embeddings = self._embeddings / norms
+                embedder = embedder or index_embedder
+        if self._head is None and self._embeddings is None:
             raise FileNotFoundError(
-                f"Semantic index not found: {index_path}. "
-                "Run `python scripts/build_semantic_index.py` first."
+                f"Neither {head_path} nor {index_path} found. "
+                "Run `python scripts/train_semantic_head.py` first."
             )
 
-        self.threshold  = threshold
-        self._st_model  = None   # sentence-transformers model (preferred)
-        self._ort_session = None  # ONNX session (fallback)
-
-        # Try sentence-transformers first — same library used to build the index
-        try:
-            from sentence_transformers import SentenceTransformer  # type: ignore
-            self._st_model = SentenceTransformer("all-MiniLM-L6-v2")
-        except ImportError:
-            # Fall back to ONNX runtime
+        # The runtime embedder MUST match the one that built the artifact,
+        # otherwise query vectors land in a slightly different space.
+        if embedder == "st":
+            try:
+                from sentence_transformers import SentenceTransformer  # type: ignore
+                self._st_model = SentenceTransformer("all-MiniLM-L6-v2")
+            except ImportError:
+                embedder = "onnx"  # best effort
+        if embedder == "onnx":
             if not model_path.exists():
                 raise FileNotFoundError(
-                    f"sentence-transformers not installed and ONNX model not found: {model_path}. "
-                    "Either `pip install sentence-transformers` or run `python scripts/download_minilm.py`."
+                    f"MiniLM ONNX model not found: {model_path}. "
+                    "Run `python scripts/download_minilm.py` first."
                 )
             import onnxruntime as ort  # type: ignore
             self._ort_session = ort.InferenceSession(str(model_path))
-
-        data = np.load(index_path, allow_pickle=True)
-        # embeddings: float16 array (n_phrases, 384)
-        # intents: object array of intent name strings (n_phrases,)
-        self._embeddings = data["embeddings"].astype(np.float32)
-        self._intents    = data["intents"]
-
-        # Pre-normalise index vectors so runtime cosine = simple dot product
-        norms = np.linalg.norm(self._embeddings, axis=1, keepdims=True)
-        norms = np.where(norms == 0, 1.0, norms)
-        self._embeddings = self._embeddings / norms
 
     # ------------------------------------------------------------------
     # Public API
@@ -78,10 +111,40 @@ class SemanticFallback:
 
     def classify(self, text: str) -> Tuple[str, float]:
         """
-        Return (intent, similarity).
-        If similarity < threshold the caller should treat it as a fallback.
+        Return (intent, confidence). Hybrid decision:
+
+          1. Classification head — calibrated softmax probability,
+             generalises across each intent's whole phrase cluster.
+          2. Near-exact match — if the head is unsure but the utterance
+             sits within NEAR_MATCH_THRESHOLD cosine of a single training
+             phrase, trust that phrase's intent (1-NN catches near-
+             duplicates the head's averaged boundary can dilute).
+
+        Confidence below self.threshold means the caller should fall back.
         """
-        vec    = self._embed(text)
+        vec = self._embed(text)
+
+        if self._head is not None:
+            weights, bias, labels = self._head
+            logits = weights @ vec + bias
+            logits -= logits.max()
+            probs = np.exp(logits)
+            probs /= probs.sum()
+            top = int(np.argmax(probs))
+            intent, conf = str(labels[top]), float(probs[top])
+            if conf >= self.threshold:
+                return intent, conf
+            # Head unsure — check for a near-exact training phrase match
+            if self._embeddings is not None:
+                nn_intent, nn_score = self._nearest(vec)
+                if nn_score >= NEAR_MATCH_THRESHOLD:
+                    return nn_intent, nn_score
+            return intent, conf
+
+        # Legacy: index only, raw cosine
+        return self._nearest(vec)
+
+    def _nearest(self, vec: np.ndarray) -> Tuple[str, float]:
         scores  = self._embeddings @ vec
         top_idx = int(np.argmax(scores))
         return str(self._intents[top_idx]), float(scores[top_idx])
@@ -90,26 +153,19 @@ class SemanticFallback:
         return True
 
     # ------------------------------------------------------------------
-    # Embedding — sentence-transformers preferred, ONNX fallback
+    # Embedding — must match the path used to build the artifact
     # ------------------------------------------------------------------
 
     def _embed(self, text: str) -> np.ndarray:
         """Return an L2-normalised 384-dim float32 embedding vector."""
         if self._st_model is not None:
-            return self._embed_st(text)
+            vec = self._st_model.encode(
+                text, normalize_embeddings=True, convert_to_numpy=True
+            )
+            return vec.astype(np.float32)
         return self._embed_onnx(text)
 
-    def _embed_st(self, text: str) -> np.ndarray:
-        """Embed using sentence-transformers (matches index build exactly)."""
-        vec = self._st_model.encode(
-            text,
-            normalize_embeddings=True,
-            convert_to_numpy=True,
-        )
-        return vec.astype(np.float32)
-
     def _embed_onnx(self, text: str) -> np.ndarray:
-        """Embed using ONNX runtime + custom WordPiece tokeniser (mobile path)."""
         input_ids, attention_mask, token_type_ids = self._tokenise(text)
 
         outputs = self._ort_session.run(
@@ -132,23 +188,21 @@ class SemanticFallback:
         return vec.astype(np.float32)
 
     # ------------------------------------------------------------------
-    # WordPiece tokeniser — used only by the ONNX path
+    # WordPiece tokeniser — used by the ONNX path
     # ------------------------------------------------------------------
 
     _VOCAB_PATH = MODEL_DIR / "minilm-vocab.txt"
 
-    def _tokenise(self, text: str, max_len: int = 128):
+    def _tokenise(self, text: str, max_len: int = 64):
         vocab  = self._load_vocab()
         tokens = ["[CLS]"] + self._wordpiece(text.lower(), vocab) + ["[SEP]"]
         tokens = tokens[:max_len]
         ids    = [vocab.get(t, vocab["[UNK]"]) for t in tokens]
-        pad    = max_len - len(ids)
-        mask   = [1] * len(ids) + [0] * pad
-        ids    = ids + [0] * pad
+        n      = len(ids)
         return (
-            np.array([ids],  dtype=np.int64),
-            np.array([mask], dtype=np.int64),
-            np.zeros((1, max_len), dtype=np.int64),
+            np.array([ids], dtype=np.int64),
+            np.ones((1, n), dtype=np.int64),
+            np.zeros((1, n), dtype=np.int64),
         )
 
     @staticmethod
