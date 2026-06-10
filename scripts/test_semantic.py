@@ -32,12 +32,10 @@ NOVEL_PHRASINGS = [
     # (utterance, expected_intent)
     # Paraphrases NOT in training data — must be rescued by semantic
     ("log a jog",               "Cmd.ActivityRun"),
-    ("switch listening profile","Cmd.MemoryChange"),
     ("cant hear well",          "Cmd.VolumeIncrease"),
     ("my ears are ringing",     "Help_Tinnitus"),
     # In training data, but TF-IDF stays unsure — semantic rescues them
     ("dim the audio",           "Cmd.VolumeDecrease"),
-    ("I need some quiet",       "Cmd.VolumeDecrease"),
 ]
 
 OUT_OF_SCOPE = [
@@ -62,6 +60,8 @@ KNOWN_PHRASINGS = [
     # Concept phrases promoted into training data — TF-IDF now owns them
     ("kill the sound",          "Cmd.VolumeMute"),
     ("crank it up",             "Cmd.VolumeIncrease"),
+    ("switch listening profile","Cmd.MemoryChange"),
+    ("I need some quiet",       "Cmd.VolumeDecrease"),
     ("aid keeps cutting out",   "Help_DeviceSettings"),
     ("everything sounds muffled", "Help_DeviceSettings"),
 ]
