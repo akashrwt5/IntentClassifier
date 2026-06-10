@@ -30,20 +30,14 @@ BOLD   = "\033[1m"
 
 NOVEL_PHRASINGS = [
     # (utterance, expected_intent)
-    # From the design doc — all previously fell to GenAI via TF-IDF
-    ("kill the sound",          "Cmd.VolumeMute"),
-    ("dim the audio",           "Cmd.VolumeDecrease"),
+    # Paraphrases NOT in training data — must be rescued by semantic
     ("log a jog",               "Cmd.ActivityRun"),
-    # VolumeMute or VolumeDecrease are both reasonable here; head picks decrease
-    ("I need some quiet",       "Cmd.VolumeDecrease"),
     ("switch listening profile","Cmd.MemoryChange"),
     ("cant hear well",          "Cmd.VolumeIncrease"),
-    ("aid keeps cutting out",   "Help_DeviceSettings"),
-    # Additional novel phrasings worth testing
-    ("everything sounds muffled",   "Help_DeviceSettings"),
-    ("crank it up",                 "Cmd.VolumeIncrease"),
-    ("my ears are ringing",         "Help_Tinnitus"),
-
+    ("my ears are ringing",     "Help_Tinnitus"),
+    # In training data, but TF-IDF stays unsure — semantic rescues them
+    ("dim the audio",           "Cmd.VolumeDecrease"),
+    ("I need some quiet",       "Cmd.VolumeDecrease"),
 ]
 
 OUT_OF_SCOPE = [
@@ -65,6 +59,11 @@ KNOWN_PHRASINGS = [
     ("start running",           "Cmd.ActivityRun"),
     ("change to restaurant",    "Cmd.MemoryChange"),
     ("remind me tomorrow at 9am to call chris", "reminders.add"),
+    # Concept phrases promoted into training data — TF-IDF now owns them
+    ("kill the sound",          "Cmd.VolumeMute"),
+    ("crank it up",             "Cmd.VolumeIncrease"),
+    ("aid keeps cutting out",   "Help_DeviceSettings"),
+    ("everything sounds muffled", "Help_DeviceSettings"),
 ]
 
 

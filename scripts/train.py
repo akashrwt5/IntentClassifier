@@ -50,7 +50,9 @@ print(data["intent"].value_counts().to_string())
 MAX_PER_INTENT = 500
 data = (
     pd.concat([
-        g.sample(min(len(g), MAX_PER_INTENT), random_state=42)
+        # Keep the LAST rows when capping: curated concept phrases are
+        # appended to the CSV, while the oldest bulk is auto-exported noise.
+        g.tail(min(len(g), MAX_PER_INTENT))
         for _, g in data.groupby("intent")
     ])
     .sample(frac=1, random_state=42)
