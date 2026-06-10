@@ -18,11 +18,14 @@ SESSION = "cli-user"
 def render(r):
     if r.interrupted_intent:
         print(f"  ⚠️  Interrupted: {r.interrupted_intent} flow cancelled")
-    via = "🧠 semantic" if r.semantic_rescue else "⚡ tf-idf"
+    if r.semantic_rescue:
+        via = f"🧠 semantic {r.confidence:.2f}  |  tf-idf said: {r.tfidf_intent} ({r.tfidf_confidence:.2f})"
+    else:
+        via = f"⚡ tf-idf {r.confidence:.2f}"
     if r.type == "FULFILL":
         params = f"  {r.parameters}" if r.parameters else ""
         print(f"  ✅ {r.intent}  →  action={r.action}{params}")
-        print(f"     [{via}, confidence {r.confidence:.2f}]")
+        print(f"     [{via}]")
         if r.message:
             print(f"  💬 {r.message}")
     elif r.type == "PROMPT":

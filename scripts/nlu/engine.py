@@ -41,8 +41,10 @@ class NLUResult:
     confidence: float = 0.0
     complete: bool = False
     url: Optional[str] = None
-    interrupted_intent: Optional[str] = None  # set when a slot-filling flow was abandoned
-    semantic_rescue: bool = False             # True when Stage 3 semantic fallback rescued
+    interrupted_intent: Optional[str] = None
+    semantic_rescue: bool = False
+    tfidf_intent: Optional[str] = None   # what TF-IDF said before semantic overruled
+    tfidf_confidence: float = 0.0
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if v not in (None, {}, "")}
@@ -244,7 +246,9 @@ class NLUEngine:
                     cfg = self.intents.get(sem_intent)
                     if cfg is not None:
                         result = self._fulfill_intent(session, sem_intent, sem_conf, cfg, text)
-                        result.semantic_rescue = True
+                        result.semantic_rescue  = True
+                        result.tfidf_intent     = intent
+                        result.tfidf_confidence = conf
                         return result
             return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
                              confidence=conf, url=self.genai_url + _quote(text))
