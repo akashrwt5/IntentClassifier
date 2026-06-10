@@ -1,4 +1,4 @@
-text,intent
+﻿text,intent
 when should i start a manual alert message?,Help_FallAlert
 what will my aid do when i've fallen?,Help_FallAlert
 when do i intercept a fall alert text message?,Help_FallAlert
@@ -7425,8 +7425,6 @@ help with streaming,Help_Accessories
 pair my left hearing aid,Help_Pairing
 how will i know when the professional adjusted the hearing aid?,Help_RemoteProgramming
 how do i turn up the loudness on my hearing aids?,Help_Volume
-remind me about dinner in 1 hour,reminders.add
-remind me about dinner in 1 minute,reminders.add
 can i see my stand goal?,Cmd.Health
 how do i adjust my tinnitus masker in my aids?,Help_Tinnitus
 do i need to stand longer to reach my goal?,Cmd.Health
@@ -7721,3 +7719,240 @@ would you please send a message,Cmd.SendMessage
 pelase send a message,Cmd.SendMessage
 pls send a message,Cmd.SendMessage
 plz send a message,Cmd.SendMessage
+i can't hear very well,Cmd.VolumeIncrease
+everything sounds too quiet,Cmd.VolumeIncrease
+the voices are hard to hear,Cmd.VolumeIncrease
+can you make things easier to hear?,Cmd.VolumeIncrease
+i'm struggling to hear people,Cmd.VolumeIncrease
+boost the sound a little,Cmd.VolumeIncrease
+the audio feels weak,Cmd.VolumeIncrease
+people sound too soft,Cmd.VolumeIncrease
+the tv is hard to hear,Cmd.VolumeIncrease
+bring the sound up,Cmd.VolumeIncrease
+make speech clearer,Cmd.VolumeIncrease
+i can barely hear the conversation,Cmd.VolumeIncrease
+turn things up a notch,Cmd.VolumeIncrease
+the sound feels distant,Cmd.VolumeIncrease
+give me a little more sound,Cmd.VolumeIncrease
+everyone is mumbling,Cmd.VolumeIncrease
+i need stronger audio,Cmd.VolumeIncrease
+raise the listening level,Cmd.VolumeIncrease
+make voices stand out more,Cmd.VolumeIncrease
+the sound isn't strong enough,Cmd.VolumeIncrease
+help me hear better,Cmd.VolumeIncrease
+increase what i'm hearing,Cmd.VolumeIncrease
+speech is too faint,Cmd.VolumeIncrease
+pump up the sound,Cmd.VolumeIncrease
+that's hurting my ears,Cmd.VolumeDecrease
+everything sounds too loud,Cmd.VolumeDecrease
+can you soften things a little?,Cmd.VolumeDecrease
+the sound is overwhelming,Cmd.VolumeDecrease
+reduce the intensity,Cmd.VolumeDecrease
+it's blasting in my ears,Cmd.VolumeDecrease
+things sound too strong,Cmd.VolumeDecrease
+i need it quieter,Cmd.VolumeDecrease
+lower the listening level,Cmd.VolumeDecrease
+the tv is too loud,Cmd.VolumeDecrease
+dial back the volume,Cmd.VolumeDecrease
+tone it down,Cmd.VolumeDecrease
+the audio is aggressive,Cmd.VolumeDecrease
+it's uncomfortably loud,Cmd.VolumeDecrease
+make it less intense,Cmd.VolumeDecrease
+the sound is piercing,Cmd.VolumeDecrease
+bring the volume down,Cmd.VolumeDecrease
+i'm getting too much sound,Cmd.VolumeDecrease
+speech is too sharp,Cmd.VolumeDecrease
+reduce the loudness,Cmd.VolumeDecrease
+this is overwhelming,Cmd.VolumeDecrease
+turn it down a bit,Cmd.VolumeDecrease
+the environment sounds harsh,Cmd.VolumeDecrease
+ease off the volume,Cmd.VolumeDecrease
+make everything quieter,Cmd.VolumeDecrease
+put me in restaurant mode,Cmd.MemoryChange
+i'm somewhere noisy,Cmd.MemoryChange
+help me hear better in this crowd,Cmd.MemoryChange
+switch me to the setting for conversations,Cmd.MemoryChange
+use the profile for noisy places,Cmd.MemoryChange
+move me back to my normal setting,Cmd.MemoryChange
+change how my hearing aids are behaving,Cmd.MemoryChange
+i'm outdoors now,Cmd.MemoryChange
+switch programs,Cmd.MemoryChange
+change my hearing mode,Cmd.MemoryChange
+use a different listening setup,Cmd.MemoryChange
+activate the noisy environment setting,Cmd.MemoryChange
+i walked into a restaurant,Cmd.MemoryChange
+set me up for conversation,Cmd.MemoryChange
+use the outdoor profile,Cmd.MemoryChange
+change the current memory,Cmd.MemoryChange
+pick a better mode for this place,Cmd.MemoryChange
+i need another hearing program,Cmd.MemoryChange
+switch listening modes,Cmd.MemoryChange
+use my everyday setting,Cmd.MemoryChange
+go back to normal mode,Cmd.MemoryChange
+put me in speech mode,Cmd.MemoryChange
+choose a different memory,Cmd.MemoryChange
+change the active profile,Cmd.MemoryChange
+set the hearing aids differently,Cmd.MemoryChange
+how much power is left?,Cmd.BatteryLevel
+will these last all day?,Cmd.BatteryLevel
+am i running low on battery?,Cmd.BatteryLevel
+how much charge remains?,Cmd.BatteryLevel
+do i need to recharge them?,Cmd.BatteryLevel
+are my hearing aids getting low?,Cmd.BatteryLevel
+how are my batteries doing?,Cmd.BatteryLevel
+will i make it through the afternoon?,Cmd.BatteryLevel
+check battery level,Cmd.BatteryLevel
+what's my remaining charge?,Cmd.BatteryLevel
+how much battery do i have?,Cmd.BatteryLevel
+are they running out of power?,Cmd.BatteryLevel
+can i get through today?,Cmd.BatteryLevel
+tell me battery status,Cmd.BatteryLevel
+do i need a charger soon?,Cmd.BatteryLevel
+battery check please,Cmd.BatteryLevel
+how much juice is left?,Cmd.BatteryLevel
+are the batteries healthy?,Cmd.BatteryLevel
+what percentage remains?,Cmd.BatteryLevel
+am i close to empty?,Cmd.BatteryLevel
+show battery information,Cmd.BatteryLevel
+will they survive the evening?,Cmd.BatteryLevel
+any battery warnings?,Cmd.BatteryLevel
+how much energy is left?,Cmd.BatteryLevel
+check power levels,Cmd.BatteryLevel
+i've misplaced my hearing aids,Help_FindMyHearingAids
+help me find my devices,Help_FindMyHearingAids
+i don't know where i left them,Help_FindMyHearingAids
+can you locate my hearing aids?,Help_FindMyHearingAids
+i've lost one of them,Help_FindMyHearingAids
+track down my hearing aids,Help_FindMyHearingAids
+where did i put my devices?,Help_FindMyHearingAids
+locate my aids,Help_FindMyHearingAids
+help me track them,Help_FindMyHearingAids
+i misplaced my devices,Help_FindMyHearingAids
+can you make them ring?,Help_FindMyHearingAids
+help me locate one device,Help_FindMyHearingAids
+track my devices,Help_FindMyHearingAids
+find the missing aid,Help_FindMyHearingAids
+i can't remember where i left them,Help_FindMyHearingAids
+locate the hearing devices,Help_FindMyHearingAids
+help me recover them,Help_FindMyHearingAids
+show me where they are,Help_FindMyHearingAids
+find my equipment,Help_FindMyHearingAids
+search nearby for my aids,Help_FindMyHearingAids
+i need to remember something later,reminders.add
+can you keep track of this for me?,reminders.add
+make sure i remember this tonight,reminders.add
+i could use a reminder later,reminders.add
+help me remember this evening,reminders.add
+i need a nudge tomorrow morning,reminders.add
+"this is important, remind me later",reminders.add
+set something up so i don't forget,reminders.add
+remind me in a while,reminders.add
+help me remember an appointment,reminders.add
+i need a prompt later,reminders.add
+make a note for later,reminders.add
+remember this for me,reminders.add
+i need to be reminded,reminders.add
+give me a reminder later today,reminders.add
+help me keep track of this,reminders.add
+i don't want to forget this,reminders.add
+set an alert for me,reminders.add
+make sure i remember tomorrow,reminders.add
+keep this on my radar,reminders.add
+remind me when the time comes,reminders.add
+create a future reminder,reminders.add
+i need to tell someone something,Cmd.SendMessage
+can i leave a note for somebody?,Cmd.SendMessage
+help me contact a friend,Cmd.SendMessage
+i'd like to pass along a message,Cmd.SendMessage
+i want to send an update,Cmd.SendMessage
+let me record something for someone,Cmd.SendMessage
+i need to reach out to somebody,Cmd.SendMessage
+can you help me get a message to someone?,Cmd.SendMessage
+help me communicate with someone,Cmd.SendMessage
+record a message for a friend,Cmd.SendMessage
+pass this along,Cmd.SendMessage
+can i contact somebody?,Cmd.SendMessage
+help me send information,Cmd.SendMessage
+i need to notify someone,Cmd.SendMessage
+leave a recording,Cmd.SendMessage
+send a quick update,Cmd.SendMessage
+get a message to my family,Cmd.SendMessage
+i want to reach someone,Cmd.SendMessage
+let me leave a note,Cmd.SendMessage
+forward a message,Cmd.SendMessage
+create a voice message,Cmd.SendMessage
+help me send a note,Cmd.SendMessage
+record something for another person,Cmd.SendMessage
+play the tv through my hearing aids,Cmd.StreamingStart
+send audio directly to my devices,Cmd.StreamingStart
+i want to hear the television in my aids,Cmd.StreamingStart
+route the sound to my hearing aids,Cmd.StreamingStart
+connect my hearing aids to the tv,Cmd.StreamingStart
+pipe the audio into my devices,Cmd.StreamingStart
+let me listen through my hearing aids,Cmd.StreamingStart
+start streaming audio,Cmd.StreamingStart
+connect to the streamer,Cmd.StreamingStart
+play media through my hearing aids,Cmd.StreamingStart
+stream the television audio,Cmd.StreamingStart
+route audio to my devices,Cmd.StreamingStart
+use hearing aid streaming,Cmd.StreamingStart
+connect me to tv audio,Cmd.StreamingStart
+start audio streaming,Cmd.StreamingStart
+send the sound to my aids,Cmd.StreamingStart
+listen via my hearing aids,Cmd.StreamingStart
+enable streaming mode,Cmd.StreamingStart
+connect to media audio,Cmd.StreamingStart
+i want direct audio,Cmd.StreamingStart
+play sound in my hearing aids,Cmd.StreamingStart
+use the audio streamer,Cmd.StreamingStart
+connect streaming audio,Cmd.StreamingStart
+i'm not sure what to do,Help_Home
+can you guide me?,Help_Home
+i need some assistance,Help_Home
+what are my options?,Help_Home
+show me how this works,Help_Home
+i'm stuck,Help_Home
+can you walk me through it?,Help_Home
+i need some guidance,Help_Home
+help me understand this,Help_Home
+i need instructions,Help_Home
+what can i do here?,Help_Home
+show me available commands,Help_Home
+how does this work?,Help_Home
+assist me,Help_Home
+i'm confused,Help_Home
+teach me how to use this,Help_Home
+i need support,Help_Home
+can you explain?,Help_Home
+give me some help,Help_Home
+walk me through the process,Help_Home
+what should i do next?,Help_Home
+show me the basics,Help_Home
+help me get started,Help_Home
+i need directions,Help_Home
+guide me through it,Help_Home
+who is the prime minister of india?,Default Fallback Intent
+what's the weather tomorrow?,Default Fallback Intent
+tell me a joke,Default Fallback Intent
+how tall is mount everest?,Default Fallback Intent
+who won the ipl?,Default Fallback Intent
+what's the stock price of apple?,Default Fallback Intent
+how old is tom cruise?,Default Fallback Intent
+translate hello to french,Default Fallback Intent
+what's the capital of japan?,Default Fallback Intent
+write a poem,Default Fallback Intent
+who invented the telephone?,Default Fallback Intent
+what's bitcoin worth?,Default Fallback Intent
+tell me today's news,Default Fallback Intent
+book me a flight,Default Fallback Intent
+order a pizza,Default Fallback Intent
+what's the meaning of life?,Default Fallback Intent
+solve this math problem,Default Fallback Intent
+who won the world cup?,Default Fallback Intent
+what is quantum physics?,Default Fallback Intent
+recommend a movie,Default Fallback Intent
+what's happening in politics?,Default Fallback Intent
+teach me spanish,Default Fallback Intent
+find me a hotel,Default Fallback Intent
+how do rockets work?,Default Fallback Intent
+what's the latest cricket score?,Default Fallback Intent
