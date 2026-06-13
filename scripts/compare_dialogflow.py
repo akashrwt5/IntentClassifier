@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""
+r"""
 Side-by-side comparison: On-device NLU engine vs Dialogflow CX/ES.
 
 Usage:
