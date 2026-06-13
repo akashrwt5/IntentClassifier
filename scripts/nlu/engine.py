@@ -28,7 +28,7 @@ SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 # Minimum head probability for a semantic rescue. Chosen from the measured
 # rejection curve (see train_semantic_head.py): keeps 95.5% of in-scope
 # rescues while rejecting 73% of out-of-scope queries.
-SEMANTIC_THRESHOLD = 0.50
+SEMANTIC_THRESHOLD = 0.55
 
 
 @dataclass

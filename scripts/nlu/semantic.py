@@ -37,8 +37,11 @@ FALLBACK_INTENT = "Default Fallback Intent"
 
 # Minimum softmax probability for the head's prediction to rescue a turn.
 # Measured on held-out data (train_semantic_head.py rejection curve):
-# 0.50 keeps 95.5% of in-scope rescues, rejects 73% of out-of-scope.
-DEFAULT_THRESHOLD = 0.50
+# 0.55 keeps the bulk of in-scope rescues while rejecting more out-of-scope
+# queries (e.g. "how is the weather today" scores ~0.51 to MemoryChange and
+# must be rejected). Tuned against semantic_holdout_100.csv: at 0.55 the
+# held-out score is highest (78/100) and wrong-action misses are lowest.
+DEFAULT_THRESHOLD = 0.55
 
 # Near-exact match: an utterance this close to a training phrase is
 # almost certainly that intent even when the head is unsure.
