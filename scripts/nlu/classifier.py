@@ -16,12 +16,28 @@ MODEL_PATH = BASE_DIR / "models" / "intent_model.onnx"
 LABELS_PATH = BASE_DIR / "models" / "intent_labels.pkl"
 
 
+# "too/so/very/really {quiet,low,soft,faint}" and "{it,sounds,volume,...} ...
+# {quiet,low,soft,faint}" are COMPLAINTS that the audio is too quiet — the
+# user wants it LOUDER. This pattern is direction-unambiguous (it never
+# matches "loud") and robust to contraction/spacing variants (its/it's/it is),
+# which the TF-IDF tokeniser otherwise treats as different tokens. Decrease
+# commands ("make it quieter", "turn it down", "i need some quiet") do not
+# match because they lack the "too X" intensifier or a complaint subject.
+_TOO_QUIET = re.compile(r"\b(too|so|very|really)\s+(quiet|low|soft|faint)\b")
+_QUIET_COMPLAINT = re.compile(
+    r"\b(sounds?|volume|audio|its?|everything|speech|voices?)\b.{0,12}\b(quiet|low|soft|faint)\b"
+)
+
+
 def _keyword_match(text: str):
     t = text.lower().strip()
     if "translate" in t:                              return "Cmd.TranslationStart"
     if "transcribe" in t or "transcription" in t:    return "Cmd.TranscribeStart"
     if t in ("mute", "silence"):                      return "Cmd.VolumeMute"
     if t == "unmute":                                 return "Cmd.VolumeUnmute"
+    if "amplify" in t:                                return "Cmd.VolumeIncrease"
+    if _TOO_QUIET.search(t) or _QUIET_COMPLAINT.search(t):
+        return "Cmd.VolumeIncrease"
     if t in ("push to talk", "ptt"):                  return "Cmd.SendMessage"
     # "send a/the/voice message" but NOT "yes send it" / "no don't send message"
     if (re.search(r"\bsend\b.{0,30}\bmessage\b", t)
