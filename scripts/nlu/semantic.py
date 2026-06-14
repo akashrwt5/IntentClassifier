@@ -16,9 +16,10 @@ Artifacts:
   models/minilm-l6-v2.onnx   — INT8 MiniLM encoder (~23 MB)
   models/minilm-vocab.txt    — WordPiece vocab for the runtime tokeniser
 
-Legacy: if the head is missing but models/semantic_index.npz exists,
-falls back to 1-NN cosine search over the index (deprecated — absolute
-cosine thresholds proved uncalibratable; see docs/semantic-understanding-plan.md).
+Rejection is learned via an explicit out-of-scope class in the head, so
+there is no cosine-threshold tiebreak. (The legacy 1-NN cosine index was
+removed in Sprint 3 — absolute cosine thresholds proved uncalibratable and
+the index was an untracked, unverified influence on predictions.)
 
 Typical latency: ~8ms embed + <1ms head.
 """
@@ -30,7 +31,6 @@ from typing import Optional, Tuple
 BASE_DIR   = Path(__file__).parent.parent.parent
 MODEL_DIR  = BASE_DIR / "models"
 HEAD_PATH  = MODEL_DIR / "semantic_head.npz"
-INDEX_PATH = MODEL_DIR / "semantic_index.npz"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"
 
 FALLBACK_INTENT = "Default Fallback Intent"
@@ -39,20 +39,14 @@ FALLBACK_INTENT = "Default Fallback Intent"
 # Measured on held-out data (train_semantic_head.py rejection curve):
 # 0.55 keeps the bulk of in-scope rescues while rejecting more out-of-scope
 # queries (e.g. "how is the weather today" scores ~0.51 to MemoryChange and
-# must be rejected). Tuned against semantic_holdout_100.csv: at 0.55 the
-# held-out score is highest (78/100) and wrong-action misses are lowest.
+# must be rejected). Tuned against semantic_holdout_100.csv.
 DEFAULT_THRESHOLD = 0.55
-
-# Near-exact match: an utterance this close to a training phrase is
-# almost certainly that intent even when the head is unsure.
-NEAR_MATCH_THRESHOLD = 0.80
 
 
 class SemanticFallback:
     def __init__(
         self,
         head_path: Path = HEAD_PATH,
-        index_path: Path = INDEX_PATH,
         model_path: Path = ONNX_PATH,
         threshold: float = DEFAULT_THRESHOLD,
     ):
@@ -60,8 +54,6 @@ class SemanticFallback:
         self._st_model    = None
         self._ort_session = None
         self._head        = None   # (weights, bias, labels)
-        self._embeddings  = None   # legacy 1-NN index
-        self._intents     = None
 
         embedder = None
         if head_path.exists():
@@ -72,22 +64,9 @@ class SemanticFallback:
                 data["labels"],
             )
             embedder = str(data["embedder"][0]) if "embedder" in data else "onnx"
-        if index_path.exists():
-            data = np.load(index_path, allow_pickle=True)
-            index_embedder = (str(data["embedder"][0])
-                              if "embedder" in data else "st")
-            # Only load the index if it was built with the same embedder as
-            # the head — mixed embedding spaces produced the original bug.
-            if embedder is None or index_embedder == embedder:
-                self._embeddings = data["embeddings"].astype(np.float32)
-                self._intents    = data["intents"]
-                norms = np.linalg.norm(self._embeddings, axis=1, keepdims=True)
-                norms = np.where(norms == 0, 1.0, norms)
-                self._embeddings = self._embeddings / norms
-                embedder = embedder or index_embedder
-        if self._head is None and self._embeddings is None:
+        if self._head is None:
             raise FileNotFoundError(
-                f"Neither {head_path} nor {index_path} found. "
+                f"{head_path} not found. "
                 "Run `python scripts/train_semantic_head.py` first."
             )
 
@@ -124,43 +103,20 @@ class SemanticFallback:
 
     def classify(self, text: str) -> Tuple[str, float]:
         """
-        Return (intent, confidence). Hybrid decision:
-
-          1. Classification head — calibrated softmax probability,
-             generalises across each intent's whole phrase cluster.
-          2. Near-exact match — if the head is unsure but the utterance
-             sits within NEAR_MATCH_THRESHOLD cosine of a single training
-             phrase, trust that phrase's intent (1-NN catches near-
-             duplicates the head's averaged boundary can dilute).
+        Return (intent, confidence) from the classification head: a calibrated
+        softmax probability that generalises across each intent's phrase
+        cluster, with an explicit out-of-scope class for learned rejection.
 
         Confidence below self.threshold means the caller should fall back.
         """
         vec = self._embed(text)
-
-        if self._head is not None:
-            weights, bias, labels = self._head
-            logits = weights @ vec + bias
-            logits -= logits.max()
-            probs = np.exp(logits)
-            probs /= probs.sum()
-            top = int(np.argmax(probs))
-            intent, conf = str(labels[top]), float(probs[top])
-            if conf >= self.threshold:
-                return intent, conf
-            # Head unsure — check for a near-exact training phrase match
-            if self._embeddings is not None:
-                nn_intent, nn_score = self._nearest(vec)
-                if nn_score >= NEAR_MATCH_THRESHOLD:
-                    return nn_intent, nn_score
-            return intent, conf
-
-        # Legacy: index only, raw cosine
-        return self._nearest(vec)
-
-    def _nearest(self, vec: np.ndarray) -> Tuple[str, float]:
-        scores  = self._embeddings @ vec
-        top_idx = int(np.argmax(scores))
-        return str(self._intents[top_idx]), float(scores[top_idx])
+        weights, bias, labels = self._head
+        logits = weights @ vec + bias
+        logits -= logits.max()
+        probs = np.exp(logits)
+        probs /= probs.sum()
+        top = int(np.argmax(probs))
+        return str(labels[top]), float(probs[top])
 
     def is_available(self) -> bool:
         return True

@@ -47,13 +47,24 @@ class EntityExtractor:
                         table[syn.lower()] = value
                 self._lookup[name] = table
 
-    def extract_enum(self, entity: str, text: str):
+    # Fuzzy enum matching only considers synonyms at least this long. Short
+    # memory names (Car, Gym, Pub, Mute, one…) collide with common ASR words
+    # at edit-distance 1 (Car↔care/cab, Pub↔pup, Gym↔gum), so fuzzy matching
+    # them silently selects the wrong memory. Exact/word-boundary matches still
+    # work for short names; only the risky fuzzy path is length-gated.
+    _FUZZY_MIN_LEN = 5
+
+    def extract_enum(self, entity: str, text: str, fuzzy: bool = True):
         """Return (value, span, confidence) or (None, None, 0.0).
 
         Confidence reflects match quality:
           1.00 — exact / canonical match
           0.95 — synonym / substring match
           0.60–0.90 — fuzzy match (scales with edit distance ratio)
+
+        fuzzy=False disables the approximate path entirely — used for one-shot
+        full-sentence scanning, where a stray fuzzy hit on a common word is a
+        wrong-action risk. Fuzzy is reserved for explicit slot-prompt answers.
         """
         table = self._lookup.get(entity, {})
         t = text.lower()
@@ -61,12 +72,15 @@ class EntityExtractor:
             if re.search(rf"\b{re.escape(syn)}\b", t):
                 conf = 1.0 if syn == table[syn].lower() else 0.95
                 return table[syn], syn, conf
-        if self.entities.get(entity, {}).get("fuzzy"):
+        if fuzzy and self.entities.get(entity, {}).get("fuzzy"):
             tokens = re.findall(r"[a-z0-9]+", t)
             best, best_span, best_d, best_len = None, None, 99, 1
             for syn, canon in table.items():
-                if " " in syn or len(syn) < 3:
+                if " " in syn or len(syn) < self._FUZZY_MIN_LEN:
                     continue
+                # The _FUZZY_MIN_LEN gate already excludes the short names that
+                # collide with common words; keep the 0.3 ratio so genuine
+                # typos on longer names ("restraunt"→"restaurant") still match.
                 limit = max(1, round(len(syn) * 0.3))
                 for tok in tokens:
                     if abs(len(tok) - len(syn)) > limit:
@@ -409,8 +423,12 @@ class EntityExtractor:
             t = re.sub(p, " ", t, flags=re.I)
         return re.sub(r"\s+", " ", t).strip(" .,")
 
-    def extract(self, entity: str, text: str):
-        """Return (value, span, confidence). confidence=0.0 means no match."""
+    def extract(self, entity: str, text: str, fuzzy: bool = True):
+        """Return (value, span, confidence). confidence=0.0 means no match.
+
+        fuzzy is forwarded to enum matching; pass fuzzy=False for one-shot
+        full-sentence scans to avoid stray approximate matches on common words.
+        """
         if entity == "sys.date-time":       return self.extract_datetime(text)
         if entity == "sys.number-integer":  return self.extract_number(text)
-        return self.extract_enum(entity, text)
+        return self.extract_enum(entity, text, fuzzy=fuzzy)

@@ -197,7 +197,8 @@ def main():
 
     print(f"\n✅ Head saved: {HEAD_NPZ}  ({HEAD_NPZ.stat().st_size/1024:.0f} KB)")
     print(f"✅ iOS JSON:   {HEAD_JSON}  ({HEAD_JSON.stat().st_size/1024:.0f} KB)")
-    print(f"\nThe {4.6:.1f} MB semantic_index.npz is no longer needed at runtime.")
+    print("\nThe legacy semantic_index.npz 1-NN path was removed in Sprint 3 "
+          "(head-only rejection).")
 
     # Re-sign the bundle so the new semantic artifacts pass the startup
     # integrity check (the head files are tracked in the manifest).

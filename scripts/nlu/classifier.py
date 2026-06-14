@@ -94,7 +94,8 @@ class IntentClassifier:
         self.inp = self.session.get_inputs()[0]
         self.input_name = self.inp.name
         self.labels = joblib.load(str(labels_path))
-        self.last_stage = None   # "keyword" | "tfidf" — set on each classify()
+        self.last_stage = None         # "keyword" | "tfidf" — set on each classify()
+        self.last_keyword_tier = None  # "exact"|"contains"|"regex"|"regex_guarded"|None
 
     def _keyword_match(self, text: str):
         """
@@ -103,19 +104,23 @@ class IntentClassifier:
         KEYWORD_CONFIDENCE); `contains` hits are suppressed when negated.
         """
         t = text.lower().strip()
+        self.last_keyword_tier = None
         for rule in self._kw_rules:
             kind = rule.get("type")
             if kind == "contains":
                 hit = next((term for term in rule["terms"] if term in t), None)
                 if hit and not _is_negated(t, hit):
+                    self.last_keyword_tier = "contains"
                     return rule["intent"], KEYWORD_CONFIDENCE["contains"]
             elif kind == "exact":
                 if t in rule["terms"]:
+                    self.last_keyword_tier = "exact"
                     return rule["intent"], KEYWORD_CONFIDENCE["exact"]
             elif kind == "regex":
                 if rule["pattern"].search(t):
                     if rule["not_pattern"] is None or not rule["not_pattern"].search(t):
                         tier = "regex" if rule["not_pattern"] is None else "regex_guarded"
+                        self.last_keyword_tier = tier
                         return rule["intent"], KEYWORD_CONFIDENCE[tier]
         return None, 0.0
 

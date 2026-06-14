@@ -251,9 +251,16 @@ class NLUEngine:
         # Check for intent interruption: re-classify every slot-filling turn.
         # A different intent at high confidence means the user switched topics.
         new_intent, new_conf = self.classifier.classify(text)
+        # A bare `contains` keyword hit is the weakest signal — an incidental
+        # mention ("ask about the translate feature") must NOT abandon an
+        # in-progress flow. Only stronger signals (TF-IDF, exact/regex keyword)
+        # may interrupt.
+        weak_keyword = (self.classifier.last_stage == "keyword"
+                        and self.classifier.last_keyword_tier == "contains")
         if (new_intent != intent_name
                 and new_intent != "Default Fallback Intent"
                 and new_conf >= self.INTERRUPT_THRESHOLD
+                and not weak_keyword
                 and self.intents.get(new_intent) is not None):
             abandoned = intent_name
             session.reset_slot_filling()
@@ -415,10 +422,13 @@ class NLUEngine:
         return result
 
     def _extract_all_slots(self, cfg, text, slots: dict):
+        # One-shot / bulk full-sentence scan: disable fuzzy enum matching so a
+        # common word (e.g. "care", "cup") doesn't get mis-read as a memory
+        # name. Fuzzy is reserved for the awaited-slot answer in slot filling.
         for slot in cfg["slots"]:
             if slot["name"] in slots:
                 continue
-            value, _, _conf = self.entities.extract(slot["entity"], text)
+            value, _, _conf = self.entities.extract(slot["entity"], text, fuzzy=False)
             if value is not None:
                 slots[slot["name"]] = value
 
