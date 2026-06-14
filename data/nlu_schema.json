@@ -2,6 +2,7 @@
   "version": 2,
   "confidence_threshold": 0.7,
   "slot_confidence_threshold": 0.60,
+  "semantic_threshold": 0.55,
   "keyword_triggers": [
     {
       "intent": "Cmd.TranslationStart",

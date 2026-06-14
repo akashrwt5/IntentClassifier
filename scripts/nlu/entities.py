@@ -8,7 +8,7 @@ Two kinds of entities:
 
 import json
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 try:
@@ -155,8 +155,25 @@ class EntityExtractor:
 
         return dt
 
+    @staticmethod
+    def _to_utc_iso(dt: datetime) -> str:
+        """
+        Serialize a datetime as a UTC ISO 8601 string (e.g.
+        '2026-06-14T14:00:00+00:00'). Reminders sync to a cloud backend, so a
+        single unambiguous instant is stored and each client renders it in its
+        own local zone. A naive datetime is assumed to be device-local.
+        """
+        if dt.tzinfo is None:
+            dt = dt.astimezone()  # attach local tz
+        return dt.astimezone(timezone.utc).isoformat(timespec="minutes")
+
     def extract_datetime(self, text: str, now: datetime = None):
-        now = now or datetime.now()
+        # Parse the user's spoken time in their LOCAL zone, then store UTC.
+        # now must be timezone-aware; a naive now is treated as device-local.
+        if now is None:
+            now = datetime.now().astimezone()
+        elif now.tzinfo is None:
+            now = now.astimezone()
         t = text.lower().strip()
 
         # --- 1. Relative durations: "in 10 minutes", "in an hour", "in a few minutes" ---
@@ -167,7 +184,7 @@ class EntityExtractor:
             delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
                      "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n),
                      "day":    timedelta(days=n),     "week": timedelta(weeks=n)}[unit]
-            return (now + delta).isoformat(timespec="minutes"), m.group(), 1.0
+            return self._to_utc_iso(now + delta), m.group(), 1.0
         # "in an hour / in a minute"
         m = re.search(r"\bin\s+an?\s+(minute|min|hour|hr|day|week)s?\b", t)
         if m:
@@ -175,7 +192,7 @@ class EntityExtractor:
             delta = {"minute": timedelta(minutes=1), "min": timedelta(minutes=1),
                      "hour":   timedelta(hours=1),   "hr":  timedelta(hours=1),
                      "day":    timedelta(days=1),     "week": timedelta(weeks=1)}[unit]
-            return (now + delta).isoformat(timespec="minutes"), m.group(), 1.0
+            return self._to_utc_iso(now + delta), m.group(), 1.0
         # "in a few / a couple of minutes/hours"
         m = re.search(r"\bin\s+(?:a\s+few|a\s+couple\s+(?:of\s+)?)\s*(minute|min|hour|hr)s?\b", t)
         if m:
@@ -183,10 +200,10 @@ class EntityExtractor:
             n = 3 if "few" in m.group() else 2
             delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
                      "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n)}[unit]
-            return (now + delta).isoformat(timespec="minutes"), m.group(), 1.0
+            return self._to_utc_iso(now + delta), m.group(), 1.0
         # "in half an hour"
         if re.search(r"\bin\s+half\s+an?\s+hour\b", t):
-            return (now + timedelta(minutes=30)).isoformat(timespec="minutes"), "in half an hour", 1.0
+            return self._to_utc_iso(now + timedelta(minutes=30)), "in half an hour", 1.0
 
         # --- 2. Explicit past-date rejection ---
         if re.search(r"\byesterday\b", t):
@@ -242,24 +259,28 @@ class EntityExtractor:
             m = re.search(r"\bquarter\s+past\s+(\d{1,2})\b", t)
             if m:
                 hour, minute = int(m.group(1)), 15; span = m.group()
-        # "quarter to N"
+        # "quarter to N"  (N must be a valid clock hour)
         if hour is None:
             m = re.search(r"\bquarter\s+to\s+(\d{1,2})\b", t)
             if m:
                 h = int(m.group(1))
-                hour, minute = (h - 1) if h > 1 else 12, 45; span = m.group()
-        # "N past M" (e.g. "20 past 9")
+                if 1 <= h <= 12:
+                    hour, minute = (h - 1) if h > 1 else 12, 45; span = m.group()
+        # "N past M" (e.g. "20 past 9") — minutes 1-59, hour a valid clock hour
         if hour is None:
             m = re.search(r"\b(\d{1,2})\s+past\s+(\d{1,2})\b", t)
             if m:
-                minute, hour = int(m.group(1)), int(m.group(2)); span = m.group()
-        # "N to M" (e.g. "10 to 3" = 2:50)
+                mm, hh = int(m.group(1)), int(m.group(2))
+                if 0 <= mm <= 59 and 1 <= hh <= 12:
+                    minute, hour = mm, hh; span = m.group()
+        # "N to M" (e.g. "10 to 3" = 2:50) — minutes-to 1-59, hour a valid clock hour
         if hour is None:
             m = re.search(r"\b(\d{1,2})\s+to\s+(\d{1,2})\b", t)
             if m:
                 mins_to, h = int(m.group(1)), int(m.group(2))
-                hour = (h - 1) if h > 1 else 12
-                minute = 60 - mins_to; span = m.group()
+                if 1 <= mins_to <= 59 and 1 <= h <= 12:
+                    hour = (h - 1) if h > 1 else 12
+                    minute = 60 - mins_to; span = m.group()
 
         # Standard "9am", "9 am", "9:30pm"
         explicit_ampm = False
@@ -316,26 +337,36 @@ class EntityExtractor:
         # --- 7. Build datetime ---
         if hour is not None:
             minute = minute or 0
-            if 1 <= hour <= 12 and not explicit_ampm and period not in ("am",):
-                # Need disambiguation — use period hint
-                p = period if period in ("am","pm","morning","afternoon","evening","night") else period
-                dt = self._pick_future_hour(hour, minute, base_day, now, p)
-            else:
-                # hour is already 0-23 (from am/pm regex or colon format)
-                dt = base_day.replace(hour=hour, minute=minute, second=0, microsecond=0)
-                if not explicit_day and dt <= now:
-                    dt += timedelta(days=1)
+            # Final range guard: malformed input (e.g. ASR "0 to 3" → minute 60,
+            # "quarter to 13" → hour 13) must yield a clean no-match, never a
+            # ValueError from datetime.replace().
+            if not (0 <= minute <= 59):
+                return None, None, 0.0
+            try:
+                if 1 <= hour <= 12 and not explicit_ampm and period not in ("am",):
+                    # Need disambiguation — use period hint
+                    p = period if period in ("am","pm","morning","afternoon","evening","night") else period
+                    dt = self._pick_future_hour(hour, minute, base_day, now, p)
+                else:
+                    # hour is already 0-23 (from am/pm regex or colon format)
+                    if not (0 <= hour <= 23):
+                        return None, None, 0.0
+                    dt = base_day.replace(hour=hour, minute=minute, second=0, microsecond=0)
+                    if not explicit_day and dt <= now:
+                        dt += timedelta(days=1)
+            except ValueError:
+                return None, None, 0.0
             # Reject explicitly past dates (e.g. "yesterday", already-past specific date)
             if explicit_day and base_day.date() < now.date():
                 return None, None, 0.0
-            return dt.isoformat(timespec="minutes"), span, 1.0
+            return self._to_utc_iso(dt), span, 1.0
 
         if explicit_day:
             # Day anchor found but no time — default 9am
             dt = base_day.replace(hour=9, minute=0, second=0, microsecond=0)
             if not explicit_day and dt <= now:
                 dt += timedelta(days=1)
-            return dt.isoformat(timespec="minutes"), span, 1.0
+            return self._to_utc_iso(dt), span, 1.0
 
         # --- 8. Dateparser fallback (stripped to avoid month/day misparse) ---
         if _HAS_DATEPARSER:
@@ -350,7 +381,7 @@ class EntityExtractor:
                     },
                 )
                 if dt:
-                    return dt.isoformat(timespec="minutes"), t, 0.85
+                    return self._to_utc_iso(dt), t, 0.85
 
         return None, None, 0.0
 
@@ -361,10 +392,14 @@ class EntityExtractor:
         r"\bin\s+\d+\s*(?:minute|min|hour|hr|day|week)s?\b",
         r"\b\d{1,2}(?::\d{2})?\s*[ap]\.?\s*m\.?\b",
         r"\b\d{1,2}:\d{2}\b",
+        # "at 5" / "by 7" — remove the connector AND the orphaned bare number
+        # together, before the bare-connector strip below leaves the digit behind.
+        r"\b(?:at|by)\s+\d{1,2}(?::\d{2})?\b",
         r"\b(?:tomorrow|today|tonight)\b",
         r"\b(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)s?\b",
         r"\b(?:every|each)\s+\w+\b",
-        r"\b(?:morning|afternoon|evening|night|noon)\b",
+        # consume "in the morning" as a phrase so no "in the" fragment dangles
+        r"\b(?:in\s+the\s+)?(?:morning|afternoon|evening|night|noon)\b",
         r"\b(?:at|on|by|this|next)\b",
     ]
 

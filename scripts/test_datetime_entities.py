@@ -13,7 +13,7 @@ Exit code 1 if any golden case fails.
 """
 
 import sys
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
@@ -24,8 +24,11 @@ from nlu.entities import EntityExtractor
 
 extractor = EntityExtractor()
 
-# Reference "now": Tuesday 2026-06-14 14:30 (2:30 PM)
-NOW = datetime(2026, 6, 14, 14, 30, 0)
+# Reference "now": Tuesday 2026-06-14 14:30 (2:30 PM) in UTC. Using a UTC-zoned
+# reference keeps local == UTC so the asserted clock hours below are unchanged,
+# while still exercising the timezone-aware → UTC output path. A separate test
+# (test_utc_conversion) proves a non-UTC offset converts correctly.
+NOW = datetime(2026, 6, 14, 14, 30, 0, tzinfo=timezone.utc)
 
 
 def _hour(iso: str) -> int:
@@ -82,6 +85,30 @@ def run():
             passed += 1
         else:
             print(f"FAIL  {utt!r} → {result} (hour={actual_hour}, expected={expected_hour})  [{desc}]")
+            failed += 1
+
+    # ---- UTC conversion: a non-UTC local zone must convert to UTC on output ----
+    # User in UTC-5 says "tomorrow at 9am" → 09:00-05:00 == 14:00 UTC.
+    est = timezone(timedelta(hours=-5))
+    now_est = datetime(2026, 6, 14, 14, 30, 0, tzinfo=est)
+    iso, _, _ = extractor.extract_datetime("tomorrow at 9am", now=now_est)
+    dt = datetime.fromisoformat(iso)
+    if dt.utcoffset() == timedelta(0) and dt.hour == 14:
+        print(f"PASS  UTC conversion: 9am EST → {iso}")
+        passed += 1
+    else:
+        print(f"FAIL  UTC conversion: 9am EST → {iso} (expected 14:00+00:00)")
+        failed += 1
+
+    # ---- Edge-case guards: malformed input must not crash, returns no-match ----
+    for bad in ("remind me 0 to 3", "quarter to 13", "at 25"):
+        try:
+            res, _, _ = extractor.extract_datetime(bad, now=NOW)
+            # res may be None (no-match) or a valid ISO; it must NOT raise.
+            print(f"PASS  edge-case guarded: {bad!r} → {res}")
+            passed += 1
+        except Exception as e:
+            print(f"FAIL  edge-case raised: {bad!r} → {type(e).__name__}: {e}")
             failed += 1
 
     print(f"\n{'='*50}")

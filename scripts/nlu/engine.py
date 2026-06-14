@@ -29,10 +29,10 @@ BASE_DIR = Path(__file__).parent.parent.parent
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 LABELS_JSON_PATH = BASE_DIR / "models" / "intent_labels.json"
 
-# Minimum head probability for a semantic rescue. Chosen from the measured
-# rejection curve on semantic_holdout_100.csv: keeps 95.5% of in-scope
-# predictions while rejecting out-of-scope inputs.
-SEMANTIC_THRESHOLD = 0.55
+# Fallback default for the semantic-rescue threshold when the schema omits it.
+# The schema's "semantic_threshold" is the single source of truth; this is only
+# used if that key is absent.
+DEFAULT_SEMANTIC_THRESHOLD = 0.55
 
 # Default GenAI endpoint base. Overridable via the NLU_GENAI_URL env var or a
 # "genai_url" key in the schema so the placeholder is never shipped silently.
@@ -86,20 +86,38 @@ class NLUEngine:
         # Opt-in raw-utterance logging. Off by default so medical-context
         # speech is never written to logs in production; enable in dev only.
         self._log_utterances = os.environ.get("NLU_LOG_UTTERANCES", "").lower() in ("1", "true", "yes")
+        # Single source of truth for the semantic-rescue gate: the schema. The
+        # same value constructs SemanticFallback AND gates its result in the
+        # engine, so the two can never drift.
+        self.semantic_threshold = self.schema.get("semantic_threshold", DEFAULT_SEMANTIC_THRESHOLD)
         self.classifier = IntentClassifier()
         self.entities = EntityExtractor()
         self.sessions = SessionStore()
-        self.semantic = self._load_semantic()
+        self.semantic = self._load_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
 
     @staticmethod
-    def _load_semantic():
+    def _load_semantic(threshold: float):
+        """
+        Construct the semantic stage. Returns None when its artifacts are
+        absent (graceful degradation to TF-IDF only). An out-of-memory failure
+        is surfaced loudly rather than silently swallowed so a low-memory
+        device that loses the semantic stage is visible in telemetry.
+        """
         try:
             from .semantic import SemanticFallback
-            return SemanticFallback()
+            return SemanticFallback(threshold=threshold)
         except FileNotFoundError:
+            logger.warning("nlu.semantic.unavailable",
+                           extra={"nlu": {"reason": "artifacts_missing"}})
             return None
-        except Exception:
+        except MemoryError:
+            logger.error("nlu.semantic.oom",
+                         extra={"nlu": {"reason": "out_of_memory_loading_minilm"}})
+            return None
+        except Exception as e:
+            logger.error("nlu.semantic.load_failed",
+                         extra={"nlu": {"reason": type(e).__name__}})
             return None
 
     def _assert_label_schema_parity(self):
@@ -205,12 +223,22 @@ class NLUEngine:
     _UNCERTAIN = ("not sure", "maybe", "dunno", "don't know", "dont know",
                   "i don't know", "no idea", "unsure")
 
+    # Idioms where "no" is part of an affirmative/neutral phrase, not a refusal.
+    # "yes, no worries" is agreement; the bare "no" must not flip it to cancel.
+    _NO_IDIOMS = ("no worries", "no problem", "no doubt", "no biggie",
+                  "no probs", "no sweat", "not a problem")
+
     def _yes_no(self, text: str):
         t = text.lower().strip()
         if any(p in t for p in self._UNCERTAIN):
             return None
-        neg = any(re.search(rf"\b{re.escape(p)}\b", t) for p in self.negative)
-        pos = any(re.search(rf"\b{re.escape(p)}\b", t) for p in self.affirmative)
+        # Neutralise affirmative idioms containing "no" before polarity scan so
+        # they don't register as negatives.
+        scan = t
+        for idiom in self._NO_IDIOMS:
+            scan = scan.replace(idiom, " ")
+        neg = any(re.search(rf"\b{re.escape(p)}\b", scan) for p in self.negative)
+        pos = any(re.search(rf"\b{re.escape(p)}\b", scan) for p in self.affirmative)
         if neg and not pos: return False
         if pos and not neg: return True
         if neg and pos:     return False
@@ -344,7 +372,7 @@ class NLUEngine:
             if self.semantic is not None:
                 sem_intent, sem_conf = self.semantic.classify(text)
                 if (sem_intent != "Default Fallback Intent"
-                        and sem_conf >= SEMANTIC_THRESHOLD):
+                        and sem_conf >= self.semantic_threshold):
                     sem_cfg = self.intents.get(sem_intent)
                     if sem_cfg is not None:
                         result = self._fulfill_intent(session, sem_intent, sem_conf, sem_cfg, text, now)
@@ -413,11 +441,18 @@ class NLUEngine:
             if topic:
                 slots[slot["name"]] = topic
 
+    # Connectors that dangle at the START of a derived topic once the carrier
+    # phrase and the time expression have been stripped, e.g. "remind me at 9pm
+    # for dinner" → "for dinner" → "dinner".
+    _LEADING_CONNECTOR = re.compile(
+        r"^(?:for|about|of|on|to|that|regarding|with)\s+", re.I)
+
     def _derive_topic(self, text: str):
         t = text.strip()
         for pat in self._CARRIER:
             t = re.sub(pat, "", t, count=1, flags=re.I)
         t = self.entities.strip_datetime(t)
+        t = self._LEADING_CONNECTOR.sub("", t).strip(" .,")
         return t or None
 
     @staticmethod

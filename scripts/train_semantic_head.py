@@ -27,6 +27,8 @@ import pandas as pd
 
 BASE_DIR   = Path(__file__).parent.parent
 DATA_PATH  = BASE_DIR / "data" / "intent_data_new.csv"
+OOS_PATH   = BASE_DIR / "data" / "semantic_oos.csv"
+HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
 MODEL_DIR  = BASE_DIR / "models"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"
 VOCAB_PATH = MODEL_DIR / "minilm-vocab.txt"
@@ -103,22 +105,46 @@ def main():
     data["intent"] = data["intent"].astype(str).str.strip()
     data = data.dropna().drop_duplicates(subset=["text", "intent"])
 
-    # The fallback class is Dialogflow's failure log — largely garbled ASR
-    # of IN-DOMAIN requests ("not screaming loud enough", "hello, just a
-    # hearing aid the volume..."). Training on it teaches the head to
-    # replicate old Dialogflow's failures, so it is EXCLUDED from training
-    # and used only as a noisy out-of-scope eval set.
+    # The fallback class in intent_data_new.csv is Dialogflow's failure log —
+    # largely garbled ASR of IN-DOMAIN requests. Training on it would teach the
+    # head to replicate old Dialogflow's failures, so it is EXCLUDED. Instead we
+    # train an EXPLICIT out-of-scope class from a CURATED clean OOS set
+    # (data/semantic_oos.csv): general-knowledge / other-domain queries that the
+    # head should learn to reject rather than guess at via a probability floor.
     in_scope = data[data["intent"] != FALLBACK_INTENT]
-    fallback = data[data["intent"] == FALLBACK_INTENT]
+    noisy_fb = data[data["intent"] == FALLBACK_INTENT]   # noisy eval only
 
-    texts   = in_scope["text"].tolist()
-    intents = in_scope["intent"].tolist()
+    oos_texts = []
+    if OOS_PATH.exists():
+        oos = pd.read_csv(OOS_PATH, encoding="utf-8-sig")
+        oos.columns = [c.strip().lower() for c in oos.columns]
+        oos["text"] = oos["text"].astype(str).str.lower().str.strip()
+        oos = oos.dropna(subset=["text"]).drop_duplicates(subset=["text"])
+        # Leakage guard: never train on a holdout OOS phrase.
+        if HOLDOUT_PATH.exists():
+            hold = pd.read_csv(HOLDOUT_PATH, encoding="utf-8-sig")
+            hold.columns = [c.strip().lower() for c in hold.columns]
+            htext = next((c for c in hold.columns
+                          if c in ("text", "utterance", "query", "sentence", "phrase")),
+                         hold.columns[0])
+            hold_set = set(hold[htext].astype(str).str.lower().str.strip())
+            before = len(oos)
+            oos = oos[~oos["text"].isin(hold_set)]
+            if before != len(oos):
+                print(f"  [oos] dropped {before - len(oos)} phrase(s) overlapping the holdout")
+        oos_texts = oos["text"].tolist()
+        print(f"Curated OOS phrases (trained as '{FALLBACK_INTENT}'): {len(oos_texts)}")
+    else:
+        print(f"  [oos] {OOS_PATH} not found — training WITHOUT a learned OOS class")
+
+    texts   = in_scope["text"].tolist() + oos_texts
+    intents = in_scope["intent"].tolist() + [FALLBACK_INTENT] * len(oos_texts)
     print(f"Training phrases: {len(texts)}  Intents: {len(set(intents))}")
-    print(f"Out-of-scope eval set: {len(fallback)} fallback phrases (NOT trained on)")
+    print(f"Noisy fallback-log eval set: {len(noisy_fb)} phrases (NOT trained on)")
 
     print("\nEmbedding all phrases via ONNX (same path mobile will use)...")
     X    = embed_all(texts)
-    X_fb = embed_all(fallback["text"].tolist())
+    X_fb = embed_all(noisy_fb["text"].tolist())
     y    = np.array(intents)
 
     # ── Held-out evaluation ──
@@ -150,8 +176,8 @@ def main():
     print("  (out-of-scope set is noisy — it contains garbled in-domain requests,")
     print("   so 100% rejection is neither achievable nor desirable)")
 
-    # ── Final model on 100% of in-scope data ──
-    print("\nRetraining on full in-scope dataset...")
+    # ── Final model on 100% of data (in-scope + curated OOS class) ──
+    print("\nRetraining on full dataset (in-scope + OOS class)...")
     clf = LogisticRegression(max_iter=2000, C=10.0, class_weight="balanced")
     clf.fit(X, y)
 

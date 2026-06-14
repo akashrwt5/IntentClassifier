@@ -1,10 +1,13 @@
 {
-  "models/intent_model.onnx": "8ecb95534209b010088802c79cca87cd3e7f85d6e03dc06ad77c8aaa1ba0b5f9",
+  "models/intent_model.onnx": "360f783ab83eb7e50567ea2f99b87c5d5c7fe38a07a1b1b875fa4626b65be469",
   "models/intent_labels.json": "a09b0085b2f1ff7f66dfc27d2298ced096584f01012b884b54391c89ccbe53a7",
   "models/intent_labels.pkl": "249d200a3ee55eedf99871e46792941c4bca1c27a160a05a8c3b68a737733828",
   "models/intent_pipeline.pkl": "df8ae0414e2705ea120615ad27efe0eb878a430b91aa934c74fb167ed3115e79",
   "models/minilm-l6-v2.onnx": "5b122944ddf5d50e9e1819468014cf608bf581d48aecb78bb1a56e88ac4f71d0",
   "models/minilm-vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
-  "models/semantic_head.json": "fdf05a1dd1a50f83c24d70146101d7b4f92139a348725592c2ff36863e12cfd8",
-  "models/semantic_head.npz": "d8e7d9b57dc4b0604f7cd3f0227e3610aff092c3cb79e5324b7c245b8d7f3838"
+  "models/semantic_head.json": "61c3b50316aef5cefcb81bfed622c1ed30f9306197d1d624086ad7d5090ef2cc",
+  "models/semantic_head.npz": "9ee1cded116acca4b92a7f2d73c5250acccbc797c6e763f3b56c0e4d42879b05",
+  "_meta": {
+    "holdout_accuracy": 0.6
+  }
 }

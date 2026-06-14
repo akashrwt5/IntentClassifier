@@ -35,6 +35,19 @@ LABELS_PATH = MODELS_DIR / "intent_labels.pkl"
 LABELS_JSON_PATH = MODELS_DIR / "intent_labels.json"
 PIPELINE_PATH = MODELS_DIR / "intent_pipeline.pkl"
 
+# Accuracy regression gate. Gates on the TF-IDF model's TEST-SPLIT accuracy
+# (held-back examples from the same distribution) — the standard generalization
+# estimate for this stage. If it drops below the floor the build fails and
+# nothing is exported, stopping a bad retrain from silently shipping.
+#
+# NOTE: the gate is NOT on the 100-utterance paraphrase holdout. That holdout
+# is intentionally built to need the semantic stage, so TF-IDF ALONE scores
+# ~0.50 on it — a pipeline metric, not a TF-IDF metric. The final model's
+# holdout score is still computed and recorded in the manifest for visibility.
+# Override via env: MIN_TEST_ACCURACY=0.80 python scripts/train.py
+import os as _os
+MIN_TEST_ACCURACY = float(_os.environ.get("MIN_TEST_ACCURACY", "0.85"))
+
 # ---------- 1. Load & clean data ----------
 data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
 
@@ -114,15 +127,28 @@ print(f"\nCross-val accuracy: {cv_scores.mean():.2f} (+/- {cv_scores.std():.2f})
 # ---------- 6. Train on full training set ----------
 pipeline.fit(X_train, y_train)
 
-# ---------- 7. Evaluate on held-out test split ----------
+# ---------- 7. Evaluate on held-out test split + accuracy gate ----------
 y_pred = pipeline.predict(X_test)
-print(f"\nTest split accuracy (NOT the permanent holdout): {np.mean(y_pred == y_test):.2f}")
+test_acc = float(np.mean(y_pred == y_test))
+print(f"\nTest split accuracy (NOT the permanent holdout): {test_acc:.2f}")
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
 print("Confusion Matrix:")
 print(confusion_matrix(y_test, y_pred, labels=labels))
 
-# ---------- 8. Evaluate on the permanent never-trained holdout ----------
+if test_acc < MIN_TEST_ACCURACY:
+    raise RuntimeError(
+        f"Accuracy regression gate FAILED: test-split accuracy {test_acc:.2f} "
+        f"is below the floor {MIN_TEST_ACCURACY:.2f}. Nothing was exported. "
+        f"Investigate the training data before retrying (or lower "
+        f"MIN_TEST_ACCURACY only with justification)."
+    )
+print(f"✅ Accuracy gate passed (test-split floor {MIN_TEST_ACCURACY:.2f}).")
+
+# ---------- 8. Evaluate the TRAIN-SPLIT model on the permanent holdout ----------
+# Note: this is the X_train model. The FINAL gate (section 9b) re-evaluates the
+# exported model, which is trained on all data — that is the number that ships.
+_holdout = None
 if HOLDOUT_PATH.exists():
     hdf = pd.read_csv(HOLDOUT_PATH, encoding="utf-8-sig", header=0)
     hdf.columns = [c.strip().lower() for c in hdf.columns]
@@ -130,12 +156,28 @@ if HOLDOUT_PATH.exists():
     _hint  = next((c for c in hdf.columns if c in ("intent", "label", "class")), hdf.columns[1])
     hdf[_htext] = hdf[_htext].astype(str).str.lower().str.strip()
     hdf = hdf.dropna(subset=[_htext, _hint])
+    _holdout = (hdf, _htext, _hint)
     h_pred = pipeline.predict(hdf[_htext])
     h_acc = np.mean(h_pred == hdf[_hint].str.strip())
-    print(f"\n*** HOLDOUT accuracy (never trained): {h_acc:.2f} ({int(h_acc*len(hdf))}/{len(hdf)}) ***")
+    print(f"\n(train-split model) HOLDOUT accuracy: {h_acc:.2f} ({int(h_acc*len(hdf))}/{len(hdf)})")
 
 # ---------- 9. Retrain on ALL data for final export ----------
 pipeline.fit(X, y)
+
+# ---------- 9b. Record the FINAL (exported) model's TF-IDF-only holdout ----------
+# Informational + recorded in the manifest (fixes the "reported accuracy belongs
+# to a discarded model" issue). This is the TF-IDF stage in isolation, so the
+# number is low by design — end-to-end pipeline accuracy is validated separately
+# by scripts/test_holdout.py.
+final_holdout_acc = None
+if _holdout is not None:
+    hdf, _htext, _hint = _holdout
+    f_pred = pipeline.predict(hdf[_htext])
+    final_holdout_acc = float(np.mean(f_pred == hdf[_hint].str.strip()))
+    n = len(hdf)
+    print(f"\n(final exported model) TF-IDF-only HOLDOUT accuracy: "
+          f"{final_holdout_acc:.2f} ({int(final_holdout_acc*n)}/{n}) "
+          f"— pipeline accuracy is validated by test_holdout.py")
 
 # ---------- 10. Export to ONNX ----------
 initial_type = [("input", StringTensorType([None, 1]))]
@@ -165,5 +207,6 @@ print(f"✅ Model size: {ONNX_PATH.stat().st_size / 1024:.1f} KB")
 import sys
 sys.path.insert(0, str(BASE_DIR / "scripts"))
 from nlu.manifest import generate_manifest
-generate_manifest(BASE_DIR)
+_meta = {"holdout_accuracy": round(final_holdout_acc, 4)} if final_holdout_acc is not None else None
+generate_manifest(BASE_DIR, meta=_meta)
 print("✅ Manifest written to models/manifest.json")

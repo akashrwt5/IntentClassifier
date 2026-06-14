@@ -8,10 +8,20 @@ Run:
 """
 
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from nlu import NLUEngine  # noqa: E402
+
+
+def _local_hm(iso: str):
+    """Convert a stored UTC ISO timestamp back to local wall-clock (h, m).
+
+    Reminders are stored in UTC; a spoken local time round-trips back to the
+    same local hour regardless of the test runner's timezone.
+    """
+    return (lambda d: (d.hour, d.minute))(datetime.fromisoformat(iso).astimezone())
 
 engine = NLUEngine()
 _counter = {"n": 0}
@@ -44,7 +54,7 @@ def test_reminder_step_by_step():
     assert rs[1].type == "PROMPT" and "when" in rs[1].message.lower()
     assert rs[2].type == "FULFILL"
     assert rs[2].parameters["name"] == "Take Medication"
-    assert rs[2].parameters["date-time"].endswith("17:00")
+    assert _local_hm(rs[2].parameters["date-time"]) == (17, 0)
     assert rs[2].action == "reminders.add"
 
 
@@ -59,13 +69,40 @@ def test_reminder_oneshot_freeform_topic():
     r = run(["do not let me forget to water flowers at 7 a.m. tomorrow"])
     assert r.type == "FULFILL", f"got {r.type}"
     assert r.parameters["name"] == "water flowers", r.parameters
-    assert r.parameters["date-time"].endswith("07:00")
+    assert _local_hm(r.parameters["date-time"]) == (7, 0)
 
 
 def test_reminder_freeform_topic():
     r = run(["set a reminder", "call my dentist", "tomorrow at 9 am"])
     assert r.type == "FULFILL"
     assert r.parameters["name"] == "call my dentist"
+
+
+def test_reminder_topic_strips_leading_connector():
+    # "...for dinner" must not keep the dangling leading "for".
+    r = run(["remind me at 9 pm for dinner"])
+    assert r.type == "FULFILL"
+    assert r.parameters["name"] == "dinner", r.parameters
+
+
+def test_reminder_topic_strips_orphaned_at_number():
+    # "at 5" must be removed whole — no orphaned "5" left in the topic.
+    r = run(["remind me to call mom at 5"])
+    assert r.type == "FULFILL"
+    assert r.parameters["name"] == "call mom", r.parameters
+
+
+def test_reminder_topic_strips_in_the_morning_phrase():
+    r = run(["remind me to water the plants in the morning"])
+    assert r.type == "FULFILL"
+    assert r.parameters["name"] == "water the plants", r.parameters
+
+
+def test_reminder_topic_keeps_midsentence_for():
+    # The leading-connector strip must NOT eat a legitimate mid-sentence "for".
+    r = run(["remind me to buy a gift for mom at 3pm"])
+    assert r.type == "FULFILL"
+    assert r.parameters["name"] == "buy a gift for mom", r.parameters
 
 
 def test_reminder_recurrence():

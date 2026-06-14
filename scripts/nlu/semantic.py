@@ -108,6 +108,16 @@ class SemanticFallback:
             import onnxruntime as ort  # type: ignore
             self._ort_session = ort.InferenceSession(str(model_path))
 
+        # Warm-up: ONNX Runtime does graph/JIT setup and allocator priming on
+        # the first inference. Doing one throwaway embed here moves that cost
+        # off the first real user turn (otherwise the first semantic rescue is
+        # 3-5x slower than steady state).
+        if self._ort_session is not None:
+            try:
+                self._embed("warm up")
+            except Exception:
+                pass  # warm-up is best-effort; never block construction
+
     # ------------------------------------------------------------------
     # Public API
     # ------------------------------------------------------------------

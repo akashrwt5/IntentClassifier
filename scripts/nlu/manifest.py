@@ -38,8 +38,15 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def generate_manifest(base_dir: Path = BASE_DIR, extra_files: list = None) -> Path:
-    """Write models/manifest.json with checksums of all tracked artifacts."""
+def generate_manifest(base_dir: Path = BASE_DIR, extra_files: list = None,
+                      meta: dict = None) -> Path:
+    """
+    Write models/manifest.json with checksums of all tracked artifacts.
+
+    Optional `meta` (e.g. {"holdout_accuracy": 0.91}) is stored under the
+    reserved "_meta" key so every shipped bundle carries its own report card.
+    Reserved keys start with "_" and are ignored by verify_manifest.
+    """
     files = list(TRACKED_FILES) + (extra_files or [])
     manifest = {}
     for rel in files:
@@ -48,9 +55,12 @@ def generate_manifest(base_dir: Path = BASE_DIR, extra_files: list = None) -> Pa
             manifest[rel] = _sha256(p)
         else:
             print(f"  [manifest] skipped missing: {rel}")
+    if meta:
+        manifest["_meta"] = meta
     out = base_dir / "models" / "manifest.json"
     out.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    print(f"  [manifest] written → {out} ({len(manifest)} files)")
+    n_files = sum(1 for k in manifest if not k.startswith("_"))
+    print(f"  [manifest] written → {out} ({n_files} files)")
     return out
 
 
@@ -62,6 +72,8 @@ def verify_manifest(base_dir: Path = BASE_DIR, manifest_path: Optional[Path] = N
     manifest = json.loads(mp.read_text(encoding="utf-8"))
     mismatches = []
     for rel, expected in manifest.items():
+        if rel.startswith("_"):
+            continue  # reserved metadata key, not a tracked file
         p = base_dir / rel
         if not p.exists():
             mismatches.append(f"  MISSING  {rel}")
