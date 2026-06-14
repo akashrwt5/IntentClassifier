@@ -82,6 +82,27 @@ def _select_features(coef_matrix: np.ndarray, top_per_class: int) -> np.ndarray:
     return np.array(sorted(selected), dtype=int)
 
 
+def _extract_lr(clf):
+    """
+    Return (coef_, intercept_, classes_) from a plain LogisticRegression or a
+    CalibratedClassifierCV wrapping one.  For the calibrated case we average
+    the base LR weights across folds — calibration itself is non-parametric
+    (isotonic) and cannot be reproduced on iOS, so the iOS scorer uses
+    uncalibrated LR probabilities while the ONNX/server path uses calibrated ones.
+    """
+    if hasattr(clf, "coef_"):
+        return clf.coef_, clf.intercept_, clf.classes_
+
+    # CalibratedClassifierCV — average base LR weights across CV folds
+    fold_clfs = [cc.estimator for cc in clf.calibrated_classifiers_]
+    coef      = np.mean([fc.coef_      for fc in fold_clfs], axis=0)
+    intercept = np.mean([fc.intercept_ for fc in fold_clfs], axis=0)
+    classes   = fold_clfs[0].classes_
+    print(f"  [ios export] CalibratedClassifierCV detected — averaging coef across "
+          f"{len(fold_clfs)} folds for iOS weights (iOS uses uncalibrated probabilities).")
+    return coef, intercept, classes
+
+
 def export(out_path: Path, top_per_class: int):
     pipeline = _load_or_train_pipeline()
     labels   = joblib.load(str(LABELS_PATH))
@@ -89,10 +110,11 @@ def export(out_path: Path, top_per_class: int):
     tfidf = pipeline.named_steps["tfidf"]
     clf   = pipeline.named_steps["clf"]
 
-    class_to_row = {cls: i for i, cls in enumerate(clf.classes_)}
+    coef_, intercept_, classes_ = _extract_lr(clf)
+    class_to_row = {cls: i for i, cls in enumerate(classes_)}
 
     # Full coef matrix ordered by labels
-    full_coef = np.array([clf.coef_[class_to_row[lbl]] for lbl in labels])  # (n_classes, n_features)
+    full_coef = np.array([coef_[class_to_row[lbl]] for lbl in labels])  # (n_classes, n_features)
 
     # Select discriminative feature subset
     feat_idx = _select_features(full_coef, top_per_class)
@@ -106,7 +128,7 @@ def export(out_path: Path, top_per_class: int):
 
     coef      = [[round(float(v), ROUND) for v in row] for row in pruned_coef]
     idf       = [round(float(v), ROUND) for v in pruned_idf]
-    intercept = [round(float(clf.intercept_[class_to_row[lbl]]), ROUND) for lbl in labels]
+    intercept = [round(float(intercept_[class_to_row[lbl]]), ROUND) for lbl in labels]
 
     payload = {
         "labels":             labels,
