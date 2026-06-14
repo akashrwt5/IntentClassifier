@@ -1,0 +1,198 @@
+{
+  "version": 2,
+  "confidence_threshold": 0.7,
+  "slot_confidence_threshold": 0.60,
+  "semantic_threshold": 0.55,
+  "keyword_triggers": [
+    {
+      "intent": "Cmd.TranslationStart",
+      "contains": ["translate"]
+    },
+    {
+      "intent": "Cmd.TranscribeStart",
+      "contains": ["transcribe", "transcription"]
+    },
+    {
+      "intent": "Cmd.VolumeMute",
+      "exact": ["mute", "silence"]
+    },
+    {
+      "intent": "Cmd.VolumeUnmute",
+      "exact": ["unmute"]
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "exact": ["push to talk", "ptt"]
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "regex": "\\bsend\\b.{0,30}\\bmessage\\b",
+      "not_regex": "^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\\s+send|send\\s+it|send\\s+now)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(increase|raise|turn up)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(up|higher|louder)\\b|\\bturn it up\\b|\\bturn up\\b|\\bvolume up\\b|\\bamplify\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(too|so|very|really)\\s+(quiet|low|soft|faint)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(sounds?|volume|audio|its?|everything|speech|voices?)\\b.{0,12}\\b(quiet|low|soft|faint|dull|muffled|unclear)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(miss|missing|can.?t (catch|hear))\\b.{0,20}\\b(words?|speech|conversations?|voices?)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\bsound(s)? like whispers?\\b|\\bwhispers?\\b.{0,20}\\b(voices?|sounds?|them|talking)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\bnothing\\b.{0,20}\\bcoming through\\b|\\b(slipping|passing)\\b.{0,15}\\bpast me\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(asking|ask)\\b.{0,20}\\brepeat (themselves|himself|herself|yourself)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(sound|seems?|feels?)\\b.{0,15}\\b(so |too )?(far away|distant|muffled)\\b|\\bfar away\\b.{0,20}\\b(talk|speak|when)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeDecrease",
+      "regex": "\\b(decrease|lower|reduce|turn down)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(down|lower|quieter)\\b|\\bturn it down\\b|\\bturn down\\b|\\bvolume down\\b"
+    },
+    {
+      "intent": "Cmd.FindMyPhone",
+      "exact": ["find my phone", "where is my phone", "locate my phone", "find phone"]
+    },
+    {
+      "intent": "reminders.add",
+      "regex": "\\b(set|create|add|make)\\b.{0,20}\\breminder\\b"
+    },
+    {
+      "intent": "reminders.add",
+      "regex": "\\bnudge me\\b|\\bslip my mind\\b|\\bjot this down\\b|\\bnote this down\\b|\\bdon'?t (let me )?forget\\b"
+    },
+    {
+      "intent": "Cmd.VolumeDecrease",
+      "regex": "\\b(too|way|so|very|really)\\s+(hot|loud|bright|much)\\b|\\bcoming in (way )?too (hot|loud)\\b|\\btake the edge off\\b"
+    },
+    {
+      "intent": "Cmd.BatteryLevel",
+      "regex": "\\b(power|battery)\\s+(reading|level|status|left|remaining)\\b|\\b(die|dying|run out|running out)\\b.{0,20}\\b(on me|battery|charge|power)\\b|\\bhow (much|long).{0,20}\\b(battery|charge|power|life)\\b"
+    },
+    {
+      "intent": "Help_FindMyHearingAids",
+      "regex": "\\bping\\b.{0,15}\\b(hearing aids?|aids?|devices?)\\b|\\b(locate|find|where).{0,20}\\b(hearing aids?|aids?|devices?)\\b|\\bcannot? (find|locate).{0,20}\\b(device|aid)\\b"
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "regex": "\\bget word to\\b|\\bping\\b.{0,20}\\b(my )?(daughter|son|wife|husband|brother|sister|mom|dad|mother|father|friend|family|partner)\\b"
+    },
+    {
+      "intent": "Cmd.StreamingStart",
+      "regex": "\\bpatch\\b.{0,15}\\b(sound|audio)\\b.{0,10}\\bthrough\\b|\\bstream\\b.{0,15}\\b(from|phone|tv|device)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\\b.{0,10}\\bmode\\b",
+      "not_regex": "\\b(what is|tell me about|help with|explain|how does|what does|about)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(load|restore|apply|use)\\b.{0,20}\\b(my )?(usual|default|normal|saved|last|previous)\\b.{0,15}\\b(config|configuration|setting|program|profile|memory)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(swap|switch|change|flip)\\b.{0,15}\\b(to the |to my )?(program|memory|setting|mode|profile)\\b.{0,20}\\bfor\\b"
+    },
+    {
+      "intent": "Help_Home",
+      "regex": "\\bwhat features\\b|\\bfeatures (are )?available\\b|\\bpoint me in the right direction\\b|\\bhow does (this|it|everything) work\\b"
+    }
+  ],
+  "intents": {
+    "Cmd.VolumeIncrease":   {"slots": [], "action": "volume.increase",      "fulfillment": "Volume increased."},
+    "Cmd.VolumeDecrease":   {"slots": [], "action": "volume.decrease",      "fulfillment": "Volume decreased."},
+    "Cmd.VolumeMute":       {"slots": [], "action": "volume.mute",          "fulfillment": "Muted."},
+    "Cmd.VolumeUnmute":     {"slots": [], "action": "volume.unmute",        "fulfillment": "Unmuted."},
+    "Cmd.MemoryChange": {
+      "slots": [
+        {"name": "MemoryName", "entity": "memory", "required": true, "prompt": "What is the name of the memory?"}
+      ],
+      "fulfillment": "Memory changed.",
+      "action": "memory.change",
+      "back_reference": {"pattern": "back|previous|before|last|undo|revert|the old one|as before", "slot": "MemoryName", "source": "prev_memory"}
+    },
+    "reminders.add": {
+      "slots": [
+        {"name": "recurrence", "entity": "recurrence", "required": false, "prompt": ""},
+        {"name": "name",       "entity": "remind",      "required": true,  "prompt": "What do you want to be reminded?"},
+        {"name": "date-time",  "entity": "sys.date-time","required": true,  "prompt": "When should I remind you? You can say things like '9am', 'tomorrow at 3', or 'in 10 minutes'."}
+      ],
+      "fulfillment": "Reminder created.",
+      "action": "reminders.add",
+      "back_reference": {"pattern": "again|same reminder|same one|same thing|repeat|another one", "source": "last_fulfilled"}
+    },
+    "reminders.complete":   {"slots": [], "action": "reminders.complete",   "fulfillment": "Reminder marked as complete."},
+    "Cmd.SendMessage":      {"slots": [], "action": "message.compose",      "fulfillment": "Ready to record your message."},
+    "Cmd.SendMessage - yes":{"slots": [], "action": "message.send",         "fulfillment": "Message sent."},
+    "Cmd.SendMessage - no": {"slots": [], "action": "message.cancel",       "fulfillment": "Okay, cancelled."},
+    "Cmd.FindMyPhone":      {"slots": [], "action": "phone.find",           "fulfillment": "Finding your phone."},
+    "Cmd.BatteryLevel":     {"slots": [], "action": "battery.level",        "fulfillment": "Checking battery level."},
+    "Cmd.ListenMessage":    {"slots": [], "action": "message.listen",       "fulfillment": "Playing your message."},
+    "Cmd.TranslationStart": {"slots": [], "action": "translate.open",       "fulfillment": "Opening Translate."},
+    "Cmd.TranscribeStart":  {"slots": [], "action": "transcribe.open",      "fulfillment": "Opening Transcribe."},
+    "Cmd.StreamingStart":   {"slots": [], "action": "streaming.start",      "fulfillment": "Streaming started."},
+    "Cmd.StreamingStop":    {"slots": [], "action": "streaming.stop",       "fulfillment": "Streaming stopped."},
+    "Cmd.Health":           {"slots": [], "action": "health.show",          "fulfillment": "Opening Health."},
+    "Cmd.ActivityRun":      {"slots": [], "action": "activity.run",         "fulfillment": "Starting run activity."},
+    "Cmd.ActivityWalk":     {"slots": [], "action": "activity.walk",        "fulfillment": "Starting walk activity."},
+    "Cmd.ActivityStep":     {"slots": [], "action": "activity.step",        "fulfillment": "Showing step count."},
+    "Cmd.ActivityStand":    {"slots": [], "action": "activity.stand",       "fulfillment": "Showing stand activity."},
+    "Cmd.ActivityCycle":    {"slots": [], "action": "activity.cycle",       "fulfillment": "Starting cycle activity."},
+    "Cmd.ActivityAerobics": {"slots": [], "action": "activity.aerobics",    "fulfillment": "Starting aerobics."},
+    "Cmd.ActivityExercise": {"slots": [], "action": "activity.exercise",    "fulfillment": "Starting exercise."},
+    "Cmd.ActivityCalories": {"slots": [], "action": "activity.calories",    "fulfillment": "Showing calories."},
+    "Help_Volume":          {"slots": [], "action": "help.volume",          "fulfillment": "Here is help with volume."},
+    "Help_ChangingMemories":{"slots": [], "action": "help.memories",        "fulfillment": "Here is help with memories."},
+    "Help_MemoryOptions":   {"slots": [], "action": "help.memory_options",  "fulfillment": "Here are memory options."},
+    "Help_Pairing":         {"slots": [], "action": "help.pairing",         "fulfillment": "Here is help with pairing."},
+    "Help_FindMyHearingAids":{"slots":[], "action": "help.find_aids",       "fulfillment": "Here is help finding your hearing aids."},
+    "Help_Accessories":     {"slots": [], "action": "help.accessories",     "fulfillment": "Here is help with accessories."},
+    "Help_RemoteProgramming":{"slots":[], "action": "help.remote_programming","fulfillment": "Here is help with remote programming."},
+    "Help_Tinnitus":        {"slots": [], "action": "help.tinnitus",        "fulfillment": "Here is help with tinnitus."},
+    "Help_SelfCheck":       {"slots": [], "action": "help.selfcheck",       "fulfillment": "Here is help with SelfCheck."},
+    "Help_ThriveScore":     {"slots": [], "action": "help.thrive_score",    "fulfillment": "Here is help with Thrive Score."},
+    "Help_DeviceSettings":  {"slots": [], "action": "help.device_settings", "fulfillment": "Here is help with device settings."},
+    "Help_IntelliVoice":    {"slots": [], "action": "help.intelli_voice",   "fulfillment": "Here is help with IntelliVoice."},
+    "Help_FallAlert":       {"slots": [], "action": "help.fall_alert",      "fulfillment": "Here is help with Fall Alert."},
+    "Help_HearShare":       {"slots": [], "action": "help.hear_share",      "fulfillment": "Here is help with HearShare."},
+    "Help_VoiceAssistant":  {"slots": [], "action": "help.voice_assistant", "fulfillment": "Here is help with Voice Assistant."},
+    "Help_InsertDevice":    {"slots": [], "action": "help.insert_device",   "fulfillment": "Here is help inserting your device."},
+    "Help_AppSettings":     {"slots": [], "action": "help.app_settings",    "fulfillment": "Here is help with app settings."},
+    "Help_CleanCare":       {"slots": [], "action": "help.clean_care",      "fulfillment": "Here is help with cleaning and care."},
+    "Help_Customize":       {"slots": [], "action": "help.customize",       "fulfillment": "Here is help with customization."},
+    "Help_WhatsNew":        {"slots": [], "action": "help.whats_new",       "fulfillment": "Here is what's new."},
+    "Help_WiCROS":          {"slots": [], "action": "help.wicros",          "fulfillment": "Here is help with WiCROS."},
+    "Help_Home":            {"slots": [], "action": "help.home",            "fulfillment": "Here is help with the home screen."},
+    "Help_Battery":         {"slots": [], "action": "help.battery",         "fulfillment": "Here is help with battery."},
+    "Help_Reminder":        {"slots": [], "action": "help.reminder",        "fulfillment": "Here is help with reminders."},
+    "Help_Translate":       {"slots": [], "action": "help.translate",       "fulfillment": "Here is help with Translate."},
+    "Help_Transcribe":      {"slots": [], "action": "help.transcribe",      "fulfillment": "Here is help with Transcribe."},
+    "Help_Health":          {"slots": [], "action": "help.health",          "fulfillment": "Here is help with Health."},
+    "Help_HeartRate":       {"slots": [], "action": "help.heart_rate",      "fulfillment": "Here is help with Heart Rate."},
+    "Help_HeartRateRecovery":{"slots":[], "action": "help.heart_rate_recovery","fulfillment": "Here is help with Heart Rate Recovery."},
+    "Help_HearingCareAnywhereConnect":{"slots":[],"action":"help.hearing_care_connect","fulfillment":"Here is help with Hearing Care Anywhere."},
+    "Help_MaskMode":        {"slots": [], "action": "help.mask_mode",       "fulfillment": "Here is help with Mask Mode."},
+    "Help_EdgeMode":        {"slots": [], "action": "help.edge_mode",       "fulfillment": "Here is help with Edge Mode."},
+    "Help_DemoMode":        {"slots": [], "action": "help.demo_mode",       "fulfillment": "Here is help with Demo Mode."},
+    "Default Fallback Intent": {"slots": [], "action": "genai.fallback",   "fulfillment": ""}
+  },
+  "affirmative": ["yes","yeah","yep","yup","sure","ok","okay","send","send it","confirm","correct","do it","go ahead","please do","affirmative"],
+  "negative": ["no","nope","nah","cancel","don't","dont","stop","negative","no thanks","do not","never mind","nevermind"]
+}
