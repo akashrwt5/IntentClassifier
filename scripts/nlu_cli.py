@@ -7,6 +7,7 @@ Usage:
 """
 
 import sys
+import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -15,7 +16,7 @@ from nlu import NLUEngine  # noqa: E402
 SESSION = "cli-user"
 
 
-def render(r):
+def render(r, engine, text):
     if r.interrupted_intent:
         print(f"  ⚠️  Interrupted: {r.interrupted_intent} flow cancelled")
     if r.semantic_rescue:
@@ -37,7 +38,12 @@ def render(r):
         print(f"  ❓ {r.message}  [yes/no]")
     elif r.type == "FALLBACK":
         print(f"  🤖 GenAI fallback  (confidence {r.confidence:.2f})")
-        print(f"  🔗 {r.url}")
+        if r.message:
+            print(f"  💬 {r.message}")
+        # The app layer (here, the CLI) builds the GenAI URL from the text it
+        # already holds — the raw utterance is never returned in the result.
+        url = engine.genai_url + urllib.parse.quote(text)
+        print(f"  🔗 {url}")
 
 
 def main():
@@ -57,7 +63,7 @@ def main():
             engine.reset(SESSION)
             print("  (conversation reset)\n")
             continue
-        render(engine.handle(SESSION, text))
+        render(engine.handle(SESSION, text), engine, text)
         print()
 
 

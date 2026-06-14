@@ -13,7 +13,10 @@ interrupted_intent so the app can optionally notify the user.
 """
 
 import json
+import logging
+import os
 import re
+import time
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Optional
@@ -31,6 +34,12 @@ LABELS_JSON_PATH = BASE_DIR / "models" / "intent_labels.json"
 # predictions while rejecting out-of-scope inputs.
 SEMANTIC_THRESHOLD = 0.55
 
+# Default GenAI endpoint base. Overridable via the NLU_GENAI_URL env var or a
+# "genai_url" key in the schema so the placeholder is never shipped silently.
+DEFAULT_GENAI_URL = "https://genai.yourcompany.com/chat?query="
+
+logger = logging.getLogger("nlu.engine")
+
 
 @dataclass
 class NLUResult:
@@ -41,7 +50,6 @@ class NLUResult:
     message: str = ""
     confidence: float = 0.0
     complete: bool = False
-    url: Optional[str] = None
     interrupted_intent: Optional[str] = None
     semantic_rescue: bool = False         # True when MiniLM rescued a TF-IDF miss
     tfidf_intent: Optional[str] = None   # what TF-IDF predicted before semantic overruled
@@ -58,13 +66,26 @@ class NLUEngine:
     # are more moderate so 0.85 was unreachable for genuine switch-intent signals.
     INTERRUPT_THRESHOLD = 0.75
 
+    # A user who cannot complete a slot after this many tries is routed out of
+    # the flow instead of being trapped in an unanswerable prompt loop.
+    MAX_SLOT_ATTEMPTS = 3
+
     def __init__(self, schema_path: Path = SCHEMA_PATH):
         self.schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
         self.intents = self.schema["intents"]
         self.threshold = self.schema.get("confidence_threshold", 0.70)
         self.affirmative = set(self.schema.get("affirmative", []))
         self.negative = set(self.schema.get("negative", []))
-        self.genai_url = "https://genai.yourcompany.com/chat?query="
+        # GenAI base URL is configuration, not a result field. The raw user
+        # utterance is NEVER embedded into an NLUResult (it would otherwise be
+        # captured by any caller that logs the result). The app layer, which
+        # already holds the text, constructs the navigation URL itself.
+        self.genai_url = (self.schema.get("genai_url")
+                          or os.environ.get("NLU_GENAI_URL")
+                          or DEFAULT_GENAI_URL)
+        # Opt-in raw-utterance logging. Off by default so medical-context
+        # speech is never written to logs in production; enable in dev only.
+        self._log_utterances = os.environ.get("NLU_LOG_UTTERANCES", "").lower() in ("1", "true", "yes")
         self.classifier = IntentClassifier()
         self.entities = EntityExtractor()
         self.sessions = SessionStore()
@@ -101,18 +122,62 @@ class NLUEngine:
             )
 
     def handle(self, session_id: str, text: str) -> NLUResult:
-        session = self.sessions.get(session_id)
-        text = text.strip()
+        t0 = time.perf_counter()
+        session = self.sessions.get(session_id)  # resets a long-idle session
+        now = self.sessions.now()
+        session.expire_contexts(now)             # drop TTL-expired dialogue state
+        # Bound input length before any inference: very long ASR output or
+        # adversarial input should not drive tokenizer/regex work unbounded.
+        text = text.strip()[:500]
+
         confirm = self._active_confirmation(session)
         if confirm:
-            return self._handle_confirmation(session, confirm, text)
-        if session.pending_intent:
-            return self._handle_slot_filling(session, text)
-        # Pre-pass: resolve back/again references before hitting the classifier
-        shortcut = self._try_back_reference(session, text)
-        if shortcut:
-            return shortcut
-        return self._handle_new_intent(session, text)
+            result = self._handle_confirmation(session, confirm, text, now)
+            entry_stage = "confirm"
+        elif session.pending_intent:
+            result = self._handle_slot_filling(session, text, now)
+            entry_stage = "slot_fill"
+        else:
+            shortcut = self._try_back_reference(session, text)
+            if shortcut:
+                result, entry_stage = shortcut, "back_reference"
+            else:
+                result = self._handle_new_intent(session, text, now)
+                entry_stage = None  # resolved from the classifier/result below
+
+        self._log_decision(session_id, text, result, entry_stage,
+                           (time.perf_counter() - t0) * 1000.0)
+        return result
+
+    def _log_decision(self, session_id, text, result, entry_stage, latency_ms):
+        """Emit one structured telemetry record per turn (no raw text by default)."""
+        if entry_stage == "slot_fill" and result.interrupted_intent:
+            stage = "interrupt"
+        elif entry_stage == "slot_fill" and result.type == "FALLBACK":
+            stage = "slot_abandon"
+        elif entry_stage is not None:
+            stage = entry_stage
+        elif result.semantic_rescue:
+            stage = "semantic"
+        elif result.type == "FALLBACK" and result.intent == "GENAI":
+            stage = "genai"
+        else:
+            stage = getattr(self.classifier, "last_stage", "tfidf")
+
+        record = {
+            "session_id": session_id,
+            "stage": stage,
+            "type": result.type,
+            "intent": result.intent,
+            "confidence": round(result.confidence, 4),
+            "semantic_rescue": result.semantic_rescue,
+            "interrupted_intent": result.interrupted_intent,
+            "text_len": len(text),
+            "latency_ms": round(latency_ms, 2),
+        }
+        if self._log_utterances:
+            record["text"] = text
+        logger.info("nlu.decision", extra={"nlu": record})
 
     def reset(self, session_id: str):
         self.sessions.reset(session_id)
@@ -124,11 +189,11 @@ class NLUEngine:
                 return (intent_name, fu)
         return None
 
-    def _handle_confirmation(self, session, confirm, text):
+    def _handle_confirmation(self, session, confirm, text, now=0.0):
         intent_name, fu = confirm
         polarity = self._yes_no(text)
         if polarity is None:
-            session.set_context(fu["context"], fu.get("lifespan", 2))
+            session.set_context(fu["context"], fu.get("lifespan", 2), now=now)
             return NLUResult(type="CONFIRM", intent=intent_name,
                              message=fu["prompt"], confidence=1.0)
         session.clear_context(fu["context"])
@@ -151,7 +216,7 @@ class NLUEngine:
         if neg and pos:     return False
         return None
 
-    def _handle_slot_filling(self, session, text):
+    def _handle_slot_filling(self, session, text, now=0.0):
         intent_name = session.pending_intent
         cfg = self.intents[intent_name]
 
@@ -164,18 +229,35 @@ class NLUEngine:
                 and self.intents.get(new_intent) is not None):
             abandoned = intent_name
             session.reset_slot_filling()
-            result = self._handle_new_intent(session, text)
+            result = self._handle_new_intent(session, text, now)
             result.interrupted_intent = abandoned
             return result
 
-        if session.awaiting_slot:
-            slot = self._slot_def(cfg, session.awaiting_slot)
+        awaiting = session.awaiting_slot
+        if awaiting:
+            slot = self._slot_def(cfg, awaiting)
             value, _, _conf = self.entities.extract(slot["entity"], text)
             if value is None and slot["entity"] in ("remind",):
                 value = text.strip()
             if value is not None:
                 session.pending_slots[slot["name"]] = value
         self._extract_all_slots(cfg, text, session.pending_slots)
+
+        # Slot-attempt accounting: if we were waiting on a specific slot and it
+        # is still unfilled after this turn, count a failed attempt. Abandon the
+        # flow gracefully once the budget is exhausted so the user is never
+        # trapped re-answering an un-parseable prompt.
+        if awaiting and awaiting not in session.pending_slots:
+            session.slot_attempts += 1
+            if session.slot_attempts >= self.MAX_SLOT_ATTEMPTS:
+                session.reset_slot_filling()
+                return NLUResult(
+                    type="FALLBACK", intent="GENAI", action="genai.fallback",
+                    confidence=0.0,
+                    message="Sorry, I'm having trouble with that. Let's try something else.")
+        elif awaiting:
+            session.slot_attempts = 0  # progress made on the awaited slot
+
         return self._advance_slots(session, intent_name, cfg)
 
     def _advance_slots(self, session, intent_name, cfg):
@@ -243,7 +325,7 @@ class NLUEngine:
                 return last
         return None
 
-    def _handle_new_intent(self, session, text):
+    def _handle_new_intent(self, session, text, now=0.0):
         session.decrement_contexts()
         intent, conf = self.classifier.classify(text)
 
@@ -265,22 +347,27 @@ class NLUEngine:
                         and sem_conf >= SEMANTIC_THRESHOLD):
                     sem_cfg = self.intents.get(sem_intent)
                     if sem_cfg is not None:
-                        result = self._fulfill_intent(session, sem_intent, sem_conf, sem_cfg, text)
+                        result = self._fulfill_intent(session, sem_intent, sem_conf, sem_cfg, text, now)
                         result.semantic_rescue    = True
                         result.tfidf_intent       = intent
                         result.tfidf_confidence   = conf
                         return result
-            return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
-                             confidence=conf, url=self.genai_url + _quote(text))
+            return self._genai_fallback(conf)
         if cfg is None:
-            return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
-                             confidence=conf, url=self.genai_url + _quote(text))
-        return self._fulfill_intent(session, intent, conf, cfg, text)
+            return self._genai_fallback(conf)
+        return self._fulfill_intent(session, intent, conf, cfg, text, now)
 
-    def _fulfill_intent(self, session, intent, conf, cfg, text):
+    @staticmethod
+    def _genai_fallback(conf: float) -> "NLUResult":
+        # No URL, no text: the result carries only the routing decision. The
+        # app holds the utterance and builds the GenAI request itself.
+        return NLUResult(type="FALLBACK", intent="GENAI",
+                         action="genai.fallback", confidence=conf)
+
+    def _fulfill_intent(self, session, intent, conf, cfg, text, now=0.0):
         if cfg.get("followup"):
             fu = cfg["followup"]
-            session.set_context(fu["context"], fu.get("lifespan", 2))
+            session.set_context(fu["context"], fu.get("lifespan", 2), now=now)
             return NLUResult(type="CONFIRM", intent=intent, action=cfg.get("action"),
                              message=fu["prompt"], confidence=conf)
         if cfg["slots"]:
@@ -336,8 +423,3 @@ class NLUEngine:
     @staticmethod
     def _slot_def(cfg, name):
         return next(s for s in cfg["slots"] if s["name"] == name)
-
-
-def _quote(text: str) -> str:
-    import urllib.parse
-    return urllib.parse.quote(text)

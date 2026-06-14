@@ -13,12 +13,20 @@ from typing import Optional
 BASE_DIR = Path(__file__).parent.parent.parent
 MANIFEST_PATH = BASE_DIR / "models" / "manifest.json"
 
-# Artifacts that must stay in sync with each other.
+# Artifacts that must stay in sync with each other. Covers BOTH the TF-IDF
+# stage and the MiniLM semantic stage — a corrupted or swapped semantic model
+# is as dangerous as a corrupted intent model and must be caught at startup.
 TRACKED_FILES = [
+    # Stage 2 — TF-IDF + LogReg
     "models/intent_model.onnx",
     "models/intent_labels.json",
     "models/intent_labels.pkl",
     "models/intent_pipeline.pkl",
+    # Stage 3 — MiniLM semantic rescue
+    "models/minilm-l6-v2.onnx",
+    "models/minilm-vocab.txt",
+    "models/semantic_head.json",
+    "models/semantic_head.npz",
 ]
 
 

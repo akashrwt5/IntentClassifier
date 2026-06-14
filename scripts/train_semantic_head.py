@@ -173,6 +173,11 @@ def main():
     print(f"✅ iOS JSON:   {HEAD_JSON}  ({HEAD_JSON.stat().st_size/1024:.0f} KB)")
     print(f"\nThe {4.6:.1f} MB semantic_index.npz is no longer needed at runtime.")
 
+    # Re-sign the bundle so the new semantic artifacts pass the startup
+    # integrity check (the head files are tracked in the manifest).
+    from nlu.manifest import generate_manifest
+    generate_manifest(BASE_DIR)
+
 
 if __name__ == "__main__":
     main()

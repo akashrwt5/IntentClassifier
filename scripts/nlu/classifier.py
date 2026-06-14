@@ -20,6 +20,26 @@ LABELS_PATH = BASE_DIR / "models" / "intent_labels.pkl"
 SCHEMA_PATH = BASE_DIR / "data"   / "nlu_schema.json"
 
 
+# Honest, match-type-calibrated confidences for keyword hits. A keyword match
+# is evidence, not certainty: a full-string exact match is near-certain, a bare
+# substring is the weakest signal. Returning a calibrated value (instead of a
+# blanket 1.0) keeps the keyword stage from always out-ranking a genuine
+# mid-slot interrupt and stops a weak substring hit from masquerading as
+# maximum confidence downstream.
+KEYWORD_CONFIDENCE = {
+    "exact": 0.97,
+    "contains": 0.85,
+    "regex_guarded": 0.90,   # regex with a not_regex exclusion
+    "regex": 0.75,           # bare regex, the broadest pattern
+}
+
+# Negation cues that flip the meaning of a `contains` substring hit. "I don't
+# want to translate this" should not fire Cmd.TranslationStart. We only guard
+# `contains` rules; `exact`/`regex` authors express negation explicitly.
+_NEGATIONS = ("not", "don't", "dont", "do not", "never", "without",
+              "no need to", "stop", "cancel")
+
+
 def _compile_keyword_rules(schema: dict) -> list:
     """
     Build a list of compiled rule dicts from schema["keyword_triggers"].
@@ -46,6 +66,18 @@ def _compile_keyword_rules(schema: dict) -> list:
     return rules
 
 
+def _is_negated(text: str, term: str) -> bool:
+    """True if `term` appears negated in `text` (a negation cue precedes it)."""
+    idx = text.find(term)
+    if idx < 0:
+        return False
+    prefix = text[:idx]
+    # Look only at the short window before the term so an unrelated earlier
+    # "not" doesn't suppress a genuine later command.
+    window = prefix[-30:]
+    return any(neg in window for neg in _NEGATIONS)
+
+
 class IntentClassifier:
     def __init__(self,
                  model_path:  Path = MODEL_PATH,
@@ -62,23 +94,30 @@ class IntentClassifier:
         self.inp = self.session.get_inputs()[0]
         self.input_name = self.inp.name
         self.labels = joblib.load(str(labels_path))
+        self.last_stage = None   # "keyword" | "tfidf" — set on each classify()
 
     def _keyword_match(self, text: str):
-        """Return intent name if a declarative keyword rule fires, else None."""
+        """
+        Return (intent, confidence) if a declarative keyword rule fires, else
+        (None, 0.0). Confidence is calibrated by match type (see
+        KEYWORD_CONFIDENCE); `contains` hits are suppressed when negated.
+        """
         t = text.lower().strip()
         for rule in self._kw_rules:
             kind = rule.get("type")
             if kind == "contains":
-                if any(term in t for term in rule["terms"]):
-                    return rule["intent"]
+                hit = next((term for term in rule["terms"] if term in t), None)
+                if hit and not _is_negated(t, hit):
+                    return rule["intent"], KEYWORD_CONFIDENCE["contains"]
             elif kind == "exact":
                 if t in rule["terms"]:
-                    return rule["intent"]
+                    return rule["intent"], KEYWORD_CONFIDENCE["exact"]
             elif kind == "regex":
                 if rule["pattern"].search(t):
                     if rule["not_pattern"] is None or not rule["not_pattern"].search(t):
-                        return rule["intent"]
-        return None
+                        tier = "regex" if rule["not_pattern"] is None else "regex_guarded"
+                        return rule["intent"], KEYWORD_CONFIDENCE[tier]
+        return None, 0.0
 
     def _format(self, text: str):
         t = text.lower().strip()
@@ -87,10 +126,12 @@ class IntentClassifier:
                 else np.array([t], dtype=object))
 
     def classify(self, text: str):
-        kw = self._keyword_match(text)
-        if kw:
-            return kw, 1.0
+        kw_intent, kw_conf = self._keyword_match(text)
+        if kw_intent:
+            self.last_stage = "keyword"
+            return kw_intent, kw_conf
 
+        self.last_stage = "tfidf"
         outputs = self.session.run(None, {self.input_name: self._format(text)})
         scores = None
         for o in outputs:
