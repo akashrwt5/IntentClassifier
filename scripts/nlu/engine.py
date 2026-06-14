@@ -44,10 +44,11 @@ class NLUResult:
 
 
 class NLUEngine:
-    # Interruption requires stronger signal than normal classification to avoid
-    # abandoning a slot flow on an ambiguous utterance like "take medication"
-    # which could be a slot answer or a new reminder intent.
-    INTERRUPT_THRESHOLD = 0.85
+    # Interruption requires stronger signal than the base 0.70 threshold to avoid
+    # abandoning a slot flow on an ambiguous utterance like "take medication".
+    # Lowered from 0.85 → 0.75 after isotonic calibration: calibrated probabilities
+    # are more moderate so 0.85 was unreachable for genuine switch-intent signals.
+    INTERRUPT_THRESHOLD = 0.75
 
     def __init__(self, schema_path: Path = SCHEMA_PATH):
         self.schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))

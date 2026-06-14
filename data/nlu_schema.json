@@ -27,6 +27,22 @@
       "intent": "Cmd.SendMessage",
       "regex": "\\bsend\\b.{0,30}\\bmessage\\b",
       "not_regex": "^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\\s+send|send\\s+it|send\\s+now)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(increase|raise|turn up)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(up|higher|louder)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeDecrease",
+      "regex": "\\b(decrease|lower|reduce|turn down)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(down|lower|quieter)\\b"
+    },
+    {
+      "intent": "Cmd.FindMyPhone",
+      "exact": ["find my phone", "where is my phone", "locate my phone", "find phone"]
+    },
+    {
+      "intent": "reminders.add",
+      "regex": "\\b(set|create|add|make)\\b.{0,20}\\breminder\\b"
     }
   ],
   "intents": {
