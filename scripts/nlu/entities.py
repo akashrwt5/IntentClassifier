@@ -262,6 +262,7 @@ class EntityExtractor:
                 minute = 60 - mins_to; span = m.group()
 
         # Standard "9am", "9 am", "9:30pm"
+        explicit_ampm = False
         if hour is None:
             tm = re.search(r"\b(\d{1,2})(?::(\d{2}))?\s*([ap])\.?\s*m\.?\b", t)
             if tm:
@@ -270,6 +271,7 @@ class EntityExtractor:
                 hour = raw_h % 12 + (12 if period_char == "p" else 0)
                 minute = int(tm.group(2) or 0)
                 span = tm.group()
+                explicit_ampm = True  # hour is already 0-23; skip _pick_future_hour
 
         # "9:30" with colon, no am/pm
         if hour is None:
@@ -314,7 +316,7 @@ class EntityExtractor:
         # --- 7. Build datetime ---
         if hour is not None:
             minute = minute or 0
-            if 1 <= hour <= 12 and period not in ("am",):
+            if 1 <= hour <= 12 and not explicit_ampm and period not in ("am",):
                 # Need disambiguation — use period hint
                 p = period if period in ("am","pm","morning","afternoon","evening","night") else period
                 dt = self._pick_future_hour(hour, minute, base_day, now, p)

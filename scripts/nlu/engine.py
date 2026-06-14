@@ -24,6 +24,7 @@ from .context import SessionStore
 
 BASE_DIR = Path(__file__).parent.parent.parent
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
+LABELS_JSON_PATH = BASE_DIR / "models" / "intent_labels.json"
 
 
 @dataclass
@@ -39,7 +40,7 @@ class NLUResult:
     interrupted_intent: Optional[str] = None  # set when a slot-filling flow was abandoned
 
     def to_dict(self):
-        return {k: v for k, v in asdict(self).items() if v not in (None, {}, "")}
+        return {k: v for k, v in asdict(self).items() if v is not None and v != {} and v != ""}
 
 
 class NLUEngine:
@@ -58,6 +59,26 @@ class NLUEngine:
         self.classifier = IntentClassifier()
         self.entities = EntityExtractor()
         self.sessions = SessionStore()
+        self._assert_label_schema_parity()
+
+    def _assert_label_schema_parity(self):
+        """Fail loudly at startup if trained labels and schema intents diverge."""
+        labels_path = LABELS_JSON_PATH
+        if not labels_path.exists():
+            return  # model not yet trained; skip during development
+        labels = set(json.loads(labels_path.read_text(encoding="utf-8")))
+        schema_intents = set(self.intents.keys())
+        only_in_model = labels - schema_intents
+        only_in_schema = schema_intents - labels
+        # Default Fallback Intent is allowed to be schema-only (it's a catch-all)
+        only_in_schema.discard("Default Fallback Intent")
+        if only_in_model or only_in_schema:
+            raise RuntimeError(
+                f"Label/schema mismatch detected.\n"
+                f"  In model but not schema: {sorted(only_in_model)}\n"
+                f"  In schema but not model: {sorted(only_in_schema)}\n"
+                f"Re-run `python scripts/train.py` and update nlu_schema.json to match."
+            )
 
     def handle(self, session_id: str, text: str) -> NLUResult:
         session = self.sessions.get(session_id)
@@ -152,55 +173,54 @@ class NLUEngine:
                          parameters=params, message=cfg.get("fulfillment", ""),
                          confidence=1.0, complete=True)
 
-    # Back-reference phrases that signal the user wants to reuse or undo
-    # something from a prior turn rather than provide a new value.
-    _BACK_REF = re.compile(
-        r"\b(back|previous|before|last|undo|revert|the\s+old\s+one|as\s+before)\b",
-        re.I
-    )
-    _AGAIN_REF = re.compile(
-        r"\b(again|same\s+(reminder|one|thing)|repeat|another\s+one)\b", re.I
-    )
-
     def _try_back_reference(self, session, text: str) -> Optional["NLUResult"]:
-        """Pre-pass: resolve back/again phrases from session state without hitting the classifier."""
+        """Pre-pass: resolve back/again phrases using declarative schema back_reference entries."""
         t = text.lower()
-        if self._BACK_REF.search(t):
-            cfg = self.intents["Cmd.MemoryChange"]
-            if session.prev_memory:
-                params = {"MemoryName": session.prev_memory}
-                session.record_fulfillment("Cmd.MemoryChange", params)
-                return NLUResult(type="FULFILL", intent="Cmd.MemoryChange",
-                                 action=cfg.get("action"), parameters=params,
-                                 message=cfg.get("fulfillment", ""),
-                                 confidence=1.0, complete=True)
-            # No prev_memory — start slot filling so user is prompted
-            session.pending_intent = "Cmd.MemoryChange"
-            session.pending_slots = {}
-            session.awaiting_slot = None
-            return self._advance_slots(session, "Cmd.MemoryChange", cfg)
-        if self._AGAIN_REF.search(t):
-            last = session.get_last_params("reminders.add")
-            if last:
-                cfg = self.intents["reminders.add"]
-                session.record_fulfillment("reminders.add", last)
-                return NLUResult(type="FULFILL", intent="reminders.add",
-                                 action=cfg.get("action"), parameters=last,
-                                 message=cfg.get("fulfillment", ""),
-                                 confidence=1.0, complete=True)
+        for intent_name, cfg in self.intents.items():
+            br = cfg.get("back_reference")
+            if not br:
+                continue
+            if not re.search(br["pattern"], t, re.I):
+                continue
+            source = br.get("source")
+            if source == "prev_memory":
+                if session.prev_memory:
+                    params = {br["slot"]: session.prev_memory}
+                    session.record_fulfillment(intent_name, params)
+                    return NLUResult(type="FULFILL", intent=intent_name,
+                                     action=cfg.get("action"), parameters=params,
+                                     message=cfg.get("fulfillment", ""),
+                                     confidence=1.0, complete=True)
+                # No prev value — fall through to slot-filling
+                session.pending_intent = intent_name
+                session.pending_slots = {}
+                session.awaiting_slot = None
+                return self._advance_slots(session, intent_name, cfg)
+            if source == "last_fulfilled":
+                last = session.get_last_params(intent_name)
+                if last:
+                    session.record_fulfillment(intent_name, last)
+                    return NLUResult(type="FULFILL", intent=intent_name,
+                                     action=cfg.get("action"), parameters=last,
+                                     message=cfg.get("fulfillment", ""),
+                                     confidence=1.0, complete=True)
         return None
 
     def _resolve_back_reference(self, session, intent: str, text: str) -> Optional[dict]:
-        """Return pre-filled slots if the utterance is a back/again reference."""
-        t = text.lower()
-        if intent == "Cmd.MemoryChange":
-            if self._BACK_REF.search(t) and session.prev_memory:
-                return {"MemoryName": session.prev_memory}
-        if intent == "reminders.add":
-            if self._AGAIN_REF.search(t):
-                last = session.get_last_params("reminders.add")
-                if last:
-                    return last
+        """Return pre-filled slots if the utterance matches the intent's back_reference pattern."""
+        cfg = self.intents.get(intent, {})
+        br = cfg.get("back_reference")
+        if not br:
+            return None
+        if not re.search(br["pattern"], text.lower(), re.I):
+            return None
+        source = br.get("source")
+        if source == "prev_memory" and session.prev_memory:
+            return {br["slot"]: session.prev_memory}
+        if source == "last_fulfilled":
+            last = session.get_last_params(intent)
+            if last:
+                return last
         return None
 
     def _handle_new_intent(self, session, text):

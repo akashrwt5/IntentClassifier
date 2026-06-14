@@ -12,7 +12,8 @@
         {"name": "MemoryName", "entity": "memory", "required": true, "prompt": "What is the name of the memory?"}
       ],
       "fulfillment": "Memory changed.",
-      "action": "memory.change"
+      "action": "memory.change",
+      "back_reference": {"pattern": "back|previous|before|last|undo|revert|the old one|as before", "slot": "MemoryName", "source": "prev_memory"}
     },
     "reminders.add": {
       "slots": [
@@ -21,7 +22,8 @@
         {"name": "date-time",  "entity": "sys.date-time","required": true,  "prompt": "When should I remind you? You can say things like '9am', 'tomorrow at 3', or 'in 10 minutes'."}
       ],
       "fulfillment": "Reminder created.",
-      "action": "reminders.add"
+      "action": "reminders.add",
+      "back_reference": {"pattern": "again|same reminder|same one|same thing|repeat|another one", "source": "last_fulfilled"}
     },
     "reminders.complete":   {"slots": [], "action": "reminders.complete",   "fulfillment": "Reminder marked as complete."},
     "Cmd.SendMessage":      {"slots": [], "action": "message.compose",      "fulfillment": "Ready to record your message."},

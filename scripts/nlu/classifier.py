@@ -11,6 +11,8 @@ import joblib
 import onnxruntime as ort
 from pathlib import Path
 
+from .manifest import verify_manifest
+
 BASE_DIR = Path(__file__).parent.parent.parent
 MODEL_PATH = BASE_DIR / "models" / "intent_model.onnx"
 LABELS_PATH = BASE_DIR / "models" / "intent_labels.pkl"
@@ -36,6 +38,7 @@ class IntentClassifier:
             raise FileNotFoundError(
                 f"Model not found: {model_path}. Run `python scripts/train.py` first."
             )
+        verify_manifest(BASE_DIR)
         self.session = ort.InferenceSession(str(model_path))
         self.inp = self.session.get_inputs()[0]
         self.input_name = self.inp.name
