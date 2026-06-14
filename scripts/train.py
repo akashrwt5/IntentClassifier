@@ -53,7 +53,12 @@ print(data["intent"].value_counts().to_string())
 if HOLDOUT_PATH.exists():
     holdout_raw = pd.read_csv(HOLDOUT_PATH, encoding="utf-8-sig", header=0)
     holdout_raw.columns = [c.strip().lower() for c in holdout_raw.columns]
-    holdout_texts = set(holdout_raw["text"].astype(str).str.lower().str.strip())
+    # Accept any common text-column name
+    _text_col = next((c for c in holdout_raw.columns if c in ("text", "utterance", "query", "sentence", "phrase")), None)
+    if _text_col is None:
+        _text_col = holdout_raw.columns[0]
+        print(f"  [holdout] no standard text column found, using first column: '{_text_col}'")
+    holdout_texts = set(holdout_raw[_text_col].astype(str).str.lower().str.strip())
     leaked = set(data["text"]) & holdout_texts
     if leaked:
         raise RuntimeError(
@@ -121,10 +126,12 @@ print(confusion_matrix(y_test, y_pred, labels=labels))
 if HOLDOUT_PATH.exists():
     hdf = pd.read_csv(HOLDOUT_PATH, encoding="utf-8-sig", header=0)
     hdf.columns = [c.strip().lower() for c in hdf.columns]
-    hdf["text"] = hdf["text"].astype(str).str.lower().str.strip()
-    hdf = hdf.dropna(subset=["text", "intent"])
-    h_pred = pipeline.predict(hdf["text"])
-    h_acc = np.mean(h_pred == hdf["intent"].str.strip())
+    _htext = next((c for c in hdf.columns if c in ("text", "utterance", "query", "sentence", "phrase")), hdf.columns[0])
+    _hint  = next((c for c in hdf.columns if c in ("intent", "label", "class")), hdf.columns[1])
+    hdf[_htext] = hdf[_htext].astype(str).str.lower().str.strip()
+    hdf = hdf.dropna(subset=[_htext, _hint])
+    h_pred = pipeline.predict(hdf[_htext])
+    h_acc = np.mean(h_pred == hdf[_hint].str.strip())
     print(f"\n*** HOLDOUT accuracy (never trained): {h_acc:.2f} ({int(h_acc*len(hdf))}/{len(hdf)}) ***")
 
 # ---------- 9. Retrain on ALL data for final export ----------
