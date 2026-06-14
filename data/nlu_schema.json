@@ -38,7 +38,27 @@
     },
     {
       "intent": "Cmd.VolumeIncrease",
-      "regex": "\\b(sounds?|volume|audio|its?|everything|speech|voices?)\\b.{0,12}\\b(quiet|low|soft|faint)\\b"
+      "regex": "\\b(sounds?|volume|audio|its?|everything|speech|voices?)\\b.{0,12}\\b(quiet|low|soft|faint|dull|muffled|unclear)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(miss|missing|can.?t (catch|hear))\\b.{0,20}\\b(words?|speech|conversations?|voices?)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\bsound(s)? like whispers?\\b|\\bwhispers?\\b.{0,20}\\b(voices?|sounds?|them|talking)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\bnothing\\b.{0,20}\\bcoming through\\b|\\b(slipping|passing)\\b.{0,15}\\bpast me\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(asking|ask)\\b.{0,20}\\brepeat (themselves|himself|herself|yourself)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(sound|seems?|feels?)\\b.{0,15}\\b(so |too )?(far away|distant|muffled)\\b|\\bfar away\\b.{0,20}\\b(talk|speak|when)\\b"
     },
     {
       "intent": "Cmd.VolumeDecrease",
@@ -75,6 +95,19 @@
     {
       "intent": "Cmd.StreamingStart",
       "regex": "\\bpatch\\b.{0,15}\\b(sound|audio)\\b.{0,10}\\bthrough\\b|\\bstream\\b.{0,15}\\b(from|phone|tv|device)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\\b.{0,10}\\bmode\\b",
+      "not_regex": "\\b(what is|tell me about|help with|explain|how does|what does|about)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(load|restore|apply|use)\\b.{0,20}\\b(my )?(usual|default|normal|saved|last|previous)\\b.{0,15}\\b(config|configuration|setting|program|profile|memory)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(swap|switch|change|flip)\\b.{0,15}\\b(to the |to my )?(program|memory|setting|mode|profile)\\b.{0,20}\\bfor\\b"
     },
     {
       "intent": "Help_Home",
