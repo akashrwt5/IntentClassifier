@@ -71,8 +71,8 @@ if HOLDOUT_PATH.exists():
 # ---------- 1c. Cap over-represented intents (deterministic keep-last) ----------
 MAX_PER_INTENT = 500
 data = (
-    data.groupby("intent", group_keys=False)
-        .apply(lambda g: g.tail(MAX_PER_INTENT))  # keep newest rows when over cap
+    data.groupby("intent")
+        .tail(MAX_PER_INTENT)          # keep newest rows when over cap; preserves all columns
         .sample(frac=1, random_state=42)
         .reset_index(drop=True)
 )
