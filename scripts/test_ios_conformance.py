@@ -139,11 +139,14 @@ def _onnx_predict(text: str, session: ort.InferenceSession, labels: list) -> tup
 # Main
 # ---------------------------------------------------------------------------
 
+CONF_THRESHOLD = 0.70   # mirrors nlu_schema.json confidence_threshold
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--verbose", "-v", action="store_true")
-    parser.add_argument("--tolerance", type=float, default=0.01,
-                        help="Max allowed probability difference on top-1 class (default 0.01)")
+    parser.add_argument("--threshold", type=float, default=CONF_THRESHOLD,
+                        help=f"Confidence threshold (default {CONF_THRESHOLD})")
     args = parser.parse_args()
 
     if not WEIGHTS_PATH.exists():
@@ -155,37 +158,64 @@ def main():
     session = ort.InferenceSession(str(MODEL_PATH))
     labels  = joblib.load(str(LABELS_PATH))
 
-    failures = []
+    # Two failure modes, in order of severity:
+    #   1. INTENT MISMATCH   — paths predict different intents (always a bug)
+    #   2. THRESHOLD DISAGREE — one path fires above threshold while the other doesn't
+    #      (user sees an action on one platform but a fallback on the other)
+    # Probability distance alone is NOT a failure criterion because the ONNX path
+    # uses isotonic-calibrated probabilities while the iOS path uses raw LR scores.
+
+    intent_failures    = []
+    threshold_failures = []
+
     for utt in TEST_UTTERANCES:
         ios_intent,  ios_prob  = _ios_predict(utt, weights)
         onnx_intent, onnx_prob = _onnx_predict(utt, session, labels)
 
-        intent_match = ios_intent == onnx_intent
-        prob_diff    = abs(ios_prob - onnx_prob)
-        ok = intent_match and prob_diff <= args.tolerance
+        intent_match      = ios_intent == onnx_intent
+        onnx_fires        = onnx_prob >= args.threshold
+        ios_fires         = ios_prob  >= args.threshold
+        threshold_agree   = onnx_fires == ios_fires
 
-        if args.verbose or not ok:
-            status = "✅" if ok else "❌"
-            print(f"{status} {utt!r}")
-            print(f"    ONNX: {onnx_intent} ({onnx_prob:.4f})")
-            print(f"    iOS:  {ios_intent}  ({ios_prob:.4f})")
-            if not intent_match:
-                print("    ↑ INTENT MISMATCH")
-            elif prob_diff > args.tolerance:
-                print(f"    ↑ PROB DIFF {prob_diff:.4f} > tolerance {args.tolerance}")
+        intent_fail    = not intent_match
+        threshold_fail = intent_match and not threshold_agree
 
-        if not ok:
-            failures.append(utt)
+        if args.verbose or intent_fail or threshold_fail:
+            if intent_fail:
+                tag = "❌ INTENT"
+            elif threshold_fail:
+                tag = "⚠️  THRESH"
+            else:
+                tag = "✅"
+            print(f"{tag}  {utt!r}")
+            print(f"    ONNX: {onnx_intent} ({onnx_prob:.4f}, {'FIRE' if onnx_fires else 'REJECT'})")
+            print(f"    iOS:  {ios_intent}  ({ios_prob:.4f}, {'FIRE' if ios_fires else 'REJECT'})")
 
+        if intent_fail:
+            intent_failures.append(utt)
+        elif threshold_fail:
+            threshold_failures.append(utt)
+
+    total = len(TEST_UTTERANCES)
+    clean = total - len(intent_failures) - len(threshold_failures)
     print(f"\n{'='*50}")
-    print(f"Conformance: {len(TEST_UTTERANCES) - len(failures)}/{len(TEST_UTTERANCES)} passed")
-    if failures:
-        print(f"FAILED ({len(failures)}):")
-        for f in failures:
-            print(f"  - {f!r}")
+    print(f"Conformance: {clean}/{total} fully agree | "
+          f"{len(intent_failures)} intent mismatch | "
+          f"{len(threshold_failures)} threshold disagree")
+
+    if intent_failures:
+        print(f"\nINTENT MISMATCHES (must fix — different action fires on each platform):")
+        for f in intent_failures:
+            print(f"  ❌ {f!r}")
+    if threshold_failures:
+        print(f"\nTHRESHOLD DISAGREEMENTS (one platform fires, other falls back):")
+        for f in threshold_failures:
+            print(f"  ⚠️  {f!r}")
+
+    if intent_failures or threshold_failures:
         sys.exit(1)
     else:
-        print("All utterances agree between ONNX Runtime and iOS hand-rolled scorer.")
+        print("All utterances agree on intent and threshold behaviour.")
 
 
 if __name__ == "__main__":
