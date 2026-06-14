@@ -2,6 +2,33 @@
   "version": 2,
   "confidence_threshold": 0.7,
   "slot_confidence_threshold": 0.60,
+  "keyword_triggers": [
+    {
+      "intent": "Cmd.TranslationStart",
+      "contains": ["translate"]
+    },
+    {
+      "intent": "Cmd.TranscribeStart",
+      "contains": ["transcribe", "transcription"]
+    },
+    {
+      "intent": "Cmd.VolumeMute",
+      "exact": ["mute", "silence"]
+    },
+    {
+      "intent": "Cmd.VolumeUnmute",
+      "exact": ["unmute"]
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "exact": ["push to talk", "ptt"]
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "regex": "\\bsend\\b.{0,30}\\bmessage\\b",
+      "not_regex": "^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\\s+send|send\\s+it|send\\s+now)\\b"
+    }
+  ],
   "intents": {
     "Cmd.VolumeIncrease":   {"slots": [], "action": "volume.increase",      "fulfillment": "Volume increased."},
     "Cmd.VolumeDecrease":   {"slots": [], "action": "volume.decrease",      "fulfillment": "Volume decreased."},
