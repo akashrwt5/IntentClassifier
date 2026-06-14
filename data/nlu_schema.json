@@ -30,11 +30,11 @@
     },
     {
       "intent": "Cmd.VolumeIncrease",
-      "regex": "\\b(increase|raise|turn up)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(up|higher|louder)\\b"
+      "regex": "\\b(increase|raise|turn up)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(up|higher|louder)\\b|\\bturn it up\\b|\\bturn up\\b|\\bvolume up\\b"
     },
     {
       "intent": "Cmd.VolumeDecrease",
-      "regex": "\\b(decrease|lower|reduce|turn down)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(down|lower|quieter)\\b"
+      "regex": "\\b(decrease|lower|reduce|turn down)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(down|lower|quieter)\\b|\\bturn it down\\b|\\bturn down\\b|\\bvolume down\\b"
     },
     {
       "intent": "Cmd.FindMyPhone",
