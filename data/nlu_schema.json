@@ -30,7 +30,15 @@
     },
     {
       "intent": "Cmd.VolumeIncrease",
-      "regex": "\\b(increase|raise|turn up)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(up|higher|louder)\\b|\\bturn it up\\b|\\bturn up\\b|\\bvolume up\\b"
+      "regex": "\\b(increase|raise|turn up)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(up|higher|louder)\\b|\\bturn it up\\b|\\bturn up\\b|\\bvolume up\\b|\\bamplify\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(too|so|very|really)\\s+(quiet|low|soft|faint)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(sounds?|volume|audio|its?|everything|speech|voices?)\\b.{0,12}\\b(quiet|low|soft|faint)\\b"
     },
     {
       "intent": "Cmd.VolumeDecrease",

@@ -26,6 +26,11 @@ BASE_DIR = Path(__file__).parent.parent.parent
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 LABELS_JSON_PATH = BASE_DIR / "models" / "intent_labels.json"
 
+# Minimum head probability for a semantic rescue. Chosen from the measured
+# rejection curve on semantic_holdout_100.csv: keeps 95.5% of in-scope
+# predictions while rejecting out-of-scope inputs.
+SEMANTIC_THRESHOLD = 0.55
+
 
 @dataclass
 class NLUResult:
@@ -37,7 +42,10 @@ class NLUResult:
     confidence: float = 0.0
     complete: bool = False
     url: Optional[str] = None
-    interrupted_intent: Optional[str] = None  # set when a slot-filling flow was abandoned
+    interrupted_intent: Optional[str] = None
+    semantic_rescue: bool = False         # True when MiniLM rescued a TF-IDF miss
+    tfidf_intent: Optional[str] = None   # what TF-IDF predicted before semantic overruled
+    tfidf_confidence: float = 0.0        # TF-IDF confidence before semantic overruled
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if v is not None and v != {} and v != ""}
@@ -60,7 +68,18 @@ class NLUEngine:
         self.classifier = IntentClassifier()
         self.entities = EntityExtractor()
         self.sessions = SessionStore()
+        self.semantic = self._load_semantic()
         self._assert_label_schema_parity()
+
+    @staticmethod
+    def _load_semantic():
+        try:
+            from .semantic import SemanticFallback
+            return SemanticFallback()
+        except FileNotFoundError:
+            return None
+        except Exception:
+            return None
 
     def _assert_label_schema_parity(self):
         """Fail loudly at startup if trained labels and schema intents diverge."""
@@ -239,11 +258,26 @@ class NLUEngine:
         ) if has_slots else self.threshold
 
         if intent == "Default Fallback Intent" or conf < effective_threshold:
+            # Stage 3: semantic rescue via MiniLM when TF-IDF is uncertain
+            if self.semantic is not None:
+                sem_intent, sem_conf = self.semantic.classify(text)
+                if (sem_intent != "Default Fallback Intent"
+                        and sem_conf >= SEMANTIC_THRESHOLD):
+                    sem_cfg = self.intents.get(sem_intent)
+                    if sem_cfg is not None:
+                        result = self._fulfill_intent(session, sem_intent, sem_conf, sem_cfg, text)
+                        result.semantic_rescue    = True
+                        result.tfidf_intent       = intent
+                        result.tfidf_confidence   = conf
+                        return result
             return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
                              confidence=conf, url=self.genai_url + _quote(text))
         if cfg is None:
             return NLUResult(type="FALLBACK", intent="GENAI", action="genai.fallback",
                              confidence=conf, url=self.genai_url + _quote(text))
+        return self._fulfill_intent(session, intent, conf, cfg, text)
+
+    def _fulfill_intent(self, session, intent, conf, cfg, text):
         if cfg.get("followup"):
             fu = cfg["followup"]
             session.set_context(fu["context"], fu.get("lifespan", 2))
