@@ -129,7 +129,7 @@ def main():
     X_tr, X_te, y_tr, y_te = train_test_split(
         X, y, test_size=0.15, stratify=y, random_state=42
     )
-    clf = LogisticRegression(max_iter=2000, C=10.0)
+    clf = LogisticRegression(max_iter=2000, C=10.0, class_weight="balanced")
     clf.fit(X_tr, y_tr)
 
     acc = accuracy_score(y_te, clf.predict(X_te))
@@ -152,7 +152,7 @@ def main():
 
     # ── Final model on 100% of in-scope data ──
     print("\nRetraining on full in-scope dataset...")
-    clf = LogisticRegression(max_iter=2000, C=10.0)
+    clf = LogisticRegression(max_iter=2000, C=10.0, class_weight="balanced")
     clf.fit(X, y)
 
     np.savez_compressed(
