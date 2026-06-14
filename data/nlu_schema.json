@@ -51,6 +51,34 @@
     {
       "intent": "reminders.add",
       "regex": "\\b(set|create|add|make)\\b.{0,20}\\breminder\\b"
+    },
+    {
+      "intent": "reminders.add",
+      "regex": "\\bnudge me\\b|\\bslip my mind\\b|\\bjot this down\\b|\\bnote this down\\b|\\bdon'?t (let me )?forget\\b"
+    },
+    {
+      "intent": "Cmd.VolumeDecrease",
+      "regex": "\\b(too|way|so|very|really)\\s+(hot|loud|bright|much)\\b|\\bcoming in (way )?too (hot|loud)\\b|\\btake the edge off\\b"
+    },
+    {
+      "intent": "Cmd.BatteryLevel",
+      "regex": "\\b(power|battery)\\s+(reading|level|status|left|remaining)\\b|\\b(die|dying|run out|running out)\\b.{0,20}\\b(on me|battery|charge|power)\\b|\\bhow (much|long).{0,20}\\b(battery|charge|power|life)\\b"
+    },
+    {
+      "intent": "Help_FindMyHearingAids",
+      "regex": "\\bping\\b.{0,15}\\b(hearing aids?|aids?|devices?)\\b|\\b(locate|find|where).{0,20}\\b(hearing aids?|aids?|devices?)\\b|\\bcannot? (find|locate).{0,20}\\b(device|aid)\\b"
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "regex": "\\bget word to\\b|\\bping\\b.{0,20}\\b(my )?(daughter|son|wife|husband|brother|sister|mom|dad|mother|father|friend|family|partner)\\b"
+    },
+    {
+      "intent": "Cmd.StreamingStart",
+      "regex": "\\bpatch\\b.{0,15}\\b(sound|audio)\\b.{0,10}\\bthrough\\b|\\bstream\\b.{0,15}\\b(from|phone|tv|device)\\b"
+    },
+    {
+      "intent": "Help_Home",
+      "regex": "\\bwhat features\\b|\\bfeatures (are )?available\\b|\\bpoint me in the right direction\\b|\\bhow does (this|it|everything) work\\b"
     }
   ],
   "intents": {
