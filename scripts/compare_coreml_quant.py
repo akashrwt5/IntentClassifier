@@ -132,12 +132,16 @@ def _embed(model, tokenise, text):
 # ── Dataset loading ───────────────────────────────────────────────────────────
 
 def _load_csv(path, label_col=None):
-    """Read (utterance, expected) rows. expected is None for OOS files."""
+    """Read (utterance, expected) rows. expected is None for OOS files.
+
+    The text column is named "utterance" in the holdout CSV but "text" in the
+    OOS CSV — detect whichever is present.
+    """
     rows = []
     with open(path, encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for r in reader:
-            text = (r.get("utterance") or "").strip()
+            text = (r.get("utterance") or r.get("text") or "").strip()
             if not text:
                 continue
             expected = r.get(label_col, "").strip() if label_col else None
