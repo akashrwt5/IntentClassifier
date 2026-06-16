@@ -343,7 +343,8 @@ def export_minilm(ct):
     print(f"  Output : {dst}")
     print("  Converting ... (first run may take 60–120 s)")
 
-    seq = ct.RangeDim(minimum_val=1, maximum_val=64)
+    # coremltools 9.0 RangeDim uses lower_bound / upper_bound (not minimum_val).
+    seq = ct.RangeDim(lower_bound=1, upper_bound=64)
     try:
         mlmodel = ct.convert(
             str(src),
