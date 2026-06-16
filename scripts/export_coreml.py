@@ -22,7 +22,8 @@ from intent_model.onnx. Two reasons:
   1. The sklearn pipeline uses CalibratedClassifierCV(method='isotonic').
      coremltools' sklearn converter does not support isotonic calibration,
      so ct.converters.sklearn.convert(pipeline) will fail or silently drop
-     the calibration tables.
+     the calibration tables. (Confirmed: coremltools disables the sklearn
+     conversion API entirely for scikit-learn > 1.5.1.)
 
   2. The ONNX export includes a string-input TF-IDF subgraph. coremltools
      cannot convert ONNX string tensors — the export_intent_model() function
@@ -36,7 +37,7 @@ iOS side: Swift runs tfidfVector() as before, producing a float[n_features]
 L2-normalised vector. That vector is the input to IntentClassifier.mlpackage.
 The CoreML model runs the linear layer + softmax and returns classProbability.
 
-── Stage 3 design note ──────────────────────────────────────────────────────
+── Stage 3 design note ───────────────────────────────────────────────────
 The MiniLM ONNX introspection runs BEFORE conversion and prints the exact
 output tensor name and shape. This is critical: SemanticEmbedder.swift assumes
 the output is 'last_hidden_state' shape [1, seq, 384] and mean-pools it.
@@ -57,7 +58,7 @@ MODELS_DIR = BASE_DIR / "models"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Dependency guards
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 def _require_coremltools():
     try:
@@ -82,9 +83,9 @@ def _require_onnxruntime():
         sys.exit(1)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 # ONNX introspection  (runs first, before any conversion)
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 def inspect_minilm_onnx(ort):
     """
@@ -144,9 +145,9 @@ def inspect_minilm_onnx(ort):
     return {"name": primary_output, "shape": primary_shape}
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 # Stage 2 — IntentClassifier.mlpackage
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 def export_intent_classifier(ct):
     """
@@ -177,7 +178,7 @@ def export_intent_classifier(ct):
     print(f"  Output : {dst}")
 
     data      = json.loads(src.read_text(encoding="utf-8"))
-    labels    = data["labels"]
+    labels    = [str(x) for x in data["labels"]]
     coef      = np.array(data["coef"],      dtype=np.float32)   # (n_classes, n_features)
     intercept = np.array(data["intercept"], dtype=np.float32)   # (n_classes,)
     n_classes, n_features = coef.shape
@@ -187,11 +188,14 @@ def export_intent_classifier(ct):
     from coremltools.models.neural_network import NeuralNetworkBuilder
     import coremltools.models.datatypes as dt
 
+    # In classifier mode the probability output feature is declared with type
+    # None; set_class_labels() (called after the layers) wires it to the dict
+    # output and adds the predicted-label string output. class_labels is NOT a
+    # constructor argument (that raises TypeError in coremltools).
     builder = NeuralNetworkBuilder(
-        input_features =[("tfidf_vector", dt.Array(n_features))],
-        output_features=[("logits",       dt.Array(n_classes))],
+        input_features =[("tfidf_vector",     dt.Array(n_features))],
+        output_features=[("classProbability", None)],
         mode="classifier",
-        class_labels=labels,
     )
     # Linear: logits = coef @ tfidf_vector + intercept
     builder.add_inner_product(
@@ -204,11 +208,15 @@ def export_intent_classifier(ct):
         input_name="tfidf_vector",
         output_name="logits",
     )
-    # Softmax → classProbability (dict output added automatically by classifier mode)
     builder.add_softmax(
         name="softmax",
         input_name="logits",
         output_name="classProbability",
+    )
+    builder.set_class_labels(
+        labels,
+        predicted_feature_name="label",
+        prediction_blob="classProbability",
     )
 
     mlmodel = ct.models.MLModel(builder.spec)
@@ -223,9 +231,9 @@ def export_intent_classifier(ct):
     _print_io(mlmodel)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 # Stage 3a — SemanticHead.mlpackage
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 def export_semantic_head(ct):
     """
@@ -253,7 +261,7 @@ def export_semantic_head(ct):
     head      = json.loads(src.read_text(encoding="utf-8"))
     weights   = np.array(head["weights"], dtype=np.float32)  # (n_classes, 384)
     bias      = np.array(head["bias"],    dtype=np.float32)  # (n_classes,)
-    labels    = head["labels"]
+    labels    = [str(x) for x in head["labels"]]
     n_classes, n_features = weights.shape
     print(f"  Classes  : {n_classes}")
     print(f"  Emb dim  : {n_features}")
@@ -262,10 +270,9 @@ def export_semantic_head(ct):
     import coremltools.models.datatypes as dt
 
     builder = NeuralNetworkBuilder(
-        input_features =[("embedding", dt.Array(n_features))],
-        output_features=[("logits",    dt.Array(n_classes))],
+        input_features =[("embedding",        dt.Array(n_features))],
+        output_features=[("classProbability", None)],
         mode="classifier",
-        class_labels=labels,
     )
     builder.add_inner_product(
         name="semantic_linear",
@@ -282,6 +289,11 @@ def export_semantic_head(ct):
         input_name="logits",
         output_name="classProbability",
     )
+    builder.set_class_labels(
+        labels,
+        predicted_feature_name="label",
+        prediction_blob="classProbability",
+    )
 
     mlmodel = ct.models.MLModel(builder.spec)
     mlmodel.short_description = "MiniLM semantic classification head"
@@ -295,9 +307,9 @@ def export_semantic_head(ct):
     _print_io(mlmodel)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 # Stage 3b — MiniLMEmbedder.mlpackage
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 def export_minilm(ct):
     """
@@ -378,9 +390,9 @@ def export_minilm(ct):
         print("  for the CoreML upgrade — Stage 3 is optional for the first ship.")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 # Validation
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 def validate_all(ct):
     """
@@ -408,7 +420,7 @@ def validate_all(ct):
     wts = MODELS_DIR / "intent_classifier_weights.json"
     if ic.exists() and wts.exists():
         print()
-        print("  IntentClassifier test inference (dummy zero vector):")
+        print("  IntentClassifier test inference (dummy one-hot vector):")
         try:
             data       = json.loads(wts.read_text())
             n_features = len(data["idf"])
@@ -416,7 +428,8 @@ def validate_all(ct):
             dummy      = np.zeros(n_features, dtype=np.float32)
             dummy[0]   = 1.0   # must be non-zero for softmax to pick a class
             out        = m.predict({"tfidf_vector": dummy})
-            top        = max(out["classProbability"], key=out["classProbability"].get)
+            probs      = out["classProbability"]
+            top        = max(probs, key=probs.get)
             print(f"    Top prediction : '{top}' (dummy input — value is meaningless)")
             print(f"    Output keys    : {list(out.keys())}")
             print("    Inference OK")
@@ -424,9 +437,9 @@ def validate_all(ct):
             print(f"    FAILED: {e}")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 # Helpers
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 def _print_io(mlmodel, indent=2):
     pad  = " " * indent
@@ -440,9 +453,9 @@ def _print_io(mlmodel, indent=2):
         pass
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 # Entry point
-# ─────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 def main():
     parser = argparse.ArgumentParser(
