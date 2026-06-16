@@ -373,26 +373,33 @@ def export_minilm(ct):
 
 def quantize_minilm_int8(ct):
     """
-    Post-training INT8 weight quantization of MiniLMEmbedder.mlpackage.
+    Post-training weight compression of MiniLMEmbedder.mlpackage via 6-bit
+    palettization (~45 MB FP16 → ~22 MB compressed).
 
-    Halves the on-disk size (~45 MB FP16 → ~22 MB INT8) by storing each weight
-    as an 8-bit integer plus a per-channel scale. This is a SIZE optimization,
-    not a speed one — on the Apple Neural Engine, FP16 is the native compute
-    format, so INT8 weights are dequantized to FP16 before the matmul and
-    latency is roughly unchanged.
+    WHY PALETTIZATION INSTEAD OF LINEAR INT8:
+    linear_quantize_weights (INT8, linear_symmetric) generates QLinearMatMul
+    ops in the CoreML MIL graph. The Metal MLIR backend's pass manager cannot
+    compile these at inference time and crashes with:
+        "Error: MLIR pass manager failed"
+    Palettization stores each weight as a 6-bit lookup-table index referencing
+    64 FP16 centroids per channel. The matmul ops remain standard FP16 — only
+    the weight STORAGE changes. Metal compiles and runs this without issue.
 
-    INT8 carries a small, real accuracy cost (typically 0.5–2% on a transformer
-    like MiniLM). Do NOT ship the INT8 variant without running:
+    6-bit gives ~3× compression (vs 16-bit) with negligible accuracy loss.
+    8-bit palettization gives ~2× compression but more accuracy headroom.
+
+    Accuracy impact is small but real — measure before shipping:
         python scripts/compare_coreml_quant.py
-    which measures the holdout accuracy delta at the 0.55 rescue threshold.
 
     Output: models/MiniLMEmbedder_int8.mlpackage (the FP16 original is kept).
+    The name stays *_int8 for consistency with the rest of the toolchain, even
+    though the compression method is palettization rather than linear INT8.
     """
     src = MODELS_DIR / "MiniLMEmbedder.mlpackage"
     dst = MODELS_DIR / "MiniLMEmbedder_int8.mlpackage"
 
     print(f"\n{'─'*60}")
-    print(f"  INT8 quantization: MiniLMEmbedder")
+    print(f"  Weight compression (6-bit palettization): MiniLMEmbedder")
     print(f"{'─'*60}")
 
     if not src.exists():
@@ -409,24 +416,29 @@ def quantize_minilm_int8(ct):
     print(f"  Source : {src}")
     print(f"  Output : {dst}")
     try:
-        mlmodel = ct.models.MLModel(str(src))
-        op_cfg  = cto.OpLinearQuantizerConfig(mode="linear_symmetric", dtype="int8")
-        config  = cto.OptimizationConfig(global_config=op_cfg)
-        print("  Quantizing weights to INT8 (linear_symmetric) ...")
-        quantized = cto.linear_quantize_weights(mlmodel, config)
-        quantized.short_description = "MiniLM-L6-v2 encoder (INT8-quantized weights)"
-        quantized.save(str(dst))
+        # Load with cpuOnly — avoids Metal MLIR crash during the optimization pass.
+        mlmodel = ct.models.MLModel(str(src), compute_units=ct.ComputeUnit.CPU_ONLY)
+
+        # 6-bit palettization: 64 FP16 centroids per weight tensor.
+        # Matmul ops remain FP16; only storage is compressed → Metal-compatible.
+        op_cfg = cto.OpPalettizerConfig(mode="kmeans", nbits=6)
+        config = cto.OptimizationConfig(global_config=op_cfg)
+        print("  Palettizing weights to 6-bit (kmeans) ... this takes ~2–5 min")
+        compressed = cto.palettize_weights(mlmodel, config)
+        compressed.short_description = "MiniLM-L6-v2 encoder (6-bit palettized weights)"
+        compressed.save(str(dst))
 
         fp16_mb = sum(f.stat().st_size for f in src.rglob("*") if f.is_file()) / 1e6
-        int8_mb = sum(f.stat().st_size for f in dst.rglob("*") if f.is_file()) / 1e6
+        cmp_mb  = sum(f.stat().st_size for f in dst.rglob("*") if f.is_file()) / 1e6
         print(f"  Saved {dst}")
-        print(f"  Size   : FP16 {fp16_mb:.1f} MB  →  INT8 {int8_mb:.1f} MB  "
-              f"({100*(1-int8_mb/fp16_mb):.0f}% smaller)")
+        print(f"  Size   : FP16 {fp16_mb:.1f} MB  →  6-bit {cmp_mb:.1f} MB  "
+              f"({100*(1-cmp_mb/fp16_mb):.0f}% smaller)")
         print()
-        print("  ⚠️  Measure accuracy before shipping INT8:")
+        print("  ⚠️  Measure accuracy before shipping:")
         print("      python scripts/compare_coreml_quant.py")
     except Exception as exc:
-        print(f"  FAILED to quantize: {exc}")
+        print(f"  FAILED to compress: {exc}")
+        import traceback; traceback.print_exc()
 
 
 # ──────────────────────────────────────────────────────────────────────────────

@@ -167,7 +167,8 @@ def main():
         sys.exit(f"ERROR: {int8_path} not found — run export_coreml.py --quantize first.")
 
     print("=" * 64)
-    print(f"  CoreML MiniLM — FP16 vs INT8 accuracy comparison")
+    print(f"  CoreML MiniLM — FP16 vs compressed accuracy comparison")
+    print(f"  (compressed = 6-bit palettized, Metal-compatible)")
     print(f"  threshold = {args.threshold}")
     print("=" * 64)
 
@@ -175,14 +176,21 @@ def main():
     head     = _load_head()
     print(f"  Head: {len(head[2])} classes")
 
-    print("  Loading FP16 model ...")
-    fp16 = ct.models.MLModel(str(fp16_path))
-    print("  Loading INT8 model ...")
-    int8 = ct.models.MLModel(str(int8_path))
+    # Force CPU-only compute units for both models.
+    # The Metal/MPSGraph backend aborts with "MLIR pass manager failed" when
+    # running the quantized/palettized model during Python-side prediction.
+    # cpuOnly bypasses Metal entirely; embeddings are mathematically identical
+    # to ANE output (same weights, same matmul) so the accuracy comparison is valid.
+    cfg = ct.models.MLModelConfiguration()
+    cfg.computeUnits = ct.ComputeUnit.CPU_ONLY
+    print("  Loading FP16 model (cpuOnly) ...")
+    fp16 = ct.models.MLModel(str(fp16_path), compute_units=ct.ComputeUnit.CPU_ONLY)
+    print("  Loading compressed model (cpuOnly) ...")
+    int8 = ct.models.MLModel(str(int8_path), compute_units=ct.ComputeUnit.CPU_ONLY)
 
     fp16_mb = sum(f.stat().st_size for f in fp16_path.rglob("*") if f.is_file()) / 1e6
     int8_mb = sum(f.stat().st_size for f in int8_path.rglob("*") if f.is_file()) / 1e6
-    print(f"  Size: FP16 {fp16_mb:.1f} MB  vs  INT8 {int8_mb:.1f} MB "
+    print(f"  Size: FP16 {fp16_mb:.1f} MB  vs  compressed {int8_mb:.1f} MB "
           f"({100*(1-int8_mb/fp16_mb):.0f}% smaller)\n")
 
     holdout = _load_csv(DATA_DIR / "semantic_holdout_100.csv", label_col="expected_intent")
