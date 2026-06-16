@@ -181,8 +181,6 @@ def main():
     # running the quantized/palettized model during Python-side prediction.
     # cpuOnly bypasses Metal entirely; embeddings are mathematically identical
     # to ANE output (same weights, same matmul) so the accuracy comparison is valid.
-    cfg = ct.models.MLModelConfiguration()
-    cfg.computeUnits = ct.ComputeUnit.CPU_ONLY
     print("  Loading FP16 model (cpuOnly) ...")
     fp16 = ct.models.MLModel(str(fp16_path), compute_units=ct.ComputeUnit.CPU_ONLY)
     print("  Loading compressed model (cpuOnly) ...")
