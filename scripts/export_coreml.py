@@ -5,7 +5,7 @@ Convert NLU model weights to CoreML (.mlpackage) for on-device iOS inference.
 This script MUST be run on macOS with coremltools installed.
 
 Usage:
-    pip install coremltools onnxruntime numpy
+    pip install coremltools onnxruntime numpy torch transformers
     python scripts/export_coreml.py              # full conversion
     python scripts/export_coreml.py --inspect-only   # inspect ONNX only, no conversion
     python scripts/export_coreml.py --skip-minilm    # skip the slow MiniLM step
@@ -26,8 +26,7 @@ from intent_model.onnx. Two reasons:
      conversion API entirely for scikit-learn > 1.5.1.)
 
   2. The ONNX export includes a string-input TF-IDF subgraph. coremltools
-     cannot convert ONNX string tensors — the export_intent_model() function
-     in the original script even documented this as a known failure mode.
+     cannot convert ONNX string tensors.
 
 The intent_classifier_weights.json was already exported from the calibrated
 model by export_ios_weights.py, so the weights ARE the calibrated values.
@@ -37,12 +36,16 @@ iOS side: Swift runs tfidfVector() as before, producing a float[n_features]
 L2-normalised vector. That vector is the input to IntentClassifier.mlpackage.
 The CoreML model runs the linear layer + softmax and returns classProbability.
 
-── Stage 3 design note ───────────────────────────────────────────────────
-The MiniLM ONNX introspection runs BEFORE conversion and prints the exact
-output tensor name and shape. This is critical: SemanticEmbedder.swift assumes
-the output is 'last_hidden_state' shape [1, seq, 384] and mean-pools it.
-If the actual output is already pooled ([1, 384]) or has a different name,
-SemanticEmbedder.swift must be updated accordingly. Check the printed output.
+── Stage 3b design note ──────────────────────────────────────────────────
+coremltools 9 REMOVED the ONNX frontend — ct.convert() only accepts
+tensorflow / pytorch / milinternal sources. Passing minilm-l6-v2.onnx fails
+with "Unable to determine the type of the model".
+
+So we convert from the original HuggingFace PyTorch model via torch.jit.trace.
+The ONNX file was exported from this same network, so the traced model gives
+the identical token-level last_hidden_state [1, seq, 384] output, and the
+Swift mean-pool logic remains correct. The minilm-l6-v2.onnx file is still
+used for introspection (confirming output shape) but not for conversion.
 """
 
 import argparse
@@ -54,6 +57,8 @@ import numpy as np
 
 BASE_DIR   = Path(__file__).parent.parent
 MODELS_DIR = BASE_DIR / "models"
+
+MINILM_HF_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -78,9 +83,9 @@ def _require_onnxruntime():
         print(f"onnxruntime  {ort.__version__}")
         return ort
     except ImportError:
-        print("ERROR: onnxruntime not installed.")
+        print("WARN: onnxruntime not installed — skipping ONNX introspection.")
         print("  pip install onnxruntime")
-        sys.exit(1)
+        return None
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -91,12 +96,9 @@ def inspect_minilm_onnx(ort):
     """
     Print MiniLM ONNX input/output specs and run a test inference.
     The output shapes here are the ground truth for SemanticEmbedder.swift.
-
-    IMPORTANT: compare the printed output name and shape against what
-    SemanticEmbedder.swift reads with:
-        output.featureValue(for: "last_hidden_state")?.multiArrayValue
-    If the name or rank differs, update the Swift file before shipping.
     """
+    if ort is None:
+        return None
     src = MODELS_DIR / "minilm-l6-v2.onnx"
     if not src.exists():
         print(f"  SKIP MiniLM introspection: {src} not found")
@@ -116,7 +118,6 @@ def inspect_minilm_onnx(ort):
     for out in sess.get_outputs():
         print(f"    {out.name:<22} shape={out.shape}  type={out.type}")
 
-    # Dummy inference with seq_len=5: [CLS] hello , world [SEP]
     ids  = np.array([[101, 7592, 1010, 2088, 102]], dtype=np.int64)
     mask = np.ones_like(ids)
     tids = np.zeros_like(ids)
@@ -132,13 +133,12 @@ def inspect_minilm_onnx(ort):
     primary_output = sess.get_outputs()[0].name
     primary_shape  = results[0].shape
     print()
-    if len(primary_shape) == 3:   # [1, seq, dim]
+    if len(primary_shape) == 3:
         print("  ✅ Output is token-level [batch, seq, dim].")
         print("     SemanticEmbedder.swift mean-pool logic is CORRECT.")
-    elif len(primary_shape) == 2:  # [1, dim]
+    elif len(primary_shape) == 2:
         print("  ⚠️  Output is already POOLED [batch, dim].")
         print("     SemanticEmbedder.swift must skip mean-pool.")
-        print("     Update meanPoolAndNormalize() to just L2-normalise the [dim] vector.")
     else:
         print(f"  ❓ Unexpected output rank {len(primary_shape)} — inspect manually.")
 
@@ -150,19 +150,7 @@ def inspect_minilm_onnx(ort):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def export_intent_classifier(ct):
-    """
-    Build IntentClassifier.mlpackage from intent_classifier_weights.json.
-
-    CoreML model contract:
-      Input:   tfidf_vector     float32[n_features]  L2-normalised TF-IDF vector
-      Output:  classProbability dict<String, Double>  per-class softmax probability
-               label            String                top-1 predicted class
-
-    iOS integration:
-      The Swift tfidfVector() function is unchanged — it still builds the
-      L2-normalised feature vector. That vector is passed to this CoreML model
-      instead of the manual logitScores() + softmax() functions.
-    """
+    """Build IntentClassifier.mlpackage from intent_classifier_weights.json."""
     src = MODELS_DIR / "intent_classifier_weights.json"
     dst = MODELS_DIR / "IntentClassifier.mlpackage"
 
@@ -179,8 +167,8 @@ def export_intent_classifier(ct):
 
     data      = json.loads(src.read_text(encoding="utf-8"))
     labels    = [str(x) for x in data["labels"]]
-    coef      = np.array(data["coef"],      dtype=np.float32)   # (n_classes, n_features)
-    intercept = np.array(data["intercept"], dtype=np.float32)   # (n_classes,)
+    coef      = np.array(data["coef"],      dtype=np.float32)
+    intercept = np.array(data["intercept"], dtype=np.float32)
     n_classes, n_features = coef.shape
     print(f"  Classes  : {n_classes}")
     print(f"  Features : {n_features}")
@@ -188,36 +176,19 @@ def export_intent_classifier(ct):
     from coremltools.models.neural_network import NeuralNetworkBuilder
     import coremltools.models.datatypes as dt
 
-    # In classifier mode the probability output feature is declared with type
-    # None; set_class_labels() (called after the layers) wires it to the dict
-    # output and adds the predicted-label string output. class_labels is NOT a
-    # constructor argument (that raises TypeError in coremltools).
     builder = NeuralNetworkBuilder(
         input_features =[("tfidf_vector",     dt.Array(n_features))],
         output_features=[("classProbability", None)],
         mode="classifier",
     )
-    # Linear: logits = coef @ tfidf_vector + intercept
     builder.add_inner_product(
         name="logistic_regression",
-        W=coef,
-        b=intercept,
-        input_channels=n_features,
-        output_channels=n_classes,
-        has_bias=True,
-        input_name="tfidf_vector",
-        output_name="logits",
+        W=coef, b=intercept,
+        input_channels=n_features, output_channels=n_classes,
+        has_bias=True, input_name="tfidf_vector", output_name="logits",
     )
-    builder.add_softmax(
-        name="softmax",
-        input_name="logits",
-        output_name="classProbability",
-    )
-    builder.set_class_labels(
-        labels,
-        predicted_feature_name="label",
-        prediction_blob="classProbability",
-    )
+    builder.add_softmax(name="softmax", input_name="logits", output_name="classProbability")
+    builder.set_class_labels(labels, predicted_feature_name="label", prediction_blob="classProbability")
 
     mlmodel = ct.models.MLModel(builder.spec)
     mlmodel.short_description = "TF-IDF + Logistic Regression intent classifier"
@@ -236,14 +207,7 @@ def export_intent_classifier(ct):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def export_semantic_head(ct):
-    """
-    Build SemanticHead.mlpackage from semantic_head.json.
-
-    CoreML model contract:
-      Input:   embedding        float32[384]  L2-normalised MiniLM sentence vector
-      Output:  classProbability dict<String, Double>
-               label            String
-    """
+    """Build SemanticHead.mlpackage from semantic_head.json."""
     src = MODELS_DIR / "semantic_head.json"
     dst = MODELS_DIR / "SemanticHead.mlpackage"
 
@@ -259,8 +223,8 @@ def export_semantic_head(ct):
     print(f"  Output : {dst}")
 
     head      = json.loads(src.read_text(encoding="utf-8"))
-    weights   = np.array(head["weights"], dtype=np.float32)  # (n_classes, 384)
-    bias      = np.array(head["bias"],    dtype=np.float32)  # (n_classes,)
+    weights   = np.array(head["weights"], dtype=np.float32)
+    bias      = np.array(head["bias"],    dtype=np.float32)
     labels    = [str(x) for x in head["labels"]]
     n_classes, n_features = weights.shape
     print(f"  Classes  : {n_classes}")
@@ -276,24 +240,12 @@ def export_semantic_head(ct):
     )
     builder.add_inner_product(
         name="semantic_linear",
-        W=weights,
-        b=bias,
-        input_channels=n_features,
-        output_channels=n_classes,
-        has_bias=True,
-        input_name="embedding",
-        output_name="logits",
+        W=weights, b=bias,
+        input_channels=n_features, output_channels=n_classes,
+        has_bias=True, input_name="embedding", output_name="logits",
     )
-    builder.add_softmax(
-        name="softmax",
-        input_name="logits",
-        output_name="classProbability",
-    )
-    builder.set_class_labels(
-        labels,
-        predicted_feature_name="label",
-        prediction_blob="classProbability",
-    )
+    builder.add_softmax(name="softmax", input_name="logits", output_name="classProbability")
+    builder.set_class_labels(labels, predicted_feature_name="label", prediction_blob="classProbability")
 
     mlmodel = ct.models.MLModel(builder.spec)
     mlmodel.short_description = "MiniLM semantic classification head"
@@ -308,87 +260,107 @@ def export_semantic_head(ct):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Stage 3b — MiniLMEmbedder.mlpackage
+# Stage 3b — MiniLMEmbedder.mlpackage  (from PyTorch via torch.jit.trace)
 # ──────────────────────────────────────────────────────────────────────────────
 
 def export_minilm(ct):
     """
-    Convert minilm-l6-v2.onnx → MiniLMEmbedder.mlpackage.
+    Convert MiniLM-L6-v2 → MiniLMEmbedder.mlpackage from the HuggingFace
+    PyTorch model (coremltools 9 cannot convert ONNX directly).
 
-    Uses modern ct.convert() API (coremltools 7+).
-    FLOAT16 precision: halves model size, preferred by ANE on A12+.
-    RangeDim on the sequence axis: the model accepts any seq length 1..64,
-    matching the max_len=64 limit in SemanticEmbedder.swift.
-
-    ONNX declares int64 inputs; coremltools inserts int64→int32 cast nodes
-    automatically when we specify dtype=np.int32 in TensorType.
-
-    After conversion, inspect the output name in the printed I/O spec.
-    SemanticEmbedder.swift reads:
-        output.featureValue(for: "last_hidden_state")
-    If the CoreML model uses a different output name, update that line.
+    Output tensor is named 'last_hidden_state', shape [1, seq, 384],
+    matching SemanticEmbedder.swift's featureValue(for: "last_hidden_state").
+    FLOAT16 precision; RangeDim sequence axis 1..64 (matches Swift max_len=64).
     """
-    src = MODELS_DIR / "minilm-l6-v2.onnx"
     dst = MODELS_DIR / "MiniLMEmbedder.mlpackage"
 
-    if not src.exists():
-        print(f"\nSKIP Stage 3b: {src} not found")
-        print("  Run: python scripts/download_minilm.py")
+    print(f"\n{'─'*60}")
+    print(f"  Stage 3b: MiniLMEmbedder  (PyTorch → CoreML)")
+    print(f"{'─'*60}")
+    print(f"  Output : {dst}")
+
+    try:
+        import torch
+        from transformers import AutoModel
+    except ImportError as e:
+        print("  FAILED: torch + transformers required for MiniLM conversion.")
+        print("    pip install transformers")
+        print(f"    (import error: {e})")
+        print("\n  Stage 3 is optional for the first ship — Stage 2 CoreML works without it.")
         return
 
-    print(f"\n{'─'*60}")
-    print(f"  Stage 3b: MiniLMEmbedder")
-    print(f"{'─'*60}")
-    print(f"  Source : {src}  ({src.stat().st_size / 1e6:.1f} MB)")
-    print(f"  Output : {dst}")
-    print("  Converting ... (first run may take 60–120 s)")
+    print(f"  Loading {MINILM_HF_NAME} (PyTorch, downloads ~90 MB on first run) ...")
+    try:
+        base = AutoModel.from_pretrained(MINILM_HF_NAME)
+    except Exception as e:
+        print(f"  FAILED to load model: {e}")
+        print("    Check internet access (HuggingFace hub) or pre-cache the model.")
+        return
+    base.eval()
 
-    # coremltools 9.0 RangeDim uses lower_bound / upper_bound (not minimum_val).
-    seq = ct.RangeDim(lower_bound=1, upper_bound=64)
+    class MiniLMWrapper(torch.nn.Module):
+        """Returns only last_hidden_state so the traced graph has a tensor output."""
+        def __init__(self, model):
+            super().__init__()
+            self.model = model
+
+        def forward(self, input_ids, attention_mask, token_type_ids):
+            out = self.model(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                token_type_ids=token_type_ids,
+            )
+            return out.last_hidden_state
+
+    wrapper = MiniLMWrapper(base).eval()
+
+    # Trace with a representative fixed-length example (8 tokens).
+    ids  = torch.ones((1, 8), dtype=torch.long)
+    mask = torch.ones((1, 8), dtype=torch.long)
+    tids = torch.zeros((1, 8), dtype=torch.long)
+    print("  Tracing PyTorch model ...")
+    try:
+        with torch.no_grad():
+            traced = torch.jit.trace(wrapper, (ids, mask, tids), strict=False)
+    except Exception as e:
+        print(f"  FAILED to trace: {e}")
+        return
+
+    print("  Converting traced model to CoreML ... (30–90 s)")
+    seq = ct.RangeDim(lower_bound=1, upper_bound=64, default=8)
     try:
         mlmodel = ct.convert(
-            str(src),
+            traced,
             inputs=[
-                ct.TensorType(name="input_ids",
-                              shape=(1, seq),
-                              dtype=np.int32),
-                ct.TensorType(name="attention_mask",
-                              shape=(1, seq),
-                              dtype=np.int32),
-                ct.TensorType(name="token_type_ids",
-                              shape=(1, seq),
-                              dtype=np.int32),
+                ct.TensorType(name="input_ids",      shape=(1, seq), dtype=np.int32),
+                ct.TensorType(name="attention_mask", shape=(1, seq), dtype=np.int32),
+                ct.TensorType(name="token_type_ids", shape=(1, seq), dtype=np.int32),
             ],
+            outputs=[ct.TensorType(name="last_hidden_state")],
             minimum_deployment_target=ct.target.iOS16,
             compute_precision=ct.precision.FLOAT16,
         )
-        mlmodel.short_description = "MiniLM-L6-v2 sentence encoder"
+        mlmodel.short_description = "MiniLM-L6-v2 sentence encoder (token-level output)"
         mlmodel.input_description["input_ids"]      = "BERT WordPiece token IDs"
         mlmodel.input_description["attention_mask"] = "1 for real tokens, 0 for padding"
         mlmodel.input_description["token_type_ids"] = "All zeros for single-sequence input"
+        mlmodel.output_description["last_hidden_state"] = "Token embeddings [1, seq, 384] — mean-pool in Swift"
         mlmodel.save(str(dst))
-        size_mb = sum(
-            f.stat().st_size for f in dst.rglob("*") if f.is_file()
-        ) / 1e6
+        size_mb = sum(f.stat().st_size for f in dst.rglob("*") if f.is_file()) / 1e6
         print(f"  Saved {dst}  (on-disk {size_mb:.1f} MB)")
         _print_io(mlmodel)
-
     except Exception as exc:
-        print(f"  FAILED: {exc}")
+        print(f"  FAILED to convert: {exc}")
         print()
         print("  Common causes and fixes:")
-        print("  1. Unsupported ONNX op in INT8-quantized model")
-        print("       Try the FP32 export: python scripts/download_minilm.py --fp32")
-        print("       Then re-run this script.")
-        print("  2. coremltools version too old")
-        print("       pip install --upgrade coremltools")
-        print("  3. ONNX input name mismatch")
-        print("       Run --inspect-only first and compare input names above.")
+        print("  1. torch version incompatible with coremltools torch frontend")
+        print("       coremltools 9 is tested against torch <= 2.7.")
+        print("       Try: pip install 'torch==2.5.*' 'transformers' and re-run.")
+        print("  2. transformers not installed")
+        print("       pip install transformers")
         print()
-        print("  If conversion keeps failing, the iOS app still works via")
-        print("  the pure-Swift SemanticEmbedder fallback (no CoreML needed).")
-        print("  Only Stage 2 (IntentClassifier.mlpackage) is strictly required")
-        print("  for the CoreML upgrade — Stage 3 is optional for the first ship.")
+        print("  Stage 3 is optional for the first ship — the iOS app still works")
+        print("  via the pure-Swift SemanticEmbedder fallback or Stage 2 alone.")
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -396,10 +368,6 @@ def export_minilm(ct):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def validate_all(ct):
-    """
-    Load all generated .mlpackage files, print their I/O specs, and run
-    a trivial test inference on IntentClassifier to confirm it works end-to-end.
-    """
     print(f"\n{'─'*60}")
     print(f"  Validation")
     print(f"{'─'*60}")
@@ -416,7 +384,6 @@ def validate_all(ct):
         except Exception as e:
             print(f"  {name}: load error — {e}")
 
-    # IntentClassifier test inference
     ic  = MODELS_DIR / "IntentClassifier.mlpackage"
     wts = MODELS_DIR / "intent_classifier_weights.json"
     if ic.exists() and wts.exists():
@@ -427,12 +394,32 @@ def validate_all(ct):
             n_features = len(data["idf"])
             m          = ct.models.MLModel(str(ic))
             dummy      = np.zeros(n_features, dtype=np.float32)
-            dummy[0]   = 1.0   # must be non-zero for softmax to pick a class
+            dummy[0]   = 1.0
             out        = m.predict({"tfidf_vector": dummy})
             probs      = out["classProbability"]
             top        = max(probs, key=probs.get)
             print(f"    Top prediction : '{top}' (dummy input — value is meaningless)")
             print(f"    Output keys    : {list(out.keys())}")
+            print("    Inference OK")
+        except Exception as e:
+            print(f"    FAILED: {e}")
+
+    # MiniLM end-to-end smoke test if present
+    mm = MODELS_DIR / "MiniLMEmbedder.mlpackage"
+    if mm.exists():
+        print()
+        print("  MiniLMEmbedder test inference (seq_len=8):")
+        try:
+            m   = ct.models.MLModel(str(mm))
+            ids = np.ones((1, 8), dtype=np.int32)
+            out = m.predict({
+                "input_ids":      ids,
+                "attention_mask": np.ones((1, 8), dtype=np.int32),
+                "token_type_ids": np.zeros((1, 8), dtype=np.int32),
+            })
+            key   = next(iter(out))
+            shape = np.array(out[key]).shape
+            print(f"    Output '{key}' shape: {shape}")
             print("    Inference OK")
         except Exception as e:
             print(f"    FAILED: {e}")
@@ -463,14 +450,10 @@ def main():
         description="Export NLU models to CoreML for iOS",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument(
-        "--inspect-only", action="store_true",
-        help="Only print ONNX model specs, skip all conversions",
-    )
-    parser.add_argument(
-        "--skip-minilm", action="store_true",
-        help="Skip MiniLM conversion (Stage 2 + 3a only — fastest iteration)",
-    )
+    parser.add_argument("--inspect-only", action="store_true",
+                        help="Only print ONNX model specs, skip all conversions")
+    parser.add_argument("--skip-minilm", action="store_true",
+                        help="Skip MiniLM conversion (Stage 2 + 3a only)")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -480,7 +463,6 @@ def main():
     ct  = _require_coremltools()
     ort = _require_onnxruntime()
 
-    # Always introspect first — confirms output names/shapes for Swift code
     inspect_minilm_onnx(ort)
 
     if args.inspect_only:
@@ -506,10 +488,6 @@ def main():
     print("    models/semantic_head.json              (Swift fallback for Stage 3)")
     print("    models/minilm-vocab.txt                (Swift BERT tokeniser)")
     print(f"{'='*60}")
-    print()
-    print("  IMPORTANT — verify MiniLM output shape from introspection above:")
-    print("    shape [1, seq, 384] → SemanticEmbedder.swift mean-pool is CORRECT")
-    print("    shape [1, 384]      → remove mean-pool in SemanticEmbedder.swift")
     print()
     print("  In Xcode: drag .mlpackage files into the STT target Resources group.")
     print("  Xcode compiles them to .mlmodelc at build time.")
