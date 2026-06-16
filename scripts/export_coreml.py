@@ -6,9 +6,13 @@ This script MUST be run on macOS with coremltools installed.
 
 Usage:
     pip install coremltools onnxruntime numpy torch transformers
-    python scripts/export_coreml.py              # full conversion
+    python scripts/export_coreml.py              # full conversion (FP16 MiniLM)
+    python scripts/export_coreml.py --quantize       # also emit INT8 MiniLM (~half size)
     python scripts/export_coreml.py --inspect-only   # inspect ONNX only, no conversion
     python scripts/export_coreml.py --skip-minilm    # skip the slow MiniLM step
+
+After --quantize, ALWAYS measure the accuracy delta before shipping INT8:
+    python scripts/compare_coreml_quant.py
 
 Outputs (written to models/):
     IntentClassifier.mlpackage    Stage 2  TF-IDF LogReg (float-vector input)
@@ -364,6 +368,68 @@ def export_minilm(ct):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# INT8 weight quantization  (size optimization for MiniLMEmbedder)
+# ──────────────────────────────────────────────────────────────────────────────
+
+def quantize_minilm_int8(ct):
+    """
+    Post-training INT8 weight quantization of MiniLMEmbedder.mlpackage.
+
+    Halves the on-disk size (~45 MB FP16 → ~22 MB INT8) by storing each weight
+    as an 8-bit integer plus a per-channel scale. This is a SIZE optimization,
+    not a speed one — on the Apple Neural Engine, FP16 is the native compute
+    format, so INT8 weights are dequantized to FP16 before the matmul and
+    latency is roughly unchanged.
+
+    INT8 carries a small, real accuracy cost (typically 0.5–2% on a transformer
+    like MiniLM). Do NOT ship the INT8 variant without running:
+        python scripts/compare_coreml_quant.py
+    which measures the holdout accuracy delta at the 0.55 rescue threshold.
+
+    Output: models/MiniLMEmbedder_int8.mlpackage (the FP16 original is kept).
+    """
+    src = MODELS_DIR / "MiniLMEmbedder.mlpackage"
+    dst = MODELS_DIR / "MiniLMEmbedder_int8.mlpackage"
+
+    print(f"\n{'─'*60}")
+    print(f"  INT8 quantization: MiniLMEmbedder")
+    print(f"{'─'*60}")
+
+    if not src.exists():
+        print(f"  SKIP: {src} not found — run the MiniLM export first.")
+        return
+
+    try:
+        import coremltools.optimize.coreml as cto
+    except ImportError as e:
+        print(f"  FAILED: coremltools.optimize.coreml unavailable ({e}).")
+        print("    Requires coremltools >= 7. Try: pip install -U coremltools")
+        return
+
+    print(f"  Source : {src}")
+    print(f"  Output : {dst}")
+    try:
+        mlmodel = ct.models.MLModel(str(src))
+        op_cfg  = cto.OpLinearQuantizerConfig(mode="linear_symmetric", dtype="int8")
+        config  = cto.OptimizationConfig(global_config=op_cfg)
+        print("  Quantizing weights to INT8 (linear_symmetric) ...")
+        quantized = cto.linear_quantize_weights(mlmodel, config)
+        quantized.short_description = "MiniLM-L6-v2 encoder (INT8-quantized weights)"
+        quantized.save(str(dst))
+
+        fp16_mb = sum(f.stat().st_size for f in src.rglob("*") if f.is_file()) / 1e6
+        int8_mb = sum(f.stat().st_size for f in dst.rglob("*") if f.is_file()) / 1e6
+        print(f"  Saved {dst}")
+        print(f"  Size   : FP16 {fp16_mb:.1f} MB  →  INT8 {int8_mb:.1f} MB  "
+              f"({100*(1-int8_mb/fp16_mb):.0f}% smaller)")
+        print()
+        print("  ⚠️  Measure accuracy before shipping INT8:")
+        print("      python scripts/compare_coreml_quant.py")
+    except Exception as exc:
+        print(f"  FAILED to quantize: {exc}")
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # Validation
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -372,7 +438,7 @@ def validate_all(ct):
     print(f"  Validation")
     print(f"{'─'*60}")
 
-    for name in ["IntentClassifier", "SemanticHead", "MiniLMEmbedder"]:
+    for name in ["IntentClassifier", "SemanticHead", "MiniLMEmbedder", "MiniLMEmbedder_int8"]:
         path = MODELS_DIR / f"{name}.mlpackage"
         if not path.exists():
             print(f"  {name}: not found (skipped)")
@@ -454,6 +520,9 @@ def main():
                         help="Only print ONNX model specs, skip all conversions")
     parser.add_argument("--skip-minilm", action="store_true",
                         help="Skip MiniLM conversion (Stage 2 + 3a only)")
+    parser.add_argument("--quantize", action="store_true",
+                        help="Also emit MiniLMEmbedder_int8.mlpackage (INT8 weights, ~half size). "
+                             "Measure accuracy with compare_coreml_quant.py before shipping.")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -476,6 +545,8 @@ def main():
         print("\nSKIP MiniLM (--skip-minilm)")
     else:
         export_minilm(ct)
+        if args.quantize:
+            quantize_minilm_int8(ct)
 
     validate_all(ct)
 

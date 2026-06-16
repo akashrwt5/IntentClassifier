@@ -133,6 +133,51 @@ Expected size of `MiniLMEmbedder.mlpackage`: approximately 12–15 MB on disk
 
 ---
 
+## Step 4b — (Optional) INT8 quantization to halve MiniLM size
+
+The FP16 `MiniLMEmbedder.mlpackage` is ~45 MB. If that is too large for the app
+bundle, you can quantize the weights to INT8 (~22 MB). This is a **size**
+optimization, **not** a speed one — on the Apple Neural Engine, FP16 is the
+native compute format, so INT8 latency is roughly the same.
+
+INT8 perturbs the embeddings slightly, and the semantic head was trained on
+FP16/FP32 embeddings — so borderline rescues near the 0.55 threshold can flip.
+**Never ship INT8 without measuring.**
+
+```bash
+# 1. Produce both FP16 and INT8 variants:
+python scripts/export_coreml.py --quantize
+#    → models/MiniLMEmbedder.mlpackage       (FP16, ~45 MB, kept)
+#    → models/MiniLMEmbedder_int8.mlpackage  (INT8, ~22 MB)
+
+# 2. Measure the accuracy delta on the real holdout + OOS data:
+python scripts/compare_coreml_quant.py
+```
+
+`compare_coreml_quant.py` runs both models through `semantic_holdout_100.csv`
+(in-scope) and `semantic_oos.csv` (out-of-scope), and reports (numbers below
+are illustrative — your run prints the real measured values):
+
+```
+  Metric                              FP16      INT8           Δ
+  in-scope accuracy (%)               88.0      87.0        -1.0
+  OOS rejection (%)                   94.3      94.3        +0.0
+
+  embedding cosine FP16↔INT8: mean=0.9991  min=0.9920
+  decision flips: 2 / 257
+
+  VERDICT: INT8 acceptable (accuracy Δ -1.0%, OOS Δ +0.0%).
+```
+
+**Ship bar:** accuracy delta < 1% AND OOS rejection not worse. If the verdict is
+"keep FP16", the size win isn't worth the regression — bundle the FP16 model.
+
+If you ship INT8, rename `MiniLMEmbedder_int8.mlpackage` → `MiniLMEmbedder.mlpackage`
+when copying to the STT repo (the Swift code looks for `MiniLMEmbedder`); the
+FP16↔INT8 choice is invisible to the iOS app.
+
+---
+
 ## Step 5 — Copy artifacts to the STT iOS repo
 
 Files to copy into `STT/STT/STT/Resources/`:
