@@ -114,14 +114,16 @@ def _embed_coreml(model, tokenise_fn, text):
 
 # -- Head classifier -----------------------------------------------------------
 
-def _load_head():
-    js  = MODELS_DIR / "semantic_head.json"
+def _load_head(head_path=None):
+    js  = Path(head_path) if head_path else MODELS_DIR / "semantic_head.json"
     npz = MODELS_DIR / "semantic_head.npz"
     if js.exists():
         d = json.loads(js.read_text())
         return (np.array(d["weights"], dtype=np.float32),
                 np.array(d["bias"],    dtype=np.float32),
                 [str(x) for x in d["labels"]])
+    if head_path:
+        sys.exit(f"ERROR: head file {js} not found.")
     if npz.exists():
         d = np.load(npz, allow_pickle=True)
         return (d["weights"].astype(np.float32),
@@ -164,6 +166,11 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD,
                     help=f"Rescue threshold (default {DEFAULT_THRESHOLD})")
+    ap.add_argument("--head", default=None,
+                    help="Path to a semantic head JSON to evaluate (default: "
+                         "models/semantic_head.json). Use this to test a "
+                         "CoreML-retrained head, e.g. "
+                         "--head models/semantic_head_coreml.json")
     args = ap.parse_args()
 
     try:
@@ -186,8 +193,9 @@ def main():
     print("=" * 70)
 
     tokenise_fn, _ = _load_tokeniser()
-    head = _load_head()
-    print(f"  Head: {len(head[2])} classes")
+    head = _load_head(args.head)
+    head_name = args.head if args.head else "semantic_head.json"
+    print(f"  Head: {len(head[2])} classes  ({head_name})")
 
     # ONNX session (the Python production reference)
     onnx_session = None
