@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
 """
-Data-driven FP16-vs-INT8 accuracy comparison for the MiniLM CoreML embedder.
+Three-way comparison: ONNX (reference) vs FP16 CoreML vs Palettized CoreML.
 
-Run this AFTER `python scripts/export_coreml.py --quantize`, which produces both
-    models/MiniLMEmbedder.mlpackage        (FP16, ~45 MB)
-    models/MiniLMEmbedder_int8.mlpackage   (INT8, ~22 MB)
+The CRITICAL baseline is the ONNX embedder -- that is what the Python NLU
+pipeline uses, what the semantic head was trained against, and what the
+semantic_holdout_100.csv labels were generated with. Comparing only FP16
+CoreML vs palettized CoreML can mask drift that both variants share:
+if CoreML FP16 is already degraded vs ONNX, both CoreML variants look fine
+relative to each other while both silently underperform the Python pipeline.
 
-Why this exists
-───────────────
-INT8 quantization is a SIZE optimization, not a free lunch. It perturbs the
-384-dim embeddings slightly, and the semantic head was trained on FP16/FP32
-embeddings. Borderline rescues near the 0.55 threshold can flip. This harness
-measures the REAL impact on the actual holdout + out-of-scope data instead of
-guessing, so the FP16-vs-INT8 ship decision is evidence-based.
+What this script reports
+------------------------
+  Column 1 - ONNX (onnxruntime, INT8): the Python production reference
+  Column 2 - FP16 CoreML:              what the iOS app runs today
+  Column 3 - Palettized CoreML:        the size-optimised candidate
 
-What it reports
-───────────────
-  • In-scope accuracy on semantic_holdout_100.csv (FP16 vs INT8)
-  • Out-of-scope rejection rate on semantic_oos.csv (FP16 vs INT8)
-  • Mean / min cosine similarity between FP16 and INT8 embeddings
-  • Number of decision flips (label changed OR rescue/reject decision changed)
+For each column:
+  * In-scope accuracy on semantic_holdout_100.csv
+  * Out-of-scope rejection rate on semantic_oos.csv
 
-A reasonable ship bar: accuracy delta < 1% AND OOS rejection not worse.
+Plus per-pair embedding cosine similarity and decision flip counts so you
+can see exactly where FP16 CoreML drifts from ONNX (conversion error) and
+where palettization additionally drifts from FP16 (compression error).
 
 macOS only (CoreML prediction requires the macOS runtime).
 
 Usage:
-    pip install coremltools numpy
+    pip install coremltools onnxruntime numpy
     python scripts/compare_coreml_quant.py
     python scripts/compare_coreml_quant.py --threshold 0.55
 """
@@ -50,20 +50,16 @@ GREEN = "\033[92m"; RED = "\033[91m"; YELLOW = "\033[93m"
 CYAN = "\033[96m"; BOLD = "\033[1m"; RESET = "\033[0m"
 
 
-# ── Tokeniser: reuse the exact WordPiece logic the runtime uses ───────────────
+# -- Tokeniser -----------------------------------------------------------------
 
 def _load_tokeniser():
-    """Return a tokenise(text) -> (ids, mask, tids) int32 function.
-
-    Reuses SemanticFallback._wordpiece / vocab loading so the comparison runs
-    through the identical tokenisation as production — no algorithm drift.
-    """
+    """Shared WordPiece tokeniser -- same logic for all three embedders."""
     sys.path.insert(0, str(BASE_DIR))
     from scripts.nlu.semantic import SemanticFallback
 
     vocab_path = MODELS_DIR / "minilm-vocab.txt"
     if not vocab_path.exists():
-        sys.exit(f"ERROR: {vocab_path} not found — run scripts/download_minilm.py")
+        sys.exit(f"ERROR: {vocab_path} not found -- run scripts/download_minilm.py")
     with open(vocab_path, encoding="utf-8") as f:
         vocab = {line.strip(): i for i, line in enumerate(f)}
 
@@ -72,23 +68,59 @@ def _load_tokeniser():
         tokens = tokens[:max_len]
         ids = [vocab.get(t, vocab["[UNK]"]) for t in tokens]
         n = len(ids)
-        return (np.array([ids], dtype=np.int32),
-                np.ones((1, n), dtype=np.int32),
-                np.zeros((1, n), dtype=np.int32))
+        return ids, n
 
-    return tokenise
+    return tokenise, vocab
 
 
-# ── Semantic head (the shipping artifact) ─────────────────────────────────────
+# -- Embedders -----------------------------------------------------------------
+
+def _embed_onnx(session, tokenise_fn, text):
+    """Embed via the ONNX model -- matches SemanticFallback._embed_onnx exactly."""
+    ids, n = tokenise_fn(text)
+    ids_arr  = np.array([ids], dtype=np.int64)
+    mask_arr = np.ones((1, n), dtype=np.int64)
+    tids_arr = np.zeros((1, n), dtype=np.int64)
+    outputs = session.run(None, {
+        "input_ids":      ids_arr,
+        "attention_mask": mask_arr,
+        "token_type_ids": tids_arr,
+    })
+    token_emb = outputs[0][0]                           # [seq, 384]
+    mask_col  = mask_arr[0][:, np.newaxis].astype(np.float32)
+    vec = (token_emb * mask_col).sum(axis=0) / mask_col.sum()
+    norm = np.linalg.norm(vec)
+    return (vec / norm).astype(np.float32) if norm > 0 else vec.astype(np.float32)
+
+
+def _embed_coreml(model, tokenise_fn, text):
+    """Embed via a CoreML model (FP16 or palettized)."""
+    ids, n = tokenise_fn(text)
+    ids_arr  = np.array([ids], dtype=np.int32)
+    mask_arr = np.ones((1, n), dtype=np.int32)
+    tids_arr = np.zeros((1, n), dtype=np.int32)
+    out = model.predict({
+        "input_ids":      ids_arr,
+        "attention_mask": mask_arr,
+        "token_type_ids": tids_arr,
+    })
+    key = next(iter(out))
+    token_emb = np.array(out[key])[0]                  # [seq, 384]
+    mask_col  = mask_arr[0][:, np.newaxis].astype(np.float32)
+    vec = (token_emb * mask_col).sum(axis=0) / mask_col.sum()
+    norm = np.linalg.norm(vec)
+    return (vec / norm).astype(np.float32) if norm > 0 else vec.astype(np.float32)
+
+
+# -- Head classifier -----------------------------------------------------------
 
 def _load_head():
-    """Load (weights, bias, labels) from semantic_head.json, falling back to .npz."""
-    js = MODELS_DIR / "semantic_head.json"
+    js  = MODELS_DIR / "semantic_head.json"
     npz = MODELS_DIR / "semantic_head.npz"
     if js.exists():
         d = json.loads(js.read_text())
         return (np.array(d["weights"], dtype=np.float32),
-                np.array(d["bias"], dtype=np.float32),
+                np.array(d["bias"],    dtype=np.float32),
                 [str(x) for x in d["labels"]])
     if npz.exists():
         d = np.load(npz, allow_pickle=True)
@@ -99,11 +131,6 @@ def _load_head():
 
 
 def _classify(vec, head, threshold):
-    """Mirror SemanticFallback.classify + the engine's threshold/reject gate.
-
-    Returns (decision, conf) where decision is the intent label, or "GENAI"
-    when the head rejects (fallback class) or confidence is below threshold.
-    """
     weights, bias, labels = head
     logits = weights @ vec + bias
     logits -= logits.max()
@@ -115,28 +142,9 @@ def _classify(vec, head, threshold):
     return label, conf
 
 
-# ── Embedding via a CoreML model ──────────────────────────────────────────────
-
-def _embed(model, tokenise, text):
-    """Mean-pool + L2-normalise a CoreML MiniLM prediction → 384-dim float32."""
-    ids, mask, tids = tokenise(text)
-    out = model.predict({"input_ids": ids, "attention_mask": mask, "token_type_ids": tids})
-    key = next(iter(out))
-    token_emb = np.array(out[key])[0]          # [seq, 384]
-    m = mask[0][:, np.newaxis].astype(np.float32)
-    vec = (token_emb * m).sum(axis=0) / m.sum()
-    norm = np.linalg.norm(vec)
-    return (vec / norm).astype(np.float32) if norm > 0 else vec.astype(np.float32)
-
-
-# ── Dataset loading ───────────────────────────────────────────────────────────
+# -- Dataset loading -----------------------------------------------------------
 
 def _load_csv(path, label_col=None):
-    """Read (utterance, expected) rows. expected is None for OOS files.
-
-    The text column is named "utterance" in the holdout CSV but "text" in the
-    OOS CSV — detect whichever is present.
-    """
     rows = []
     with open(path, encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -149,7 +157,7 @@ def _load_csv(path, label_col=None):
     return rows
 
 
-# ── Main ──────────────────────────────────────────────────────────────────────
+# -- Main ----------------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
@@ -163,109 +171,175 @@ def main():
     except ImportError:
         sys.exit("ERROR: coremltools not installed (macOS only). pip install coremltools")
 
+    onnx_path = MODELS_DIR / "minilm-l6-v2.onnx"
     fp16_path = MODELS_DIR / "MiniLMEmbedder.mlpackage"
-    int8_path = MODELS_DIR / "MiniLMEmbedder_int8.mlpackage"
+    pal_path  = MODELS_DIR / "MiniLMEmbedder_int8.mlpackage"
+
     if not fp16_path.exists():
-        sys.exit(f"ERROR: {fp16_path} not found — run export_coreml.py first.")
-    if not int8_path.exists():
-        sys.exit(f"ERROR: {int8_path} not found — run export_coreml.py --quantize first.")
+        sys.exit(f"ERROR: {fp16_path} not found -- run export_coreml.py first.")
+    if not pal_path.exists():
+        sys.exit(f"ERROR: {pal_path} not found -- run export_coreml.py --quantize first.")
 
-    print("=" * 64)
-    print(f"  CoreML MiniLM — FP16 vs compressed accuracy comparison")
-    print(f"  (compressed = 6-bit palettized, Metal-compatible)")
+    print("=" * 70)
+    print(f"  Three-way comparison: ONNX | FP16 CoreML | Palettized CoreML")
     print(f"  threshold = {args.threshold}")
-    print("=" * 64)
+    print("=" * 70)
 
-    tokenise = _load_tokeniser()
-    head     = _load_head()
+    tokenise_fn, _ = _load_tokeniser()
+    head = _load_head()
     print(f"  Head: {len(head[2])} classes")
 
-    # Force CPU-only compute units for both models.
-    # The Metal/MPSGraph backend aborts with "MLIR pass manager failed" when
-    # running the quantized/palettized model during Python-side prediction.
-    # cpuOnly bypasses Metal entirely; embeddings are mathematically identical
-    # to ANE output (same weights, same matmul) so the accuracy comparison is valid.
-    print("  Loading FP16 model (cpuOnly) ...")
+    # ONNX session (the Python production reference)
+    onnx_session = None
+    if onnx_path.exists():
+        try:
+            import onnxruntime as ort
+            onnx_session = ort.InferenceSession(str(onnx_path))
+            print(f"  ONNX model: {onnx_path.name} (reference)")
+        except ImportError:
+            print(f"  WARN: onnxruntime not installed -- skipping ONNX column.")
+            print(f"        pip install onnxruntime")
+    else:
+        print(f"  WARN: {onnx_path} not found -- skipping ONNX column.")
+        print(f"        Run: python scripts/download_minilm.py")
+
+    # CoreML models -- CPU only to avoid Metal MLIR crash on Mac during prediction
+    print("  Loading FP16 CoreML (cpuOnly) ...")
     fp16 = ct.models.MLModel(str(fp16_path), compute_units=ct.ComputeUnit.CPU_ONLY)
-    print("  Loading compressed model (cpuOnly) ...")
-    int8 = ct.models.MLModel(str(int8_path), compute_units=ct.ComputeUnit.CPU_ONLY)
+    print("  Loading palettized CoreML (cpuOnly) ...")
+    pal  = ct.models.MLModel(str(pal_path),  compute_units=ct.ComputeUnit.CPU_ONLY)
 
     fp16_mb = sum(f.stat().st_size for f in fp16_path.rglob("*") if f.is_file()) / 1e6
-    int8_mb = sum(f.stat().st_size for f in int8_path.rglob("*") if f.is_file()) / 1e6
-    print(f"  Size: FP16 {fp16_mb:.1f} MB  vs  compressed {int8_mb:.1f} MB "
-          f"({100*(1-int8_mb/fp16_mb):.0f}% smaller)\n")
+    pal_mb  = sum(f.stat().st_size for f in pal_path.rglob("*")  if f.is_file()) / 1e6
+    print(f"  Size: FP16 {fp16_mb:.1f} MB  ->  palettized {pal_mb:.1f} MB "
+          f"({100*(1-pal_mb/fp16_mb):.0f}% smaller)\n")
 
     holdout = _load_csv(DATA_DIR / "semantic_holdout_100.csv", label_col="expected_intent")
     oos     = _load_csv(DATA_DIR / "semantic_oos.csv")
 
-    cosines, flips = [], []
-    fp16_hold_ok = int8_hold_ok = 0
-    fp16_oos_rej = int8_oos_rej = 0
+    # Accumulators
+    ok   = {"onnx": 0, "fp16": 0, "pal": 0}
+    rej  = {"onnx": 0, "fp16": 0, "pal": 0}
+    # Pairwise cosine lists: onnx<->fp16, fp16<->pal
+    cos_of  = []   # onnx vs fp16
+    cos_fp  = []   # fp16 vs pal
 
-    # In-scope holdout
+    onnx_fp16_flips = []
+    fp16_pal_flips  = []
+
+    def embed_all(text):
+        vo = _embed_onnx(onnx_session, tokenise_fn, text) if onnx_session else None
+        vf = _embed_coreml(fp16, tokenise_fn, text)
+        vp = _embed_coreml(pal,  tokenise_fn, text)
+        return vo, vf, vp
+
     print(f"{BOLD}{CYAN}In-scope holdout ({len(holdout)} cases){RESET}")
     for text, expected in holdout:
-        v16 = _embed(fp16, tokenise, text)
-        v8  = _embed(int8, tokenise, text)
-        cosines.append(float(np.dot(v16, v8)))
-        d16, c16 = _classify(v16, head, args.threshold)
-        d8,  c8  = _classify(v8,  head, args.threshold)
-        if d16 == expected: fp16_hold_ok += 1
-        if d8  == expected: int8_hold_ok += 1
-        if d16 != d8:
-            flips.append((text, d16, c16, d8, c8))
+        vo, vf, vp = embed_all(text)
+        do, co = _classify(vo, head, args.threshold) if vo is not None else ("SKIP", 0)
+        df, cf = _classify(vf, head, args.threshold)
+        dp, cp = _classify(vp, head, args.threshold)
 
-    # Out-of-scope (correct answer is rejection → GENAI)
+        if do != "SKIP" and do == expected: ok["onnx"] += 1
+        if df == expected: ok["fp16"] += 1
+        if dp == expected: ok["pal"]  += 1
+
+        if vo is not None:
+            cos_of.append(float(np.dot(vo, vf)))
+            if do != df:
+                onnx_fp16_flips.append((text, do, co, df, cf))
+        cos_fp.append(float(np.dot(vf, vp)))
+        if df != dp:
+            fp16_pal_flips.append((text, df, cf, dp, cp))
+
     print(f"{BOLD}{CYAN}Out-of-scope ({len(oos)} cases){RESET}")
     for text, _ in oos:
-        v16 = _embed(fp16, tokenise, text)
-        v8  = _embed(int8, tokenise, text)
-        cosines.append(float(np.dot(v16, v8)))
-        d16, c16 = _classify(v16, head, args.threshold)
-        d8,  c8  = _classify(v8,  head, args.threshold)
-        if d16 == "GENAI": fp16_oos_rej += 1
-        if d8  == "GENAI": int8_oos_rej += 1
-        if d16 != d8:
-            flips.append((text, d16, c16, d8, c8))
+        vo, vf, vp = embed_all(text)
+        do, co = _classify(vo, head, args.threshold) if vo is not None else ("SKIP", 0)
+        df, cf = _classify(vf, head, args.threshold)
+        dp, cp = _classify(vp, head, args.threshold)
 
-    # ── Report ────────────────────────────────────────────────────────────
+        if do != "SKIP" and do == "GENAI": rej["onnx"] += 1
+        if df == "GENAI": rej["fp16"] += 1
+        if dp == "GENAI": rej["pal"]  += 1
+
+        if vo is not None:
+            cos_of.append(float(np.dot(vo, vf)))
+            if do != df:
+                onnx_fp16_flips.append((text, do, co, df, cf))
+        cos_fp.append(float(np.dot(vf, vp)))
+        if df != dp:
+            fp16_pal_flips.append((text, df, cf, dp, cp))
+
+    # -- Report ------------------------------------------------------------
     nh, no = len(holdout), len(oos)
-    a16 = 100 * fp16_hold_ok / nh; a8 = 100 * int8_hold_ok / nh
-    r16 = 100 * fp16_oos_rej / no; r8 = 100 * int8_oos_rej / no
 
-    def delta(x, y):
-        d = y - x
-        col = GREEN if d >= -0.05 else (YELLOW if d >= -1.0 else RED)
-        return f"{col}{d:+.1f}{RESET}"
+    def pct(n, d): return 100 * n / d if d else float("nan")
+    def col_delta(a, b):
+        d = b - a
+        c = GREEN if d >= -0.05 else (YELLOW if d >= -1.0 else RED)
+        return f"{c}{d:+.1f}{RESET}"
 
-    print(f"\n{BOLD}{'─'*64}{RESET}")
+    ao = pct(ok["onnx"], nh); af = pct(ok["fp16"], nh); ap_ = pct(ok["pal"], nh)
+    ro = pct(rej["onnx"], no); rf = pct(rej["fp16"], no); rp = pct(rej["pal"], no)
+
+    print(f"\n{BOLD}{'-'*70}{RESET}")
     print(f"{BOLD}  Results{RESET}")
-    print(f"{BOLD}{'─'*64}{RESET}")
-    print(f"  {'Metric':<32}{'FP16':>10}{'INT8':>10}{'Δ':>12}")
-    print(f"  {'in-scope accuracy (%)':<32}{a16:>10.1f}{a8:>10.1f}{delta(a16,a8):>21}")
-    print(f"  {'OOS rejection (%)':<32}{r16:>10.1f}{r8:>10.1f}{delta(r16,r8):>21}")
-    print(f"\n  embedding cosine FP16↔INT8: "
-          f"mean={np.mean(cosines):.4f}  min={np.min(cosines):.4f}")
-    print(f"  decision flips: {len(flips)} / {nh+no}")
+    print(f"{BOLD}{'-'*70}{RESET}")
+    onnx_col = f"{'ONNX':>10}" if onnx_session else f"{'(no ONNX)':>10}"
+    print(f"  {'Metric':<30}{onnx_col}{'FP16':>10}{'Palette':>10}  "
+          f"{'O->F Δ':>8}  {'F->P Δ':>8}")
+    print(f"  {'in-scope accuracy (%)':<30}{ao:>10.1f}{af:>10.1f}{ap_:>10.1f}  "
+          f"{col_delta(ao,af):>17}  {col_delta(af,ap_):>17}")
+    print(f"  {'OOS rejection (%)':<30}{ro:>10.1f}{rf:>10.1f}{rp:>10.1f}  "
+          f"{col_delta(ro,rf):>17}  {col_delta(rf,rp):>17}")
 
-    if flips:
-        print(f"\n{YELLOW}  Flipped decisions (first 15):{RESET}")
-        for text, d16, c16, d8, c8 in flips[:15]:
-            print(f"    \"{text[:40]:<40}\"  FP16={d16}({c16:.2f})  →  INT8={d8}({c8:.2f})")
+    print()
+    if cos_of:
+        print(f"  ONNX<->FP16 embedding cosine:    "
+              f"mean={np.mean(cos_of):.4f}  min={np.min(cos_of):.4f}")
+    print(f"  FP16<Palettized cosine:        "
+          f"mean={np.mean(cos_fp):.4f}  min={np.min(cos_fp):.4f}")
 
-    # ── Verdict ──────────────────────────────────────────────────────────
-    acc_drop = a16 - a8
-    oos_drop = r16 - r8
-    print(f"\n{BOLD}{'='*64}{RESET}")
-    if acc_drop <= 1.0 and oos_drop <= 1.0:
-        print(f"{BOLD}{GREEN}  VERDICT: INT8 acceptable "
-              f"(accuracy Δ {-acc_drop:+.1f}%, OOS Δ {-oos_drop:+.1f}%).{RESET}")
-        print(f"  Ship INT8 to halve the bundle (~{fp16_mb-int8_mb:.0f} MB saved).")
+    if cos_of:
+        print(f"\n  ONNX->FP16 decision flips:   {len(onnx_fp16_flips)} / {nh+no}")
+    print(f"  FP16->Palettized flips:      {len(fp16_pal_flips)} / {nh+no}")
+
+    if onnx_fp16_flips:
+        print(f"\n{YELLOW}  ONNX->FP16 flips (first 10) -- CoreML conversion drift:{RESET}")
+        for text, do, co, df, cf in onnx_fp16_flips[:10]:
+            print(f"    \"{text[:38]:<38}\"  ONNX={do}({co:.2f})  FP16={df}({cf:.2f})")
+
+    if fp16_pal_flips:
+        print(f"\n{YELLOW}  FP16->Palettized flips (first 10) -- compression drift:{RESET}")
+        for text, df, cf, dp, cp in fp16_pal_flips[:10]:
+            print(f"    \"{text[:38]:<38}\"  FP16={df}({cf:.2f})  Pal={dp}({cp:.2f})")
+
+    # -- Verdicts ---------------------------------------------------------
+    print(f"\n{BOLD}{'='*70}{RESET}")
+
+    if cos_of:
+        conv_acc_drop = ao - af
+        conv_oos_drop = ro - rf
+        if conv_acc_drop > 2.0 or conv_oos_drop > 2.0:
+            print(f"{BOLD}{RED}  ⚠️  CoreML FP16 has significant drift from ONNX "
+                  f"(in-scope Δ {-conv_acc_drop:+.1f}%, OOS Δ {-conv_oos_drop:+.1f}%).{RESET}")
+            print(f"  Investigate tokenisation or mean-pool differences before shipping.")
+        else:
+            print(f"{BOLD}{GREEN}  CoreML FP16 conversion drift: acceptable "
+                  f"(in-scope Δ {-conv_acc_drop:+.1f}%, OOS Δ {-conv_oos_drop:+.1f}%).{RESET}")
+
+    pal_acc_drop = af - ap_
+    pal_oos_drop = rf - rp
+    if pal_acc_drop <= 1.0 and pal_oos_drop <= 1.0:
+        print(f"{BOLD}{GREEN}  Palettization drift: acceptable "
+              f"(in-scope Δ {-pal_acc_drop:+.1f}%, OOS Δ {-pal_oos_drop:+.1f}%).{RESET}")
+        print(f"  Safe to ship palettized model (~{fp16_mb-pal_mb:.0f} MB smaller).")
     else:
-        print(f"{BOLD}{RED}  VERDICT: keep FP16 "
-              f"(accuracy Δ {-acc_drop:+.1f}%, OOS Δ {-oos_drop:+.1f}%).{RESET}")
-        print(f"  INT8 regression exceeds the 1% bar; the size win isn't worth it.")
-    print(f"{BOLD}{'='*64}{RESET}\n")
+        print(f"{BOLD}{RED}  Palettization drift: too large "
+              f"(in-scope Δ {-pal_acc_drop:+.1f}%, OOS Δ {-pal_oos_drop:+.1f}%).{RESET}")
+        print(f"  Keep FP16 CoreML -- the size win isn't worth the regression.")
+    print(f"{BOLD}{'='*70}{RESET}\n")
 
 
 if __name__ == "__main__":
