@@ -36,6 +36,7 @@ Run:
     python scripts/train_semantic_head_coreml.py
 """
 
+import argparse
 import json
 import sys
 import time
@@ -111,16 +112,26 @@ def embed_all(model, vocab, texts):
 # -- Training ------------------------------------------------------------------
 
 def main():
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--model", default=str(COREML_PATH),
+                    help="CoreML embedder to train the head against. Point this at "
+                         "the package you will SHIP -- e.g. "
+                         "models/MiniLMEmbedder_int8.mlpackage for the palettized "
+                         f"model (default: {COREML_PATH.name}, the FP16 model).")
+    args = ap.parse_args()
+
     try:
         import coremltools as ct
     except ImportError:
         sys.exit("ERROR: coremltools not installed (macOS only). pip install coremltools")
 
-    if not COREML_PATH.exists():
-        sys.exit(f"ERROR: {COREML_PATH} not found. Run scripts/export_coreml.py first.")
+    model_path = Path(args.model)
+    if not model_path.exists():
+        sys.exit(f"ERROR: {model_path} not found. Run scripts/export_coreml.py first.")
 
-    print("Loading CoreML embedder (cpuOnly) ...")
-    model = ct.models.MLModel(str(COREML_PATH), compute_units=ct.ComputeUnit.CPU_ONLY)
+    print(f"Loading CoreML embedder (cpuOnly): {model_path.name}")
+    model = ct.models.MLModel(str(model_path), compute_units=ct.ComputeUnit.CPU_ONLY)
     vocab = load_vocab()
 
     data = pd.read_csv(DATA_PATH, encoding="utf-8-sig")
