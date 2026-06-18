@@ -86,9 +86,11 @@ def _extract_lr(clf):
     """
     Return (coef_, intercept_, classes_) from a plain LogisticRegression or a
     CalibratedClassifierCV wrapping one.  For the calibrated case we average
-    the base LR weights across folds — calibration itself is non-parametric
-    (isotonic) and cannot be reproduced on iOS, so the iOS scorer uses
-    uncalibrated LR probabilities while the ONNX/server path uses calibrated ones.
+    the base LR weights across folds — the server applies per-fold isotonic
+    calibration on the decision-function margin, which cannot be reproduced
+    bit-for-bit on iOS.  Instead we fit a single per-class isotonic map on the
+    averaged model's own logits (see `_fit_calibration`) and ship it alongside
+    the weights, so the iOS softmax can be recalibrated to match the server.
     """
     if hasattr(clf, "coef_"):
         return clf.coef_, clf.intercept_, clf.classes_
@@ -99,8 +101,95 @@ def _extract_lr(clf):
     intercept = np.mean([fc.intercept_ for fc in fold_clfs], axis=0)
     classes   = fold_clfs[0].classes_
     print(f"  [ios export] CalibratedClassifierCV detected — averaging coef across "
-          f"{len(fold_clfs)} folds for iOS weights (iOS uses uncalibrated probabilities).")
+          f"{len(fold_clfs)} folds for iOS base weights (isotonic calibration shipped separately).")
     return coef, intercept, classes
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# iOS-side calibration
+# ──────────────────────────────────────────────────────────────────────────────
+
+def _swift_tokenize(text: str):
+    """Replicate IntentClassifierService.tokenize(): lowercase, split on
+    non-alphanumerics, then unigrams + adjacent bigrams (single chars kept)."""
+    import re
+    words = [w for w in re.split(r"[^a-z0-9]+", text.lower()) if w]
+    tokens = list(words)
+    for i in range(len(words) - 1):
+        tokens.append(words[i] + " " + words[i + 1])
+    return tokens
+
+
+def _device_logits(texts, vocab, idf, coef, intercept):
+    """Reproduce the on-device Stage-2 logits exactly: sublinear-TF over the
+    pruned vocab, L2-normalised on the pruned subspace, then the linear layer.
+    Fitting calibration on these (not sklearn's full-vocab vector) keeps the
+    isotonic maps faithful to what Swift actually computes."""
+    idf       = np.asarray(idf, dtype=np.float64)
+    coef      = np.asarray(coef, dtype=np.float64)       # (n_classes, n_feat)
+    intercept = np.asarray(intercept, dtype=np.float64)  # (n_classes,)
+    n_feat    = len(idf)
+    out = np.empty((len(texts), coef.shape[0]))
+    for r, text in enumerate(texts):
+        counts = {}
+        for tok in _swift_tokenize(text):
+            j = vocab.get(tok)
+            if j is not None:
+                counts[j] = counts.get(j, 0) + 1
+        vec = np.zeros(n_feat)
+        for j, c in counts.items():
+            vec[j] = (1.0 + np.log(c)) * idf[j]
+        norm = np.sqrt((vec * vec).sum())
+        if norm > 0:
+            vec /= norm
+        out[r] = coef @ vec + intercept
+    return out
+
+
+def _fit_calibration(pipeline, labels, vocab, idf, coef, intercept):
+    """Fit one isotonic map per class: device logit → server-calibrated prob.
+
+    The server (CalibratedClassifierCV, isotonic) and the iOS averaged-LR softmax
+    disagree because iOS ships uncalibrated probabilities. We learn, per class,
+    the monotonic function that maps the device's own logit margin onto the
+    server's calibrated probability, fit over the training texts. iOS then applies
+    these maps to its logits and renormalises, recovering server-level confidence
+    (so genuinely-correct mid-confidence intents clear the 0.70 threshold).
+
+    Returns a list (in `labels` order) of {"x": [...], "y": [...]} breakpoints
+    defining a clamped piecewise-linear curve, or None if the data is unavailable.
+    """
+    from sklearn.isotonic import IsotonicRegression
+
+    if not DATA_PATH.exists():
+        print(f"  [ios export] WARN: {DATA_PATH} not found — skipping calibration export.")
+        return None
+
+    import pandas as pd
+    data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
+    data.columns = [c.strip().lower() for c in data.columns]
+    texts = data["text"].astype(str).str.lower().str.strip().tolist()
+
+    logits = _device_logits(texts, vocab, idf, coef, intercept)   # (N, n_classes) labels order
+
+    # Server calibrated probabilities, reordered into `labels` order.
+    srv = pipeline.predict_proba(texts)                            # (N, n_classes) clf order
+    clf = pipeline.named_steps["clf"]
+    col = {cls: i for i, cls in enumerate(clf.classes_)}
+    srv = srv[:, [col[lbl] for lbl in labels]]
+
+    maps = []
+    for k in range(len(labels)):
+        ir = IsotonicRegression(out_of_bounds="clip", y_min=0.0, y_max=1.0)
+        ir.fit(logits[:, k], srv[:, k])
+        xs = [round(float(v), ROUND) for v in ir.X_thresholds_]
+        ys = [round(float(v), ROUND) for v in ir.y_thresholds_]
+        maps.append({"x": xs, "y": ys})
+
+    n_pts = sum(len(m["x"]) for m in maps)
+    print(f"  [ios export] Fitted isotonic calibration: {len(maps)} classes, "
+          f"{n_pts} breakpoints (device-logit → server-prob).")
+    return maps
 
 
 def export(out_path: Path, top_per_class: int):
@@ -130,6 +219,10 @@ def export(out_path: Path, top_per_class: int):
     idf       = [round(float(v), ROUND) for v in pruned_idf]
     intercept = [round(float(intercept_[class_to_row[lbl]]), ROUND) for lbl in labels]
 
+    # Per-class isotonic calibration (device logit → server-calibrated prob),
+    # fit on the exact pruned weights we just built so it matches Swift's logits.
+    calibration_maps = _fit_calibration(pipeline, labels, new_vocab, idf, coef, intercept)
+
     payload = {
         "labels":             labels,
         "vocab":              new_vocab,
@@ -143,6 +236,14 @@ def export(out_path: Path, top_per_class: int):
         #   norm = sqrt(sum(v*v)); if norm > 0: vec /= norm
         "normalize":          "l2",
     }
+    if calibration_maps is not None:
+        # iOS: calibrated[k] = interp(logit[k], maps[k].x, maps[k].y) clamped to
+        # the endpoints; then divide by the sum across classes. Falls back to
+        # plain softmax when this key is absent (older bundles).
+        payload["calibration"] = {
+            "method": "isotonic_logit",
+            "maps":   calibration_maps,
+        }
 
     out_path.parent.mkdir(exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:

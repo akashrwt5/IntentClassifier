@@ -66,6 +66,30 @@ TEST_UTTERANCES = [
 # iOS hand-rolled scorer (mirrors export_ios_weights.py + iOS Swift logic)
 # ---------------------------------------------------------------------------
 
+import re
+
+
+def _swift_tokens(text: str) -> list:
+    """Match IntentClassifierService.tokenize(): lowercase, split on
+    non-alphanumerics, then unigrams + adjacent bigrams (single chars kept)."""
+    words = [w for w in re.split(r"[^a-z0-9]+", text.lower()) if w]
+    tokens = list(words)
+    for i in range(len(words) - 1):
+        tokens.append(words[i] + " " + words[i + 1])
+    return tokens
+
+
+def _interp(x: float, xs: list, ys: list) -> float:
+    """Clamped piecewise-linear interpolation (mirrors Swift interpolate())."""
+    if not xs:
+        return 0.0
+    if x <= xs[0]:
+        return ys[0]
+    if x >= xs[-1]:
+        return ys[-1]
+    return float(np.interp(x, xs, ys))
+
+
 def _ios_predict(text: str, weights: dict) -> tuple[str, float]:
     vocab: dict = weights["vocab"]
     idf: list = weights["idf"]
@@ -73,42 +97,38 @@ def _ios_predict(text: str, weights: dict) -> tuple[str, float]:
     intercept: list = weights["intercept"]
     labels: list = weights["labels"]
 
-    t = text.lower().strip()
-    tokens = t.split()
-
-    # TF (raw counts) for unigrams and bigrams
+    # TF (raw counts) over the pruned vocab, sublinear TF-IDF, then L2 normalise.
     counts: dict[int, int] = {}
-    for tok in tokens:
+    for tok in _swift_tokens(text):
         idx = vocab.get(tok)
         if idx is not None:
             counts[idx] = counts.get(idx, 0) + 1
-    for i in range(len(tokens) - 1):
-        bg = tokens[i] + " " + tokens[i + 1]
-        idx = vocab.get(bg)
-        if idx is not None:
-            counts[idx] = counts.get(idx, 0) + 1
-
-    # TF-IDF with sublinear_tf (log(1+count) * idf)
     vec: dict[int, float] = {idx: math.log(1 + cnt) * idf[idx] for idx, cnt in counts.items()}
-
-    # L2 normalise
     norm = math.sqrt(sum(v * v for v in vec.values()))
     if norm > 0:
         vec = {idx: v / norm for idx, v in vec.items()}
 
-    # Dot product + intercept per class
-    scores = []
-    for i, (row, b) in enumerate(zip(coef, intercept)):
-        s = b + sum(vec.get(idx, 0.0) * w for idx, w in enumerate(row) if w != 0.0)
-        scores.append(s)
+    # Logits: dot product + intercept per class.
+    logits = [b + sum(vec.get(idx, 0.0) * w for idx, w in enumerate(row) if w != 0.0)
+              for row, b in zip(coef, intercept)]
 
-    # Softmax
-    max_s = max(scores)
-    exps = [math.exp(s - max_s) for s in scores]
-    total = sum(exps)
-    probs = [e / total for e in exps]
+    # The predicted intent is always the base model's argmax. Calibration only
+    # rescales the reported confidence — it must not re-rank (see Swift
+    # stage2Scores). This mirrors the on-device behaviour exactly.
+    top = int(np.argmax(logits))
 
-    top = int(np.argmax(probs))
+    calibration = weights.get("calibration")
+    if calibration and calibration.get("method") == "isotonic_logit":
+        maps = calibration["maps"]
+        cal = [_interp(logits[k], maps[k]["x"], maps[k]["y"]) for k in range(len(labels))]
+        total = sum(cal)
+        probs = [c / total for c in cal] if total > 0 else cal
+    else:
+        max_s = max(logits)
+        exps = [math.exp(s - max_s) for s in logits]
+        total = sum(exps)
+        probs = [e / total for e in exps]
+
     return labels[top], probs[top]
 
 
@@ -162,8 +182,10 @@ def main():
     #   1. INTENT MISMATCH   — paths predict different intents (always a bug)
     #   2. THRESHOLD DISAGREE — one path fires above threshold while the other doesn't
     #      (user sees an action on one platform but a fallback on the other)
-    # Probability distance alone is NOT a failure criterion because the ONNX path
-    # uses isotonic-calibrated probabilities while the iOS path uses raw LR scores.
+    # Probability distance alone is NOT a failure criterion: the iOS path now
+    # applies its own isotonic calibration (device logit → server prob), so the
+    # two should track closely, but exact parity isn't guaranteed (averaged single
+    # model + one isotonic map vs. the server's per-fold calibrated ensemble).
 
     intent_failures    = []
     threshold_failures = []

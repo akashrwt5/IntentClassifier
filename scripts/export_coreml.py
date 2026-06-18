@@ -32,13 +32,16 @@ from intent_model.onnx. Two reasons:
   2. The ONNX export includes a string-input TF-IDF subgraph. coremltools
      cannot convert ONNX string tensors.
 
-The intent_classifier_weights.json was already exported from the calibrated
-model by export_ios_weights.py, so the weights ARE the calibrated values.
-Building CoreML directly from JSON is deterministic and has zero conversion risk.
+The intent_classifier_weights.json holds the averaged base-LR weights plus a
+per-class isotonic calibration table (device logit → server-calibrated prob),
+both exported by export_ios_weights.py. The linear weights go into the CoreML
+graph; the calibration is applied on-device in Swift.
 
 iOS side: Swift runs tfidfVector() as before, producing a float[n_features]
 L2-normalised vector. That vector is the input to IntentClassifier.mlpackage.
-The CoreML model runs the linear layer + softmax and returns classProbability.
+The CoreML model runs the linear layer + softmax and returns BOTH classProbability
+and the raw "logits". Swift feeds the logits through the isotonic tables and
+renormalises, matching the server's CalibratedClassifierCV(method='isotonic').
 
 ── Stage 3b design note ──────────────────────────────────────────────────
 coremltools 9 REMOVED the ONNX frontend — ct.convert() only accepts
@@ -180,9 +183,13 @@ def export_intent_classifier(ct):
     from coremltools.models.neural_network import NeuralNetworkBuilder
     import coremltools.models.datatypes as dt
 
+    # "logits" is exposed as a model output (not just an intermediate blob) so the
+    # Swift side can apply the isotonic calibration tables shipped in
+    # intent_classifier_weights.json and recalibrate to server-level confidence.
+    # Older bundles without this output make Swift fall back to its own logit calc.
     builder = NeuralNetworkBuilder(
         input_features =[("tfidf_vector",     dt.Array(n_features))],
-        output_features=[("classProbability", None)],
+        output_features=[("classProbability", None), ("logits", dt.Array(n_classes))],
         mode="classifier",
     )
     builder.add_inner_product(
@@ -200,6 +207,7 @@ def export_intent_classifier(ct):
         "L2-normalised TF-IDF feature vector — compute with Swift tfidfVector()"
     )
     mlmodel.output_description["classProbability"] = "Per-intent softmax probabilities"
+    mlmodel.output_description["logits"] = "Raw pre-softmax logits — input to Swift isotonic calibration"
     mlmodel.output_description["label"] = "Top-1 predicted intent label"
     mlmodel.save(str(dst))
     print(f"  Saved {dst}")
