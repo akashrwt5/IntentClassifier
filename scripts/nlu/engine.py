@@ -272,7 +272,9 @@ class NLUEngine:
         if awaiting:
             slot = self._slot_def(cfg, awaiting)
             value, _, _conf = self.entities.extract(slot["entity"], text)
-            if value is None and slot["entity"] in ("remind",):
+            # Open free-text entities (e.g. @remind) accept the raw answer as a
+            # fallback — a None structured extraction is expected, not a failure.
+            if value is None and self.entities.is_open(slot["entity"]):
                 value = text.strip()
             if value is not None:
                 session.pending_slots[slot["name"]] = value
