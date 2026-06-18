@@ -460,20 +460,28 @@ class NLUEngine:
         engine prompts for the time; a later bare-time answer ("3pm") is anchored
         to that parked day so "tomorrow" is not lost.
         """
-        anchor = None
-        if session.partial_datetime:
-            try:
-                anchor = datetime.fromisoformat(session.partial_datetime).astimezone()
-            except ValueError:
-                anchor = None
-        iso, _span, _conf, time_explicit = (
-            self.entities.extract_datetime(text, now=anchor) if anchor
-            else self.entities.extract_datetime(text))
+        # Probe with the real clock first. This tells us whether the answer
+        # carries its OWN day ("tomorrow at 4") — in which case it wins and we
+        # must NOT anchor, or the anchored day would advance ("tomorrow" relative
+        # to the parked tomorrow → day after).
+        iso, _span, _conf, time_explicit, explicit_day = self.entities.extract_datetime(text)
         if iso is None:
             return None, False
+
+        # Bare time with no day of its own ("at 4") — anchor it to the parked day
+        # so "tomorrow" is preserved, then re-resolve against that day's midnight.
+        if not explicit_day and session.partial_datetime:
+            try:
+                anchor = datetime.fromisoformat(session.partial_datetime).astimezone()
+                iso, _span, _conf, time_explicit, explicit_day = \
+                    self.entities.extract_datetime(text, now=anchor)
+            except ValueError:
+                pass
+
         if time_explicit:
             session.partial_datetime = None
             return iso, True
+
         # Day given, no time — park the day at local midnight (not the 9am
         # default) so a later time answer like "6am" stays on this day instead of
         # tripping the "already past today → roll forward" guard.

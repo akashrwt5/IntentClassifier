@@ -142,6 +142,19 @@ def test_reminder_explicit_time_still_one_shot():
     assert _local_hm(r.parameters["date-time"]) == (15, 0)
 
 
+def test_reminder_time_answer_repeating_day_does_not_advance():
+    # Regression: after "...tomorrow" prompts for time, answering "tomorrow at 4"
+    # must NOT advance to the day after — the answer's own day wins, not the
+    # parked day. (Previously anchored "tomorrow" onto the parked tomorrow.)
+    from datetime import datetime, timedelta
+    rs = run_all(["i need to go to airport tomorrow", "tomorrow at 4"])
+    assert rs[0].type == "PROMPT"
+    assert rs[1].type == "FULFILL"
+    when = datetime.fromisoformat(rs[1].parameters["date-time"]).astimezone()
+    assert when.date() == (datetime.now().astimezone() + timedelta(days=1)).date(), when
+    assert when.hour == 16  # "4" with no am/pm resolves to the afternoon
+
+
 # ------------------------------- memory -------------------------------------
 def test_memory_step_by_step():
     rs = run_all(["change memory", "restaurant"])
