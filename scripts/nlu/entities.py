@@ -182,6 +182,14 @@ class EntityExtractor:
         return dt.astimezone(timezone.utc).isoformat(timespec="minutes")
 
     def extract_datetime(self, text: str, now: datetime = None):
+        """Return (iso, span, confidence, time_explicit).
+
+        time_explicit is True when the user actually specified a time-of-day
+        (clock time, relative duration, or a named period like "morning").
+        It is False when only a day was given ("tomorrow") and the time had to
+        be defaulted — the engine uses this to prompt for the missing time while
+        keeping the resolved day.
+        """
         # Parse the user's spoken time in their LOCAL zone, then store UTC.
         # now must be timezone-aware; a naive now is treated as device-local.
         if now is None:
@@ -198,7 +206,7 @@ class EntityExtractor:
             delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
                      "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n),
                      "day":    timedelta(days=n),     "week": timedelta(weeks=n)}[unit]
-            return self._to_utc_iso(now + delta), m.group(), 1.0
+            return self._to_utc_iso(now + delta), m.group(), 1.0, True
         # "in an hour / in a minute"
         m = re.search(r"\bin\s+an?\s+(minute|min|hour|hr|day|week)s?\b", t)
         if m:
@@ -206,7 +214,7 @@ class EntityExtractor:
             delta = {"minute": timedelta(minutes=1), "min": timedelta(minutes=1),
                      "hour":   timedelta(hours=1),   "hr":  timedelta(hours=1),
                      "day":    timedelta(days=1),     "week": timedelta(weeks=1)}[unit]
-            return self._to_utc_iso(now + delta), m.group(), 1.0
+            return self._to_utc_iso(now + delta), m.group(), 1.0, True
         # "in a few / a couple of minutes/hours"
         m = re.search(r"\bin\s+(?:a\s+few|a\s+couple\s+(?:of\s+)?)\s*(minute|min|hour|hr)s?\b", t)
         if m:
@@ -214,14 +222,14 @@ class EntityExtractor:
             n = 3 if "few" in m.group() else 2
             delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
                      "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n)}[unit]
-            return self._to_utc_iso(now + delta), m.group(), 1.0
+            return self._to_utc_iso(now + delta), m.group(), 1.0, True
         # "in half an hour"
         if re.search(r"\bin\s+half\s+an?\s+hour\b", t):
-            return self._to_utc_iso(now + timedelta(minutes=30)), "in half an hour", 1.0
+            return self._to_utc_iso(now + timedelta(minutes=30)), "in half an hour", 1.0, True
 
         # --- 2. Explicit past-date rejection ---
         if re.search(r"\byesterday\b", t):
-            return None, None, 0.0
+            return None, None, 0.0, False
 
         # --- 3. Normalise word numbers so "nine pm" → "9 pm", "nine thirty" → "9 30" ---
         t = self._normalise_word_numbers(t)
@@ -355,7 +363,7 @@ class EntityExtractor:
             # "quarter to 13" → hour 13) must yield a clean no-match, never a
             # ValueError from datetime.replace().
             if not (0 <= minute <= 59):
-                return None, None, 0.0
+                return None, None, 0.0, False
             try:
                 if 1 <= hour <= 12 and not explicit_ampm and period not in ("am",):
                     # Need disambiguation — use period hint
@@ -364,23 +372,23 @@ class EntityExtractor:
                 else:
                     # hour is already 0-23 (from am/pm regex or colon format)
                     if not (0 <= hour <= 23):
-                        return None, None, 0.0
+                        return None, None, 0.0, False
                     dt = base_day.replace(hour=hour, minute=minute, second=0, microsecond=0)
                     if not explicit_day and dt <= now:
                         dt += timedelta(days=1)
             except ValueError:
-                return None, None, 0.0
+                return None, None, 0.0, False
             # Reject explicitly past dates (e.g. "yesterday", already-past specific date)
             if explicit_day and base_day.date() < now.date():
-                return None, None, 0.0
-            return self._to_utc_iso(dt), span, 1.0
+                return None, None, 0.0, False
+            return self._to_utc_iso(dt), span, 1.0, True
 
         if explicit_day:
-            # Day anchor found but no time — default 9am
+            # Day anchor found but NO time. Return the resolved day (defaulted to
+            # 9am for backward-compatible callers) with time_explicit=False so the
+            # engine can prompt for the missing time while keeping this day.
             dt = base_day.replace(hour=9, minute=0, second=0, microsecond=0)
-            if not explicit_day and dt <= now:
-                dt += timedelta(days=1)
-            return self._to_utc_iso(dt), span, 1.0
+            return self._to_utc_iso(dt), span, 1.0, False
 
         # --- 8. Dateparser fallback (stripped to avoid month/day misparse) ---
         if _HAS_DATEPARSER:
@@ -395,9 +403,9 @@ class EntityExtractor:
                     },
                 )
                 if dt:
-                    return self._to_utc_iso(dt), t, 0.85
+                    return self._to_utc_iso(dt), t, 0.85, True
 
-        return None, None, 0.0
+        return None, None, 0.0, False
 
     def is_open(self, entity: str) -> bool:
         return bool(self.entities.get(entity, {}).get("open"))
@@ -429,6 +437,8 @@ class EntityExtractor:
         fuzzy is forwarded to enum matching; pass fuzzy=False for one-shot
         full-sentence scans to avoid stray approximate matches on common words.
         """
-        if entity == "sys.date-time":       return self.extract_datetime(text)
+        if entity == "sys.date-time":
+            iso, span, conf, _time_explicit = self.extract_datetime(text)
+            return iso, span, conf
         if entity == "sys.number-integer":  return self.extract_number(text)
         return self.extract_enum(entity, text, fuzzy=fuzzy)

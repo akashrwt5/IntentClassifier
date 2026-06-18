@@ -48,6 +48,10 @@ class Session:
     pending_slots: dict = field(default_factory=dict)
     awaiting_slot: Optional[str] = None
     slot_attempts: int = 0          # failed attempts to fill awaiting_slot
+    # When a date-time slot answer gives a day but no time ("tomorrow"), the
+    # resolved day is parked here so the time prompt's answer can be anchored to
+    # it (keeping the day) instead of resolving against today.
+    partial_datetime: Optional[str] = None
     last_active: float = 0.0        # wall-clock of the last handled turn
 
     # --- context parameter memory ---
@@ -86,6 +90,7 @@ class Session:
         self.pending_slots = {}
         self.awaiting_slot = None
         self.slot_attempts = 0
+        self.partial_datetime = None
 
     def record_fulfillment(self, intent: str, params: dict):
         """Called after every FULFILL to persist parameters for later reuse."""

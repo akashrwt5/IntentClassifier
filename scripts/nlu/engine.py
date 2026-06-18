@@ -17,6 +17,7 @@ import logging
 import os
 import re
 import time
+from datetime import datetime
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Optional
@@ -271,14 +272,22 @@ class NLUEngine:
         awaiting = session.awaiting_slot
         if awaiting:
             slot = self._slot_def(cfg, awaiting)
-            value, _, _conf = self.entities.extract(slot["entity"], text)
-            # Open free-text entities (e.g. @remind) accept the raw answer as a
-            # fallback — a None structured extraction is expected, not a failure.
-            if value is None and self.entities.is_open(slot["entity"]):
-                value = text.strip()
-            if value is not None:
-                session.pending_slots[slot["name"]] = value
-        self._extract_all_slots(cfg, text, session.pending_slots)
+            if slot["entity"] == "sys.date-time":
+                iso, filled = self._resolve_datetime(session, text)
+                if filled:
+                    session.pending_slots[slot["name"]] = iso
+            else:
+                value, _, _conf = self.entities.extract(slot["entity"], text)
+                # Open free-text entities (e.g. @remind) accept the raw answer as
+                # a fallback — a None structured extraction is expected, not a failure.
+                if value is None and self.entities.is_open(slot["entity"]):
+                    value = text.strip()
+                if value is not None:
+                    session.pending_slots[slot["name"]] = value
+        # Opportunistically fill OTHER slots mentioned in the same answer, but
+        # skip the slot we just handled — re-resolving it (e.g. a parked
+        # date-time anchored to itself) would double-advance the day.
+        self._extract_all_slots(session, cfg, text, session.pending_slots, skip=awaiting)
 
         # Slot-attempt accounting: if we were waiting on a specific slot and it
         # is still unfilled after this turn, count a failed attempt. Abandon the
@@ -412,7 +421,7 @@ class NLUEngine:
             # before doing normal entity extraction.
             slots = self._resolve_back_reference(session, intent, text) or {}
             if not slots:
-                self._extract_all_slots(cfg, text, slots)
+                self._extract_all_slots(session, cfg, text, slots)
                 self._fill_open_topics(cfg, text, slots)
             session.pending_intent = intent
             session.pending_slots = slots
@@ -423,16 +432,55 @@ class NLUEngine:
         session.record_fulfillment(intent, {})
         return result
 
-    def _extract_all_slots(self, cfg, text, slots: dict):
+    def _extract_all_slots(self, session, cfg, text, slots: dict, skip: str = None):
         # One-shot / bulk full-sentence scan: disable fuzzy enum matching so a
         # common word (e.g. "care", "cup") doesn't get mis-read as a memory
         # name. Fuzzy is reserved for the awaited-slot answer in slot filling.
         for slot in cfg["slots"]:
-            if slot["name"] in slots:
+            if slot["name"] in slots or slot["name"] == skip:
+                continue
+            if slot["entity"] == "sys.date-time":
+                # Only fill when a time was actually given; a day-only mention
+                # parks the day in session.partial_datetime and leaves the slot
+                # open so the engine prompts for the time.
+                iso, filled = self._resolve_datetime(session, text)
+                if filled:
+                    slots[slot["name"]] = iso
                 continue
             value, _, _conf = self.entities.extract(slot["entity"], text, fuzzy=False)
             if value is not None:
                 slots[slot["name"]] = value
+
+    def _resolve_datetime(self, session, text: str):
+        """Resolve a date-time slot value from `text`.
+
+        Returns (iso, filled). `filled` is True only when an explicit time was
+        given. When the user supplies a day but no time, the resolved day is
+        stored in session.partial_datetime and (None, False) is returned so the
+        engine prompts for the time; a later bare-time answer ("3pm") is anchored
+        to that parked day so "tomorrow" is not lost.
+        """
+        anchor = None
+        if session.partial_datetime:
+            try:
+                anchor = datetime.fromisoformat(session.partial_datetime).astimezone()
+            except ValueError:
+                anchor = None
+        iso, _span, _conf, time_explicit = (
+            self.entities.extract_datetime(text, now=anchor) if anchor
+            else self.entities.extract_datetime(text))
+        if iso is None:
+            return None, False
+        if time_explicit:
+            session.partial_datetime = None
+            return iso, True
+        # Day given, no time — park the day at local midnight (not the 9am
+        # default) so a later time answer like "6am" stays on this day instead of
+        # tripping the "already past today → roll forward" guard.
+        day_start = (datetime.fromisoformat(iso).astimezone()
+                     .replace(hour=0, minute=0, second=0, microsecond=0))
+        session.partial_datetime = day_start.isoformat()
+        return None, False
 
     _CARRIER = [
         r"^\s*please\s+",

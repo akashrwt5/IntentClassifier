@@ -110,6 +110,38 @@ def test_reminder_recurrence():
     assert r.parameters.get("recurrence") == "Daily"
 
 
+def test_reminder_day_only_prompts_for_time():
+    # A day with no time must ask for the time instead of defaulting to 9am.
+    rs = run_all(["i need to go to airport tomorrow", "at 6 am"])
+    assert rs[0].type == "PROMPT" and "when" in rs[0].message.lower()
+    assert rs[1].type == "FULFILL"
+    assert rs[1].parameters["name"] == "go to airport"
+    # The parked day ("tomorrow") must be preserved by the bare-time answer,
+    # and 6am must NOT roll forward a day.
+    from datetime import datetime, timedelta
+    answered = datetime.fromisoformat(rs[1].parameters["date-time"]).astimezone()
+    tomorrow = (datetime.now().astimezone() + timedelta(days=1)).date()
+    assert answered.date() == tomorrow, (answered, tomorrow)
+    assert (answered.hour, answered.minute) == (6, 0)
+
+
+def test_reminder_day_only_step_by_step_keeps_day():
+    rs = run_all(["set a reminder", "buy milk", "tomorrow", "9 am"])
+    assert rs[2].type == "PROMPT"      # "tomorrow" alone still needs a time
+    assert rs[3].type == "FULFILL"
+    assert _local_hm(rs[3].parameters["date-time"]) == (9, 0)
+    from datetime import datetime, timedelta
+    when = datetime.fromisoformat(rs[3].parameters["date-time"]).astimezone()
+    assert when.date() == (datetime.now().astimezone() + timedelta(days=1)).date()
+
+
+def test_reminder_explicit_time_still_one_shot():
+    # Day + explicit time must fulfill directly, no extra prompt.
+    r = run(["remind me to call mom tomorrow at 3pm"])
+    assert r.type == "FULFILL"
+    assert _local_hm(r.parameters["date-time"]) == (15, 0)
+
+
 # ------------------------------- memory -------------------------------------
 def test_memory_step_by_step():
     rs = run_all(["change memory", "restaurant"])
