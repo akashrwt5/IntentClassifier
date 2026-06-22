@@ -77,6 +77,22 @@ work (quantization, distillation) may not move the RAM number until this is fixe
 
 _Update as work lands — newest first._
 
+- **NaN diagnostic + guards.** Head training aborted with an opaque sklearn
+  `Input X contains NaN` because the CoreML encoder emitted non-finite values.
+  Added `scripts/diagnose_embedder_nan.py` to isolate the source (FP16 base vs
+  palettized int8, raw output before mean-pool, optional full-training-set scan),
+  a loud pre-`fit` NaN guard in `train_semantic_head_coreml.py` that names the
+  offending phrases and points at the diagnostic, and a finite-output check in
+  `export_coreml.py`'s smoke test that now exercises **both** the FP16 and int8
+  packages (the old test checked only shape, only FP16, so a NaN-filled model
+  passed silently).
+
+- **Repo cleanup.** Removed `.venv-dfcompare/` (17 184 files) and `.idea/` (9)
+  that were committed in `294211c2`, deleted the broken `scripts/export-coreML-ANE.py`
+  (its custom `ANELayerNorm` computed variance as `(x*x).mean()` in FP16, which
+  overflows BERT's hidden-state magnitudes → Inf → NaN), and expanded
+  `.gitignore` to cover venvs, IDE dirs, `.mlpackage` bundles, and model binaries.
+
 - **Toolchain consistency for the fixed shape.** Updated the three other scripts
   that talk to the CoreML encoder so they pad to the fixed length (default 32)
   instead of feeding variable-length input: `compare_coreml_quant.py` and

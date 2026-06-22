@@ -106,13 +106,35 @@ def _embed_one(model, vocab, text, seq_len=SEQ_LEN):
     return (vec / norm).astype(np.float32) if norm > 0 else vec.astype(np.float32)
 
 
-def embed_all(model, vocab, texts):
+def embed_all(model, vocab, texts, model_name="the embedder"):
     vecs = []
+    bad  = []   # (index, text) for any phrase whose embedding is non-finite
     t0 = time.time()
     for i, text in enumerate(texts):
-        vecs.append(_embed_one(model, vocab, text))
+        v = _embed_one(model, vocab, text)
+        if not np.isfinite(v).all():
+            bad.append((i, text))
+        vecs.append(v)
         if i % 200 == 0:
             print(f"  embedded {i}/{len(texts)}  ({time.time()-t0:.0f}s)")
+    if bad:
+        # Fail loud and specific: sklearn would otherwise abort later with an
+        # opaque "Input X contains NaN" and no pointer to the cause. A non-finite
+        # embedding means the CoreML model itself emits NaN/Inf — almost always a
+        # broken export (e.g. an FP16-overflowing custom LayerNorm) or a bad
+        # palettization, not a data problem.
+        preview = "\n".join(f'    [{i}] "{t[:60]}"' for i, t in bad[:10])
+        more = f"\n    ... and {len(bad) - 10} more" if len(bad) > 10 else ""
+        sys.exit(
+            f"\nERROR: {len(bad)}/{len(texts)} phrases produced a non-finite "
+            f"embedding from {model_name}.\n"
+            f"The CoreML encoder is emitting NaN/Inf, so the head cannot be "
+            f"trained on it.\nFirst offenders:\n{preview}{more}\n\n"
+            f"Diagnose which model is broken (FP16 base vs palettized int8):\n"
+            f"    python scripts/diagnose_embedder_nan.py\n"
+            f"Then regenerate it:\n"
+            f"    python scripts/export_coreml.py --quantize\n"
+        )
     return np.vstack(vecs)
 
 
@@ -181,8 +203,8 @@ def main():
     print(f"Noisy fallback-log eval set: {len(noisy_fb)} phrases (NOT trained on)")
 
     print("\nEmbedding all phrases via CoreML (the SAME path iOS will use)...")
-    X    = embed_all(model, vocab, texts)
-    X_fb = embed_all(model, vocab, noisy_fb["text"].tolist())
+    X    = embed_all(model, vocab, texts, model_path.name)
+    X_fb = embed_all(model, vocab, noisy_fb["text"].tolist(), model_path.name)
     y    = np.array(intents)
 
     from sklearn.linear_model import LogisticRegression

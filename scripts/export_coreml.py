@@ -524,24 +524,38 @@ def validate_all(ct, seq_len=DEFAULT_SEQ_LEN):
         except Exception as e:
             print(f"    FAILED: {e}")
 
-    # MiniLM end-to-end smoke test if present
-    mm = MODELS_DIR / "MiniLMEmbedder.mlpackage"
-    if mm.exists():
-        test_len = seq_len if (seq_len and seq_len > 0) else 8
+    # MiniLM end-to-end smoke test — run BOTH the FP16 base and (if present) the
+    # palettized int8, and check the output is FINITE. A shape-only check misses
+    # the failure mode that matters most: a model that loads and returns the
+    # right shape but is full of NaN/Inf (FP16 overflow, bad palettization),
+    # which then crashes head training with an opaque sklearn error downstream.
+    test_len = seq_len if (seq_len and seq_len > 0) else 8
+    for name in ["MiniLMEmbedder", "MiniLMEmbedder_int8"]:
+        mm = MODELS_DIR / f"{name}.mlpackage"
+        if not mm.exists():
+            continue
         print()
-        print(f"  MiniLMEmbedder test inference (seq_len={test_len}):")
+        print(f"  {name} test inference (seq_len={test_len}):")
         try:
-            m   = ct.models.MLModel(str(mm))
+            m   = ct.models.MLModel(str(mm), compute_units=ct.ComputeUnit.CPU_ONLY)
             ids = np.ones((1, test_len), dtype=np.int32)
             out = m.predict({
                 "input_ids":      ids,
                 "attention_mask": np.ones((1, test_len), dtype=np.int32),
                 "token_type_ids": np.zeros((1, test_len), dtype=np.int32),
             })
-            key   = next(iter(out))
-            shape = np.array(out[key]).shape
-            print(f"    Output '{key}' shape: {shape}")
-            print("    Inference OK")
+            key = next(iter(out))
+            arr = np.array(out[key])
+            print(f"    Output '{key}' shape: {arr.shape}")
+            n_nan = int(np.isnan(arr).sum())
+            n_inf = int(np.isinf(arr).sum())
+            if n_nan or n_inf:
+                print(f"    ❌ NON-FINITE OUTPUT: {n_nan} NaN, {n_inf} Inf of {arr.size}.")
+                print(f"       This model is broken and must NOT ship. Diagnose with:")
+                print(f"         python scripts/diagnose_embedder_nan.py --model {mm}")
+            else:
+                print(f"    Inference OK — all {arr.size} values finite, "
+                      f"range [{arr.min():.2f}, {arr.max():.2f}]")
         except Exception as e:
             print(f"    FAILED: {e}")
 
