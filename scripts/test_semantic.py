@@ -32,11 +32,9 @@ NOVEL_PHRASINGS = [
     # (utterance, expected_intent)
     # Paraphrases NOT in training data — must be rescued by semantic
     ("log a jog",               "Cmd.ActivityRun"),
-    ("cant hear well",          "Cmd.VolumeIncrease"),
     ("my ears are ringing",     "Help_Tinnitus"),
     # In training data, but TF-IDF stays unsure — semantic rescues them
     ("dim the audio",           "Cmd.VolumeDecrease"),
-    ("switch listening profile","Cmd.MemoryChange"),
     ("I need some quiet",       "Cmd.VolumeDecrease"),
 ]
 
@@ -54,6 +52,8 @@ KNOWN_PHRASINGS = [
     # Should be handled by TF-IDF (Stage 2), semantic_rescue must be False
     ("mute",                    "Cmd.VolumeMute"),
     ("silence please",          "Cmd.VolumeMute"),
+    ("cant hear well",          "Cmd.VolumeIncrease"),
+    ("switch listening profile","Cmd.MemoryChange"),
     ("turn it down",            "Cmd.VolumeDecrease"),
     ("increase the volume",     "Cmd.VolumeIncrease"),
     ("start running",           "Cmd.ActivityRun"),
