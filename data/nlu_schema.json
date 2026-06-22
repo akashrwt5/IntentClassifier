@@ -92,6 +92,15 @@
       "regex": "\\b(too|way|so|very|really)\\s+(hot|loud|bright|much)\\b|\\bcoming in (way )?too (hot|loud)\\b|\\btake the edge off\\b"
     },
     {
+      "intent": "Cmd.VolumeDecrease",
+      "regex": "\\b(dim|soften|dampen|quieten)\\b.{0,15}\\b(audio|sound|volume|it)\\b",
+      "not_regex": "\\b(increase|raise|louder|up)\\b"
+    },
+    {
+      "intent": "Help_DeviceSettings",
+      "regex": "\\b(everything|audio|sounds?)\\b.{0,15}\\b(muffled|distorted|garbled|warped)\\b"
+    },
+    {
       "intent": "Cmd.BatteryLevel",
       "regex": "\\b(power|battery)\\s+(reading|level|status|left|remaining)\\b|\\b(die|dying|run out|running out)\\b.{0,20}\\b(on me|battery|charge|power)\\b|\\bhow (much|long).{0,20}\\b(battery|charge|power|life)\\b"
     },
