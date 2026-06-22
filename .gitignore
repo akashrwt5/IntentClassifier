@@ -1,3 +1,22 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# IDE / editor
+.idea/
+.vscode/
+
+# Virtual environments
+.venv*/
+venv/
+env/
+
+# CoreML model bundles (regenerated locally, not committed)
+*.mlpackage/
+
+# Trained model artifacts (large binaries)
+models/*.onnx
+models/*.pkl
+
+# macOS
+__MACOSX/
