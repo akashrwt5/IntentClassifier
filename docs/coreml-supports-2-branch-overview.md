@@ -77,6 +77,20 @@ work (quantization, distillation) may not move the RAM number until this is fixe
 
 _Update as work lands — newest first._
 
+- **Fixed the actual NaN root cause: FP16 attention-mask overflow.** A freshly
+  exported model (native `nn.LayerNorm`, no custom ANE code) was still 100% NaN
+  on every input — ruling out the earlier custom-LayerNorm theory. Real cause:
+  recent `transformers` builds the additive attention mask as
+  `(1 - mask) * torch.finfo(dtype).min` (-3.4e38 for FP32). coremltools casts
+  that to `-inf` in FP16, so at every **unmasked** token `0 * -inf = NaN`, which
+  softmax then spreads across the whole output (12288/12288 NaN). It surfaced
+  after an unpinned `pip install transformers` pulled a version that switched the
+  mask sentinel from a finite `-10000.0` to `finfo.min`. Fix in
+  `export_coreml.py`: load with `attn_implementation="eager"` and override
+  `get_extended_attention_mask` to use a finite, FP16-safe `-1e4`. Masking is
+  unchanged (`exp(-1e4) ≈ 0`) and the mean-pool already skips pads, so embeddings
+  and accuracy are identical.
+
 - **NaN diagnostic + guards.** Head training aborted with an opaque sklearn
   `Input X contains NaN` because the CoreML encoder emitted non-finite values.
   Added `scripts/diagnose_embedder_nan.py` to isolate the source (FP16 base vs

@@ -322,12 +322,38 @@ def export_minilm(ct, seq_len=DEFAULT_SEQ_LEN):
 
     print(f"  Loading {MINILM_HF_NAME} (PyTorch, downloads ~90 MB on first run) ...")
     try:
-        base = AutoModel.from_pretrained(MINILM_HF_NAME)
+        # Force EAGER attention. SDPA routes masking through
+        # scaled_dot_product_attention, whose mask handling coremltools converts
+        # less predictably; the eager path uses the additive mask we patch below.
+        try:
+            base = AutoModel.from_pretrained(MINILM_HF_NAME, attn_implementation="eager")
+        except TypeError:
+            base = AutoModel.from_pretrained(MINILM_HF_NAME)  # older transformers
     except Exception as e:
         print(f"  FAILED to load model: {e}")
         print("    Check internet access (HuggingFace hub) or pre-cache the model.")
         return
     base.eval()
+
+    # ── FP16-safe attention mask ──────────────────────────────────────────────
+    # Recent transformers builds the additive attention mask as
+    #     (1 - attention_mask) * torch.finfo(model.dtype).min
+    # For an FP32 model that sentinel is -3.4e38. coremltools casts it to -inf
+    # when converting to FLOAT16, and then at every UNMASKED position
+    #     (1 - 1) * -inf  =  0 * -inf  =  NaN
+    # which propagates through softmax and makes the ENTIRE output NaN (observed:
+    # 12288/12288 NaN on any input). Older transformers used a finite -10000.0
+    # sentinel and did not hit this. Override the method to use a finite,
+    # FP16-representable value so the masked-attention math survives FP16
+    # conversion. Masking is unchanged (exp(-1e4) ≈ 0) and the mean-pool already
+    # skips pad positions, so embeddings — and accuracy — are identical.
+    import types
+
+    def _fp16_safe_extended_mask(self, attention_mask, input_shape, *args, **kwargs):
+        ext = attention_mask[:, None, None, :].to(dtype=torch.float32)
+        return (1.0 - ext) * -1e4
+
+    base.get_extended_attention_mask = types.MethodType(_fp16_safe_extended_mask, base)
 
     class MiniLMWrapper(torch.nn.Module):
         """Returns only last_hidden_state so the traced graph has a tensor output."""
