@@ -57,8 +57,10 @@ work (quantization, distillation) may not move the RAM number until this is fixe
 > semantic head was trained on ONNX embeddings at 64, and since every real
 > utterance is ≤ 33 tokens, a fixed-32 CoreML model produces identical mean-pooled
 > embeddings (pads are masked out) — so no retrain is needed and accuracy is
-> unchanged. A second, legacy export path (`scripts/export_onnx_to_coreml.py:203`)
-> still uses `RangeDim`; update it the same way only if that path is revived.
+> unchanged. The CoreML-*consuming* tooling — `compare_coreml_quant.py`,
+> `train_semantic_head_coreml.py`, and the alternate `export_onnx_to_coreml.py`
+> producer — has been updated to pad to the fixed length (they previously fed
+> variable-length input and would crash against the fixed-shape model).
 
 ## What is NOT changed here
 
@@ -74,6 +76,15 @@ work (quantization, distillation) may not move the RAM number until this is fixe
 ## Done log
 
 _Update as work lands — newest first._
+
+- **Toolchain consistency for the fixed shape.** Updated the three other scripts
+  that talk to the CoreML encoder so they pad to the fixed length (default 32)
+  instead of feeding variable-length input: `compare_coreml_quant.py` and
+  `train_semantic_head_coreml.py` (consumers — would otherwise crash on the shape
+  mismatch once the model is regenerated) and `export_onnx_to_coreml.py` (the
+  alternate ONNX→CoreML producer — same `RangeDim`→fixed change + padded sanity
+  check). Padding with `mask=0` keeps embeddings identical to the old path and is
+  still valid against a dynamic model.
 
 - **`export_coreml.py` — fixed-shape CoreML export (Task #3).** Replaced the
   flexible `RangeDim(1, 64)` sequence axis with a **fixed `(1, 32)`** shape via a

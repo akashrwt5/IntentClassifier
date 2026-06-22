@@ -58,6 +58,11 @@ HEAD_JSON    = MODEL_DIR / "semantic_head_coreml.json"
 FALLBACK_INTENT = "Default Fallback Intent"
 MAX_LEN = 64
 
+# The shipped CoreML encoder is exported at a FIXED (1, SEQ_LEN) shape
+# (export_coreml.py --seq-len, default 32) so it stays resident on the ANE.
+# We right-pad each phrase to SEQ_LEN (mask=0 on pads) to match it exactly.
+SEQ_LEN = 32
+
 sys.path.insert(0, str(BASE_DIR / "scripts"))
 from nlu.semantic import SemanticFallback  # for the WordPiece tokeniser
 
@@ -76,25 +81,27 @@ def _tokenise(vocab, text):
     return ids, len(ids)
 
 
-def _embed_one(model, vocab, text):
+def _embed_one(model, vocab, text, seq_len=SEQ_LEN):
     """Embed a single text via CoreML -- mirrors SemanticEmbedder.swift exactly.
 
-    The CoreML model has a fixed batch dim of 1 and a RangeDim sequence axis,
-    so we embed one phrase at a time at its exact token length (no padding).
-    Mask is therefore all-ones; mean-pool then L2-normalise.
+    The shipped CoreML encoder uses a FIXED (1, seq_len) shape (ANE-resident),
+    so we right-pad each phrase to seq_len with attention_mask=0 on the pads and
+    mean-pool only the real tokens. (Padding to seq_len is also valid against a
+    legacy dynamic-shape model.)
     """
     ids, n = _tokenise(vocab, text)
-    ids_arr  = np.array([ids], dtype=np.int32)
-    mask_arr = np.ones((1, n), dtype=np.int32)
-    tids_arr = np.zeros((1, n), dtype=np.int32)
+    n = min(n, seq_len)
+    ids_arr  = np.zeros((1, seq_len), dtype=np.int32); ids_arr[0, :n]  = ids[:n]
+    mask_arr = np.zeros((1, seq_len), dtype=np.int32); mask_arr[0, :n] = 1
+    tids_arr = np.zeros((1, seq_len), dtype=np.int32)
     out = model.predict({
         "input_ids":      ids_arr,
         "attention_mask": mask_arr,
         "token_type_ids": tids_arr,
     })
     key = next(iter(out))
-    token_emb = np.array(out[key])[0]                  # [seq, 384]
-    vec = token_emb.mean(axis=0)
+    token_emb = np.array(out[key])[0]                  # [seq_len, 384]
+    vec = token_emb[:n].mean(axis=0)                   # real tokens only
     norm = np.linalg.norm(vec)
     return (vec / norm).astype(np.float32) if norm > 0 else vec.astype(np.float32)
 
