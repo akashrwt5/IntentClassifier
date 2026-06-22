@@ -45,12 +45,20 @@ work (quantization, distillation) may not move the RAM number until this is fixe
 
 | # | Task | Where | Status |
 |---|------|-------|--------|
-| 3 | Replace `RangeDim(1, 64)` with a fixed (or enumerated) sequence shape in the CoreML export | `scripts/export_coreml.py` (this repo) | Planned |
+| 3 | Replace `RangeDim(1, 64)` with a fixed sequence shape (default 32) in the CoreML export | `scripts/export_coreml.py` (this repo) | **Done** — `--seq-len`, default 32 |
 | 4 | Pad `input_ids`/`mask`/`token_type_ids` to the fixed length; `mask = 0` on pads (mean-pool already skips them) | `SemanticEmbedder.swift` (STT) | Planned |
-| 5 | Reduce `max_len` 64 → 32, keeping Python and Swift tokenisers in sync | `nlu/semantic.py`, `train_semantic_head.py` (this repo) + `SemanticEmbedder.swift` (STT) | Planned |
+| 5 | Set Swift `maxLen` 64 → 32 to match the fixed CoreML shape (Python `max_len` intentionally left at 64 — see note) | `SemanticEmbedder.swift` (STT) | Planned |
 | 6 | Set `computeUnits = .cpuAndNeuralEngine`; A/B-measure vs `.cpuOnly` and `.all` | `SemanticEmbedder.swift` (STT) | Planned |
 | 7 | Lazy-load the encoder on first semantic rescue and release it after idle (it fires on ~10% of turns) | `IntentClassifierService.swift` (STT) | Planned |
 | 8 | Re-run the quality gate to prove accuracy is unchanged | `scripts/compare_coreml_quant.py` (this repo) | Planned |
+
+> **Note — Python `max_len` and the second export script.** The Python tokenisers
+> (`nlu/semantic.py`, `train_semantic_head.py`) keep `max_len=64` on purpose: the
+> semantic head was trained on ONNX embeddings at 64, and since every real
+> utterance is ≤ 33 tokens, a fixed-32 CoreML model produces identical mean-pooled
+> embeddings (pads are masked out) — so no retrain is needed and accuracy is
+> unchanged. A second, legacy export path (`scripts/export_onnx_to_coreml.py:203`)
+> still uses `RangeDim`; update it the same way only if that path is revived.
 
 ## What is NOT changed here
 
@@ -67,7 +75,16 @@ work (quantization, distillation) may not move the RAM number until this is fixe
 
 _Update as work lands — newest first._
 
-- _(nothing yet — branch just created; scope documented)_
+- **`export_coreml.py` — fixed-shape CoreML export (Task #3).** Replaced the
+  flexible `RangeDim(1, 64)` sequence axis with a **fixed `(1, 32)`** shape via a
+  new `--seq-len` flag (default 32; `--seq-len 0` restores the legacy dynamic
+  shape). Length 32 was chosen empirically — across every file in `data/` the max
+  WordPiece length is 33 tokens (one garbled training sample), p99 ≤ 20, p95 ≤ 15,
+  and all eval phrases ≤ 14. Updated the conversion validation smoke test and
+  `docs/coreml-conversion-guide.md` to match. **Code change only** — the
+  `.mlpackage` is regenerated on macOS (`python scripts/export_coreml.py`) and
+  must ship **together with** the Swift padding change (Task #4), or on-device
+  prediction will fail on the shape mismatch.
 
 ## See also
 
