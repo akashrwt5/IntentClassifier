@@ -32,11 +32,11 @@ NOVEL_PHRASINGS = [
     # (utterance, expected_intent)
     # Paraphrases NOT in training data — must be rescued by semantic
     ("log a jog",               "Cmd.ActivityRun"),
-    ("cant hear well",          "Cmd.VolumeIncrease"),
     ("my ears are ringing",     "Help_Tinnitus"),
-    # In training data, but TF-IDF stays unsure — semantic rescues them
+    # In training data, but TF-IDF stays unsure — semantic rescues them.
+    # "dim the audio" rides the agreement gate: TF-IDF and the head both land on
+    # VolumeDecrease below their individual bars, and their accord clears it.
     ("dim the audio",           "Cmd.VolumeDecrease"),
-    ("switch listening profile","Cmd.MemoryChange"),
     ("I need some quiet",       "Cmd.VolumeDecrease"),
 ]
 
@@ -51,17 +51,21 @@ OUT_OF_SCOPE = [
 ]
 
 KNOWN_PHRASINGS = [
-    # Should be handled by TF-IDF (Stage 2), semantic_rescue must be False
+    # Handled by Stage 1 (keyword) or Stage 2 (TF-IDF); semantic_rescue must be False
     ("mute",                    "Cmd.VolumeMute"),
-    ("silence please",          "Cmd.VolumeMute"),
+    ("silence please",          "Cmd.VolumeMute"),      # keyword rule (idiom)
     ("turn it down",            "Cmd.VolumeDecrease"),
     ("increase the volume",     "Cmd.VolumeIncrease"),
     ("start running",           "Cmd.ActivityRun"),
     ("change to restaurant",    "Cmd.MemoryChange"),
     ("remind me tomorrow at 9am to call chris", "reminders.add"),
-    # Concept phrases promoted into training data — TF-IDF now owns them
+    # TF-IDF now classifies these confidently — no semantic rescue needed
+    ("cant hear well",          "Cmd.VolumeIncrease"),
+    ("switch listening profile","Cmd.MemoryChange"),
+    # Idioms owned by keyword rules (not in training data)
     ("kill the sound",          "Cmd.VolumeMute"),
     ("crank it up",             "Cmd.VolumeIncrease"),
+    # In training data — TF-IDF owns them once the conflicting keyword is gone
     ("aid keeps cutting out",   "Help_DeviceSettings"),
     ("everything sounds muffled", "Help_DeviceSettings"),
 ]

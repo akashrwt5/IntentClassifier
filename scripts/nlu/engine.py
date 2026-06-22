@@ -71,6 +71,13 @@ class NLUEngine:
     # the flow instead of being trapped in an unanswerable prompt loop.
     MAX_SLOT_ATTEMPTS = 3
 
+    # Relaxed semantic-rescue floor used ONLY when the TF-IDF stage and the
+    # MiniLM head independently agree on the same real intent (see the agreement
+    # gate in _handle_new_intent). Lower than semantic_threshold because mutual
+    # corroboration offsets the softmax diffusion of a 61-class head; still high
+    # enough that a flat (genuinely-ambiguous) distribution is rejected.
+    AGREEMENT_THRESHOLD = 0.50
+
     def __init__(self, schema_path: Path = SCHEMA_PATH):
         self.schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
         self.intents = self.schema["intents"]
@@ -389,15 +396,30 @@ class NLUEngine:
             # Stage 3: semantic rescue via MiniLM when TF-IDF is uncertain
             if self.semantic is not None:
                 sem_intent, sem_conf = self.semantic.classify(text)
-                if (sem_intent != "Default Fallback Intent"
-                        and sem_conf >= self.semantic_threshold):
-                    sem_cfg = self.intents.get(sem_intent)
-                    if sem_cfg is not None:
-                        result = self._fulfill_intent(session, sem_intent, sem_conf, sem_cfg, text, now)
-                        result.semantic_rescue    = True
-                        result.tfidf_intent       = intent
-                        result.tfidf_confidence   = conf
-                        return result
+                if sem_intent != "Default Fallback Intent":
+                    # Two ways to accept a rescue:
+                    #   1. Standard: the head clears the absolute softmax floor.
+                    #   2. Agreement gate: TF-IDF and the head INDEPENDENTLY land
+                    #      on the SAME real intent. Over a 61-class head, a correct
+                    #      prediction's probability is diffused across sibling
+                    #      classes (e.g. VolumeDecrease/Mute/Increase) and can sit
+                    #      just under the floor; corroboration by TF-IDF is stronger
+                    #      evidence than either signal alone, so we relax the bar.
+                    #      This cannot re-admit out-of-scope queries: a genuine OOS
+                    #      utterance does not make two independent models agree on a
+                    #      real command.
+                    accept_threshold = self.semantic_threshold
+                    if (sem_intent == intent
+                            and intent != "Default Fallback Intent"):
+                        accept_threshold = self.AGREEMENT_THRESHOLD
+                    if sem_conf >= accept_threshold:
+                        sem_cfg = self.intents.get(sem_intent)
+                        if sem_cfg is not None:
+                            result = self._fulfill_intent(session, sem_intent, sem_conf, sem_cfg, text, now)
+                            result.semantic_rescue    = True
+                            result.tfidf_intent       = intent
+                            result.tfidf_confidence   = conf
+                            return result
             return self._genai_fallback(conf)
         if cfg is None:
             return self._genai_fallback(conf)

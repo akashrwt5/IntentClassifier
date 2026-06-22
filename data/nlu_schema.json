@@ -17,6 +17,11 @@
       "exact": ["mute", "silence"]
     },
     {
+      "intent": "Cmd.VolumeMute",
+      "regex": "\\b(silence|hush|shush)\\b",
+      "not_regex": "\\b(what|how|tell me|ask|explain|mean)\\b"
+    },
+    {
       "intent": "Cmd.VolumeUnmute",
       "exact": ["unmute"]
     },
@@ -39,7 +44,7 @@
     },
     {
       "intent": "Cmd.VolumeIncrease",
-      "regex": "\\b(sounds?|volume|audio|its?|everything|speech|voices?)\\b.{0,12}\\b(quiet|low|soft|faint|dull|muffled|unclear)\\b"
+      "regex": "\\b(sounds?|volume|audio|its?|everything|speech|voices?)\\b.{0,12}\\b(quiet|low|soft|faint|dull|unclear)\\b"
     },
     {
       "intent": "Cmd.VolumeIncrease",
@@ -59,7 +64,12 @@
     },
     {
       "intent": "Cmd.VolumeIncrease",
-      "regex": "\\b(sound|seems?|feels?)\\b.{0,15}\\b(so |too )?(far away|distant|muffled)\\b|\\bfar away\\b.{0,20}\\b(talk|speak|when)\\b"
+      "regex": "\\b(sound|seems?|feels?)\\b.{0,15}\\b(so |too )?(far away|distant)\\b|\\bfar away\\b.{0,20}\\b(talk|speak|when)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(crank|jack|pump)\\b.{0,10}\\b(it|the|sound|volume|up|higher)\\b|\\b(boost|amp)\\b.{0,10}\\b(it|the|sound|volume)\\b",
+      "not_regex": "\\b(down|reduce|lower)\\b"
     },
     {
       "intent": "Cmd.VolumeDecrease",
