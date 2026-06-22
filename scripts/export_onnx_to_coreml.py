@@ -52,6 +52,12 @@ VOCAB_PATH = MODELS_DIR / "minilm-vocab.txt"
 
 MAX_LEN = 64
 
+# Fixed sequence length for the exported CoreML encoder (mirrors
+# export_coreml.py DEFAULT_SEQ_LEN). A fixed shape stays resident on the Apple
+# Neural Engine; a dynamic RangeDim is typically evicted to GPU/CPU and inflates
+# iOS RAM. Set SEQ_LEN = 0 to fall back to the legacy dynamic RangeDim(1, MAX_LEN).
+SEQ_LEN = 32
+
 # A few holdout-style probes for the inline cosine sanity check.
 PROBE_TEXTS = [
     "give me a power reading",
@@ -199,15 +205,19 @@ def convert_to_coreml(torch_model, input_names):
     except Exception as e:
         _fail(f"torch.jit.trace failed: {e}")
 
-    print("  Converting traced model to CoreML (FP16) ...")
-    seq = ct.RangeDim(lower_bound=1, upper_bound=MAX_LEN, default=8)
+    if SEQ_LEN and SEQ_LEN > 0:
+        shape = (1, SEQ_LEN)
+        print(f"  Converting traced model to CoreML (FP16) ... fixed (1, {SEQ_LEN}) — ANE-resident")
+    else:
+        shape = (1, ct.RangeDim(lower_bound=1, upper_bound=MAX_LEN, default=8))
+        print("  Converting traced model to CoreML (FP16) ... dynamic RangeDim — legacy, ANE-hostile")
     try:
         mlmodel = ct.convert(
             traced,
             inputs=[
-                ct.TensorType(name="input_ids",      shape=(1, seq), dtype=np.int32),
-                ct.TensorType(name="attention_mask", shape=(1, seq), dtype=np.int32),
-                ct.TensorType(name="token_type_ids", shape=(1, seq), dtype=np.int32),
+                ct.TensorType(name="input_ids",      shape=shape, dtype=np.int32),
+                ct.TensorType(name="attention_mask", shape=shape, dtype=np.int32),
+                ct.TensorType(name="token_type_ids", shape=shape, dtype=np.int32),
             ],
             outputs=[ct.TensorType(name="last_hidden_state")],
             minimum_deployment_target=ct.target.iOS16,
@@ -251,11 +261,15 @@ def sanity_check(tokenise):
             "token_type_ids": np.zeros((1, n), dtype=np.int64),
         })
         vo = _meanpool_normalise(o[0][0], n)
-        # CoreML
+        # CoreML — pad to the fixed export length (mask=0 on pads; _meanpool_normalise
+        # averages only the first n real tokens). Falls back to exact n if dynamic.
+        L = SEQ_LEN if (SEQ_LEN and SEQ_LEN > 0) else n
+        ids_p  = np.zeros((1, L), dtype=np.int32); ids_p[0, :n]  = ids[:n]
+        mask_p = np.zeros((1, L), dtype=np.int32); mask_p[0, :n] = 1
         c = cml.predict({
-            "input_ids":      np.array([ids], dtype=np.int32),
-            "attention_mask": np.ones((1, n), dtype=np.int32),
-            "token_type_ids": np.zeros((1, n), dtype=np.int32),
+            "input_ids":      ids_p,
+            "attention_mask": mask_p,
+            "token_type_ids": np.zeros((1, L), dtype=np.int32),
         })
         vc = _meanpool_normalise(np.array(c[next(iter(c))])[0], n)
         cos = float(np.dot(vo, vc))

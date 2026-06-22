@@ -10,6 +10,7 @@ Usage:
     python scripts/export_coreml.py --quantize       # also emit INT8 MiniLM (~half size)
     python scripts/export_coreml.py --inspect-only   # inspect ONNX only, no conversion
     python scripts/export_coreml.py --skip-minilm    # skip the slow MiniLM step
+    python scripts/export_coreml.py --seq-len 32     # fixed seq length (ANE-resident); 0 = legacy dynamic
 
 After --quantize, ALWAYS measure the accuracy delta before shipping INT8:
     python scripts/compare_coreml_quant.py
@@ -66,6 +67,17 @@ BASE_DIR   = Path(__file__).parent.parent
 MODELS_DIR = BASE_DIR / "models"
 
 MINILM_HF_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+
+# Fixed sequence length for the exported CoreML encoder.
+# Why fixed instead of a flexible RangeDim(1, 64): a dynamic sequence axis is
+# typically evicted from the Apple Neural Engine onto GPU/CPU and makes CoreML
+# allocate for the worst-case length — the likely root cause of the >100 MB iOS
+# RAM use. A single fixed length stays ANE-resident and sizes memory exactly.
+# 32 is empirically safe: across every file in data/ the max WordPiece length is
+# 33 tokens (one garbled training sample, clipped by 1 token — immaterial), with
+# p99 <= 20 and p95 <= 15. Override with --seq-len; pass --seq-len 0 to restore
+# the legacy dynamic RangeDim(1, 64) shape.
+DEFAULT_SEQ_LEN = 32
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -275,14 +287,21 @@ def export_semantic_head(ct):
 # Stage 3b — MiniLMEmbedder.mlpackage  (from PyTorch via torch.jit.trace)
 # ──────────────────────────────────────────────────────────────────────────────
 
-def export_minilm(ct):
+def export_minilm(ct, seq_len=DEFAULT_SEQ_LEN):
     """
     Convert MiniLM-L6-v2 → MiniLMEmbedder.mlpackage from the HuggingFace
     PyTorch model (coremltools 9 cannot convert ONNX directly).
 
     Output tensor is named 'last_hidden_state', shape [1, seq, 384],
     matching SemanticEmbedder.swift's featureValue(for: "last_hidden_state").
-    FLOAT16 precision; RangeDim sequence axis 1..64 (matches Swift max_len=64).
+    FLOAT16 precision.
+
+    seq_len > 0  → fixed input shape (1, seq_len): stays resident on the Apple
+                   Neural Engine and sizes memory exactly. Swift MUST pad every
+                   input to this length (mask=0 on pads; the mean-pool already
+                   ignores masked positions, so accuracy is unchanged).
+    seq_len <= 0 → legacy dynamic RangeDim(1, 64) shape (ANE-hostile; kept only
+                   as an escape hatch).
     """
     dst = MODELS_DIR / "MiniLMEmbedder.mlpackage"
 
@@ -303,12 +322,38 @@ def export_minilm(ct):
 
     print(f"  Loading {MINILM_HF_NAME} (PyTorch, downloads ~90 MB on first run) ...")
     try:
-        base = AutoModel.from_pretrained(MINILM_HF_NAME)
+        # Force EAGER attention. SDPA routes masking through
+        # scaled_dot_product_attention, whose mask handling coremltools converts
+        # less predictably; the eager path uses the additive mask we patch below.
+        try:
+            base = AutoModel.from_pretrained(MINILM_HF_NAME, attn_implementation="eager")
+        except TypeError:
+            base = AutoModel.from_pretrained(MINILM_HF_NAME)  # older transformers
     except Exception as e:
         print(f"  FAILED to load model: {e}")
         print("    Check internet access (HuggingFace hub) or pre-cache the model.")
         return
     base.eval()
+
+    # ── FP16-safe attention mask ──────────────────────────────────────────────
+    # Recent transformers builds the additive attention mask as
+    #     (1 - attention_mask) * torch.finfo(model.dtype).min
+    # For an FP32 model that sentinel is -3.4e38. coremltools casts it to -inf
+    # when converting to FLOAT16, and then at every UNMASKED position
+    #     (1 - 1) * -inf  =  0 * -inf  =  NaN
+    # which propagates through softmax and makes the ENTIRE output NaN (observed:
+    # 12288/12288 NaN on any input). Older transformers used a finite -10000.0
+    # sentinel and did not hit this. Override the method to use a finite,
+    # FP16-representable value so the masked-attention math survives FP16
+    # conversion. Masking is unchanged (exp(-1e4) ≈ 0) and the mean-pool already
+    # skips pad positions, so embeddings — and accuracy — are identical.
+    import types
+
+    def _fp16_safe_extended_mask(self, attention_mask, input_shape, *args, **kwargs):
+        ext = attention_mask[:, None, None, :].to(dtype=torch.float32)
+        return (1.0 - ext) * -1e4
+
+    base.get_extended_attention_mask = types.MethodType(_fp16_safe_extended_mask, base)
 
     class MiniLMWrapper(torch.nn.Module):
         """Returns only last_hidden_state so the traced graph has a tensor output."""
@@ -338,15 +383,22 @@ def export_minilm(ct):
         print(f"  FAILED to trace: {e}")
         return
 
+    if seq_len and seq_len > 0:
+        shape = (1, seq_len)
+        shape_desc = f"fixed (1, {seq_len}) — ANE-resident; Swift must pad to {seq_len}"
+    else:
+        # Legacy escape hatch: flexible shape. Typically evicted from the ANE.
+        shape = (1, ct.RangeDim(lower_bound=1, upper_bound=64, default=8))
+        shape_desc = "dynamic RangeDim(1, 64) — legacy, ANE-hostile"
     print("  Converting traced model to CoreML ... (30–90 s)")
-    seq = ct.RangeDim(lower_bound=1, upper_bound=64, default=8)
+    print(f"  Input shape: {shape_desc}")
     try:
         mlmodel = ct.convert(
             traced,
             inputs=[
-                ct.TensorType(name="input_ids",      shape=(1, seq), dtype=np.int32),
-                ct.TensorType(name="attention_mask", shape=(1, seq), dtype=np.int32),
-                ct.TensorType(name="token_type_ids", shape=(1, seq), dtype=np.int32),
+                ct.TensorType(name="input_ids",      shape=shape, dtype=np.int32),
+                ct.TensorType(name="attention_mask", shape=shape, dtype=np.int32),
+                ct.TensorType(name="token_type_ids", shape=shape, dtype=np.int32),
             ],
             outputs=[ct.TensorType(name="last_hidden_state")],
             minimum_deployment_target=ct.target.iOS16,
@@ -361,6 +413,14 @@ def export_minilm(ct):
         size_mb = sum(f.stat().st_size for f in dst.rglob("*") if f.is_file()) / 1e6
         print(f"  Saved {dst}  (on-disk {size_mb:.1f} MB)")
         _print_io(mlmodel)
+        if seq_len and seq_len > 0:
+            print()
+            print(f"  ⚠️  This model now requires inputs padded to EXACTLY {seq_len} tokens.")
+            print(f"      Update SemanticEmbedder.swift to pad input_ids / attention_mask /")
+            print(f"      token_type_ids to length {seq_len} (mask=0 on pad positions). The")
+            print(f"      existing mean-pool already skips masked positions, so embeddings —")
+            print(f"      and therefore accuracy — are unchanged. Do NOT ship this model until")
+            print(f"      the Swift padding change is in, or on-device prediction will fail.")
     except Exception as exc:
         print(f"  FAILED to convert: {exc}")
         print()
@@ -453,7 +513,7 @@ def quantize_minilm_int8(ct):
 # Validation
 # ──────────────────────────────────────────────────────────────────────────────
 
-def validate_all(ct):
+def validate_all(ct, seq_len=DEFAULT_SEQ_LEN):
     print(f"\n{'─'*60}")
     print(f"  Validation")
     print(f"{'─'*60}")
@@ -490,23 +550,38 @@ def validate_all(ct):
         except Exception as e:
             print(f"    FAILED: {e}")
 
-    # MiniLM end-to-end smoke test if present
-    mm = MODELS_DIR / "MiniLMEmbedder.mlpackage"
-    if mm.exists():
+    # MiniLM end-to-end smoke test — run BOTH the FP16 base and (if present) the
+    # palettized int8, and check the output is FINITE. A shape-only check misses
+    # the failure mode that matters most: a model that loads and returns the
+    # right shape but is full of NaN/Inf (FP16 overflow, bad palettization),
+    # which then crashes head training with an opaque sklearn error downstream.
+    test_len = seq_len if (seq_len and seq_len > 0) else 8
+    for name in ["MiniLMEmbedder", "MiniLMEmbedder_int8"]:
+        mm = MODELS_DIR / f"{name}.mlpackage"
+        if not mm.exists():
+            continue
         print()
-        print("  MiniLMEmbedder test inference (seq_len=8):")
+        print(f"  {name} test inference (seq_len={test_len}):")
         try:
-            m   = ct.models.MLModel(str(mm))
-            ids = np.ones((1, 8), dtype=np.int32)
+            m   = ct.models.MLModel(str(mm), compute_units=ct.ComputeUnit.CPU_ONLY)
+            ids = np.ones((1, test_len), dtype=np.int32)
             out = m.predict({
                 "input_ids":      ids,
-                "attention_mask": np.ones((1, 8), dtype=np.int32),
-                "token_type_ids": np.zeros((1, 8), dtype=np.int32),
+                "attention_mask": np.ones((1, test_len), dtype=np.int32),
+                "token_type_ids": np.zeros((1, test_len), dtype=np.int32),
             })
-            key   = next(iter(out))
-            shape = np.array(out[key]).shape
-            print(f"    Output '{key}' shape: {shape}")
-            print("    Inference OK")
+            key = next(iter(out))
+            arr = np.array(out[key])
+            print(f"    Output '{key}' shape: {arr.shape}")
+            n_nan = int(np.isnan(arr).sum())
+            n_inf = int(np.isinf(arr).sum())
+            if n_nan or n_inf:
+                print(f"    ❌ NON-FINITE OUTPUT: {n_nan} NaN, {n_inf} Inf of {arr.size}.")
+                print(f"       This model is broken and must NOT ship. Diagnose with:")
+                print(f"         python scripts/diagnose_embedder_nan.py --model {mm}")
+            else:
+                print(f"    Inference OK — all {arr.size} values finite, "
+                      f"range [{arr.min():.2f}, {arr.max():.2f}]")
         except Exception as e:
             print(f"    FAILED: {e}")
 
@@ -543,6 +618,10 @@ def main():
     parser.add_argument("--quantize", action="store_true",
                         help="Also emit MiniLMEmbedder_int8.mlpackage (INT8 weights, ~half size). "
                              "Measure accuracy with compare_coreml_quant.py before shipping.")
+    parser.add_argument("--seq-len", type=int, default=DEFAULT_SEQ_LEN,
+                        help=f"Fixed CoreML sequence length (default {DEFAULT_SEQ_LEN}). Keeps the "
+                             f"encoder resident on the Apple Neural Engine; Swift must pad inputs to "
+                             f"this length. Pass 0 to restore the legacy dynamic RangeDim(1, 64).")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -564,11 +643,11 @@ def main():
     if args.skip_minilm:
         print("\nSKIP MiniLM (--skip-minilm)")
     else:
-        export_minilm(ct)
+        export_minilm(ct, args.seq_len)
         if args.quantize:
             quantize_minilm_int8(ct)
 
-    validate_all(ct)
+    validate_all(ct, args.seq_len)
 
     print(f"\n{'='*60}")
     print("  Copy these files to STT/STT/STT/Resources/ in the iOS repo:")

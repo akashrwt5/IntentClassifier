@@ -125,8 +125,12 @@ python scripts/export_coreml.py
 ```
 
 This adds Stage 3b on top of what Step 3 produced. The MiniLM model is
-FLOAT16 precision and supports variable sequence lengths 1..64 (matching
-the `max_len=64` limit in `SemanticEmbedder.swift`).
+FLOAT16 precision. By default it now exports with a **fixed** sequence length of
+32 (`--seq-len`), so the encoder stays resident on the Apple Neural Engine and
+sizes memory exactly — `SemanticEmbedder.swift` must pad every input to 32 tokens
+(mask=0 on pads; the existing mean-pool ignores them). Pass `--seq-len 0` to fall
+back to the legacy dynamic `RangeDim(1, 64)` shape. Rationale and the matching
+Swift change: `docs/coreml-supports-2-branch-overview.md`.
 
 Expected size of `MiniLMEmbedder.mlpackage`: approximately 12–15 MB on disk
 (the ONNX INT8 model is 22.8 MB; FP16 CoreML is typically smaller).

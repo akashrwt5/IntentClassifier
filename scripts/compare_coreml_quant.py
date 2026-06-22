@@ -46,6 +46,12 @@ DATA_DIR   = BASE_DIR / "data"
 FALLBACK_INTENT = "Default Fallback Intent"
 DEFAULT_THRESHOLD = 0.55
 
+# Fixed sequence length the shipped CoreML encoder is exported at
+# (export_coreml.py --seq-len, default 32). We pad CoreML inputs to this so the
+# eval matches the ANE-resident fixed-shape model. Padding is also valid against
+# a legacy dynamic-shape model (mask=0 on pads → identical masked-mean embedding).
+SEQ_LEN = 32
+
 GREEN = "\033[92m"; RED = "\033[91m"; YELLOW = "\033[93m"
 CYAN = "\033[96m"; BOLD = "\033[1m"; RESET = "\033[0m"
 
@@ -93,19 +99,25 @@ def _embed_onnx(session, tokenise_fn, text):
     return (vec / norm).astype(np.float32) if norm > 0 else vec.astype(np.float32)
 
 
-def _embed_coreml(model, tokenise_fn, text):
-    """Embed via a CoreML model (FP16 or palettized)."""
+def _embed_coreml(model, tokenise_fn, text, seq_len=SEQ_LEN):
+    """Embed via a CoreML model (FP16 or palettized).
+
+    Right-pads to a fixed seq_len so this matches the ANE-resident fixed-shape
+    encoder (export_coreml.py default). attention_mask=0 on the pads, so the
+    masked mean-pool ignores them — identical to the old variable-length path,
+    and still valid against a legacy dynamic-shape model."""
     ids, n = tokenise_fn(text)
-    ids_arr  = np.array([ids], dtype=np.int32)
-    mask_arr = np.ones((1, n), dtype=np.int32)
-    tids_arr = np.zeros((1, n), dtype=np.int32)
+    n = min(n, seq_len)
+    ids_arr  = np.zeros((1, seq_len), dtype=np.int32); ids_arr[0, :n]  = ids[:n]
+    mask_arr = np.zeros((1, seq_len), dtype=np.int32); mask_arr[0, :n] = 1
+    tids_arr = np.zeros((1, seq_len), dtype=np.int32)
     out = model.predict({
         "input_ids":      ids_arr,
         "attention_mask": mask_arr,
         "token_type_ids": tids_arr,
     })
     key = next(iter(out))
-    token_emb = np.array(out[key])[0]                  # [seq, 384]
+    token_emb = np.array(out[key])[0]                  # [seq_len, 384]
     mask_col  = mask_arr[0][:, np.newaxis].astype(np.float32)
     vec = (token_emb * mask_col).sum(axis=0) / mask_col.sum()
     norm = np.linalg.norm(vec)
