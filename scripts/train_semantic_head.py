@@ -114,6 +114,19 @@ def main():
     in_scope = data[data["intent"] != FALLBACK_INTENT]
     noisy_fb = data[data["intent"] == FALLBACK_INTENT]   # noisy eval only
 
+    # ── Lever A: Cap per-class at 250 to reduce near-duplicate spam ──
+    # MemoryChange 1821 → ~250; Help_Battery 18 → stays 18. This removes
+    # 70% of carrier-phrase permutations ("can you change X" ×185 variants)
+    # while preserving diversity on tiny tail classes.
+    MAX_PER_INTENT = 250
+    in_scope = (
+        in_scope.groupby("intent")
+            .tail(MAX_PER_INTENT)          # keep newest rows when over cap
+            .sample(frac=1, random_state=42)
+            .reset_index(drop=True)
+    )
+    print(f"In-scope after capping at {MAX_PER_INTENT} per intent: {len(in_scope)}")
+
     oos_texts = []
     if OOS_PATH.exists():
         oos = pd.read_csv(OOS_PATH, encoding="utf-8-sig")
@@ -155,12 +168,29 @@ def main():
     X_tr, X_te, y_tr, y_te = train_test_split(
         X, y, test_size=0.15, stratify=y, random_state=42
     )
-    clf = LogisticRegression(max_iter=2000, C=10.0, class_weight="balanced")
+    # Lever B: Reduce C from 10.0 to 1.5 to prevent overfitting of tiny
+    # tail classes in high-dimensional (384-dim) space.
+    clf = LogisticRegression(max_iter=2000, C=1.5, class_weight="balanced")
     clf.fit(X_tr, y_tr)
 
-    acc = accuracy_score(y_te, clf.predict(X_te))
+    y_pred = clf.predict(X_te)
+    acc = accuracy_score(y_te, y_pred)
     print(f"\n── Held-out evaluation (15% never seen during training) ──")
-    print(f"  In-scope accuracy: {acc:.3f}")
+    print(f"  Overall accuracy: {acc:.3f}")
+
+    # Lever C: Per-class metrics to expose tail-class regressions
+    from sklearn.metrics import classification_report, f1_score
+    print("\n  Per-class accuracy:")
+    unique_intents = sorted(set(y_tr) | set(y_te))
+    for intent in unique_intents:
+        mask = y_te == intent
+        if mask.sum() > 0:
+            acc_per_class = (y_pred[mask] == intent).mean()
+            count = mask.sum()
+            print(f"    {intent[:35]:35s}  {acc_per_class:6.1%}  ({count:3d} test samples)")
+
+    macro_f1 = f1_score(y_te, y_pred, average="macro", zero_division=0)
+    print(f"\n  Macro-F1 (unweighted per-class): {macro_f1:.3f}")
 
     # ── Rejection threshold curve ──
     # In-scope held-out max-probs vs fallback-set max-probs: pick the
@@ -178,7 +208,7 @@ def main():
 
     # ── Final model on 100% of data (in-scope + curated OOS class) ──
     print("\nRetraining on full dataset (in-scope + OOS class)...")
-    clf = LogisticRegression(max_iter=2000, C=10.0, class_weight="balanced")
+    clf = LogisticRegression(max_iter=2000, C=1.5, class_weight="balanced")
     clf.fit(X, y)
 
     np.savez_compressed(
