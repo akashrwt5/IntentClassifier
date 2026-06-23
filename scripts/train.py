@@ -3,12 +3,16 @@
 Train intent classification model and export to ONNX.
 
 Usage:
-    python scripts/train.py
+    python scripts/train.py              # default: version 2 (corrected data)
+    python scripts/train.py --version 1  # original files
+    python scripts/train.py --version 2  # corrected _2 files (default)
+    python scripts/train.py -v 1
 
-Reads:  data/intent_data_new.csv
+Reads:  data/intent_data_new[_2].csv
 Writes: models/intent_model.onnx, models/intent_labels.pkl
 """
 
+import argparse
 import json as _json
 import pandas as pd
 import joblib
@@ -23,10 +27,22 @@ from sklearn.metrics import classification_report, confusion_matrix
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import StringTensorType
 
+# ---------- Args ----------
+_parser = argparse.ArgumentParser(description="Train TF-IDF intent model")
+_parser.add_argument("--version", "-v", type=int, choices=[1, 2], default=2,
+                     help="Data version: 1=original files, 2=corrected _2 files (default: 2)")
+_args = _parser.parse_args()
+
 # ---------- Paths ----------
 BASE_DIR = Path(__file__).parent.parent
-DATA_PATH = BASE_DIR / "data" / "intent_data_new.csv"
-HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+if _args.version == 1:
+    DATA_PATH    = BASE_DIR / "data" / "intent_data_new.csv"
+    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+else:
+    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2.csv"
+    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+
+print(f"Data version: {_args.version}  |  {DATA_PATH.name}  |  holdout: {HOLDOUT_PATH.name}")
 MODELS_DIR = BASE_DIR / "models"
 MODELS_DIR.mkdir(exist_ok=True)
 

@@ -8,15 +8,19 @@ INCLUDING Default Fallback Intent phrases as an explicit out-of-scope
 class, so rejection is learned instead of threshold-guessed.
 
 Pipeline:
-  1. Embed every phrase in data/intent_data_new_2.csv with MiniLM (ONNX)
+  1. Embed every phrase in data/intent_data_new[_2].csv with MiniLM (ONNX)
   2. Stratified 85/15 split → train head → report held-out metrics
   3. Retrain on 100% of data → save models/semantic_head.npz (~95 KB)
      and models/semantic_head.json (for iOS)
 
 Run:
-    python scripts/train_semantic_head.py
+    python scripts/train_semantic_head.py              # default: version 2
+    python scripts/train_semantic_head.py --version 1  # original files
+    python scripts/train_semantic_head.py --version 2  # corrected _2 files
+    python scripts/train_semantic_head.py -v 1
 """
 
+import argparse
 import json
 import sys
 import time
@@ -25,10 +29,23 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+# ---------- Args ----------
+_parser = argparse.ArgumentParser(description="Train MiniLM semantic head")
+_parser.add_argument("--version", "-v", type=int, choices=[1, 2], default=2,
+                     help="Data version: 1=original files, 2=corrected _2 files (default: 2)")
+_args = _parser.parse_args()
+
 BASE_DIR   = Path(__file__).parent.parent
-DATA_PATH  = BASE_DIR / "data" / "intent_data_new_2.csv"
-OOS_PATH   = BASE_DIR / "data" / "semantic_oos_2.csv"
-HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+if _args.version == 1:
+    DATA_PATH    = BASE_DIR / "data" / "intent_data_new.csv"
+    OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
+    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+else:
+    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2.csv"
+    OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
+    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+
+print(f"Data version: {_args.version}  |  {DATA_PATH.name}  |  oos: {OOS_PATH.name}  |  holdout: {HOLDOUT_PATH.name}")
 MODEL_DIR  = BASE_DIR / "models"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"
 VOCAB_PATH = MODEL_DIR / "minilm-vocab.txt"
