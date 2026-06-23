@@ -8,7 +8,7 @@ INCLUDING Default Fallback Intent phrases as an explicit out-of-scope
 class, so rejection is learned instead of threshold-guessed.
 
 Pipeline:
-  1. Embed every phrase in data/intent_data_new.csv with MiniLM (ONNX)
+  1. Embed every phrase in data/intent_data_new_2.csv with MiniLM (ONNX)
   2. Stratified 85/15 split → train head → report held-out metrics
   3. Retrain on 100% of data → save models/semantic_head.npz (~95 KB)
      and models/semantic_head.json (for iOS)
@@ -26,9 +26,9 @@ import numpy as np
 import pandas as pd
 
 BASE_DIR   = Path(__file__).parent.parent
-DATA_PATH  = BASE_DIR / "data" / "intent_data_new.csv"
-OOS_PATH   = BASE_DIR / "data" / "semantic_oos.csv"
-HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+DATA_PATH  = BASE_DIR / "data" / "intent_data_new_2.csv"
+OOS_PATH   = BASE_DIR / "data" / "semantic_oos_2.csv"
+HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
 MODEL_DIR  = BASE_DIR / "models"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"
 VOCAB_PATH = MODEL_DIR / "minilm-vocab.txt"
@@ -138,7 +138,7 @@ def main():
             hold = pd.read_csv(HOLDOUT_PATH, encoding="utf-8-sig")
             hold.columns = [c.strip().lower() for c in hold.columns]
             htext = next((c for c in hold.columns
-                          if c in ("text", "utterance", "query", "sentence", "phrase")),
+                          if c.strip().lower() in ("text", "utterance", "query", "sentence", "phrase")),
                          hold.columns[0])
             hold_set = set(hold[htext].astype(str).str.lower().str.strip())
             before = len(oos)
