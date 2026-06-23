@@ -1,14 +1,4 @@
 text,intent
-my ears are getting hammered,Cmd.VolumeDecrease
-this place is deafening,Cmd.VolumeDecrease
-the noise is unbearable right now,Cmd.VolumeDecrease
-bring it down several notches,Cmd.VolumeDecrease
-the loudness is giving me a headache,Cmd.VolumeDecrease
-soften the audio for me,Cmd.VolumeDecrease
-everything is coming in way too hot,Cmd.VolumeDecrease
-take the edge off the sound,Cmd.VolumeDecrease
-calm the audio down,Cmd.VolumeDecrease
-less sound please,Cmd.VolumeDecrease
 dial it back,Cmd.VolumeDecrease
 tone it down a bit,Cmd.VolumeDecrease
 it's too loud in here,Cmd.VolumeDecrease
@@ -29,16 +19,6 @@ turn the sound level down,Cmd.VolumeDecrease
 get that volume out of my ear,Cmd.VolumeDecrease
 i can't take how loud this is,Cmd.VolumeDecrease
 please make this quieter,Cmd.VolumeDecrease
-i just sat down at a busy cafe,Cmd.MemoryChange
-adjust for this loud room,Cmd.MemoryChange
-give me the setting for crowds,Cmd.MemoryChange
-flip to my quiet home program,Cmd.MemoryChange
-i'm heading outside for a walk now,Cmd.MemoryChange
-this environment needs a different setup,Cmd.MemoryChange
-swap to the program for meetings,Cmd.MemoryChange
-put my aids in party mode,Cmd.MemoryChange
-the current program isn't right for here,Cmd.MemoryChange
-load my usual configuration,Cmd.MemoryChange
 switch my hearing program,Cmd.MemoryChange
 i need a different memory for this location,Cmd.MemoryChange
 change to restaurant mode,Cmd.MemoryChange
@@ -55,16 +35,6 @@ use my driving setting,Cmd.MemoryChange
 what program should i be using,Cmd.MemoryChange
 activate speech focus,Cmd.MemoryChange
 apply wind noise reduction,Cmd.MemoryChange
-do my aids have enough power for tonight,Cmd.BatteryLevel
-when will these die on me,Cmd.BatteryLevel
-give me a power reading,Cmd.BatteryLevel
-should i plug them in soon,Cmd.BatteryLevel
-how full are the batteries,Cmd.BatteryLevel
-is the charge holding up,Cmd.BatteryLevel
-tell me how much runtime is left,Cmd.BatteryLevel
-are we good on power,Cmd.BatteryLevel
-i'm worried the batteries might quit,Cmd.BatteryLevel
-what's the power situation,Cmd.BatteryLevel
 will i make it through the day,Cmd.BatteryLevel
 how much juice is left,Cmd.BatteryLevel
 check the battery level,Cmd.BatteryLevel
@@ -82,15 +52,6 @@ how much longer can they go,Cmd.BatteryLevel
 am i good on batteries,Cmd.BatteryLevel
 tell me the charge status,Cmd.BatteryLevel
 show me the hearing aid battery level,Cmd.BatteryLevel
-my hearing aids have vanished,Help_FindMyHearingAids
-i think i left my aids somewhere,Help_FindMyHearingAids
-no idea where my devices went,Help_FindMyHearingAids
-help me hunt down my hearing aids,Help_FindMyHearingAids
-one of my aids is missing,Help_FindMyHearingAids
-show me the last place my aids were,Help_FindMyHearingAids
-my right hearing aid disappeared,Help_FindMyHearingAids
-i cannot locate either device,Help_FindMyHearingAids
-they fell out somewhere help me search,Help_FindMyHearingAids
 i lost track of my aids,Help_FindMyHearingAids
 where are my hearing aids,Help_FindMyHearingAids
 i can't find my left hearing aid,Help_FindMyHearingAids
@@ -101,9 +62,6 @@ i misplaced my hearing device,Help_FindMyHearingAids
 have you seen my aids,Help_FindMyHearingAids
 i need to locate my hearing aids,Help_FindMyHearingAids
 where's the find my hearing aid feature,Help_FindMyHearingAids
-i'll forget this unless you save it,reminders.add
-i have an appointment i can't miss,reminders.add
-alert me when it's time,reminders.add
 i need to remember this,reminders.add
 save this for me please,reminders.add
 i might forget this,reminders.add
@@ -119,8 +77,6 @@ i have something i need to remember,reminders.add
 jot that down as a reminder,reminders.add
 i better not forget this,reminders.add
 capture this as a reminder,reminders.add
-i have news to share with a contact,Cmd.SendMessage
-send word that i'm running late,Cmd.SendMessage
 i want to send a text message,Cmd.SendMessage
 send an sms to my friend,Cmd.SendMessage
 text someone for me,Cmd.SendMessage
@@ -139,9 +95,6 @@ reach out with this message,Cmd.SendMessage
 i want to message someone,Cmd.SendMessage
 tell someone this via text,Cmd.SendMessage
 shoot a message to someone,Cmd.SendMessage
-put the tv sound straight into my ears,Cmd.StreamingStart
-i want the show playing in my hearing aids,Cmd.StreamingStart
-push the movie sound to my hearing aids,Cmd.StreamingStart
 stream the audio to my devices,Cmd.StreamingStart
 connect the sound to my hearing aids,Cmd.StreamingStart
 send the television audio to my aids,Cmd.StreamingStart
@@ -159,9 +112,6 @@ start streaming audio now,Cmd.StreamingStart
 let me hear the tv through my aids,Cmd.StreamingStart
 sync the audio to my aids,Cmd.StreamingStart
 transmit the sound wirelessly,Cmd.StreamingStart
-where do i even begin,Help_Home
-none of this makes sense to me,Help_Home
-give me a quick tour,Help_Home
 i'm lost in all these options,Help_Home
 what do i need to know first,Help_Home
 can you explain the basics,Help_Home
@@ -233,7 +183,6 @@ what should i know first,Help_Home
 teach me how to use this,Help_Home
 what is this screen for,Help_Home
 explain what i can do here,Help_Home
-what features are available,Help_Home
 where do i start learning,Help_Home
 what are my options,Help_Home
 how does this app work,Help_Home
@@ -268,7 +217,6 @@ send a text message,Cmd.SendMessage
 text this person,Cmd.SendMessage
 message this contact,Cmd.SendMessage
 send word,Cmd.SendMessage
-transmit a message,Cmd.SendMessage
 i need to contact someone,Cmd.SendMessage
 reach out to a contact,Cmd.SendMessage
 send a text to someone,Cmd.SendMessage
@@ -309,3 +257,54 @@ direct hearing aid connection,Cmd.StreamingStart
 audio redirection,Cmd.StreamingStart
 hearing aid audio stream,Cmd.StreamingStart
 connect directly to aids,Cmd.StreamingStart
+everything sounds way too harsh,Cmd.VolumeDecrease
+my ears can't handle this level,Cmd.VolumeDecrease
+ease off the volume a little,Cmd.VolumeDecrease
+this is blasting my eardrums,Cmd.VolumeDecrease
+knock the sound down a bit,Cmd.VolumeDecrease
+way too much volume for me,Cmd.VolumeDecrease
+drop it down a few clicks,Cmd.VolumeDecrease
+the sound is overwhelming me,Cmd.VolumeDecrease
+ratchet the volume back,Cmd.VolumeDecrease
+trim the loudness please,Cmd.VolumeDecrease
+i'm at a noisy restaurant now,Cmd.MemoryChange
+tune my aids for this place,Cmd.MemoryChange
+shift into the outdoor profile,Cmd.MemoryChange
+set me up for a concert,Cmd.MemoryChange
+i need the setting for dining out,Cmd.MemoryChange
+move to my church program,Cmd.MemoryChange
+change profiles for this room,Cmd.MemoryChange
+dial in the mode for traffic noise,Cmd.MemoryChange
+i'm settling in for tv time,Cmd.MemoryChange
+switch over to my gym preset,Cmd.MemoryChange
+how charged are my aids,Cmd.BatteryLevel
+got enough battery for a movie,Cmd.BatteryLevel
+is my battery about to run out,Cmd.BatteryLevel
+how many hours of battery remain,Cmd.BatteryLevel
+are these almost dead,Cmd.BatteryLevel
+battery good enough for the evening,Cmd.BatteryLevel
+percentage of battery left please,Cmd.BatteryLevel
+do these need charging right now,Cmd.BatteryLevel
+how depleted are the batteries,Cmd.BatteryLevel
+is my power almost gone,Cmd.BatteryLevel
+i've misplaced both my aids,Help_FindMyHearingAids
+track down where my aids are,Help_FindMyHearingAids
+i can't spot my hearing aids anywhere,Help_FindMyHearingAids
+locate my missing earpiece,Help_FindMyHearingAids
+my aids aren't where i left them,Help_FindMyHearingAids
+find where my devices ended up,Help_FindMyHearingAids
+i set my aids down and lost them,Help_FindMyHearingAids
+search for my hearing aids,Help_FindMyHearingAids
+where could my aids have gone,Help_FindMyHearingAids
+show me around the app,Help_Home
+what's the starting point here,Help_Home
+i could use an introduction,Help_Home
+help me find my way around,Help_Home
+make sure i remember to take my meds,reminders.add
+i need a nudge later about this,reminders.add
+set a reminder so i don't forget,reminders.add
+route the tv audio into my aids,Cmd.StreamingStart
+play the audio directly in my ears,Cmd.StreamingStart
+stream the broadcast to my devices,Cmd.StreamingStart
+fire off a text to a contact,Cmd.SendMessage
+i need to write a message to someone,Cmd.SendMessage

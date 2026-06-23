@@ -3,12 +3,13 @@
 Train intent classification model and export to ONNX.
 
 Usage:
-    python scripts/train.py              # default: version 2 (corrected data)
+    python scripts/train.py              # default: version 3 (enhanced data)
     python scripts/train.py --version 1  # original files
-    python scripts/train.py --version 2  # corrected _2 files (default)
+    python scripts/train.py --version 2  # corrected _2 files
+    python scripts/train.py --version 3  # enhanced: _2 + corrections (default)
     python scripts/train.py -v 1
 
-Reads:  data/intent_data_new[_2].csv
+Reads:  data/intent_data_new[_2][_enhanced].csv
 Writes: models/intent_model.onnx, models/intent_labels.pkl
 """
 
@@ -29,8 +30,9 @@ from skl2onnx.common.data_types import StringTensorType
 
 # ---------- Args ----------
 _parser = argparse.ArgumentParser(description="Train TF-IDF intent model")
-_parser.add_argument("--version", "-v", type=int, choices=[1, 2], default=2,
-                     help="Data version: 1=original files, 2=corrected _2 files (default: 2)")
+_parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
+                     help="Data version: 1=original files, 2=corrected _2 files, "
+                          "3=enhanced (_2 + intent_data_corrections.csv, default)")
 _args = _parser.parse_args()
 
 # ---------- Paths ----------
@@ -38,8 +40,14 @@ BASE_DIR = Path(__file__).parent.parent
 if _args.version == 1:
     DATA_PATH    = BASE_DIR / "data" / "intent_data_new.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
-else:
+elif _args.version == 2:
     DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2.csv"
+    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+else:
+    # v3: corrected _2 data augmented with hand-written conversational
+    # paraphrases (intent_data_corrections.csv). Holdout stays the v2 set so
+    # the leakage guard below proves the corrections never copy a test phrase.
+    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2_enhanced.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
 
 print(f"Data version: {_args.version}  |  {DATA_PATH.name}  |  holdout: {HOLDOUT_PATH.name}")

@@ -14,9 +14,10 @@ Pipeline:
      and models/semantic_head.json (for iOS)
 
 Run:
-    python scripts/train_semantic_head.py              # default: version 2
+    python scripts/train_semantic_head.py              # default: version 3 (enhanced)
     python scripts/train_semantic_head.py --version 1  # original files
     python scripts/train_semantic_head.py --version 2  # corrected _2 files
+    python scripts/train_semantic_head.py --version 3  # enhanced: _2 + corrections
     python scripts/train_semantic_head.py -v 1
 """
 
@@ -31,8 +32,9 @@ import pandas as pd
 
 # ---------- Args ----------
 _parser = argparse.ArgumentParser(description="Train MiniLM semantic head")
-_parser.add_argument("--version", "-v", type=int, choices=[1, 2], default=2,
-                     help="Data version: 1=original files, 2=corrected _2 files (default: 2)")
+_parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
+                     help="Data version: 1=original files, 2=corrected _2 files, "
+                          "3=enhanced (_2 + intent_data_corrections.csv, default)")
 _args = _parser.parse_args()
 
 BASE_DIR   = Path(__file__).parent.parent
@@ -40,8 +42,15 @@ if _args.version == 1:
     DATA_PATH    = BASE_DIR / "data" / "intent_data_new.csv"
     OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
-else:
+elif _args.version == 2:
     DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2.csv"
+    OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
+    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+else:
+    # v3: enhanced training data (_2 + hand-written conversational paraphrases).
+    # Reuses the v2 OOS and holdout sets — the corrections never include a
+    # holdout phrase (verified by train.py's leakage guard).
+    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2_enhanced.csv"
     OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
 

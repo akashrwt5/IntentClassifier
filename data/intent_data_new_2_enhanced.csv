@@ -252,6 +252,7 @@ i lost my other hearing aid,Help_FindMyHearingAids
 how do i locate my right hearing aid?,Help_FindMyHearingAids
 where is my hearing aid?,Help_FindMyHearingAids
 why can't you find the left hearing aid it is in my ear and working fine?,Help_FindMyHearingAids
+i can't find my left hearing aid,Help_FindMyHearingAids
 how do i search for my aids?,Help_FindMyHearingAids
 where is my right aid?,Help_FindMyHearingAids
 my hearing aids are missing,Help_FindMyHearingAids
@@ -1626,6 +1627,7 @@ turn down the volume in my right hearing aid,Cmd.VolumeDecrease
 volume softer,Cmd.VolumeDecrease
 turn down my hearing aids,Cmd.VolumeDecrease
 go down in volume,Cmd.VolumeDecrease
+turn the volume down,Cmd.VolumeDecrease
 minimum volume,Cmd.VolumeDecrease
 hearing aid volume down,Cmd.VolumeDecrease
 turn down the loudness on my hearing aids,Cmd.VolumeDecrease
@@ -6861,6 +6863,7 @@ decrease volume in my hearing aids,Cmd.VolumeDecrease
 demonstration mode,Help_DemoMode
 what's the model of my aid?,Help_DeviceSettings
 how to adjust bass on edge mode,Help_EdgeMode
+help me find my hearing aid,Help_FindMyHearingAids
 how do i change my steps goals from monthly to daily?,Help_Health
 how do i share my information with my daughter?,Help_HearShare
 how do i get to the main screen?,Help_Home
@@ -6914,6 +6917,7 @@ calories aerobics,Cmd.ActivityAerobics
 how long have i stood this week,Cmd.ActivityStand
 is it time to change my batteries,Cmd.BatteryLevel
 stop streaming remote to my hearing aids,Cmd.StreamingStop
+i need less volume,Cmd.VolumeDecrease
 how can i change the fall alert settings?,Help_AppSettings
 how do i access demo mode?,Help_DemoMode
 how do i see how much i have biked this month?,Help_Health
@@ -7644,6 +7648,7 @@ send voice message,Cmd.SendMessage
 send audio message,Cmd.SendMessage
 send a push to talk message,Cmd.SendMessage
 push to talk,Cmd.SendMessage
+compose a message,Cmd.SendMessage
 compose message,Cmd.SendMessage
 record a message,Cmd.SendMessage
 record message,Cmd.SendMessage
@@ -7665,12 +7670,14 @@ help me send a voice message,Cmd.SendMessage
 send a quick message,Cmd.SendMessage
 send a short message,Cmd.SendMessage
 send a voice note,Cmd.SendMessage
+send a note,Cmd.SendMessage
 drop a message,Cmd.SendMessage
 drop a voice message,Cmd.SendMessage
 shoot a message,Cmd.SendMessage
 shoot a voice message,Cmd.SendMessage
 fire off a message,Cmd.SendMessage
 ping someone,Cmd.SendMessage
+message someone,Cmd.SendMessage
 send an audio note,Cmd.SendMessage
 hey send a message,Cmd.SendMessage
 ok send a message,Cmd.SendMessage
@@ -7684,6 +7691,7 @@ create a message,Cmd.SendMessage
 make a voice message,Cmd.SendMessage
 send it,Cmd.SendMessage
 send one,Cmd.SendMessage
+text someone,Cmd.SendMessage
 voice text someone,Cmd.SendMessage
 send a quick voice note,Cmd.SendMessage
 i want to leave a message,Cmd.SendMessage
@@ -7758,13 +7766,17 @@ everything sounds too loud,Cmd.VolumeDecrease
 can you soften things a little?,Cmd.VolumeDecrease
 the sound is overwhelming,Cmd.VolumeDecrease
 reduce the intensity,Cmd.VolumeDecrease
+it's blasting in my ears,Cmd.VolumeDecrease
 things sound too strong,Cmd.VolumeDecrease
+i need it quieter,Cmd.VolumeDecrease
 lower the listening level,Cmd.VolumeDecrease
 the tv is too loud,Cmd.VolumeDecrease
 dial back the volume,Cmd.VolumeDecrease
 tone it down,Cmd.VolumeDecrease
 the audio is aggressive,Cmd.VolumeDecrease
 it's uncomfortably loud,Cmd.VolumeDecrease
+make it less intense,Cmd.VolumeDecrease
+the sound is piercing,Cmd.VolumeDecrease
 bring the volume down,Cmd.VolumeDecrease
 i'm getting too much sound,Cmd.VolumeDecrease
 speech is too sharp,Cmd.VolumeDecrease
@@ -7885,6 +7897,7 @@ send a quick update,Cmd.SendMessage
 get a message to my family,Cmd.SendMessage
 i want to reach someone,Cmd.SendMessage
 let me leave a note,Cmd.SendMessage
+forward a message,Cmd.SendMessage
 create a voice message,Cmd.SendMessage
 help me send a note,Cmd.SendMessage
 record something for another person,Cmd.SendMessage
@@ -7902,6 +7915,7 @@ stream the television audio,Cmd.StreamingStart
 route audio to my devices,Cmd.StreamingStart
 use hearing aid streaming,Cmd.StreamingStart
 connect me to tv audio,Cmd.StreamingStart
+start audio streaming,Cmd.StreamingStart
 send the sound to my aids,Cmd.StreamingStart
 listen via my hearing aids,Cmd.StreamingStart
 enable streaming mode,Cmd.StreamingStart
@@ -7925,12 +7939,14 @@ show me available commands,Help_Home
 how does this work?,Help_Home
 assist me,Help_Home
 i'm confused,Help_Home
+teach me how to use this,Help_Home
 i need support,Help_Home
 can you explain?,Help_Home
 give me some help,Help_Home
 walk me through the process,Default Fallback Intent
 what should i do next?,Help_Home
 show me the basics,Help_Home
+help me get started,Help_Home
 i need directions,Help_Home
 guide me through it,Help_Home
 who is the prime minister of india?,Default Fallback Intent
@@ -8030,11 +8046,11 @@ nudge me at 3,reminders.add
 nudge me about this later,reminders.add
 send me a nudge at noon,reminders.add
 give me a gentle nudge at 9,reminders.add
+don't let me forget this,reminders.add
 jot this down so i remember,reminders.add
 note this down for me,reminders.add
 it's coming in too hot,Cmd.VolumeDecrease
 the sound is way too hot,Cmd.VolumeDecrease
-it's blasting in my ears,Cmd.VolumeDecrease
 the noise is unbearable,Cmd.VolumeDecrease
 how much power is left,Cmd.BatteryLevel
 are my aids running low on power,Cmd.BatteryLevel
@@ -8307,16 +8323,6 @@ how do i personalize my sound settings,Help_Customize
 can loud music cause tinnitus permanently,Help_Tinnitus
 what are symptoms of ear wax buildup,Help_CleanCare
 what is noise induced hearing loss,Help_Tinnitus
-my ears are getting hammered,Cmd.VolumeDecrease
-this place is deafening,Cmd.VolumeDecrease
-the noise is unbearable right now,Cmd.VolumeDecrease
-bring it down several notches,Cmd.VolumeDecrease
-the loudness is giving me a headache,Cmd.VolumeDecrease
-soften the audio for me,Cmd.VolumeDecrease
-everything is coming in way too hot,Cmd.VolumeDecrease
-take the edge off the sound,Cmd.VolumeDecrease
-calm the audio down,Cmd.VolumeDecrease
-less sound please,Cmd.VolumeDecrease
 dial it back,Cmd.VolumeDecrease
 tone it down a bit,Cmd.VolumeDecrease
 it's too loud in here,Cmd.VolumeDecrease
@@ -8328,25 +8334,13 @@ pump the brakes on the volume,Cmd.VolumeDecrease
 shush that a bit,Cmd.VolumeDecrease
 pull back the volume,Cmd.VolumeDecrease
 can you quiet it down,Cmd.VolumeDecrease
-i need it quieter,Cmd.VolumeDecrease
 make it less loud,Cmd.VolumeDecrease
-the sound is piercing,Cmd.VolumeDecrease
 that's way too loud,Cmd.VolumeDecrease
 hurt my ears please,Cmd.VolumeDecrease
 turn the sound level down,Cmd.VolumeDecrease
 get that volume out of my ear,Cmd.VolumeDecrease
 i can't take how loud this is,Cmd.VolumeDecrease
 please make this quieter,Cmd.VolumeDecrease
-i just sat down at a busy cafe,Cmd.MemoryChange
-adjust for this loud room,Cmd.MemoryChange
-give me the setting for crowds,Cmd.MemoryChange
-flip to my quiet home program,Cmd.MemoryChange
-i'm heading outside for a walk now,Cmd.MemoryChange
-this environment needs a different setup,Cmd.MemoryChange
-swap to the program for meetings,Cmd.MemoryChange
-put my aids in party mode,Cmd.MemoryChange
-the current program isn't right for here,Cmd.MemoryChange
-load my usual configuration,Cmd.MemoryChange
 switch my hearing program,Cmd.MemoryChange
 i need a different memory for this location,Cmd.MemoryChange
 change to restaurant mode,Cmd.MemoryChange
@@ -8363,16 +8357,6 @@ use my driving setting,Cmd.MemoryChange
 what program should i be using,Cmd.MemoryChange
 activate speech focus,Cmd.MemoryChange
 apply wind noise reduction,Cmd.MemoryChange
-do my aids have enough power for tonight,Cmd.BatteryLevel
-when will these die on me,Cmd.BatteryLevel
-give me a power reading,Cmd.BatteryLevel
-should i plug them in soon,Cmd.BatteryLevel
-how full are the batteries,Cmd.BatteryLevel
-is the charge holding up,Cmd.BatteryLevel
-tell me how much runtime is left,Cmd.BatteryLevel
-are we good on power,Cmd.BatteryLevel
-i'm worried the batteries might quit,Cmd.BatteryLevel
-what's the power situation,Cmd.BatteryLevel
 will i make it through the day,Cmd.BatteryLevel
 how much juice is left,Cmd.BatteryLevel
 check the battery level,Cmd.BatteryLevel
@@ -8390,28 +8374,14 @@ how much longer can they go,Cmd.BatteryLevel
 am i good on batteries,Cmd.BatteryLevel
 tell me the charge status,Cmd.BatteryLevel
 show me the hearing aid battery level,Cmd.BatteryLevel
-my hearing aids have vanished,Help_FindMyHearingAids
-i think i left my aids somewhere,Help_FindMyHearingAids
-no idea where my devices went,Help_FindMyHearingAids
-help me hunt down my hearing aids,Help_FindMyHearingAids
-one of my aids is missing,Help_FindMyHearingAids
-show me the last place my aids were,Help_FindMyHearingAids
-my right hearing aid disappeared,Help_FindMyHearingAids
-i cannot locate either device,Help_FindMyHearingAids
-they fell out somewhere help me search,Help_FindMyHearingAids
 i lost track of my aids,Help_FindMyHearingAids
 where are my hearing aids,Help_FindMyHearingAids
-i can't find my left hearing aid,Help_FindMyHearingAids
 did i drop my aids somewhere,Help_FindMyHearingAids
-help me find my hearing aid,Help_FindMyHearingAids
 which room did i leave my aid in,Help_FindMyHearingAids
 i misplaced my hearing device,Help_FindMyHearingAids
 have you seen my aids,Help_FindMyHearingAids
 i need to locate my hearing aids,Help_FindMyHearingAids
 where's the find my hearing aid feature,Help_FindMyHearingAids
-i'll forget this unless you save it,reminders.add
-i have an appointment i can't miss,reminders.add
-alert me when it's time,reminders.add
 i need to remember this,reminders.add
 save this for me please,reminders.add
 i might forget this,reminders.add
@@ -8419,7 +8389,6 @@ set up a reminder for that,reminders.add
 help me remember to do that,reminders.add
 can you remind me about this later,reminders.add
 i'll need a reminder for this,reminders.add
-don't let me forget this,reminders.add
 make a note to remind me,reminders.add
 keep this in mind for me,reminders.add
 remind me i need to do this,reminders.add
@@ -8427,8 +8396,6 @@ i have something i need to remember,reminders.add
 jot that down as a reminder,reminders.add
 i better not forget this,reminders.add
 capture this as a reminder,reminders.add
-i have news to share with a contact,Cmd.SendMessage
-send word that i'm running late,Cmd.SendMessage
 i want to send a text message,Cmd.SendMessage
 send an sms to my friend,Cmd.SendMessage
 text someone for me,Cmd.SendMessage
@@ -8438,6 +8405,7 @@ text a quick note,Cmd.SendMessage
 let someone know about this,Cmd.SendMessage
 send word to my family,Cmd.SendMessage
 i need to reach out to someone,Cmd.SendMessage
+transmit a message,Cmd.SendMessage
 forward this to someone,Cmd.SendMessage
 relay this information,Cmd.SendMessage
 broadcast a message,Cmd.SendMessage
@@ -8446,9 +8414,6 @@ reach out with this message,Cmd.SendMessage
 i want to message someone,Cmd.SendMessage
 tell someone this via text,Cmd.SendMessage
 shoot a message to someone,Cmd.SendMessage
-put the tv sound straight into my ears,Cmd.StreamingStart
-i want the show playing in my hearing aids,Cmd.StreamingStart
-push the movie sound to my hearing aids,Cmd.StreamingStart
 stream the audio to my devices,Cmd.StreamingStart
 connect the sound to my hearing aids,Cmd.StreamingStart
 send the television audio to my aids,Cmd.StreamingStart
@@ -8466,15 +8431,11 @@ start streaming audio now,Cmd.StreamingStart
 let me hear the tv through my aids,Cmd.StreamingStart
 sync the audio to my aids,Cmd.StreamingStart
 transmit the sound wirelessly,Cmd.StreamingStart
-where do i even begin,Help_Home
-none of this makes sense to me,Help_Home
-give me a quick tour,Help_Home
 i'm lost in all these options,Help_Home
 what do i need to know first,Help_Home
 can you explain the basics,Help_Home
 where should i start,Help_Home
 i don't know what to do,Help_Home
-help me get started,Help_Home
 show me the fundamentals,Help_Home
 what's the simplest way to begin,Help_Home
 walk me through the basics,Help_Home
@@ -8486,12 +8447,10 @@ explain the main screen,Help_Home
 what should i learn first,Help_Home
 break it down for me,Help_Home
 help me understand the interface,Help_Home
-turn the volume down,Cmd.VolumeDecrease
 make it quieter,Cmd.VolumeDecrease
 soften it,Cmd.VolumeDecrease
 dial down the volume,Cmd.VolumeDecrease
 reduce how loud it is,Cmd.VolumeDecrease
-i need less volume,Cmd.VolumeDecrease
 quiet this down,Cmd.VolumeDecrease
 sounds too loud for me,Cmd.VolumeDecrease
 please lower the volume,Cmd.VolumeDecrease
@@ -8508,7 +8467,6 @@ tamp down the volume,Cmd.VolumeDecrease
 reduce the noise level,Cmd.VolumeDecrease
 i need quieter sound,Cmd.VolumeDecrease
 turn down the level,Cmd.VolumeDecrease
-make it less intense,Cmd.VolumeDecrease
 soften the volume,Cmd.VolumeDecrease
 the audio is too hot,Cmd.VolumeDecrease
 bring the level down,Cmd.VolumeDecrease
@@ -8537,10 +8495,8 @@ how do i use this,Help_Home
 what can the app do,Help_Home
 guide me through the interface,Help_Home
 what should i know first,Help_Home
-teach me how to use this,Help_Home
 what is this screen for,Help_Home
 explain what i can do here,Help_Home
-what features are available,Help_Home
 where do i start learning,Help_Home
 what are my options,Help_Home
 how does this app work,Help_Home
@@ -8556,26 +8512,21 @@ how do i access settings,Help_Home
 what does each button do,Help_Home
 where can i learn more,Help_Home
 what features should i know about,Help_Home
-text someone,Cmd.SendMessage
 send a text,Cmd.SendMessage
-message someone,Cmd.SendMessage
 send a message to someone,Cmd.SendMessage
 i want to text a contact,Cmd.SendMessage
 send sms,Cmd.SendMessage
 send a message to a person,Cmd.SendMessage
-compose a message,Cmd.SendMessage
 write a message,Cmd.SendMessage
 send a quick text,Cmd.SendMessage
 message my friend,Cmd.SendMessage
 text my family,Cmd.SendMessage
 send an email,Cmd.SendMessage
-send a note,Cmd.SendMessage
 contact someone by text,Cmd.SendMessage
 send a text message,Cmd.SendMessage
 text this person,Cmd.SendMessage
 message this contact,Cmd.SendMessage
 send word,Cmd.SendMessage
-transmit a message,Cmd.SendMessage
 i need to contact someone,Cmd.SendMessage
 reach out to a contact,Cmd.SendMessage
 send a text to someone,Cmd.SendMessage
@@ -8584,10 +8535,8 @@ text a family member,Cmd.SendMessage
 send communication,Cmd.SendMessage
 dispatch a message,Cmd.SendMessage
 relay information,Cmd.SendMessage
-forward a message,Cmd.SendMessage
 communicate via text,Cmd.SendMessage
 stream audio to my hearing aids,Cmd.StreamingStart
-start audio streaming,Cmd.StreamingStart
 enable streaming,Cmd.StreamingStart
 connect audio to hearing aids,Cmd.StreamingStart
 wireless audio to aids,Cmd.StreamingStart
@@ -8616,3 +8565,53 @@ direct hearing aid connection,Cmd.StreamingStart
 audio redirection,Cmd.StreamingStart
 hearing aid audio stream,Cmd.StreamingStart
 connect directly to aids,Cmd.StreamingStart
+everything sounds way too harsh,Cmd.VolumeDecrease
+my ears can't handle this level,Cmd.VolumeDecrease
+ease off the volume a little,Cmd.VolumeDecrease
+this is blasting my eardrums,Cmd.VolumeDecrease
+knock the sound down a bit,Cmd.VolumeDecrease
+way too much volume for me,Cmd.VolumeDecrease
+drop it down a few clicks,Cmd.VolumeDecrease
+the sound is overwhelming me,Cmd.VolumeDecrease
+ratchet the volume back,Cmd.VolumeDecrease
+trim the loudness please,Cmd.VolumeDecrease
+i'm at a noisy restaurant now,Cmd.MemoryChange
+tune my aids for this place,Cmd.MemoryChange
+shift into the outdoor profile,Cmd.MemoryChange
+set me up for a concert,Cmd.MemoryChange
+i need the setting for dining out,Cmd.MemoryChange
+move to my church program,Cmd.MemoryChange
+change profiles for this room,Cmd.MemoryChange
+dial in the mode for traffic noise,Cmd.MemoryChange
+i'm settling in for tv time,Cmd.MemoryChange
+switch over to my gym preset,Cmd.MemoryChange
+how charged are my aids,Cmd.BatteryLevel
+got enough battery for a movie,Cmd.BatteryLevel
+is my battery about to run out,Cmd.BatteryLevel
+how many hours of battery remain,Cmd.BatteryLevel
+are these almost dead,Cmd.BatteryLevel
+battery good enough for the evening,Cmd.BatteryLevel
+percentage of battery left please,Cmd.BatteryLevel
+do these need charging right now,Cmd.BatteryLevel
+how depleted are the batteries,Cmd.BatteryLevel
+is my power almost gone,Cmd.BatteryLevel
+i've misplaced both my aids,Help_FindMyHearingAids
+track down where my aids are,Help_FindMyHearingAids
+i can't spot my hearing aids anywhere,Help_FindMyHearingAids
+locate my missing earpiece,Help_FindMyHearingAids
+my aids aren't where i left them,Help_FindMyHearingAids
+find where my devices ended up,Help_FindMyHearingAids
+i set my aids down and lost them,Help_FindMyHearingAids
+where could my aids have gone,Help_FindMyHearingAids
+show me around the app,Help_Home
+what's the starting point here,Help_Home
+i could use an introduction,Help_Home
+help me find my way around,Help_Home
+make sure i remember to take my meds,reminders.add
+i need a nudge later about this,reminders.add
+set a reminder so i don't forget,reminders.add
+route the tv audio into my aids,Cmd.StreamingStart
+play the audio directly in my ears,Cmd.StreamingStart
+stream the broadcast to my devices,Cmd.StreamingStart
+fire off a text to a contact,Cmd.SendMessage
+i need to write a message to someone,Cmd.SendMessage
