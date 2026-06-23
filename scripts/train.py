@@ -132,6 +132,10 @@ joblib.dump(labels, str(LABELS_PATH))
 # ---------- 4. Build pipeline ----------
 # min_df=2 drops hapax legomena that inflate vocab without improving generalisation.
 # CalibratedClassifierCV (isotonic) corrects the overconfident probabilities from C=15.
+# NOTE: word analyzer only. A word+char_wb FeatureUnion scores ~3pts higher on the
+# hard paraphrase holdout, but skl2onnx cannot export char-analyzer TfidfVectorizers
+# (the engine/iOS run the ONNX model), so it is not deployable here. The semantic
+# (MiniLM) stage already covers sub-word generalisation at runtime.
 base_lr = LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0)
 calibrated_lr = CalibratedClassifierCV(base_lr, method="isotonic", cv=3)
 

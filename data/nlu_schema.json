@@ -2,20 +2,17 @@
   "version": 2,
   "confidence_threshold": 0.7,
   "slot_confidence_threshold": 0.6,
-  "semantic_threshold": 0.55,
+  "semantic_threshold": 0.4,
   "keyword_triggers": [
     {
       "intent": "Cmd.TranslationStart",
-      "contains": [
-        "translate"
-      ]
+      "regex": "\\btranslat(e|es|ing|ion)\\b",
+      "not_regex": "\\b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\\b"
     },
     {
       "intent": "Cmd.TranscribeStart",
-      "contains": [
-        "transcribe",
-        "transcription"
-      ]
+      "regex": "\\btranscri(be|bing|ption)\\b",
+      "not_regex": "\\b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\\b"
     },
     {
       "intent": "Cmd.VolumeMute",
@@ -132,7 +129,8 @@
     },
     {
       "intent": "Cmd.StreamingStart",
-      "regex": "\\bpatch\\b.{0,15}\\b(sound|audio)\\b.{0,10}\\bthrough\\b|\\bstream\\b.{0,15}\\b(from|phone|tv|device)\\b"
+      "regex": "\\bpatch\\b.{0,15}\\b(sound|audio)\\b.{0,10}\\bthrough\\b|\\bstream\\b.{0,15}\\b(from|phone|tv|device)\\b",
+      "not_regex": "\\b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another person|someone)\\b"
     },
     {
       "intent": "Cmd.MemoryChange",
@@ -185,7 +183,7 @@
       "fulfillment": "Memory changed.",
       "action": "memory.change",
       "back_reference": {
-        "pattern": "back|previous|before|last|undo|revert|the old one|as before",
+        "pattern": "\\b(change|switch|go|set|put|flip|take|bring|turn)\\s+(it\\s+|me\\s+|them\\s+|that\\s+)?back\\b|\\bback\\s+to\\s+(the|my)\\b|\\b(previous|prior|old)\\s+(program|memory|setting|mode|profile|one)\\b|\\brevert\\b|\\bundo\\b|\\bas before\\b|\\bthe way it was\\b",
         "slot": "MemoryName",
         "source": "prev_memory"
       }
@@ -214,7 +212,7 @@
       "fulfillment": "Reminder created.",
       "action": "reminders.add",
       "back_reference": {
-        "pattern": "again|same reminder|same one|same thing|repeat|another one",
+        "pattern": "\\bremind me again\\b|\\bsame reminder\\b|\\bsame (one|thing)\\b|\\banother (one|reminder)\\b|\\brepeat (it|that|the reminder)\\b|\\bonce more\\b",
         "source": "last_fulfilled"
       }
     },
