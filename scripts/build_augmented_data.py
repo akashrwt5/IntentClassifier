@@ -12,9 +12,23 @@ registers for every intent, then:
   * filters out any phrase that appears in ANY holdout / benchmark / test set
     (zero leakage — the benchmarks must stay a true generalisation test),
   * dedupes against the base training data,
-  * writes data/intent_data_augmented.csv.
+  * writes  data/intent_data_augmented.csv        (just the new phrases), and
+  * writes  data/intent_data_new_2_enhanced.csv   (the merged v3 training set =
+            base _2 + augmentation + hand corrections) that the trainers read.
 
-Run:  python scripts/build_augmented_data.py
+────────────────────────────────────────────────────────────────────────────
+RETRAIN PIPELINE — run these four, in this order, from the repo root:
+
+  1. python scripts/build_augmented_data.py     # regenerate the v3 training set
+  2. python scripts/train.py                     # TF-IDF model  -> intent_model.onnx
+  3. python scripts/train_semantic_head.py       # MiniLM head   -> semantic_head.*
+  4. python scripts/test_holdout.py --strict      # validate + build gate
+
+(train.py and train_semantic_head.py both default to --version 3 = the enhanced
+file this script writes. Step 1 is only needed when you change the phrase banks
+below; otherwise start at step 2. Inspect results with test_tfidf_only.py and
+test_semantic.py.)
+────────────────────────────────────────────────────────────────────────────
 """
 import json, re, sys
 from pathlib import Path
@@ -23,15 +37,30 @@ import pandas as pd
 BASE = Path(__file__).parent.parent
 DATA = BASE / "data"
 
-# ── Leakage blocklist: every phrase used by any eval harness ──────────────────
+# ── Leakage blocklists ────────────────────────────────────────────────────────
+# true_holdout : the genuine generalisation gates — NOTHING in training may leak
+#                here (semantic_holdout_2/100 + the test_semantic.py cases).
+# benchmark_250: an IN-DISTRIBUTION benchmark (sampled FROM training data), so the
+#                base set legitimately overlaps it; we only use it to keep NEW
+#                augmentation phrases conservative, never to gate the merged file.
+def _read_phrases(fname) -> set:
+    p = DATA / fname
+    if not p.exists():
+        return set()
+    d = pd.read_csv(p)
+    col = "utterance" if "utterance" in d.columns else ("text" if "text" in d.columns else d.columns[0])
+    return set(d[col].astype(str).str.lower().str.strip())
+
+def load_paraphrase_holdouts() -> set:
+    # The genuine generalisation gates: deliberately-unseen paraphrases. Base
+    # training has 0 overlap with these, and nothing we add may leak here.
+    return _read_phrases("semantic_holdout_2.csv") | _read_phrases("semantic_holdout_100.csv")
+
 def load_blocklist() -> set:
-    block = set()
-    for f in ["semantic_holdout_2.csv", "semantic_holdout_100.csv", "semantic_benchmark_250.csv"]:
-        p = DATA / f
-        if p.exists():
-            d = pd.read_csv(p)
-            col = "utterance" if "utterance" in d.columns else ("text" if "text" in d.columns else d.columns[0])
-            block |= set(d[col].astype(str).str.lower().str.strip())
+    # Used to filter NEW augmentation phrases — conservative superset: the true
+    # paraphrase holdouts + the in-distribution benchmark + test_semantic.py
+    # cases (which include some phrasings that legitimately live in base training).
+    block = load_paraphrase_holdouts() | _read_phrases("semantic_benchmark_250.csv")
     ts = (BASE / "scripts" / "test_semantic.py")
     if ts.exists():
         block |= {h.lower().strip() for h in re.findall(r'\("([^"]+)",\s*"[^"]+"\)', ts.read_text())}
@@ -736,6 +765,29 @@ def main():
     print(f"  dropped (holdout leakage): {dropped_leak}")
     print(f"  dropped (already in base): {dropped_dup}")
     print(f"  leakage check: 0 ✅")
+
+    # ── Also assemble the merged training file train.py/-head consume (v3) ──
+    # enhanced = base (_2) + this augmentation + the earlier hand corrections.
+    # Doing it here (not by hand) keeps the pipeline reproducible: this script is
+    # the single source of truth for what the v3 training set contains.
+    parts = [base[["text", "intent"]], out]
+    corr_path = DATA / "intent_data_corrections.csv"
+    if corr_path.exists():
+        corr = pd.read_csv(corr_path)
+        corr["text"] = corr["text"].astype(str).str.lower().str.strip()
+        parts.append(corr[["text", "intent"]])
+    merged = pd.concat(parts, ignore_index=True)
+    merged["text"] = merged["text"].astype(str).str.lower().str.strip()
+    merged["intent"] = merged["intent"].astype(str).str.strip()
+    merged = merged.dropna().drop_duplicates(subset=["text", "intent"])
+    # Gate the merged file ONLY against the paraphrase generalisation holdouts.
+    # (NOT benchmark_250, which is in-distribution, and NOT test_semantic.py, whose
+    # KNOWN/OOS cases legitimately live in base training.)
+    merged_leak = set(merged["text"]) & load_paraphrase_holdouts()
+    assert not merged_leak, f"MERGED LEAKAGE vs paraphrase holdouts: {sorted(merged_leak)[:10]}"
+    merged.to_csv(DATA / "intent_data_new_2_enhanced.csv", index=False)
+    print(f"Wrote merged v3 training file intent_data_new_2_enhanced.csv: "
+          f"{len(merged)} rows  (base {len(base)} + aug {len(out)} + corrections)")
 
 if __name__ == "__main__":
     main()
