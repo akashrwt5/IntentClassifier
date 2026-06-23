@@ -3,26 +3,29 @@
 Held-out benchmark — measures TRUE generalization AND gates the build.
 
 Runs the FULL NLU pipeline (keyword + TF-IDF + semantic) against
-data/semantic_holdout_100.csv: 100 paraphrases deliberately NOT in the
-training data, so the score reflects unseen-phrasing behavior.
+the holdout CSV: paraphrases deliberately NOT in training data,
+so the score reflects unseen-phrasing behavior.
 
 This is the AUTHORITATIVE accuracy gate. Unlike train.py's gate (which
 measures the TF-IDF stage in isolation), this measures the end-to-end
 pipeline — the number that predicts real user-facing behavior.
 
 Run from the repo root:
-    python scripts/test_holdout.py              # report only (exit 0)
+    python scripts/test_holdout.py              # v2 holdout, report only
+    python scripts/test_holdout.py --version 1  # original 100-row holdout
+    python scripts/test_holdout.py --version 2  # 345-row all-intent holdout (default)
     python scripts/test_holdout.py --verbose    # show every phrase
-    python scripts/test_holdout.py --strict      # GATE: exit 1 if below budget
+    python scripts/test_holdout.py --strict     # GATE: exit 1 if below budget
     python scripts/test_holdout.py --json out.json   # machine-readable results
 
 Gate budget (override via env):
-    MIN_HOLDOUT_TOTAL=88        minimum correct out of 100
+    MIN_HOLDOUT_TOTAL=88        minimum correct (absolute count)
     MAX_WRONG_ACTION=5          max confidently-wrong intents (worse than GenAI)
 The wrong-action budget is the safety-critical metric: firing the wrong
 command on a hearing aid is a user-harm event, unlike a safe GenAI handoff.
 """
 
+import argparse
 import json
 import os
 import sys
@@ -33,12 +36,29 @@ sys.path.insert(0, str(Path(__file__).parent))
 import pandas as pd
 from nlu.engine import NLUEngine
 
-HOLDOUT_PATH = Path(__file__).parent.parent / "data" / "semantic_holdout_100.csv"
+_parser = argparse.ArgumentParser(description="Held-out NLU benchmark")
+_parser.add_argument("--version", "-v", type=int, choices=[1, 2], default=2,
+                     help="Holdout version: 1=semantic_holdout_100.csv, 2=semantic_holdout_2.csv (default: 2)")
+_parser.add_argument("--verbose",  action="store_true")
+_parser.add_argument("--strict",   action="store_true")
+_parser.add_argument("--json",     metavar="FILE")
+_args = _parser.parse_args()
 
-# Gate budget — current state is 90/100 with 4 wrong-action misses, so these
-# floors leave a little headroom while still catching meaningful regressions.
-MIN_HOLDOUT_TOTAL = int(os.environ.get("MIN_HOLDOUT_TOTAL", "88"))
-MAX_WRONG_ACTION = int(os.environ.get("MAX_WRONG_ACTION", "5"))
+_BASE = Path(__file__).parent.parent
+if _args.version == 1:
+    HOLDOUT_PATH = _BASE / "data" / "semantic_holdout_100.csv"
+    # v1 gate: 88/100 correct, ≤5 wrong-action
+    _default_min   = 88
+    _default_wrong = 5
+else:
+    HOLDOUT_PATH = _BASE / "data" / "semantic_holdout_2.csv"
+    # v2 gate: ~75% of 345 correct (258), ≤15 wrong-action
+    # Lower % floor because v2 contains many HARD novel paraphrases across 59 intents
+    _default_min   = int(os.environ.get("MIN_HOLDOUT_TOTAL", "258"))
+    _default_wrong = int(os.environ.get("MAX_WRONG_ACTION", "15"))
+
+MIN_HOLDOUT_TOTAL = int(os.environ.get("MIN_HOLDOUT_TOTAL", str(_default_min)))
+MAX_WRONG_ACTION  = int(os.environ.get("MAX_WRONG_ACTION",  str(_default_wrong)))
 
 GREEN, RED, YELLOW, CYAN, RESET, BOLD = (
     "\033[92m", "\033[91m", "\033[93m", "\033[96m", "\033[0m", "\033[1m"
@@ -46,15 +66,13 @@ GREEN, RED, YELLOW, CYAN, RESET, BOLD = (
 
 
 def main():
-    verbose = "--verbose" in sys.argv
-    strict = "--strict" in sys.argv
-    json_path = None
-    if "--json" in sys.argv:
-        i = sys.argv.index("--json")
-        if i + 1 < len(sys.argv):
-            json_path = sys.argv[i + 1]
+    verbose   = _args.verbose
+    strict    = _args.strict
+    json_path = _args.json
 
-    print(f"\n{BOLD}Held-out Benchmark — 100 never-trained paraphrases{RESET}\n")
+    n_rows = len(pd.read_csv(HOLDOUT_PATH))
+    print(f"\n{BOLD}Held-out Benchmark — {n_rows} never-trained paraphrases "
+          f"[v{_args.version}: {HOLDOUT_PATH.name}]{RESET}\n")
     engine = NLUEngine()
     df = pd.read_csv(HOLDOUT_PATH)
 
@@ -83,7 +101,8 @@ def main():
         sub = results[results["expected"] == intent]
         ok = sub["correct"].sum()
         stages = dict(sub[sub["correct"]]["stage"].value_counts())
-        colour = GREEN if ok >= 8 else (YELLOW if ok >= 5 else RED)
+        total_for_intent = len(sub)
+        colour = GREEN if ok == total_for_intent else (YELLOW if ok >= total_for_intent * 0.6 else RED)
         print(f"{intent:<28} {colour}{ok:>3}/{len(sub)}{RESET}   {stages}")
 
     # Failures (or everything with --verbose)
