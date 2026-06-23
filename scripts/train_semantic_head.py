@@ -187,7 +187,7 @@ def main():
     )
     # Lever B: Reduce C from 10.0 to 1.5 to prevent overfitting of tiny
     # tail classes in high-dimensional (384-dim) space.
-    clf = LogisticRegression(max_iter=2000, C=1.5, class_weight="balanced")
+    clf = LogisticRegression(max_iter=2000, C=3.0, class_weight="balanced")
     clf.fit(X_tr, y_tr)
 
     y_pred = clf.predict(X_te)
@@ -225,7 +225,7 @@ def main():
 
     # ── Final model on 100% of data (in-scope + curated OOS class) ──
     print("\nRetraining on full dataset (in-scope + OOS class)...")
-    clf = LogisticRegression(max_iter=2000, C=1.5, class_weight="balanced")
+    clf = LogisticRegression(max_iter=2000, C=3.0, class_weight="balanced")
     clf.fit(X, y)
 
     np.savez_compressed(
