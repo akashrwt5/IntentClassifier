@@ -78,7 +78,7 @@ class NLUEngine:
     # enough that a flat (genuinely-ambiguous) distribution is rejected.
     AGREEMENT_THRESHOLD = 0.50
 
-    def __init__(self, schema_path: Path = SCHEMA_PATH):
+    def __init__(self, schema_path: Path = SCHEMA_PATH, model_name: str | None = None):
         self.schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
         self.intents = self.schema["intents"]
         self.threshold = self.schema.get("confidence_threshold", 0.70)
@@ -98,11 +98,29 @@ class NLUEngine:
         # same value constructs SemanticFallback AND gates its result in the
         # engine, so the two can never drift.
         self.semantic_threshold = self.schema.get("semantic_threshold", DEFAULT_SEMANTIC_THRESHOLD)
-        self.classifier = IntentClassifier()
+        self.classifier = self._load_classifier(model_name)
         self.entities = EntityExtractor()
         self.sessions = SessionStore()
         self.semantic = self._load_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
+
+    def _load_classifier(self, model_name: str | None = None) -> IntentClassifier:
+        """Load the appropriate TF-IDF model: production (default) or multilingual (en/fr/de/da)."""
+        if model_name is None or model_name == "production":
+            return IntentClassifier()
+
+        # Multilingual models are in multilingual/models/<name>/
+        multilingual_model = BASE_DIR / "multilingual" / "models" / model_name
+        onnx_file = next(multilingual_model.glob("*_intent_model.onnx"), None)
+        labels_file = next(multilingual_model.glob("*_intent_labels.pkl"), None)
+
+        if not onnx_file or not labels_file:
+            raise FileNotFoundError(
+                f"Multilingual model '{model_name}' not found under {multilingual_model}. "
+                f"Available: en, fr, de, da, multilingual (run: python multilingual/train_multilingual.py --all)"
+            )
+
+        return IntentClassifier(model_path=onnx_file, labels_path=labels_file, schema_path=SCHEMA_PATH)
 
     @staticmethod
     def _load_semantic(threshold: float):
