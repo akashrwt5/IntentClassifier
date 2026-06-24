@@ -72,7 +72,9 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
+from sklearn.calibration import CalibratedClassifierCV
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
@@ -211,27 +213,104 @@ def load_data_for(name: str, explicit: Path | None) -> pd.DataFrame:
 
 
 # ───────────────────────── Export helpers ────────────────────────────────────
-def export_weights_json(pipeline: Pipeline, labels, out_path: Path):
-    """Dump raw TF-IDF + LR weights for the on-device (Swift) inference path.
+CAL_ROUND = 4   # decimal places for calibration breakpoints (matches production)
 
-    Mirrors scripts/export_weights.py. Requires a PLAIN LogisticRegression
-    (CalibratedClassifierCV would not expose .coef_). The isotonic calibration
-    tables used by the production iOS build are NOT emitted here — see the
-    DEFERRED note in this file's docstring.
+
+def extract_lr(clf):
+    """Return (coef, intercept, classes) from a plain LR or a CalibratedClassifierCV.
+
+    Mirrors scripts/export_ios_weights.py::_extract_lr. The shipped pipeline uses
+    CalibratedClassifierCV(isotonic, cv=3, ensemble=False), so calibrated_classifiers_
+    holds a SINGLE base LR refit on all the data. We return that one LR's coef/intercept
+    verbatim — these are the exact weights the exported ONNX runs internally, so the
+    on-device linear layer reproduces the ONNX logit bit-for-bit (no fold averaging).
+    The isotonic maps (see fit_calibration) then rescale that logit to the calibrated
+    probability the ONNX emits, keeping the two paths consistent.
+
+    The averaging branch below is retained only as a defensive fallback for an
+    ensemble=True classifier; with ensemble=False it averages over a single estimator
+    (i.e. a no-op) and prints the parity-preserving message.
+    """
+    if hasattr(clf, "coef_"):
+        return clf.coef_, clf.intercept_, clf.classes_
+    fold_clfs = []
+    for cc in clf.calibrated_classifiers_:
+        est = getattr(cc, "estimator", None)
+        if est is None:
+            est = getattr(cc, "base_estimator", None)   # older sklearn attr name
+        fold_clfs.append(est)
+    coef = np.mean([fc.coef_ for fc in fold_clfs], axis=0)
+    intercept = np.mean([fc.intercept_ for fc in fold_clfs], axis=0)
+    classes = fold_clfs[0].classes_
+    if len(fold_clfs) == 1:
+        print("  [weights] CalibratedClassifierCV(ensemble=False): single base-LR "
+              "refit on all data → device logit == ONNX logit (exact parity).")
+    else:
+        print(f"  [weights] CalibratedClassifierCV(ensemble=True): averaged base-LR "
+              f"coef across {len(fold_clfs)} folds (approximate parity).")
+    return coef, intercept, classes
+
+
+def fit_calibration(pipeline: Pipeline, X_train, labels, coef, intercept):
+    """Fit per-class isotonic maps: device-logit → calibrated prob.
+
+    Mirrors scripts/export_ios_weights.py::_fit_calibration. The device logit is
+    computed from the single base-LR weights (exactly what Swift ships, and exactly
+    what the ONNX runs internally under ensemble=False) over the sklearn L2-normalised
+    TF-IDF vector; the target is the calibrated pipeline's own predict_proba — i.e.
+    precisely what the ONNX/server emits. Swift applies these maps to its logits and
+    renormalises, matching the server's calibrated confidence so the 0.70 threshold
+    behaves identically on-device.
+
+    Returns {"method": "isotonic_logit", "maps": [...]} in `labels` order.
+    """
+    # coef/intercept come from extract_lr in clf.classes_ order == `labels` order.
+    Xtf = pipeline.named_steps["tfidf"].transform(X_train)     # (N, n_feat), L2-normed
+    coef = np.asarray(coef, dtype=np.float64)
+    intercept = np.asarray(intercept, dtype=np.float64)
+    logits = np.asarray(Xtf @ coef.T) + intercept             # (N, n_classes), labels order
+
+    srv = pipeline.predict_proba(X_train)                     # (N, n_classes) clf order
+    clf = pipeline.named_steps["clf"]
+    col = {c: i for i, c in enumerate(clf.classes_)}
+    srv = srv[:, [col[lbl] for lbl in labels]]
+
+    maps = []
+    for k in range(len(labels)):
+        ir = IsotonicRegression(out_of_bounds="clip", y_min=0.0, y_max=1.0)
+        ir.fit(logits[:, k], srv[:, k])
+        xs = [round(float(v), CAL_ROUND) for v in ir.X_thresholds_]
+        ys = [round(float(v), CAL_ROUND) for v in ir.y_thresholds_]
+        maps.append({"x": xs, "y": ys})
+
+    n_pts = sum(len(m["x"]) for m in maps)
+    print(f"  [calibration] fitted isotonic maps: {len(maps)} classes, {n_pts} "
+          f"breakpoints (device-logit → calibrated-prob).")
+    return {"method": "isotonic_logit", "maps": maps}
+
+
+def export_weights_json(pipeline: Pipeline, labels, out_path: Path,
+                        coef, intercept, calibration):
+    """Dump TF-IDF + single base-LR weights (+ isotonic calibration) for the Swift path.
+
+    Mirrors scripts/export_ios_weights.py. `coef`/`intercept` are the single base-LR
+    weights from extract_lr (in `labels` order) — the same LR the ONNX runs under
+    ensemble=False; `calibration` is the isotonic map block so the on-device softmax
+    matches the server's calibrated confidence.
     """
     tfidf = pipeline.named_steps["tfidf"]
-    clf = pipeline.named_steps["clf"]
     weights = {
-        "labels": clf.classes_.tolist(),
+        "labels": list(labels),
         "vocab": {k: int(v) for k, v in tfidf.vocabulary_.items()},
         "idf": [round(x, 6) for x in tfidf.idf_.tolist()],
-        "coef": [[round(x, 6) for x in row] for row in clf.coef_.tolist()],
-        "intercept": [round(x, 6) for x in clf.intercept_.tolist()],
+        "coef": [[round(float(x), 6) for x in row] for row in np.asarray(coef).tolist()],
+        "intercept": [round(float(x), 6) for x in np.asarray(intercept).tolist()],
         "ngram_range": list(tfidf.ngram_range),
         "sublinear_tf": bool(tfidf.sublinear_tf),
+        "normalize": "l2",     # Swift L2-normalises the TF-IDF vector before the linear layer
         "conf_threshold": 0.70,
         "conf_gap_threshold": 0.20,
-        "calibration": None,   # DEFERRED: isotonic tables for Swift parity
+        "calibration": calibration,   # {"method": "isotonic_logit", "maps": [...]}
     }
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(weights, f, separators=(",", ":"))
@@ -277,12 +356,25 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float,
     )
     print(f"Train: {len(X_train)} | Test: {len(X_test)}")
 
-    # Plain (uncalibrated) LR so coef_/idf_ are exportable to classifier_weights.json.
+    # CalibratedClassifierCV(isotonic, cv=3, ensemble=False) — calibrates the
+    # over-confident C=15 LR. ensemble=False is deliberate and load-bearing for the
+    # on-device path: it fits ONE base LR on all the data (cross_val_predict only
+    # supplies unbiased scores for the calibrator), so calibrated_classifiers_ holds
+    # a SINGLE estimator + a SINGLE isotonic calibrator per class — not a 3-fold
+    # ensemble. Consequences:
+    #   • the exported ONNX bakes one LR (≈1/3 the size of the cv=3 ensemble), and
+    #   • the device logit (from that one LR's coef/intercept, see extract_lr) is the
+    #     EXACT logit the ONNX's internal LR computes — no fold-averaging
+    #     approximation — so Swift and ONNX agree by construction (parity).
+    # With ensemble=True the device had to average 3 fold-LRs and fit a separate map,
+    # which drifted ~30% of utterances across the 0.70 threshold in conformance.
     # Word analyzer only — skl2onnx cannot export char-analyzer TfidfVectorizers.
     print(f"TF-IDF recipe: {tfidf_kwargs}")
+    base_lr = LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0)
     pipeline = Pipeline([
         ("tfidf", TfidfVectorizer(**tfidf_kwargs)),
-        ("clf", LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0)),
+        ("clf", CalibratedClassifierCV(base_lr, method="isotonic", cv=3,
+                                       ensemble=False)),
     ])
     pipeline.fit(X_train, y_train)
 
@@ -329,7 +421,14 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float,
     joblib.dump(labels, str(model_dir / f"{name}_intent_labels.pkl"))
     with open(model_dir / f"{name}_intent_labels.json", "w", encoding="utf-8") as f:
         json.dump(labels, f, indent=2)
-    export_weights_json(pipeline, labels, model_dir / f"{name}_intent_classifier_weights.json")
+    # On-device path: take the single base-LR coefs (ensemble=False → same LR the
+    # ONNX runs), then fit isotonic calibration (device-logit → calibrated prob) so
+    # Swift matches the calibrated ONNX output.
+    coef, intercept, _ = extract_lr(pipeline.named_steps["clf"])
+    calibration = fit_calibration(pipeline, X_train, labels, coef, intercept)
+    export_weights_json(pipeline, labels,
+                        model_dir / f"{name}_intent_classifier_weights.json",
+                        coef, intercept, calibration)
     write_manifest(model_dir)
 
     print(f"✅ Exported '{name}' → {model_dir}/  "
