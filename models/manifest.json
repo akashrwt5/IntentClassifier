@@ -1,10 +1,13 @@
 {
-  "models/intent_model.onnx": "2834a6159e5fec0179c2133071708bb82ec0d4dbe0d1a08cd9d5b7c4c7a62970",
+  "models/intent_model.onnx": "4dc73dc82786842111c35fac62cbaaa419f02bad3e387d237580fa1b776b9a16",
   "models/intent_labels.json": "92dc00479cd7ba6b9b71bbc2d2170bfaf21c8db1c2f621d2d8f200af15da45c0",
   "models/intent_labels.pkl": "9fe3fbfece2e5a5df2432efe1862e7282a55672c833f53641fd2ad358bdc84ad",
-  "models/intent_pipeline.pkl": "84fa415306757b085768376fd8c5dfd9009b81923020084abfaa74d772c94e7b",
+  "models/intent_pipeline.pkl": "43c4c72e4ac1f35b23bf57b75af4ffd4b4c55e9ec4ad92b53c60810d08b11999",
   "models/minilm-l6-v2.onnx": "5b122944ddf5d50e9e1819468014cf608bf581d48aecb78bb1a56e88ac4f71d0",
   "models/minilm-vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
   "models/semantic_head.json": "0732269fb6944adf69959d4b2f208889b01f1cff5f19209bfa0935fd83c0cf8e",
-  "models/semantic_head.npz": "fc6b5edea6aa9ab79093ab3c288f2eb4cb294bce10e226aba7d1a513a0c4d10c"
+  "models/semantic_head.npz": "fc6b5edea6aa9ab79093ab3c288f2eb4cb294bce10e226aba7d1a513a0c4d10c",
+  "_meta": {
+    "holdout_accuracy": 0.8944
+  }
 }

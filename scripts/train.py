@@ -22,7 +22,6 @@ from pathlib import Path
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import classification_report, confusion_matrix
 from skl2onnx import convert_sklearn
@@ -131,21 +130,22 @@ joblib.dump(labels, str(LABELS_PATH))
 
 # ---------- 4. Build pipeline ----------
 # min_df=2 drops hapax legomena that inflate vocab without improving generalisation.
-# CalibratedClassifierCV (isotonic) corrects the overconfident probabilities from C=15.
+# Plain LogisticRegression: the over-confident C=15 probabilities are calibrated
+# downstream by single-parameter temperature scaling (one scalar T fit on the
+# device-equivalent logits by scripts/export_ios_weights.py), NOT by wrapping the LR
+# in CalibratedClassifierCV. A plain LR is required so the exported ONNX can emit raw
+# decision-function logits (raw_scores=True, see export below) for the server to scale.
 # NOTE: word analyzer only. A word+char_wb FeatureUnion scores ~3pts higher on the
 # hard paraphrase holdout, but skl2onnx cannot export char-analyzer TfidfVectorizers
 # (the engine/iOS run the ONNX model), so it is not deployable here. The semantic
 # (MiniLM) stage already covers sub-word generalisation at runtime.
-base_lr = LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0)
-calibrated_lr = CalibratedClassifierCV(base_lr, method="isotonic", cv=3)
-
 pipeline = Pipeline([
     ("tfidf", TfidfVectorizer(
         ngram_range=(1, 2),
         min_df=2,
         sublinear_tf=True
     )),
-    ("clf", calibrated_lr)
+    ("clf", LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0))
 ])
 
 # ---------- 5. Cross-validation ----------
@@ -208,12 +208,16 @@ if _holdout is not None:
           f"— pipeline accuracy is validated by test_holdout.py")
 
 # ---------- 10. Export to ONNX ----------
+# raw_scores=True exposes the raw decision_function logits (NOT a baked-in softmax)
+# as the 'probabilities' output, so the server/device can apply softmax(logits / T)
+# with the temperature T fitted at export time. Dividing softmaxed probabilities by T
+# would be mathematically wrong, hence the plain-LR + raw_scores combination.
 initial_type = [("input", StringTensorType([None, 1]))]
 
 onnx_model = convert_sklearn(
     pipeline,
     initial_types=initial_type,
-    options={id(pipeline.named_steps["clf"]): {"zipmap": False}}
+    options={id(pipeline.named_steps["clf"]): {"zipmap": False, "raw_scores": True}}
 )
 
 with open(ONNX_PATH, "wb") as f:

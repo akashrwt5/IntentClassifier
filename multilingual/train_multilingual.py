@@ -438,10 +438,14 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float,
     if name == COMBINED_NAME:
         onnx_path = model_dir / "multilingual_intent_model.onnx"
 
+    # raw_scores=True makes the ONNX 'probabilities' output expose the raw
+    # decision_function logits (NOT a softmax) so the server can apply
+    # softmax(logits / T) itself. Without it, skl2onnx bakes a softmax into the
+    # graph and dividing those probabilities by T would be mathematically wrong.
     onnx_model = convert_sklearn(
         pipeline,
         initial_types=[("input", StringTensorType([None, 1]))],
-        options={id(pipeline.named_steps["clf"]): {"zipmap": False}},
+        options={id(pipeline.named_steps["clf"]): {"zipmap": False, "raw_scores": True}},
     )
     onnx_path.write_bytes(onnx_model.SerializeToString())
 
