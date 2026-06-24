@@ -2,7 +2,7 @@
 """
 Build a high-quality, natural-language augmentation set for intent training.
 
-WHY: the original training data (intent_data_new_2.csv) is overwhelmingly
+WHY: the original training data (01_source_base_training_data.csv) is overwhelmingly
 formal / imperative-template ("turn down the volume", "how do i change memory").
 The holdout benchmarks are conversational / situational ("my ears are getting
 hammered", "i just sat down at a busy cafe"). The model never learned to map
@@ -12,8 +12,8 @@ registers for every intent, then:
   * filters out any phrase that appears in ANY holdout / benchmark / test set
     (zero leakage — the benchmarks must stay a true generalisation test),
   * dedupes against the base training data,
-  * writes  data/intent_data_augmented.csv        (just the new phrases), and
-  * writes  data/intent_data_new_2_enhanced.csv   (the merged v3 training set =
+  * writes  data/03_generated_augmented_phrases.csv        (just the new phrases), and
+  * writes  data/04_GENERATED_MASTER_training_data.csv   (the merged v3 training set =
             base _2 + augmentation + hand corrections) that the trainers read.
 
 ────────────────────────────────────────────────────────────────────────────
@@ -885,7 +885,7 @@ for _k, _v in W4.items():
 
 def main():
     block = load_blocklist()
-    base = pd.read_csv(DATA / "intent_data_new_2.csv")
+    base = pd.read_csv(DATA / "01_source_base_training_data.csv")
     base["text"] = base["text"].astype(str).str.lower().str.strip()
     base_pairs = set(zip(base["text"], base["intent"].astype(str).str.strip()))
     base_texts = set(base["text"])
@@ -904,7 +904,7 @@ def main():
     # Final safety: assert zero leakage
     leak = set(out["text"]) & block
     assert not leak, f"LEAKAGE: {sorted(leak)[:10]}"
-    out.to_csv(DATA / "intent_data_augmented.csv", index=False)
+    out.to_csv(DATA / "03_generated_augmented_phrases.csv", index=False)
     print(f"Wrote {len(out)} augmented rows across {out['intent'].nunique()} intents")
     print(f"  dropped (holdout leakage): {dropped_leak}")
     print(f"  dropped (already in base): {dropped_dup}")
@@ -915,7 +915,7 @@ def main():
     # Doing it here (not by hand) keeps the pipeline reproducible: this script is
     # the single source of truth for what the v3 training set contains.
     parts = [base[["text", "intent"]], out]
-    corr_path = DATA / "intent_data_corrections.csv"
+    corr_path = DATA / "02_source_manual_corrections.csv"
     if corr_path.exists():
         corr = pd.read_csv(corr_path)
         corr["text"] = corr["text"].astype(str).str.lower().str.strip()
@@ -929,8 +929,8 @@ def main():
     # KNOWN/OOS cases legitimately live in base training.)
     merged_leak = set(merged["text"]) & load_paraphrase_holdouts()
     assert not merged_leak, f"MERGED LEAKAGE vs paraphrase holdouts: {sorted(merged_leak)[:10]}"
-    merged.to_csv(DATA / "intent_data_new_2_enhanced.csv", index=False)
-    print(f"Wrote merged v3 training file intent_data_new_2_enhanced.csv: "
+    merged.to_csv(DATA / "04_GENERATED_MASTER_training_data.csv", index=False)
+    print(f"Wrote merged v3 training file 04_GENERATED_MASTER_training_data.csv: "
           f"{len(merged)} rows  (base {len(base)} + aug {len(out)} + corrections)")
 
 if __name__ == "__main__":

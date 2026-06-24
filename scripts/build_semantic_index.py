@@ -2,7 +2,7 @@
 """
 Build the semantic nearest-neighbour index from training data.
 
-Embeds every training phrase in data/intent_data_new.csv using MiniLM-L6-v2
+Embeds every training phrase in data/01_source_base_training_data.csv using MiniLM-L6-v2
 and stores the result as models/semantic_index.npz (float16, ~5.7 MB).
 
 Run this once after training, or whenever the training data changes:
@@ -19,7 +19,7 @@ import pandas as pd
 from pathlib import Path
 
 BASE_DIR   = Path(__file__).parent.parent
-DATA_PATH  = BASE_DIR / "data" / "intent_data_new.csv"
+DATA_PATH  = BASE_DIR / "data" / "01_source_base_training_data.csv"
 MODEL_DIR  = BASE_DIR / "models"
 INDEX_PATH = MODEL_DIR / "semantic_index.npz"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"

@@ -34,23 +34,23 @@ import pandas as pd
 _parser = argparse.ArgumentParser(description="Train MiniLM semantic head")
 _parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
                      help="Data version: 1=original files, 2=corrected _2 files, "
-                          "3=enhanced (_2 + intent_data_corrections.csv, default)")
+                          "3=enhanced (_2 + 02_source_manual_corrections.csv, default)")
 _args = _parser.parse_args()
 
 BASE_DIR   = Path(__file__).parent.parent
 if _args.version == 1:
-    DATA_PATH    = BASE_DIR / "data" / "intent_data_new.csv"
+    DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
     OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
 elif _args.version == 2:
-    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2.csv"
+    DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
     OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
 else:
     # v3: enhanced training data (_2 + hand-written conversational paraphrases).
     # Reuses the v2 OOS and holdout sets — the corrections never include a
     # holdout phrase (verified by train.py's leakage guard).
-    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2_enhanced.csv"
+    DATA_PATH    = BASE_DIR / "data" / "04_GENERATED_MASTER_training_data.csv"
     OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
 
@@ -131,7 +131,7 @@ def main():
     data["intent"] = data["intent"].astype(str).str.strip()
     data = data.dropna().drop_duplicates(subset=["text", "intent"])
 
-    # The fallback class in intent_data_new.csv is Dialogflow's failure log —
+    # The fallback class in 01_source_base_training_data.csv is Dialogflow's failure log —
     # largely garbled ASR of IN-DOMAIN requests. Training on it would teach the
     # head to replicate old Dialogflow's failures, so it is EXCLUDED. Instead we
     # train an EXPLICIT out-of-scope class from a CURATED clean OOS set

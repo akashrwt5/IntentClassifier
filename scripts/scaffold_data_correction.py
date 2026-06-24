@@ -14,7 +14,7 @@ from pathlib import Path
 from collections import Counter
 
 BASE_DIR = Path(__file__).parent.parent
-DATA_PATH = BASE_DIR / "data" / "intent_data_new.csv"
+DATA_PATH = BASE_DIR / "data" / "01_source_base_training_data.csv"
 OOS_PATH = BASE_DIR / "data" / "semantic_oos.csv"
 HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
 
@@ -117,7 +117,7 @@ print(f"           vs {len(in_scope)} current")
 print("\n" + "=" * 70)
 print("NEXT STEPS:")
 print("=" * 70)
-print("1. Add tail-class diversity to intent_data_new.csv (target ≥40 per intent)")
+print("1. Add tail-class diversity to 01_source_base_training_data.csv (target ≥40 per intent)")
 print("2. Expand data/semantic_oos.csv with 244+ hard negatives → 400+ total")
 print("3. Rebuild data/semantic_holdout_100.csv to cover all 60 intents")
 print("4. Run: python scripts/train_semantic_head.py")

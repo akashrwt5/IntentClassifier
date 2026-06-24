@@ -82,7 +82,7 @@ This makes the mismatch a hard startup error rather than a silent runtime bug.
 **Issue:** `train.py` does cross-validation on the training split (good), but then retrains on **all** data (`pipeline.fit(X, y)`) before exporting — meaning the ONNX model has seen the test rows. Any accuracy numbers printed are therefore optimistic. There is also no permanent never-trained holdout set enforced by the training pipeline.
 
 **Fix:**
-1. Keep `data/semantic_holdout_100.csv` as the permanent holdout. Add an assertion in `train.py` that none of its utterances appear in `intent_data_new.csv` (exact-match check).
+1. Keep `data/semantic_holdout_100.csv` as the permanent holdout. Add an assertion in `train.py` that none of its utterances appear in `01_source_base_training_data.csv` (exact-match check).
 2. Print holdout accuracy separately (clearly labelled "HOLDOUT — never trained").
 3. Add this as a CI metric: fail if holdout accuracy drops below the previous run's score.
 

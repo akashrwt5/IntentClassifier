@@ -135,7 +135,7 @@ so accuracy is mathematically unchanged.** In practice this tier resolves most
    `docs/coreml-conversion-guide.md` Troubleshooting.)
 
 3. **Cut `max_len` 64 → 32.** Your utterances are short hearing-aid commands;
-   inspect the token-length distribution of `data/intent_data_new.csv` — almost
+   inspect the token-length distribution of `data/01_source_base_training_data.csv` — almost
    everything will be < 24 WordPiece tokens. Halving the sequence axis halves the
    attention/activation working set. Change `max_len` in `SemanticEmbedder.swift`
    (and keep `scripts/nlu/semantic.py:_tokenise` / `train_semantic_head.py` in
@@ -259,7 +259,7 @@ a student on only the ~8 000 in-domain phrases will overfit the manifold and
 
 Assemble a distillation corpus of **100k–500k sentences**:
 
-- **In-domain core:** all `data/intent_data_new.csv` phrases (~8k).
+- **In-domain core:** all `data/01_source_base_training_data.csv` phrases (~8k).
 - **In-domain augmentation:** LLM paraphrases of each phrase (Claude — see
   `docs/claude-api` references in repo tooling), back-translation
   (en→de/fr/es→en), and EDA (synonym swap, insert/delete). Target ~5–10×.

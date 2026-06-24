@@ -58,10 +58,10 @@ All in [`../data/`](../data/). Two kinds: **source** (hand-maintained) and
 
 | File | Rows | Kind | What it is |
 |---|---:|---|---|
-| **`intent_data_new_2_enhanced.csv`** | ~9 991 | generated | **The training set both models read.** Built by `build_augmented_data.py`. |
-| `intent_data_augmented.csv` | ~1 378 | generated | Just the augmentation phrases (the new rows merged into the file above). Reference only. |
-| `intent_data_new_2.csv` | 8 325 | source | Base training corpus. Input to `build_augmented_data.py`. |
-| `intent_data_corrections.csv` | 309 | source | Hand-written conversational paraphrases / fixes. Input to `build_augmented_data.py`. |
+| **`04_GENERATED_MASTER_training_data.csv`** | ~9 991 | generated | **The training set both models read.** Built by `build_augmented_data.py`. |
+| `03_generated_augmented_phrases.csv` | ~1 378 | generated | Just the augmentation phrases (the new rows merged into the file above). Reference only. |
+| `01_source_base_training_data.csv` | 8 325 | source | Base training corpus. Input to `build_augmented_data.py`. |
+| `02_source_manual_corrections.csv` | 309 | source | Hand-written conversational paraphrases / fixes. Input to `build_augmented_data.py`. |
 | `semantic_oos_2.csv` | 367 | source | Curated **out-of-scope** phrases — trained as the "Default Fallback Intent" class so the semantic head learns to *reject* off-domain queries. Used only by `train_semantic_head.py`. |
 | `semantic_holdout_2.csv` | 341 | source | **The evaluation benchmark.** Held-out paraphrases never trained on. Used by `test_holdout.py`, `test_tfidf_only.py`, and as a leakage guard by the trainers. |
 | `semantic_benchmark_250.csv` | 249 | source | In-distribution benchmark; used **only** in the augmentation leakage blocklist (not for training, not for the gate). |
@@ -78,7 +78,7 @@ not use these for new work.**
 
 | File | Why it exists |
 |---|---|
-| `intent_data_new.csv` | v1 training corpus |
+| `01_source_base_training_data.csv` | v1 training corpus |
 | `semantic_oos.csv` | v1 OOS set |
 | `semantic_holdout_*_expansion_template.csv` | scaffolding templates for growing the holdout |
 | `unknown_data.csv` | scratch / unused |
@@ -90,23 +90,23 @@ not use these for new work.**
 ```
             SOURCE (edit these)                         GENERATED (don't edit)
   ┌─────────────────────────────────┐
-  │ intent_data_new_2.csv  (base)   │
-  │ intent_data_corrections.csv     │ ──┐
+  │ 01_source_base_training_data.csv  (base)   │
+  │ 02_source_manual_corrections.csv     │ ──┐
   │ phrase banks in                 │   │  build_augmented_data.py
-  │   build_augmented_data.py       │   ├──────────────►  intent_data_augmented.csv
-  └─────────────────────────────────┘   │                 intent_data_new_2_enhanced.csv  ◄─┐
+  │   build_augmented_data.py       │   ├──────────────►  03_generated_augmented_phrases.csv
+  └─────────────────────────────────┘   │                 04_GENERATED_MASTER_training_data.csv  ◄─┐
                                          │                                                    │
   leakage blocklist (never trained on):  │                                                    │
     semantic_holdout_2.csv ──────────────┘                                                    │
     semantic_holdout_100.csv                                                                  │
     semantic_benchmark_250.csv                                                                │
                                                                                               │
-  intent_data_new_2_enhanced.csv ─────────────────────────────────────────────────────┬─────┘
+  04_GENERATED_MASTER_training_data.csv ─────────────────────────────────────────────────────┬─────┘
                                                                                         │
                           train.py  ──────────►  intent_model.onnx, intent_pipeline.pkl │ (TF-IDF)
                                                                                         │
   semantic_oos_2.csv ──┐                                                                │
-  intent_data_new_2_enhanced.csv ──┴── train_semantic_head.py ──► semantic_head.npz/json  (semantic)
+  04_GENERATED_MASTER_training_data.csv ──┴── train_semantic_head.py ──► semantic_head.npz/json  (semantic)
 ```
 
 Key rule the trainers enforce: **nothing in the training set may appear in
@@ -120,9 +120,9 @@ honest generalisation test.
 
 | Script | Trains on | Evaluates on (never trained) | Produces |
 |---|---|---|---|
-| `build_augmented_data.py` | — | — | `intent_data_augmented.csv`, `intent_data_new_2_enhanced.csv` |
-| `train.py` *(default `-v 3`)* | `intent_data_new_2_enhanced.csv` | `semantic_holdout_2.csv` *(guard + report)* | `intent_model.onnx`, `intent_pipeline.pkl`, `intent_labels.{json,pkl}`, `manifest.json` |
-| `train_semantic_head.py` *(default `-v 3`)* | `intent_data_new_2_enhanced.csv` + `semantic_oos_2.csv` | `semantic_holdout_2.csv` *(guard)* | `semantic_head.npz`, `semantic_head.json` |
+| `build_augmented_data.py` | — | — | `03_generated_augmented_phrases.csv`, `04_GENERATED_MASTER_training_data.csv` |
+| `train.py` *(default `-v 3`)* | `04_GENERATED_MASTER_training_data.csv` | `semantic_holdout_2.csv` *(guard + report)* | `intent_model.onnx`, `intent_pipeline.pkl`, `intent_labels.{json,pkl}`, `manifest.json` |
+| `train_semantic_head.py` *(default `-v 3`)* | `04_GENERATED_MASTER_training_data.csv` + `semantic_oos_2.csv` | `semantic_holdout_2.csv` *(guard)* | `semantic_head.npz`, `semantic_head.json` |
 | `test_holdout.py` *(default `-v 2`)* | — | `semantic_holdout_2.csv` *(full pipeline)* | gate pass/fail |
 | `test_tfidf_only.py` | — | `semantic_holdout_2.csv` *(TF-IDF only)* | report |
 | `test_semantic.py` | — | curated cases inside the script | pass/fail |
@@ -143,7 +143,7 @@ different things (data generation vs. holdout file) — just use the defaults.
 python scripts/download_minilm.py
 
 # 1. regenerate the training set (ONLY needed if you edited phrase banks,
-#    intent_data_corrections.csv, or intent_data_new_2.csv)
+#    02_source_manual_corrections.csv, or 01_source_base_training_data.csv)
 python scripts/build_augmented_data.py
 #    -> prints leakage/dedupe counts and "leakage check: 0"
 
@@ -160,7 +160,7 @@ python scripts/test_semantic.py              # curated keyword/TF-IDF/semantic c
 ```
 
 **To add training phrases for a missed intent:** edit the phrase banks in
-`build_augmented_data.py` (or add rows to `intent_data_corrections.csv`), then run
+`build_augmented_data.py` (or add rows to `02_source_manual_corrections.csv`), then run
 steps 1→4. Add phrases in the *register* of the miss, never the verbatim holdout
 phrase (the leakage filter will drop those anyway).
 

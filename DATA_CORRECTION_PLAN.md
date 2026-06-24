@@ -41,7 +41,7 @@ The semantic classification head (MiniLM-L6-v2 + logistic regression) is underpe
 
 ### 📋 Data Files to Update
 
-#### 1. `data/intent_data_new.csv` — Add diversity to tail classes
+#### 1. `data/01_source_base_training_data.csv` — Add diversity to tail classes
 
 **Target**: All intents ≥ 40 rows (currently 22 intents < 40)
 **Need**: 252 new paraphrases across tail intents
@@ -139,7 +139,7 @@ silence please,Cmd.VolumeMute,hard
 ## Timeline
 
 ### Phase 1: Data Preparation (User)
-1. Add 252 paraphrases to intent_data_new.csv (tail class diversity)
+1. Add 252 paraphrases to 01_source_base_training_data.csv (tail class diversity)
 2. Expand semantic_oos.csv by 244–344 phrases (OOS hard negatives)
 3. Rebuild semantic_holdout_100.csv for 60-intent coverage
 4. Review all new data for accuracy
@@ -174,7 +174,7 @@ python scripts/train_semantic_head.py
 - `DATA_CORRECTION_PLAN.md` — This file
 
 **To be modified**:
-- `data/intent_data_new.csv` — Add tail-class diversity
+- `data/01_source_base_training_data.csv` — Add tail-class diversity
 - `data/semantic_oos.csv` — Expand hard negatives
 - `data/semantic_holdout_100.csv` — Rebuild for 60-intent coverage
 
@@ -188,7 +188,7 @@ python scripts/train_semantic_head.py
    ```
 
 2. **Update data files** (use templates as reference):
-   - intent_data_new.csv: Add 252 paraphrases
+   - 01_source_base_training_data.csv: Add 252 paraphrases
    - semantic_oos.csv: Add 244+ hard negatives
    - semantic_holdout_100.csv: Rebuild for 60 intents
 
@@ -205,7 +205,7 @@ python scripts/train_semantic_head.py
 
 5. **Commit** (when satisfied with results):
    ```bash
-   git add data/intent_data_new.csv data/semantic_oos.csv data/semantic_holdout_100.csv
+   git add data/01_source_base_training_data.csv data/semantic_oos.csv data/semantic_holdout_100.csv
    git commit -m "data: expand semantic training with tail-class diversity and full-coverage holdout"
    git push -u origin feature/Adv2/AddSemanticUnderstanding-4-adding-coreML-supports-DataCorrection
    ```

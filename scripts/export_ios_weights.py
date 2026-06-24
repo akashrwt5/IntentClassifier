@@ -30,7 +30,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent
 PIPELINE_PATH = BASE_DIR / "models" / "intent_pipeline.pkl"
 LABELS_PATH   = BASE_DIR / "models" / "intent_labels.pkl"
-DATA_PATH     = BASE_DIR / "data"   / "intent_data_new.csv"
+DATA_PATH     = BASE_DIR / "data"   / "01_source_base_training_data.csv"
 
 CONF_THRESHOLD     = 0.70
 CONF_GAP_THRESHOLD = 0.20

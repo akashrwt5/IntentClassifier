@@ -32,22 +32,22 @@ from skl2onnx.common.data_types import StringTensorType
 _parser = argparse.ArgumentParser(description="Train TF-IDF intent model")
 _parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
                      help="Data version: 1=original files, 2=corrected _2 files, "
-                          "3=enhanced (_2 + intent_data_corrections.csv, default)")
+                          "3=enhanced (_2 + 02_source_manual_corrections.csv, default)")
 _args = _parser.parse_args()
 
 # ---------- Paths ----------
 BASE_DIR = Path(__file__).parent.parent
 if _args.version == 1:
-    DATA_PATH    = BASE_DIR / "data" / "intent_data_new.csv"
+    DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
 elif _args.version == 2:
-    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2.csv"
+    DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
 else:
     # v3: corrected _2 data augmented with hand-written conversational
-    # paraphrases (intent_data_corrections.csv). Holdout stays the v2 set so
+    # paraphrases (02_source_manual_corrections.csv). Holdout stays the v2 set so
     # the leakage guard below proves the corrections never copy a test phrase.
-    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2_enhanced.csv"
+    DATA_PATH    = BASE_DIR / "data" / "04_GENERATED_MASTER_training_data.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
 
 print(f"Data version: {_args.version}  |  {DATA_PATH.name}  |  holdout: {HOLDOUT_PATH.name}")
@@ -101,7 +101,7 @@ if HOLDOUT_PATH.exists():
         raise RuntimeError(
             f"Holdout leakage detected — {len(leaked)} utterance(s) appear in both "
             f"training data and the permanent holdout set. Remove them from "
-            f"intent_data_new.csv before retraining:\n  {sorted(leaked)[:5]}"
+            f"01_source_base_training_data.csv before retraining:\n  {sorted(leaked)[:5]}"
         )
     print(f"\nHoldout guard: 0 leaks detected ({len(holdout_texts)} holdout utterances checked).")
 

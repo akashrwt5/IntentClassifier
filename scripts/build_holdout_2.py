@@ -2,7 +2,7 @@
 """
 Build semantic_holdout_2.csv — 59-intent coverage.
 Keeps all 100 existing rows and adds 5 rows per unmeasured intent.
-Deduplication guard against both the existing holdout and intent_data_new_2.csv.
+Deduplication guard against both the existing holdout and 01_source_base_training_data.csv.
 """
 import csv
 from pathlib import Path
@@ -10,7 +10,7 @@ from pathlib import Path
 BASE_DIR    = Path(".")
 HOLDOUT_OLD = BASE_DIR / "data" / "semantic_holdout_100.csv"
 HOLDOUT_NEW = BASE_DIR / "data" / "semantic_holdout_2.csv"
-DATA2_PATH  = BASE_DIR / "data" / "intent_data_new_2.csv"
+DATA2_PATH  = BASE_DIR / "data" / "01_source_base_training_data.csv"
 
 # ── New rows: 5 per unmeasured intent ──────────────────────────────────────
 # Style: natural paraphrases, NOT verbatim training phrases.

@@ -3,7 +3,7 @@
 Auto-label unknown/low-confidence inputs using keyword rules.
 
 Reads:  data/unknown_data.csv
-Writes: data/intent_data_new.csv (appends matching rows)
+Writes: data/01_source_base_training_data.csv (appends matching rows)
 
 Run periodically to grow training data from real user inputs.
 Always review the output manually before retraining.
@@ -14,7 +14,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
 UNKNOWN_PATH = BASE_DIR / "data" / "unknown_data.csv"
-TRAINING_PATH = BASE_DIR / "data" / "intent_data_new.csv"
+TRAINING_PATH = BASE_DIR / "data" / "01_source_base_training_data.csv"
 
 # ---------- Keyword rules ----------
 # Add rules here as you discover patterns in unknown_data.csv
@@ -61,7 +61,7 @@ def main():
         df = pd.DataFrame(rows, columns=["text", "intent"])
         df.to_csv(TRAINING_PATH, mode="a", header=False, index=False)
         print(f"✅ Added {len(rows)} samples to training data")
-        print("⚠️  Review data/intent_data_new.csv before retraining!")
+        print("⚠️  Review data/01_source_base_training_data.csv before retraining!")
     else:
         print("❌ No rows could be auto-labeled")
 

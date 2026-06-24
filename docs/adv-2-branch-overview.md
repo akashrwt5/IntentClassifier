@@ -39,7 +39,7 @@ This branch applies the structural and correctness improvements identified in th
 ## What is NOT changed here
 
 - The cascade algorithm (keyword → TF-IDF → semantic) is kept as-is.
-- Training data (`intent_data_new.csv`) is not modified unless fixing P0-3 requires a retrain.
+- Training data (`01_source_base_training_data.csv`) is not modified unless fixing P0-3 requires a retrain.
 - The `data/nlu_schema.json` intent set is not extended.
 - The Dialogflow comparison tooling lives on `feature/dialogflow-compare--from-stt-adv` and is not touched here.
 

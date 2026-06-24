@@ -46,7 +46,7 @@ import numpy as np
 import pandas as pd
 
 BASE_DIR     = Path(__file__).parent.parent
-DATA_PATH    = BASE_DIR / "data" / "intent_data_new.csv"
+DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
 OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
 HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
 MODEL_DIR    = BASE_DIR / "models"

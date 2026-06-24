@@ -323,7 +323,7 @@ A wrong-action miss (confidently fired wrong intent) is penalised more than a Ge
 IntentClassifier/
 ├── data/
 │   ├── nlu_schema.json           # Intent config, slot definitions, keyword triggers, thresholds
-│   ├── intent_data_new.csv       # Training phrases (~1 876 rows)
+│   ├── 01_source_base_training_data.csv       # Training phrases (~1 876 rows)
 │   ├── semantic_oos.csv          # 156 curated out-of-scope phrases
 │   └── semantic_holdout_100.csv  # 100-utterance held-out benchmark
 ├── models/
