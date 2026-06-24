@@ -8,15 +8,16 @@ INCLUDING Default Fallback Intent phrases as an explicit out-of-scope
 class, so rejection is learned instead of threshold-guessed.
 
 Pipeline:
-  1. Embed every phrase in data/intent_data_new[_2].csv with MiniLM (ONNX)
+  1. Embed every phrase in data/intent_data_new[_2][_enhanced].csv with MiniLM (ONNX)
   2. Stratified 85/15 split → train head → report held-out metrics
   3. Retrain on 100% of data → save models/semantic_head.npz (~95 KB)
      and models/semantic_head.json (for iOS)
 
 Run:
-    python scripts/train_semantic_head.py              # default: version 2
+    python scripts/train_semantic_head.py              # default: version 3 (enhanced)
     python scripts/train_semantic_head.py --version 1  # original files
     python scripts/train_semantic_head.py --version 2  # corrected _2 files
+    python scripts/train_semantic_head.py --version 3  # enhanced: _2 + augmented (default)
     python scripts/train_semantic_head.py -v 1
 """
 
@@ -31,8 +32,9 @@ import pandas as pd
 
 # ---------- Args ----------
 _parser = argparse.ArgumentParser(description="Train MiniLM semantic head")
-_parser.add_argument("--version", "-v", type=int, choices=[1, 2], default=2,
-                     help="Data version: 1=original files, 2=corrected _2 files (default: 2)")
+_parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
+                     help="Data version: 1=original files, 2=corrected _2 files, "
+                          "3=enhanced (_2 + augmented phrases, default)")
 _args = _parser.parse_args()
 
 BASE_DIR   = Path(__file__).parent.parent
@@ -40,8 +42,13 @@ if _args.version == 1:
     DATA_PATH    = BASE_DIR / "data" / "intent_data_new.csv"
     OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
-else:
+elif _args.version == 2:
     DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2.csv"
+    OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
+    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+else:
+    # v3: enhanced _2 data with conversational paraphrases
+    DATA_PATH    = BASE_DIR / "data" / "intent_data_new_2_enhanced.csv"
     OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
 
