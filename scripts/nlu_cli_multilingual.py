@@ -63,11 +63,11 @@ def main():
     )
     parser.add_argument(
         "--model", "-m",
-        choices=["production", "en", "fr", "de", "da", "multilingual"],
+        choices=["production", "en", "fr", "de", "da", "multilingual", "multilingual_small"],
         default="production",
         help="Which TF-IDF model to use for intent classification. "
              "production=scripts/models/intent_model.onnx (default), "
-             "or any multilingual model (en/fr/de/da/multilingual)."
+             "or any multilingual model (en/fr/de/da/multilingual/multilingual_small)."
     )
     args = parser.parse_args()
 

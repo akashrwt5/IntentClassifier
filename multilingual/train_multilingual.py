@@ -98,7 +98,30 @@ LANGUAGES = {
     "da": DATA_DIR / "da.csv",   # pva_intent_danish.csv master (promoted from pending/)
 }
 
-COMBINED_NAME = "multilingual"   # -> multilingual_intent_model.onnx
+COMBINED_NAME = "multilingual"        # -> multilingual_intent_model.onnx
+SMALL_NAME = "multilingual_small"     # -> multilingual_small_intent_model.onnx
+
+# TF-IDF recipes.
+#   * The FULL recipe (word 1-2 grams, no vocab cap) is what every per-language
+#     model and the combined `multilingual` model use — it mirrors train.py.
+#   * The SMALL recipes build a deliberately compact combined model
+#     (`multilingual_small`) from the SAME data, trading a sliver of accuracy
+#     for a much smaller artifact. Two variants are offered (pick with
+#     --small-recipe); both were validated on the combined holdout:
+#       - "unigram"   : ngram (1,1), full vocab   -> ~1.4 MB ONNX, acc ~0.863
+#                       (matches the 5.3 MB full model's accuracy at ~¼ the size
+#                       because single words already carry the intent signal;
+#                       bigrams added size, not accuracy)
+#       - "maxfeat10k": ngram (1,2), top 10k terms -> ~3.2 MB ONNX, acc ~0.854
+#                       (keeps only the 10,000 most frequent terms)
+#     Note: trigrams (1,3) were tested and rejected — they nearly doubled size
+#     (5.3 -> 9.5 MB) AND lowered accuracy, so no recipe uses them.
+FULL_TFIDF = dict(ngram_range=(1, 2), min_df=2, sublinear_tf=True)
+SMALL_RECIPES = {
+    "unigram":    dict(ngram_range=(1, 1), min_df=2, sublinear_tf=True),
+    "maxfeat10k": dict(ngram_range=(1, 2), min_df=2, sublinear_tf=True, max_features=10000),
+}
+DEFAULT_SMALL_RECIPE = "unigram"
 
 # Class cap and gate mirror scripts/train.py. The gate default is slightly lower
 # than train.py's 0.85 because some language sets (e.g. German: many intents,
@@ -154,7 +177,9 @@ def load_data_for(name: str, explicit: Path | None) -> pd.DataFrame:
         print(f"  [{name}] using explicit data file: {explicit}")
         return cap_classes(load_clean(explicit))
 
-    if name == COMBINED_NAME:
+    if name in (COMBINED_NAME, SMALL_NAME):
+        # multilingual_small trains on the SAME combined/deduped data as the full
+        # multilingual model; only its TF-IDF recipe (set in main) differs.
         frames = []
         for lang, path in LANGUAGES.items():
             f = cap_classes(load_clean(path))   # cap PER LANGUAGE, before concat
@@ -224,8 +249,13 @@ def write_manifest(model_dir: Path):
 
 
 # ───────────────────────── Train one model ───────────────────────────────────
-def train_one(name: str, df: pd.DataFrame, min_accuracy: float) -> bool:
-    """Train, gate, and export a single model. Returns True on success."""
+def train_one(name: str, df: pd.DataFrame, min_accuracy: float,
+              tfidf_kwargs: dict) -> bool:
+    """Train, gate, and export a single model. Returns True on success.
+
+    `tfidf_kwargs` selects the TF-IDF recipe: FULL_TFIDF for the per-language and
+    combined models, or a SMALL_RECIPES entry for `multilingual_small`.
+    """
     print(f"\n{'='*70}\nMODEL: {name}\n{'='*70}")
 
     # NOTE: the per-intent cap is applied in load_data_for (per-language for the
@@ -249,8 +279,9 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float) -> bool:
 
     # Plain (uncalibrated) LR so coef_/idf_ are exportable to classifier_weights.json.
     # Word analyzer only — skl2onnx cannot export char-analyzer TfidfVectorizers.
+    print(f"TF-IDF recipe: {tfidf_kwargs}")
     pipeline = Pipeline([
-        ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=2, sublinear_tf=True)),
+        ("tfidf", TfidfVectorizer(**tfidf_kwargs)),
         ("clf", LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0)),
     ])
     pipeline.fit(X_train, y_train)
@@ -310,11 +341,18 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float) -> bool:
 def main():
     parser = argparse.ArgumentParser(description="Train multilingual TF-IDF intent models")
     parser.add_argument("--language", "-l",
-                        help=f"Language code {sorted(LANGUAGES)} or '{COMBINED_NAME}'.")
+                        help=f"Language code {sorted(LANGUAGES)}, '{COMBINED_NAME}', "
+                             f"or '{SMALL_NAME}'.")
     parser.add_argument("--data", "-d", type=Path,
                         help="Explicit training CSV (overrides the registry path).")
     parser.add_argument("--all", action="store_true",
-                        help="Build every per-language model AND the combined model.")
+                        help="Build every per-language model, the combined model, "
+                             "AND the compact multilingual_small model.")
+    parser.add_argument("--small-recipe", choices=sorted(SMALL_RECIPES),
+                        default=DEFAULT_SMALL_RECIPE,
+                        help=f"TF-IDF recipe for '{SMALL_NAME}' "
+                             f"(default '{DEFAULT_SMALL_RECIPE}': ngram (1,1), ~1.4 MB; "
+                             f"'maxfeat10k': ngram (1,2) top-10k terms, ~3.2 MB).")
     parser.add_argument("--min-accuracy", type=float, default=DEFAULT_MIN_ACCURACY,
                         help=f"Accuracy gate floor (default {DEFAULT_MIN_ACCURACY}).")
     args = parser.parse_args()
@@ -325,7 +363,7 @@ def main():
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
     if args.all:
-        targets = list(LANGUAGES) + [COMBINED_NAME]
+        targets = list(LANGUAGES) + [COMBINED_NAME, SMALL_NAME]
     else:
         targets = [args.language]
 
@@ -333,8 +371,11 @@ def main():
     for name in targets:
         # --data only applies to a single explicit --language target.
         explicit = args.data if (not args.all and args.language == name) else None
+        # multilingual_small uses the chosen compact recipe; everything else uses
+        # the full word 1-2 gram recipe.
+        tfidf_kwargs = SMALL_RECIPES[args.small_recipe] if name == SMALL_NAME else FULL_TFIDF
         df = load_data_for(name, explicit)
-        results[name] = train_one(name, df, args.min_accuracy)
+        results[name] = train_one(name, df, args.min_accuracy, tfidf_kwargs)
 
     print(f"\n{'='*70}\nSUMMARY\n{'='*70}")
     for name, ok in results.items():
