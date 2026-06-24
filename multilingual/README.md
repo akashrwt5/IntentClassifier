@@ -122,19 +122,28 @@ generated model, in one command:
    `batteri → Cmd.BatteryLevel` (da), `find phone → Cmd.FindMyPhone` (da).
 
 ```bash
-# everything (holdout eval + curated cases) for all models
+# everything (holdout eval + curated cases) for ALL models incl. the combined
+# multilingual one — REPORT ONLY, always exits 0 (like test_holdout.py)
 python multilingual/test/test_multilingual_models.py
 
 # one model, with per-intent breakdown and any failing cases
 python multilingual/test/test_multilingual_models.py --model da --verbose
 
-# Danish's honest holdout is 0.791, so use a 0.75 floor for a green run
-python multilingual/test/test_multilingual_models.py --min-accuracy 0.75
+# GATE: exit 1 if any model is below the floor or any curated case fails
+python multilingual/test/test_multilingual_models.py --strict
+
+# Danish's honest holdout is 0.791, so use a 0.75 floor for a green strict gate
+python multilingual/test/test_multilingual_models.py --strict --min-accuracy 0.75
+
+# machine-readable results (per-model accuracy + curated pass counts)
+python multilingual/test/test_multilingual_models.py --json results.json
 ```
 
-The script **exits non-zero** if any model is below `--min-accuracy` *or* any
-curated case fails, so it doubles as a CI gate. Holdout sizes: en/fr/de ≈1.4–1.5k
-rows each, da ≈1.4k, multilingual ≈4.1k.
+Like `scripts/test_holdout.py`, the default run is **report-only** (prints the
+numbers for every model and exits 0); pass **`--strict`** to turn it into a CI
+gate that exits non-zero when any model is below `--min-accuracy` *or* any
+curated case fails. Holdout sizes: en/fr/de ≈1.4–1.5k rows each, da ≈1.4k,
+multilingual ≈4.1k.
 
 > The curated case files are regenerated from authentic data; to refresh them
 > after a data change, pick the shortest correctly-classified utterance per

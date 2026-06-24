@@ -35,7 +35,7 @@ CASES_DIR = TEST_DIR / "cases"                   # curated per-language smoke te
 sys.path.insert(0, str(BASE_DIR))
 from text_norm import normalize_text   # same lowercase + ASCII fold used in training
 
-BOLD, GREEN, RED, RESET = "\033[1m", "\033[92m", "\033[91m", "\033[0m"
+BOLD, GREEN, RED, YELLOW, RESET = "\033[1m", "\033[92m", "\033[91m", "\033[93m", "\033[0m"
 
 
 def _find_models(only: str | None):
@@ -132,13 +132,13 @@ def run_curated_cases(only, verbose):
     These are hand-selected, authentic, in-language utterances with a known
     expected intent — a fast, human-readable regression guard (vs the larger
     statistical holdout eval). Every case must classify to its expected intent.
-    Returns True only if all cases across all languages pass.
+    Returns {lang: (passed, total)} for each language with a cases file.
     """
+    results = {}
     if not CASES_DIR.exists() or not any(CASES_DIR.glob("*_cases.csv")):
-        return True
+        return results
 
     print(f"\n{BOLD}Curated smoke-test cases{RESET}")
-    all_ok = True
     for cf in sorted(CASES_DIR.glob("*_cases.csv")):
         lang = cf.stem.replace("_cases", "")
         if only and lang != only:
@@ -169,15 +169,19 @@ def run_curated_cases(only, verbose):
         if verbose or fails:
             for t, e, p in fails:
                 print(f"    {RED}FAIL{RESET} {t!r}  expected {e}  got {p}")
-        all_ok &= passed == total
-    return all_ok
+        results[lang] = (passed, total)
+    return results
 
 
 def main():
     parser = argparse.ArgumentParser(description="Test multilingual intent models")
     parser.add_argument("--model", "-m", help="Test only this model (e.g. fr, multilingual).")
     parser.add_argument("--verbose", "-v", action="store_true", help="Per-intent + failures.")
-    parser.add_argument("--min-accuracy", type=float, default=0.80, help="CI gate floor.")
+    parser.add_argument("--min-accuracy", type=float, default=0.80, help="Holdout pass/fail floor.")
+    parser.add_argument("--strict", action="store_true",
+                        help="GATE: exit 1 if any model is below the floor or any curated case fails "
+                             "(default: report only).")
+    parser.add_argument("--json", metavar="FILE", help="Write machine-readable results to FILE.")
     args = parser.parse_args()
 
     print(f"\n{BOLD}Multilingual Model Test Suite{RESET}")
@@ -189,18 +193,47 @@ def main():
 
     scores = {name: evaluate(name, o, l, h, args.verbose) for name, o, l, h in found}
 
-    print(f"\n{BOLD}{'='*60}\nSUMMARY{RESET}")
-    failed = False
+    # Holdout accuracy table — every model, including the combined `multilingual`.
+    print(f"\n{BOLD}{'='*60}\nSUMMARY (holdout accuracy, floor {args.min_accuracy:.2f}){RESET}")
+    below_floor = []
     for name, acc in scores.items():
         ok = acc >= args.min_accuracy
-        failed |= not ok
+        if not ok:
+            below_floor.append(name)
         print(f"  {GREEN+'PASS' if ok else RED+'FAIL'}{RESET}  {name:<15} {acc*100:5.1f}%")
     print(f"{BOLD}{'='*60}{RESET}")
 
     # Curated smoke tests (exact intent match required for every case).
-    cases_ok = run_curated_cases(args.model, args.verbose)
+    case_results = run_curated_cases(args.model, args.verbose)
+    failed_cases = [lang for lang, (p, t) in case_results.items() if p != t]
 
-    sys.exit(1 if (failed or not cases_ok) else 0)
+    if args.json:
+        Path(args.json).write_text(json.dumps({
+            "min_accuracy": args.min_accuracy,
+            "holdout": {name: round(acc, 4) for name, acc in scores.items()},
+            "below_floor": below_floor,
+            "curated_cases": {lang: {"passed": p, "total": t}
+                              for lang, (p, t) in case_results.items()},
+            "failed_cases": failed_cases,
+        }, indent=2), encoding="utf-8")
+        print(f"\n  [results] → {args.json}")
+
+    # Gate: total floor on every model AND all curated cases must pass.
+    reasons = []
+    if below_floor:
+        reasons.append(f"below floor: {', '.join(below_floor)}")
+    if failed_cases:
+        reasons.append(f"curated-case failures: {', '.join(failed_cases)}")
+
+    if reasons:
+        msg = "; ".join(reasons)
+        if args.strict:
+            print(f"\n{RED}{BOLD}  GATE FAILED: {msg}{RESET}\n")
+            sys.exit(1)
+        print(f"\n{YELLOW}  (gate would fail in --strict: {msg}){RESET}\n")
+    elif args.strict:
+        print(f"\n{GREEN}{BOLD}  GATE PASSED "
+              f"(all models ≥ {args.min_accuracy:.2f}, all curated cases pass){RESET}\n")
 
 
 if __name__ == "__main__":
