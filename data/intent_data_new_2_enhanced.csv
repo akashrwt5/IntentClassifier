@@ -8384,6 +8384,11 @@ quiet it down for me,Cmd.VolumeDecrease
 i'd like things quieter,Cmd.VolumeDecrease
 make my surroundings quieter,Cmd.VolumeDecrease
 bring me some quiet,Cmd.VolumeDecrease
+my ears are taking a beating,Cmd.VolumeDecrease
+the noise is pounding my ears,Cmd.VolumeDecrease
+this is hammering my ears,Cmd.VolumeDecrease
+my ears can't take this pounding,Cmd.VolumeDecrease
+the sound is battering my ears,Cmd.VolumeDecrease
 cut all the sound,Cmd.VolumeMute
 total silence please,Cmd.VolumeMute
 kill the audio completely,Cmd.VolumeMute
@@ -8449,6 +8454,12 @@ turn the mute off,Cmd.VolumeUnmute
 get me off mute,Cmd.VolumeUnmute
 sound on again please,Cmd.VolumeUnmute
 reactivate my hearing aid sound,Cmd.VolumeUnmute
+i'd like to hear once more,Cmd.VolumeUnmute
+let me hear things once again,Cmd.VolumeUnmute
+restore my hearing now,Cmd.VolumeUnmute
+get my sound going again,Cmd.VolumeUnmute
+i want sound coming through again,Cmd.VolumeUnmute
+end the mute let me hear,Cmd.VolumeUnmute
 i'm walking into a loud bar,Cmd.MemoryChange
 switch me to the restaurant setting,Cmd.MemoryChange
 i'm sitting down in a crowded diner,Cmd.MemoryChange
@@ -8484,6 +8495,11 @@ this setting doesn't suit this place,Cmd.MemoryChange
 i need a better program for here,Cmd.MemoryChange
 switch me to something better for this spot,Cmd.MemoryChange
 this mode isn't working for my surroundings,Cmd.MemoryChange
+i just took a seat in a noisy cafe,Cmd.MemoryChange
+i'm now seated in a loud coffee shop,Cmd.MemoryChange
+settling into a busy restaurant,Cmd.MemoryChange
+i just sat down somewhere really loud,Cmd.MemoryChange
+i'm seated in a crowded noisy spot,Cmd.MemoryChange
 how much charge is left,Cmd.BatteryLevel
 are my aids fully charged,Cmd.BatteryLevel
 what's my battery at,Cmd.BatteryLevel
@@ -8557,6 +8573,11 @@ stop piping audio to my ears,Cmd.StreamingStop
 turn off the tv streaming,Cmd.StreamingStop
 cut the streamed audio to my aids,Cmd.StreamingStop
 finish the streaming session,Cmd.StreamingStop
+cut the tv connection to my aids,Cmd.StreamingStop
+disconnect the television audio,Cmd.StreamingStop
+end the tv link to my aids,Cmd.StreamingStop
+stop the tv feed to my hearing aids,Cmd.StreamingStop
+drop the connection to the tv sound,Cmd.StreamingStop
 i'm about to go for a run,Cmd.ActivityRun
 log my jog,Cmd.ActivityRun
 start recording my run,Cmd.ActivityRun
@@ -8596,6 +8617,11 @@ record the walking i just finished,Cmd.ActivityWalk
 i went for a walk log it,Cmd.ActivityWalk
 save my walk,Cmd.ActivityWalk
 note down my walk,Cmd.ActivityWalk
+i'm off for a stroll please track it,Cmd.ActivityWalk
+heading out for a stroll record it,Cmd.ActivityWalk
+going for a walk track it for me,Cmd.ActivityWalk
+start tracking this stroll,Cmd.ActivityWalk
+log the stroll i'm taking,Cmd.ActivityWalk
 how many steps today,Cmd.ActivityStep
 what's my step count,Cmd.ActivityStep
 show my steps so far,Cmd.ActivityStep
@@ -8700,6 +8726,13 @@ send a text to my doctor,Cmd.SendMessage
 message my family,Cmd.SendMessage
 get a text to my friend,Cmd.SendMessage
 start a text to my partner,Cmd.SendMessage
+i have news to text a contact,Cmd.SendMessage
+send my update to someone,Cmd.SendMessage
+let a contact know my news by text,Cmd.SendMessage
+text a contact with my news,Cmd.SendMessage
+i want to tell someone my news in a message,Cmd.SendMessage
+message a contact an update,Cmd.SendMessage
+share my news with a contact by text,Cmd.SendMessage
 yes send it,Cmd.SendMessage - yes
 go ahead and send,Cmd.SendMessage - yes
 yep send that,Cmd.SendMessage - yes
@@ -8767,6 +8800,11 @@ speak my latest texts to me,Cmd.ListenMessage
 play back the texts i received,Cmd.ListenMessage
 read my message inbox,Cmd.ListenMessage
 what did my contacts send me,Cmd.ListenMessage
+what messages did people send me,Cmd.ListenMessage
+did anyone send me anything read it,Cmd.ListenMessage
+read me what was sent,Cmd.ListenMessage
+tell me what people texted,Cmd.ListenMessage
+play what people sent me,Cmd.ListenMessage
 where did i leave my phone,Cmd.FindMyPhone
 help me find my phone,Cmd.FindMyPhone
 make my phone ring,Cmd.FindMyPhone
@@ -8790,6 +8828,11 @@ sound my phone so i can locate it,Cmd.FindMyPhone
 i can't locate my phone ping it,Cmd.FindMyPhone
 make my lost phone beep,Cmd.FindMyPhone
 find where my phone went,Cmd.FindMyPhone
+track down my handset for me,Cmd.FindMyPhone
+locate my handset,Cmd.FindMyPhone
+find my cell for me,Cmd.FindMyPhone
+track down my mobile,Cmd.FindMyPhone
+i can't find my handset ring it,Cmd.FindMyPhone
 start transcribing this,Cmd.TranscribeStart
 write down what's being said,Cmd.TranscribeStart
 turn speech into text now,Cmd.TranscribeStart
@@ -8804,6 +8847,11 @@ start writing down the speech,Cmd.TranscribeStart
 give me live captions now,Cmd.TranscribeStart
 transcribe this meeting,Cmd.TranscribeStart
 begin converting speech to text,Cmd.TranscribeStart
+caption what people are saying around me,Cmd.TranscribeStart
+put captions on everyone's speech,Cmd.TranscribeStart
+show me text of what people say,Cmd.TranscribeStart
+caption the people talking,Cmd.TranscribeStart
+write out what folks are saying,Cmd.TranscribeStart
 translate this for me now,Cmd.TranslationStart
 start translating what they say,Cmd.TranslationStart
 turn on translation,Cmd.TranslationStart
@@ -8819,6 +8867,16 @@ translate the speech now,Cmd.TranslationStart
 begin translating for me,Cmd.TranslationStart
 translate this person's words,Cmd.TranslationStart
 start the live translation,Cmd.TranslationStart
+they're speaking a foreign language translate it,Cmd.TranslationStart
+i can't understand their language translate,Cmd.TranslationStart
+i can't understand this foreign language,Cmd.TranslationStart
+help me understand what they're saying in another language,Cmd.TranslationStart
+they're speaking another language i can't follow,Cmd.TranslationStart
+understand this foreign speaker for me,Cmd.TranslationStart
+put their foreign words into my language,Cmd.TranslationStart
+i don't understand their foreign language,Cmd.TranslationStart
+convert this foreign language to english,Cmd.TranslationStart
+they don't speak english help me understand them,Cmd.TranslationStart
 remind me to take my pills at 8,reminders.add
 set a reminder to call the clinic,reminders.add
 don't let me forget my appointment,reminders.add
@@ -8839,6 +8897,16 @@ remind me about the doctor on friday,reminders.add
 set a daily reminder for my vitamins,reminders.add
 remind me to take out the trash,reminders.add
 i want a reminder for my class,reminders.add
+alert me when it's time to leave,reminders.add
+give me an alert at the scheduled time,reminders.add
+set an alert so i don't miss it,reminders.add
+i have an appointment coming up don't let me miss it,reminders.add
+make sure i don't miss my appointment,reminders.add
+buzz me when it's time,reminders.add
+notify me when the time comes,reminders.add
+i can't miss this appointment remind me,reminders.add
+set an alert for my appointment,reminders.add
+poke me when the time arrives,reminders.add
 mark my reminder done,reminders.complete
 i finished that task,reminders.complete
 check off my reminder,reminders.complete
@@ -8861,6 +8929,14 @@ you can clear that reminder now,reminders.complete
 that's handled cross it off,reminders.complete
 i completed it remove the reminder,reminders.complete
 done dealt with that reminder,reminders.complete
+i finished that reminder mark it,reminders.complete
+that reminder is done remove it,reminders.complete
+check that reminder off the list,reminders.complete
+i'm done with that task clear the reminder,reminders.complete
+cross that reminder off,reminders.complete
+that to-do is finished mark it complete,reminders.complete
+wrap up that reminder it's done,reminders.complete
+i've completed that reminder,reminders.complete
 how do i adjust the volume,Help_Volume
 explain the volume controls,Help_Volume
 where do i change loudness,Help_Volume
@@ -8888,6 +8964,11 @@ where are the loudness settings,Help_Volume
 how do volume changes get saved,Help_Volume
 explain the loudness controls,Help_Volume
 help me understand volume per side,Help_Volume
+can i have a different volume in each ear,Help_Volume
+set independent loudness per side,Help_Volume
+different volume for my left and right,Help_Volume
+adjust each ear's volume separately,Help_Volume
+control the loudness of each aid on its own,Help_Volume
 how do i switch programs,Help_ChangingMemories
 explain changing memories,Help_ChangingMemories
 how do i move between settings,Help_ChangingMemories
@@ -8912,6 +8993,11 @@ how do i learn about changing programs,Help_ChangingMemories
 explain switching my hearing modes,Help_ChangingMemories
 help with moving between memories,Help_ChangingMemories
 how do program changes work on my aids,Help_ChangingMemories
+help me switch between profiles,Help_ChangingMemories
+how do i switch profiles,Help_ChangingMemories
+guide me on switching profiles,Help_ChangingMemories
+i need help changing between my programs,Help_ChangingMemories
+walk me through switching profiles,Help_ChangingMemories
 can i rename my memories,Help_MemoryOptions
 explain memory options,Help_MemoryOptions
 how do i delete a program,Help_MemoryOptions
@@ -8945,6 +9031,14 @@ steps to pair my devices,Help_Pairing
 my hearing aids lost connection to the phone,Help_Pairing
 how to bond my aids with the app,Help_Pairing
 bluetooth pairing help,Help_Pairing
+my aids dropped their bluetooth connection,Help_Pairing
+i lost the connection to my hearing aids,Help_Pairing
+my hearing aids disconnected reconnect them,Help_Pairing
+the connection to my aids dropped,Help_Pairing
+my aids won't stay connected to my phone,Help_Pairing
+reconnect my hearing aids to the app,Help_Pairing
+my aids keep losing the bluetooth link,Help_Pairing
+help my aids lost connection to the phone,Help_Pairing
 how do i find lost hearing aids,Help_FindMyHearingAids
 explain the find my aids feature,Help_FindMyHearingAids
 where is the locator for my aids,Help_FindMyHearingAids
@@ -8984,6 +9078,14 @@ can i add a partner mic,Help_Accessories
 does a remote microphone work with my aids,Help_Accessories
 what extra mics are supported,Help_Accessories
 can i use a lapel mic with my aids,Help_Accessories
+can i stream using a remote microphone,Help_Accessories
+does a clip on mic send audio to my aids,Help_Accessories
+use an external mic accessory with my aids,Help_Accessories
+does the partner mic stream to my hearing aids,Help_Accessories
+can i pair a wearable microphone,Help_Accessories
+stream from an accessory mic to my aids,Help_Accessories
+what microphone accessories can stream to me,Help_Accessories
+connect a remote mic accessory,Help_Accessories
 how does remote programming work,Help_RemoteProgramming
 can my audiologist tune my aids remotely,Help_RemoteProgramming
 explain remote adjustments,Help_RemoteProgramming
@@ -9029,6 +9131,11 @@ guide me on tinnitus relief,Help_Tinnitus
 what does the tinnitus feature do,Help_Tinnitus
 how do i use the masking noise,Help_Tinnitus
 explain the relief sound for ringing ears,Help_Tinnitus
+the ringing in my ears is unbearable,Help_Tinnitus
+this ear ringing is driving me crazy,Help_Tinnitus
+i can't stand the ringing in my ears,Help_Tinnitus
+the constant ringing is maddening,Help_Tinnitus
+help the ringing won't stop,Help_Tinnitus
 how do i run a self check,Help_SelfCheck
 explain the self check feature,Help_SelfCheck
 how do i test my hearing aids,Help_SelfCheck
@@ -9111,6 +9218,11 @@ sort out my device audio,Help_DeviceSettings
 my aids need adjusting they sound bad,Help_DeviceSettings
 repair the audio on my hearing aids,Help_DeviceSettings
 help me fix my aid settings,Help_DeviceSettings
+the sound keeps cutting in and out,Help_DeviceSettings
+my audio quality has gone downhill,Help_DeviceSettings
+the sound from my aids has gotten worse,Help_DeviceSettings
+my hearing aid sound keeps glitching,Help_DeviceSettings
+fix the declining sound on my aids,Help_DeviceSettings
 how does intellivoice work,Help_IntelliVoice
 explain the smart voice feature,Help_IntelliVoice
 what does intelligent voice do,Help_IntelliVoice
@@ -9140,6 +9252,11 @@ who gets notified if i fall,Help_FallAlert
 fall detection help,Help_FallAlert
 how reliable is the fall alert,Help_FallAlert
 how do fall notifications work,Help_FallAlert
+will it notice if i take a tumble,Help_FallAlert
+does it catch a fall,Help_FallAlert
+will it know if i fall over,Help_FallAlert
+does it spot a fall and alert someone,Help_FallAlert
+will a tumble trigger an alert,Help_FallAlert
 how do i share what i hear,Help_HearShare
 explain hearshare,Help_HearShare
 can someone listen along with me,Help_HearShare
@@ -9172,6 +9289,14 @@ i want someone to listen along,Help_HearShare
 stream what i hear to a family member,Help_HearShare
 can my spouse hear through my aids,Help_HearShare
 share my audio with a loved one,Help_HearShare
+let another person hear what i hear,Help_HearShare
+stream my hearing to someone else,Help_HearShare
+can a friend listen along with me,Help_HearShare
+share my hearing aid audio with someone,Help_HearShare
+let a family member listen in,Help_HearShare
+send what i hear to another person,Help_HearShare
+how do i let someone listen with me,Help_HearShare
+share my audio so others can hear,Help_HearShare
 what voice assistants can i use,Help_VoiceAssistant
 can i use siri with my aids,Help_VoiceAssistant
 explain the voice assistant feature,Help_VoiceAssistant
@@ -9217,6 +9342,12 @@ why does my aid keep coming out,Help_InsertDevice
 the dome won't stay put,Help_InsertDevice
 my aid keeps working its way out,Help_InsertDevice
 how do i keep my aid from falling out,Help_InsertDevice
+my device keeps falling out of my ear,Help_InsertDevice
+the aid keeps dropping out of my ear,Help_InsertDevice
+my hearing aid falls out of my ear,Help_InsertDevice
+the device won't stay seated in my ear,Help_InsertDevice
+my aid keeps popping out,Help_InsertDevice
+my hearing aid won't stay in it keeps coming out,Help_InsertDevice
 how do i change the app settings,Help_AppSettings
 where are the app preferences,Help_AppSettings
 explain the settings menu,Help_AppSettings
@@ -9252,6 +9383,11 @@ what happens if my aids get wet,Help_CleanCare
 is moisture bad for my hearing aids,Help_CleanCare
 can i clean my aids with water,Help_CleanCare
 how do i deal with sweat on my aids,Help_CleanCare
+how do i take care of my aids,Help_CleanCare
+upkeep for my hearing aids,Help_CleanCare
+how do i look after my hearing aids,Help_CleanCare
+keeping my aids in good shape,Help_CleanCare
+caring for and maintaining my aids,Help_CleanCare
 how do i personalize my sound,Help_Customize
 explain how to customize my aids,Help_Customize
 can i fine tune the bass and treble,Help_Customize
@@ -9354,6 +9490,11 @@ how do i make a repeating reminder,Help_Reminder
 can i get daily reminders,Help_Reminder
 explain how to schedule reminders,Help_Reminder
 how do reminder notifications work,Help_Reminder
+can i set up a daily reminder,Help_Reminder
+is there a daily reminder option,Help_Reminder
+how do i make a reminder repeat daily,Help_Reminder
+set a recurring daily reminder,Help_Reminder
+can reminders repeat every day,Help_Reminder
 explain the translate feature,Help_Translate
 how does translation work in the app,Help_Translate
 is spanish supported for translation,Help_Translate
@@ -9446,6 +9587,14 @@ how accurate is the heart rate,Help_HeartRate
 how do i check my pulse on the app,Help_HeartRate
 explain how heart rate is measured,Help_HeartRate
 what does the heart rate feature show,Help_HeartRate
+where do i check my bpm,Help_HeartRate
+show me my bpm,Help_HeartRate
+what's my current bpm,Help_HeartRate
+view my beats per minute reading,Help_HeartRate
+my bpm please,Help_HeartRate
+track my bpm on the app,Help_HeartRate
+see my pulse in bpm,Help_HeartRate
+how do i read my bpm,Help_HeartRate
 what is heart rate recovery,Help_HeartRateRecovery
 explain the recovery metric,Help_HeartRateRecovery
 how do i see how fast my heart recovers,Help_HeartRateRecovery
@@ -9508,6 +9657,14 @@ how do i trigger edge mode in noise,Help_EdgeMode
 what situations is edge mode for,Help_EdgeMode
 guide me on using edge mode,Help_EdgeMode
 how does edge mode adapt the sound,Help_EdgeMode
+there's too much wind noise what setting helps,Help_EdgeMode
+the wind outside is overwhelming what can i do,Help_EdgeMode
+cut the wind noise with a setting,Help_EdgeMode
+help with wind noise when i'm outdoors,Help_EdgeMode
+what mode handles a windy environment,Help_EdgeMode
+reduce wind noise in tough conditions,Help_EdgeMode
+the wind is ruining my hearing outside,Help_EdgeMode
+a setting for very windy places,Help_EdgeMode
 what is demo mode,Help_DemoMode
 explain demo mode,Help_DemoMode
 how do i turn on demo mode,Help_DemoMode

@@ -36,11 +36,13 @@ NOVEL_PHRASINGS = [
     # verified to have ZERO verbatim overlap with the training data AND the
     # holdout sets, so this exercises real generalisation, not memorisation.
     #
-    # NOTE: earlier this list held "log a jog", "my ears are ringing", "dim the
-    # audio", "I need some quiet". Those (or near-duplicates) were later added to
-    # the augmented training data, so TF-IDF now classifies them directly — they
-    # stopped being "novel" and the expect_rescue=True assertion went stale. They
-    # were replaced with the phrases below, which TF-IDF still cannot resolve alone.
+    # NOTE: this list is kept honest as training coverage grows. Retired so far
+    # because the augmented data (or a near-duplicate) taught TF-IDF to handle
+    # them directly — making expect_rescue=True stale: "log a jog", "my ears are
+    # ringing", "dim the audio", "I need some quiet", and "the sound keeps
+    # dropping in and out on me" (the W4 wave added the cutting-in/out register to
+    # Help_DeviceSettings). Each was replaced with a phrase TF-IDF still can't
+    # resolve alone.
     #
     # Two rescue mechanisms are exercised:
     #   • Clean rescue   — TF-IDF whiffs to "Default Fallback Intent"; the head
@@ -50,7 +52,7 @@ NOVEL_PHRASINGS = [
     ("shift to whatever works best at a concert", "Cmd.MemoryChange"),     # clean rescue
     ("channel the sound into my ears",            "Cmd.StreamingStart"),   # clean rescue
     ("walk me through what this thing does",      "Help_Home"),            # agreement gate
-    ("the sound keeps dropping in and out on me", "Help_DeviceSettings"),  # agreement gate
+    ("how do i get my pulse readings",            "Help_HeartRate"),       # agreement gate
 ]
 
 OUT_OF_SCOPE = [

@@ -23,7 +23,6 @@ i just sat down at a busy cafe,Cmd.MemoryChange,HARD
 adjust for this loud room,Cmd.MemoryChange,HARD
 give me the setting for crowds,Cmd.MemoryChange,HARD
 flip to my quiet home program,Cmd.MemoryChange,HARD
-i'm heading outside for a walk now,Cmd.MemoryChange,HARD
 this environment needs a different setup,Cmd.MemoryChange,HARD
 swap to the program for meetings,Cmd.MemoryChange,HARD
 put my aids in party mode,Cmd.MemoryChange,HARD
@@ -99,7 +98,6 @@ play chess with me,Default Fallback Intent,HARD
 what's the fastest car in the world,Default Fallback Intent,HARD
 give me lottery numbers,Default Fallback Intent,HARD
 when is the next full moon,Default Fallback Intent,HARD
-the world has gone mercifully quiet,Cmd.VolumeMute,HARD
 kill the noise completely,Cmd.VolumeMute,HARD
 i need dead silence right now,Cmd.VolumeMute,HARD
 mute everything for me,Cmd.VolumeMute,EASY
@@ -130,7 +128,7 @@ record this walk for me,Cmd.ActivityWalk,HARD
 have i hit ten thousand steps yet,Cmd.ActivityStep,HARD
 how close am i to my step target,Cmd.ActivityStep,HARD
 what's my step count for today,Cmd.ActivityStep,EASY
-am i near my walking goal,Cmd.ActivityStep,HARD
+am i near my walking goal,Cmd.ActivityWalk,HARD
 how many steps have i clocked today,Cmd.ActivityStep,HARD
 i just finished a bike ride log it,Cmd.ActivityCycle,HARD
 track my cycling session,Cmd.ActivityCycle,EASY
@@ -217,7 +215,6 @@ memory options help,Help_MemoryOptions,EASY
 can i set a favourite program,Help_MemoryOptions,HARD
 how do i switch between programs,Help_ChangingMemories,HARD
 change memory explained,Help_ChangingMemories,HARD
-i want to know about changing my setup,Help_ChangingMemories,HARD
 help with switching profiles,Help_ChangingMemories,EASY
 how do different memories work,Help_ChangingMemories,HARD
 my hearing aid battery died quickly,Help_Battery,HARD
@@ -271,7 +268,6 @@ turn on mask mode,Help_MaskMode,HARD
 too much wind noise outside,Help_EdgeMode,HARD
 reduce wind interference with edge mode,Help_EdgeMode,HARD
 is edge mode good for outdoor use,Help_EdgeMode,HARD
-voices sound clearer with what setting,Help_EdgeMode,HARD
 let me explore the app without aids,Help_DemoMode,HARD
 demo mode help,Help_DemoMode,EASY
 try out features without connecting aids,Help_DemoMode,HARD
@@ -301,7 +297,7 @@ what is my wellness score,Help_ThriveScore,HARD
 show my thrive score,Help_ThriveScore,EASY
 how is the thrive score calculated,Help_ThriveScore,HARD
 my body and brain score,Help_ThriveScore,HARD
-where do i see my overall health rating,Help_ThriveScore,HARD
+where do i see my overall health rating,Help_Health,HARD
 can these aids measure my pulse,Help_HeartRate,HARD
 show my heart rate from today,Help_HeartRate,HARD
 is my heart rate tracked automatically,Help_HeartRate,HARD

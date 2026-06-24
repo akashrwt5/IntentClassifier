@@ -738,6 +738,150 @@ for _k, _v in W3.items():
     P.setdefault(_k, [])
     P[_k].extend(_v)
 
+# ── Wave 4: register coverage for documented holdout failures ────────────────
+# Each block targets a SPECIFIC miss observed on test_holdout.py. These are new
+# paraphrases in the failing register/vocabulary — NOT the verbatim test phrases
+# (the leakage filter drops any that collide). Two groups:
+#   (a) wrong-action fixes — the model fired the WRONG command (safety-critical),
+#   (b) safe-miss fixes    — the model fell to GenAI; correct intent is clear.
+# Several targets are contrastive: the failing token pulls to a sibling intent
+# ("alert"->FallAlert, "share"->HearShare, "stream"->StreamingStart, "lost"->
+# FindMyHearingAids, "understand"->Help_Home), so coverage is added to the
+# CORRECT intent with distinctive vocabulary to move the boundary.
+W4 = {
+ # (a) ── wrong-action fixes ──────────────────────────────────────────────────
+ "reminders.add": [
+    "alert me when it's time to leave","give me an alert at the scheduled time",
+    "set an alert so i don't miss it","i have an appointment coming up don't let me miss it",
+    "make sure i don't miss my appointment","buzz me when it's time",
+    "notify me when the time comes","i can't miss this appointment remind me",
+    "set an alert for my appointment","poke me when the time arrives",
+ ],
+ "Cmd.TranslationStart": [
+    "they're speaking a foreign language translate it","i can't understand their language translate",
+    "i can't understand this foreign language","help me understand what they're saying in another language",
+    "they're speaking another language i can't follow","understand this foreign speaker for me",
+    "put their foreign words into my language","i don't understand their foreign language",
+    "convert this foreign language to english","they don't speak english help me understand them",
+ ],
+ "reminders.complete": [
+    "i finished that reminder mark it","that reminder is done remove it",
+    "check that reminder off the list","i'm done with that task clear the reminder",
+    "cross that reminder off","that to-do is finished mark it complete",
+    "wrap up that reminder it's done","i've completed that reminder",
+ ],
+ "Help_HearShare": [
+    "let another person hear what i hear","stream my hearing to someone else",
+    "can a friend listen along with me","share my hearing aid audio with someone",
+    "let a family member listen in","send what i hear to another person",
+    "how do i let someone listen with me","share my audio so others can hear",
+ ],
+ "Help_Accessories": [
+    "can i stream using a remote microphone","does a clip on mic send audio to my aids",
+    "use an external mic accessory with my aids","does the partner mic stream to my hearing aids",
+    "can i pair a wearable microphone","stream from an accessory mic to my aids",
+    "what microphone accessories can stream to me","connect a remote mic accessory",
+ ],
+ "Help_EdgeMode": [
+    "there's too much wind noise what setting helps","the wind outside is overwhelming what can i do",
+    "cut the wind noise with a setting","help with wind noise when i'm outdoors",
+    "what mode handles a windy environment","reduce wind noise in tough conditions",
+    "the wind is ruining my hearing outside","a setting for very windy places",
+ ],
+ "Help_HeartRate": [
+    "where do i check my bpm","show me my bpm","what's my current bpm",
+    "view my beats per minute reading","my bpm please","track my bpm on the app",
+    "see my pulse in bpm","how do i read my bpm",
+ ],
+ "Help_Pairing": [
+    "my aids dropped their bluetooth connection","i lost the connection to my hearing aids",
+    "my hearing aids disconnected reconnect them","the connection to my aids dropped",
+    "my aids won't stay connected to my phone","reconnect my hearing aids to the app",
+    "my aids keep losing the bluetooth link","help my aids lost connection to the phone",
+ ],
+ "Cmd.SendMessage": [
+    "i have news to text a contact","send my update to someone","let a contact know my news by text",
+    "text a contact with my news","i want to tell someone my news in a message",
+    "message a contact an update","share my news with a contact by text",
+ ],
+ # (b) ── safe-miss fixes (correct intent unambiguous) ────────────────────────
+ "Cmd.VolumeDecrease": [
+    "my ears are taking a beating","the noise is pounding my ears","this is hammering my ears",
+    "my ears can't take this pounding","the sound is battering my ears",
+ ],
+ "Cmd.MemoryChange": [
+    "i just took a seat in a noisy cafe","i'm now seated in a loud coffee shop",
+    "settling into a busy restaurant","i just sat down somewhere really loud",
+    "i'm seated in a crowded noisy spot",
+ ],
+ "Cmd.VolumeUnmute": [
+    "i'd like to hear once more","let me hear things once again","restore my hearing now",
+    "get my sound going again","i want sound coming through again","end the mute let me hear",
+ ],
+ "Cmd.StreamingStop": [
+    "cut the tv connection to my aids","disconnect the television audio","end the tv link to my aids",
+    "stop the tv feed to my hearing aids","drop the connection to the tv sound",
+ ],
+ "Cmd.FindMyPhone": [
+    "track down my handset for me","locate my handset","find my cell for me",
+    "track down my mobile","i can't find my handset ring it",
+ ],
+ "Cmd.ActivityWalk": [
+    "i'm off for a stroll please track it","heading out for a stroll record it",
+    "going for a walk track it for me","start tracking this stroll","log the stroll i'm taking",
+ ],
+ "Cmd.TranscribeStart": [
+    "caption what people are saying around me","put captions on everyone's speech",
+    "show me text of what people say","caption the people talking","write out what folks are saying",
+ ],
+ "Cmd.ListenMessage": [
+    "what messages did people send me","did anyone send me anything read it",
+    "read me what was sent","tell me what people texted","play what people sent me",
+ ],
+ "Help_Tinnitus": [
+    "the ringing in my ears is unbearable","this ear ringing is driving me crazy",
+    "i can't stand the ringing in my ears","the constant ringing is maddening",
+    "help the ringing won't stop",
+ ],
+ "Help_DeviceSettings": [
+    "the sound keeps cutting in and out","my audio quality has gone downhill",
+    "help with my hearing aid settings","the sound from my aids has gotten worse",
+    "my hearing aid sound keeps glitching","fix the declining sound on my aids",
+ ],
+ # InsertDevice regression guard: the "keeps ...-ing out" register above bled
+ # "the device keeps falling out" into DeviceSettings. Re-anchor the fit/seating
+ # problem on InsertDevice with the same colloquial pattern.
+ "Help_InsertDevice": [
+    "my device keeps falling out of my ear","the aid keeps dropping out of my ear",
+    "my hearing aid falls out of my ear","the device won't stay seated in my ear",
+    "my aid keeps popping out","my hearing aid won't stay in it keeps coming out",
+ ],
+ "Help_Volume": [
+    "can i have a different volume in each ear","set independent loudness per side",
+    "different volume for my left and right","adjust each ear's volume separately",
+    "control the loudness of each aid on its own",
+ ],
+ "Help_ChangingMemories": [
+    "help me switch between profiles","how do i switch profiles","guide me on switching profiles",
+    "i need help changing between my programs","walk me through switching profiles",
+ ],
+ "Help_CleanCare": [
+    "how do i take care of my aids","upkeep for my hearing aids","how do i look after my hearing aids",
+    "keeping my aids in good shape","caring for and maintaining my aids",
+ ],
+ "Help_FallAlert": [
+    "will it notice if i take a tumble","does it catch a fall","will it know if i fall over",
+    "does it spot a fall and alert someone","will a tumble trigger an alert",
+ ],
+ "Help_Reminder": [
+    "can i set up a daily reminder","is there a daily reminder option","how do i make a reminder repeat daily",
+    "set a recurring daily reminder","can reminders repeat every day",
+ ],
+}
+for _k, _v in W4.items():
+    P.setdefault(_k, [])
+    P[_k].extend(_v)
+
 
 def main():
     block = load_blocklist()
