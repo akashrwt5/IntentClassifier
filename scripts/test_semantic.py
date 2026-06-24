@@ -30,14 +30,27 @@ BOLD   = "\033[1m"
 
 NOVEL_PHRASINGS = [
     # (utterance, expected_intent)
-    # Paraphrases NOT in training data — must be rescued by semantic
-    ("log a jog",               "Cmd.ActivityRun"),
-    ("my ears are ringing",     "Help_Tinnitus"),
-    # In training data, but TF-IDF stays unsure — semantic rescues them.
-    # "dim the audio" rides the agreement gate: TF-IDF and the head both land on
-    # VolumeDecrease below their individual bars, and their accord clears it.
-    ("dim the audio",           "Cmd.VolumeDecrease"),
-    ("I need some quiet",       "Cmd.VolumeDecrease"),
+    # Genuinely novel paraphrases — lexically distant from every training phrase,
+    # so the TF-IDF stage either whiffs or stays under its 0.70 bar and the MiniLM
+    # semantic head must rescue the turn (semantic_rescue=True). Each phrase is
+    # verified to have ZERO verbatim overlap with the training data AND the
+    # holdout sets, so this exercises real generalisation, not memorisation.
+    #
+    # NOTE: earlier this list held "log a jog", "my ears are ringing", "dim the
+    # audio", "I need some quiet". Those (or near-duplicates) were later added to
+    # the augmented training data, so TF-IDF now classifies them directly — they
+    # stopped being "novel" and the expect_rescue=True assertion went stale. They
+    # were replaced with the phrases below, which TF-IDF still cannot resolve alone.
+    #
+    # Two rescue mechanisms are exercised:
+    #   • Clean rescue   — TF-IDF whiffs to "Default Fallback Intent"; the head
+    #     clears the absolute semantic floor (0.40) on its own.
+    #   • Agreement gate — TF-IDF lands on the right intent but below 0.70; the
+    #     head independently agrees, and their accord clears the relaxed bar (0.50).
+    ("shift to whatever works best at a concert", "Cmd.MemoryChange"),     # clean rescue
+    ("channel the sound into my ears",            "Cmd.StreamingStart"),   # clean rescue
+    ("walk me through what this thing does",      "Help_Home"),            # agreement gate
+    ("the sound keeps dropping in and out on me", "Help_DeviceSettings"),  # agreement gate
 ]
 
 OUT_OF_SCOPE = [
