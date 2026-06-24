@@ -161,9 +161,21 @@ def load_data_for(name: str, explicit: Path | None) -> pd.DataFrame:
             f["__lang__"] = lang
             frames.append(f)
             print(f"  [{name}] + {lang}: {len(f)} rows from {path.name} (capped per intent)")
-        combined = pd.concat(frames, ignore_index=True)
-        # Drop the helper column before training; it was only for the log above.
-        return combined.drop(columns="__lang__")
+        combined = pd.concat(frames, ignore_index=True).drop(columns="__lang__")
+        # Dedup ACROSS languages. load_clean dedups within each file, but some
+        # datasets (notably de.csv) contain untranslated English phrases that are
+        # byte-identical to en.csv rows. Without this cross-language dedup, those
+        # duplicate (text, intent) pairs get scattered across the train/test split
+        # — one copy in train, an identical copy in the holdout — which is data
+        # leakage that inflates the combined model's measured accuracy. Keep the
+        # first occurrence (registry order) so the phrase stays attributed once.
+        before = len(combined)
+        combined = combined.drop_duplicates(subset=["text", "intent"]).reset_index(drop=True)
+        removed = before - len(combined)
+        if removed:
+            print(f"  [{name}] dropped {removed} cross-language duplicate (text,intent) rows "
+                  f"-> {len(combined)} unique rows (prevents train/test leakage)")
+        return combined
 
     if name not in LANGUAGES:
         raise SystemExit(
