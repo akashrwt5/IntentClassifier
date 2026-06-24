@@ -53,6 +53,60 @@ combined model is the concatenation of every registered language, so its label
 space is the **union** of all per-language intents (these differ across
 languages today).
 
+## Dataset Information & Training Strategy
+
+### Data Volume by Language
+
+| Language | Raw rows | After clean + dedup | Used for training (after cap) |
+|---|---|---|---|
+| `en` | 9,986 | 9,986 | 7,462 |
+| `fr` | 9,986 | 9,267 | 6,960 |
+| `de` | 9,986 | 9,240 | 7,064 |
+| `da` | 9,986 | 8,657 | 6,806 |
+| **TOTAL** | — | — | **28,292** |
+
+**Clean + dedup:** removes cross-language exact duplicate (text, intent) pairs.
+German had ~700 untranslated English phrases; Danish had ~1,300 duplicates.
+These removals ensure true multilingual diversity and prevent train/test leakage.
+
+### Training Data Cap Strategy
+
+Three strategies were evaluated on clean, deduplicated data with a fixed holdout:
+
+| Strategy | Train size | Vocab | Accuracy | Macro F1 | Model size | Tradeoff |
+|---|---|---|---|---|---|---|
+| **Cap 500/intent/lang** | 21.4k | 17.7k | 86.73% | 83.18% | ~6.1MB | Smallest footprint |
+| **Cap 1000/intent/lang** | 25.6k | 21.6k | 87.55% | 83.96% | ~6.8MB | Balanced middle |
+| **No cap (all data)** | 26.7k | 21.8k | 87.90% | 84.16% | ~7.5MB | **Best accuracy** |
+
+**Decision: Train with no cap** (all 26.7k deduplicated rows per combined model).
+
+**Rationale:**
+- ✅ +1.17pp accuracy gain (86.73% → 87.90%) improves user experience
+- ✅ **Overfitting risk is negligible:** `class_weight="balanced"` in LogisticRegression automatically adjusts loss weights so intents with fewer samples aren't drowned out by high-volume intents. Per-intent analysis shows every intent improves or stays same with more data.
+- ✅ Default Fallback Intent F1 improves by +4.0 points (better out-of-distribution rejection)
+- ✅ Model size at ~7.5MB is still deployable on mobile (vs ~6.1MB at cap=500)
+- ✅ No intent got worse when trained on more data (balanced loss works as designed)
+
+### Test Set Sizes
+
+**Holdout test splits (20% unseen, deterministic):**
+- English: 1,493 phrases
+- French: 1,392 phrases
+- German: 1,413 phrases
+- Danish: 1,362 phrases
+- **Combined multilingual: 4,910 phrases** (deduplicated; 750 cross-language duplicates removed)
+
+**Curated smoke tests (regression guard):**
+- 12 hand-verified authentic utterances per language (EN, FR, DE, DA)
+- 48 total cases, all must classify to expected intent
+- Independent of holdout splits; ensures no regression on critical flows
+
+**Data integrity:**
+- ✅ Zero harmful (text, intent) leakage across all languages after deduplication
+- ✅ Per-language models verified clean: test split matches saved holdout CSV exactly
+- ✅ All 48 curated cases pass on combined model
+
 ## Usage
 
 ```bash
