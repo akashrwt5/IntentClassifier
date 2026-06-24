@@ -75,6 +75,37 @@ python multilingual/test/test_multilingual_models.py
 python multilingual/test/test_multilingual_models.py --model fr --verbose
 ```
 
+## Running a model (inference)
+
+`predict_multilingual.py` is the interactive CLI (the multilingual counterpart
+of `scripts/predict.py` / `scripts/nlu_cli.py`). Pick any generated model and
+classify text from a prompt or one-shot:
+
+```bash
+# interactive REPL against the combined model (default)
+python multilingual/predict_multilingual.py
+
+# a specific language model
+python multilingual/predict_multilingual.py --model fr
+
+# one-shot, with top-k alternatives
+python multilingual/predict_multilingual.py --model da --text "skru op for lyden"
+python multilingual/predict_multilingual.py --model de --text "wo ist mein telefon" --topk 5
+```
+
+Example:
+
+```
+$ python multilingual/predict_multilingual.py --model fr --text "monte le volume s'il te plaît"
+  ✅ Cmd.VolumeIncrease  (confidence 0.87)
+     also: Cmd.VolumeMute 0.03   Cmd.VolumeUnmute 0.03
+```
+
+It applies the same `normalize_text` folding as training, shows the top-k
+intents with confidence, and flags low-confidence (`< 0.70`) results as a GenAI
+fallback — matching `scripts/predict.py`. (Needs the `en_US.UTF-8` locale; see
+the environment note below.)
+
 ## Testing
 
 `test/test_multilingual_models.py` runs **two complementary layers** over every
