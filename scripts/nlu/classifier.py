@@ -15,9 +15,32 @@ from pathlib import Path
 from .manifest import verify_manifest
 
 BASE_DIR = Path(__file__).parent.parent.parent
-MODEL_PATH  = BASE_DIR / "models" / "intent_model.onnx"
-LABELS_PATH = BASE_DIR / "models" / "intent_labels.pkl"
-SCHEMA_PATH = BASE_DIR / "data"   / "nlu_schema.json"
+MODEL_PATH   = BASE_DIR / "models" / "intent_model.onnx"
+LABELS_PATH  = BASE_DIR / "models" / "intent_labels.pkl"
+SCHEMA_PATH  = BASE_DIR / "data"   / "nlu_schema.json"
+WEIGHTS_PATH = BASE_DIR / "models" / "intent_classifier_weights.json"
+
+
+def _stable_softmax(logits: np.ndarray) -> np.ndarray:
+    """Numerically stable softmax (subtract per-row max)."""
+    z = logits - np.max(logits)
+    e = np.exp(z)
+    return e / np.sum(e)
+
+
+def _load_temperature(weights_path: Path) -> float:
+    """Read the calibration temperature `T` exported alongside the model.
+
+    The ONNX graph emits raw decision-function logits; confidence is calibrated
+    post-hoc by single-parameter temperature scaling: softmax(logits / T). A
+    missing file or missing "temperature" key means T = 1.0 (plain softmax), so
+    older artifacts stay backward compatible.
+    """
+    try:
+        meta = json.loads(Path(weights_path).read_text(encoding="utf-8"))
+        return float(meta.get("temperature", 1.0))
+    except (FileNotFoundError, ValueError, TypeError):
+        return 1.0
 
 
 # Honest, match-type-calibrated confidences for keyword hits. A keyword match
@@ -80,9 +103,10 @@ def _is_negated(text: str, term: str) -> bool:
 
 class IntentClassifier:
     def __init__(self,
-                 model_path:  Path = MODEL_PATH,
-                 labels_path: Path = LABELS_PATH,
-                 schema_path: Path = SCHEMA_PATH):
+                 model_path:   Path = MODEL_PATH,
+                 labels_path:  Path = LABELS_PATH,
+                 schema_path:  Path = SCHEMA_PATH,
+                 weights_path: Path = WEIGHTS_PATH):
         if not model_path.exists():
             raise FileNotFoundError(
                 f"Model not found: {model_path}. Run `python scripts/train.py` first."
@@ -94,6 +118,9 @@ class IntentClassifier:
         self.inp = self.session.get_inputs()[0]
         self.input_name = self.inp.name
         self.labels = joblib.load(str(labels_path))
+        # Calibration temperature for softmax(logits / T). Sourced from the
+        # exported weights JSON; defaults to 1.0 (plain softmax) when absent.
+        self.temperature = _load_temperature(weights_path)
         self.last_stage = None         # "keyword" | "tfidf" — set on each classify()
         self.last_keyword_tier = None  # "exact"|"contains"|"regex"|"regex_guarded"|None
 
@@ -151,5 +178,11 @@ class IntentClassifier:
         else:
             scores = np.asarray(scores, dtype=float)
 
-        top = int(np.argmax(scores))
-        return self.labels[top], float(scores[top])
+        # `scores` are raw decision-function logits (the ONNX graph is exported
+        # with raw_scores=True). Temperature scaling is rank-preserving — dividing
+        # by a positive scalar leaves argmax unchanged — so intent selection
+        # equals the raw-logit argmax; only the confidence is rescaled.
+        scaled = scores / self.temperature
+        top = int(np.argmax(scaled))
+        conf = float(_stable_softmax(scaled)[top])
+        return self.labels[top], conf
