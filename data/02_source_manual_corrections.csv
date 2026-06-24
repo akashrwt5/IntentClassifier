@@ -1,5 +1,4 @@
 text,intent
-dial it back,Cmd.VolumeDecrease
 tone it down a bit,Cmd.VolumeDecrease
 it's too loud in here,Cmd.VolumeDecrease
 lower the level,Cmd.VolumeDecrease
@@ -7,7 +6,6 @@ turn down a notch,Cmd.VolumeDecrease
 cut the volume,Cmd.VolumeDecrease
 reduce the sound,Cmd.VolumeDecrease
 pump the brakes on the volume,Cmd.VolumeDecrease
-shush that a bit,Cmd.VolumeDecrease
 pull back the volume,Cmd.VolumeDecrease
 can you quiet it down,Cmd.VolumeDecrease
 i need it quieter,Cmd.VolumeDecrease
@@ -28,15 +26,11 @@ use the music program instead,Cmd.MemoryChange
 i need my quiet program,Cmd.MemoryChange
 go back to my standard setting,Cmd.MemoryChange
 pick my telephone program,Cmd.MemoryChange
-apply the streaming memory,Cmd.MemoryChange
-switch it to conversation mode,Cmd.MemoryChange
 i'm in the car now,Cmd.MemoryChange
 use my driving setting,Cmd.MemoryChange
-what program should i be using,Cmd.MemoryChange
-activate speech focus,Cmd.MemoryChange
-apply wind noise reduction,Cmd.MemoryChange
+activate speech focus,Help_EdgeMode
+apply wind noise reduction,Help_EdgeMode
 will i make it through the day,Cmd.BatteryLevel
-how much juice is left,Cmd.BatteryLevel
 check the battery level,Cmd.BatteryLevel
 are the batteries low,Cmd.BatteryLevel
 do i need to charge soon,Cmd.BatteryLevel
