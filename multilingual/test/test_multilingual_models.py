@@ -30,6 +30,7 @@ import pandas as pd
 BASE_DIR = Path(__file__).parent.parent          # .../multilingual
 MODELS_DIR = BASE_DIR / "models"
 TEST_DIR = BASE_DIR / "test"
+CASES_DIR = TEST_DIR / "cases"                   # curated per-language smoke tests
 
 sys.path.insert(0, str(BASE_DIR))
 from text_norm import normalize_text   # same lowercase + ASCII fold used in training
@@ -125,6 +126,53 @@ def evaluate(name, onnx_path, labels_path, holdout_path, verbose):
     return acc
 
 
+def run_curated_cases(only, verbose):
+    """Run the curated per-language smoke tests in test/cases/<lang>_cases.csv.
+
+    These are hand-selected, authentic, in-language utterances with a known
+    expected intent — a fast, human-readable regression guard (vs the larger
+    statistical holdout eval). Every case must classify to its expected intent.
+    Returns True only if all cases across all languages pass.
+    """
+    if not CASES_DIR.exists() or not any(CASES_DIR.glob("*_cases.csv")):
+        return True
+
+    print(f"\n{BOLD}Curated smoke-test cases{RESET}")
+    all_ok = True
+    for cf in sorted(CASES_DIR.glob("*_cases.csv")):
+        lang = cf.stem.replace("_cases", "")
+        if only and lang != only:
+            continue
+        model_dir = MODELS_DIR / lang
+        onnx = next(model_dir.glob("*_intent_model.onnx"), None)
+        labels_path = next(model_dir.glob("*_intent_labels.json"), None)
+        if not onnx or not labels_path:
+            print(f"  [skip] {lang} — model not found")
+            continue
+
+        labels = json.loads(labels_path.read_text(encoding="utf-8"))
+        session = ort.InferenceSession(str(onnx))
+        input_name = session.get_inputs()[0].name
+        df = pd.read_csv(cf, encoding="utf-8-sig")
+
+        passed, fails = 0, []
+        for _, r in df.iterrows():
+            expected = str(r["intent"]).strip()
+            predicted, _ = _predict(session, input_name, labels, r["text"])
+            if predicted == expected:
+                passed += 1
+            else:
+                fails.append((r["text"], expected, predicted))
+        total = len(df)
+        color = GREEN if passed == total else RED
+        print(f"  {lang}: {color}{passed}/{total} cases pass{RESET}")
+        if verbose or fails:
+            for t, e, p in fails:
+                print(f"    {RED}FAIL{RESET} {t!r}  expected {e}  got {p}")
+        all_ok &= passed == total
+    return all_ok
+
+
 def main():
     parser = argparse.ArgumentParser(description="Test multilingual intent models")
     parser.add_argument("--model", "-m", help="Test only this model (e.g. fr, multilingual).")
@@ -148,7 +196,11 @@ def main():
         failed |= not ok
         print(f"  {GREEN+'PASS' if ok else RED+'FAIL'}{RESET}  {name:<15} {acc*100:5.1f}%")
     print(f"{BOLD}{'='*60}{RESET}")
-    sys.exit(1 if failed else 0)
+
+    # Curated smoke tests (exact intent match required for every case).
+    cases_ok = run_curated_cases(args.model, args.verbose)
+
+    sys.exit(1 if (failed or not cases_ok) else 0)
 
 
 if __name__ == "__main__":

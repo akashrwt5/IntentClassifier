@@ -75,6 +75,40 @@ python multilingual/test/test_multilingual_models.py
 python multilingual/test/test_multilingual_models.py --model fr --verbose
 ```
 
+## Testing
+
+`test/test_multilingual_models.py` runs **two complementary layers** over every
+generated model, in one command:
+
+1. **Statistical holdout eval** — each model is scored on its own held-out 20%
+   split (`test/<lang>_holdout.csv`, written at train time and never seen by the
+   exported model). Reports per-model accuracy, and per-intent + failures with
+   `-v`. Pass/fail floor is `--min-accuracy` (default 0.80).
+2. **Curated smoke tests** — hand-selected, authentic, in-language utterances
+   with known expected intents (`test/cases/<lang>_cases.csv`, 12 per language =
+   48 total). **Every** case must classify to its expected intent — a fast,
+   human-readable regression guard. Examples: `muet → Cmd.VolumeMute` (fr),
+   `batteri → Cmd.BatteryLevel` (da), `find phone → Cmd.FindMyPhone` (da).
+
+```bash
+# everything (holdout eval + curated cases) for all models
+python multilingual/test/test_multilingual_models.py
+
+# one model, with per-intent breakdown and any failing cases
+python multilingual/test/test_multilingual_models.py --model da --verbose
+
+# Danish's honest holdout is 0.791, so use a 0.75 floor for a green run
+python multilingual/test/test_multilingual_models.py --min-accuracy 0.75
+```
+
+The script **exits non-zero** if any model is below `--min-accuracy` *or* any
+curated case fails, so it doubles as a CI gate. Holdout sizes: en/fr/de ≈1.4–1.5k
+rows each, da ≈1.4k, multilingual ≈4.1k.
+
+> The curated case files are regenerated from authentic data; to refresh them
+> after a data change, pick the shortest correctly-classified utterance per
+> target intent per language (see the generator approach in the commit history).
+
 ## ✅ Resolved — ONNX vs sklearn divergence on accented text
 
 **Symptom (historical):** the exported `.onnx` models underperformed the
