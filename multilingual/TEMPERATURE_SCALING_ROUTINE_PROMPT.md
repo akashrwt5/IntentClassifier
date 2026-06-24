@@ -43,9 +43,12 @@ You run autonomously on a recurring schedule. Each run is a fresh clone of the
    (full requirements) and `multilingual/TEMPERATURE_SCALING_DECISION.md` (rationale).
 3. **Determine progress from git + the checklist below.** Inspect the code and
    recent commits to see which steps are already done. Do NOT redo completed steps.
-4. **Do the next ONE incomplete step**, then **commit and push immediately** with
-   `git config user.email noreply@anthropic.com` set. Small, frequent commits are
-   required so progress survives across runs.
+4. **Do as many of the remaining steps as you can in this run — do not stop after
+   one.** Work through the checklist in order until the task is complete, you run
+   out of usable session, or you hit a genuine blocker. **Commit and push after
+   each step** (set `git config user.email noreply@anthropic.com` first). Small,
+   frequent commits are required so progress survives if the run is cut short and
+   the next run can resume from exactly where this one stopped.
 5. **If all steps are complete and all validation gates pass**, do nothing except
    confirm green status — do not make cosmetic changes. This is the terminal state.
 6. **If you get blocked** (a gate genuinely cannot pass, missing data, an
