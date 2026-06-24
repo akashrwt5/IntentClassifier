@@ -54,12 +54,23 @@ Outputs  (one self-contained folder per model under multilingual/models/)
 The current iOS Stage-2 intent classifier is built from
 intent_classifier_weights.json, NOT from the .onnx file (coremltools cannot
 convert the calibrated sklearn pipeline or the ONNX string-input TF-IDF
-subgraph — see scripts/export_coreml.py). The production server model uses
-CalibratedClassifierCV(isotonic); this multilingual script intentionally uses a
-PLAIN (uncalibrated) LogisticRegression so a clean classifier_weights.json can
-be emitted. The per-class isotonic calibration tables, per-language Core ML
-(.mlpackage) export, and multilingual-vocab handling are NOT done here yet and
-must be handled later for full Swift/Core ML parity.
+subgraph — see scripts/export_coreml.py). This multilingual script trains a
+PLAIN LogisticRegression and calibrates its confidence with single-parameter
+**temperature scaling**: one scalar `T` per model, fit by bounded NLL
+minimization on a held-out calibration split, applied at inference as
+`softmax(logits / T)`. Temperature scaling is rank-preserving (argmax is
+unchanged), so intent selection is identical to the raw logits — only the
+confidence used by the 0.70 GenAI-fallback gate is rescaled. `T` is persisted in
+the exported classifier_weights.json ("temperature"); a missing key means
+T = 1.0 (plain softmax) for backward compatibility. See
+multilingual/TEMPERATURE_SCALING_DECISION.md for the pivot rationale (away from
+per-class isotonic calibration).
+
+Caveat: class_weight="balanced" shifts the LR's implied class priors; `T`
+corrects logit *sharpness*, not that prior shift. This is acceptable for a
+single-threshold confidence gate but is not full calibration. The per-language
+Core ML (.mlpackage) export and multilingual-vocab pruning are handled
+separately (see scripts/export_ios_weights.py).
 """
 
 import argparse
@@ -72,9 +83,8 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.calibration import CalibratedClassifierCV
+from scipy.optimize import minimize_scalar
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
@@ -212,91 +222,81 @@ def load_data_for(name: str, explicit: Path | None) -> pd.DataFrame:
     return cap_classes(load_clean(LANGUAGES[name]))
 
 
-# ───────────────────────── Export helpers ────────────────────────────────────
-CAL_ROUND = 4   # decimal places for calibration breakpoints (matches production)
+# ───────────────────── Temperature scaling helpers ───────────────────────────
+T_BOUNDS = (0.05, 10.0)   # bounded search range for the scalar temperature `T`
+ECE_BINS = 15             # 15-bin equal-width reliability diagram (top-1 conf)
 
 
 def extract_lr(clf):
-    """Return (coef, intercept, classes) from a plain LR or a CalibratedClassifierCV.
+    """Return (coef, intercept, classes) from a plain LogisticRegression.
 
-    Mirrors scripts/export_ios_weights.py::_extract_lr. The shipped pipeline uses
-    CalibratedClassifierCV(isotonic, cv=3, ensemble=False), so calibrated_classifiers_
-    holds a SINGLE base LR refit on all the data. We return that one LR's coef/intercept
-    verbatim — these are the exact weights the exported ONNX runs internally, so the
-    on-device linear layer reproduces the ONNX logit bit-for-bit (no fold averaging).
-    The isotonic maps (see fit_calibration) then rescale that logit to the calibrated
-    probability the ONNX emits, keeping the two paths consistent.
-
-    The averaging branch below is retained only as a defensive fallback for an
-    ensemble=True classifier; with ensemble=False it averages over a single estimator
-    (i.e. a no-op) and prints the parity-preserving message.
+    The pipeline now ships a plain LR (no CalibratedClassifierCV wrapper), so the
+    coef/intercept are taken verbatim — they are the exact weights the linear layer
+    and the exported ONNX both run, so the device logit reproduces the server logit
+    bit-for-bit. Confidence calibration is handled separately by the scalar
+    temperature `T` (see fit_temperature), not by reshaping these weights.
     """
-    if hasattr(clf, "coef_"):
-        return clf.coef_, clf.intercept_, clf.classes_
-    fold_clfs = []
-    for cc in clf.calibrated_classifiers_:
-        est = getattr(cc, "estimator", None)
-        if est is None:
-            est = getattr(cc, "base_estimator", None)   # older sklearn attr name
-        fold_clfs.append(est)
-    coef = np.mean([fc.coef_ for fc in fold_clfs], axis=0)
-    intercept = np.mean([fc.intercept_ for fc in fold_clfs], axis=0)
-    classes = fold_clfs[0].classes_
-    if len(fold_clfs) == 1:
-        print("  [weights] CalibratedClassifierCV(ensemble=False): single base-LR "
-              "refit on all data → device logit == ONNX logit (exact parity).")
-    else:
-        print(f"  [weights] CalibratedClassifierCV(ensemble=True): averaged base-LR "
-              f"coef across {len(fold_clfs)} folds (approximate parity).")
-    return coef, intercept, classes
+    return clf.coef_, clf.intercept_, clf.classes_
 
 
-def fit_calibration(pipeline: Pipeline, X_train, labels, coef, intercept):
-    """Fit per-class isotonic maps: device-logit → calibrated prob.
+def _stable_softmax(logits: np.ndarray) -> np.ndarray:
+    """Row-wise numerically-stable softmax (subtract per-row max before exp)."""
+    z = logits - logits.max(axis=1, keepdims=True)
+    e = np.exp(z)
+    return e / e.sum(axis=1, keepdims=True)
 
-    Mirrors scripts/export_ios_weights.py::_fit_calibration. The device logit is
-    computed from the single base-LR weights (exactly what Swift ships, and exactly
-    what the ONNX runs internally under ensemble=False) over the sklearn L2-normalised
-    TF-IDF vector; the target is the calibrated pipeline's own predict_proba — i.e.
-    precisely what the ONNX/server emits. Swift applies these maps to its logits and
-    renormalises, matching the server's calibrated confidence so the 0.70 threshold
-    behaves identically on-device.
 
-    Returns {"method": "isotonic_logit", "maps": [...]} in `labels` order.
+def _nll(logits: np.ndarray, y_idx: np.ndarray, T: float) -> float:
+    """Mean negative log-likelihood (cross-entropy) of the true class under
+    softmax(logits / T). This is the primary calibration metric and the objective
+    `T` minimizes."""
+    probs = _stable_softmax(logits / T)
+    p_true = probs[np.arange(len(y_idx)), y_idx]
+    return float(-np.log(np.clip(p_true, 1e-12, 1.0)).mean())
+
+
+def _ece(logits: np.ndarray, y_idx: np.ndarray, T: float, n_bins: int = ECE_BINS) -> float:
+    """Expected Calibration Error: 15-bin equal-width over top-1 confidence vs
+    accuracy. Diagnostic/secondary metric (NLL is primary)."""
+    probs = _stable_softmax(logits / T)
+    conf = probs.max(axis=1)
+    pred = probs.argmax(axis=1)
+    correct = (pred == y_idx).astype(np.float64)
+    edges = np.linspace(0.0, 1.0, n_bins + 1)
+    ece = 0.0
+    n = len(y_idx)
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        # last bin is closed on the right so conf == 1.0 is counted
+        in_bin = (conf > lo) & (conf <= hi) if hi < 1.0 else (conf > lo) & (conf <= hi + 1e-9)
+        m = in_bin.sum()
+        if m == 0:
+            continue
+        ece += (m / n) * abs(correct[in_bin].mean() - conf[in_bin].mean())
+    return float(ece)
+
+
+def fit_temperature(logits: np.ndarray, y_idx: np.ndarray) -> float:
+    """Fit the scalar temperature `T` that minimizes NLL on the calibration logits.
+
+    Uses scipy bounded scalar minimization over T_BOUNDS. `logits` are the raw
+    decision_function scores (== device logits for these full-vocab models, since no
+    pruning happens here); `y_idx` is the true-class index in classifier-class order.
+    Lets the data set T's direction — no hardcoded expectation.
     """
-    # coef/intercept come from extract_lr in clf.classes_ order == `labels` order.
-    Xtf = pipeline.named_steps["tfidf"].transform(X_train)     # (N, n_feat), L2-normed
-    coef = np.asarray(coef, dtype=np.float64)
-    intercept = np.asarray(intercept, dtype=np.float64)
-    logits = np.asarray(Xtf @ coef.T) + intercept             # (N, n_classes), labels order
-
-    srv = pipeline.predict_proba(X_train)                     # (N, n_classes) clf order
-    clf = pipeline.named_steps["clf"]
-    col = {c: i for i, c in enumerate(clf.classes_)}
-    srv = srv[:, [col[lbl] for lbl in labels]]
-
-    maps = []
-    for k in range(len(labels)):
-        ir = IsotonicRegression(out_of_bounds="clip", y_min=0.0, y_max=1.0)
-        ir.fit(logits[:, k], srv[:, k])
-        xs = [round(float(v), CAL_ROUND) for v in ir.X_thresholds_]
-        ys = [round(float(v), CAL_ROUND) for v in ir.y_thresholds_]
-        maps.append({"x": xs, "y": ys})
-
-    n_pts = sum(len(m["x"]) for m in maps)
-    print(f"  [calibration] fitted isotonic maps: {len(maps)} classes, {n_pts} "
-          f"breakpoints (device-logit → calibrated-prob).")
-    return {"method": "isotonic_logit", "maps": maps}
+    res = minimize_scalar(lambda T: _nll(logits, y_idx, T),
+                          bounds=T_BOUNDS, method="bounded")
+    return float(res.x)
 
 
 def export_weights_json(pipeline: Pipeline, labels, out_path: Path,
-                        coef, intercept, calibration):
-    """Dump TF-IDF + single base-LR weights (+ isotonic calibration) for the Swift path.
+                        coef, intercept, temperature: float):
+    """Dump TF-IDF + plain-LR weights (+ scalar temperature) for the Swift path.
 
-    Mirrors scripts/export_ios_weights.py. `coef`/`intercept` are the single base-LR
-    weights from extract_lr (in `labels` order) — the same LR the ONNX runs under
-    ensemble=False; `calibration` is the isotonic map block so the on-device softmax
-    matches the server's calibrated confidence.
+    `coef`/`intercept` are the plain-LR weights from extract_lr (in `labels` order) —
+    the same LR the ONNX runs. `temperature` is the single scalar applied on-device as
+    softmax(logits / T) so the confidence matches the server's temperature-scaled
+    output. A consumer that does not find "temperature" treats it as 1.0 (plain
+    softmax) for backward compatibility.
     """
     tfidf = pipeline.named_steps["tfidf"]
     weights = {
@@ -310,7 +310,7 @@ def export_weights_json(pipeline: Pipeline, labels, out_path: Path,
         "normalize": "l2",     # Swift L2-normalises the TF-IDF vector before the linear layer
         "conf_threshold": 0.70,
         "conf_gap_threshold": 0.20,
-        "calibration": calibration,   # {"method": "isotonic_logit", "maps": [...]}
+        "temperature": round(float(temperature), 6),   # softmax(logits / T) on-device
     }
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(weights, f, separators=(",", ":"))
@@ -351,30 +351,31 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float,
         df = df[df["intent"].isin(counts[counts >= 2].index)].reset_index(drop=True)
 
     X, y = df["text"], df["intent"]
-    X_train, X_test, y_train, y_test = train_test_split(
+    # 3-WAY SPLIT (no leakage): train (fit LR) → calibration (fit T) → test (report).
+    # First peel off the test set (20%), then peel a calibration set off the remainder
+    # (20% of the remainder ≈ 16% overall). `T` is fit ONLY on the calibration split and
+    # every calibration metric is reported ONLY on the untouched test split, so `T` is
+    # never fit and scored on the same data. Stratify both splits to preserve the class
+    # mix; fall back to unstratified only if a split is too small to stratify.
+    X_tmp, X_test, y_tmp, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
     )
-    print(f"Train: {len(X_train)} | Test: {len(X_test)}")
+    cal_counts = y_tmp.value_counts()
+    strat_cal = y_tmp if cal_counts.min() >= 2 else None
+    X_train, X_cal, y_train, y_cal = train_test_split(
+        X_tmp, y_tmp, test_size=0.2, random_state=42, stratify=strat_cal
+    )
+    print(f"Train: {len(X_train)} | Calibration: {len(X_cal)} | Test: {len(X_test)}")
 
-    # CalibratedClassifierCV(isotonic, cv=3, ensemble=False) — calibrates the
-    # over-confident C=15 LR. ensemble=False is deliberate and load-bearing for the
-    # on-device path: it fits ONE base LR on all the data (cross_val_predict only
-    # supplies unbiased scores for the calibrator), so calibrated_classifiers_ holds
-    # a SINGLE estimator + a SINGLE isotonic calibrator per class — not a 3-fold
-    # ensemble. Consequences:
-    #   • the exported ONNX bakes one LR (≈1/3 the size of the cv=3 ensemble), and
-    #   • the device logit (from that one LR's coef/intercept, see extract_lr) is the
-    #     EXACT logit the ONNX's internal LR computes — no fold-averaging
-    #     approximation — so Swift and ONNX agree by construction (parity).
-    # With ensemble=True the device had to average 3 fold-LRs and fit a separate map,
-    # which drifted ~30% of utterances across the 0.70 threshold in conformance.
+    # Plain LogisticRegression (C=15) — confidence is calibrated post-hoc by the scalar
+    # temperature `T` (fit below), NOT by wrapping the LR. Because no CalibratedClassifierCV
+    # sits in the pipeline, the exported ONNX/device linear layer runs these exact
+    # coef/intercept, and `decision_function` yields the raw logits that `T` rescales.
     # Word analyzer only — skl2onnx cannot export char-analyzer TfidfVectorizers.
     print(f"TF-IDF recipe: {tfidf_kwargs}")
-    base_lr = LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0)
     pipeline = Pipeline([
         ("tfidf", TfidfVectorizer(**tfidf_kwargs)),
-        ("clf", CalibratedClassifierCV(base_lr, method="isotonic", cv=3,
-                                       ensemble=False)),
+        ("clf", LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0)),
     ])
     pipeline.fit(X_train, y_train)
 
@@ -389,6 +390,33 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float,
         return False
     print(f"✅ Accuracy gate passed ({test_acc:.3f} >= {min_accuracy:.2f}).")
 
+    # ── Temperature scaling: fit T on the calibration split, report on the test split.
+    # decision_function gives the raw logits in clf.classes_ order; these are the
+    # device-equivalent logits for these full-vocab models (no pruning here), so the
+    # T fit here is the device-path T.
+    clf = pipeline.named_steps["clf"]
+    cls_idx = {c: i for i, c in enumerate(clf.classes_)}
+    cal_logits = np.asarray(pipeline.decision_function(X_cal))
+    test_logits = np.asarray(pipeline.decision_function(X_test))
+    y_cal_idx = np.array([cls_idx[c] for c in y_cal])
+    y_test_idx = np.array([cls_idx[c] for c in y_test])
+
+    temperature = fit_temperature(cal_logits, y_cal_idx)
+
+    nll_raw, nll_temp = _nll(test_logits, y_test_idx, 1.0), _nll(test_logits, y_test_idx, temperature)
+    ece_raw, ece_temp = _ece(test_logits, y_test_idx, 1.0), _ece(test_logits, y_test_idx, temperature)
+    # Rank-preserving: argmax(logits / T) == argmax(logits), so temp accuracy == raw.
+    acc_raw = float((test_logits.argmax(axis=1) == y_test_idx).mean())
+    acc_temp = float(((test_logits / temperature).argmax(axis=1) == y_test_idx).mean())
+    print(f"  [temperature] T = {temperature:.4f}  (fit on {len(y_cal_idx)} cal samples, "
+          f"reported on {len(y_test_idx)} test samples)")
+    print(f"  [temperature] NLL  raw {nll_raw:.4f} → temp {nll_temp:.4f}  "
+          f"({'✅ improved' if nll_temp < nll_raw else '⚠️ NOT improved'})")
+    print(f"  [temperature] ECE  raw {ece_raw:.4f} → temp {ece_temp:.4f}  "
+          f"({'✅ improved' if ece_temp < ece_raw else '⚠️ NOT improved'})")
+    print(f"  [temperature] argmax acc  raw {acc_raw:.4f} → temp {acc_temp:.4f}  "
+          f"({'✅ rank-preserving' if acc_temp >= acc_raw else '❌ rank CHANGED'})")
+
     # Persist the held-out split so the test script has real eval data.
     TEST_DIR.mkdir(parents=True, exist_ok=True)
     holdout = pd.DataFrame({"text": X_test, "intent": y_test})
@@ -401,7 +429,7 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float,
     # refit on all data because it validates against a SEPARATE permanent holdout
     # file; we have no such per-language file, so the train/test split is our
     # holdout and must not leak into the shipped model.
-    labels = pipeline.named_steps["clf"].classes_.tolist()
+    labels = clf.classes_.tolist()
 
     model_dir = MODELS_DIR / name
     model_dir.mkdir(parents=True, exist_ok=True)
@@ -421,14 +449,12 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float,
     joblib.dump(labels, str(model_dir / f"{name}_intent_labels.pkl"))
     with open(model_dir / f"{name}_intent_labels.json", "w", encoding="utf-8") as f:
         json.dump(labels, f, indent=2)
-    # On-device path: take the single base-LR coefs (ensemble=False → same LR the
-    # ONNX runs), then fit isotonic calibration (device-logit → calibrated prob) so
-    # Swift matches the calibrated ONNX output.
-    coef, intercept, _ = extract_lr(pipeline.named_steps["clf"])
-    calibration = fit_calibration(pipeline, X_train, labels, coef, intercept)
+    # On-device path: plain-LR coefs (the same LR the ONNX runs) + the scalar
+    # temperature `T`, applied on-device as softmax(logits / T) to match the server.
+    coef, intercept, _ = extract_lr(clf)
     export_weights_json(pipeline, labels,
                         model_dir / f"{name}_intent_classifier_weights.json",
-                        coef, intercept, calibration)
+                        coef, intercept, temperature)
     write_manifest(model_dir)
 
     print(f"✅ Exported '{name}' → {model_dir}/  "
