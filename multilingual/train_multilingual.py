@@ -140,18 +140,27 @@ def load_data_for(name: str, explicit: Path | None) -> pd.DataFrame:
     - explicit --data wins.
     - COMBINED_NAME concatenates every registered language.
     - otherwise look the name up in LANGUAGES.
+
+    The per-intent cap is applied HERE, and for the combined model it is applied
+    PER LANGUAGE before concatenation. This is critical: capping after concat
+    (with groupby.tail) would keep only the last language's rows for any intent
+    that exceeds the cap across languages — e.g. reminders.add has 832 rows ×4
+    languages, so a post-concat cap of 500 would retain 500 Danish rows and ZERO
+    English/French/German, dropping "remind"/"rappelle"/"erinnere" from the
+    vocabulary entirely. Capping each language first keeps every language's
+    vocabulary represented and balanced.
     """
     if explicit is not None:
         print(f"  [{name}] using explicit data file: {explicit}")
-        return load_clean(explicit)
+        return cap_classes(load_clean(explicit))
 
     if name == COMBINED_NAME:
         frames = []
         for lang, path in LANGUAGES.items():
-            f = load_clean(path)
+            f = cap_classes(load_clean(path))   # cap PER LANGUAGE, before concat
             f["__lang__"] = lang
             frames.append(f)
-            print(f"  [{name}] + {lang}: {len(f)} rows from {path.name}")
+            print(f"  [{name}] + {lang}: {len(f)} rows from {path.name} (capped per intent)")
         combined = pd.concat(frames, ignore_index=True)
         # Drop the helper column before training; it was only for the log above.
         return combined.drop(columns="__lang__")
@@ -161,7 +170,7 @@ def load_data_for(name: str, explicit: Path | None) -> pd.DataFrame:
             f"Unknown language '{name}'. Known: {sorted(LANGUAGES)} "
             f"(or '{COMBINED_NAME}'). Pass --data to use a custom file."
         )
-    return load_clean(LANGUAGES[name])
+    return cap_classes(load_clean(LANGUAGES[name]))
 
 
 # ───────────────────────── Export helpers ────────────────────────────────────
@@ -207,7 +216,9 @@ def train_one(name: str, df: pd.DataFrame, min_accuracy: float) -> bool:
     """Train, gate, and export a single model. Returns True on success."""
     print(f"\n{'='*70}\nMODEL: {name}\n{'='*70}")
 
-    df = cap_classes(df)
+    # NOTE: the per-intent cap is applied in load_data_for (per-language for the
+    # combined model), NOT here. Re-capping the already-concatenated combined
+    # frame would re-truncate it back to a single language. df arrives capped.
     print(f"Samples: {len(df)} | Intents: {df['intent'].nunique()}")
 
     # Need at least 2 examples per class for a stratified split.
