@@ -5,7 +5,16 @@ Export TF-IDF + LogisticRegression weights to iOS-compatible JSON.
 The iOS app performs inference natively using:
   tfidf_vector = {vocab[token]: idf[vocab[token]] * log(1 + count) for token in tokens}
   scores[i] = dot(coef[i], tfidf_vector) + intercept[i]
-  probabilities = softmax(scores)
+  probabilities = softmax(scores / T)          # T = "temperature" (scalar)
+
+Confidence is calibrated by single-parameter temperature scaling: one scalar T,
+fit by bounded NLL minimization on the device-equivalent logits (the pruned-vocab,
+L2-normalised logits Swift actually computes — see _device_logits), applied at
+inference as softmax(scores / T). It is rank-preserving (argmax unchanged), so the
+predicted intent is identical to the raw logits; only the confidence used by the
+0.70 GenAI-fallback gate is rescaled. A consumer that does not find "temperature"
+falls back to T = 1.0 (plain softmax). This replaces the previous per-class
+isotonic calibration; see multilingual/TEMPERATURE_SCALING_DECISION.md.
 
 Vocabulary pruning (--top-per-class):
   For each class keep the top N features by abs(coefficient). Take the union
@@ -37,6 +46,7 @@ CONF_GAP_THRESHOLD = 0.20
 GENAI_BASE_URL     = "https://genai.yourcompany.com/chat?query="
 
 ROUND = 4   # decimal places — 4 dp is sufficient for LR inference
+T_BOUNDS = (0.05, 10.0)   # bounded search range for the scalar temperature `T`
 
 
 def _load_or_train_pipeline():
@@ -84,25 +94,14 @@ def _select_features(coef_matrix: np.ndarray, top_per_class: int) -> np.ndarray:
 
 def _extract_lr(clf):
     """
-    Return (coef_, intercept_, classes_) from a plain LogisticRegression or a
-    CalibratedClassifierCV wrapping one.  For the calibrated case we average
-    the base LR weights across folds — the server applies per-fold isotonic
-    calibration on the decision-function margin, which cannot be reproduced
-    bit-for-bit on iOS.  Instead we fit a single per-class isotonic map on the
-    averaged model's own logits (see `_fit_calibration`) and ship it alongside
-    the weights, so the iOS softmax can be recalibrated to match the server.
-    """
-    if hasattr(clf, "coef_"):
-        return clf.coef_, clf.intercept_, clf.classes_
+    Return (coef_, intercept_, classes_) from a plain LogisticRegression.
 
-    # CalibratedClassifierCV — average base LR weights across CV folds
-    fold_clfs = [cc.estimator for cc in clf.calibrated_classifiers_]
-    coef      = np.mean([fc.coef_      for fc in fold_clfs], axis=0)
-    intercept = np.mean([fc.intercept_ for fc in fold_clfs], axis=0)
-    classes   = fold_clfs[0].classes_
-    print(f"  [ios export] CalibratedClassifierCV detected — averaging coef across "
-          f"{len(fold_clfs)} folds for iOS base weights (isotonic calibration shipped separately).")
-    return coef, intercept, classes
+    The pipeline now ships a plain LR (no CalibratedClassifierCV wrapper): confidence
+    is calibrated post-hoc by the scalar temperature `T` (see _fit_temperature), not
+    by reshaping these weights, so the coef/intercept are taken verbatim — exactly the
+    weights Swift and the exported ONNX both run.
+    """
+    return clf.coef_, clf.intercept_, clf.classes_
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -146,50 +145,68 @@ def _device_logits(texts, vocab, idf, coef, intercept):
     return out
 
 
-def _fit_calibration(pipeline, labels, vocab, idf, coef, intercept):
-    """Fit one isotonic map per class: device logit → server-calibrated prob.
+def _stable_softmax(logits: np.ndarray) -> np.ndarray:
+    """Row-wise numerically-stable softmax (subtract per-row max before exp)."""
+    z = logits - logits.max(axis=1, keepdims=True)
+    e = np.exp(z)
+    return e / e.sum(axis=1, keepdims=True)
 
-    The server (CalibratedClassifierCV, isotonic) and the iOS averaged-LR softmax
-    disagree because iOS ships uncalibrated probabilities. We learn, per class,
-    the monotonic function that maps the device's own logit margin onto the
-    server's calibrated probability, fit over the training texts. iOS then applies
-    these maps to its logits and renormalises, recovering server-level confidence
-    (so genuinely-correct mid-confidence intents clear the 0.70 threshold).
 
-    Returns a list (in `labels` order) of {"x": [...], "y": [...]} breakpoints
-    defining a clamped piecewise-linear curve, or None if the data is unavailable.
+def _nll(logits: np.ndarray, y_idx: np.ndarray, T: float) -> float:
+    """Mean negative log-likelihood (cross-entropy) of the true class under
+    softmax(logits / T) — the objective `T` minimizes."""
+    probs = _stable_softmax(logits / T)
+    p_true = probs[np.arange(len(y_idx)), y_idx]
+    return float(-np.log(np.clip(p_true, 1e-12, 1.0)).mean())
+
+
+def _fit_temperature(labels, vocab, idf, coef, intercept):
+    """Fit the scalar temperature `T` on the DEVICE-equivalent logits.
+
+    Req #2: `T` must be fit and validated on the logits Swift actually computes —
+    the pruned-vocab, L2-on-pruned-subspace logits from _device_logits — not the
+    server's full-vocab logits, so the shipped `T` keeps the device confidence on the
+    right side of the 0.70 gate. We minimize NLL of the true class (bounded scalar
+    search over T_BOUNDS) against the training labels.
+
+    Caveat: this fits `T` on the same texts that trained the LR (the production export
+    has no separate held-out split here). Temperature is a single parameter — far less
+    prone to overfit than the per-class isotonic maps it replaces — and the
+    untouched-test-set NLL/ECE validation lives in the multilingual training path
+    (train_multilingual.py) and the conformance suite. Returns 1.0 (identity, plain
+    softmax) if the data is unavailable.
+
+    Note the class_weight="balanced" caveat: `T` corrects logit sharpness, not the
+    balanced-prior shift; acceptable for a single-threshold confidence gate.
     """
-    from sklearn.isotonic import IsotonicRegression
+    from scipy.optimize import minimize_scalar
 
     if not DATA_PATH.exists():
-        print(f"  [ios export] WARN: {DATA_PATH} not found — skipping calibration export.")
-        return None
+        print(f"  [ios export] WARN: {DATA_PATH} not found — shipping T=1.0 (plain softmax).")
+        return 1.0
 
     import pandas as pd
     data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
     data.columns = [c.strip().lower() for c in data.columns]
+    data = data.dropna(subset=["text", "intent"])
     texts = data["text"].astype(str).str.lower().str.strip().tolist()
+    intents = data["intent"].astype(str).str.strip().tolist()
 
+    # Device logits in `labels` order; map each true intent to its label index.
     logits = _device_logits(texts, vocab, idf, coef, intercept)   # (N, n_classes) labels order
+    lbl_idx = {lbl: i for i, lbl in enumerate(labels)}
+    keep = [i for i, c in enumerate(intents) if c in lbl_idx]
+    logits = logits[keep]
+    y_idx = np.array([lbl_idx[intents[i]] for i in keep])
 
-    # Server calibrated probabilities, reordered into `labels` order.
-    srv = pipeline.predict_proba(texts)                            # (N, n_classes) clf order
-    clf = pipeline.named_steps["clf"]
-    col = {cls: i for i, cls in enumerate(clf.classes_)}
-    srv = srv[:, [col[lbl] for lbl in labels]]
+    res = minimize_scalar(lambda T: _nll(logits, y_idx, T),
+                          bounds=T_BOUNDS, method="bounded")
+    T = float(res.x)
 
-    maps = []
-    for k in range(len(labels)):
-        ir = IsotonicRegression(out_of_bounds="clip", y_min=0.0, y_max=1.0)
-        ir.fit(logits[:, k], srv[:, k])
-        xs = [round(float(v), ROUND) for v in ir.X_thresholds_]
-        ys = [round(float(v), ROUND) for v in ir.y_thresholds_]
-        maps.append({"x": xs, "y": ys})
-
-    n_pts = sum(len(m["x"]) for m in maps)
-    print(f"  [ios export] Fitted isotonic calibration: {len(maps)} classes, "
-          f"{n_pts} breakpoints (device-logit → server-prob).")
-    return maps
+    nll_raw, nll_temp = _nll(logits, y_idx, 1.0), _nll(logits, y_idx, T)
+    print(f"  [ios export] Fitted temperature T={T:.4f} on {len(y_idx)} device logits  "
+          f"(NLL {nll_raw:.4f} → {nll_temp:.4f}).")
+    return round(T, 6)
 
 
 def export(out_path: Path, top_per_class: int):
@@ -219,9 +236,9 @@ def export(out_path: Path, top_per_class: int):
     idf       = [round(float(v), ROUND) for v in pruned_idf]
     intercept = [round(float(intercept_[class_to_row[lbl]]), ROUND) for lbl in labels]
 
-    # Per-class isotonic calibration (device logit → server-calibrated prob),
-    # fit on the exact pruned weights we just built so it matches Swift's logits.
-    calibration_maps = _fit_calibration(pipeline, labels, new_vocab, idf, coef, intercept)
+    # Scalar temperature, fit on the exact pruned weights we just built so it
+    # matches the logits Swift computes (req #2: device-equivalent logits).
+    temperature = _fit_temperature(labels, new_vocab, idf, coef, intercept)
 
     payload = {
         "labels":             labels,
@@ -235,15 +252,10 @@ def export(out_path: Path, top_per_class: int):
         # iOS inference must L2-normalise the TF-IDF vector before scoring:
         #   norm = sqrt(sum(v*v)); if norm > 0: vec /= norm
         "normalize":          "l2",
+        # iOS: probabilities = softmax(scores / temperature). Falls back to
+        # T = 1.0 (plain softmax) when this key is absent (older bundles).
+        "temperature":        temperature,
     }
-    if calibration_maps is not None:
-        # iOS: calibrated[k] = interp(logit[k], maps[k].x, maps[k].y) clamped to
-        # the endpoints; then divide by the sum across classes. Falls back to
-        # plain softmax when this key is absent (older bundles).
-        payload["calibration"] = {
-            "method": "isotonic_logit",
-            "maps":   calibration_maps,
-        }
 
     out_path.parent.mkdir(exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
