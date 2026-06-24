@@ -79,17 +79,6 @@ def _swift_tokens(text: str) -> list:
     return tokens
 
 
-def _interp(x: float, xs: list, ys: list) -> float:
-    """Clamped piecewise-linear interpolation (mirrors Swift interpolate())."""
-    if not xs:
-        return 0.0
-    if x <= xs[0]:
-        return ys[0]
-    if x >= xs[-1]:
-        return ys[-1]
-    return float(np.interp(x, xs, ys))
-
-
 def _ios_predict(text: str, weights: dict) -> tuple[str, float]:
     vocab: dict = weights["vocab"]
     idf: list = weights["idf"]
@@ -112,22 +101,19 @@ def _ios_predict(text: str, weights: dict) -> tuple[str, float]:
     logits = [b + sum(vec.get(idx, 0.0) * w for idx, w in enumerate(row) if w != 0.0)
               for row, b in zip(coef, intercept)]
 
-    # The predicted intent is always the base model's argmax. Calibration only
-    # rescales the reported confidence — it must not re-rank (see Swift
-    # stage2Scores). This mirrors the on-device behaviour exactly.
+    # The predicted intent is always the base model's argmax. Temperature
+    # scaling only rescales the reported confidence — it is rank-preserving and
+    # must not re-rank (see Swift stage2Scores). This mirrors on-device exactly.
     top = int(np.argmax(logits))
 
-    calibration = weights.get("calibration")
-    if calibration and calibration.get("method") == "isotonic_logit":
-        maps = calibration["maps"]
-        cal = [_interp(logits[k], maps[k]["x"], maps[k]["y"]) for k in range(len(labels))]
-        total = sum(cal)
-        probs = [c / total for c in cal] if total > 0 else cal
-    else:
-        max_s = max(logits)
-        exps = [math.exp(s - max_s) for s in logits]
-        total = sum(exps)
-        probs = [e / total for e in exps]
+    # Confidence = softmax(logits / T). T is the scalar "temperature" exported
+    # alongside the weights; a missing key means T = 1.0 (plain softmax).
+    T = float(weights.get("temperature", 1.0))
+    scaled = [s / T for s in logits]
+    max_s = max(scaled)
+    exps = [math.exp(s - max_s) for s in scaled]
+    total = sum(exps)
+    probs = [e / total for e in exps]
 
     return labels[top], probs[top]
 
@@ -136,7 +122,8 @@ def _ios_predict(text: str, weights: dict) -> tuple[str, float]:
 # ONNX Runtime scorer
 # ---------------------------------------------------------------------------
 
-def _onnx_predict(text: str, session: ort.InferenceSession, labels: list) -> tuple[str, float]:
+def _onnx_predict(text: str, session: ort.InferenceSession, labels: list,
+                  temperature: float = 1.0) -> tuple[str, float]:
     inp = session.get_inputs()[0]
     t = text.lower().strip()
     arr = (np.array([[t]], dtype=object)
@@ -150,9 +137,15 @@ def _onnx_predict(text: str, session: ort.InferenceSession, labels: list) -> tup
             break
     if scores is None:
         scores = outputs[-1][0]
+    # `scores` are raw decision-function logits (the graph is exported with
+    # raw_scores=True). Apply softmax(logits / T) — argmax is unchanged.
     scores = np.asarray(scores, dtype=float)
-    top = int(np.argmax(scores))
-    return labels[top], float(scores[top])
+    scaled = scores / temperature
+    top = int(np.argmax(scaled))
+    z = scaled - np.max(scaled)
+    e = np.exp(z)
+    probs = e / e.sum()
+    return labels[top], float(probs[top])
 
 
 # ---------------------------------------------------------------------------
@@ -177,22 +170,23 @@ def main():
     weights = json.loads(WEIGHTS_PATH.read_text(encoding="utf-8"))
     session = ort.InferenceSession(str(MODEL_PATH))
     labels  = joblib.load(str(LABELS_PATH))
+    temperature = float(weights.get("temperature", 1.0))
 
     # Two failure modes, in order of severity:
     #   1. INTENT MISMATCH   — paths predict different intents (always a bug)
     #   2. THRESHOLD DISAGREE — one path fires above threshold while the other doesn't
     #      (user sees an action on one platform but a fallback on the other)
-    # Probability distance alone is NOT a failure criterion: the iOS path now
-    # applies its own isotonic calibration (device logit → server prob), so the
-    # two should track closely, but exact parity isn't guaranteed (averaged single
-    # model + one isotonic map vs. the server's per-fold calibrated ensemble).
+    # Probability distance alone is NOT a failure criterion: both paths now apply
+    # the same softmax(logits / T) temperature scaling, so they track closely, but
+    # exact parity isn't guaranteed — the device path uses the pruned, re-L2-
+    # normalized vocab, a slightly different logit magnitude than the server.
 
     intent_failures    = []
     threshold_failures = []
 
     for utt in TEST_UTTERANCES:
         ios_intent,  ios_prob  = _ios_predict(utt, weights)
-        onnx_intent, onnx_prob = _onnx_predict(utt, session, labels)
+        onnx_intent, onnx_prob = _onnx_predict(utt, session, labels, temperature)
 
         intent_match      = ios_intent == onnx_intent
         onnx_fires        = onnx_prob >= args.threshold
