@@ -75,14 +75,17 @@ Three strategies were evaluated on clean, deduplicated data with a fixed holdout
 
 | Strategy | Train size | Vocab | Accuracy | Macro F1 | Model size | Tradeoff |
 |---|---|---|---|---|---|---|
-| **Cap 500/intent/lang** | 21.4k | 17.7k | 86.73% | 83.18% | ~6.1MB | Smallest footprint |
+| **Cap 500/intent/lang** ⚡ CURRENT | 21.4k | 17.7k | 86.73% | 83.18% | ~6.1MB | Smallest footprint |
 | **Cap 1000/intent/lang** | 25.6k | 21.6k | 87.55% | 83.96% | ~6.8MB | Balanced middle |
 | **No cap (all data)** | 26.7k | 21.8k | 87.90% | 84.16% | ~7.5MB | **Best accuracy** |
 
-**Decision: Train with no cap** (all 26.7k deduplicated rows per combined model).
+> **Currently deployed:** cap of **500 samples per intent per language** (`MAX_PER_INTENT=500` in `train_multilingual.py`)
+> This limits each language model to ~7.5k training rows and produces ~17.7k vocabulary for best model size/accuracy balance.
+
+**Recommended decision:** Train with no cap (all 26.7k deduplicated rows per combined model) for +1.17pp accuracy gain.
 
 **Rationale:**
-- ✅ +1.17pp accuracy gain (86.73% → 87.90%) improves user experience
+- ✅ +1.17pp accuracy gain (86.73% → 87.90%) meaningfully improves user experience
 - ✅ **Overfitting risk is negligible:** `class_weight="balanced"` in LogisticRegression automatically adjusts loss weights so intents with fewer samples aren't drowned out by high-volume intents. Per-intent analysis shows every intent improves or stays same with more data.
 - ✅ Default Fallback Intent F1 improves by +4.0 points (better out-of-distribution rejection)
 - ✅ Model size at ~7.5MB is still deployable on mobile (vs ~6.1MB at cap=500)
@@ -159,6 +162,52 @@ It applies the same `normalize_text` folding as training, shows the top-k
 intents with confidence, and flags low-confidence (`< 0.70`) results as a GenAI
 fallback — matching `scripts/predict.py`. (Needs the `en_US.UTF-8` locale; see
 the environment note below.)
+
+### Using Multilingual Models with NLU Engine
+
+The NLU pipeline (slot-filling, reminders, multi-turn context, semantic rescue, GenAI fallback)
+is **language-agnostic** — the same business logic works with any TF-IDF classifier.
+Use `scripts/nlu_cli_multilingual.py` to interact with multilingual models through the full
+NLU pipeline:
+
+```bash
+# interactive REPL with the combined multilingual model (default)
+python scripts/nlu_cli_multilingual.py
+
+# a specific language model
+python scripts/nlu_cli_multilingual.py --model fr
+python scripts/nlu_cli_multilingual.py --model da
+python scripts/nlu_cli_multilingual.py --model en
+python scripts/nlu_cli_multilingual.py --model de
+
+# production model (default intent_model.onnx)
+python scripts/nlu_cli_multilingual.py --model production
+```
+
+**In Python code**, load a multilingual model with the NLU engine:
+
+```python
+from scripts.nlu import NLUEngine
+
+# load combined multilingual model
+engine = NLUEngine(model_name="multilingual")
+
+# or a specific language
+engine = NLUEngine(model_name="fr")      # French
+engine = NLUEngine(model_name="de")      # German
+engine = NLUEngine(model_name="da")      # Danish
+engine = NLUEngine(model_name="en")      # English
+engine = NLUEngine(model_name="production")  # default production model
+
+# use it
+result = engine.handle(session_id="user-123", text="monte le volume")
+print(result.intent)       # e.g., "Cmd.VolumeIncrease"
+print(result.confidence)   # e.g., 0.87
+print(result.message)      # confirmation/prompt from NLU pipeline
+```
+
+The `model_name` parameter selects which TF-IDF classifier drives intent prediction;
+all other NLU behavior (prompts, confirmations, reminders, context, fallback) remains identical.
 
 ## Testing
 
