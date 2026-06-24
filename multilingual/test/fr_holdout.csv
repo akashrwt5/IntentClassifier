@@ -1,0 +1,1393 @@
+text,intent
+suivre un entrainement d'aerobic,Cmd.ActivityAerobics
+comment puis-je personnaliser les reglages de mon aide auditive ?,Help_Customize
+comment les changements de volume sont-ils enregistres,Help_Volume
+expliquer la fonction de frequence cardiaque,Help_HeartRate
+rappelle-moi la veille,reminders.add
+merci de me rappeler de recuperer mon ordonnance a 17h. mardi,reminders.add
+comment fonctionne la mini telecommande,Help_Accessories
+ok oui envoie.,Cmd.SendMessage - yes
+peux-tu regler le programme sur le numero quatre,Cmd.MemoryChange
+"peux-tu, je ne trouve pas mon aide auditive appropriee",Help_FindMyHearingAids
+"s'il vous plait, aidez-moi a regler le volume des acouphenes dans mon aide auditive",Help_Tinnitus
+quelles sont les principales choses que je peux faire,Help_Home
+s'il te plait commence a ecrire ca pour moi,Cmd.TranscribeStart
+"s'il te plait, sors de ton telephone, d'accord",Default Fallback Intent
+ou est la fonction de transcription ?,Help_Transcribe
+"s'il vous plait, mon aide auditive droite est a 0%",Default Fallback Intent
+quelle est la fonctionnalite de traduction,Help_Translate
+montre-moi un apercu de cette application,Help_WhatsNew
+revenir en mode normal,Cmd.MemoryChange
+veuillez regler la memoire sur le numero trois,Cmd.MemoryChange
+quelles langues la fonction de traduction peut-elle utiliser ?,Help_Translate
+s'il vous plait rejouez mon message.,Cmd.ListenMessage
+pouvez-vous rappeler le guide d'utilisation,Help_Reminder
+"s'il te plait, rappelle-moi de venir chercher joe dans 30 minutes",reminders.add
+comment changer de profil,Help_ChangingMemories
+merci de me rappeler de recuperer mon ordonnance a 17h. le mercredi,reminders.add
+mettre un rappel pour mon examen,reminders.add
+quelle est la facon de changer mon programme,Help_ChangingMemories
+expliquer le score d'engagement,Help_ThriveScore
+enregistre mes pas lors de cette promenade,Cmd.ActivityWalk
+augmentez le volume s'il vous plait,Cmd.VolumeIncrease
+"pouvez-vous definir un rappel pour 7 heures demain, yoga",reminders.add
+il faut que ce soit plus doux,Cmd.VolumeDecrease
+pouvez-vous m'aider a changer de programme d'acouphene,Help_Tinnitus
+paire d'aide gauche,Help_Pairing
+"s'il vous plait, wendy a appuye deux fois dessus et cela n'a pas fonctionne",Default Fallback Intent
+"s'il vous plait, aidez-nous a coupler les aides avec le telephone",Help_Pairing
+comment puis-je faire diffuser mon aide auditive gauche,Help_Accessories
+puis-je ecouter les reglages effectues par mon audioprothesiste ?,Help_RemoteProgramming
+"peux-tu he, mark, d'accord.",Default Fallback Intent
+ou est l'ecran principal ?,Help_Home
+"peux-tu, j'ai perdu mes appareils auditifs. pouvez-vous m'aider a les trouver ?",Help_FindMyHearingAids
+installez-le pour une salle de concert,Cmd.MemoryChange
+"s'il vous plait, augmentez le volume de l'aide auditive",Cmd.VolumeIncrease
+"s'il te plait, ecoute le dernier message",Cmd.ListenMessage
+enregistrer les kilometres que j'ai courus,Cmd.ActivityRun
+chronometrer ma balade a velo,Cmd.ActivityCycle
+puis-je utiliser le telephone pour verifier le volume de mes aides auditives,Help_Volume
+ne pouvez-vous pas annuler le message.,Cmd.SendMessage - no
+veuillez vous connecter a la telecommande,Cmd.StreamingStart
+veuillez definir le programme pour vous entrainer,Cmd.MemoryChange
+jusqu'ou ai-je parcouru du velo ?,Cmd.ActivityCycle
+peux-tu me rappeler d'etudier demain,reminders.add
+"s'il te plait, rappelle-moi de prendre mes medicaments aujourd'hui a 17 heures.",reminders.add
+tout semble trop calme,Cmd.VolumeIncrease
+y a-t-il assez de puissance,Cmd.BatteryLevel
+comment fonctionne le score d’engagement ?,Help_ThriveScore
+je suis dans une grande salle d'echo maintenant,Cmd.MemoryChange
+trouve mon portable pour moi,Cmd.FindMyPhone
+comment personnaliser mon aide auditive droite ?,Help_Customize
+transformez la parole en texte maintenant,Cmd.TranscribeStart
+audio via des appareils auditifs,Cmd.StreamingStart
+deposer un message,Cmd.SendMessage
+comment utiliser traduire,Help_Translate
+prendre rendez-vous a distance,Help_HearingCareAnywhereConnect
+aider a comprendre le changement de programme,Help_ChangingMemories
+ou ai-je place mon aide auditive droite ?,Help_FindMyHearingAids
+a quoi sert ce controle d'equilibre ?,Help_WiCROS
+travailler sur un objectif,Cmd.ActivityExercise
+"oui, s'il te plait, vas-y.",Cmd.SendMessage - yes
+calories en travaillant,Cmd.ActivityExercise
+est-ce que mode edge fonctionne automatiquement,Help_EdgeMode
+veuillez detecter le telephone android,Cmd.FindMyPhone
+je suis dans un restaurant bruyant maintenant,Cmd.MemoryChange
+mon aide auditive continue de glisser,Help_InsertDevice
+voir la sante de mon corps et de mon cerveau,Help_Health
+peux-tu telephoner au programme,Cmd.MemoryChange
+"peux-tu, je dois deconnecter mes aides auditives de mon telephone",Help_Pairing
+"terminez ce rappel, c'est fait",reminders.complete
+ou est l'aide,Help_Home
+expliquer la fonction de transcription,Help_Transcribe
+puis-je repeter un rappel,Help_Reminder
+comment voir mes objectifs d'interaction hebdomadaires ?,Help_Health
+veuillez changer la memoire en une seule,Cmd.MemoryChange
+peux-tu changer la memoire en numero deux,Cmd.MemoryChange
+je veux faire un rappel,reminders.add
+est-ce que ca marche avec alexa,Help_VoiceAssistant
+revenir a mon reglage standard,Cmd.MemoryChange
+ma qualite audio s'est degradee,Help_DeviceSettings
+aide avec les alertes d'automne,Help_FallAlert
+plus de volume,Cmd.VolumeIncrease
+je veux ecouter le presentateur,Cmd.StreamingStart
+je veux envoyer un message vocal,Cmd.SendMessage
+"peux-tu, je n'aime pas les reglages actuels de mon aide auditive",Help_MemoryOptions
+veuillez changer le programme pour le numero deux,Cmd.MemoryChange
+passe-moi au restaurant,Cmd.MemoryChange
+peux-tu passer au mode personnel,Cmd.MemoryChange
+"s'il vous plait, aidez-moi avec les appareils de couplage",Help_Pairing
+pouvez-vous m'aider pour la transcription,Help_Transcribe
+mes aides auditives peuvent-elles etre configurees simultanement sur un iphone et un ipad,Help_Pairing
+fais-moi une demonstration,Help_DemoMode
+pouvez-vous me rappeler de recuperer mon ordonnance a 17h. jeudi,reminders.add
+quelle taille de pile mon aide auditive utilise-t-elle,Help_Battery
+"s'il te plait, passe en sourdine",Cmd.MemoryChange
+je pars en velo,Cmd.ActivityCycle
+que puis-je demander a assistant thrive ?,Help_VoiceAssistant
+puis-je ecouter mon message ?,Cmd.ListenMessage
+"peux-tu, j'ai besoin d'aide avec mes parametres",Help_DeviceSettings
+peux-tu me faire faire du velo pendant une heure ?,Cmd.ActivityCycle
+note ca pour moi,reminders.add
+la batterie se decharge rapidement,Help_Battery
+je vais faire du jogging maintenant,Cmd.ActivityRun
+"s'il vous plait, ou est le bouton pour la memoire ?",Help_ChangingMemories
+est-ce qu'un clip sur le micro envoie de l'audio a mes aides auditives,Help_Accessories
+comment regler mon masqueur de bruit sur les aides ?,Help_Tinnitus
+fixez-moi un rappel s'il vous plait,reminders.add
+peux-tu monter mon appareil auditif droit,Cmd.VolumeIncrease
+"s'il vous plait, aidez-nous a changer de programme en utilisant mon application thrive",Help_ChangingMemories
+peux-tu programmer le numero deux,Cmd.MemoryChange
+ca me fait mal aux oreilles,Cmd.VolumeDecrease
+envoie-moi le son de la tele,Cmd.StreamingStart
+se connecter au media audio,Cmd.StreamingStart
+"s'il te plait, calories brulees aujourd'hui",Cmd.ActivityCalories
+explique-moi l'ecran principal,Help_Home
+connecter l'audio de mon telephone a mes aides auditives,Cmd.StreamingStart
+"je l'ai deja fait celui-la, efface-le",reminders.complete
+comment puis-je demarrer le streaming depuis mon accessoire ?,Help_Accessories
+"s'il vous plait, aidez-moi a regler le bruit des acouphenes dans mon aide auditive",Help_Tinnitus
+quand dois-je utiliser mode edge,Help_EdgeMode
+pouvez-vous oui appuyer sur envoyer.,Cmd.SendMessage - yes
+mode demonstration,Help_DemoMode
+pouvez-vous m'aider avec les changements de volume sur mon aide auditive,Help_Volume
+j'ai egare mon aide auditive droite,Help_FindMyHearingAids
+pouvez-vous assistant thrive aider,Help_VoiceAssistant
+comment savoir si mon aide auditive fonctionne ?,Help_SelfCheck
+teleentendre,Help_HearingCareAnywhereConnect
+peux-tu programmer le numero quatre,Cmd.MemoryChange
+pouvez-vous synchroniser le bluetooth de la voiture avec une aide auditive,Help_Pairing
+"s'il vous plait, montrez-moi un apercu d'ipro",Help_WhatsNew
+comment hearshare connecte-t-il une autre personne,Help_HearShare
+qu'est-ce qui est different dans le fait de prosperer ?,Help_WhatsNew
+envoyer un message,Cmd.SendMessage
+pourquoi mon aide auditive droite n'est-elle pas couplee,Help_Pairing
+ou est l'egaliseur,Help_Customize
+plus silencieux s'il vous plait,Cmd.VolumeDecrease
+peux-tu perdre ton telephone,Cmd.FindMyPhone
+comment changer de ton ?,Help_DeviceSettings
+comment changer la batterie,Help_Battery
+veuillez changer pour l'auditorium,Cmd.MemoryChange
+pouvez-vous que les frais d'electricite ne soient pas similaires a ceux de l'essence,Default Fallback Intent
+"s'il vous plait, ou est la voix ai ?",Help_IntelliVoice
+comment puis-je augmenter le volume sonore avec la bonne aide auditive ?,Help_Volume
+peux-tu couper le volume de mon aide auditive gauche,Cmd.VolumeMute
+pouvez-vous s'il vous plait ecouter mon message.,Cmd.ListenMessage
+mes aides auditives,Default Fallback Intent
+comment puis-je me debarrasser des mauvaises herbes,Default Fallback Intent
+peux-tu le micro,Default Fallback Intent
+le son continue d'entrer et de sortir,Help_DeviceSettings
+comment fonctionnent les mises a jour a distance de mes aides auditives,Help_RemoteProgramming
+"non, annule ca",Cmd.SendMessage - no
+guide-moi sur les alertes d'automne,Help_FallAlert
+"peux-tu, je dois associer mes aides auditives a mon telephone",Help_Pairing
+comment utiliser la fonctionnalite intellivoice ?,Help_IntelliVoice
+peux-tu me mettre en colere avec de la biere du verger,Default Fallback Intent
+expliquer comment les alertes d'automne sont envoyees,Help_FallAlert
+"s'il te plait, fais du son",Cmd.VolumeUnmute
+enregistrer mon trajet,Cmd.ActivityCycle
+traduire pour le russe,Cmd.TranslationStart
+pouvez-vous regler le telephone,Cmd.MemoryChange
+"non, jetez-le",Cmd.SendMessage - no
+"peux-tu, je n'entends pas de difference lorsque je change le controle de ma balance",Help_WiCROS
+"s'il te plait, memorise le numero trois",Cmd.MemoryChange
+comment puis-je regler le volume du bruit des acouphenes dans l'aide gauche ?,Help_Tinnitus
+enregistrer ma seance de marche,Cmd.ActivityWalk
+peux-tu me rappeler de prendre des medicaments,reminders.add
+comment acceder au mode masque,Help_MaskMode
+peux-tu publier de la memoire,Cmd.MemoryChange
+comment retrouver mes aides auditives,Help_FindMyHearingAids
+coupez-le completement,Cmd.VolumeMute
+comment regler mon masqueur de bruit sur mes aides auditives ?,Help_Tinnitus
+laisse-moi entendre le presentateur,Cmd.StreamingStart
+combien de charge reste-t-il,Cmd.BatteryLevel
+est-ce qu'ils doivent etre recharges maintenant,Cmd.BatteryLevel
+la sonnerie constante est exasperante,Help_Tinnitus
+quel est mon niveau de puissance,Cmd.BatteryLevel
+peux-tu me rappeler la reunion des professeurs de vendredi,reminders.add
+quelles sont les options de volume,Help_Volume
+je n'arrive pas a comprendre l'application,Help_Home
+"s'il vous plait, moins de volume s'il vous plait",Cmd.VolumeDecrease
+"s'il vous plait, jouez le dernier.",Cmd.ListenMessage
+montre-moi un guide d'aide pour mes accessoires,Help_Accessories
+ecoute ma tele,Cmd.StreamingStart
+aide avec le flux,Help_Accessories
+ou puis-je trouver la fonction de transcription ?,Help_Transcribe
+traduis ce que j'entends,Cmd.TranslationStart
+"s'il te plait, rappelle-moi d'acheter des billets de cinema pour vendredi soir",reminders.add
+"s'il vous plait, aidez-moi avec self check",Help_SelfCheck
+ou puis-je voir mon score de bien-etre,Help_ThriveScore
+comment puis-je appairer mes aides auditives a mon telephone ?,Help_Pairing
+ecoute mon message,Cmd.ListenMessage
+commencer a diffuser a distance vers mes aides auditives,Cmd.StreamingStart
+augmente le volume de mes aides auditives,Cmd.VolumeIncrease
+passer au programme de mon eglise,Cmd.MemoryChange
+comment rendre l'aide plus douce ?,Help_Volume
+ou est la transcription,Help_Transcribe
+comment baisser le volume de l'aide ?,Help_Volume
+pouvez-vous aider a recuperer la frequence cardiaque,Help_HeartRateRecovery
+comment appairer mes aides auditives,Help_Pairing
+commencer a enregistrer ma formation,Cmd.ActivityExercise
+expliquer les options de batterie pour mes aides auditives,Help_Battery
+peux-tu me le rappeler tous les jours,reminders.add
+comment deconnecter mon aide auditive ?,Help_Pairing
+combien de puissance me reste-t-il,Cmd.BatteryLevel
+montre-moi mon objectif de stand,Cmd.ActivityStand
+"peux-tu, je veux me connecter a mon audiologiste",Help_RemoteProgramming
+s'il vous plait montrez-moi de l'aide pour mes accessoires,Help_Accessories
+"s'il te plait, diminue le volume de mes aides auditives",Cmd.VolumeDecrease
+"s'il vous plait, aidez-moi avec les ajustements sonores des acouphenes dans mon aide auditive",Help_Tinnitus
+comment puis-je passer a une memoire differente sur mes aides auditives ?,Help_ChangingMemories
+capturer mon cours d'aerobic,Cmd.ActivityAerobics
+reserve-moi un vol,Default Fallback Intent
+je suis confus par tous ces ecrans,Help_Home
+veuillez changer pour vous entrainer,Cmd.MemoryChange
+j'ai egare mes aides auditives,Help_FindMyHearingAids
+ou est ma batterie,Cmd.BatteryLevel
+aide-moi a intercepter une alerte de chute,Help_FallAlert
+peux-tu eteindre le corps,Default Fallback Intent
+puis-je revenir en arriere apres avoir change de mode ?,Help_AppSettings
+hamburger maximum,Default Fallback Intent
+comment puis-je regler le volume sur la bonne aide ?,Help_Volume
+envoie l'audio de la television a mes aides auditives,Cmd.StreamingStart
+ou est mon score quotidien,Help_ThriveScore
+joue aux tibias kennedy.,Default Fallback Intent
+qu'est-ce que la fonctionnalite hearshare,Help_HearShare
+quand puis-je intercepter un texte d’alerte de chute ?,Help_FallAlert
+montre-moi le niveau de la pile de l'aide auditive,Cmd.BatteryLevel
+peux-tu me guider a travers cela ?,Default Fallback Intent
+ou ai-je laisse mon telephone,Cmd.FindMyPhone
+a quoi sert le changement de memoire,Help_ChangingMemories
+pouvez-vous definir le parametre sur le numero deux,Cmd.MemoryChange
+informations sur le score de bien-etre,Help_ThriveScore
+comment puis-je ameliorer mon taux de recuperation,Help_HeartRateRecovery
+aide-moi a comprendre le score thrive,Help_ThriveScore
+"s'il te plait, he, mark, d'accord.",Default Fallback Intent
+aide-moi a verifier si mes aides auditives fonctionnent,Help_SelfCheck
+comment ajuster mon masque d'acouphenes sur mon aide auditive droite ?,Help_Tinnitus
+peux-tu programme scolaire,Cmd.MemoryChange
+comment baisser le volume des aides auditives ?,Help_Volume
+quand dois-je arreter une alerte sms ?,Help_FallAlert
+veuillez definir un rappel pour tous les jours,reminders.add
+objectif d'exercice,Cmd.ActivityExercise
+etapes jusqu'a present aujourd'hui,Cmd.ActivityStep
+comment puis-je changer de programme sur mes aides auditives ?,Help_ChangingMemories
+comment saurai-je si j'ai recu de nouveaux parametres ?,Help_RemoteProgramming
+l'eau est-elle acceptable pour nettoyer mes aides auditives ?,Help_CleanCare
+je dois coupler mon aide auditive a mon telephone,Help_Pairing
+ou puis-je lancer une alerte manuelle ?,Help_FallAlert
+muet,Cmd.VolumeMute
+puis-je voir mon objectif de pas ?,Cmd.ActivityStep
+cingler quelqu'un,Cmd.SendMessage
+"s'il vous plait, parlez-moi de la fonction de rappels",Help_Reminder
+aide avec les ajustements du masque d'acouphenes sur mon aide auditive,Help_Tinnitus
+mon total s'il vous plait,Cmd.ActivityStand
+non.,Cmd.SendMessage - no
+quelle taille de batterie mes aides auditives utilisent-elles,Help_Battery
+pouvez-vous baisser le volume de votre aide auditive,Cmd.VolumeDecrease
+a quoi sert cet autocontrole ?,Help_SelfCheck
+comment puis-je regler le volume du volume des acouphenes dans l'aide ?,Help_Tinnitus
+montre-moi l'aide de l'assistant vocal,Help_VoiceAssistant
+peux-tu le baisser,Cmd.VolumeDecrease
+comment faire une amelioration de la parole dnn,Help_IntelliVoice
+peux-tu passer au culte,Cmd.MemoryChange
+comment puis-je personnaliser mes aides auditives gauches ?,Help_Customize
+guidez-moi sur le reglage fin a distance,Help_RemoteProgramming
+"tres bien, envoyez-le s'il vous plait.",Cmd.SendMessage - yes
+veuillez me montrer un apercu de l'application thrive,Help_WhatsNew
+a quelle frequence dois-je utiliser intellivoice ?,Help_IntelliVoice
+veuillez activer le streaming,Cmd.StreamingStart
+j'ai besoin de directions,Help_Home
+ou puis-je creer un rappel,Help_Reminder
+tout le monde marmonne,Cmd.VolumeIncrease
+expliquer comment personnaliser mes aides auditives,Help_Customize
+pouvez-vous guider la recuperation de la frequence cardiaque,Help_HeartRateRecovery
+peux-tu descendre,Default Fallback Intent
+veuillez connecter l'aide auditive gauche,Help_Pairing
+trouver ma bonne aide,Help_FindMyHearingAids
+nous attendons une mise a jour,Default Fallback Intent
+apporte-moi un peu de calme,Cmd.VolumeDecrease
+pouvez-vous des saucisses apres avoir utilise ma position,Default Fallback Intent
+qu'est-ce qui a change dans cette nouvelle version de l'application ?,Help_WhatsNew
+peux-tu passer la memoire au numero deux,Cmd.MemoryChange
+montre-moi mon objectif de course,Cmd.ActivityRun
+pouvez-vous activer le volume de votre aide auditive,Cmd.VolumeUnmute
+peux-tu decouvrir un telephone android,Cmd.FindMyPhone
+localiser mon autre aide auditive,Help_FindMyHearingAids
+verifier mon niveau de charge,Cmd.BatteryLevel
+puis-je activer les parametres par defaut sur les aides auditives,Help_DeviceSettings
+veuillez trouver mon autre aide auditive,Help_FindMyHearingAids
+peux-tu augmenter le volume,Cmd.VolumeUnmute
+quand dois-je utiliser l’autocontrole ?,Help_SelfCheck
+"s'il vous plait, changez pour foule",Cmd.MemoryChange
+"s'il vous plait, ne vous arretez pas maintenant.",Cmd.SendMessage - no
+aide a augmenter le volume a droite,Cmd.VolumeIncrease
+peux-tu me souvenir personnellement,Cmd.MemoryChange
+peux-tu bruler des calories aujourd'hui,Cmd.ActivityCalories
+pouvez-vous un nouveau rappel sur la forme physique,reminders.add
+"s'il te plait, passe a tous les jours",Cmd.MemoryChange
+aide-moi a comprendre l'interface,Help_Home
+aide avec score thrive,Help_ThriveScore
+peux-tu passer le programme a quatre,Cmd.MemoryChange
+pourquoi mon aide auditive ne charge-t-elle pas,Help_Battery
+comment puis-je voir ma frequence cardiaque,Help_HeartRate
+comment changer la langue de l'application,Help_AppSettings
+expliquer le son de soulagement pour les bourdonnements d'oreilles,Help_Tinnitus
+"peux-tu, je ne me souviens plus ou se trouve mon aide auditive gauche",Help_FindMyHearingAids
+"s'il vous plait, rappelez-moi la recherche en nutrition demain a 8 heures.",reminders.add
+ou puis-je voir mes battements par minute,Help_HeartRate
+comment puis-je regler le volume du stimulus acouphene dans mon aide auditive ?,Help_Tinnitus
+commencer un sms a mon partenaire,Cmd.SendMessage
+vont-ils survivre a la soiree ?,Cmd.BatteryLevel
+peux-tu tenir le coup,Default Fallback Intent
+je ne trouve pas mon telephone android,Cmd.FindMyPhone
+"s'il vous plait, changez de discours",Cmd.MemoryChange
+comment fonctionne la programmation a distance ?,Help_RemoteProgramming
+commencer a traduire en espagnol,Cmd.TranslationStart
+verifier mon total de pas,Cmd.ActivityStep
+l'application enregistre-t-elle ma frequence cardiaque,Help_HeartRate
+"s'il vous plait, aidez-moi a changer les souvenirs de mes aides auditives",Help_ChangingMemories
+muet en ce moment,Cmd.VolumeMute
+afficher mon tableau de bord de sante,Help_Health
+comment puis-je envoyer une demande d’aide a mon audiologiste ?,Help_RemoteProgramming
+peux-tu programmer une cuisine,Cmd.MemoryChange
+comment puis-je partager les informations sur mes aides auditives ?,Help_HearShare
+je veux parler a mon audiologiste,Help_RemoteProgramming
+diffuser sur,Cmd.StreamingStart
+quel est mon nombre de pas pour la semaine,Cmd.ActivityStep
+"pouvez-vous etre sur que vous devez consulter news max tv, la chaine d'information a la croissance la plus rapide en amerique ?",Default Fallback Intent
+rappelez-moi de recuperer mon ordonnance lundi a 17h.,reminders.add
+arrete de transmettre le son a mes oreilles,Cmd.StreamingStop
+"s'il te plait, baisse mes aides auditives",Cmd.VolumeDecrease
+ou est la fonction de balance croisee ?,Help_WiCROS
+charger ma configuration normale,Cmd.MemoryChange
+aide a ajuster les parametres des acouphenes,Help_Tinnitus
+mes aides auditives semblent minuscules,Help_DeviceSettings
+commencer a diffuser de l'audio,Cmd.StreamingStart
+"s'il vous plait, aidez-moi, je suis tombe et je ne peux pas me relever",Help_FallAlert
+ou puis-je trouver les donnees de recuperation,Help_HeartRateRecovery
+veuillez baisser le volume de 50 %,Cmd.VolumeDecrease
+pouvez-vous m'aider avec intellivoice,Help_IntelliVoice
+puis-je ajuster les parametres a mon gout,Help_Customize
+comment puis-je modifier les parametres d'alerte de chute ?,Help_AppSettings
+ou ai-je laisse mon aide auditive ?,Help_FindMyHearingAids
+l'humidite peut-elle endommager mes aides auditives,Help_CleanCare
+rappelle-moi de porter du vert a st. le jour de patrick,reminders.add
+montre-moi un apercu de l'application engage,Help_WhatsNew
+"s'il te plait, mon oreille gauche ne fonctionne pas bien",Help_SelfCheck
+donne-moi mon programme pour regarder la tele,Cmd.MemoryChange
+rappelle-moi que je dois faire ca,reminders.add
+volume maximal,Cmd.VolumeIncrease
+pourquoi mes aides auditives gauche ne fonctionnent-elles pas,Help_SelfCheck
+"s'il vous plait, je dois deconnecter mes aides auditives de mon telephone",Help_Pairing
+nombre de calories d'aujourd'hui,Cmd.ActivityCalories
+peux-tu commencer la traduction pour l'espagnol,Cmd.TranslationStart
+pouvez-vous me montrer un apercu de cette application thrive,Help_WhatsNew
+veuillez definir le programme sur le numero un,Cmd.MemoryChange
+je n'entends pas avec mon aide auditive droite,Help_SelfCheck
+comment puis-je acceder a la fonction de recuperation de la frequence cardiaque ?,Help_HeartRateRecovery
+puis-je utiliser du savon pour nettoyer mes aides auditives ?,Help_CleanCare
+commence a suivre cette promenade,Cmd.ActivityWalk
+comment entendre moins de vent avec mode edge,Help_EdgeMode
+la tele a vapeur,Cmd.StreamingStart
+mon aide auditive semble floue,Help_DeviceSettings
+je dois dissocier mes aides auditives de mon telephone,Help_Pairing
+"s'il te plait, je ne trouve pas mes aides auditives",Help_FindMyHearingAids
+est-ce que je suis reste debout une heure,Cmd.ActivityStand
+j'ai trop de son,Cmd.VolumeDecrease
+comment puis-je modifier le solde croise sur le recepteur ?,Help_WiCROS
+peux-tu me rappeler la video tous les jours a midi,reminders.add
+comment calculez-vous le score du genre ?,Help_ThriveScore
+peux-tu adidas bottes femme,Default Fallback Intent
+qu'est-ce que l'assistant vocal,Help_VoiceAssistant
+"s'il te plait, je marche et ils n'ont pas travaille",Default Fallback Intent
+qu'est-ce que la memoire,Help_ChangingMemories
+transformer la parole en texte,Cmd.TranscribeStart
+l'allemand est-il l'une des options de traduction,Help_Translate
+comment puis-je affiner mes preferences sonores,Help_Customize
+ou puis-je voir les mots prononces en temps reel ?,Help_Transcribe
+comment voir mes objectifs environnementaux hebdomadaires ?,Help_Health
+j'ai besoin d'aide pour associer mon aide auditive au telephone,Help_Pairing
+je m'entraine maintenant,Cmd.ActivityExercise
+baisser le volume,Cmd.VolumeDecrease
+combien d'heures de batterie reste-t-il,Cmd.BatteryLevel
+par ou dois-je commencer,Help_Home
+pouvez-vous localiser mon aide auditive,Help_FindMyHearingAids
+comment puis-je dissocier mes aides auditives de mon telephone ?,Help_Pairing
+ou puis-je gerer mes rappels,Help_Reminder
+beaucoup trop de volume pour moi,Cmd.VolumeDecrease
+reactiver l'audio,Cmd.VolumeUnmute
+pouvez-vous reduire le volume s'il vous plait,Cmd.VolumeDecrease
+aide mode edge,Help_EdgeMode
+enleve mes aides auditives en mode muet,Cmd.VolumeUnmute
+envoyer un sms,Cmd.SendMessage
+pouvez-vous faire fonctionner le programme,Cmd.MemoryChange
+"s'il te plait, joue le flux tv",Cmd.StreamingStart
+enregistrer mon jogging,Cmd.ActivityRun
+mes aides auditives sont-elles connectees au telephone ?,Help_Pairing
+comment activer le mode masque,Help_MaskMode
+je veux changer de memoire,Cmd.MemoryChange
+niveau de batterie,Cmd.BatteryLevel
+est-ce que tu peux faire du jogging depuis longtemps ?,Cmd.ActivityRun
+aidez-moi a corriger mes parametres d'aide,Help_DeviceSettings
+commence a ecrire le discours,Cmd.TranscribeStart
+"s'il vous plait, aidez-moi a intercepter une alerte de chute",Help_FallAlert
+activer la diffusion en continu,Cmd.StreamingStart
+aide a personnaliser mes parametres,Help_Customize
+comment puis-je le rendre plus silencieux ?,Help_Volume
+comment puis-je demarrer le son de soulagement des acouphenes,Help_Tinnitus
+"peux-tu, les braves, marquer",Default Fallback Intent
+fini le streaming,Cmd.StreamingStop
+puis-je laisser un mot a quelqu'un ?,Cmd.SendMessage
+"peux-tu, tu peux toujours ajouter",Default Fallback Intent
+peux-tu me rappeler pour aujourd'hui,reminders.add
+peux-tu atteindre un objectif d'aerobic,Cmd.ActivityAerobics
+peux-tu me montrer mon objectif de pas,Cmd.ActivityStep
+peux-tu trouver mon appareil auditif,Cmd.FindMyPhone
+qu'y a-t-il dans mode edge ?,Help_EdgeMode
+quoi de neuf dans cette mise a jour,Help_WhatsNew
+aide-moi a comprendre ce qu'ils disent dans une autre langue,Cmd.TranslationStart
+comment partager le son de mon aide auditive,Help_HearShare
+guide-moi sur l'utilisation des rappels,Help_Reminder
+"s'il te plait, salut, je ne le sais pas",Default Fallback Intent
+"s'il vous plait, aidez-moi avec les changements de volume sur mes aides auditives",Help_Volume
+demarrer le flux audio,Cmd.StreamingStart
+"s'il te plait, ce sera notre petit mec porteur d'anneaux",Default Fallback Intent
+"s'il te plait, je n'entends meme pas ca",Default Fallback Intent
+merci de me rappeler les examens tous les vendredis a 19h.,reminders.add
+comment l'application peut-elle m'aider a trouver mes aides auditives,Help_FindMyHearingAids
+j'ai besoin d'envoyer un sms a quelqu'un,Cmd.SendMessage
+vais-je entendre ce qui est transcrit ?,Help_Transcribe
+peux-tu regler le programme sur trois,Cmd.MemoryChange
+peux-tu maximiser le volume,Cmd.VolumeIncrease
+redonne-moi l'audio,Cmd.VolumeUnmute
+combien d'etapes encore pour atteindre mon objectif ?,Cmd.ActivityStep
+quel pourcentage de batterie reste-t-il,Cmd.BatteryLevel
+rappelle-moi dans un moment,reminders.add
+baisser le niveau sonore,Cmd.VolumeDecrease
+comment regler mon masqueur de bruit sur la bonne aide ?,Help_Tinnitus
+ou est l'aide pour self check,Help_SelfCheck
+veuillez localiser mon aide auditive,Help_FindMyHearingAids
+qu'y a-t-il sur l'ecran de sante,Help_Health
+comment puis-je arreter de diffuser depuis mon accessoire ?,Help_Accessories
+quelle est la facon de changer le volume,Help_Volume
+pouvez-vous consommer les calories aujourd'hui,Cmd.ActivityCalories
+controler le volume de chaque aide individuellement,Help_Volume
+"pouvez-vous, je n'aime pas la fonction de double pression. comment puis-je l'eteindre ?",Help_DeviceSettings
+je voudrais transmettre un message,Cmd.SendMessage
+"s'il te plait, oui, c'est ce que je veux.",Cmd.SendMessage - yes
+comment fonctionne intellivoice ?,Help_IntelliVoice
+combien de temps ai-je marche.,Cmd.ActivityWalk
+comment puis-je ameliorer mon score d'engagement ?,Help_ThriveScore
+peux-tu changer de theatre,Cmd.MemoryChange
+veuillez passer le parametre a deux,Cmd.MemoryChange
+comment fonctionne la connexion aux soins a distance,Help_HearingCareAnywhereConnect
+"arrete le silence, je veux du son",Cmd.VolumeUnmute
+aide au suivi de la frequence cardiaque,Help_HeartRate
+explique-moi les bases,Help_Home
+quoi de neuf dans cette application prospere ?,Help_WhatsNew
+que fait cette voix intelligente ?,Help_IntelliVoice
+pouvez-vous m'aider avec le micro a distance,Help_Accessories
+comment saurai-je quand l’audioprothesiste a ajuste mon aide auditive ?,Help_RemoteProgramming
+montre-moi le guide d'utilisation de traduction,Help_Translate
+comment puis-je augmenter mon score de type ?,Help_ThriveScore
+peux-tu passer la memoire au numero un,Cmd.MemoryChange
+peux-tu me montrer mon objectif de course,Cmd.ActivityRun
+desactiver le mode masque,Help_MaskMode
+transcription ouverte,Cmd.TranscribeStart
+a quelle frequence dois-je utiliser l’autocontrole ?,Help_SelfCheck
+pourrais-tu envoyer un message,Cmd.SendMessage
+veuillez passer a la memoire 1,Cmd.MemoryChange
+"s'il te plait, rappelle-moi de renouveler l'ordonnance demain",reminders.add
+liste ce que tu peux faire pour m'aider,Help_Home
+a quoi sert la fonction de transcription,Help_Transcribe
+quelle est la qualite de ma recuperation de frequence cardiaque,Help_HeartRateRecovery
+combien de langues sont traduites ?,Help_Translate
+self check aide s'il te plait,Help_SelfCheck
+pouvez-vous nous aider a changer de souvenirs a l'aide de l'application thrive,Help_ChangingMemories
+comment puis-je mettre cette bonne aide auditive ?,Help_InsertDevice
+comment geolocaliser mon programme actuel ?,Help_MemoryOptions
+ou est la page d'accueil,Help_Home
+"s'il te plait, rappelle-moi de laver la voiture dans 4 heures",reminders.add
+veuillez localiser mon autre aide,Help_FindMyHearingAids
+envoyer un sms a cette personne,Cmd.SendMessage
+expliquer hearshare,Help_HearShare
+trouver mon materiel,Help_FindMyHearingAids
+comment puis-je executer un self check,Help_SelfCheck
+suivre mes pas,Cmd.ActivityStep
+envoie-le tel quel,Cmd.SendMessage - yes
+laisse-moi entendre ma tele,Cmd.StreamingStart
+je sais que la nouvelle-orleans le ramene,Default Fallback Intent
+comment recharger mon appareil auditif ric,Help_Battery
+qu'est-ce que assistant thrive,Help_VoiceAssistant
+enregistrer une promenade,Cmd.ActivityWalk
+"s'il te plait, fais-le plus fort",Cmd.VolumeIncrease
+"s'il vous plait, aidez-nous a changer de programme a l'aide de l'application",Help_ChangingMemories
+peux-tu ecouter le presentateur,Cmd.StreamingStart
+mon audioprothesiste peut-il regler les aides a distance ?,Help_RemoteProgramming
+comment reconnecter mes aides auditives,Help_Pairing
+comment puis-je modifier mes objectifs de pas de mensuels a quotidiens ?,Help_Health
+"s'il te plait, rappelle-moi d'aller courir a 6 heures du matin.",reminders.add
+je dois envoyer un message vocal,Cmd.SendMessage
+comment puis-je augmenter le ton grave ?,Help_Customize
+faire retentir une alerte sur mon telephone,Cmd.FindMyPhone
+ajouter un rappel pour moi,reminders.add
+reinitialiser les aides auditives,Default Fallback Intent
+expliquer le couplage bluetooth,Help_Pairing
+j'ai perdu la memoire pour les restaurants et les reunions,Help_MemoryOptions
+je dois coupler mes aides auditives a mon telephone,Help_Pairing
+mon aide auditive peut-elle etre configuree simultanement sur un iphone et un ipad,Help_Pairing
+veuillez diagnostiquer mes aides auditives,Help_SelfCheck
+peux-tu eteindre les prises source,Default Fallback Intent
+peux-tu passer au programme deux,Cmd.MemoryChange
+changer le programme de ce lieu,Cmd.MemoryChange
+"s'il te plait, j'ai un telephone chica si tu peux lui trouver quelque chose de bien",Default Fallback Intent
+fais plaisir aux hommes de l'ombre sur une planete sombre,Default Fallback Intent
+mettre fin a la diffusion depuis le televiseur,Cmd.StreamingStop
+le son n'est pas assez fort,Cmd.VolumeIncrease
+pouvez-vous ajouter un rappel pour une reunion,reminders.add
+peux-tu rejouer mon message ?,Cmd.ListenMessage
+peux-tu me rappeler vendredi,reminders.add
+"peux-tu, il faisait noir dans le magasin",Default Fallback Intent
+veuillez ajouter un rappel pour la reunion,reminders.add
+n'oubliez pas de laver la voiture,reminders.add
+puis-je attribuer un emplacement a ma memoire ?,Help_MemoryOptions
+de combien d’etapes ai-je besoin aujourd’hui ?,Cmd.ActivityStep
+expliquer comment inserer mes aides auditives,Help_InsertDevice
+puis-je nettoyer le pare-cerumen,Help_CleanCare
+comment puis-je demarrer la diffusion depuis mon micro distant ?,Help_Accessories
+veuillez regler le parametre sur le numero quatre,Cmd.MemoryChange
+peux-tu me montrer mon historique,Cmd.ActivityStand
+comment verifier l'etat des aides auditives,Help_SelfCheck
+commencer une seance d'aerobic,Cmd.ActivityAerobics
+j'ai besoin d'aide pour associer mon aide auditive,Help_Pairing
+puis-je ajuster le mode masque,Help_MaskMode
+combien de temps dois-je encore courir aujourd'hui ?,Cmd.ActivityRun
+diffuser mon audition a quelqu'un d'autre,Help_HearShare
+celui-la est fini,reminders.complete
+puis-je associer un emplacement a une memoire ?,Help_MemoryOptions
+comment ajouter ou supprimer un programme,Help_MemoryOptions
+desole pas de probleme,Default Fallback Intent
+je ne trouve pas mon autre aide auditive,Help_FindMyHearingAids
+"je ne t'entends pas, mon aide auditive gauche n'apparait pas sur mon",Default Fallback Intent
+comment supprimer des accessoires de mon application ?,Help_Accessories
+"s'il vous plait, suis-je proche de mon objectif cycliste ?",Cmd.ActivityCycle
+aide aux ajustements du masque d'acouphenes,Help_Tinnitus
+tout arrive trop chaud,Cmd.VolumeDecrease
+je dois deconnecter mon aide auditive de mon telephone,Help_Pairing
+dis-moi quel est mon objectif de pas,Cmd.ActivityStep
+puis-je desactiver les acouphenes,Help_Tinnitus
+etapes de calories,Cmd.ActivityStep
+comment l'engagement a-t-il change ?,Help_WhatsNew
+peux-tu me rappeler d'acheter du lait mardi a 20h.,reminders.add
+comment creer mon propre programme ?,Help_MemoryOptions
+cingler mes aides auditives,Help_FindMyHearingAids
+ecoute encore.,Cmd.ListenMessage
+peux-tu associer mes aides auditives,Help_Pairing
+"s'il vous plait, le nombre de calories d'aujourd'hui",Cmd.ActivityCalories
+comment regler mon mini micro deporte ?,Help_Accessories
+expliquer les caracteristiques des acouphenes,Help_Tinnitus
+"s'il vous plait, l'alerte de chute ne fonctionne pas",Help_FallAlert
+j'ai besoin de contacter quelqu'un rapidement,Cmd.SendMessage
+peux-tu commencer la transcription,Cmd.TranscribeStart
+comment puis-je passer a un autre programme d'aide ?,Help_ChangingMemories
+aide a augmenter le volume a gauche,Cmd.VolumeIncrease
+peux-tu passer au silence,Cmd.MemoryChange
+comment puis-je enlever la cire de mes aides auditives,Help_CleanCare
+comment dois-je envoyer un texte d'alerte manuelle ?,Help_FallAlert
+pouvez-vous regler la parole,Cmd.MemoryChange
+volume sur aide droite,Cmd.VolumeUnmute
+envoyer une mise a jour rapide,Cmd.SendMessage
+comment diminuer le volume des aides auditives ?,Help_Volume
+volume coupe aide gauche,Cmd.VolumeMute
+veuillez regler la memoire sur trois,Cmd.MemoryChange
+"s'il te plait, augmente le volume de mon aide auditive droite",Cmd.VolumeIncrease
+diffuser du son,Cmd.StreamingStart
+"s'il te plait, rappelle-moi de payer ma facture de carte de credit",reminders.add
+j'ai besoin de moins de volume,Cmd.VolumeDecrease
+joue le texte que je viens de recevoir,Cmd.ListenMessage
+"oui, s'il te plait, envoie",Cmd.SendMessage - yes
+"s'il te plait, ne crie pas assez fort",Default Fallback Intent
+comment puis-je augmenter le volume de mon aide auditive ?,Help_Volume
+jouer mon dernier enregistrement.,Cmd.ListenMessage
+regler mes aides auditives pour une fete bruyante,Cmd.MemoryChange
+coupe la connexion tv a mes aides auditives,Cmd.StreamingStop
+comment nettoyer mes aides auditives,Help_CleanCare
+peux-tu demarrer le flux tv,Cmd.StreamingStart
+montre-moi un apercu de cette application d'engagement,Help_WhatsNew
+comment fonctionnent les rappels,Help_Reminder
+"peux-tu, c'est un week-end. dites a tout le monde comment les jolies mutuelles personnalisent votre assurance auto.",Default Fallback Intent
+comment puis-je faire une demonstration de mes indicateurs d'alerte de chute ?,Help_FallAlert
+aide a la configuration de l'application,Help_AppSettings
+mes aides auditives sont-elles suffisamment chargees,Cmd.BatteryLevel
+aide pour passer d'un programme a l'autre,Help_ChangingMemories
+comment cros envoie-t-il le son a ma bonne oreille,Help_WiCROS
+pouvez-vous reduire le volume de l'aide auditive,Cmd.VolumeDecrease
+"s'il te plait, je ne trouve pas mon aide auditive",Help_FindMyHearingAids
+pouvez-vous localiser,Default Fallback Intent
+expliquer les options d'accessoires,Help_Accessories
+"s'il te plait, localise ma femme",Default Fallback Intent
+"s'il te plait, change pour adorer",Cmd.MemoryChange
+puis-je utiliser la teleecoute,Help_HearingCareAnywhereConnect
+comment savoir quand le professionnel a ajuste l'aide ?,Help_RemoteProgramming
+quand dois-je utiliser la voix intelligente ?,Help_IntelliVoice
+"non, laisse tomber",Cmd.SendMessage - no
+peux-tu calories faire du velo,Cmd.ActivityCycle
+s'il vous plait dernier rappel complete.,reminders.complete
+"s'il te plait, retourne a un niveau eleve",Default Fallback Intent
+pouvez-vous certainement l'envoyer.,Cmd.SendMessage - yes
+completer mon rappel.,reminders.complete
+guide-moi vers le chercheur d'aide,Help_FindMyHearingAids
+comment puis-je empecher mon aide auditive de tomber,Help_InsertDevice
+"s'il vous plait, augmentez le volume de l'aide gauche",Cmd.VolumeIncrease
+volume de l'aide auditive coupe,Cmd.VolumeMute
+peux-tu vouloir avancer ouais je le ferai,Default Fallback Intent
+envoyer un texto,Cmd.SendMessage
+comment puis-je envoyer un texte d'alerte manuelle ?,Help_FallAlert
+previens-moi le moment venu,reminders.add
+"s'il te plait, ai-je fait du velo pendant une heure ?",Cmd.ActivityCycle
+comment puis-je modifier le volume de mes aides auditives ?,Help_Volume
+veuillez changer le programme en deux,Cmd.MemoryChange
+comment puis-je desactiver la sensibilite du double tapotement ?,Help_DeviceSettings
+comment puis-je verifier mes aides auditives pour m’assurer qu’elles fonctionnent correctement ?,Help_SelfCheck
+aide a la recuperation de la frequence cardiaque,Help_HeartRateRecovery
+ou ai-je mis mon autre aide ?,Help_FindMyHearingAids
+comment charger ma batterie ?,Help_Battery
+pouvez-vous configurer un rappel pour prendre des medicaments a 13 heures ?,reminders.add
+a quoi sert l'outil contre les acouphenes,Help_Tinnitus
+comment afficher l'application sans aide ?,Help_DemoMode
+comment regler le bruit de mes acouphenes ?,Help_Tinnitus
+localiser mon aide auditive droite,Help_FindMyHearingAids
+aide pour appairer les aides avec le telephone,Help_Pairing
+entretien de mes aides auditives,Help_CleanCare
+pouvez-vous l'entendre a nouveau.,Cmd.ListenMessage
+pourquoi mon aide auditive n'est-elle pas sur mon oreille droite,Help_SelfCheck
+aide pour la tele ici,Help_HearingCareAnywhereConnect
+qu'est-ce qu'il y a un bon restaurant a proximite,Default Fallback Intent
+quand puis-je envoyer une alerte manuelle ?,Help_FallAlert
+comment mettre mes aides auditives,Help_InsertDevice
+pourquoi mon aide auditive gauche n'est-elle pas couplee,Help_Pairing
+j'ai besoin de conseils,Help_Home
+enregistrer ma seance d'aerobic,Cmd.ActivityAerobics
+peux-tu me rappeler la recherche en nutrition demain a 8 heures.,reminders.add
+couper le son diffuse,Cmd.StreamingStop
+"peux-tu, mon autre aide manque",Help_FindMyHearingAids
+pouvez-vous que mon aide auditive ressemble a celle de la video ?,Help_InsertDevice
+comment utiliser l'outil de traduction,Help_Translate
+"s'il vous plait, les aides auditives transcrivent l'aide",Help_Transcribe
+reparer l'audio de mes aides auditives,Help_DeviceSettings
+est-ce que la transcription sauvegarde mes conversations ?,Help_Transcribe
+comment puis-je changer mon contact telephonique,Help_FallAlert
+peux-tu commencer a enregistrer,Cmd.TranscribeStart
+partager mon actualite avec un contact par sms,Cmd.SendMessage
+qui est le premier ministre de l'inde ?,Default Fallback Intent
+peux-tu continuer.,Cmd.SendMessage - yes
+rappelle-moi de prendre des medicaments aujourd'hui dans une minute,reminders.add
+j'ai besoin d'un peu de calme,Cmd.VolumeDecrease
+comment ajuster mon masque d'acouphenes sur mes aides auditives ?,Help_Tinnitus
+"pouvez-vous non, non, envoyer.",Cmd.SendMessage - no
+rappel termine.,reminders.complete
+"s'il te plait, mon volume est trop faible",Cmd.VolumeIncrease
+"c'est mal, ne l'envoie pas",Cmd.SendMessage - no
+comment fonctionne self check ?,Help_SelfCheck
+comment puis-je utiliser le streamer tv,Help_Accessories
+"s'il te plait, laisse-moi entendre le microphone",Cmd.StreamingStart
+peux-tu telephoner a un ami,Default Fallback Intent
+comment puis-je enregistrer mes parametres en ligne,Help_HearingCareAnywhereConnect
+mes aides auditives peuvent-elles utiliser l'amelioration de la parole dnn,Help_IntelliVoice
+comment fonctionnent les reglages du volume,Help_Volume
+je veux que ce soit plus fort,Cmd.VolumeIncrease
+comment se connecter pour un rendez-vous a distance,Help_HearingCareAnywhereConnect
+c'est moins le putain de truc,Default Fallback Intent
+comment changer le nom de mon micro distant ?,Help_Accessories
+s'il vous plait bottes adidas femme,Default Fallback Intent
+peux-tu compter les calories d'aujourd'hui,Cmd.ActivityCalories
+peux-tu non.,Cmd.SendMessage - no
+utiliser le streamer audio,Cmd.StreamingStart
+mes aides auditives ne restent pas connectees a mon telephone,Help_Pairing
+veuillez passer au programme un,Cmd.MemoryChange
+"non, n'envoie pas",Cmd.SendMessage - no
+peux-tu chercher sur iphone,Cmd.FindMyPhone
+comment puis-je desactiver les aides auditives ?,Help_Volume
+augmenter le niveau d'ecoute,Cmd.VolumeIncrease
+le son me submerge,Cmd.VolumeDecrease
+telephone android manquant,Cmd.FindMyPhone
+aider a comprendre la transcription,Help_Transcribe
+pouvez-vous definir un rappel pour boire de l'eau aujourd'hui,reminders.add
+faire baisser le niveau,Cmd.VolumeDecrease
+comment utiliser la fonction vocale intelligente ?,Help_IntelliVoice
+comment puis-je ameliorer mon score ipro ?,Help_ThriveScore
+montre-moi mon objectif de marche ?,Cmd.ActivityWalk
+peux-tu sonner,Cmd.VolumeUnmute
+peux-tu me rappeler d'allumer les lumieres a 20 heures.,reminders.add
+je me dirige vers une reunion,Cmd.MemoryChange
+ecouter la tele,Cmd.StreamingStart
+comment puis-je obtenir l'aide pour rester,Help_InsertDevice
+comment puis-je demander un reglage fin de nouveaux parametres ?,Help_RemoteProgramming
+s'il vous plait sizzlers inities par cham appuyez ici pour les informer que vous avez recu cette commande,Default Fallback Intent
+peux-tu m'aider a changer les souvenirs,Help_ChangingMemories
+pouvez-vous m'aider a ajuster le stimulus sonore sur mes aides auditives,Help_Tinnitus
+"s'il te plait, va en enfer",Default Fallback Intent
+pouvez-vous self check aider,Help_SelfCheck
+"s'il te plait, mets le numero trois",Cmd.MemoryChange
+et si j'ai un x lors de l'auto-controle ?,Help_SelfCheck
+mettre tout au silence,Cmd.VolumeMute
+peux-tu chercher mes aides auditives,Help_FindMyHearingAids
+ecoute le micro,Cmd.StreamingStart
+comment nettoyer les aides auditives,Help_CleanCare
+activer l'aide auditive droite,Cmd.VolumeUnmute
+afficher mon nombre de pas,Cmd.ActivityStep
+comment utiliser l'assistant google avec mes aides auditives,Help_VoiceAssistant
+comment puis-je passer a une memoire differente sur mon aide auditive ?,Help_ChangingMemories
+pouvez-vous reduire le volume de l'aide droite,Cmd.VolumeMute
+pourquoi ma gauche est tres faible et ne fonctionne pas,Help_SelfCheck
+laisse-moi l'entendre.,Cmd.ListenMessage
+comment savoir si une alerte a ete annulee ?,Help_FallAlert
+enregistrer ma course terminee,Cmd.ActivityRun
+"s'il te plait, passe a la television",Cmd.MemoryChange
+montre-moi comment ca marche,Help_Home
+commencer a suivre mon exercice,Cmd.ActivityExercise
+localiser mes aides auditives pour moi,Help_FindMyHearingAids
+souviens-toi de ca pour moi,reminders.add
+pouvez-vous regler automatiquement,Cmd.MemoryChange
+"s'il te plait, rappelle-moi d'acheter du lait mardi a 20h.",reminders.add
+demarrer une seance d'exercice,Cmd.ActivityExercise
+"s'il te plait, je n'ai pas une memoire normale",Help_MemoryOptions
+amson et la nouvelle-zelande,Default Fallback Intent
+ou est le numero de serie,Help_DeviceSettings
+"s'il te plait, j'ai perdu mon appareil auditif",Help_FindMyHearingAids
+est-ce qu'il reste assez d'energie,Cmd.BatteryLevel
+comment configurer les notifications du calendrier ?,Help_DeviceSettings
+combien d'heures de repos aujourd'hui,Cmd.ActivityStand
+afficher mon evaluation quotidienne du bien-etre,Help_ThriveScore
+les sons ne sont pas assez clairs,Cmd.VolumeIncrease
+est-ce que je suis reste debout une heure ?,Cmd.ActivityStand
+comment lier un emplacement a ma memoire ?,Help_MemoryOptions
+peux-tu me rappeler de recuperer mon ordonnance dimanche a 17h.,reminders.add
+pouvez-vous regler le rappel a 17 heures ?,reminders.add
+afficher la tendance de recuperation de ma frequence cardiaque,Help_HeartRateRecovery
+comment fonctionne la traduction ?,Help_Translate
+definir le volume sonore independant par cote,Help_Volume
+donne-moi un peu de calme,Cmd.VolumeDecrease
+peux-tu seulement si ce n'est pas un probleme pour cdl,Default Fallback Intent
+ou est la voix intelligente ?,Help_IntelliVoice
+"s'il te plait, passe a la musique",Cmd.MemoryChange
+peux-tu cuisiner des cotes de porc sur le barbecue,Default Fallback Intent
+peux-tu me parler de la langue anglaise,Default Fallback Intent
+pouvez-vous associer mes aides auditives a l'application thrive,Help_Pairing
+comment geolocaliser ma memoire ?,Help_MemoryOptions
+commencer a diffuser la television sur mes aides auditives,Cmd.StreamingStart
+terminer mon rappel.,reminders.complete
+peux-tu trouver un telephone android,Cmd.FindMyPhone
+comment puis-je demander a s'epanouir pour faire des choses pour moi,Help_VoiceAssistant
+peux-tu definir un programme pour l'ecole,Cmd.MemoryChange
+montre-moi l'aide de assistant thrive,Help_VoiceAssistant
+"je ne trouve pas mon combine, sonne",Cmd.FindMyPhone
+expliquer les cros sans fil,Help_WiCROS
+les gens semblent etouffes et faibles,Cmd.VolumeIncrease
+changer le profil actif,Cmd.MemoryChange
+puis-je suivre la frequence cardiaque pendant l'exercice,Help_HeartRate
+peux-tu changer la memoire en numero un,Cmd.MemoryChange
+peux-tu chercher le telephone,Cmd.FindMyPhone
+"s'il te plait, eteint mon aide auditive droite",Cmd.VolumeMute
+peux-tu m'aider a retrouver mon iphone,Cmd.FindMyPhone
+merci de rappeler les rendez-vous d'affaires tous les lundis a 16h.,reminders.add
+comment utiliser l'amelioration de la parole dnn,Help_IntelliVoice
+ouvrir mon tableau de bord bien-etre,Help_Health
+comment puis-je diffuser mon aide auditive gauche,Help_Accessories
+pouvez-vous diminuer le volume de mes aides auditives,Cmd.VolumeDecrease
+je dois connecter les aides auditives au telephone,Help_Pairing
+expliquer la fonctionnalite du mode masque,Help_MaskMode
+s'il vous plait dites-moi quel est mon objectif de stand,Cmd.ActivityStand
+pouvez-vous charger la batterie restante,Cmd.BatteryLevel
+comment puis-je regler mon masque d'acouphenes dans l'aide auditive ?,Help_Tinnitus
+veuillez passer aux acouphenes,Cmd.MemoryChange
+comment quitter le mode demo,Help_DemoMode
+peux-tu passer a la musique,Cmd.MemoryChange
+guide d'utilisation du rappel,Help_Reminder
+envoyer un mot a ma famille,Cmd.SendMessage
+"peux-tu, elle reste avec mon telephone",Default Fallback Intent
+"s'il vous plait, je ne me souviens plus ou se trouve mon aide auditive gauche",Help_FindMyHearingAids
+que puis-je demander au assistant thrive ?,Help_VoiceAssistant
+"arrete, ce n'est pas ce que je voulais dire",Cmd.SendMessage - no
+expliquer hearing care anywhere,Help_HearingCareAnywhereConnect
+"s'il te plait, passe au silence",Cmd.MemoryChange
+s'il te plait baisse le volume,Cmd.VolumeDecrease
+pouvez-vous definir un rappel concernant le lavage de la voiture,reminders.add
+"peux-tu non, ce n'est pas bien.",Cmd.SendMessage - no
+completez ce rappel.,reminders.complete
+guide-moi a travers l'interface,Help_Home
+aider a comprendre le mode masque,Help_MaskMode
+"s'il te plait, je me demande si je l'ai mis ici quelque part",Default Fallback Intent
+comment baisser le volume d'un seul cote ?,Help_Volume
+peux-tu regler la television,Cmd.MemoryChange
+comment puis-je apprendre la guitare,Default Fallback Intent
+combien de calories ai-je utilise en faisant de l’aerobic ?,Cmd.ActivityAerobics
+envoyer un message a ma famille,Cmd.SendMessage
+montrer mon activite de marche,Cmd.ActivityWalk
+comment puis-je effectuer une amelioration de la parole dnn ?,Help_IntelliVoice
+montre-moi les fonctionnalites de l'application,Help_Home
+le son est trop fort,Cmd.VolumeDecrease
+combien de temps avant d'atteindre mon objectif d'aerobic,Cmd.ActivityAerobics
+transmettre l'audio a mes appareils auditifs,Cmd.StreamingStart
+peux-tu passer la memoire a trois,Cmd.MemoryChange
+j'ai besoin d'aide pour changer de programme,Help_ChangingMemories
+veuillez regler le programme sur la parole,Cmd.MemoryChange
+"peux-tu, je ne me souviens plus ou se trouvent mes aides auditives",Help_FindMyHearingAids
+desactiver le mode sourdine,Cmd.VolumeUnmute
+"ils ne parlent pas anglais, aide-moi a les comprendre",Cmd.TranslationStart
+comment puis-je ajuster mon masque d'acouphenes dans mes aides auditives ?,Help_Tinnitus
+"s'il te plait, rappelle-moi aujourd'hui",reminders.add
+capturez ceci comme rappel,reminders.add
+comment puis-je regler le volume du bruit des acouphenes dans mes aides auditives ?,Help_Tinnitus
+rappelez-moi de recuperer mon ordonnance jeudi a 17h.,reminders.add
+comment faire une voix intelligente,Help_IntelliVoice
+veuillez regler la memoire sur le numero deux,Cmd.MemoryChange
+allumer le volume de mon aide auditive droite,Cmd.VolumeUnmute
+commencer un message,Cmd.SendMessage
+parametres du mode masque,Help_MaskMode
+"c'est vrai, envoie celui-la",Cmd.SendMessage - yes
+"s'il te plait, rappelle-moi demain a 9 heures.",reminders.add
+peux-tu ouvrir la transcription,Cmd.TranscribeStart
+dois-je marcher plus loin pour atteindre mon objectif ?,Cmd.ActivityWalk
+comment puis-je creer un nouveau programme,Help_MemoryOptions
+combien de batterie,Cmd.BatteryLevel
+comment mon prestataire regle-t-il mes aides auditives a distance,Help_RemoteProgramming
+comment mesurer ma frequence cardiaque ?,Help_HeartRate
+enregistre mon trajet pour moi,Cmd.ActivityCycle
+joue qui m'a envoye un message,Cmd.ListenMessage
+ou est la maison,Help_Home
+rendre les aides auditives plus silencieuses,Cmd.VolumeDecrease
+"s'il te plait et voici mon coeur, il est plus proche de toi",Default Fallback Intent
+comment partager mes informations auditives avec mon fils ?,Help_HearShare
+tu ne peux pas t'arreter.,Cmd.SendMessage - no
+"s'il te plait, montre-moi combien de temps je suis reste debout",Cmd.ActivityStand
+comment utiliser l'application sans aides auditives connectees ?,Help_DemoMode
+tres bien.,Cmd.SendMessage - yes
+laisse le son revenir,Cmd.VolumeUnmute
+expliquer comment la frequence cardiaque est mesuree,Help_HeartRate
+c'est beaucoup trop fort,Cmd.VolumeDecrease
+rappelle-moi du lundi au mercredi,reminders.add
+comment savoir ou se trouve mon aide auditive ?,Help_FindMyHearingAids
+pourrais-tu augmenter le volume,Cmd.VolumeIncrease
+combien de souvenirs puis-je avoir,Help_MemoryOptions
+augmentez-le un peu,Cmd.VolumeIncrease
+guide-moi vers mes donnees de bien-etre,Help_Health
+peux-tu memoriser le numero deux,Cmd.MemoryChange
+peux-tu me rappeler de recuperer mon ordonnance jeudi a 17h.,reminders.add
+"s'il te plait, rappelle-moi de renouveler mon ordonnance demain apres-midi",reminders.add
+dis-moi l'etat de la batterie,Cmd.BatteryLevel
+pourquoi ne puis-je pas faire passer mes aides auditives sur mon telephone pour passer par mes aides auditives,Help_Pairing
+"s'il te plait, mets le numero quatre",Cmd.MemoryChange
+comment puis-je savoir si j'ai recu de nouveaux reglages pour mon aide auditive ?,Help_RemoteProgramming
+comment utiliser hearing care anywhere,Help_HearingCareAnywhereConnect
+montre-moi mon resume d'exercice,Cmd.ActivityExercise
+quel est mon nombre d'aerobics cette semaine,Cmd.ActivityAerobics
+est-ce que la transcription garde mes conversations,Help_Transcribe
+veuillez definir un rappel pour renouveler l'ordonnance demain,reminders.add
+enregistrer ma seance d'exercice,Cmd.ActivityExercise
+veuillez regler le programme sur trois,Cmd.MemoryChange
+montre-moi mes statistiques d'aerobic,Cmd.ActivityAerobics
+peux-tu me montrer mon objectif de jogging,Cmd.ActivityRun
+comment changer le nom du micro distant ?,Help_Accessories
+"s'il vous plait, oui, s'il vous plait, partez.",Cmd.SendMessage - yes
+"s'il vous plait, aidez-moi avec cet assistant",Help_VoiceAssistant
+acheminer l'audio de la television vers mes aides auditives,Cmd.StreamingStart
+que puis-je faire ici ?,Help_Home
+je peux a peine comprendre ce que les gens disent,Cmd.VolumeIncrease
+acheminer le son vers mes aides auditives,Cmd.StreamingStart
+aide-moi a trouver mon autre aide auditive,Help_FindMyHearingAids
+"peux-tu, je veux creer un nouveau programme ?",Help_MemoryOptions
+aider avec le gentil score,Help_ThriveScore
+enregistrer quelque chose pour une autre personne,Cmd.SendMessage
+j'ai perdu la connexion avec mes aides auditives,Help_Pairing
+"s'il te plait, perfectionne comment ca va avec toi",Default Fallback Intent
+montre-moi ou est mon iphone,Cmd.FindMyPhone
+"peux-tu, j'ai tout oublie a propos du look, merci de me l'avoir rappele",Default Fallback Intent
+"s'il vous plait, ce rappel est complet",reminders.complete
+laissez un membre de la famille ecouter,Help_HearShare
+"s'il te plait, rappelle-moi de boire de l'eau dans 5 minutes",reminders.add
+"s'il te plait, pas si fort",Cmd.VolumeDecrease
+comment regler mon masque de bruit dans l'aide gauche ?,Help_Tinnitus
+arreter l'enregistrement,Cmd.TranscribeStart
+commencer l'enregistrement,Cmd.TranscribeStart
+peux-tu me montrer combien de temps je suis reste debout,Cmd.ActivityStand
+jeudi,Default Fallback Intent
+"s'il te plait, montre-moi mon objectif de course",Cmd.ActivityRun
+comment puis-je activer le mode masque pour les masques,Help_MaskMode
+creer un rappel pour payer la facture,reminders.add
+terminer mon dernier rappel,reminders.complete
+mon aide auditive est-elle connectee au telephone ?,Help_Pairing
+rappelez-moi de recuperer mon ordonnance samedi a 17h.,reminders.add
+pouvez-vous m'aider a changer de programme,Help_ChangingMemories
+reactiver le son,Cmd.VolumeUnmute
+comment puis-je personnaliser mes aides auditives ?,Help_Customize
+iphone perdu,Cmd.FindMyPhone
+veuillez associer les aides a mon telephone,Help_Pairing
+peux-tu me rappeler de nettoyer mes aides auditives aujourd'hui,reminders.add
+comment entendre moins de vent avec mode edge ?,Help_EdgeMode
+pouvez-vous nous aider a coupler les aides avec le telephone,Help_Pairing
+quelle est ma brulure jusqu'a present,Cmd.ActivityCalories
+aide en mode demo s'il vous plait,Help_DemoMode
+aide-moi a mieux entendre dans cette foule,Cmd.MemoryChange
+couper le flux,Cmd.StreamingStop
+"s'il te plait, je veux plus de volume",Cmd.VolumeIncrease
+"mes oreilles n'arretent pas de bourdonner, que puis-je faire",Help_Tinnitus
+"s'il te plait, rappelle-moi d'acheter du pain a 11 heures demain",reminders.add
+"s'il te plait, parfois, c'est bien de prendre un jour de conge",Default Fallback Intent
+pouvez-vous s'il vous plait me montrer ou diminuer l'arriere-plan,Default Fallback Intent
+peux-tu recevoir un recepteur onkyo,Default Fallback Intent
+veuillez definir le programme sur l'ecole,Cmd.MemoryChange
+faire une promenade,Cmd.ActivityWalk
+a quel point la batterie est-elle pleine,Cmd.BatteryLevel
+"donne-moi tellement, je ne sais pas, c'est un autre probleme",Default Fallback Intent
+peux-tu baisser le niveau de mes aides auditives,Cmd.VolumeDecrease
+que peut faire l'application,Help_Home
+batterie restante,Cmd.BatteryLevel
+donne-moi un peu plus de volume,Cmd.VolumeIncrease
+je veux joindre quelqu'un,Cmd.SendMessage
+aide avec le micro a distance,Help_Accessories
+comment puis-je voir ma note de reussite,Help_ThriveScore
+puis-je changer les sonneries de mon aide auditive ?,Help_DeviceSettings
+ecouter le son de mon telephone via mes aides auditives,Cmd.StreamingStart
+j'aimerais a nouveau le son s'il te plait,Cmd.VolumeUnmute
+quelles sont les detections de chute,Help_FallAlert
+"s'il te plait, prends du lipitor",Default Fallback Intent
+aide avec la fonction volume,Help_Volume
+comment supprimer mon streamer tv ?,Help_Accessories
+quels textes m'ont ete envoyes,Cmd.ListenMessage
+pouvez-vous m'aider a ajuster le stimulus des acouphenes sur mon aide auditive,Help_Tinnitus
+zero volume s'il vous plait,Cmd.VolumeMute
+commencer la traduction en direct,Cmd.TranslationStart
+comment puis-je diminuer le volume de l'aide auditive ?,Help_Volume
+j'ai besoin d'un meilleur programme pour ici,Cmd.MemoryChange
+l'audioprothesiste peut-il regler les aides auditives a distance ?,Help_RemoteProgramming
+je vais a la salle de sport pour le suivre,Cmd.ActivityExercise
+flux,Cmd.StreamingStart
+rappelle-moi le medecin de vendredi,reminders.add
+comment demarrer une demande de soins a distance,Help_HearingCareAnywhereConnect
+tout semble etouffe,Help_DeviceSettings
+comment puis-je contacter mon professionnel pour obtenir de l'aide ?,Help_RemoteProgramming
+envoyer une note audio,Cmd.SendMessage
+ou puis-je gerer les notifications,Help_AppSettings
+j'ai fini d'ecouter le stream,Cmd.StreamingStop
+comment puis-je laisser un soignant ecouter,Help_HearShare
+comment est mesuree la recuperation de la frequence cardiaque,Help_HeartRateRecovery
+puis-je revenir a mes parametres d'origine ?,Help_RemoteProgramming
+veuillez synchroniser le bluetooth de la voiture avec l'aide auditive,Help_Pairing
+baisse d'un cran,Cmd.VolumeDecrease
+"peux-tu jouer, je le porte",Default Fallback Intent
+ca semble trop bas,Cmd.VolumeIncrease
+expliquer comment les aides aident a sonner,Help_Tinnitus
+a quelle frequence dois-je nettoyer mes aides auditives,Help_CleanCare
+utiliser le profil pour les endroits bruyants,Cmd.MemoryChange
+comment puis-je modifier les parametres du soignant ?,Help_AppSettings
+ecouter mon message vocal.,Cmd.ListenMessage
+je pourrais utiliser un rappel plus tard,reminders.add
+que peut faire la fonction de rappel,Help_Reminder
+peux-tu passer au telephone,Cmd.MemoryChange
+veuillez capter le signal du flux tv,Cmd.StreamingStart
+attenue un peu,Cmd.VolumeDecrease
+ou ai-je mis mon aide auditive droite ?,Help_FindMyHearingAids
+"s'il vous plait, montrez-moi l'aide de assistant thrive",Help_VoiceAssistant
+aide avec la fonction de traduction linguistique,Help_Translate
+je suis entre dans un restaurant,Cmd.MemoryChange
+guide-moi sur le reglage du volume,Help_Volume
+merci de me rappeler de recuperer mon ordonnance mercredi a 17h.,reminders.add
+assurez-vous que je m'en souvienne ce soir,reminders.add
+puis-je ajouter un rappel,reminders.add
+que puis-je faire avec l'application de base ?,Help_AppSettings
+"s'il vous plait, aidez-nous a changer de programme",Help_ChangingMemories
+je suis confus,Help_Home
+dernier rappel termine.,reminders.complete
+est-il securitaire de mouiller mes aides auditives ?,Help_CleanCare
+"s'il vous plait, cela ressemblerait a",Default Fallback Intent
+quels assistants vocaux puis-je utiliser,Help_VoiceAssistant
+veuillez connecter l'aide appropriee,Help_Pairing
+aides auditives muettes,Cmd.VolumeMute
+aide-moi a basculer entre les profils,Help_ChangingMemories
+diminuer l'audition,Cmd.VolumeDecrease
+informations sur le score ipro,Help_ThriveScore
+"s'il vous plait, j'ai besoin d'aide pour associer mon aide auditive au telephone",Help_Pairing
+peux-tu memoriser le numero quatre,Cmd.MemoryChange
+pouvez-vous m'aider a trouver mon aide auditive gauche,Help_FindMyHearingAids
+expliquer la fonction trouver mes aides auditives,Help_FindMyHearingAids
+envoyer un message vocal a quelqu'un,Cmd.SendMessage
+"s'il vous plait, l'aide auditive gauche",Default Fallback Intent
+comment puis-je verifier si l'aide est couplee au telephone ?,Help_Pairing
+les gens semblent loin,Cmd.VolumeIncrease
+envoyer un message vocal,Cmd.SendMessage
+l'aide auditive tombe quand je mache,Help_InsertDevice
+peux-tu diffuser depuis le microphone,Cmd.StreamingStart
+veuillez definir un rappel pendant 1 heure,reminders.add
+peux-tu s'il te plait me rappeler d'appeler,reminders.add
+que dois-je apprendre en premier,Help_Home
+couper le son,Cmd.VolumeMute
+ou puis-je appairer mes aides auditives dans l'application ?,Help_Pairing
+ok envoie le message,Cmd.SendMessage - yes
+dans quel sens l'aide va-t-elle dans mon oreille,Help_InsertDevice
+comment regler le volume de mes aides auditives ?,Help_Volume
+qu'est-ce que le mode demo,Help_DemoMode
+comment savoir si une alerte est recue ?,Help_FallAlert
+peux-tu calories en marchant,Cmd.ActivityWalk
+desactivez la diffusion maintenant,Cmd.StreamingStop
+pouvez-vous ou faire un menage de 6 mois,Default Fallback Intent
+comment saurai-je quand mon professionnel a ajuste mes aides auditives ?,Help_RemoteProgramming
+que fait le bouton sur lequel je viens d'appuyer,Default Fallback Intent
+couper le volume de mon aide auditive droite,Cmd.VolumeMute
+comment regler le volume des aides auditives ?,Help_Volume
+comment regler le volume de la television ?,Help_Accessories
+aide avec les changements de volume sur mes aides auditives,Help_Volume
+afficher le guide d'aide pour le type,Help_ThriveScore
+"s'il vous plait, j'ai besoin d'aide pour coupler les aides auditives a mon telephone",Help_Pairing
+"s'il te plait, dis-moi combien je te dois en espagnol",Cmd.TranslationStart
+quand puis-je annuler un message d'alerte de chute ?,Help_FallAlert
+peux-tu exprimer ma voix,Help_IntelliVoice
+recuperer l'iphone,Cmd.FindMyPhone
+peux-tu garder une trace de cela pour moi ?,reminders.add
+"pouvez-vous entendre votre demande provinciale, j'attends de voir comment puis-je vous aider",Default Fallback Intent
+expliquer les changements de souvenirs,Help_ChangingMemories
+s'il vous plait baissez le niveau de mes aides auditives,Cmd.VolumeDecrease
+pouvez-vous definir le parametre sur le numero trois,Cmd.MemoryChange
+trouver mon androide,Cmd.FindMyPhone
+aide-moi a me souvenir de cette soiree,reminders.add
+comment puis-je activer le mode demo,Help_DemoMode
+parlez-moi de mode edge,Help_EdgeMode
+suivre la course que j'ai terminee,Cmd.ActivityRun
+peux-tu reactiver mes aides auditives,Cmd.VolumeUnmute
+guidez-moi sur l'utilisation de mode edge,Help_EdgeMode
+veuillez activer l'aide auditive droite,Cmd.VolumeUnmute
+peux-tu dimanche,Default Fallback Intent
+comment est calcule le score thrive ?,Help_ThriveScore
+quel materiel puis-je ajouter,Help_Accessories
+comment fonctionne intellivoice,Help_IntelliVoice
+comment regler le bruit de mes acouphenes dans l'aide auditive ?,Help_Tinnitus
+ou sont les preferences de l'application,Help_AppSettings
+expliquer comment fonctionne le score thrive,Help_ThriveScore
+passer en mode silencieux,Cmd.MemoryChange
+allumer le volume de mon aide auditive gauche,Cmd.VolumeUnmute
+"mon combine a disparu, veuillez sonner",Cmd.FindMyPhone
+rendre tout plus silencieux,Cmd.VolumeDecrease
+"s'il vous plait, je ne veux pas envoyer.",Cmd.SendMessage - no
+que signifie la recuperation de la frequence cardiaque ?,Help_HeartRateRecovery
+enregistrer un entrainement d'aerobic,Cmd.ActivityAerobics
+comment puis-je dissocier mes aides auditives ?,Help_Pairing
+"s'il te plait, programme le numero un",Cmd.MemoryChange
+merci de me rappeler de recuperer mon ordonnance a 17h. vendredi,reminders.add
+recommander un film,Default Fallback Intent
+comment connecter mes aides auditives,Help_Pairing
+ou ai-je laisse mon autre aide ?,Help_FindMyHearingAids
+comment puis-je ameliorer mon score de bien-etre ?,Help_ThriveScore
+quel est mon temps d'attente,Cmd.ActivityStand
+desactiver le flux,Cmd.StreamingStop
+combien de marche ai-je fait cette semaine ?,Cmd.ActivityWalk
+comment partager des informations sur les aides auditives avec mon fils ?,Help_HearShare
+faire un nouveau rappel,reminders.add
+"s'il te plait, mets le numero un",Cmd.MemoryChange
+je veux laisser un message,Cmd.SendMessage
+convertir cette langue etrangere en anglais,Cmd.TranslationStart
+qu'est-ce qu'une aide auditive cros,Help_WiCROS
+quels sons vais-je entendre dans mes aides auditives si je tombe ?,Help_FallAlert
+expliquer comment fonctionnent les cros et les bicros,Help_WiCROS
+veuillez changer le parametre a deux,Cmd.MemoryChange
+"s'il te plait, sur ta comptabilite, tout est de mon cote donc",Default Fallback Intent
+est-ce qu'il detecte une chute et alerte quelqu'un,Help_FallAlert
+peux-tu quoi de neuf,Default Fallback Intent
+lire mes messages non lus,Cmd.ListenMessage
+peux-tu me rappeler mon rendez-vous,reminders.add
+est-il possible de pousser le moule loin ?,Help_InsertDevice
+comment puis-je reinitialiser tous mes souvenirs,Help_MemoryOptions
+veuillez localiser mon aide auditive droite,Help_FindMyHearingAids
+comment ameliorer la voix avec mode edge,Help_EdgeMode
+comment partager les informations sur mes aides auditives ?,Help_HearShare
+"s'il vous plait, dernier rappel effectue.",reminders.complete
+voir mes battements par minute en lecture,Help_HeartRate
+resoudre ce probleme de mathematiques,Default Fallback Intent
+comment puis-je regler le volume du masqueur de bruit de mes aides auditives ?,Help_Tinnitus
+que signifie le score corporel ?,Help_ThriveScore
+comment ajouter un soignant ?,Help_HearShare
+peux-tu me rappeler de m'entrainer demain matin a 6 heures,reminders.add
+"s'il te plait, change la memoire en numero trois",Cmd.MemoryChange
+comment saurai-je quand le professionnel a ajuste l’aide auditive ?,Help_RemoteProgramming
+les rappels peuvent-ils se repeter tous les jours,Help_Reminder
+suivre la marche que j'ai faite,Cmd.ActivityWalk
+"s'il te plait, c'est trop fort, baisse le volume",Cmd.VolumeDecrease
+donnez-moi une alerte a l'heure prevue,reminders.add
+"peux-tu non, ne le fais pas.",Cmd.SendMessage - no
+"s'il te plait, rappelle-moi que j'ai un rendez-vous",reminders.add
+quel est mon score thrive,Help_ThriveScore
+assurez-vous de ne pas oublier de prendre mes pilules a 8 heures du matin,reminders.add
+dois-je rester debout plus longtemps pour atteindre mon objectif,Cmd.ActivityStand
+veuillez completer mon dernier rappel,reminders.complete
+aide a la personnalisation s'il vous plait,Help_Customize
+comment configurer les notifications par e-mail ?,Help_DeviceSettings
+comment puis-je voir combien de pas j'ai fait aujourd'hui ?,Help_Health
+je monte dans la voiture maintenant,Cmd.MemoryChange
+a quoi sert la voix ai,Help_IntelliVoice
+s'il vous plait laissez-moi ecouter mon message.,Cmd.ListenMessage
+"peux-tu, c'est trop silencieux, monte le volume",Cmd.VolumeIncrease
+veuillez definir le programme sur le theatre,Cmd.MemoryChange
+quand dois-je utiliser l'amelioration de la parole dnn ?,Help_IntelliVoice
+traduction ouverte en espagnol,Cmd.TranslationStart
+annuler l'envoi audio.,Cmd.SendMessage - no
+combien de temps suis-je reste debout ce mois-ci,Cmd.ActivityStand
+comment puis-je voir mon activite physique ?,Help_Health
+que fait le cros,Help_WiCROS
+veuillez eteindre les prises de source,Default Fallback Intent
+ou est la voix ai ?,Help_IntelliVoice
+comment mettre cette aide auditive ?,Help_InsertDevice
+s'il te plait et pousse-le vers le bas pour le drame,Default Fallback Intent
+aider avec le score cerebral,Help_ThriveScore
+peux-tu baisser mon appareil auditif droit,Cmd.VolumeDecrease
+"s'il te plait, change de salle de sport",Cmd.MemoryChange
+pouvez-vous m'aider a trouver mes appareils auditifs,Help_FindMyHearingAids
+montre-moi un apercu de l'application thrive,Help_WhatsNew
+emplacement,Default Fallback Intent
+diffuser la musique,Cmd.StreamingStart
+"comment dire, emmene-moi a l'hotel en espagnol",Cmd.TranslationStart
+comment puis-je regler le volume du masqueur de bruit sur mes aides auditives ?,Help_Tinnitus
+reactiver mes aides auditives,Cmd.VolumeUnmute
+s'il vous plait charge restante de la batterie,Cmd.BatteryLevel
+parle-moi des nouvelles,Default Fallback Intent
+ai-je assez de batterie pour la journee,Cmd.BatteryLevel
+le son semble lointain,Cmd.VolumeIncrease
+pouvez-vous m'aider avec l'ecran principal,Help_Home
+comment fonctionnent les raccords a distance,Help_RemoteProgramming
+peux-tu 328 chutes de cedre,Default Fallback Intent
+s'il vous plait laissez-moi entendre le presentateur,Cmd.StreamingStart
+"s'il te plait, emmene-moi pour un demarrage rapide",Help_WhatsNew
+expliquer les cros pour une audition unilaterale,Help_WiCROS
+aide pour le streaming,Help_Accessories
+s'il te plait recherche mon telephone,Cmd.FindMyPhone
+comment puis-je faire en sorte que mon appareil auditif diffuse du streaming,Help_Accessories
+comment desactiver la sensibilite du double tap ?,Help_DeviceSettings
+attenuez-le,Cmd.VolumeDecrease
+j'ai besoin d'aide pour l'appairage,Help_Pairing
+batterie assez bonne pour la soiree,Cmd.BatteryLevel
+le mode masque va-t-il m'aider,Help_MaskMode
+arreter la diffusion de la television,Cmd.StreamingStop
+veuillez synchroniser l'aide auditive avec la television,Help_Pairing
+ou aurait pu aller mon aides auditives,Help_FindMyHearingAids
+pouvez-vous m'aider a changer de programme sur mes aides auditives,Help_ChangingMemories
+arrete d'ecouter ma tele,Cmd.StreamingStop
+peux-tu te faire foutre,Default Fallback Intent
+"s'il te plait, montre-moi le guide rapide",Help_WhatsNew
+veuillez ecouter le dernier message vocal.,Cmd.ListenMessage
+comment puis-je regler mon masqueur de bruit dans mes aides auditives ?,Help_Tinnitus
+pouvez-vous quelle version de l'application ai-je ?,Help_AppSettings
+ou puis-je acheter de nouvelles piles,Help_Battery
+mes oreilles ne peuvent pas supporter ce niveau,Cmd.VolumeDecrease
+veuillez regler la memoire sur deux,Cmd.MemoryChange
+je veux envoyer un sms a un contact,Cmd.SendMessage
+peux-tu diminuer le volume de mes aides auditives,Cmd.VolumeDecrease
+puis-je personnaliser mode edge,Help_EdgeMode
+peux-tu synchroniser l'aide auditive avec la television,Help_Pairing
+veuillez terminer ce rappel.,reminders.complete
+pouvez-vous m'aider a changer de programme en utilisant mon application,Help_ChangingMemories
+je n'entends presque rien,Cmd.VolumeIncrease
+suis-je proche de mon objectif calorique,Cmd.ActivityCalories
+"s'il te plait, il est sur le ventre",Default Fallback Intent
+"s'il te plait, rappelle-moi de diner tous les dimanches a 8 heures du matin.",reminders.add
+comment puis-je passer a une memoire differente sur l'aide auditive ?,Help_ChangingMemories
+puis-je creer un souvenir personnalise ?,Help_MemoryOptions
+les parametres peuvent-ils etre modifies a distance,Help_RemoteProgramming
+mes aides auditives ne sont pas la ou je les ai laissees,Help_FindMyHearingAids
+ouvrez la carte google.,Default Fallback Intent
+expliquer comment fonctionne le reglage a distance,Help_RemoteProgramming
+guide-moi pour partager ce que j'entends,Help_HearShare
+aide avec les reglages sonores de mon aide auditive,Help_DeviceSettings
+quel pourcentage de mon objectif de pas ai-je realise aujourd'hui ?,Cmd.ActivityStep
+comment puis-je dissocier le micro distant ?,Help_Accessories
+le son est trop faible,Cmd.VolumeIncrease
+veuillez lister les elements qui ne fonctionnent pas,Default Fallback Intent
+je n'aime pas la fonction de double tapotement. comment puis-je l'eteindre ?,Help_DeviceSettings
+comment puis-je le faire si j'ai des aides auditives cros ?,Help_WiCROS
+a quoi sert la fonction d'aide a la localisation,Help_FindMyHearingAids
+comment regler le bruit de mes acouphenes sur l'aide ?,Help_Tinnitus
+y a-t-il une fonction de traduction,Help_Translate
+ai-je atteint mon objectif d'entrainement,Cmd.ActivityExercise
+pouvez-vous m'aider pour la synthese vocale,Help_Transcribe
+peux-tu activer le streaming,Cmd.StreamingStart
+j'ai besoin de plus de volume,Cmd.VolumeIncrease
+comment definir un rappel,Help_Reminder
+peux-tu regler le programme sur le numero trois,Cmd.MemoryChange
+veuillez passer le programme a deux,Cmd.MemoryChange
+ou puis-je arreter une alerte de chute ?,Help_FallAlert
+peux-tu passer la memoire au numero quatre,Cmd.MemoryChange
+expliquer l'ecran principal,Help_Home
+laisse-moi reentendre les choses,Cmd.VolumeUnmute
+veuillez ouvrir la traduction en espagnol,Cmd.TranslationStart
+ce qui affecte la recuperation de la frequence cardiaque,Help_HeartRateRecovery
+ou puis-je trouver la page des parametres,Help_AppSettings
+il y a un probleme avec mon aide auditive gauche,Help_SelfCheck
+peux-tu passer le programme au numero quatre,Cmd.MemoryChange
+la fonction de double tapotement est trop sensible. comment regler la sensibilite ?,Help_DeviceSettings
+comment puis-je obtenir un meilleur score cerebral ?,Help_ThriveScore
+"s'il te plait, he google, allume les lampes principales",Default Fallback Intent
+comment puis-je activer l'amelioration du confort ?,Help_DeviceSettings
+aide pour baisser le volume a gauche,Cmd.VolumeDecrease
+commencer mon entrainement cycliste,Cmd.ActivityCycle
+est-il possible de pousser l'aide auditive loin ?,Help_InsertDevice
+que se passe-t-il si la langue que je souhaite traduire n'est pas repertoriee ?,Help_Translate
+comment laver les aides auditives,Help_CleanCare
+le son de mes aides auditives est etouffe,Help_DeviceSettings
+est-ce que ma batterie est faible ?,Cmd.BatteryLevel
+le professionnel peut-il regler mon aide auditive a distance ?,Help_RemoteProgramming
+marquer mon rappel comme termine,reminders.complete
+le mode demo est-il disponible,Help_DemoMode
+je veux enregistrer une course,Cmd.ActivityRun
+comment puis-je modifier le reglage du bruit de la machine,Help_Customize
+mon professionnel peut-il regler l'aide a distance ?,Help_RemoteProgramming
+ou est le mode masque ?,Help_MaskMode
+"s'il te plait ouais, enleve juste un peu ouais",Default Fallback Intent
+l'aide auditive ne fonctionne pas,Help_SelfCheck
+ne me laisse pas oublier mon rendez-vous demain a 10h,reminders.add
+combien de minutes ai-je fait du jogging ?,Cmd.ActivityRun
+comment puis-je diffuser mes aides auditives en continu,Help_Accessories
+veuillez reduire le volume,Cmd.VolumeDecrease
+combien de batterie ai-je,Cmd.BatteryLevel
+peux-tu te connecter a la television,Cmd.StreamingStart
+laisser une autre personne entendre ce que j'entends,Help_HearShare
+comment puis-je changer les memoires sur l'aide ?,Help_ChangingMemories
+puis-je contacter quelqu'un ?,Cmd.SendMessage
+pouvez-vous creer un rappel pour prendre vos medicaments aujourd'hui a 20 heures.,reminders.add
+pouvez-vous m'aider a ajuster le stimulus des acouphenes sur mes aides auditives,Help_Tinnitus
+conseils pour nettoyer mes aides auditives,Help_CleanCare
+peux-tu ecouter mon dernier enregistrement.,Cmd.ListenMessage
+expliquer comment tester mes appareils auditifs,Help_SelfCheck
+ou est l'amelioration de la parole ?,Help_IntelliVoice
+coupe chaque morceau de son,Cmd.VolumeMute
+aide au volume a droite,Cmd.VolumeMute
+pouvez-vous couper le son sur les aides auditives,Cmd.VolumeMute
+comment supprimer les aides auditives du telephone ?,Help_Pairing
+peux-tu s'il te plait me rappeler,reminders.add
+puis-je porter mes aides auditives sous la douche,Help_CleanCare
+comment puis-je regler le volume du masqueur d'acouphenes de mes aides auditives ?,Help_Tinnitus
+laisse-moi entendre la tele,Cmd.StreamingStart
+combien de temps je suis debout aujourd'hui,Cmd.ActivityStand
+monter en volume,Cmd.VolumeIncrease
+comment puis-je obtenir un reglage precis a distance,Help_RemoteProgramming
+"s'il te plait, rappelle-moi de laver ma voiture",reminders.add
+"s'il te plait, commence a traduire pour le francais",Cmd.TranslationStart
+comment utiliser la synthese vocale,Help_Transcribe
+qui est averti si je tombe,Help_FallAlert
+"s'il te plait, ca se lisse, c'est force",Default Fallback Intent
+"peux-tu, je ne me souviens pas ou se trouve mon aide auditive gauche",Help_FindMyHearingAids
+oui s'il vous plait.,Cmd.SendMessage - yes
+expliquer la fonction d'alerte de chute,Help_FallAlert
+"s'il te plait, rappelle-moi de recuperer mon ordonnance cet apres-midi",reminders.add
+"s'il vous plait, aidez-moi avec le reglage du volume des acouphenes sur mes aides auditives",Help_Tinnitus
+comment puis-je en savoir plus sur le changement de programme,Help_ChangingMemories
+a quoi sert cet ecran,Help_Home
+j'ai perdu mon aide auditive. pouvez-vous m'aider a le trouver ?,Help_FindMyHearingAids
+le son est trop chaud,Cmd.VolumeDecrease
+ou est la fonction coeur dans l'application ?,Help_HeartRate
+veuillez coupler mes aides auditives au telephone,Help_Pairing
+enregistrer mon exercice aerobique,Cmd.ActivityAerobics
+eteindre le streaming,Cmd.StreamingStop
+peux-tu adorer le decor,Cmd.MemoryChange
+peux-tu travailler la memoire,Cmd.MemoryChange
+pouvez-vous rappeler votre vol a 6 heures du matin ?,reminders.add
+peux-tu passer au pub,Cmd.MemoryChange
+que se passe-t-il si l'autocontrole indique que mon aide auditive est cassee ?,Help_SelfCheck
+je viens d'entrer dans l'eglise,Cmd.MemoryChange
+"s'il te plait, fais une pause et reviens",Default Fallback Intent
+faire taire mes aides auditives,Cmd.VolumeMute
+"peux-tu, je me dis juste oh, c'est donc la le point important.",Default Fallback Intent
+comment puis-je rechercher mon autre aide auditive ?,Help_FindMyHearingAids
+"s'il te plait, d'accord, oui, envoie.",Cmd.SendMessage - yes
+qu'entendrai-je lorsqu'une alerte sera envoyee ?,Help_FallAlert
+quelle est la hauteur du mont everest ?,Default Fallback Intent
+peux-tu me rappeler de jouer avec mon chat tous les jours a 19h ?,reminders.add
+ont-ils accepte mon invitation hearshare ?,Help_HearShare
+veuillez jouer le dernier push-to-talk.,Cmd.ListenMessage
+comment regler mon masque d'acouphenes dans l'aide auditive gauche ?,Help_Tinnitus
+comment geolocaliser un emplacement dans ma memoire ?,Help_MemoryOptions
+verifier la puissance,Cmd.BatteryLevel
+peux-tu localiser le telephone,Cmd.FindMyPhone
+merci de me rappeler de livrer a l'eglise catholique sainte barbara le vendredi de 9h a 9h30,reminders.add
+"s'il te plait, retourne a la maison",Cmd.MemoryChange
+comment augmenter le volume dans l'aide gauche ?,Help_Volume
+a quoi sert le mode demo,Help_DemoMode
+aide mes aides auditives a sonner crepitantes,Help_DeviceSettings
+couper tout le son,Cmd.VolumeMute
+ou est mon apercu de mon activite,Help_Health
+pouvez-vous m'aider a coupler des appareils auditifs,Help_Pairing
+comment puis-je changer les memoires de l'aide auditive ?,Help_ChangingMemories
+j'en ai besoin plus doux,Cmd.VolumeDecrease
+pouvez-vous aider a diffuser,Help_Accessories
+pouvez-vous produit particulier que vous vouliez verifier specifiquement,Default Fallback Intent
+expliquer comment fonctionne la traduction sur mes aides auditives,Help_Translate
+pouvez-vous definir un rappel pour 14 heures ?,reminders.add
+s'il vous plait rappelez-moi de recuperer l'ordonnance aujourd'hui a 17 heures.,reminders.add
+"pouvez-vous definir un rappel concernant la promenade du chien, repetez-le tous les jours a 9 heures du matin",reminders.add
+n'oubliez pas de courir tous les jours a 6 heures du matin.,reminders.add
+comment puis-je laisser une autre personne entendre avec moi,Help_HearShare
+n'oubliez pas de courir a 6 heures du matin le 7 decembre,reminders.add
+rappelle-moi d'arroser les plantes,reminders.add
+comment puis-je voir mes objectifs areobiques ?,Help_Health
+cherche mes appareils auditifs,Help_FindMyHearingAids
+comment configurer la geolocalisation,Help_MemoryOptions
+quelle distance ai-je parcourue aujourd'hui,Cmd.ActivityStep
+coupe le son,Cmd.VolumeMute
+envoie le son a mes aides auditives,Cmd.StreamingStart
+retrouver mon telephone,Cmd.FindMyPhone
+montre-moi le guide d'utilisation pour traduire,Help_Translate
+les langues etrangeres sont-elles prises en charge,Help_Translate
+peux-tu me mettre en contact avec mon audiologiste,Help_RemoteProgramming
+jouer du micro,Cmd.StreamingStart
+comment puis-je me connecter au bluetooth de ma voiture ?,Help_Pairing
+baisse mon appareil auditif droit,Cmd.VolumeDecrease
+volume maximum,Cmd.VolumeIncrease
+ce qui a ete ajoute recemment,Help_WhatsNew
+les voix sont trop douces pour moi,Cmd.VolumeIncrease
+"s'il te plait, programme le numero deux",Cmd.MemoryChange
+trouve-moi un hotel,Default Fallback Intent
+remettre mon audition,Cmd.VolumeUnmute
+comment reduire le bruit avec mode edge ?,Help_EdgeMode
+combien de minutes ai-je travaille,Cmd.ActivityExercise
+aide pour traduire,Help_Translate
+peux-tu me rappeler d'aller me coucher dans 5 minutes,reminders.add
+pouvez-vous definir un rappel pour le 25 novembre,reminders.add
+comment puis-je acceder a la fonction de frequence cardiaque,Help_HeartRate
+voudrais-tu m'envoyer un message,Cmd.SendMessage
+traduire bonjour en francais,Default Fallback Intent
+comment augmenter le volume de mes aides auditives ?,Help_Volume
+comment est calcule le score d’engagement ?,Help_ThriveScore
+pouvez-vous m'aider avec les ajustements sonores des acouphenes dans mon aide auditive,Help_Tinnitus
+rendre mon aide auditive silencieuse,Cmd.VolumeMute
+peux-tu me montrer de l'aide pour mes accessoires,Help_Accessories
+comment puis-je associer un emplacement a une memoire ?,Help_MemoryOptions
+utiliser un accessoire de micro externe avec mes aides auditives,Help_Accessories
+comment utiliser la fonction d'auto-verification ?,Help_SelfCheck
+mes aides auditives n'arretent pas de faire du bruit,Help_DeviceSettings
+conseils pour mettre mes aides auditives,Help_InsertDevice
+y a-t-il une fonction de sous-titrage ?,Help_Transcribe
+merci de me le rappeler a 14h35. demain ne pas se garer sur le parking arriere,reminders.add
+ai-je fait du velo pendant une heure ?,Cmd.ActivityCycle
+envoyer une note vocale rapide,Cmd.SendMessage
+"s'il te plait, rappelle-moi que j'ai un rendez-vous chez le medecin",reminders.add
+quel est un bon film a regarder,Default Fallback Intent
+comment puis-je regler le volume des acouphenes dans l'aide auditive ?,Help_Tinnitus
+quelle est ma depense calorique aujourd'hui,Cmd.ActivityCalories
+peux-tu m'emmener pour un demarrage rapide,Help_WhatsNew
+comment puis-je quitter mode edge,Help_EdgeMode
+pouvez-vous augmenter le volume avec votre aide auditive,Cmd.VolumeIncrease
+comment personnaliser l'aide ?,Help_Customize
+"je pars me promener, merci de le suivre",Cmd.ActivityWalk
+depanner le son de mon aide auditive,Help_DeviceSettings
+quel est mon montant restant ?,Cmd.BatteryLevel
+quel est le modele de mes aides auditives ?,Help_DeviceSettings
+"s'il vous plait, aidez-moi a ajuster le stimulus sonore sur mes aides auditives",Help_Tinnitus
+aide-moi a communiquer avec quelqu'un,Cmd.SendMessage
+"s'il te plait, baisse mon appareil auditif droit",Cmd.VolumeDecrease
+peux-tu me rappeler un rendez-vous,reminders.add
+veuillez enregistrer un message,Cmd.SendMessage
+"peux-tu, je n'ai pas une memoire normale",Help_MemoryOptions
+ici a ce sujet,Default Fallback Intent
+retrouver mon portable,Cmd.FindMyPhone
+puis-je changer le nom de mon accessoire ?,Help_Accessories
+aide-moi a garder une trace de ca,reminders.add
+peux-tu atteindre l'objectif,Cmd.ActivityStep
+arreter le flux tv de mes aides auditives,Cmd.StreamingStop
+quelle est ma frequence cardiaque au repos,Help_HeartRate
+jouer au festival,Default Fallback Intent
+"s'il te plait, rappelle-moi jeudi",reminders.add
+nombre de calories aujourd'hui,Cmd.ActivityCalories
+dois-je utiliser des piles rechargeables ou jetables,Help_Battery
+"peux-tu, j'ai perdu mon aide auditive. pouvez-vous m'aider a le trouver ?",Help_FindMyHearingAids
+comment puis-je diminuer le volume sonore avec la bonne aide ?,Help_Volume
+aide pour se deplacer entre les souvenirs,Help_ChangingMemories
+mettre fin au silence,Cmd.VolumeUnmute
+qu'est-ce que hearing care anywhere,Help_HearingCareAnywhereConnect
+activer le parametre environnement bruyant,Cmd.MemoryChange
+ou est la vidange d'huile la plus proche,Default Fallback Intent
+"s'il te plait, parle-moi de la langue amharique",Default Fallback Intent
+s'il te plait et je pense que c'est cense fonctionner,Default Fallback Intent
+volume plus silencieux,Cmd.VolumeDecrease
+utiliser mon programme habituel,Cmd.MemoryChange
+envoi approuve.,Cmd.SendMessage - yes
+pouvez-vous me faire perdre mes aides auditives,Help_FindMyHearingAids
+j'ai besoin d'une invite plus tard,reminders.add
+aide avec le reglage du volume de mon aide auditive,Help_Volume
+pouvez-vous sizzlers inities par cham appuyez ici pour les informer que vous avez recu cette commande,Default Fallback Intent

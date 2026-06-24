@@ -1,0 +1,1363 @@
+text,intent
+hjaelp til demotilstand,Help_DemoMode
+hvorfor skaerer mit hojre ore hele tiden af,Help_SelfCheck
+nej stop nu.,Cmd.SendMessage - no
+mind mig venligst om at tage medicin i dag kl.,reminders.add
+hvad er oversaette,Help_Translate
+hvordan fungerer fjernbeslag,Help_RemoteProgramming
+spore mine enheder,Help_FindMyHearingAids
+kan du ga videre.,Cmd.SendMessage - yes
+hvordan ser ladningen ud,Cmd.BatteryLevel
+logge min traeningssession,Cmd.ActivityExercise
+begynde at streame fjernbetjeningen til mine horeapparater,Cmd.StreamingStart
+venligst hjaelp til transskribering af horeapparater,Help_Transcribe
+vaekke lyden igen,Cmd.VolumeUnmute
+kan du salsa til venstre for mig,Default Fallback Intent
+jeg vil gerne oprette en ny hukommelse?,Help_MemoryOptions
+"kan du onske at rykke op, ja det vil jeg",Default Fallback Intent
+daemp lydstyrken,Cmd.VolumeDecrease
+kan du minde mig om at ga til kobmanden hver sondag ved middagstid,reminders.add
+lyden er svag,Cmd.VolumeIncrease
+trives siri,Help_VoiceAssistant
+ryst det af,Default Fallback Intent
+justere mine hjaelpemidler til dette hojlydte sted,Cmd.MemoryChange
+kan du pa en made dette arsag jeg bare slags fjerne,Default Fallback Intent
+kan du skifte til program et,Cmd.MemoryChange
+hvor kan jeg se mine pamindelser,Help_Reminder
+mine horeapparater mistede forbindelsen til telefonen,Help_Pairing
+hvad er et cros horeapparat,Help_WiCROS
+afspille mine indgaende tekster,Cmd.ListenMessage
+volume louder,Cmd.VolumeIncrease
+kan du automatisk indstille,Cmd.MemoryChange
+mind mig venligst om at jeg har et mode,reminders.add
+jeg har brug for at kontakte nogen hurtigt,Cmd.SendMessage
+skal jeg sta laengere for at na mit mal,Cmd.ActivityStand
+kan jeg parre en baerbar mikrofon,Help_Accessories
+kan du skifte indstilling til to,Cmd.MemoryChange
+niveau batteri,Cmd.BatteryLevel
+hvor viser mine sundhedsmalinger,Help_Health
+mind mig venligst om at slukke min telefon hver dag kl. 23.00.,reminders.add
+fortael mig venligst om engelsk sprog,Default Fallback Intent
+lave en note til senere,reminders.add
+vis mig en oversigt over engage-appen,Help_Translate
+drej venligst mit hojre horeapparat ned,Cmd.VolumeDecrease
+hvordan justerer jeg min lydstyrke af tinnitusmaskeren i mine horeapparater?,Help_Tinnitus
+kan du jeg har brug for hjaelp til parring,Help_Pairing
+vis mig venligst en oversigt over den nye app,Help_WhatsNew
+venligst hvor er min iphone,Cmd.FindMyPhone
+hvordan skifter jeg program pa horeapparatet?,Help_ChangingMemories
+send en kort besked,Cmd.SendMessage
+kan du kontorhukommelse,Cmd.MemoryChange
+kan du afspille sidste besked,Cmd.ListenMessage
+mind mig venligst om middag kl. 1523,reminders.add
+hvor mange minutter har jeg staet,Cmd.ActivityStand
+hvordan har mine batterier det?,Cmd.BatteryLevel
+daempe hjaelpemidlerne helt,Cmd.VolumeMute
+kan du auditorium program,Cmd.MemoryChange
+og lydstyrken tak,Cmd.VolumeIncrease
+jeg skal tilfoje en pamindelse,reminders.add
+batterier til horeapparater,Cmd.BatteryLevel
+kan du skifte til hjemmet,Cmd.MemoryChange
+gore tingene mere stille,Cmd.VolumeDecrease
+hvordan far jeg adgang til indstillinger,Help_Home
+where do i initiate a manual alert message?,Help_FallAlert
+"mine hjaelpemidler skal justeres, de lyder darligt",Help_DeviceSettings
+streame lyd,Cmd.StreamingStart
+"kan du og jeg synes, det er meningen, at det skal virke",Default Fallback Intent
+kan du mistet iphone,Cmd.FindMyPhone
+kan du hjaelpe med at aendre programmer pa mine hjaelpemidler,Help_ChangingMemories
+start min cardio-klassesporing,Cmd.ActivityAerobics
+begynde en gatur,Cmd.ActivityWalk
+"afspil, hvad folk sendte mig",Cmd.ListenMessage
+kan du taleindstilling,Cmd.MemoryChange
+afspille min sidste optagelse.,Cmd.ListenMessage
+kan du ny pamindelse spise et aeble hver dag kl.,reminders.add
+jeg har brug for mere stille lyd,Cmd.VolumeDecrease
+hvad gor dette selvtjek?,Help_SelfCheck
+send en e-mail,Cmd.SendMessage
+stille alt ned til ingenting,Cmd.VolumeMute
+skifte til komfortabel indendors tilstand,Cmd.MemoryChange
+pamind mig venligst klokken 11 om morgenen,reminders.add
+venligst det var kulsort ude i butikken,Default Fallback Intent
+hvorfor sidder mit horeapparat ikke pa mit hojre ore,Help_SelfCheck
+"venligst, mit andet hjaelpemiddel mangler",Help_FindMyHearingAids
+kan du pa en god dag,Default Fallback Intent
+skift venligst program til nummer et,Cmd.MemoryChange
+ping min kone,Help_FindMyHearingAids
+hvordan bruger jeg dnn taleforbedringsfunktion?,Help_IntelliVoice
+skal mit horeapparat se ud som det i videoen?,Help_InsertDevice
+hjaelp venligst med hovedskaermen,Help_Home
+hvordan far jeg en bedre kropsscore?,Help_ThriveScore
+hjaelp til justering af tinnitusmasker pa mine hjaelpemidler,Help_Tinnitus
+kan du vise mig mit vandremal?,Cmd.ActivityWalk
+hvordan fungerer den slags score?,Help_ThriveScore
+kan du svede mine orer,Default Fallback Intent
+mind mig venligst i dag,reminders.add
+forstaerke tingene for mig,Cmd.VolumeIncrease
+hvordan far jeg en bedre trivescore?,Help_IntelliVoice
+saet venligst hukommelsen til master,Cmd.MemoryChange
+er mit hjaelpemiddel forbundet med min app?,Help_Pairing
+kan du tilfoje pamindelse fodre en kat pa 3 minutter,reminders.add
+giv mig en rundvisning i appen,Help_Home
+hvordan forbedrer jeg min trivescore?,Help_ThriveScore
+kan du indstille hukommelsen til at traene,Cmd.MemoryChange
+reducere venstre horeapparat,Cmd.VolumeDecrease
+hvor er mine nye indstillinger?,Help_RemoteProgramming
+how many steps have i taken this month,Cmd.ActivityStep
+kan du minde mig om kl. 14.35. i morgen for ikke at parkere pa bagerste parkeringsplads,reminders.add
+venligst skift til hverdag,Cmd.MemoryChange
+"vis mig venligst, hvordan man bruger pamindelse",Help_Reminder
+lyt igen.,Cmd.ListenMessage
+hvad kan pamindelsesfunktionen gore,Help_Reminder
+kan du skifte program til nummer tre,Cmd.MemoryChange
+saenke lytteniveauet,Cmd.VolumeDecrease
+venligst jeg er interesseret i min placering,Default Fallback Intent
+hjaelp venligst med at aendre minder ved at bruge thrive-appen,Help_ChangingMemories
+venligst ny pamindelse til hverdag,reminders.add
+kan du skifte til stille,Cmd.MemoryChange
+kan du tilfoje en pamindelse til i morgen,reminders.add
+kan du hjaelpe med tilbehor,Help_Accessories
+"hvordan kan jeg se, hvor mange skridt jeg gik i dag?",Help_Health
+hjaelp mig med at forsta trives-scoren,Help_ThriveScore
+hvordan aendrer jeg hukommelse pa mine horeapparater?,Help_ChangingMemories
+kan du har de accepteret min hearshare-invitation?,Help_HearShare
+mind mig venligst om at hente min bil naeste fredag ​​morgen,reminders.add
+jeg skal til at traene,Cmd.ActivityExercise
+tv'et er svaert at hore,Cmd.VolumeIncrease
+kan du jeg har brug for hjaelp til at parre hjaelpemidlerne,Help_Pairing
+hvordan kommer jeg ud af,Default Fallback Intent
+kan du okay ja sende.,Cmd.SendMessage - yes
+hvordan far jeg en bedre karakter?,Help_ThriveScore
+hvad gor oversaettelse,Help_Translate
+kan jeg demo mine horeapparater,Help_DemoMode
+kan du skifte program til at virke,Cmd.MemoryChange
+venligst det bliver vores lille ringbaerer fyr,Default Fallback Intent
+sende en lydnote,Cmd.SendMessage
+kan du hjaelpe med at parre enheder med thrive-appen,Help_Pairing
+jeg vil have en pamindelse,reminders.add
+hjaelp mig med at huske at kobe maelk,reminders.add
+where would i stop a fall alert?,Help_FallAlert
+ga tilbage til min standardindstilling,Cmd.MemoryChange
+jeg kan hore nu taende det,Cmd.VolumeUnmute
+kan du ny pamindelse om bilvask,reminders.add
+annuller lydafsendelse.,Cmd.SendMessage - no
+kan horespecialisten fjernjustere mine hjaelpemidler?,Help_RemoteProgramming
+minimum volumen,Cmd.VolumeDecrease
+hvordan fungerer pulsmaling,Help_HeartRate
+hvor meget har jeg staet i dag,Cmd.ActivityStand
+indstil pamindelse om hundevandring gentag den hver dag kl. 9.00.,reminders.add
+gore lydstyrken lavere,Cmd.VolumeDecrease
+help me find my iphone,Cmd.FindMyPhone
+kan du aendre program til et,Cmd.MemoryChange
+afspil besked jeg fik.,Cmd.ListenMessage
+kan du stille en diagnose pa mine horeapparater,Help_SelfCheck
+vis mig hjaelp til mit tilbehor,Help_Accessories
+hvordan forbedrer jeg min wellness-score?,Help_ThriveScore
+vis mig hjaelpen til at oversaette,Help_Translate
+jeg kan ikke forsta dette fremmedsprog,Cmd.TranslationStart
+giv mig lidt mere volumen,Cmd.VolumeIncrease
+when do i cancel a manual alert message?,Help_FallAlert
+prov venligst at fa min horealder til at virke,Help_SelfCheck
+her om dette,Default Fallback Intent
+indstil programmet til to,Cmd.MemoryChange
+vis mig en oversigt over engage-appen,Help_WhatsNew
+jeg har brug for hjaelp til at parre horeapparaterne til min telefon,Help_Pairing
+where is my right aid?,Help_FindMyHearingAids
+kan du holde styr pa dette for mig?,reminders.add
+taend for min horelse igen,Cmd.VolumeUnmute
+det var det jeg mente send det,Cmd.SendMessage - yes
+kan jeg nulstille en hukommelse,Help_MemoryOptions
+hjaelp mig venligst med at minde mig om at ringe til bae i morgen kl. 9,reminders.add
+kan du aendre hukommelsen til fire,Cmd.MemoryChange
+i can't find my android phone,Cmd.FindMyPhone
+"hvor mange kalorier har jeg forbraendt, mens jeg cykler",Cmd.ActivityCycle
+jeg kan ikke huske hvor mit venstre horeapparat er,Help_FindMyHearingAids
+hvordan aendrer jeg krydsbalancen?,Help_WiCROS
+ny pamindelse spis et aeble hver dag kl.,Help_ThriveScore
+find mit andet horeapparat,Help_FindMyHearingAids
+pamindelseshjaelp,Help_Reminder
+kan du indstille hukommelsen til nummer fire,Cmd.MemoryChange
+mind mig venligst om at genopfylde min recept i morgen eftermiddag,reminders.add
+vis mig en udskrift,Cmd.TranscribeStart
+starte oversaettelsen,Cmd.TranslationStart
+hvad er edge mode?,Help_EdgeMode
+transskribere denne samtale,Cmd.TranscribeStart
+find venligst mit venstre horeapparat,Help_FindMyHearingAids
+kan du skifte til tinnitus,Cmd.MemoryChange
+selvtjek mislykkedes.,Help_SelfCheck
+vejled mig i faldvarsler,Help_FallAlert
+kan du taende mit hojre horeapparat,Cmd.VolumeUnmute
+hvad er nyt i denne trivelige app?,Help_WhatsNew
+hvordan soger jeg efter mine horeapparater i appen,Help_FindMyHearingAids
+kan du kalorier traene,Cmd.ActivityExercise
+hvordan virker lydstyrkejusteringer,Help_Volume
+skridt taget?,Cmd.ActivityStep
+kan du hukommelsesindstillinger,Help_MemoryOptions
+hvordan vasker jeg mit horeapparat?,Help_CleanCare
+hvordan virker raketter?,Default Fallback Intent
+hjaelp mig med at finde mit horeapparat,Help_FindMyHearingAids
+er mit hjaelpemiddel forbundet med appen?,Help_Pairing
+kan du hjaelpe med pulsen,Help_HeartRate
+kan du miste telefonen,Cmd.FindMyPhone
+hvordan sletter jeg tilbehor fra min app?,Help_Accessories
+hvordan skruer jeg ned for mine horeapparater,Help_Volume
+tradlos streame lyden,Cmd.StreamingStart
+hvordan skifter jeg fra den avancerede app til den grundlaeggende app?,Help_AppSettings
+jeg mistede mine horeapparater,Help_FindMyHearingAids
+stille det ned for mig,Cmd.VolumeDecrease
+hjaelp venligst med tinnitus stojjusteringer i mine hjaelpemidler,Help_Tinnitus
+gore talen mere stille,Cmd.VolumeDecrease
+"forklare, hvordan jeg deler min lyd",Help_HearShare
+hvad er mit skridttaeller?,Cmd.ActivityStep
+er det tid til at oplade mine horeapparater,Cmd.BatteryLevel
+jeg kan ikke huske hvor mit andet hjaelpemiddel er,Help_FindMyHearingAids
+hvordan aendrer jeg lydstyrken pa min fjernbetjeningsmikrofon?,Help_Accessories
+hvordan geotagger jeg min nuvaerende hukommelse?,Help_MemoryOptions
+forklar funktionen find mine hjaelpemidler,Help_FindMyHearingAids
+book mig en flyrejse,Default Fallback Intent
+"hvordan ved jeg, hvornar min audiolog har justeret hjaelpemidlet?",Help_RemoteProgramming
+jeg har brug for hjaelp til at parre telefonen,Help_Pairing
+hvor er knappen til hukommelse?,Help_ChangingMemories
+kalorier forbraendt i dag,Cmd.ActivityCalories
+hvordan sender jeg en anmodning til min specialist,Help_HearingCareAnywhereConnect
+kan du minde mig om at ga til laegen,reminders.add
+hvorfor kan jeg ikke fa mine horeapparater til at ga igennem pa min telefon til at ga igennem mine horeapparater,Help_Pairing
+hvor laenge har jeg lobet?,Cmd.ActivityRun
+kan du helt,Default Fallback Intent
+venligst jeg har brug for mere volumen,Cmd.VolumeIncrease
+kan du jeg kan ikke huske hvor min hjaelp er,Help_FindMyHearingAids
+"optag den gatur, jeg lige er faerdig med",Cmd.ActivityWalk
+hvordan soger jeg efter mit andet horeapparat?,Help_FindMyHearingAids
+tilfoje en pamindelse til mit mode,reminders.add
+hvordan kobler jeg mine hjaelpemidler til bluetooth,Help_Pairing
+gore talen hojere,Cmd.VolumeIncrease
+venligst jeg kan ikke huske hvor mit venstre hjaelpemiddel er,Help_FindMyHearingAids
+sluk venligst fjernsynet,Default Fallback Intent
+hvordan indsaetter jeg mit hojre horeapparat?,Cmd.VolumeIncrease
+hvor bliver transskriptioner gemt,Help_Transcribe
+stop det var ikke det jeg mente,Cmd.SendMessage - no
+kan du saenke lydstyrken,Cmd.VolumeDecrease
+forklare fjernjusteringer,Help_RemoteProgramming
+jeg har brug for at fortaelle nogen noget,Cmd.SendMessage
+skifte program,Cmd.MemoryChange
+fa en besked til min familie,Cmd.SendMessage
+kan du nej lad vaere.,Cmd.SendMessage - no
+vise mig mit standmal?,Cmd.ActivityStand
+forskellig lydstyrke for min venstre og hojre,Help_Volume
+hjaelp mig med at forsta skiftende hukommelser,Help_ChangingMemories
+hvordan virker komfortboost?,Help_DeviceSettings
+kan du stemme en hjaelp,Help_IntelliVoice
+kan du gym indstilling,Cmd.MemoryChange
+how would i know if an alert text message is canceled?,Help_FallAlert
+fa mine hjaelpemidler til at lytte til fjernmikrofonen,Cmd.StreamingStart
+skal jeg bruge nye batterier,Cmd.BatteryLevel
+forklare personalisering af min horelse,Help_Customize
+hvordan vender jeg tilbage til min standardlydstyrke?,Help_Volume
+optag min traening for mig,Cmd.ActivityExercise
+raise up the volume,Cmd.VolumeIncrease
+hvordan sender cros lyd til mit gode ore,Help_WiCROS
+venligst venstre horeapparat,Default Fallback Intent
+tone det lidt ned,Default Fallback Intent
+venligst score af tvillingspillet,Default Fallback Intent
+hjaelpe med at tilpasse mine indstillinger,Help_Customize
+kan du hjaelpe med at skifte program pa mit horeapparat,Help_ChangingMemories
+hvor mange skridt indtil mit mal,Cmd.ActivityStep
+kan du hjaelpe mig med at finde mit venstre horeapparat,Help_FindMyHearingAids
+kan mit horeapparat saettes op til en iphone og en ipad pa samme tid,Help_Pairing
+hvor er maskeindstillingen pa mine horeapparater,Default Fallback Intent
+spore min genopretning af pulsen,Help_HeartRateRecovery
+kan du forklare det grundlaeggende,Help_Home
+hvordan far jeg adgang til hovedskaermen?,Help_Home
+kan du spille sidste push-to-talk.,Cmd.ListenMessage
+hvordan far jeg adgang til startskaermen?,Help_Home
+kan du der er et problem med mine horeapparater,Help_SelfCheck
+giv mig min energiforbraending,Cmd.ActivityCalories
+hvordan forbedrer jeg min ipro-score?,Help_ThriveScore
+hvordan skruer jeg ned for lydstyrken pa mit hjaelpemiddel?,Help_Volume
+"vis mig, hvordan dette fungerer",Help_Home
+"kan du minde mig om, at jeg har en laegetid",reminders.add
+justere tilstanden til trafik,Cmd.MemoryChange
+kan du skrue lydstyrken til normal,Cmd.VolumeUnmute
+husk at vaske bilen,reminders.add
+jeg har brug for hjaelp til at parre horeapparaterne,Help_Pairing
+kan du tv dampe,Cmd.StreamingStart
+indstil programmet til tale,Cmd.MemoryChange
+"loft venligst enheden, der ikke registreres",Default Fallback Intent
+hvornar vil jeg sende en manuel advarsels-sms?,Help_FallAlert
+sla streaming fra nu,Cmd.StreamingStop
+streame lyd til mine horeapparater,Cmd.StreamingStart
+begynde at oversaette for mig,Cmd.TranslationStart
+hvordan deaktiverer jeg dobbelttryk pa mit hjaelpemiddel?,Help_DeviceSettings
+jeg har brug for det blodere,Cmd.VolumeDecrease
+vise mine skridt indtil videre,Cmd.ActivityStep
+opbygning af voks,Help_CleanCare
+hvordan skruer jeg op for lyden pa netop det rigtige horeapparat?,Help_Volume
+er min puls normal,Help_HeartRate
+sluk venligst venstre hjaelpemiddel,Cmd.VolumeMute
+mind venligst om fest kl. 12. pa fredag,reminders.add
+"forklare, hvornar du skal bruge masketilstand",Help_MaskMode
+hvordan fungerer engagementsscore?,Help_ThriveScore
+hvor mange minutter har jeg dyrket aerobic?,Cmd.ActivityAerobics
+"kan du medier finde os, uanset hvor du far din podcast",Default Fallback Intent
+sluk venligst mine hjaelpemidler,Cmd.VolumeMute
+kan du nogen fra motel i boise,Default Fallback Intent
+mind mig venligst om at ringe til min bror pa veterandagen,reminders.add
+hvordan aendrer jeg hukommelsen pa horeapparaterne?,Help_ChangingMemories
+"hvordan ved jeg, om horeapparaterne er parret med min telefon?",Help_Pairing
+hvor er hjertefunktionen i appen?,Help_HeartRate
+vaer venlig at hjaelpe med justering af tinnitusvolumen til min hjaelp,Help_Tinnitus
+skru venligst op for lydstyrken,Cmd.VolumeIncrease
+kan du indstille en pamindelse til kl. 7 i morgen om aftensmad,reminders.add
+stoppe lydstrommen,Cmd.StreamingStop
+mit venstre hjaelpemiddel mangler,Help_FindMyHearingAids
+kan du transskribere hjaelp,Help_Transcribe
+hvor justerer jeg bas og diskant,Help_Customize
+bruge mine horeapparater som hojttalere,Cmd.StreamingStart
+hvordan starter jeg en anmodning om fjernpleje,Help_HearingCareAnywhereConnect
+opfang tv-streamsignal,Cmd.StreamingStart
+mind mig venligst om at ga pa arbejde den 19. august,reminders.add
+forklare mig pulsgendannelse,Help_HeartRateRecovery
+vise mig mit skridttaeller?,Cmd.ActivityStep
+kan du det var kulsort ude i butikken,Default Fallback Intent
+kan du annullere optagelsen.,Cmd.SendMessage - no
+hvad betyder pulsgendannelsestallet?,Help_HeartRateRecovery
+hvor er mine fitnessmal,Help_Health
+hvordan tilpasser jeg min lyd,Help_Customize
+er transskriberingsfunktionen gratis,Help_Transcribe
+"brummer mig, nar det er tid",reminders.add
+fortael mig om levende billedtekster,Help_Transcribe
+kan du aendre til personlig,Cmd.MemoryChange
+hvordan taender jeg for den beroligende lyd,Help_Tinnitus
+dagens kalorietal,Cmd.ActivityCalories
+saet venligst en pamindelse,reminders.add
+"venligst jeg er ligesom ah, sa det er pointen der ned.",Default Fallback Intent
+"kan du vise mig, hvor laenge jeg har gaet?",Cmd.ActivityWalk
+venligst jeg kan ikke fa mit horeapparat ind,Help_InsertDevice
+hvad er der pa hovedskaermen?,Help_Home
+hvordan justerer jeg min tinnitusstoj?,Help_Tinnitus
+start tv-stream,Cmd.StreamingStart
+omdanne tale til tekst nu,Cmd.TranscribeStart
+det er forkert send det ikke,Cmd.SendMessage - no
+fuldfore pamindelsen,reminders.complete
+kan du huske nummer et,Cmd.MemoryChange
+where would i send a manual alert?,Help_FallAlert
+"kan du, jeg kan ikke lyve",Default Fallback Intent
+hvorfor virker mit hojre horeapparat ikke,Help_SelfCheck
+forklare justering af lydstyrke pr. ore,Help_Volume
+kan du sla lyden fra pa horeapparater,Cmd.VolumeMute
+nej nej send.,Cmd.SendMessage - no
+hvor kan jeg se min wellness-score,Help_ThriveScore
+hjaelp til at aendre programmer ved hjaelp af appen,Help_ChangingMemories
+kan du skifte indstilling til nummer to,Cmd.MemoryChange
+kan du teater indstilling,Cmd.MemoryChange
+kan du skifte tjek hende ud,Default Fallback Intent
+kan du stille indstilling,Cmd.MemoryChange
+adjust right ear for higher sound,Cmd.VolumeIncrease
+sende lyd direkte til mine hjaelpemidler,Cmd.StreamingStart
+minimum lyd,Cmd.VolumeDecrease
+hvad er alle egenskaberne ved sundhed?,Help_Health
+kan du skifte til tale,Cmd.MemoryChange
+kan du skrue ned for mine horeapparater,Cmd.VolumeDecrease
+afspille mikrofonen,Cmd.StreamingStart
+venligst jeg har brug for hjaelp til parring,Help_Pairing
+sog i naerheden efter mine hjaelpemidler,Help_FindMyHearingAids
+hvordan aktiverer jeg masketilstand for masker,Help_MaskMode
+kan du spise i naerheden af ​​mig,Default Fallback Intent
+minde mig om at ringe til nogen hver dag kl.,reminders.add
+kan du skifte til program nummer et,Cmd.MemoryChange
+virker det med alexa,Help_VoiceAssistant
+booste lyden lidt,Cmd.VolumeIncrease
+hvordan kommer jeg af med voks i mit horeapparat,Help_CleanCare
+hvor mange flere trin skal jeg bruge i dag?,Cmd.ActivityStep
+logge en cykelsession,Cmd.ActivityCycle
+hvordan aendrer jeg ringetonerne pa mine horeapparater?,Help_DeviceSettings
+hvordan er mit cykelforlob,Cmd.ActivityCycle
+kan du stojprogram,Cmd.MemoryChange
+"hvordan ved jeg, at mit horeapparat oplader",Help_Battery
+kan jeg lytte til justeringerne foretaget af min audiolog?,Help_RemoteProgramming
+kan du oge lydstyrken,Cmd.VolumeIncrease
+hvordan fungerer intellivoice?,Help_IntelliVoice
+kan du traene mal,Cmd.ActivityExercise
+spore min aerobe traening,Cmd.ActivityAerobics
+hvad er lydstyrkekontrolfunktionen,Help_Volume
+lyt venligst til tv,Cmd.StreamingStart
+streaming,Cmd.StreamingStart
+hvordan aendrer jeg lydstyrken pa mine hjaelpemidler?,Help_Volume
+kan jeg tilfoje en partner mikrofon,Help_Accessories
+saet hukommelsen til musik,Cmd.MemoryChange
+venligst det er for hojt skru ned,Cmd.VolumeDecrease
+glem ikke at minde mig om det,reminders.add
+hvordan opretter jeg min egen brugerdefinerede hukommelse?,Help_MemoryOptions
+kan du skrive et program i switch,Default Fallback Intent
+hvad er trive transskriberen,Help_Transcribe
+begynde at spore min traening,Cmd.ActivityExercise
+skriv til denne person,Cmd.SendMessage
+hvad er nyt i min app?,Help_WhatsNew
+hvor kan jeg se mine beats per minut,Help_HeartRate
+hvorfor bliver min batterilevetid kortere,Help_Battery
+hvordan viser jeg appen uden tilsluttede hjaelpemidler?,Help_DemoMode
+kan du skrue op for lydstyrken pa mine horeapparater,Cmd.VolumeIncrease
+hvordan kommer jeg til hjemmesiden,Help_Home
+kan du jeg skal afbryde horeapparaterne fra telefonen,Help_Pairing
+venligst vis mig hvor formindsk baggrunden,Default Fallback Intent
+tilslutte venstre hjaelpemiddel,Help_Pairing
+send ikke.,Cmd.SendMessage - no
+afslutte min seneste pamindelse.,reminders.complete
+hjaelp mig med at skifte tinnitusprogram,Help_Tinnitus
+kan du minde mig om aftensmad om 1 time,reminders.add
+what sounds will i hear in my hearing aid if i fall?,Help_FallAlert
+hvordan saetter jeg hearshare op?,Help_HearShare
+kan du senest pamindelse afsluttet.,reminders.complete
+hjaelp til pulsmaling,Help_HeartRate
+hvor meget ladning har jeg tilbage,Cmd.BatteryLevel
+hvordan bruger jeg mit horeapparat med tilbehor?,Help_Accessories
+ring venligst til en ven,Default Fallback Intent
+hvordan deler jeg mine oplysninger med min datter?,Help_HearShare
+kan jeg bruge appen uden horeapparat,Help_DemoMode
+hvordan aktiverer jeg dobbelttryk pa mine horeapparater?,Help_DeviceSettings
+opsaetningspamindelse,reminders.add
+hvordan aendrer jeg cros balancen pa senderen?,Help_WiCROS
+hvordan maerker jeg en placering til en hukommelse?,Help_MemoryOptions
+hvor kan jeg se de ord nogen siger?,Help_Transcribe
+begynde min aerobic session,Cmd.ActivityAerobics
+begynde at skrive talen ned,Cmd.TranscribeStart
+hjaelpe med tinnitus-stimulusjusteringer pa mit hjaelpemiddel,Help_Tinnitus
+kan du skrue op for mit hojre hjaelpemiddel,Cmd.VolumeIncrease
+kan du huske for i dag,reminders.add
+mit venstre horeapparat reagerer ikke,Help_SelfCheck
+hvad gor denne dnn taleforbedring?,Help_IntelliVoice
+kan du streame tv,Cmd.StreamingStart
+kan du indstille en pamindelse om at afhente recept i dag kl.,reminders.add
+hvad transskriberer gor,Help_Transcribe
+kan du lave lydstyrken lavere,Cmd.VolumeDecrease
+trives oversaette hjaelp,Help_Translate
+hvordan justerer jeg min lydstyrke af tinnitus-stimulus pa mine hjaelpemidler?,Help_Tinnitus
+"fortael mig, hvad mit standmal er",Cmd.ActivityStand
+pa volumen,Cmd.VolumeUnmute
+lad et familiemedlem lytte med,Help_HearShare
+hvordan oger jeg lydstyrken,Help_Volume
+kan du minde mig om at hente min recept kl. pa onsdag,reminders.add
+kan du minde mig om at tjekke min computer,reminders.add
+er spansk tilgaengelig til oversaettelse,Help_Translate
+sende ord,Cmd.SendMessage
+forbind venligst til fjernbetjeningen,Cmd.StreamingStart
+hvordan gor jeg den ene side hojere,Help_Volume
+hvordan bruger jeg kanttilstand,Help_EdgeMode
+hvor taet er jeg pa mit staende mal.,Cmd.ActivityStand
+forbinde lyden fra min telefon til mine hjaelpemidler,Cmd.StreamingStart
+jeg har brug for et skub i morgen tidlig,reminders.add
+skru ned for lyden i mit hojre horeapparat,Cmd.VolumeDecrease
+hjaelpe mine hjaelpemidler med at miste forbindelsen til telefonen,Help_Pairing
+venligst ja send det.,Cmd.SendMessage - yes
+how much longer do i need to exercise today,Cmd.ActivityExercise
+se min puls i bpm,Help_HeartRate
+kan du godt sende.,Cmd.SendMessage - yes
+hvordan lader jeg en anden person hore med mig,Help_HearShare
+lyt venligst til oplaegsholderen,Cmd.StreamingStart
+please send.,Cmd.SendMessage - yes
+kan du minde mig om at drikke vand i dag,reminders.add
+hvor er enhedstesten,Help_SelfCheck
+jeg mistede overblikket over mine hjaelpemidler,Cmd.BatteryLevel
+venligst jeg har mistet mine horeapparater,Help_FindMyHearingAids
+kan du skrive en besked,Cmd.SendMessage
+kan du mine horeapparater have for meget diskant,Help_Customize
+kan min fagmand justere mit hjaelpemiddel pa afstand?,Help_RemoteProgramming
+kan du minde mig om det,reminders.add
+hvad er mit cykelmal?,Cmd.ActivityCycle
+discover android phone,Cmd.FindMyPhone
+hvordan vaelger jeg et oversaettelsessprog,Help_Translate
+hjaelp venligst med at aendre programmer ved hjaelp af appen,Help_ChangingMemories
+when could i send a manual alert text message?,Help_FallAlert
+venligst raichu computerprogrammeringssuite pa binaer sogning,Default Fallback Intent
+kan du det er okay.,Cmd.SendMessage - yes
+sende tv-lyden til mig,Cmd.StreamingStart
+hvad er firmwareversionen af ​​mine horeapparater?,Help_DeviceSettings
+saet programmet til teater,Cmd.MemoryChange
+hvordan far jeg bedre aktivitetsresultater?,Help_ThriveScore
+mind mig venligst om at udsende julekort hvert ar den 1. december kl. 17.00.,reminders.add
+parrer venligst mine horeapparater med thrive-appen,Help_Pairing
+hvordan skifter jeg til en anden hukommelse pa mine hjaelpemidler?,Help_ChangingMemories
+kan du lyde pa,Cmd.VolumeUnmute
+hvordan justerer jeg folsomheden af ​​dobbelttryk?,Help_DeviceSettings
+hjaelpe med at forsta fjerntuning,Help_RemoteProgramming
+skru op for lyden i mit venstre horeapparat,Cmd.VolumeIncrease
+skrue ned for mine hjaelpemidler,Cmd.VolumeDecrease
+hvordan sikkerhedskopierer jeg mine thrive app-data,Help_HearingCareAnywhereConnect
+hvornar kunne jeg starte en manuel advarsel?,Help_FallAlert
+parrer venligst mine horeapparater pa telefonen,Help_Pairing
+kan du kokken indstilling,Cmd.MemoryChange
+hvad betyder engagement score?,Help_ThriveScore
+"kan du, jeg kan ikke finde mit rette hjaelpemiddel",Help_FindMyHearingAids
+hjaelp til justering af hvid stoj,Help_Tinnitus
+hvordan man opretter begivenhed,Help_Reminder
+skru ned for det rigtige horeapparat,Cmd.VolumeDecrease
+kan du indstille programmet til mute,Cmd.MemoryChange
+kan du parre mine horeapparater med thrive-appen,Help_Pairing
+hvad er masketilstand?,Help_MaskMode
+skrue ned for mit horeapparat,Help_Volume
+hvordan far jeg mit venstre hjaelpemiddel til at streame,Help_Accessories
+hvordan nulstiller jeg lydstyrken pa horeapparatet?,Help_Volume
+make it louder,Cmd.VolumeIncrease
+stojen er uudholdelig,Cmd.VolumeDecrease
+recover iphone,Cmd.FindMyPhone
+kan du programmere fire,Cmd.MemoryChange
+afslutte tv-linket til mine hjaelpemidler,Cmd.StreamingStop
+kan du horeapparat ikke virker,Help_SelfCheck
+traek ned lige her i alice sporgsmal,Default Fallback Intent
+"hvordan ved jeg, hvornar audiologen justerede horeapparatet?",Help_RemoteProgramming
+der arbejder pa at aendre det,Default Fallback Intent
+begynde min ga-traening,Cmd.ActivityWalk
+hvordan afspiller jeg notifikationer gennem mine hjaelpemidler?,Help_DeviceSettings
+kan du parre enheder med min thrive app,Help_Pairing
+hvad er anderledes ved at engagere sig?,Help_WhatsNew
+kan du aendre metalplader myrtle beach storm,Default Fallback Intent
+kan du gudstjenesteprogram,Cmd.MemoryChange
+gore mine horeapparater lydlose,Cmd.VolumeMute
+hvad er kvantefysik?,Default Fallback Intent
+begynd at streame tv til mine horeapparater,Cmd.StreamingStart
+how many steps have i taken this week,Cmd.ActivityStep
+genoprette min horelse nu,Cmd.VolumeUnmute
+indstille horeapparaterne anderledes,Cmd.MemoryChange
+hvordan indstiller jeg min telefon til at ringe i mine horeapparater,Help_Pairing
+begynde at lobe,Cmd.ActivityRun
+kan du tilbede minde,Cmd.MemoryChange
+hvordan aendrer jeg minder pa mit hjaelpemiddel?,Help_ChangingMemories
+ga en tur,Cmd.ActivityRun
+"hvordan ved jeg, hvornar min horespecialist har justeret mit apparat?",Help_RemoteProgramming
+hjaelp til justering af tinnitusstimulus i mine horeapparater,Help_Tinnitus
+skift venligst til tilbedelse,Cmd.MemoryChange
+tale til tekst hjaelp,Help_Transcribe
+kan du hjaelpe mig med at finde min hjaelp,Help_FindMyHearingAids
+hjaelp til enhedsindstillinger,Help_DeviceSettings
+hvorfor kan jeg ikke fa 200 point med den venlige score?,Help_ThriveScore
+hvad der er tilbage pa mit batteri,Cmd.BatteryLevel
+hvor meget laengere skal jeg sta,Cmd.ActivityStand
+guide mig gennem de vigtigste funktioner,Help_Home
+alt lyder for stille,Cmd.VolumeIncrease
+mine daglige sundhedsmalinger,Help_Health
+hvorfor falder lyden nogle gange,Help_DeviceSettings
+hvorfor gar lydstyrken pa mit horeapparat ned til ingenting,Help_Volume
+stemmerne er svaere at hore,Cmd.VolumeIncrease
+hjaelp mig med at opsaette en brugerdefineret hukommelse,Help_MemoryOptions
+jeg vil gerne videregive en besked,Cmd.SendMessage
+hjaelpe med at transskribere,Help_Transcribe
+vis mig venligst en hurtigstartguide,Help_WhatsNew
+hvordan sikkerhedskopierer jeg dataene i mit hjaelpemiddel?,Help_HearingCareAnywhereConnect
+hjaelp venligst med tinnitusmaskerjusteringer i mit horeapparat,Help_Tinnitus
+venligst afspil min besked.,Cmd.ListenMessage
+indstil venligst en pamindelse om at tage medicin i dag kl.,reminders.add
+kan du golf indstilling,Cmd.MemoryChange
+mit horeapparat bliver ved med at glide ud,Help_InsertDevice
+hvor er min mobil,Cmd.FindMyPhone
+venligst jeg har ikke en normal hukommelse,Help_MemoryOptions
+kan du aendre hukommelsen,Cmd.MemoryChange
+saet venligst programmet til nummer et,Cmd.MemoryChange
+android telefon mangler,Cmd.FindMyPhone
+giv mig lyd igen,Cmd.VolumeUnmute
+alle nye beskeder laeser dem,Cmd.ListenMessage
+hvornar skal jeg starte en manuel advarselstekst?,Help_FallAlert
+parringshjaelpemidler med min telefon,Help_Pairing
+sender et klip pa mikrofon lyd til mine hjaelpemidler,Help_Accessories
+tilfoj venligst pamindelse om modet,reminders.add
+hjaelp mig med at finde min iphone,Cmd.FindMyPhone
+hvad gor intelligent stemme,Help_IntelliVoice
+brug profilen til stojende steder,Cmd.MemoryChange
+indstil venligst programmet til bilen,Cmd.MemoryChange
+"del min lyd, sa andre kan hore",Help_HearShare
+"venligst bestemt produkt, du onskede at kontrollere specifikt",Default Fallback Intent
+apple music log ind,Default Fallback Intent
+kan horespecialisten fjernjustere horeapparaterne?,Help_RemoteProgramming
+hvor nojagtig er pulsmalingen,Help_HeartRate
+giv mig mit tv-program,Cmd.MemoryChange
+kan du gore lyden mere stille,Cmd.VolumeDecrease
+korrekt det er beskeden,Cmd.SendMessage - yes
+hvem opfandt telefonen?,Default Fallback Intent
+hvor transskriberes,Help_Transcribe
+how would i cancel an alert message text message?,Help_FallAlert
+kan du skifte til kokken,Cmd.MemoryChange
+hvor er hjaelp til intelligent stemme,Help_IntelliVoice
+optage en besked til en ven,Cmd.SendMessage
+logge min gang,Cmd.ActivityWalk
+hjaelpe med at aendre minder pa mine hjaelpemidler,Help_ChangingMemories
+hvor kan jeg finde tela her,Help_HearingCareAnywhereConnect
+begynde at spore min aerobic,Cmd.ActivityAerobics
+kan du sla streaming til,Cmd.StreamingStart
+kan du pub hukommelse,Cmd.MemoryChange
+kan du indstille en pamindelse om at rense horeapparater i dag,reminders.add
+venligst lydstyrken for horeapparatet,Cmd.VolumeUnmute
+det er for hojt for mig,Cmd.VolumeDecrease
+hjaelp venligst med tinnitus-stimulusjusteringer pa mit horeapparat,Help_Tinnitus
+hvordan justerer jeg min lydstyrke af tinnitus-lydstyrken i horeapparatet?,Help_Tinnitus
+hvordan far jeg bedre engagementsscore?,Help_ThriveScore
+kan du sende en talebesked,Cmd.SendMessage
+hvad er aktiekursen pa apple?,Default Fallback Intent
+skrive besked,Cmd.SendMessage
+hvordan tilpasser jeg mine horeapparatindstillinger?,Help_Customize
+tilslutte lyd til horeapparater,Cmd.StreamingStart
+kan du hjaelpe med at transskribere,Help_Transcribe
+kan du oversaette hvor meget jeg skylder dig til spansk,Cmd.TranslationStart
+batteri godt nok til aftenen,Cmd.BatteryLevel
+skal disse oplades lige nu,Cmd.BatteryLevel
+hjaelp venligst med stream,Help_Accessories
+hvordan aendrer jeg mine app-indstillinger?,Help_AppSettings
+kan du minde mig om middag kl. 1523,reminders.add
+laes mine beskeder hojt,Cmd.ListenMessage
+"forklar, hvornar kanttilstand hjaelper",Help_EdgeMode
+sla lyden lidt ned,Cmd.VolumeDecrease
+sluk venligst alarmen,Default Fallback Intent
+hjaelp til at skifte program pa mit horeapparat,Help_ChangingMemories
+kan du minde mig om dette senere,reminders.add
+hvor mange skridt har jeg gaet,Cmd.ActivityStep
+vis mig tilgaengelige kommandoer,Help_Home
+taend venligst mit hojre horeapparat,Cmd.VolumeUnmute
+"forklare, hvordan genopretning spores",Help_HeartRateRecovery
+"tv'et er taendt, men jeg savner, hvad de siger",Cmd.VolumeIncrease
+forklare mine programopsaetningsmuligheder,Help_MemoryOptions
+folk lyder daempede og svage,Cmd.VolumeIncrease
+hvordan handterer jeg sved pa mine hjaelpemidler,Help_CleanCare
+jeg har brug for at hore bedre skrue op,Cmd.VolumeIncrease
+kan jeg bruge siri med mine hjaelpemidler,Help_VoiceAssistant
+hvordan slar jeg intellivoice til,Help_IntelliVoice
+hjaelpe mine hjaelpemidler til at lyde krakelerende,Help_DeviceSettings
+hvad er mit resterende belob?,Cmd.BatteryLevel
+er masketilstand nyttig med masker,Help_MaskMode
+"henvise mig til, hvad jeg kan gore her",Help_Home
+hvordan skifter jeg batteriet i mit horeapparat?,Help_Battery
+hvor langt er jeg lobet?,Cmd.ActivityRun
+optag min aerobe traening,Cmd.ActivityAerobics
+jeg mistede mit horeapparat,Help_FindMyHearingAids
+hukommelsesindstillinger,Help_MemoryOptions
+spore denne traening,Cmd.ActivityExercise
+kan du skifte hukommelse til fire,Cmd.MemoryChange
+hvor mange kalorier har jeg brugt til aerobic?,Cmd.ActivityAerobics
+vis mig venligst mit joggingmal,Cmd.ActivityRun
+hvordan bruger jeg transskribering,Help_Transcribe
+hvornar skal jeg bruge voice ai?,Help_IntelliVoice
+ende strom,Cmd.StreamingStop
+kan du hjaelpe med at aendre minder ved at bruge min thrive app,Help_ChangingMemories
+hjaelpe med at finde mine horeapparaters funktion,Help_FindMyHearingAids
+jeg vil ikke have streamen laengere,Cmd.StreamingStop
+mit hjaelpemiddel foles lost i mit ore,Help_InsertDevice
+tidsplan pamindelse,reminders.add
+"hvordan kontrollerer jeg, om mine horeapparater er parret med telefonen?",Help_Pairing
+"hore det, mens de skal ga.",Default Fallback Intent
+hvor efterlod jeg min telefon,Cmd.FindMyPhone
+kan jeg bruge en reversmikrofon med mine hjaelpemidler,Help_Accessories
+hvordan konfigurerer jeg sprogoversaettelse,Help_Translate
+kan du skrue op for lyden i mit hojre horeapparat,Cmd.VolumeIncrease
+husk at d-vitamin kl. hver dag,reminders.add
+kan du begynde at oversaette,Cmd.TranslationStart
+minimum lydstyrke,Cmd.VolumeDecrease
+hvor mange skridt har jeg taget i dag,Cmd.ActivityStep
+"venligst bare ikke du ramte jorden, men vil tjekke det",Default Fallback Intent
+har jeg naet mit lobemal?,Cmd.ActivityRun
+min enhed vil ikke sidde korrekt,Help_InsertDevice
+kan du hjaelpe med tinnitusmaskerjusteringer pa mit hjaelpemiddel,Help_Tinnitus
+hvordan bruger jeg oversaettelsesfunktionen?,Help_Translate
+hvordan tilfojer jeg bilprogrammet?,Help_DeviceSettings
+hvordan far jeg mere information om triveresultatet?,Help_ThriveScore
+ga venligst tilbage til et hojt niveau,Default Fallback Intent
+udlose en alarm pa min telefon,Cmd.FindMyPhone
+where should i initiate a manual alert?,Help_FallAlert
+hvordan justerer jeg min stojmasker i hjaelpemidlet?,Help_Tinnitus
+hvordan kan jeg tilpasse mine hojre horeapparater?,Help_Customize
+venligst forbraendte kalorier i dag,Cmd.ActivityCalories
+indtast tilstanden for trafikstoj,Cmd.MemoryChange
+oversaette til engelsk,Cmd.TranslationStart
+kan du daempe hjaelpemidlerne,Cmd.VolumeMute
+hvordan kan jeg indstille lydstyrken pr. ore,Help_Volume
+"kan du bare holde mig, at du soger",Default Fallback Intent
+hvor gammel er tom cruise?,Default Fallback Intent
+"kan du ja, jeg er blevet opdateret.",Default Fallback Intent
+indstil venligst hukommelsen til fitnesscenter,Cmd.MemoryChange
+vise mig min ganghistorie?,Cmd.ActivityWalk
+hvor er min android,Cmd.FindMyPhone
+"ved du, hvor de har checken, vi skal skifte for at saette ind der. det er fint.",Default Fallback Intent
+drej mit venstre horeapparat ned,Cmd.VolumeDecrease
+hvordan aendrer jeg min horeapparathukommelse?,Help_ChangingMemories
+resterende batteri,Cmd.BatteryLevel
+minde mig om det,reminders.add
+besked til en ven,Cmd.SendMessage
+hjaelp venligst med tv-streamer,Help_Accessories
+kan du jeg vil lytte til oplaegsholderen,Cmd.StreamingStart
+hvordan aendrer jeg lydstyrken pa kun et hjaelpemiddel?,Help_Volume
+hvem er praesidenten,Default Fallback Intent
+hvad hvis jeg ikke kan lide audiologens justeringer?,Help_RemoteProgramming
+kan du jeg kan ikke huske hvor mine horeapparater er,Help_FindMyHearingAids
+kan du sla programmet fra,Cmd.MemoryChange
+"vis mig, hvordan jeg saetter mit horeapparat pa",Help_InsertDevice
+jeg har brug for fuldstaendig stilhed nu,Cmd.VolumeMute
+udfyld venligst min pamindelse.,reminders.complete
+hvordan geotagger jeg mit nuvaerende program?,Help_MemoryOptions
+kan du indstille program til master,Cmd.MemoryChange
+minde mig venligst om min aftale,reminders.add
+venligst kalorier traener,Cmd.ActivityExercise
+horeapparat audio link,Cmd.StreamingStart
+hjaelpe med stojstimulusjustering pa mine hjaelpemidler,Help_Tinnitus
+hjaelp med ringen for mine orer,Help_Tinnitus
+"vis mig, hvordan man indsaetter horeapparater i mine orer.",Help_InsertDevice
+hvordan opretter jeg en begivenhed,Help_Reminder
+oversaet denne samtale,Cmd.TranslationStart
+hvordan far man bedre horelse med edge mode?,Help_EdgeMode
+lydstyrke ned hojre hjaelp,Cmd.VolumeDecrease
+hvordan skruer jeg op for tv-lydstyrken?,Help_Accessories
+folk lyder for blode,Cmd.VolumeIncrease
+hvordan trykker jeg for kanttilstand,Help_EdgeMode
+forklar hovedskaermen for mig,Help_Home
+kan du indstille musik,Cmd.MemoryChange
+kan du minde mig om at traene,reminders.add
+jeg kan ikke finde mit andet horeapparat,Help_FindMyHearingAids
+sende en besked til en person,Cmd.SendMessage
+trives assistent brugervejledning,Help_VoiceAssistant
+minde mig hvert ar om at ga til laegen kl. 8.,reminders.add
+guide mig til at bruge pamindelser,Help_Reminder
+hjaelp mig med at kontakte en ven,Cmd.SendMessage
+hvad der star pa hjemmesiden,Help_Home
+der er et problem med mine horeapparater,Help_SelfCheck
+hvordan oplader jeg mit ric horeapparat?,Help_Battery
+hvor ofte skal jeg rense mine horeapparater,Help_CleanCare
+preview app funktioner uden hjaelpemidler,Help_DemoMode
+kan du finde min kone,Default Fallback Intent
+kan horespecialisten fjernjustere apparatet?,Help_RemoteProgramming
+mit horeapparat lyder sloret,Help_DeviceSettings
+daempe mine horeapparater,Cmd.VolumeMute
+kan jeg have mine hjaelpemidler pa i brusebadet,Help_CleanCare
+reducere horeapparatets lydstyrke,Cmd.VolumeDecrease
+guide mig igennem det,Help_Home
+hvordan synkroniserer du til horeapparater,Help_Pairing
+kan du holde pa annullere.,Cmd.SendMessage - no
+kan du minde mig om at levere til saint barbara katolske kirke pa fredag ​​9 til 9:30,reminders.add
+mine horeapparater lyder ikke rigtigt,Help_DeviceSettings
+indstil venligst til 90 % volumen,Cmd.VolumeIncrease
+kan du nej lad vaere med det.,Cmd.SendMessage - no
+sla fjernstromning af mikrofoner fra,Cmd.StreamingStop
+forklare funktionen til selvtjek,Help_SelfCheck
+lav lyd fra,Cmd.VolumeMute
+hvordan skruer jeg ned for lydstyrken pa mit horeapparat?,Help_Volume
+marker min sidste pamindelse som fuldfort,reminders.complete
+mit hojre horeapparat vil ikke dreje,Help_SelfCheck
+hvor meget har jeg gaet denne maned?,Cmd.ActivityWalk
+oversaet venligst til russisk,Cmd.TranslationStart
+tjek den pamindelse fra listen,reminders.complete
+hvor kan jeg se mine helbredsdata,Help_Health
+indstil venligst en pamindelse til torsdag,reminders.add
+taend for lyden i mit venstre horeapparat,Cmd.VolumeUnmute
+jeg har brug for hjaelp til at parre mit hjaelpemiddel til min telefon,Help_Pairing
+kan du vise mig brugermanualen til mit tilbehor,Help_Accessories
+"hvordan ved jeg, hvornar audiologen justerede mine hjaelpemidler?",Help_RemoteProgramming
+hvad er hjertehjaelp restitution,Help_HeartRateRecovery
+skru venligst ned for mine horeapparater,Cmd.VolumeDecrease
+afspil venligst sidste besked,Cmd.ListenMessage
+hvordan skruer jeg ned for lydstyrken i mit horeapparat?,Help_Volume
+venligst mere som dette er,Default Fallback Intent
+ny pamindelse for hver dag,reminders.add
+kan du indstille program til nummer tre,Cmd.MemoryChange
+can you turn the volume up,Cmd.VolumeIncrease
+what sounds will i hear if i fall?,Help_FallAlert
+hvordan kan jeg aendre indstillingerne for smart assistent?,Help_AppSettings
+kan du restaurantprogram,Cmd.MemoryChange
+venligst hvor er hukommelsesknappen?,Help_ChangingMemories
+venligst jeg kan ikke finde min android-telefon,Cmd.FindMyPhone
+hjaelp venligst med justering af tinnitusstimulus i mine horeapparater,Help_Tinnitus
+hvordan justerer jeg min stojmasker i mit hjaelpemiddel?,Help_Tinnitus
+jeg gjorde det krydse det af,reminders.complete
+hvordan man indstiller daglig pamindelse,Help_Reminder
+skal jeg rense mine horeapparater dagligt,Help_CleanCare
+hvordan aendrer jeg trykknappen?,Help_DeviceSettings
+hvor mange minutter har jeg lobet?,Cmd.ActivityRun
+lave lyd pa,Cmd.VolumeUnmute
+kan du vise mig min ganghistorie?,Cmd.ActivityWalk
+hvordan skruer jeg op for lydstyrken pa mine horeapparater?,Help_Volume
+kan du mere som dette er,Default Fallback Intent
+hvilke ekstra mikrofoner der understottes,Help_Accessories
+forklare hovedskaermen,Help_Home
+vis mig en oversigt over denne engage-app,Help_WhatsNew
+hvordan gendanner jeg standard appindstillinger,Help_AppSettings
+hvordan forbinder jeg mine horeapparater til min bils bluetooth?,Help_Pairing
+hvordan skruer jeg op for lydstyrken pa kun venstre horeapparat?,Help_Volume
+hvordan aendrer jeg horeapparatets hukommelse?,Help_ChangingMemories
+hvad er ai-stemmefunktionen,Help_IntelliVoice
+lydstyrke ned,Cmd.VolumeDecrease
+min iphone genkender ikke mine venstre horeapparater,reminders.add
+jeg gik lige ind i kirken,Cmd.MemoryChange
+kan du saette volumen pa,Cmd.VolumeUnmute
+where is my ios phone,Cmd.FindMyPhone
+hvordan deaktiverer jeg masketilstand?,Help_MaskMode
+yes please go.,Cmd.SendMessage - yes
+hvordan afspiller jeg notifikationer gennem mine horeapparater?,Help_DeviceSettings
+gore det mindre intenst,Cmd.VolumeDecrease
+hvordan aendrer jeg lydstyrken pa mine horeapparater?,Help_Volume
+lad mig ikke glemme at tage min medicin,reminders.add
+find mine hjaelpemidler,Help_FindMyHearingAids
+hvordan tilslutter jeg mine hjaelpemidler igen,Help_Pairing
+kan hoj musik forarsage tinnitus permanent,Help_Tinnitus
+hvad er et godt genopretningsnummer,Help_HeartRateRecovery
+"beklager dette okay, jeg fik det",Default Fallback Intent
+hvor laenge har jeg cyklet,Cmd.ActivityCycle
+hvad er tilgaengeligt med den grundlaeggende app?,Help_AppSettings
+kan du lyde af,Cmd.VolumeMute
+hvor hvad er hjemmet,Help_Home
+hvor laenge har jeg staet op,Cmd.ActivityStand
+kan du opfange tv-streamsignal,Cmd.StreamingStart
+batteri tjek venligst,Cmd.BatteryLevel
+oversaet til russisk,Cmd.TranslationStart
+skru venligst op for lyden pa horeapparatet,Cmd.VolumeIncrease
+log min jog,Cmd.ActivityRun
+hvor ofte males restitution,Help_HeartRateRecovery
+forklare at dele min lyd med familien,Help_HearShare
+lad mig sende en talebesked,Cmd.SendMessage
+kan du hjaelpe med justering af hvid stoj pa mit horeapparat,Help_Tinnitus
+saet programmet til hjem,Cmd.MemoryChange
+kan du hjaelpe mig med at fa en besked til nogen?,Cmd.SendMessage
+kan du jeg skal parre mine horeapparater med min telefon,Help_Pairing
+hvordan kan jeg se mine ugentlige miljomal?,Help_Health
+kan du maksimal lyd,Cmd.VolumeIncrease
+"forklare, hvordan jeg tester mine enheder",Help_SelfCheck
+kan du indstille pamindelse om bilvask,reminders.add
+hvor efterlod jeg mit venstre horeapparat?,Help_FindMyHearingAids
+skal jeg laegge venstre horeapparat bag oret?,Help_InsertDevice
+find min manglende oresnegl,Help_FindMyHearingAids
+forsoger at fa min horealder til at virke,Help_SelfCheck
+oprette pamindelse,reminders.add
+kan du minde mig om at ringe til min bror pa veterandagen,reminders.add
+hvordan aendrer jeg minder pa mine hjaelpemidler?,Help_ChangingMemories
+kan du hjaelpe med ekstern mikrofon,Help_Accessories
+hjaelp venligst med selvtjek,Help_SelfCheck
+hjaelp til tinnitusmaskerjusteringer i mine hjaelpemidler,Help_Tinnitus
+hvordan hjaelper masketilstand med ansigtsmasker,Help_MaskMode
+what can my hearing aid do when i fall?,Help_FallAlert
+kan du ek divas jam for at sende pengene,Default Fallback Intent
+jeg skal tilslutte mine horeapparater til min telefon,Help_Pairing
+hvordan starter jeg tinnitus relief lyden,Help_Tinnitus
+kan du minde mig om at drikke vand hver dag klokken 10 om morgenen,reminders.add
+hvad betyder kropsscore?,Help_ThriveScore
+kan du skifte program til nummer to,Cmd.MemoryChange
+kan du pumpe op for lydstyrken,Cmd.VolumeIncrease
+hvilke sprog understotter oversaettelse,Help_Translate
+batteriprocent,Cmd.BatteryLevel
+kan du afspille min lydbesked.,Cmd.ListenMessage
+lave endnu en pamindelse,Help_Volume
+hjaelp venligst med intellivoice,Help_IntelliVoice
+hvordan kommer jeg til startskaermen?,Help_Home
+hjaelp med tinnitusmaskerjusteringer til min hjaelp,Help_Tinnitus
+kan du skifte til hukommelse to,Cmd.MemoryChange
+stream venligst fra fjernmikrofonen,Cmd.ActivityStand
+forklare hvordan jeg indsaetter mine hjaelpemidler,Help_InsertDevice
+kan du sla mine hjaelpemidler ned,Cmd.VolumeDecrease
+"forbliver min balancekontrol den samme, hvis jeg skifter program?",Help_WiCROS
+laegge en besked ud,Cmd.SendMessage
+lyder godt send det,Cmd.SendMessage - yes
+kan du indstille hukommelsen til hjemmet,Cmd.MemoryChange
+"hvordan ved jeg, om horeapparaterne er tilsluttet min thrive-app?",Help_Pairing
+afspil venligst sidste lydbesked.,Cmd.ListenMessage
+kan du hjaelpe med at skifte programmer ved hjaelp af min thrive app,Help_ChangingMemories
+hjaelp til opsaetning af stemmestyring,Help_VoiceAssistant
+det her spraenger mine trommehinder,Cmd.VolumeDecrease
+flytte til mit kirkeprogram,Cmd.MemoryChange
+"hvordan ved jeg, hvornar min horespecialist justerede apparatet?",Help_RemoteProgramming
+alright.,Cmd.SendMessage - yes
+hvordan justerer jeg min lydstyrke af den hvide stoj i mit hjaelpemiddel?,Help_Tinnitus
+kan du vise mig hvordan man saetter horeapparater ind i mine orer.,Help_InsertDevice
+guide mig til lindring af tinnitus,Help_Tinnitus
+skridt taget,Cmd.ActivityStep
+vise mit kalorieindhold,Cmd.ActivityCalories
+kan jeg teste funktioner uden hjaelpemidler tilsluttet,Help_DemoMode
+puls hjaelp,Help_HeartRate
+kan jeg bruge edge mode med streaming,Help_EdgeMode
+"giv mig besked, nar tiden kommer",reminders.add
+venligst lydstyrke venstre hjaelp,Cmd.VolumeIncrease
+"skrive ned, hvad der bliver sagt",Cmd.TranscribeStart
+hvordan parrer jeg mine horeapparater med min telefon?,Help_Pairing
+smid en besked,Cmd.SendMessage
+kan du pub indstilling,Cmd.MemoryChange
+vaelg et minde,Cmd.MemoryChange
+giv mig en besked pa det planlagte tidspunkt,reminders.add
+hvordan skifter jeg til en anden hukommelse pa mit horeapparat?,Help_ChangingMemories
+kan du hjaelpe med stojstimulusjustering til min hjaelp,Help_Tinnitus
+eventuelle nye opdateringer at vide om,Help_WhatsNew
+hvordan deaktiverer jeg dobbelttryk pa mine hjaelpemidler?,Help_DeviceSettings
+indstil hukommelsen til udendors,Cmd.MemoryChange
+how could i start a manual alert message?,Help_FallAlert
+forklare den smarte stemme-funktion,Help_IntelliVoice
+venligst jeg mistede min hukommelse til restauranter og moder,Help_MemoryOptions
+hvad er en god restaurant i naerheden,Default Fallback Intent
+hvordan fungerer transskribering?,Help_Transcribe
+kan du skrue ned for lydstyrken pa mit horeapparat,Cmd.VolumeDecrease
+venligst ja skub det.,Cmd.SendMessage - yes
+kan du fa jeg naet mit standsmal,Cmd.ActivityStand
+hvordan tilfojer man en anden person pa hearshare?,Help_HearShare
+hvorfor er mit venstre horeapparat ikke parret,Help_Pairing
+oplysninger om kropsscore,Help_ThriveScore
+kan jeg aendre navnet pa mit tilbehor?,Help_Accessories
+tilfoje pamindelse,reminders.add
+sla masketilstand til,Help_MaskMode
+hvor opladet er mine hjaelpemidler,Cmd.BatteryLevel
+skru venligst op for lydstyrken pa mit horeapparat,Cmd.VolumeIncrease
+indstil venligst hukommelsen til nummer fire,Cmd.MemoryChange
+find mit andet hjaelpemiddel,Help_FindMyHearingAids
+kan du skal mine horeapparater fa alle flueben i selvtjek?,Help_SelfCheck
+hvordan sletter jeg tilbehoret?,Help_Accessories
+kan du ingen tv-fjernbetjening i frys app,Default Fallback Intent
+begynd venligst at streame fjernbetjeningen til mine horeapparater,Cmd.StreamingStart
+"bedes medierne finde os, uanset hvor du far din podcast",Default Fallback Intent
+kan du huske at laese i morgen,reminders.add
+kan du skrue ned for lydstyrken pa mine horeapparater,Cmd.VolumeDecrease
+"vis mig venligst, hvordan jeg saetter mit horeapparat i",Help_InsertDevice
+bringe lyden tilbage,Cmd.VolumeUnmute
+jeg har ikke en normal hukommelse,Help_MemoryOptions
+forklare batterimuligheder til mine hjaelpemidler,Help_Battery
+venligst jeg har forlagt mine horeapparater,Help_FindMyHearingAids
+kan du kontorprogram,Cmd.MemoryChange
+lober jeg tor for batteri?,Cmd.BatteryLevel
+hjaelp venligst med justering af hvid stoj pa mit horeapparat,Help_Tinnitus
+sluk venligst for kildestikkene,Default Fallback Intent
+hjaelp mig med at spore min telefon,Cmd.FindMyPhone
+indstil programmet til nummer fire,Cmd.MemoryChange
+jeg kaemper for at hore folk,Cmd.VolumeIncrease
+hvordan far jeg mere information om aktivitetsresultatet?,Help_ThriveScore
+vis mig venligst tinnitusindstillinger,Help_Tinnitus
+skift venligst indstilling til nummer fire,Cmd.MemoryChange
+kan min horespecialist fjernjustere mine horeapparater?,Help_RemoteProgramming
+hvordan renser jeg mikrofonen,Help_CleanCare
+hvordan begynder jeg at streame fra tilbehoret?,Help_Accessories
+hvordan aendrer jeg ringetonerne pa mine horeapparater?,reminders.add
+hvordan justerer jeg min mini-fjernbetjeningsmikrofon?,Help_Accessories
+kan du hjaelpe med at parre hjaelpemidlerne med telefonen,Help_Pairing
+faerdiggor min pamindelse,reminders.complete
+det er smerteligt hojt,Cmd.VolumeDecrease
+hvordan jeg forbinder mine hjaelpemidler med appen,Help_Pairing
+skrive en sms til min nabo,Cmd.SendMessage
+skal jeg bruge genopladelige eller engangsbatterier,Help_Battery
+hvor kunne min telefon ringe den,Cmd.FindMyPhone
+kan jeg aendre navnet pa tilbehoret?,Help_Accessories
+kan du minde mig om at hente min recept kl. pa lordag,reminders.add
+"kan du tage os med for at se glem det, vi er i bilen, og dronestojen vil koste, hvis jeg ogsa har dem i vejstojen, der forstaerkes",Default Fallback Intent
+hvordan man forstaerker stemmen med kanttilstand,Help_EdgeMode
+afbryde den streamede lyd,Cmd.StreamingStop
+jeg kan naesten ikke hore samtalen,Cmd.VolumeIncrease
+kan du aerobe kalorier,Cmd.ActivityAerobics
+discover phone,Cmd.FindMyPhone
+hvordan aktiverer jeg masketilstand,Help_MaskMode
+venligst drej mit venstre horeapparat ned,Cmd.VolumeDecrease
+finde mine hjaelpemidler,Help_FindMyHearingAids
+kan du minde mig om at lave lektier den 11. november kl.,reminders.add
+hvordan bruger jeg equalizeren,Help_Customize
+kan du indstille hukommelse til musik,Cmd.MemoryChange
+fange denne tale som tekst,Cmd.TranscribeStart
+jeg skal tilslutte mine horeapparater til min telefon,Help_IntelliVoice
+venligst vestenvinde blaeser det op,Default Fallback Intent
+faerdig med at streame,Cmd.StreamingStop
+hvad gor selvtjekket,Help_SelfCheck
+hvor administrerer jeg app muligheder,Help_AppSettings
+"hjaelpe mig med at forsta, hvad de siger pa et andet sprog",Cmd.TranslationStart
+sla streamen fra,Cmd.StreamingStop
+sende en besked,Cmd.SendMessage
+"hvordan ved jeg, hvornar fagmanden justerede horeapparaterne?",Help_RemoteProgramming
+kan du lytte igen.,Cmd.ListenMessage
+optage besked,Cmd.SendMessage
+jeg vil gerne have tingene mere stille,Cmd.VolumeDecrease
+ma jeg omdobe mine minder,Help_MemoryOptions
+hvordan opbevarer jeg reservebatterier,Help_Battery
+jeg afsluttede den opgave,reminders.complete
+er der en lukket billedtekst funktion?,Help_Transcribe
+hvordan deler jeg mine oplysninger med min kone?,Help_HearShare
+saenk lydstyrken i mine hjaelpemidler,Cmd.VolumeDecrease
+kan du minde mig om at ringe til nogen hver dag kl.,reminders.add
+gor venligst horeapparaterne mere stojsvage,Cmd.VolumeDecrease
+jeg har brug for at blive mindet,reminders.add
+kan du aendre indstilling til to,Cmd.MemoryChange
+nej det kom forkert ud,Cmd.SendMessage - no
+forstaerke lyden for mig,Cmd.VolumeIncrease
+hvad gor faldberedskabet,Help_FallAlert
+kan du minde mig om at spise middag hver sondag kl. 8.,reminders.add
+kan jeg oversaette engelsk til fransk?,Help_Translate
+hor venligst mine tekster,Cmd.ListenMessage
+hvordan forbedrer jeg min engagementsscore?,Help_ThriveScore
+hjaelp til at parre mine horeapparater med telefonen,Help_Pairing
+hvordan aendrer jeg mit skridtmal fra dagligt til ugentligt?,Help_Health
+minde mig venligst om aftensmad om 1 time,reminders.add
+slukke for tv-streaming,Cmd.StreamingStop
+trives stemmeassistent hjaelp,Help_VoiceAssistant
+send mig en pamindelse,reminders.add
+"hvordan kontrollerer jeg, om mine horeapparater er tilsluttet thrive-appen?",Help_Pairing
+forbedrer masketilstand klarheden med masker,Help_MaskMode
+mind mig venligst om at kobe maelk pa tirsdag kl. 20.00.,reminders.add
+jeg skal jogge nu,Cmd.ActivityRun
+hvordan virker dette?,Help_Home
+kan du jeg mistede mit andet horeapparat,Help_FindMyHearingAids
+kan du tilberede svineribs pa grillen,Default Fallback Intent
+kan du tale om min datter,Default Fallback Intent
+hvordan justerer jeg lydstyrken i mit horeapparat,Help_Volume
+sluk venligst kroppen,Default Fallback Intent
+kan du jeg vil oprette forbindelse til min audiolog,Help_RemoteProgramming
+mind mig venligst om at ga til kobmanden hver sondag ved middagstid,reminders.add
+mind mig venligst om at tjekke min computer,reminders.add
+jeg har brug for en hand i gang,Help_Home
+vinden odelaegger min horelse udenfor,Help_EdgeMode
+optag mine skridt pa denne gatur,Cmd.ActivityWalk
+hvordan opdaterer jeg appen,Help_AppSettings
+hvordan stopper jeg streaming fra fjernmikrofonen?,Help_Accessories
+kan du skifte til mode,Cmd.MemoryChange
+kan du oge lydstyrken i mine hjaelpemidler,Cmd.VolumeIncrease
+mind mig venligst om at ringe til jose i morgen,reminders.add
+fortael mig om kanttilstand,Help_EdgeMode
+hvorfor virker min venstre meget svage ikke,Help_SelfCheck
+"venligst, jeg har voksopbygning",Help_CleanCare
+hvor har jeg efterladt mine horeapparater?,Help_FindMyHearingAids
+laes min seneste tekst,Cmd.ListenMessage
+parrer mine horeapparater med thrive-appen,Help_Pairing
+how long did i work out,Cmd.ActivityExercise
+du skal minde mig om noget,reminders.add
+sla stream fra,Cmd.StreamingStop
+kan du skrue mit venstre horeapparat op,Cmd.VolumeIncrease
+hvordan synkroniserer jeg mine horeapparater til appen?,Help_HearingCareAnywhereConnect
+increase the right hearing aid,Cmd.VolumeIncrease
+hvordan man indstiller en pamindelse,Help_Reminder
+hvordan tjekker jeg min wellness-score,Help_ThriveScore
+jeg vil gerne oprette et nyt program?,Help_MemoryOptions
+skyde en talebesked,Cmd.SendMessage
+indstil programmet til auditoriet,Cmd.MemoryChange
+hvordan bruger jeg dnn taleforbedring,Help_IntelliVoice
+hvad er anderledes i den seneste udgivelse,Help_WhatsNew
+efterlade en optagelse,Cmd.SendMessage
+when would i stop a text alert?,Help_FallAlert
+hvordan oger jeg lydstyrken i mine horeapparater?,Help_Volume
+besked til min ven,Cmd.SendMessage
+min hjaelp bliver ved med at dukke ud,Help_InsertDevice
+kan du onkyo modtager,Default Fallback Intent
+skru ned for lyden,Cmd.VolumeDecrease
+jeg ved ikke hvad jeg skal gore,Help_Home
+kan du minde mig om at oplade min telefon hver dag kl. 23.00.,reminders.add
+kan du indstille programmet til fire,Cmd.MemoryChange
+hvad er serienummeret pa mit horeapparat?,Help_DeviceSettings
+hvad er senderen?,Help_WiCROS
+"er kanttilstand, der er god til restauranter",Help_EdgeMode
+kan du mindske det rigtige horeapparat,Cmd.VolumeDecrease
+hvor meget har jeg cyklet i denne maned?,Cmd.ActivityCycle
+hvor er intellivoice?,Help_IntelliVoice
+hvordan finjusterer jeg mine lydpraeferencer,Help_Customize
+opdager den et fald og advarer nogen,Help_FallAlert
+er mine horeapparater ved at blive darlige?,Cmd.BatteryLevel
+hjaelp til sprogoversaettelsesfunktionen,Help_Translate
+venligst jeg har brug for hjaelp til mine indstillinger,Help_DeviceSettings
+opfylder jeg mit standsmal,Cmd.ActivityStand
+hvordan deaktiverer jeg dobbelttryk pa mine horeapparater?,Help_DeviceSettings
+kan du hjaelpe med at parre hjaelpemidlerne,Help_Pairing
+kan du finde min sang,Default Fallback Intent
+vise min lobeaktivitet,Cmd.ActivityRun
+hvordan aendrer jeg indstillingerne for smart assistent?,Help_AppSettings
+skru ned,Cmd.VolumeDecrease
+hvor meget liv der er tilbage i horeapparatets batterier,Cmd.BatteryLevel
+stop med at sende lyd til mine orer,Cmd.StreamingStop
+kan du hjaelpe til tele hore,Help_HearingCareAnywhereConnect
+hvordan renser jeg mine ric horeapparater?,Help_CleanCare
+fyre en tekst af,Cmd.SendMessage
+"forklare, hvordan hjaelpemidlerne hjaelper med at ringe",Help_Tinnitus
+hvordan viser jeg appen uden hjaelpemidler?,Help_DemoMode
+kan du skifte til musik,Cmd.MemoryChange
+kan jeg tildele en placering til min hukommelse?,Help_MemoryOptions
+kan du fuldfore min seneste pamindelse,reminders.complete
+volumen pa hojre hjaelpemiddel,Cmd.VolumeUnmute
+kan du pa volumen,Cmd.VolumeUnmute
+"hvordan ved jeg, hvornar den professionelle har justeret hjaelpemidlet?",Help_RemoteProgramming
+lad mig ikke glemme at ringe til bedstemor,reminders.add
+er demotilstand tilgaengelig,Help_DemoMode
+begynde at skrive undertekster,Cmd.TranscribeStart
+kan jeg se mit standmal,Cmd.ActivityStand
+juster venligst hojre ore for hojere lyd,Cmd.VolumeIncrease
+skru ned for lyden i mit venstre horeapparat,Cmd.VolumeDecrease
+help me intercept a fall alert,Help_FallAlert
+vis mig venligst hjaelp til mit tilbehor,Help_Accessories
+hvordan ser jeg mine gangmal?,Help_Health
+strom,Cmd.StreamingStart
+kan du hjaelpe mig med at opsnappe en faldalarm,Help_FallAlert
+hvor er min daglige score,Help_ThriveScore
+hvordan passer jeg pa mine horeapparater,Help_CleanCare
+stemme ai,Help_IntelliVoice
+hvordan finder jeg mine hjaelpemidler?,Help_FindMyHearingAids
+kan du haeve lyden,Cmd.VolumeIncrease
+kan du minde mig om i morgen kl.,reminders.add
+"hvordan ved jeg, hvornar min horespecialist har justeret horeapparatet?",Help_RemoteProgramming
+hvor mange flere kalorier for at na mit mal,Cmd.ActivityCalories
+mind mig venligst om video hver dag ved middagstid,reminders.add
+jeg gik ind pa en restaurant,Cmd.MemoryChange
+hvor meget ladning der er tilbage,Cmd.MemoryChange
+hvordan far jeg en bedre engagementsscore?,Help_ThriveScore
+kan du programmere tre,Cmd.MemoryChange
+skift venligst indstillingerne til nummer tre,Cmd.MemoryChange
+tak og jeg glaeder mig helt sikkert til ikke at skulle baere masken mere,Default Fallback Intent
+kan du gore min hjaelp tavs,Cmd.VolumeMute
+kan du jeg flyder pa vejen,Default Fallback Intent
+hvor har jeg lagt mine enheder?,Help_FindMyHearingAids
+diriger lyden til mine horeapparater,Cmd.StreamingStart
+how do i create a contact for fall alert?,Help_FallAlert
+hvad sker der i politik?,Default Fallback Intent
+venligst hjaelp mig med at aendre tinnitus-program,Help_Tinnitus
+se mine beats per minut laesning,Help_HeartRate
+kan du afspille min sidste optagelse.,Cmd.ListenMessage
+hvordan forbinder jeg to,Help_Pairing
+kan du hjaelpe mig med stemmeassistenten,Help_VoiceAssistant
+vis mig venligst en oversigt over appen,Help_WhatsNew
+kan du hjaelpe med justering af tinnitus volumen pa mine hjaelpemidler,Help_Tinnitus
+venligst minde nummer et,Cmd.MemoryChange
+kan jeg aendre ringetonerne pa mit horeapparat?,Help_DeviceSettings
+when should i start a manual alert message?,Help_FallAlert
+venligst denne pamindelse er komplet,reminders.complete
+hjaelpe med lydstyrkeaendringer pa mine horeapparater,Help_Volume
+hvordan afbryder jeg mine hjaelpemidler?,Help_Pairing
+hjaelp til at aendre minder ved hjaelp af min thrive app,Help_ChangingMemories
+venligst lydstyrke hojre hjaelp,Cmd.VolumeIncrease
+kan du app version,Help_AppSettings
+kan du pa det nordkoreanske kontor vil fanden vaek her.,Default Fallback Intent
+hjaelpe med tinnitusstimulusjusteringer i mit horeapparat,Help_Tinnitus
+kan min audiolog fjernjustere mine indstillinger,Help_HearingCareAnywhereConnect
+hvordan handterer jeg min tinnitus,Help_Tinnitus
+hjaelpe med at opsaette hearshare,Help_HearShare
+jeg mistede mine hjaelpemidler,Help_FindMyHearingAids
+kan du jeg skal parre horeapparatet til min telefon,Help_Pairing
+begynde at spore denne gatur,Cmd.ActivityWalk
+kan du aktivere hojre horeapparat,Cmd.VolumeUnmute
+afbryde tv-forbindelsen til mine hjaelpemidler,Cmd.StreamingStop
+"mind mig venligst om, at jeg har en laegetid",reminders.add
+venligst lige her virker ikke,Help_SelfCheck
+kan du starte tv-streaming,Cmd.StreamingStart
+hvordan sender jeg en besked til min horelaege,Help_RemoteProgramming
+stil den op,Cmd.VolumeDecrease
+kan du gore mine horeapparater lydlose,Cmd.VolumeMute
+alt er for lavt,Cmd.VolumeIncrease
+kan du aendre hukommelsen til tre,Cmd.MemoryChange
+hvordan far jeg tallene til at falde ind,Default Fallback Intent
+kan du afskaere dine behov.,Default Fallback Intent
+where would i cancel a fall alert?,Help_FallAlert
+log min ovelse,Cmd.ActivityExercise
+forklar cros for enkeltsidet horelse,Help_WiCROS
+kan du nej det er ikke rigtigt.,Cmd.SendMessage - no
+kan du eller saette pa 6-maneders rengoring,Default Fallback Intent
+hvad er nyt i denne version?,Help_WhatsNew
+sla horeapparaterne fra,Cmd.VolumeMute
+hvordan stopper jeg med at streame fra mit tilbehor?,Help_Accessories
+hvordan man opsaetter bluetooth,Help_Pairing
+hvordan skifter jeg fra den grundlaeggende app til den avancerede app?,Help_AppSettings
+hjaelp til justering af tinnitus-lydstyrken i mit horeapparat,Help_Tinnitus
+hvordan gor jeg horeapparaterne hojere?,Help_Volume
+hvor er intelligent stemme?,Help_IntelliVoice
+log min tur,Cmd.ActivityCycle
+kan du ikke annullere beskeden.,Cmd.SendMessage - no
+hjaelp venligst med tinnitusmaskerjusteringer i mine hjaelpemidler,Help_Tinnitus
+da mit brev skal opdateres,Default Fallback Intent
+hvor mange kalorier har jeg forbraendt i denne uge,Cmd.ActivityCalories
+kan du falde alarm virker ikke,Help_FallAlert
+kan du stille,Cmd.VolumeMute
+kan jeg aktivere standardindstillingen pa horeapparaterne,Help_DeviceSettings
+hvor meget batteri der er tilbage,Cmd.BatteryLevel
+hvor vil jeg annullere en efterarsmeddelelse?,Help_FallAlert
+er batterierne ved at lobe tor,Cmd.BatteryLevel
+hjaelpe med mine horeapparats lydindstillinger,Help_DeviceSettings
+kan du indstille pamindelse til kl.,reminders.add
+det lyder lavt,Cmd.VolumeIncrease
+send en hurtig besked,Cmd.SendMessage
+hvorfor er mine horeapparater ikke synkroniseret,Help_Pairing
+"kan du hej, mark, okay.",Default Fallback Intent
+kan du afspille min sidste besked,Cmd.ListenMessage
+hvordan nulstiller jeg appen,Help_AppSettings
+show me my step count,Cmd.ActivityStep
+begynde at optage for mig,Cmd.TranscribeStart
+jeg er fortabt i denne app,Help_Home
+kan du fortaelle mig om engelsk sprog,Default Fallback Intent
+hvad er mine cykelminutter i ugen?,Cmd.ActivityCycle
+kan jeg ga til en anden hukommelse?,Help_ChangingMemories
+spore mit velvaere,Help_Health
+kan du huske at tage medicin,reminders.add
+bestille en pizza,Default Fallback Intent
+hjaelp til genopretning af puls,Help_HeartRateRecovery
+kan du indstille programmet til personligt,Cmd.MemoryChange
+venligst afstand fra new jersey,Default Fallback Intent
+kan du vred frugthave ol,Default Fallback Intent
+hvad kan stemmeassistenten gore,Help_VoiceAssistant
+skru ned for lydstyrken pa mine hjaelpemidler,Cmd.VolumeDecrease
+jeg er ved at deltage i et telefonopkald,Cmd.MemoryChange
+kan du begynde at streame,Cmd.StreamingStart
+kan du jeg kan ikke huske hvor mit venstre hjaelpemiddel er,Help_FindMyHearingAids
+hvilken hardware kan jeg tilfoje,Help_Accessories
+volumen blodere,Cmd.VolumeDecrease
+kan du bippe,Help_DeviceSettings
+kan du begynde at oversaette til spansk,Cmd.TranslationStart
+kan du det er den der har problemer med,Default Fallback Intent
+kan du bruge kalorier i dag,Cmd.ActivityCalories
+vil de overleve aftenen?,Cmd.BatteryLevel
+vis mig hvor de er,Help_FindMyHearingAids
+billedtekst denne samtale,Cmd.TranscribeStart
+jeg har forlagt mine horeapparater,Cmd.BatteryLevel
+lukke den pamindelse,reminders.complete
+mine horeapparater afbrudt tilslutter dem igen,Help_Pairing
+"spil venligst, jeg baerer den",Default Fallback Intent
+yes that's fine.,Cmd.SendMessage - yes
+kan du skifte til at traene,Cmd.MemoryChange
+hvordan tilpasser jeg hjaelpemidlet?,Help_Customize
+venligst disse bliver ved med at gore dette,Default Fallback Intent
+hjaelp venligst med justeringer af hvid stoj i mine horeapparater,Help_Tinnitus
+hvordan aendrer jeg hukommelse pa mit horeapparat?,Help_ChangingMemories
+bringe min lyd tilbage,Cmd.VolumeUnmute
+hvordan deler jeg mine wellness-data?,Help_HearShare
+jeg saetter mig til rette for tv-tid,Cmd.MemoryChange
+"kan jeg forhandsvise de justeringer, som horespecialisten har foretaget?",Help_RemoteProgramming
+vis mig min aerobic statistik,Cmd.ActivityAerobics
+hvordan kan jeg se hvor meget jeg har cyklet i dag?,Help_Health
+kan du dawsonville hurtigt,Default Fallback Intent
+kan du sa gor jeg ude af stand til at caesar,Default Fallback Intent
+mind mig venligst om at ga i seng om 5 minutter,reminders.add
+hvordan diagnosticerer jeg mine horeapparater,Help_SelfCheck
+hvordan deaktiverer jeg komfortboost?,Help_DeviceSettings
+"hvorfor kan du ikke finde det venstre horeapparat, det sidder i mit ore og virker fint?",Help_FindMyHearingAids
+kan du minde mig om at hente min bil fredag ​​morgen,reminders.add
+draener kanttilstand batteriet hurtigere,Help_EdgeMode
+hvordan tilpasser jeg mine horeapparatindstillinger?,Help_MemoryOptions
+lyden knitrer i mine horeapparater,Help_DeviceSettings
+hvordan far jeg adgang til intelligent stemme?,Help_IntelliVoice
+hvordan justerer jeg min stojmasker pa mine horeapparater?,Help_Tinnitus
+hvor mange kalorier forbraendte jeg jogging,Cmd.ActivityRun
+rykker kl 16.15. besog bedstemor i dag,reminders.add
+hvordan aendrer jeg lydstyrken pa kun venstre hjaelpemiddel?,Help_Volume
+hvordan kontakter jeg min kliniker for at fa hjaelp?,Help_RemoteProgramming
+"hvordan ved jeg, hvornar min fagmand justerede horeapparaterne?",Help_RemoteProgramming
+batteriet aflades hurtigt,Help_Battery
+hvordan beder jeg min audiolog om nye horeapparatindstillinger?,Help_RemoteProgramming
+venligst mistet android-telefon,Cmd.FindMyPhone
+kan du indstille programmet til crowd,Cmd.MemoryChange
+"vil den vide, hvis jeg falder om",Help_FallAlert
+indstillinger for horeapparat,Default Fallback Intent
+hvordan reducerer jeg baggrundsstojen,Help_Customize
+nulstil horeapparaterne,Default Fallback Intent
+find venligst android-telefon,Cmd.FindMyPhone
+daempe horeapparater,Cmd.VolumeMute
+hjaelp mig med thive assistent,Help_VoiceAssistant
+indstil hukommelsen til tinnitus,Cmd.MemoryChange
+"fortael mig, hvad jeg skylder dig pa espanol",Cmd.TranslationStart
+kan du senest pamindelse gjort.,reminders.complete
+hjaelp til justering af tinnitusstoj,Help_Tinnitus
+kan du optage dette mode,Cmd.TranscribeStart
+tradlos streaming af lyd,Cmd.StreamingStart
+hvordan fungerer den virtuelle assistent?,Help_VoiceAssistant
+begynde en cykeltur,Cmd.ActivityCycle
+hvordan renser jeg mine itc horeapparater?,Help_CleanCare
+stream til begge horeapparater,Cmd.StreamingStart
+vis mig det grundlaeggende,Help_Home
+hvordan slar jeg lyden fra pa min sender?,Help_WiCROS
+kan du skifte hukommelse til en,Cmd.MemoryChange
+hvor er locatoren til mine hjaelpemidler,Help_FindMyHearingAids
+jeg er pa vej ud at lobe,Cmd.ActivityRun
+vis mig venligst en oversigt over ipro,Help_WhatsNew
+venligst accepterede min son min hearshare-invitation?,Help_HearShare
+kan du starte tv-stream,Cmd.StreamingStart
+hvordan finder jeg mit venstre hjaelpemiddel?,Help_FindMyHearingAids
+kan du minde mig om i dag,reminders.add
+hvordan justerer jeg min tinnitusmasker pa mine horeapparater?,Help_Tinnitus
+kan du indstille hukommelse til bil,Cmd.MemoryChange
+er jeg taet pa mit skridtmal,Cmd.ActivityStep
+kan du ret,Default Fallback Intent
+kan du automatisk programmere,Cmd.MemoryChange
+"forklare, hvordan stemmestyring fungerer",Help_VoiceAssistant
+kan du fa jeg naet mit aerobic-mal?,Cmd.ActivityAerobics
+maler mine hjaelpemidler bpm,Help_HeartRate
+hjaelp venligst med at parre hjaelpemidlerne,Help_Pairing
+venligst nej nej send.,Cmd.SendMessage - no
+kan du afslutte pamindelsen.,reminders.complete
+hvordan oger jeg min kropsscore?,Help_ThriveScore
+hvad er oversaettelsesfunktionen til,Help_Translate
+kan du youtube videoer,Default Fallback Intent
+"venligst nogen skulle ringe til mig, og det gor jeg aldrig",Default Fallback Intent
+hvordan saenker jeg lydstyrken pa hjaelpemidlerne?,Help_Volume
+hvordan har ipro aendret sig?,Help_WhatsNew
+hjaelpe med at forsta restitutionsgraden,Help_HeartRateRecovery
+"hvordan ved jeg, hvornar min horespecialist justerede mine horeapparater?",Help_RemoteProgramming
+telefon mangler,Cmd.FindMyPhone
+kan du taelle kalorier i dag,Cmd.ActivityCalories
+kan du hjaelpe med at parre mine horeapparater med telefonen,Help_Pairing
+"forklare, hvordan fjerntuning fungerer",Help_RemoteProgramming
+optag denne gatur,Cmd.ActivityWalk
+hjaelp til stream,Help_Accessories
+begynd venligst at oversaette pa fransk,Cmd.TranslationStart
+bedste iphone,Default Fallback Intent
+"stop venligst med at lytte, stil dig et sporgsmal",Default Fallback Intent
+kan du minde mig om den 27. august tomy fly,reminders.add
+forklare demotilstand,Help_DemoMode
+hvordan virker cros balance-funktionen?,Help_WiCROS
+kan du hjaelpe med stojstimulusjustering pa mine horeapparater,Help_Tinnitus
+vise mig mit staende mal?,Cmd.ActivityStand
+hvad er nyt i denne app?,Help_WhatsNew
+kan du minde mig om at tage medicin naeste torsdag kl.16.,reminders.add
+hvad er mit kaloriemal,Cmd.ActivityCalories
+kan du mode indstilling,Cmd.MemoryChange
+pamind mig venligst i morgen kl. 9.,reminders.add
+bruge min koreindstilling,Cmd.MemoryChange
+hvor laenge forbliver kanttilstand aktiveret,Help_EdgeMode
+kan du telehore,Help_HearingCareAnywhereConnect
+skift venligst hukommelsen til nummer to,Cmd.MemoryChange
+na ud med denne besked,Cmd.SendMessage
+kan du aendre program til nummer fire,Cmd.MemoryChange
+hjaelpe med at oprette forbindelse til min udbyder eksternt,Help_HearingCareAnywhereConnect
+ja ga videre,Cmd.SendMessage - yes
+skru venligst ned for lyden,Cmd.VolumeDecrease
+understotter mine hjaelpemidler et tv-stik,Help_Accessories
+kan du jeg kan ikke huske hvor mit andet horeapparat er,Help_FindMyHearingAids
+jeg har mistet mit horeapparat,Help_FindMyHearingAids
+kan fagmanden fjernjustere mit hjaelpemiddel?,Help_RemoteProgramming
+kan du okay mikrofon,Default Fallback Intent
+kan du arligt,Default Fallback Intent
+kan du soge efter min telefon,Cmd.FindMyPhone
+bemaerk min lobetur,Cmd.ActivityRun
+skal jeg aendre min balancekontrol?,Help_WiCROS
+hvor ofte males min puls,Help_HeartRate
+hvordan virker dnn taleforbedring?,Help_IntelliVoice
+na ud til min familie for mig,Cmd.SendMessage
+kan du skifte til hukommelse nummer to,Cmd.MemoryChange
+hjaelp til at aendre programmer pa mit hjaelpemiddel,Help_ChangingMemories
+stave venligst ordet maskine,Default Fallback Intent
+kan du minde mig om at ga i seng,reminders.add
+guide mig gennem hearshare,Help_HearShare
+oversaette guide,Help_Translate
+hvor er mine horeapparater?,Help_FindMyHearingAids
+er der mulighed for daglig pamindelse,Help_Reminder
+kan jeg justere indstillinger efter min smag,Help_Customize
+"venligst dr. dee 74% stigning i forhold til februar sidste ar. ja, cykelholdene kalder det stadig ikke en krise.",Default Fallback Intent
+hvor er min son,Default Fallback Intent
+sluk mit hojre horeapparat,Cmd.VolumeMute
+kan du slukke for lyden i mit horeapparat,Cmd.VolumeMute
+hvad der er tilfojet for nylig,Help_WhatsNew
+hvad hvis jeg har et x i selvtjek?,Help_SelfCheck
+hvordan kommer jeg til hovedskaermen?,Help_Home
+"lev venligst i dit ore, hvis der er en ledning",Default Fallback Intent
+venligst hojre hurtig kode for binaer sogning,Default Fallback Intent
+hvordan kan jeg skifte mellem tilstande,Help_ChangingMemories
+indstille ny pamindelse,reminders.add
+reducere intensiteten,Cmd.VolumeDecrease
+hvilken batteristorrelse bruger mine hjaelpemidler,Help_Battery
+minde mig om at baere gront pa st. patricks dag,reminders.add
+hvordan saetter jeg dette rigtige horeapparat i?,Help_InsertDevice
+hvordan finder jeg pulsgendannelse?,Help_HeartRateRecovery
+hvordan kan jeg bruge min stemme til at gore ting,Help_VoiceAssistant
+lytte til mit tv,Cmd.StreamingStart
+saet venligst hukommelsen til stoj,Cmd.MemoryChange
+kan du skifte program til nummer et,Cmd.MemoryChange
+"venligst han har glemt dem, og du har brug for dem, lad mig vide, hvis jeg har en ledig eftermiddag, jeg kan kore over",Default Fallback Intent
+kan du minde mig om min laegetid,reminders.add
+"hvordan ved jeg, om mine horeapparater er tilsluttet min app?",Help_Pairing
+skru ned for mine horeapparater,Cmd.VolumeDecrease
+er mine hjaelpemidler vandtaette,Help_CleanCare
+hvordan slukker jeg for tv-lydstyrken,Help_Accessories
+tjek venligst selv hjaelp,Help_SelfCheck
+gor venligst lydstyrken mere,Cmd.VolumeIncrease
+fa en sms til min ven,Cmd.SendMessage
+lytte til mikrofonen,Cmd.StreamingStart
+ende stum lad mig hore,Cmd.VolumeUnmute
+kan jeg maerke en placering til en hukommelse?,Help_MemoryOptions
+hjaelp mig med at forsta lydstyrkeindstillinger,Help_Volume
+"lad en ven hore, hvad jeg horer",Help_HearShare
+hjaelpe med lydstyrkeaendringer i mine horeapparater,Help_Volume
+"hjaelpe med vindstoj, nar jeg er udendors",Help_EdgeMode
+kan du tirsdag,Default Fallback Intent
+lytte til tv,Cmd.StreamingStart
+hjaelp til taleforbedringsfunktionen,Help_IntelliVoice
+minde mig om at ringe til min datter senere,reminders.add
+lyd pa,Cmd.VolumeUnmute
+guide mig til hjaelpemiddelsogeren,Help_FindMyHearingAids
