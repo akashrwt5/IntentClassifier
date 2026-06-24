@@ -8,9 +8,14 @@ scheduled run after the limit resets continues with no lost work.
 Routine settings to use alongside this prompt:
 - **Repository:** this repo
 - **Trigger:** Schedule → hourly (or nightly)
-- **Permissions:** enable **Allow unrestricted branch pushes** for this repo
+- **Permissions:** leave **Allow unrestricted branch pushes OFF.** The work
+  branch below is `claude/`-prefixed, which routines may push to by default. This
+  keeps the routine structurally unable to touch `main` or any `feature/*` branch.
 - **Environment:** Default (Trusted network access covers PyPI for sklearn/scipy/onnx/onnxruntime)
 - **Model:** the most capable available
+- **Work branch (fixed, do not change):** `claude/temperature-scaling`. It must be
+  the same every run so progress accumulates and resumes; never let a run create a
+  fresh auto-named branch.
 
 ---
 
@@ -24,14 +29,16 @@ unvalidated assumptions, every claim backed by a measurement.
 You run autonomously on a recurring schedule. Each run is a fresh clone of the
 **default** branch. You MUST:
 
-1. **Switch to the work branch:**
+1. **Switch to the fixed work branch** `claude/temperature-scaling` (it already
+   exists on origin and carries the planning docs + any prior progress):
    ```
    git fetch origin
-   git checkout feature/Adv2/AddSemanticUnderstanding-4-adding-coreML-supports-DataCorrection-TemperatureScaling
-   git pull --ff-only origin feature/Adv2/AddSemanticUnderstanding-4-adding-coreML-supports-DataCorrection-TemperatureScaling || true
+   git checkout claude/temperature-scaling
+   git pull --ff-only origin claude/temperature-scaling || true
    ```
-   If the branch does not exist on origin yet, create it from
-   `feature/Adv2/AddSemanticUnderstanding-4-adding-coreML-supports-DataCorrection`.
+   This branch is `claude/`-prefixed so the routine can push to it with
+   unrestricted-pushes OFF. NEVER create a new auto-named branch — always reuse
+   this exact name, or resume across runs will break.
 2. **Read the spec:** `multilingual/TEMPERATURE_SCALING_IMPLEMENTATION_PROMPT.md`
    (full requirements) and `multilingual/TEMPERATURE_SCALING_DECISION.md` (rationale).
 3. **Determine progress from git + the checklist below.** Inspect the code and
@@ -89,7 +96,8 @@ Work top to bottom. Each item is a commit boundary.
 - Note the `class_weight="balanced"` caveat: `T` fixes sharpness, not the
   balanced-prior shift; acceptable for a confidence gate.
 - Every commit: `git config user.email noreply@anthropic.com && git config user.name Claude`.
-- Push to the TemperatureScaling branch only.
+- Push to `claude/temperature-scaling` only. Never push to `main` or any
+  `feature/*` branch.
 
 ## REPRODUCE
 ```bash
