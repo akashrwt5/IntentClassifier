@@ -105,3 +105,61 @@ Tier-B records the exact runtime deltas on Apple hardware.
 
 This corroborates the BACKGROUND measurement that FP16 is decision-safe: max
 logit Δ small, **0 argmax flips, 0 gate flips** on every model.
+
+---
+
+## ANE eligibility (S5 — best-effort, non-blocking)
+
+**Status: `macOS-pending` for the live compute-plan; expected outcome documented
+below.** The compute-plan / Instruments checks need a real Core ML runtime
+(`MLComputePlanProxy`), which is macOS-only — on this Linux runner
+`coremltools.libcoremlpython` is absent, so the plan cannot be queried here.
+
+**Expected reality (from the measured facts).** Each model is a single dense
+matrix–vector product `(59 × V) · (V × 1)`. Real work is tiny: the input is
+~0.07–0.26 % dense (≈4–10 non-zero TF-IDF features), so the *useful* arithmetic
+is on the order of a few hundred MACs (≈ `59 × non-zeros`). Even re-expressed as
+the dense matmul the ANE would actually run (`59 × V` MACs, e.g. ~838 k for
+`multilingual`), this is far below the FLOP volume needed to amortise the ANE's
+fixed data-staging / dispatch cost. The Core ML runtime will therefore very
+likely **schedule these ops on CPU (BNNS)** even with `ComputeUnit.ALL`. That is
+expected and fine: at this size CPU is lower-latency and lower-energy than paying
+ANE staging overhead, and the whole op costs microseconds either way.
+
+We have already maximised *eligibility* (residency is the runtime's choice, not
+ours): **FP16 precision + fixed `(1, V)` input shape + `mlprogram` format**, with
+no flexible/RangeDim axes (a dynamic shape would disqualify the ANE outright).
+
+**How to actually check on Apple hardware:**
+
+1. **Compute plan (programmatic, macOS + coremltools):**
+   ```python
+   import coremltools as ct
+   plan = ct.models.compute_plan.MLComputePlan.load_from_path(
+       "multilingual/models/en/IntentClassifier_en.mlpackage",
+       compute_units=ct.ComputeUnit.ALL,
+   )
+   prog = plan.model_structure.program
+   for op in prog.functions["main"].block.operations:
+       usage = plan.get_compute_device_usage_for_mlprogram_operation(op)
+       if usage:
+           print(op.operator_name,
+                 "preferred:", type(usage.preferred_compute_device).__name__,
+                 "supported:", [type(d).__name__ for d in usage.supported_compute_devices])
+   ```
+   Records each op's preferred + supported devices (`MLCPUComputeDevice` /
+   `MLGPUComputeDevice` / `MLNeuralEngineComputeDevice`). Expect the `linear`/
+   `matmul` op to report **preferred = CPU** for these sizes.
+
+2. **Instruments (observed placement on a device):** Xcode ▸ Open Developer Tool
+   ▸ Instruments ▸ **Core ML** template; run the app on a physical iPhone,
+   trigger Stage-2 inference, and read the per-layer compute-unit assignment in
+   the Core ML track (the "Compute" lane shows CPU/GPU/ANE per op). Xcode's model
+   **Performance** report (open the `.mlpackage`, Performance tab, pick a device)
+   gives the same prediction offline.
+
+**The one lever that helps most (follow-up, not implemented here):** **vocab
+pruning** — shrink `V` the way production did (14195 → 1370). It cuts package
+size and the dense-matmul width regardless of where the op runs, and is the
+single biggest efficiency win. It changes the trained model, so it is flagged as
+a follow-up and intentionally **not** done in this packaging task.
