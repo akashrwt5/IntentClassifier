@@ -101,10 +101,21 @@ Reproduce on any Mac: `python multilingual/test/test_coreml_multilingual.py --ru
 
 ## ANE eligibility (S5 — best-effort, non-blocking)
 
-**Status: `macOS-pending` for the live compute-plan; expected outcome documented
-below.** The compute-plan / Instruments checks need a real Core ML runtime
-(`MLComputePlanProxy`), which is macOS-only — on this Linux runner
-`coremltools.libcoremlpython` is absent, so the plan cannot be queried here.
+**Status: MEASURED on Apple-Silicon CI — confirms the prediction below.** The
+compute-plan ran on the GitHub `macos-latest` runner (`ane_compute_plan.py`).
+**For all 6 models, every op reports `preferred=MLCPUComputeDevice` with CPU as
+the _only_ supported device:**
+
+```
+en / fr / de / da / multilingual / multilingual_small:
+  ios16.cast     preferred=MLCPUComputeDevice   supported=['MLCPUComputeDevice']
+  ios16.linear   preferred=MLCPUComputeDevice   supported=['MLCPUComputeDevice']
+```
+
+So the matmul is **not even ANE/GPU-eligible at this size** — Core ML places it
+on CPU/BNNS, exactly as predicted. This is the right outcome (CPU is lower
+latency/energy than ANE staging for a ~hundreds-of-MACs op); reproduce with
+`python multilingual/test/ane_compute_plan.py --model all` on a Mac.
 
 **Expected reality (from the measured facts).** Each model is a single dense
 matrix–vector product `(59 × V) · (V × 1)`. Real work is tiny: the input is
