@@ -1,0 +1,393 @@
+{
+  "memory": {
+    "type": "enum",
+    "fuzzy": true,
+    "automated_expansion": true,
+    "values": {
+      "Personal": [
+        "personal",
+        "persönlich"
+      ],
+      "Restaurant": [
+        "restaurant",
+        "Restaurant"
+      ],
+      "Outdoors": [
+        "outdoors",
+        "draußen",
+        "im Freien",
+        "drinnen draußen"
+      ],
+      "Meeting": [
+        "meeting",
+        "mtg",
+        "Besprechung",
+        "Meeting",
+        "Sitzung"
+      ],
+      "Crowd": [
+        "crowd",
+        "Menschenmenge",
+        "Menge"
+      ],
+      "Car": [
+        "car",
+        "Auto",
+        "im Auto"
+      ],
+      "Auditorium": [
+        "auditorium",
+        "Auditorium",
+        "Hörsaal"
+      ],
+      "Music": [
+        "music",
+        "Musik"
+      ],
+      "Television": [
+        "television",
+        "Fernseher",
+        "Fernsehen",
+        "TV"
+      ],
+      "Mute": [
+        "mute",
+        "stumm",
+        "lautlos"
+      ],
+      "Telephone": [
+        "telephone",
+        "Telefon"
+      ],
+      "Automatic": [
+        "automatic",
+        "automatisch",
+        "Automatik"
+      ],
+      "Everyday": [
+        "everyday",
+        "Alltag",
+        "alltäglich"
+      ],
+      "Golf": [
+        "golf",
+        "Golf"
+      ],
+      "Gym": [
+        "gym",
+        "Fitnessstudio",
+        "Sporthalle"
+      ],
+      "Home": [
+        "home",
+        "Zuhause",
+        "zu Hause"
+      ],
+      "Kitchen": [
+        "kitchen",
+        "Küche"
+      ],
+      "Master": [
+        "master",
+        "Master",
+        "Hauptprogramm"
+      ],
+      "Noise": [
+        "noise",
+        "Lärm",
+        "Geräusch"
+      ],
+      "Office": [
+        "office",
+        "Büro"
+      ],
+      "Pub": [
+        "pub",
+        "Kneipe",
+        "Lokal"
+      ],
+      "Quiet": [
+        "quiet",
+        "ruhig",
+        "leise",
+        "Ruhe"
+      ],
+      "School": [
+        "school",
+        "Schule"
+      ],
+      "Speech": [
+        "speech",
+        "Sprache",
+        "Gespräch"
+      ],
+      "Theater": [
+        "theater",
+        "Theater"
+      ],
+      "Tinnitus": [
+        "tinnitus",
+        "Tinnitus"
+      ],
+      "Train": [
+        "train",
+        "Zug",
+        "Bahn"
+      ],
+      "Work": [
+        "work",
+        "Arbeit"
+      ],
+      "Worship": [
+        "worship",
+        "Gottesdienst",
+        "Kirche"
+      ],
+      "one": [
+        "1",
+        "one",
+        "eins"
+      ],
+      "two": [
+        "2",
+        "two",
+        "zwei"
+      ],
+      "three": [
+        "3",
+        "three",
+        "drei"
+      ],
+      "four": [
+        "4",
+        "four",
+        "vier"
+      ],
+      "Custom One": [
+        "custom 1",
+        "custom one",
+        "benutzerdefiniert 1",
+        "eigenes 1"
+      ],
+      "Custom Two": [
+        "custom 2",
+        "custom two",
+        "benutzerdefiniert 2",
+        "eigenes 2"
+      ],
+      "Custom Three": [
+        "custom 3",
+        "custom three",
+        "benutzerdefiniert 3",
+        "eigenes 3"
+      ],
+      "Custom Four": [
+        "custom 4",
+        "custom four",
+        "benutzerdefiniert 4",
+        "eigenes 4"
+      ],
+      "Mask": [
+        "mask",
+        "Maske",
+        "Maskenmodus"
+      ]
+    }
+  },
+  "recurrence": {
+    "type": "enum",
+    "fuzzy": false,
+    "values": {
+      "Daily": [
+        "daily",
+        "each afternoon",
+        "each evening",
+        "each night",
+        "each morning",
+        "every afternoon",
+        "every day",
+        "every evening",
+        "every morning",
+        "every night",
+        "everyday",
+        "täglich",
+        "jeden Tag",
+        "jeden Morgen",
+        "jeden Abend",
+        "jede Nacht",
+        "jeden Nachmittag",
+        "jeden Mittag"
+      ],
+      "Fridays": [
+        "each friday",
+        "every friday",
+        "fridays",
+        "jeden Freitag",
+        "freitags"
+      ],
+      "Mondays": [
+        "each monday",
+        "every monday",
+        "mondays",
+        "jeden Montag",
+        "montags"
+      ],
+      "Monthly": [
+        "each month",
+        "every month",
+        "monthly",
+        "monatlich",
+        "jeden Monat"
+      ],
+      "Saturdays": [
+        "each saturday",
+        "every saturday",
+        "saturdays",
+        "jeden Samstag",
+        "samstags",
+        "sonnabends"
+      ],
+      "Sundays": [
+        "each sunday",
+        "every sunday",
+        "sundays",
+        "jeden Sonntag",
+        "sonntags"
+      ],
+      "Thursdays": [
+        "each thursday",
+        "every thursday",
+        "thursdays",
+        "jeden Donnerstag",
+        "donnerstags"
+      ],
+      "Tuesdays": [
+        "each tuesday",
+        "every tuesday",
+        "tuesdays",
+        "jeden Dienstag",
+        "dienstags"
+      ],
+      "Wednesdays": [
+        "each wednesday",
+        "every wednesday",
+        "wednesdays",
+        "jeden Mittwoch",
+        "mittwochs"
+      ],
+      "Weekly": [
+        "each week",
+        "every week",
+        "weekly",
+        "wöchentlich",
+        "jede Woche"
+      ],
+      "Yearly": [
+        "each year",
+        "every year",
+        "yearly",
+        "jährlich",
+        "jedes Jahr"
+      ],
+      "Friday": [
+        "friday",
+        "Freitag"
+      ],
+      "Monday": [
+        "monday",
+        "Montag"
+      ],
+      "Tuesday": [
+        "tuesday",
+        "Dienstag"
+      ],
+      "Wednesday": [
+        "wednesday",
+        "Mittwoch"
+      ],
+      "Thursday": [
+        "thursday",
+        "Donnerstag"
+      ],
+      "Saturday": [
+        "saturday",
+        "Samstag",
+        "Sonnabend"
+      ],
+      "Sunday": [
+        "sunday",
+        "Sonntag"
+      ],
+      "Biweekly": [
+        "biweekly",
+        "by weekly",
+        "every 2 weeks",
+        "alle zwei Wochen",
+        "vierzehntägig",
+        "zweiwöchentlich"
+      ],
+      "3 Months": [
+        "3 months",
+        "every 3 months",
+        "alle 3 Monate",
+        "vierteljährlich",
+        "quartalsweise"
+      ],
+      "6 Months": [
+        "6 months",
+        "every 6 months",
+        "alle 6 Monate",
+        "halbjährlich"
+      ]
+    }
+  },
+  "remind": {
+    "type": "enum",
+    "open": true,
+    "fuzzy": true,
+    "values": {
+      "Take Medication": [
+        "take medication",
+        "take medicine",
+        "Medikamente nehmen",
+        "Tabletten nehmen",
+        "Medikamente einnehmen",
+        "Medizin nehmen"
+      ],
+      "Refill Prescription": [
+        "refill prescription",
+        "Rezept einlösen",
+        "Medikamente nachbestellen",
+        "Rezept erneuern"
+      ],
+      "Pick Up Prescription": [
+        "pick up prescription",
+        "Medikamente abholen",
+        "Rezept abholen",
+        "Tabletten abholen"
+      ],
+      "Clean Hearing Aids": [
+        "clean hearing aids",
+        "Hörgeräte reinigen",
+        "Hörgeräte säubern",
+        "Hörgeräte putzen"
+      ],
+      "Activity": [
+        "activity",
+        "Aktivität",
+        "Bewegung"
+      ],
+      "Drink Water": [
+        "drink water",
+        "Wasser trinken",
+        "etwas trinken"
+      ]
+    }
+  },
+  "sys.date-time": {
+    "type": "system"
+  },
+  "sys.number-integer": {
+    "type": "system"
+  }
+}

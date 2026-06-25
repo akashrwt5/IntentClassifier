@@ -1,0 +1,215 @@
+# CoreML ↔ ONNX Results — Multilingual Intent Classifiers
+
+**Headline:** All 6 models pass both tiers. Tier-A (Linux): FP16 packages carry
+the trained weights to float16 (spec-weights vs JSON ≤ 6.2e-3, within the
+float16 half-ULP bound) and the NumPy device reference reproduces the ONNX raw
+logits to **≤ 2.5e-6** over the full holdouts. **Tier-B now CONFIRMED on the real
+Core ML runtime** (GitHub Apple-Silicon `macos-latest`): vs ONNX, accuracy delta
+≈ 0 (worst −0.0002), max logit Δ ≤ 1.66e-2, max top-1 confidence Δ ≤ 3.85e-3,
+and **0/30 0.70-gate disagreements on every model**. **Total FP16 package size
+for all six models: 3.93 MB** (FP32 fallback: 7.84 MB).
+
+Build + verify (reproduce):
+
+```bash
+python multilingual/export_coreml_multilingual.py --all --fp16 --fp32
+python multilingual/test/test_coreml_multilingual.py --full        # Tier-A
+python multilingual/test/test_coreml_multilingual.py --runtime     # Tier-B (macOS)
+```
+
+Each package: format **mlprogram**, precision **FP16** (FP32 optional fallback),
+fixed input `tfidf_vector` shape **(1, V)**, single output **`logits`** (no baked
+T=1 `classProbability`). Metadata embeds `temperature`, `conf_threshold`,
+`conf_gap_threshold`, `normalize`, `vocab_size`, `class_labels`, and the
+`softmax(logits / T)` Swift contract.
+
+## Shipped temperature per model
+
+| Model | T (from weights JSON) |
+|---|---|
+| en | 0.621397 |
+| fr | 0.669939 |
+| de | 0.677689 |
+| da | 0.815632 |
+| multilingual | 0.718213 |
+| multilingual_small | 0.755432 |
+
+Device confidence contract: **read `logits`, compute `softmax(logits / T)` in
+Swift, gate at 0.70 on that.** A missing `temperature` key ⇒ T = 1.0 (plain
+softmax).
+
+---
+
+## Table 1 — Packaging & numeric equivalence (Tier-A, Linux-verified)
+
+Verified on this Linux runner with **no Core ML runtime** (spec inspection +
+blob weight extraction + NumPy↔ONNX). "spec-weights vs JSON max abs Δ" is the
+largest per-coefficient difference between the weights read back out of the saved
+`.mlpackage` and the trained JSON `coef`/`intercept` — bounded by float16's
+half-ULP (`2⁻¹¹·max|coef|`). "NumPy-ref vs ONNX max abs Δ" is over each model's
+full holdout.
+
+| Model | V | FP16 size | FP32 size | spec-weights vs JSON max abs Δ | NumPy-ref vs ONNX-logits max abs Δ | Tier-A |
+|---|---|---|---|---|---|---|
+| en | 3843 | 447.0 KB | 889.6 KB | 3.59e-03 | 2.17e-06 | **PASS** |
+| fr | 4198 | 488.0 KB | 971.5 KB | 3.86e-03 | 2.21e-06 | **PASS** |
+| de | 4629 | 537.6 KB | 1070.8 KB | 3.89e-03 | 2.29e-06 | **PASS** |
+| da | 3839 | 446.6 KB | 888.7 KB | 3.82e-03 | 1.84e-06 | **PASS** |
+| multilingual | 14195 | 1640.0 KB | 3275.5 KB | 6.18e-03 | 2.25e-06 | **PASS** |
+| multilingual_small | 4017 | 467.1 KB | 929.7 KB | 5.84e-03 | 2.46e-06 | **PASS** |
+| **total** | — | **3.93 MB** | **7.84 MB** | **≤ 6.18e-03** | **≤ 2.46e-06** | **6/6 PASS** |
+
+The NumPy reference is the same math as `scripts/test_ios_conformance.py::
+_ios_predict` (the on-device scorer). Because it matches ONNX to ~2e-6 and the
+package weights match the JSON to float16, **CoreML ≡ ONNX transitively**.
+
+---
+
+## Table 2 — ONNX vs CoreML accuracy & gate parity (Tier-B, real Core ML runtime)
+
+**Measured on the real Core ML runtime** via `MLModel.predict()` on a GitHub
+Apple-Silicon `macos-latest` runner (workflow `.github/workflows/coreml-macos.yml`,
+run #1, 2026-06-25). Accuracy is over the **full holdout** per model (n shown);
+gate parity is over the **30 conformance utterances**. CoreML acc = ONNX acc +
+acc Δ.
+
+| Model | n | ONNX acc | CoreML acc | acc Δ | max logit Δ | max top-1 conf Δ | gate disagree /30 | agreement % |
+|---|---|---|---|---|---|---|---|---|
+| en | 1493 | 0.8975 | 0.8975 | +0.0000 | 1.21e-02 | 2.39e-03 | 0 | 100% |
+| fr | 1392 | 0.8491 | 0.8491 | +0.0000 | 1.66e-02 | 2.18e-03 | 0 | 100% |
+| de | 1413 | 0.8316 | 0.8316 | +0.0000 | 1.16e-02 | 2.29e-03 | 0 | 100% |
+| da | 1362 | 0.7599 | 0.7599 | +0.0000 | 1.37e-02 | 2.17e-03 | 0 | 100% |
+| multilingual | 4910 | 0.8422 | 0.8420 | −0.0002 | 1.25e-02 | 3.39e-03 | 0 | 100% |
+| multilingual_small | 4910 | 0.8481 | 0.8481 | +0.0000 | 1.44e-02 | 3.85e-03 | 0 | 100% |
+| **all** | **15480** | — | — | **≥ −0.0002** | **≤ 1.66e-02** | **≤ 3.85e-03** | **0/180** | **100%** |
+
+The single −0.0002 on `multilingual` is **one** holdout sample out of 4910 (a
+float16 rounding flip on a borderline logit) — and **0/30 gate disagreements**,
+so no user-facing fire/fallback decision changes. This confirms on real hardware
+the BACKGROUND finding that **FP16 is decision-safe**: argmax-stable and
+gate-stable on every model.
+
+> The logit deltas here (~1e-2) are slightly larger than the FP16
+> weight-rounding *simulation* predicted (~5e-3) because the real runtime also
+> rounds the **input** to float16 and may accumulate the dot product in float16
+> on the compute unit it picks — but the decisions (argmax, 0.70 gate) are
+> unchanged, which is what matters.
+
+Reproduce on any Mac: `python multilingual/test/test_coreml_multilingual.py --runtime --full`
+
+---
+
+## ANE eligibility (S5 — best-effort, non-blocking)
+
+**Status: MEASURED on Apple-Silicon CI — confirms the prediction below.** The
+compute-plan ran on the GitHub `macos-latest` runner (`ane_compute_plan.py`).
+**For all 6 models, every op reports `preferred=MLCPUComputeDevice` with CPU as
+the _only_ supported device:**
+
+```
+en / fr / de / da / multilingual / multilingual_small:
+  ios16.cast     preferred=MLCPUComputeDevice   supported=['MLCPUComputeDevice']
+  ios16.linear   preferred=MLCPUComputeDevice   supported=['MLCPUComputeDevice']
+```
+
+So the matmul is **not even ANE/GPU-eligible at this size** — Core ML places it
+on CPU/BNNS, exactly as predicted. This is the right outcome (CPU is lower
+latency/energy than ANE staging for a ~hundreds-of-MACs op); reproduce with
+`python multilingual/test/ane_compute_plan.py --model all` on a Mac.
+
+**Expected reality (from the measured facts).** Each model is a single dense
+matrix–vector product `(59 × V) · (V × 1)`. Real work is tiny: the input is
+~0.07–0.26 % dense (≈4–10 non-zero TF-IDF features), so the *useful* arithmetic
+is on the order of a few hundred MACs (≈ `59 × non-zeros`). Even re-expressed as
+the dense matmul the ANE would actually run (`59 × V` MACs, e.g. ~838 k for
+`multilingual`), this is far below the FLOP volume needed to amortise the ANE's
+fixed data-staging / dispatch cost. The Core ML runtime will therefore very
+likely **schedule these ops on CPU (BNNS)** even with `ComputeUnit.ALL`. That is
+expected and fine: at this size CPU is lower-latency and lower-energy than paying
+ANE staging overhead, and the whole op costs microseconds either way.
+
+We have already maximised *eligibility* (residency is the runtime's choice, not
+ours): **FP16 precision + fixed `(1, V)` input shape + `mlprogram` format**, with
+no flexible/RangeDim axes (a dynamic shape would disqualify the ANE outright).
+
+**How to actually check on Apple hardware:**
+
+1. **Compute plan (programmatic, macOS + coremltools):**
+   ```python
+   import coremltools as ct
+   plan = ct.models.compute_plan.MLComputePlan.load_from_path(
+       "multilingual/models/en/IntentClassifier_en.mlpackage",
+       compute_units=ct.ComputeUnit.ALL,
+   )
+   prog = plan.model_structure.program
+   for op in prog.functions["main"].block.operations:
+       usage = plan.get_compute_device_usage_for_mlprogram_operation(op)
+       if usage:
+           print(op.operator_name,
+                 "preferred:", type(usage.preferred_compute_device).__name__,
+                 "supported:", [type(d).__name__ for d in usage.supported_compute_devices])
+   ```
+   Records each op's preferred + supported devices (`MLCPUComputeDevice` /
+   `MLGPUComputeDevice` / `MLNeuralEngineComputeDevice`). Expect the `linear`/
+   `matmul` op to report **preferred = CPU** for these sizes.
+
+2. **Instruments (observed placement on a device):** Xcode ▸ Open Developer Tool
+   ▸ Instruments ▸ **Core ML** template; run the app on a physical iPhone,
+   trigger Stage-2 inference, and read the per-layer compute-unit assignment in
+   the Core ML track (the "Compute" lane shows CPU/GPU/ANE per op). Xcode's model
+   **Performance** report (open the `.mlpackage`, Performance tab, pick a device)
+   gives the same prediction offline.
+
+**The one lever that helps most (follow-up, not implemented here):** **vocab
+pruning** — shrink `V` the way production did (14195 → 1370). It cuts package
+size and the dense-matmul width regardless of where the op runs, and is the
+single biggest efficiency win. It changes the trained model, so it is flagged as
+a follow-up and intentionally **not** done in this packaging task.
+
+---
+
+## iOS ↔ Python cross-validation (S6 — iOS repo `akashrwt5/STT`, shared)
+
+The iOS repo is in scope, so S6 ran. Work branch:
+`claude/coreml-temperature-ios`, created off
+`feature/Adv2/AddSemanticUnderstanding-4-agentsfeedbackAddress` (never pushed to
+the base `feature/*` branch or `main`).
+
+**Source edit (platform-independent, landed on the iOS branch).** The Swift
+device path (`IntentClassifierService.swift`) previously used per-class isotonic
+calibration. It now follows the temperature contract: it reads `temperature`
+from the shipped weights JSON (missing ⇒ T = 1.0, backward-compatible) and gates
+on `softmax(logits / T)`; the predicted label stays the raw-logit argmax
+(temperature scaling is rank-preserving). It no longer consumes the package's
+baked T=1 `classProbability` (the new mlprogram package emits only `logits`), and
+the `tfidf_vector` input is now FLOAT32 to match the new exporter.
+
+**Golden fixtures (single source of truth).**
+`multilingual/test/coreml_golden_fixtures.json` — 300 entries (30 conformance +
+20 holdout samples × 6 models), generated by the Python/NumPy reference, each
+carrying `utterance, model, temperature, expected_intent,
+expected_top1_confidence, expected_logits`. A copy is bundled in the iOS test
+target (`STTTests/Resources/`).
+
+**iOS XCTest.** `STTTests/IntentClassifierCoreMLParityTests.swift` runs the
+device path (Swift TF-IDF → `.mlpackage` `logits` → `softmax(logits/T)`) and
+asserts intent match, top-1 confidence within FP16 tolerance (1e-2), and **0
+disagreements at the 0.70 gate** vs the fixtures.
+
+**What is Linux-runnable vs macOS-pending:**
+
+| Check | Where | Status |
+|---|---|---|
+| Generate golden fixtures (Python reference) | Linux/CI | **done** |
+| Python reference ↔ ONNX equivalence (feeds fixtures) | Linux/CI | **done** (Table 1/2) |
+| Swift source adopts temperature contract | any (source edit) | **done** (committed) |
+| `testTemperatureIsRankPreserving` (no CoreML import) | macOS test bundle | needs Xcode to execute |
+| `testDeviceParityAgainstGoldenFixtures` (loads `.mlpackage`) | macOS + Xcode | `macOS-pending` |
+| Swift-on-Linux `swift test` of the pure math | Linux | not available (no Swift toolchain on this runner) |
+
+Anything that does `import CoreML` / loads a `.mlpackage` requires macOS + Xcode
+and cannot run on this Linux routine; that XCTest runs on a macOS CI job or the
+user's Mac. To execute it, add each model's `IntentClassifier_<model>.mlpackage`
++ `<model>_intent_classifier_weights.json` to the `STTTests` target (a
+filesystem-synchronized group, so the test file and fixtures auto-include);
+models whose resources aren't bundled are skipped, not failed.

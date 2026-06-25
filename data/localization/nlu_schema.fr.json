@@ -1,0 +1,243 @@
+{
+  "_meta": {
+    "language": "fr",
+    "status": "draft-for-native-review",
+    "kind": "localization-overlay",
+    "localizes": "slot prompts, fulfillments, affirmative/negative/uncertain",
+    "pending": "keyword_triggers and back_reference regexes are language-specific grammar, authored separately"
+  },
+  "version": 2,
+  "confidence_threshold": 0.7,
+  "intents": {
+    "Cmd.VolumeIncrease": {
+      "fulfillment": "Volume augmenté."
+    },
+    "Cmd.VolumeDecrease": {
+      "fulfillment": "Volume baissé."
+    },
+    "Cmd.VolumeMute": {
+      "fulfillment": "Son coupé."
+    },
+    "Cmd.VolumeUnmute": {
+      "fulfillment": "Son rétabli."
+    },
+    "Cmd.MemoryChange": {
+      "fulfillment": "Programme changé.",
+      "slots": [
+        {
+          "name": "MemoryName",
+          "prompt": "Quel est le nom du programme ?"
+        }
+      ]
+    },
+    "reminders.add": {
+      "fulfillment": "Rappel créé.",
+      "slots": [
+        {
+          "name": "recurrence",
+          "prompt": ""
+        },
+        {
+          "name": "name",
+          "prompt": "Que veux-tu que je te rappelle ?"
+        },
+        {
+          "name": "date-time",
+          "prompt": "Quand dois-je te le rappeler ? Tu peux dire par exemple « à 9h », « demain à 15h » ou « dans 10 minutes »."
+        }
+      ]
+    },
+    "reminders.complete": {
+      "fulfillment": "Rappel marqué comme terminé."
+    },
+    "Cmd.SendMessage": {
+      "fulfillment": "Prêt à enregistrer ton message."
+    },
+    "Cmd.SendMessage - yes": {
+      "fulfillment": "Message envoyé."
+    },
+    "Cmd.SendMessage - no": {
+      "fulfillment": "D'accord, annulé."
+    },
+    "Cmd.FindMyPhone": {
+      "fulfillment": "Je cherche ton téléphone."
+    },
+    "Cmd.BatteryLevel": {
+      "fulfillment": "Je vérifie le niveau de batterie."
+    },
+    "Cmd.ListenMessage": {
+      "fulfillment": "Lecture de ton message."
+    },
+    "Cmd.TranslationStart": {
+      "fulfillment": "Ouverture de Translate."
+    },
+    "Cmd.TranscribeStart": {
+      "fulfillment": "Ouverture de Transcribe."
+    },
+    "Cmd.StreamingStart": {
+      "fulfillment": "Diffusion démarrée."
+    },
+    "Cmd.StreamingStop": {
+      "fulfillment": "Diffusion arrêtée."
+    },
+    "Cmd.ActivityRun": {
+      "fulfillment": "Démarrage de l'activité course."
+    },
+    "Cmd.ActivityWalk": {
+      "fulfillment": "Démarrage de l'activité marche."
+    },
+    "Cmd.ActivityStep": {
+      "fulfillment": "Affichage du nombre de pas."
+    },
+    "Cmd.ActivityStand": {
+      "fulfillment": "Affichage de l'activité debout."
+    },
+    "Cmd.ActivityCycle": {
+      "fulfillment": "Démarrage de l'activité vélo."
+    },
+    "Cmd.ActivityAerobics": {
+      "fulfillment": "Démarrage de l'aérobic."
+    },
+    "Cmd.ActivityExercise": {
+      "fulfillment": "Démarrage de l'exercice."
+    },
+    "Cmd.ActivityCalories": {
+      "fulfillment": "Affichage des calories."
+    },
+    "Help_Volume": {
+      "fulfillment": "Voici de l'aide sur le volume."
+    },
+    "Help_ChangingMemories": {
+      "fulfillment": "Voici de l'aide sur les programmes."
+    },
+    "Help_MemoryOptions": {
+      "fulfillment": "Voici les options de programmes."
+    },
+    "Help_Pairing": {
+      "fulfillment": "Voici de l'aide sur l'appairage."
+    },
+    "Help_FindMyHearingAids": {
+      "fulfillment": "Voici de l'aide pour retrouver tes aides auditives."
+    },
+    "Help_Accessories": {
+      "fulfillment": "Voici de l'aide sur les accessoires."
+    },
+    "Help_RemoteProgramming": {
+      "fulfillment": "Voici de l'aide sur le réglage à distance."
+    },
+    "Help_Tinnitus": {
+      "fulfillment": "Voici de l'aide sur les acouphènes."
+    },
+    "Help_SelfCheck": {
+      "fulfillment": "Voici de l'aide sur SelfCheck."
+    },
+    "Help_ThriveScore": {
+      "fulfillment": "Voici de l'aide sur le Thrive Score."
+    },
+    "Help_DeviceSettings": {
+      "fulfillment": "Voici de l'aide sur les réglages de l'appareil."
+    },
+    "Help_IntelliVoice": {
+      "fulfillment": "Voici de l'aide sur IntelliVoice."
+    },
+    "Help_FallAlert": {
+      "fulfillment": "Voici de l'aide sur Fall Alert."
+    },
+    "Help_HearShare": {
+      "fulfillment": "Voici de l'aide sur HearShare."
+    },
+    "Help_VoiceAssistant": {
+      "fulfillment": "Voici de l'aide sur l'assistant vocal."
+    },
+    "Help_InsertDevice": {
+      "fulfillment": "Voici de l'aide pour insérer ton appareil."
+    },
+    "Help_AppSettings": {
+      "fulfillment": "Voici de l'aide sur les réglages de l'application."
+    },
+    "Help_CleanCare": {
+      "fulfillment": "Voici de l'aide sur le nettoyage et l'entretien."
+    },
+    "Help_Customize": {
+      "fulfillment": "Voici de l'aide sur la personnalisation."
+    },
+    "Help_WhatsNew": {
+      "fulfillment": "Voici les nouveautés."
+    },
+    "Help_WiCROS": {
+      "fulfillment": "Voici de l'aide sur WiCROS."
+    },
+    "Help_Home": {
+      "fulfillment": "Voici de l'aide sur l'écran d'accueil."
+    },
+    "Help_Battery": {
+      "fulfillment": "Voici de l'aide sur la batterie."
+    },
+    "Help_Reminder": {
+      "fulfillment": "Voici de l'aide sur les rappels."
+    },
+    "Help_Translate": {
+      "fulfillment": "Voici de l'aide sur Translate."
+    },
+    "Help_Transcribe": {
+      "fulfillment": "Voici de l'aide sur Transcribe."
+    },
+    "Help_Health": {
+      "fulfillment": "Voici de l'aide sur Health."
+    },
+    "Help_HeartRate": {
+      "fulfillment": "Voici de l'aide sur la fréquence cardiaque."
+    },
+    "Help_HeartRateRecovery": {
+      "fulfillment": "Voici de l'aide sur la récupération de la fréquence cardiaque."
+    },
+    "Help_HearingCareAnywhereConnect": {
+      "fulfillment": "Voici de l'aide sur Hearing Care Anywhere."
+    },
+    "Help_MaskMode": {
+      "fulfillment": "Voici de l'aide sur Mask Mode."
+    },
+    "Help_EdgeMode": {
+      "fulfillment": "Voici de l'aide sur Edge Mode."
+    },
+    "Help_DemoMode": {
+      "fulfillment": "Voici de l'aide sur Demo Mode."
+    },
+    "Default Fallback Intent": {
+      "fulfillment": ""
+    }
+  },
+  "affirmative": [
+    "yes",
+    "ok",
+    "okay",
+    "oui",
+    "ouais",
+    "ouaip",
+    "d'accord",
+    "bien sûr",
+    "envoie",
+    "envoie-le",
+    "confirme",
+    "c'est correct",
+    "c'est bon",
+    "exact",
+    "vas-y",
+    "fais-le",
+    "s'il te plaît"
+  ],
+  "negative": [
+    "no",
+    "non",
+    "nan",
+    "annule",
+    "annuler",
+    "arrête",
+    "arrêter",
+    "stop",
+    "ne fais pas",
+    "non merci",
+    "laisse tomber",
+    "oublie"
+  ]
+}
