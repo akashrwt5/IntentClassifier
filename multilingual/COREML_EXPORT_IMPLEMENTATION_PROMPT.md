@@ -49,7 +49,7 @@ default branch. You MUST:
    name, or resume across runs will break.
 2. Read this spec and the supporting analysis:
    - `multilingual/TEMPERATURE_SCALING_RESULTS.md` (the calibration the device must reproduce),
-   - `scripts/export_coreml.py` (the **existing** production CoreML export you are extending + fixing),
+   - `scripts/export_coreml.py` (**reference/context ONLY — DO NOT MODIFY IT**; read it to mirror the proven graph contract: dense `inner_product` → `logits`, fixed-shape vector input, calibration done Swift-side),
    - `scripts/test_ios_conformance.py` (the hand-rolled device scorer `_ios_predict` — the numeric reference).
 3. **Determine progress from git + the checklist below.** Inspect the code and
    recent commits to see which steps are already done. Do NOT redo completed steps.
@@ -106,11 +106,12 @@ These were measured directly on the shipped artifacts. Treat them as established
   plus a baked `classProbability = softmax(logits)` at **T=1**. The device contract
   is: **read `logits`, compute `softmax(logits / T)` in Swift, gate on that.**
   `classProbability` is a T=1 trap — never consume it for the 0.70 gate.
-- **Temperature-scaling gap in the current export:** `scripts/export_coreml.py`
-  still documents **isotonic** calibration (lines ~27-45, 199, 222) and **never
-  reads or embeds `temperature`**. The graph is calibration-agnostic (it only emits
-  logits), so it is not *broken*, but the docs are stale and the package carries no
-  `T`. Part of this task is to fix that.
+- **`scripts/export_coreml.py` is OUT OF SCOPE — DO NOT MODIFY IT.** It is the
+  legacy production English exporter; its docstrings still mention isotonic and it
+  does not embed `temperature`. That is informational only. This task does **not**
+  touch it (or anything under `scripts/`). The new CoreML strategy is implemented
+  entirely as NEW files inside `multilingual/`. The new exporter simply embeds
+  `temperature` itself, so the package carries `T` natively — no production edit needed.
 
 ---
 
@@ -139,15 +140,7 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
   - Save to `multilingual/models/<m>/IntentClassifier_<m>.mlpackage`; refresh
     `manifest.json` hashes. CLI: `--model en|all`, `--fp16` (default), `--fp32`.
 
-- [ ] **S2 — Fix the production exporter `scripts/export_coreml.py`.**
-  Remove all isotonic references in docstrings + `output_description`; read
-  `temperature` from `models/intent_classifier_weights.json` and embed it (plus
-  thresholds) in the package metadata; document the `softmax(logits / T)` contract.
-  Keep the `logits` output and graph shape unchanged. Optionally add the FP16/
-  `mlprogram` path so production matches the multilingual exporter. Do NOT change
-  the numeric behavior of the exposed logits.
-
-- [ ] **S3 — Tier-A test (platform-independent) `multilingual/test/test_coreml_multilingual.py`.**
+- [ ] **S2 — Tier-A test (platform-independent) `multilingual/test/test_coreml_multilingual.py`.**
   Runs anywhere (incl. this Linux runner) — proves numeric equivalence WITHOUT the
   Core ML runtime:
   1. Load each `.mlpackage` **spec**; assert input dim == V with **fixed** shape,
@@ -161,7 +154,7 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
      holdout (`multilingual/test/<m>_holdout.csv`) and assert it matches the **ONNX
      raw logits** within tolerance. Transitively this proves CoreML==ONNX.
 
-- [ ] **S4 — Tier-B test (macOS-only, auto-skip elsewhere).**
+- [ ] **S3 — Tier-B test (macOS-only, auto-skip elsewhere).**
   Guard with `platform.system() == "Darwin"`; on Linux **skip with a clear printed
   reason** (do not fail). On macOS:
   - `mlmodel.predict()` over each holdout; compare CoreML `logits` vs ONNX `logits`
@@ -170,7 +163,7 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
   - **Threshold parity** on the 30 conformance utterances: apply `softmax(logits/T)`,
     assert **0 disagreements** at the 0.70 gate vs ONNX.
 
-- [ ] **S5 — ONNX vs CoreML comparison report `multilingual/COREML_RESULTS.md`.**
+- [ ] **S4 — ONNX vs CoreML comparison report `multilingual/COREML_RESULTS.md`.**
   Per model, a table: vocab V, package size FP16 (and FP32 if emitted), ONNX accuracy
   vs CoreML accuracy (Tier-B, or "macOS-pending" if not yet run), max logit delta,
   max top-1 confidence delta, threshold disagreements / 30, and the agreement %.
@@ -178,7 +171,7 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
   doc is meaningful even before a macOS run. State explicitly which rows are Linux-
   verified (Tier-A) vs macOS-pending (Tier-B).
 
-- [ ] **S6 — [BEST-EFFORT, NON-BLOCKING] ANE eligibility investigation.**
+- [ ] **S5 — [BEST-EFFORT, NON-BLOCKING] ANE eligibility investigation.**
   Goal: determine whether these FP16 `mlprogram` models can run on the Apple Neural
   Engine (saves CPU/battery on the phone). This is *not* a gate — report findings,
   do not block on it.
@@ -199,9 +192,38 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
     pruning** (shrinks V like production's 14195→1370). Flag it as a follow-up, do not
     implement unless asked (it changes the model).
 
+- [ ] **S6 — [OPTIONAL, ONLY IF THE iOS REPO IS SHARED + IN SCOPE] iOS (Swift) ↔ Python cross-validation.**
+  This step is **gated**: do it ONLY if a second repository containing the iOS app's
+  Swift scorer has been added to the session scope (`add_repo`). If it is not in
+  scope, skip this step and note "iOS repo not shared" — do not attempt it.
+  When in scope:
+  - **Source edits (platform-independent, allowed on any runner):** if the Swift
+    device path still uses isotonic interpolation, update it to the temperature
+    contract — read `temperature` from the shipped weights/metadata and compute
+    `softmax(logits / T)`; gate on that; never consume the `.mlpackage`'s baked
+    T=1 `classProbability`. Keep edits minimal and matched to the surrounding style.
+  - **Cross-language parity via a golden-fixture harness (the deliverable):**
+    1. In THIS repo, add `multilingual/test/coreml_golden_fixtures.json` — generated
+       by the Python/NumPy reference: each entry = `{utterance, model, expected_intent,
+       expected_top1_confidence, expected_logits}` over the conformance set (+ a
+       holdout sample). This is the single source of truth both languages compare to.
+    2. In the iOS repo, add an **XCTest** that loads the same fixtures, runs the real
+       device path (TF-IDF in Swift → `.mlpackage` `logits` → `softmax(logits/T)`),
+       and asserts intent match + confidence within tolerance (FP16 ≈ 1e-2) and
+       **0 disagreements at the 0.70 gate**.
+  - **Platform reality (state it explicitly, do not pretend otherwise):** anything
+    that does `import CoreML` / loads a `.mlpackage` requires **macOS + Xcode** and
+    CANNOT run on this Linux routine — that XCTest runs on a macOS CI job or the
+    user's Mac. The pure-Swift TF-IDF+LR math (no CoreML import) MAY run under a
+    Swift-on-Linux toolchain; if so, add a `swift test` target that cross-checks the
+    scorer logic against the fixtures here. Record which checks are Linux-runnable
+    vs macOS-pending in `COREML_RESULTS.md`.
+  - Push iOS-repo changes to that repo's own `claude/`-prefixed branch (never `main`).
+
 - [ ] **S7 — Validation (definition of done).** See the gates below. When all pass
   (Tier-A everywhere; Tier-B on macOS or explicitly macOS-pending), and
-  `COREML_RESULTS.md` is committed, this is the terminal state.
+  `COREML_RESULTS.md` is committed, this is the terminal state. S6 is optional and
+  only applies when the iOS repo is shared.
 
 ---
 
@@ -217,15 +239,20 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
   of ONNX; **0/30 threshold disagreements** at the 0.70 gate on the conformance set.
 - **ONNX vs CoreML comparison table** committed in `COREML_RESULTS.md` (per model:
   accuracy, max logit delta, max confidence delta, threshold disagreements, sizes).
-- **Production `export_coreml.py` de-isotonic'd** and temperature-aware (S2).
-- **ANE finding documented** (S6) — eligible/likely-CPU, with the on-device check
+- **ANE finding documented** (S5) — eligible/likely-CPU, with the on-device check
   procedure. Non-blocking.
+- **iOS ↔ Python cross-validation (S6)** done ONLY if the iOS repo is shared;
+  otherwise explicitly recorded as "iOS repo not shared / out of scope".
 - Backward compat preserved: a missing `temperature` key ⇒ T = 1.0 (plain softmax).
 
 ---
 
 ## CONSTRAINTS
 
+- **All new code lives under `multilingual/`.** Do NOT modify `scripts/export_coreml.py`
+  or anything else under `scripts/` (or elsewhere outside `multilingual/`). The new
+  CoreML strategy is a fresh, standalone exporter + tests in the `multilingual/` folder.
+  The ONLY exception is the iOS repo in S6, and only if it has been shared + added to scope.
 - Do NOT touch the tokenizer or `multilingual/text_norm.py`. TF-IDF stays in Swift;
   CoreML receives the pre-computed L2-normalized vector.
 - Device contract is **read `logits`, apply `softmax(logits / T)` in Swift** — never
@@ -242,11 +269,8 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
 ## REPRODUCE
 
 ```bash
-# Build FP16 CoreML packages for all six multilingual models
+# Build FP16 CoreML packages for all six multilingual models (NEW, multilingual/ only)
 python multilingual/export_coreml_multilingual.py --all --fp16
-
-# Fix + rebuild the production package (temperature-aware, de-isotonic'd)
-python scripts/export_coreml.py            # or the FP16 path if added
 
 # Tier-A: numeric equivalence vs ONNX — runs on Linux/CI/macOS
 python multilingual/test/test_coreml_multilingual.py
@@ -254,6 +278,9 @@ python multilingual/test/test_coreml_multilingual.py
 # Tier-B: real Core ML runtime accuracy + threshold parity — macOS only (auto-skips elsewhere)
 python multilingual/test/test_coreml_multilingual.py --runtime
 
-# Existing parity reference (ONNX vs hand-rolled device scorer), all six models
+# Generate the golden fixtures for iOS↔Python parity (S6, if iOS repo shared)
+python multilingual/test/test_coreml_multilingual.py --emit-fixtures
+
+# Existing parity reference (ONNX vs hand-rolled device scorer), all six models — READ ONLY, not modified
 python scripts/test_ios_conformance.py --model all
 ```
