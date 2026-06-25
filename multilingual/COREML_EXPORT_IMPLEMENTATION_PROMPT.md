@@ -62,8 +62,10 @@ default branch. You MUST:
 4. Do the next ONE incomplete step, then **commit and push immediately** with
    `git config user.email noreply@anthropic.com` set. Small, frequent commits are
    required so progress survives across runs.
-5. If all steps are complete and all validation gates pass, do nothing except
-   confirm green status — do not make cosmetic changes. This is the terminal state.
+5. If all steps are complete and all validation gates pass, do nothing except the
+   one-time "share the results" action in S7 (post the numbers via `COREML_RESULTS.md`
+   + a single completion notification) — do not make cosmetic changes, and do not
+   re-notify on later already-terminal runs. This is the terminal state.
 6. If you get blocked (a gate genuinely cannot pass, a step needs macOS this Linux
    runner does not have, an ambiguous product decision), commit what you have, then
    write/update a short `STATUS.md` on the branch describing exactly where you
@@ -169,13 +171,30 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
   - **Threshold parity** on the 30 conformance utterances: apply `softmax(logits/T)`,
     assert **0 disagreements** at the 0.70 gate vs ONNX.
 
-- [ ] **S4 — ONNX vs CoreML comparison report `multilingual/COREML_RESULTS.md`.**
-  Per model, a table: vocab V, package size FP16 (and FP32 if emitted), ONNX accuracy
-  vs CoreML accuracy (Tier-B, or "macOS-pending" if not yet run), max logit delta,
-  max top-1 confidence delta, threshold disagreements / 30, and the agreement %.
-  Include the Tier-A numeric-equivalence result (which IS available on Linux) so the
-  doc is meaningful even before a macOS run. State explicitly which rows are Linux-
-  verified (Tier-A) vs macOS-pending (Tier-B).
+- [ ] **S4 — ONNX vs CoreML comparison report `multilingual/COREML_RESULTS.md` (REAL NUMBERS, no placeholders).**
+  This is a deliverable the user reads for the numbers — every cell must be a
+  **measured value**, never "TBD"/"N/A" unless it is a genuinely macOS-only metric,
+  in which case write the literal token `macOS-pending` (never leave it blank or guess).
+  Produce these tables:
+
+  **Table 1 — packaging & numeric equivalence (Tier-A, Linux-verified):**
+
+  | Model | V | `.mlpackage` FP16 size | FP32 size (if emitted) | spec-weights vs JSON max abs Δ | NumPy-ref vs ONNX-logits max abs Δ | Tier-A verdict |
+  |---|---|---|---|---|---|---|
+  | en … multilingual_small (all 6) | … | … | … | … | … | PASS/FAIL |
+
+  **Table 2 — ONNX vs CoreML accuracy & gate parity (Tier-B runtime):**
+
+  | Model | ONNX acc | CoreML acc | acc Δ | max logit Δ | max top-1 conf Δ | threshold disagree /30 | agreement % |
+  |---|---|---|---|---|---|---|---|
+  | en … multilingual_small (all 6) | … | … | … | … | … | … | … |
+
+  - Fill Table 1 fully on this Linux routine (it needs no Core ML runtime). Fill
+    Table 2 with real numbers on macOS; until then mark its runtime-only cells
+    `macOS-pending` and say so in the row.
+  - Add a one-line **headline** at the top: e.g. "All 6 models: Tier-A PASS;
+    CoreML↔ONNX max conf Δ ≤ X; 0/30 gate disagreements; FP16 total size Y MB."
+  - Also restate each model's shipped `temperature` (from the weights JSON) in the doc.
 
 - [ ] **S5 — [BEST-EFFORT, NON-BLOCKING] ANE eligibility investigation.**
   Goal: determine whether these FP16 `mlprogram` models can run on the Apple Neural
@@ -234,17 +253,31 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
   - Push iOS-repo changes ONLY to `akashrwt5/STT` branch `claude/coreml-temperature-ios`
     (never the base `feature/*` branch, never `main`).
 
-- [ ] **S7 — Validation (definition of done).** See the gates below. When all pass
-  (Tier-A everywhere; Tier-B on macOS or explicitly macOS-pending), and
-  `COREML_RESULTS.md` is committed, this is the terminal state. S6 is optional and
+- [ ] **S7 — Validation + share the results (definition of done).** See the gates
+  below. When all pass (Tier-A everywhere; Tier-B on macOS or explicitly macOS-pending),
+  and `COREML_RESULTS.md` is committed, this is the terminal state. S6 is optional and
   only applies when the iOS repo is shared.
+  **On reaching the terminal state, SHARE the result with the actual numbers** — do
+  not end silently. Specifically:
+  1. Ensure `multilingual/COREML_RESULTS.md` holds the fully-populated Table 1 + Table 2
+     (real numbers; runtime-only cells marked `macOS-pending` if no macOS run yet) and
+     the one-line headline.
+  2. Send ONE routine completion notification (`PushNotification`) whose
+     `<routine_summary>` leads with the headline numbers and then lists, per model or in
+     aggregate: FP16 package size, CoreML↔ONNX max top-1 confidence Δ, accuracy Δ,
+     threshold disagreements /30, and the ANE finding. Include whether Tier-B is done or
+     macOS-pending. This summary is how the user receives the numbers — make it
+     self-contained (they should not need to open the repo to read the result).
+  3. On every subsequent run that is already terminal with no new numbers, do NOT
+     re-notify — stay silent (re-sending the same green result is noise).
 
 ---
 
 ## VALIDATION — definition of done
 
-- **FP16 packages exist** for all six multilingual models (+ production via S2),
-  `mlprogram`, **fixed `(1, V)`** input, `logits` output, `temperature` in metadata.
+- **FP16 packages exist** for all six multilingual models (new `multilingual/`
+  exporter only — `scripts/` untouched), `mlprogram`, **fixed `(1, V)`** input,
+  `logits` output, `temperature` in metadata.
 - **Tier-A (Linux-runnable) passes for every model:** spec shape/labels/metadata
   correct; spec weights == JSON `coef`/`intercept` within FP16 tol; NumPy reference
   == ONNX raw logits within tol. This is the mandatory gate that runs on this routine.
@@ -257,6 +290,9 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
   procedure. Non-blocking.
 - **iOS ↔ Python cross-validation (S6)** done ONLY if the iOS repo is shared;
   otherwise explicitly recorded as "iOS repo not shared / out of scope".
+- **Results shared with real numbers (S7):** `COREML_RESULTS.md` has both tables
+  fully populated (no blank/guessed cells; runtime-only cells marked `macOS-pending`),
+  and a single completion notification carried the headline numbers to the user.
 - Backward compat preserved: a missing `temperature` key ⇒ T = 1.0 (plain softmax).
 
 ---
