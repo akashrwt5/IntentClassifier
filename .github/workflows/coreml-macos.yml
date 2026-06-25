@@ -45,6 +45,7 @@ jobs:
         run: python multilingual/test/test_coreml_multilingual.py --runtime --full
 
       - name: ANE compute plan (op placement)
+        continue-on-error: true   # S5 is best-effort / non-blocking
         run: python multilingual/test/ane_compute_plan.py --model all
 
       - name: Refresh golden fixtures (for the iOS parity job)

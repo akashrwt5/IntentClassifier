@@ -28,8 +28,13 @@ def check_model(ct, model: str) -> None:
         print(f"  [{model}] SKIP — {pkg.name} not found (run the exporter first).")
         return
 
+    # MLComputePlan.load_from_path expects a COMPILED model (.mlmodelc), not a
+    # raw .mlpackage — passing the package aborts in native code. Compile first.
+    from coremltools.models.utils import compile_model
+    compiled = compile_model(str(pkg))
+
     plan = ct.models.compute_plan.MLComputePlan.load_from_path(
-        str(pkg), compute_units=ct.ComputeUnit.ALL,
+        str(compiled), compute_units=ct.ComputeUnit.ALL,
     )
     program = plan.model_structure.program
     if program is None:

@@ -1,15 +1,13 @@
 # CoreML ↔ ONNX Results — Multilingual Intent Classifiers
 
-**Headline:** All 6 models Tier-A **PASS** on this Linux runner. The exported FP16
-`mlprogram` packages carry the trained weights exactly to float16 (spec-weights
-vs JSON ≤ 6.2e-3, i.e. within the float16 half-ULP bound), and the NumPy device
-reference reproduces the ONNX raw logits to **≤ 2.5e-6** over the **full
-holdouts (~15,500 utterances)**. An FP16 weight-rounding simulation of the
-CoreML matmul predicts **0 argmax flips, 0/30 gate disagreements, and identical
-holdout accuracy** vs ONNX on every model; the on-device (real Core ML runtime)
-confirmation of those same numbers is **macOS-pending** (this is a Linux
-routine). **Total FP16 package size for all six models: 3.93 MB** (FP32 fallback:
-7.84 MB).
+**Headline:** All 6 models pass both tiers. Tier-A (Linux): FP16 packages carry
+the trained weights to float16 (spec-weights vs JSON ≤ 6.2e-3, within the
+float16 half-ULP bound) and the NumPy device reference reproduces the ONNX raw
+logits to **≤ 2.5e-6** over the full holdouts. **Tier-B now CONFIRMED on the real
+Core ML runtime** (GitHub Apple-Silicon `macos-latest`): vs ONNX, accuracy delta
+≈ 0 (worst −0.0002), max logit Δ ≤ 1.66e-2, max top-1 confidence Δ ≤ 3.85e-3,
+and **0/30 0.70-gate disagreements on every model**. **Total FP16 package size
+for all six models: 3.93 MB** (FP32 fallback: 7.84 MB).
 
 Build + verify (reproduce):
 
@@ -67,44 +65,37 @@ package weights match the JSON to float16, **CoreML ≡ ONNX transitively**.
 
 ---
 
-## Table 2 — ONNX vs CoreML accuracy & gate parity (runtime)
+## Table 2 — ONNX vs CoreML accuracy & gate parity (Tier-B, real Core ML runtime)
 
-The **CoreML-runtime** cells require `import coremltools` + a real `.mlpackage`
-`predict()`, which is **macOS-only** — so on this Linux routine they are
-`macOS-pending` (run `--runtime` on a Mac to fill them).
+**Measured on the real Core ML runtime** via `MLModel.predict()` on a GitHub
+Apple-Silicon `macos-latest` runner (workflow `.github/workflows/coreml-macos.yml`,
+run #1, 2026-06-25). Accuracy is over the **full holdout** per model (n shown);
+gate parity is over the **30 conformance utterances**. CoreML acc = ONNX acc +
+acc Δ.
 
-To give real, decision-relevant numbers now, the table below reports an **FP16
-weight-rounding simulation** of what the Core ML matmul computes: the trained
-`coef`/`intercept` and the L2-normalised input vector are rounded to float16
-(fp32 accumulation, as BNNS/ANE do), then compared to ONNX (fp32). This isolates
-the dominant float16-storage effect and closely predicts the on-device result.
-All numbers are over the **full holdout** per model (n shown), with gate parity
-over the **30 conformance utterances**.
+| Model | n | ONNX acc | CoreML acc | acc Δ | max logit Δ | max top-1 conf Δ | gate disagree /30 | agreement % |
+|---|---|---|---|---|---|---|---|---|
+| en | 1493 | 0.8975 | 0.8975 | +0.0000 | 1.21e-02 | 2.39e-03 | 0 | 100% |
+| fr | 1392 | 0.8491 | 0.8491 | +0.0000 | 1.66e-02 | 2.18e-03 | 0 | 100% |
+| de | 1413 | 0.8316 | 0.8316 | +0.0000 | 1.16e-02 | 2.29e-03 | 0 | 100% |
+| da | 1362 | 0.7599 | 0.7599 | +0.0000 | 1.37e-02 | 2.17e-03 | 0 | 100% |
+| multilingual | 4910 | 0.8422 | 0.8420 | −0.0002 | 1.25e-02 | 3.39e-03 | 0 | 100% |
+| multilingual_small | 4910 | 0.8481 | 0.8481 | +0.0000 | 1.44e-02 | 3.85e-03 | 0 | 100% |
+| **all** | **15480** | — | — | **≥ −0.0002** | **≤ 1.66e-02** | **≤ 3.85e-03** | **0/180** | **100%** |
 
-| Model | n | ONNX acc | FP16-sim acc | acc Δ | max logit Δ | max top-1 conf Δ | argmax flips | gate disagree /30 | agreement % |
-|---|---|---|---|---|---|---|---|---|---|
-| en | 1493 | 0.8975 | 0.8975 | 0.0000 | 4.17e-03 | 1.19e-03 | 0 | 0 | 100% |
-| fr | 1392 | 0.8491 | 0.8491 | 0.0000 | 4.20e-03 | 7.75e-04 | 0 | 0 | 100% |
-| de | 1413 | 0.8316 | 0.8316 | 0.0000 | 4.28e-03 | 1.21e-03 | 0 | 0 | 100% |
-| da | 1362 | 0.7599 | 0.7599 | 0.0000 | 4.64e-03 | 9.03e-04 | 0 | 0 | 100% |
-| multilingual | 4910 | 0.8422 | 0.8422 | 0.0000 | 5.42e-03 | 1.21e-03 | 0 | 0 | 100% |
-| multilingual_small | 4910 | 0.8481 | 0.8481 | 0.0000 | 6.79e-03 | 1.43e-03 | 0 | 0 | 100% |
-| **all** | **15480** | — | — | **0.0000** | **≤ 6.79e-03** | **≤ 1.43e-03** | **0** | **0/180** | **100%** |
+The single −0.0002 on `multilingual` is **one** holdout sample out of 4910 (a
+float16 rounding flip on a borderline logit) — and **0/30 gate disagreements**,
+so no user-facing fire/fallback decision changes. This confirms on real hardware
+the BACKGROUND finding that **FP16 is decision-safe**: argmax-stable and
+gate-stable on every model.
 
-**Real Core ML runtime (Tier-B) status: `macOS-pending`.** Run on a Mac:
+> The logit deltas here (~1e-2) are slightly larger than the FP16
+> weight-rounding *simulation* predicted (~5e-3) because the real runtime also
+> rounds the **input** to float16 and may accumulate the dot product in float16
+> on the compute unit it picks — but the decisions (argmax, 0.70 gate) are
+> unchanged, which is what matters.
 
-```bash
-python multilingual/test/test_coreml_multilingual.py --runtime
-```
-
-The Tier-B harness asserts CoreML accuracy within ε of ONNX and **0/30** gate
-disagreements per model. Given the FP16 simulation above (which uses the *same*
-float16 weights the package stores and which already shows 0 flips / 0 gate
-disagreements / identical accuracy), the on-device result is expected to match;
-Tier-B records the exact runtime deltas on Apple hardware.
-
-This corroborates the BACKGROUND measurement that FP16 is decision-safe: max
-logit Δ small, **0 argmax flips, 0 gate flips** on every model.
+Reproduce on any Mac: `python multilingual/test/test_coreml_multilingual.py --runtime --full`
 
 ---
 
