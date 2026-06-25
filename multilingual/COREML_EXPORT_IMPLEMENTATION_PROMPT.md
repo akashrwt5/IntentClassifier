@@ -18,6 +18,12 @@ continues from the checklist state recorded in git.
 - **Work branch (fixed, do not change):** `claude/coreml-export`. It must be the
   same every run so progress accumulates and resumes; never let a run create a
   fresh auto-named branch.
+- **Second repository (iOS / Swift), for S6:** add **`akashrwt5/STT`** to the
+  session scope (Repository access settings, or `add_repo`). Its iOS work branch is
+  **`claude/coreml-temperature-ios`**, which the routine creates **off the base
+  branch `feature/Adv2/AddSemanticUnderstanding-4-agentsfeedbackAddress`** on the
+  first S6 run and reuses thereafter. If `akashrwt5/STT` is not in scope, S6 is
+  skipped (the rest of the checklist still runs against this repo).
 
 ---
 
@@ -193,9 +199,16 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
     implement unless asked (it changes the model).
 
 - [ ] **S6 — [OPTIONAL, ONLY IF THE iOS REPO IS SHARED + IN SCOPE] iOS (Swift) ↔ Python cross-validation.**
-  This step is **gated**: do it ONLY if a second repository containing the iOS app's
-  Swift scorer has been added to the session scope (`add_repo`). If it is not in
-  scope, skip this step and note "iOS repo not shared" — do not attempt it.
+  This step is **gated**: do it ONLY if **`akashrwt5/STT`** has been added to the
+  session scope (`add_repo`). If it is not in scope, skip this step and note "iOS
+  repo not shared" — do not attempt it.
+  - **iOS repo / branch:** repo `akashrwt5/STT`. On the first S6 run, create the work
+    branch `claude/coreml-temperature-ios` **from the base branch**
+    `feature/Adv2/AddSemanticUnderstanding-4-agentsfeedbackAddress`
+    (`git fetch origin && git checkout -b claude/coreml-temperature-ios origin/feature/Adv2/AddSemanticUnderstanding-4-agentsfeedbackAddress`),
+    and on later runs reuse it (`git checkout claude/coreml-temperature-ios && git pull --ff-only`).
+    NEVER push to the base `feature/*` branch or to `main` — only to
+    `claude/coreml-temperature-ios`.
   When in scope:
   - **Source edits (platform-independent, allowed on any runner):** if the Swift
     device path still uses isotonic interpolation, update it to the temperature
@@ -218,7 +231,8 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
     Swift-on-Linux toolchain; if so, add a `swift test` target that cross-checks the
     scorer logic against the fixtures here. Record which checks are Linux-runnable
     vs macOS-pending in `COREML_RESULTS.md`.
-  - Push iOS-repo changes to that repo's own `claude/`-prefixed branch (never `main`).
+  - Push iOS-repo changes ONLY to `akashrwt5/STT` branch `claude/coreml-temperature-ios`
+    (never the base `feature/*` branch, never `main`).
 
 - [ ] **S7 — Validation (definition of done).** See the gates below. When all pass
   (Tier-A everywhere; Tier-B on macOS or explicitly macOS-pending), and
@@ -252,7 +266,9 @@ Work top to bottom. Each item is a commit boundary. Do the next incomplete one.
 - **All new code lives under `multilingual/`.** Do NOT modify `scripts/export_coreml.py`
   or anything else under `scripts/` (or elsewhere outside `multilingual/`). The new
   CoreML strategy is a fresh, standalone exporter + tests in the `multilingual/` folder.
-  The ONLY exception is the iOS repo in S6, and only if it has been shared + added to scope.
+  The ONLY exception is the iOS repo in S6 — `akashrwt5/STT`, branch
+  `claude/coreml-temperature-ios` off `feature/Adv2/AddSemanticUnderstanding-4-agentsfeedbackAddress` —
+  and only if it has been shared + added to scope.
 - Do NOT touch the tokenizer or `multilingual/text_norm.py`. TF-IDF stays in Swift;
   CoreML receives the pre-computed L2-normalized vector.
 - Device contract is **read `logits`, apply `softmax(logits / T)` in Swift** — never
