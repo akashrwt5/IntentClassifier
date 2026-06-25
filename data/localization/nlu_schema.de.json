@@ -1,0 +1,246 @@
+{
+  "_meta": {
+    "language": "de",
+    "status": "draft-for-native-review",
+    "kind": "localization-overlay",
+    "localizes": "slot prompts, fulfillments, affirmative/negative/uncertain",
+    "pending": "keyword_triggers and back_reference regexes are language-specific grammar, authored separately"
+  },
+  "version": 2,
+  "confidence_threshold": 0.7,
+  "intents": {
+    "Cmd.VolumeIncrease": {
+      "fulfillment": "Lautstärke erhöht."
+    },
+    "Cmd.VolumeDecrease": {
+      "fulfillment": "Lautstärke verringert."
+    },
+    "Cmd.VolumeMute": {
+      "fulfillment": "Stummgeschaltet."
+    },
+    "Cmd.VolumeUnmute": {
+      "fulfillment": "Stummschaltung aufgehoben."
+    },
+    "Cmd.MemoryChange": {
+      "fulfillment": "Programm gewechselt.",
+      "slots": [
+        {
+          "name": "MemoryName",
+          "prompt": "Wie heißt das Programm?"
+        }
+      ]
+    },
+    "reminders.add": {
+      "fulfillment": "Erinnerung erstellt.",
+      "slots": [
+        {
+          "name": "recurrence",
+          "prompt": ""
+        },
+        {
+          "name": "name",
+          "prompt": "Woran soll ich dich erinnern?"
+        },
+        {
+          "name": "date-time",
+          "prompt": "Wann soll ich dich erinnern? Du kannst zum Beispiel sagen '9 Uhr', 'morgen um 15 Uhr' oder 'in 10 Minuten'."
+        }
+      ]
+    },
+    "reminders.complete": {
+      "fulfillment": "Erinnerung als erledigt markiert."
+    },
+    "Cmd.SendMessage": {
+      "fulfillment": "Bereit, deine Nachricht aufzunehmen."
+    },
+    "Cmd.SendMessage - yes": {
+      "fulfillment": "Nachricht gesendet."
+    },
+    "Cmd.SendMessage - no": {
+      "fulfillment": "Okay, abgebrochen."
+    },
+    "Cmd.FindMyPhone": {
+      "fulfillment": "Ich suche dein Telefon."
+    },
+    "Cmd.BatteryLevel": {
+      "fulfillment": "Ich prüfe den Akkustand."
+    },
+    "Cmd.ListenMessage": {
+      "fulfillment": "Ich spiele deine Nachricht ab."
+    },
+    "Cmd.TranslationStart": {
+      "fulfillment": "Translate wird geöffnet."
+    },
+    "Cmd.TranscribeStart": {
+      "fulfillment": "Transcribe wird geöffnet."
+    },
+    "Cmd.StreamingStart": {
+      "fulfillment": "Streaming gestartet."
+    },
+    "Cmd.StreamingStop": {
+      "fulfillment": "Streaming beendet."
+    },
+    "Cmd.ActivityRun": {
+      "fulfillment": "Aktivität Laufen wird gestartet."
+    },
+    "Cmd.ActivityWalk": {
+      "fulfillment": "Aktivität Gehen wird gestartet."
+    },
+    "Cmd.ActivityStep": {
+      "fulfillment": "Ich zeige die Schrittzahl."
+    },
+    "Cmd.ActivityStand": {
+      "fulfillment": "Ich zeige die Stehaktivität."
+    },
+    "Cmd.ActivityCycle": {
+      "fulfillment": "Aktivität Radfahren wird gestartet."
+    },
+    "Cmd.ActivityAerobics": {
+      "fulfillment": "Aerobic wird gestartet."
+    },
+    "Cmd.ActivityExercise": {
+      "fulfillment": "Training wird gestartet."
+    },
+    "Cmd.ActivityCalories": {
+      "fulfillment": "Ich zeige die Kalorien."
+    },
+    "Help_Volume": {
+      "fulfillment": "Hier ist Hilfe zur Lautstärke."
+    },
+    "Help_ChangingMemories": {
+      "fulfillment": "Hier ist Hilfe zum Wechseln der Programme."
+    },
+    "Help_MemoryOptions": {
+      "fulfillment": "Hier sind die Programmoptionen."
+    },
+    "Help_Pairing": {
+      "fulfillment": "Hier ist Hilfe zum Koppeln."
+    },
+    "Help_FindMyHearingAids": {
+      "fulfillment": "Hier ist Hilfe, um deine Hörgeräte zu finden."
+    },
+    "Help_Accessories": {
+      "fulfillment": "Hier ist Hilfe zum Zubehör."
+    },
+    "Help_RemoteProgramming": {
+      "fulfillment": "Hier ist Hilfe zur Fernprogrammierung."
+    },
+    "Help_Tinnitus": {
+      "fulfillment": "Hier ist Hilfe zum Tinnitus."
+    },
+    "Help_SelfCheck": {
+      "fulfillment": "Hier ist Hilfe zu SelfCheck."
+    },
+    "Help_ThriveScore": {
+      "fulfillment": "Hier ist Hilfe zum Thrive Score."
+    },
+    "Help_DeviceSettings": {
+      "fulfillment": "Hier ist Hilfe zu den Geräteeinstellungen."
+    },
+    "Help_IntelliVoice": {
+      "fulfillment": "Hier ist Hilfe zu IntelliVoice."
+    },
+    "Help_FallAlert": {
+      "fulfillment": "Hier ist Hilfe zu Fall Alert."
+    },
+    "Help_HearShare": {
+      "fulfillment": "Hier ist Hilfe zu HearShare."
+    },
+    "Help_VoiceAssistant": {
+      "fulfillment": "Hier ist Hilfe zum Sprachassistenten."
+    },
+    "Help_InsertDevice": {
+      "fulfillment": "Hier ist Hilfe zum Einsetzen deines Geräts."
+    },
+    "Help_AppSettings": {
+      "fulfillment": "Hier ist Hilfe zu den App-Einstellungen."
+    },
+    "Help_CleanCare": {
+      "fulfillment": "Hier ist Hilfe zur Reinigung und Pflege."
+    },
+    "Help_Customize": {
+      "fulfillment": "Hier ist Hilfe zum Anpassen."
+    },
+    "Help_WhatsNew": {
+      "fulfillment": "Hier ist, was es Neues gibt."
+    },
+    "Help_WiCROS": {
+      "fulfillment": "Hier ist Hilfe zu WiCROS."
+    },
+    "Help_Home": {
+      "fulfillment": "Hier ist Hilfe zum Startbildschirm."
+    },
+    "Help_Battery": {
+      "fulfillment": "Hier ist Hilfe zum Akku."
+    },
+    "Help_Reminder": {
+      "fulfillment": "Hier ist Hilfe zu den Erinnerungen."
+    },
+    "Help_Translate": {
+      "fulfillment": "Hier ist Hilfe zu Translate."
+    },
+    "Help_Transcribe": {
+      "fulfillment": "Hier ist Hilfe zu Transcribe."
+    },
+    "Help_Health": {
+      "fulfillment": "Hier ist Hilfe zu Health."
+    },
+    "Help_HeartRate": {
+      "fulfillment": "Hier ist Hilfe zur Herzfrequenz."
+    },
+    "Help_HeartRateRecovery": {
+      "fulfillment": "Hier ist Hilfe zur Herzfrequenzerholung."
+    },
+    "Help_HearingCareAnywhereConnect": {
+      "fulfillment": "Hier ist Hilfe zu Hearing Care Anywhere."
+    },
+    "Help_MaskMode": {
+      "fulfillment": "Hier ist Hilfe zum Mask Mode."
+    },
+    "Help_EdgeMode": {
+      "fulfillment": "Hier ist Hilfe zum Edge Mode."
+    },
+    "Help_DemoMode": {
+      "fulfillment": "Hier ist Hilfe zum Demo Mode."
+    },
+    "Default Fallback Intent": {
+      "fulfillment": ""
+    }
+  },
+  "affirmative": [
+    "yes",
+    "ok",
+    "okay",
+    "ja",
+    "jawohl",
+    "jep",
+    "klar",
+    "sicher",
+    "genau",
+    "richtig",
+    "stimmt",
+    "senden",
+    "abschicken",
+    "bestätigen",
+    "mach das",
+    "nur zu",
+    "bitte"
+  ],
+  "negative": [
+    "no",
+    "cancel",
+    "nein",
+    "nö",
+    "ne",
+    "nee",
+    "abbrechen",
+    "stopp",
+    "stop",
+    "halt",
+    "nicht",
+    "lass es",
+    "vergiss es",
+    "nein danke",
+    "lieber nicht"
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "_meta": {
+    "language": "da",
+    "status": "draft-for-native-review",
+    "kind": "localization-overlay",
+    "localizes": "slot prompts, fulfillments, affirmative/negative/uncertain",
+    "pending": "keyword_triggers and back_reference regexes are language-specific grammar, authored separately"
+  },
+  "version": 2,
+  "confidence_threshold": 0.7,
+  "intents": {
+    "Cmd.VolumeIncrease": {
+      "fulfillment": "Lydstyrke skruet op."
+    },
+    "Cmd.VolumeDecrease": {
+      "fulfillment": "Lydstyrke skruet ned."
+    },
+    "Cmd.VolumeMute": {
+      "fulfillment": "Lyd slået fra."
+    },
+    "Cmd.VolumeUnmute": {
+      "fulfillment": "Lyd slået til."
+    },
+    "Cmd.MemoryChange": {
+      "fulfillment": "Program skiftet.",
+      "slots": [
+        {
+          "name": "MemoryName",
+          "prompt": "Hvad hedder programmet?"
+        }
+      ]
+    },
+    "reminders.add": {
+      "fulfillment": "Påmindelse oprettet.",
+      "slots": [
+        {
+          "name": "recurrence",
+          "prompt": ""
+        },
+        {
+          "name": "name",
+          "prompt": "Hvad skal jeg minde dig om?"
+        },
+        {
+          "name": "date-time",
+          "prompt": "Hvornår skal jeg minde dig om det? Du kan sige fx 'klokken 9', 'i morgen klokken 15' eller 'om 10 minutter'."
+        }
+      ]
+    },
+    "reminders.complete": {
+      "fulfillment": "Påmindelse markeret som færdig."
+    },
+    "Cmd.SendMessage": {
+      "fulfillment": "Klar til at optage din besked."
+    },
+    "Cmd.SendMessage - yes": {
+      "fulfillment": "Besked sendt."
+    },
+    "Cmd.SendMessage - no": {
+      "fulfillment": "Okay, annulleret."
+    },
+    "Cmd.FindMyPhone": {
+      "fulfillment": "Finder din telefon."
+    },
+    "Cmd.BatteryLevel": {
+      "fulfillment": "Tjekker batteriniveau."
+    },
+    "Cmd.ListenMessage": {
+      "fulfillment": "Afspiller din besked."
+    },
+    "Cmd.TranslationStart": {
+      "fulfillment": "Åbner Translate."
+    },
+    "Cmd.TranscribeStart": {
+      "fulfillment": "Åbner Transcribe."
+    },
+    "Cmd.StreamingStart": {
+      "fulfillment": "Streaming startet."
+    },
+    "Cmd.StreamingStop": {
+      "fulfillment": "Streaming stoppet."
+    },
+    "Cmd.ActivityRun": {
+      "fulfillment": "Starter løbeaktivitet."
+    },
+    "Cmd.ActivityWalk": {
+      "fulfillment": "Starter gåaktivitet."
+    },
+    "Cmd.ActivityStep": {
+      "fulfillment": "Viser antal skridt."
+    },
+    "Cmd.ActivityStand": {
+      "fulfillment": "Viser ståaktivitet."
+    },
+    "Cmd.ActivityCycle": {
+      "fulfillment": "Starter cykelaktivitet."
+    },
+    "Cmd.ActivityAerobics": {
+      "fulfillment": "Starter aerobic."
+    },
+    "Cmd.ActivityExercise": {
+      "fulfillment": "Starter træning."
+    },
+    "Cmd.ActivityCalories": {
+      "fulfillment": "Viser kalorier."
+    },
+    "Help_Volume": {
+      "fulfillment": "Her er hjælp til lydstyrke."
+    },
+    "Help_ChangingMemories": {
+      "fulfillment": "Her er hjælp til at skifte program."
+    },
+    "Help_MemoryOptions": {
+      "fulfillment": "Her er programindstillinger."
+    },
+    "Help_Pairing": {
+      "fulfillment": "Her er hjælp til parring."
+    },
+    "Help_FindMyHearingAids": {
+      "fulfillment": "Her er hjælp til at finde dine høreapparater."
+    },
+    "Help_Accessories": {
+      "fulfillment": "Her er hjælp til tilbehør."
+    },
+    "Help_RemoteProgramming": {
+      "fulfillment": "Her er hjælp til fjernprogrammering."
+    },
+    "Help_Tinnitus": {
+      "fulfillment": "Her er hjælp til tinnitus."
+    },
+    "Help_SelfCheck": {
+      "fulfillment": "Her er hjælp til SelfCheck."
+    },
+    "Help_ThriveScore": {
+      "fulfillment": "Her er hjælp til Thrive Score."
+    },
+    "Help_DeviceSettings": {
+      "fulfillment": "Her er hjælp til enhedsindstillinger."
+    },
+    "Help_IntelliVoice": {
+      "fulfillment": "Her er hjælp til IntelliVoice."
+    },
+    "Help_FallAlert": {
+      "fulfillment": "Her er hjælp til Fall Alert."
+    },
+    "Help_HearShare": {
+      "fulfillment": "Her er hjælp til HearShare."
+    },
+    "Help_VoiceAssistant": {
+      "fulfillment": "Her er hjælp til stemmeassistenten."
+    },
+    "Help_InsertDevice": {
+      "fulfillment": "Her er hjælp til at sætte din enhed i."
+    },
+    "Help_AppSettings": {
+      "fulfillment": "Her er hjælp til app-indstillinger."
+    },
+    "Help_CleanCare": {
+      "fulfillment": "Her er hjælp til rengøring og pleje."
+    },
+    "Help_Customize": {
+      "fulfillment": "Her er hjælp til tilpasning."
+    },
+    "Help_WhatsNew": {
+      "fulfillment": "Her er det nye."
+    },
+    "Help_WiCROS": {
+      "fulfillment": "Her er hjælp til WiCROS."
+    },
+    "Help_Home": {
+      "fulfillment": "Her er hjælp til startskærmen."
+    },
+    "Help_Battery": {
+      "fulfillment": "Her er hjælp til batteri."
+    },
+    "Help_Reminder": {
+      "fulfillment": "Her er hjælp til påmindelser."
+    },
+    "Help_Translate": {
+      "fulfillment": "Her er hjælp til Translate."
+    },
+    "Help_Transcribe": {
+      "fulfillment": "Her er hjælp til Transcribe."
+    },
+    "Help_Health": {
+      "fulfillment": "Her er hjælp til Health."
+    },
+    "Help_HeartRate": {
+      "fulfillment": "Her er hjælp til Heart Rate."
+    },
+    "Help_HeartRateRecovery": {
+      "fulfillment": "Her er hjælp til Heart Rate Recovery."
+    },
+    "Help_HearingCareAnywhereConnect": {
+      "fulfillment": "Her er hjælp til Hearing Care Anywhere."
+    },
+    "Help_MaskMode": {
+      "fulfillment": "Her er hjælp til Mask Mode."
+    },
+    "Help_EdgeMode": {
+      "fulfillment": "Her er hjælp til Edge Mode."
+    },
+    "Help_DemoMode": {
+      "fulfillment": "Her er hjælp til Demo Mode."
+    },
+    "Default Fallback Intent": {
+      "fulfillment": ""
+    }
+  },
+  "affirmative": [
+    "yes",
+    "ok",
+    "okay",
+    "ja",
+    "jo",
+    "jep",
+    "jovist",
+    "ja tak",
+    "klart",
+    "selvfølgelig",
+    "send",
+    "send den",
+    "bekræft",
+    "korrekt",
+    "rigtigt",
+    "gør det",
+    "kør",
+    "værsgo"
+  ],
+  "negative": [
+    "no",
+    "cancel",
+    "stop",
+    "nej",
+    "næ",
+    "nej tak",
+    "annuller",
+    "lad være",
+    "stop det",
+    "glem det",
+    "ikke noget",
+    "negativ"
+  ]
+}
