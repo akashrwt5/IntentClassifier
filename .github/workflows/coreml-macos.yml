@@ -1,0 +1,61 @@
+name: CoreML macOS (Tier-B runtime + ANE)
+
+# Fills the macOS-pending numbers from COREML_RESULTS.md that the Linux routine
+# cannot produce: real Core ML runtime parity (Tier-B) and the ANE compute plan.
+# GitHub's macos-latest runners are Apple Silicon, so coremltools' Core ML
+# runtime (libcoremlpython) and an ANE are both available here.
+
+on:
+  push:
+    branches: [claude/coreml-export]
+    paths:
+      - "multilingual/**"
+      - ".github/workflows/coreml-macos.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tier-b:
+    runs-on: macos-latest
+    env:
+      # The ONNX string-normalizer needs a UTF-8 locale; macOS ships en_US.UTF-8.
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy scikit-learn joblib onnxruntime coremltools torch
+
+      - name: Build FP16 (+FP32) CoreML packages
+        run: python multilingual/export_coreml_multilingual.py --all --fp16 --fp32
+
+      - name: Tier-A (numeric equivalence, sanity)
+        run: python multilingual/test/test_coreml_multilingual.py --full
+
+      - name: Tier-B (real Core ML runtime parity + 0.70 gate)
+        run: python multilingual/test/test_coreml_multilingual.py --runtime --full
+
+      - name: ANE compute plan (op placement)
+        run: python multilingual/test/ane_compute_plan.py --model all
+
+      - name: Refresh golden fixtures (for the iOS parity job)
+        run: python multilingual/test/test_coreml_multilingual.py --emit-fixtures
+
+      - name: Upload fixtures + report as artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coreml-results
+          path: |
+            multilingual/COREML_RESULTS.md
+            multilingual/test/coreml_golden_fixtures.json
+          if-no-files-found: warn
