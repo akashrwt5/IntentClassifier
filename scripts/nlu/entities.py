@@ -35,7 +35,7 @@ def _levenshtein(a: str, b: str) -> int:
 
 
 class EntityExtractor:
-    def __init__(self, entities_path: Path = ENTITIES_PATH):
+    def __init__(self, entities_path: Path = ENTITIES_PATH, *, weekdays=None, word_nums=None):
         self.entities = json.loads(Path(entities_path).read_text(encoding="utf-8"))
         self._lookup = {}
         for name, cfg in self.entities.items():
@@ -46,6 +46,10 @@ class EntityExtractor:
                     for syn in synonyms:
                         table[syn.lower()] = value
                 self._lookup[name] = table
+        if weekdays is not None:
+            self._WEEKDAYS = weekdays
+        if word_nums is not None:
+            self._WORD_NUMS = word_nums
 
     # Fuzzy enum matching only considers synonyms at least this long. Short
     # memory names (Car, Gym, Pub, Mute, one…) collide with common ASR words
@@ -80,7 +84,7 @@ class EntityExtractor:
                     continue
                 # The _FUZZY_MIN_LEN gate already excludes the short names that
                 # collide with common words; keep the 0.3 ratio so genuine
-                # typos on longer names ("restraunt"→"restaurant") still match.
+                # typos on longer names (“restraunt”→“restaurant”) still match.
                 limit = max(1, round(len(syn) * 0.3))
                 for tok in tokens:
                     if abs(len(tok) - len(syn)) > limit:
@@ -321,6 +325,21 @@ class EntityExtractor:
             tm = re.search(r"\b(\d{1,2}):(\d{2})\b", t)
             if tm:
                 hour, minute = int(tm.group(1)), int(tm.group(2)); span = tm.group()
+
+        # P0-6: Continental European "15h30", "9h" (French/German written clock)
+        if hour is None:
+            m = re.search(r"\b(\d{1,2})h(\d{2})?\b", t)
+            if m:
+                hour = int(m.group(1))
+                minute = int(m.group(2)) if m.group(2) else 0
+                span = m.group()
+
+        # P0-6: Danish/German decimal notation "15.30" (minute block 00-59 avoids decimal false positives)
+        if hour is None:
+            m = re.search(r"\b(\d{1,2})\.(\d{2})\b", t)
+            if m and 0 <= int(m.group(2)) <= 59:
+                hour, minute = int(m.group(1)), int(m.group(2))
+                span = m.group()
 
         # "at N" or bare number as entire input — no am/pm
         if hour is None:
