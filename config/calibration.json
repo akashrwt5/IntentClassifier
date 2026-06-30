@@ -1,0 +1,30 @@
+{
+  "en": {
+    "temperature": 0.621397,
+    "conf_threshold": 0.55,
+    "conf_gap_threshold": 0.2,
+    "macro_f1_holdout": 0.9018,
+    "ece": 0.0184
+  },
+  "fr": {
+    "temperature": 0.669939,
+    "conf_threshold": 0.4,
+    "conf_gap_threshold": 0.2,
+    "macro_f1_holdout": 0.8438,
+    "ece": 0.0223
+  },
+  "de": {
+    "temperature": 0.677689,
+    "conf_threshold": 0.35,
+    "conf_gap_threshold": 0.2,
+    "macro_f1_holdout": 0.8318,
+    "ece": 0.0168
+  },
+  "da": {
+    "temperature": 0.815632,
+    "conf_threshold": 0.45,
+    "conf_gap_threshold": 0.2,
+    "macro_f1_holdout": 0.7448,
+    "ece": 0.0352
+  }
+}
