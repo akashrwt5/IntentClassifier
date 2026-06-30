@@ -103,6 +103,7 @@ class NLUEngine:
         self.semantic_threshold = self.schema.get("semantic_threshold", DEFAULT_SEMANTIC_THRESHOLD)
         self.classifier = self._load_classifier(model_name)
         self.entities = self._load_entities(language)
+        self._carrier = self._build_carrier_patterns(language)
         self.sessions = SessionStore()
         self.semantic = self._load_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
@@ -160,6 +161,26 @@ class NLUEngine:
             merged["negative"] = overlay["negative"]
 
         return merged
+
+    @staticmethod
+    def _build_carrier_patterns(language: str) -> list:
+        """English carrier patterns plus any from the language lexicon.
+
+        The lexicon's carrier_phrases are regex strings (same format as _CARRIER).
+        They are prepended so language-specific patterns are tried first.
+        """
+        base = list(NLUEngine._CARRIER)
+        if language in ("en", "", "multilingual"):
+            return base
+        lex_path = LOC_DIR / f"nlu_lexicon.{language}.json"
+        if not lex_path.exists():
+            return base
+        try:
+            lex = json.loads(lex_path.read_text(encoding="utf-8"))
+            lang_carriers = lex.get("carrier_phrases", [])
+            return lang_carriers + base
+        except Exception:
+            return base
 
     @staticmethod
     def _load_entities(language: str) -> EntityExtractor:
@@ -630,7 +651,7 @@ class NLUEngine:
 
     def _derive_topic(self, text: str):
         t = text.strip()
-        for pat in self._CARRIER:
+        for pat in self._carrier:
             t = re.sub(pat, "", t, count=1, flags=re.I)
         t = self.entities.strip_datetime(t)
         t = self._LEADING_CONNECTOR.sub("", t).strip(" .,")
