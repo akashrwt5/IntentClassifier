@@ -370,6 +370,16 @@ class EntityExtractor:
             m = re.search(r"\b(\d{1,2})\.(\d{2})\b", t)
             if m and 0 <= int(m.group(2)) <= 59:
                 hour, minute = int(m.group(1)), int(m.group(2)); t = blank(t, m.start(), m.end())
+        # D1. Digit + spaced hour-unit: "18 h" / "18 heures" (space between digit and unit)
+        if hour is None and self._lex_unit:
+            _hr_syns = "|".join(re.escape(s) for s, c in
+                                sorted(self._lex_unit.items(), key=lambda x: -len(x[0]))
+                                if c == "hour")
+            if _hr_syns:
+                m = re.search(rf"\b(\d{{1,2}})\s+(?:{_hr_syns})\b", t)
+                if m:
+                    hour = int(m.group(1)); minute = 0
+                    t = blank(t, m.start(), m.end())
         # D2. Absolute idioms (hour set: midi/minuit/Mitternacht/midnat)
         if hour is None:
             for phrase, mins, h in self._lex_idioms:
@@ -732,6 +742,13 @@ class EntityExtractor:
         # Language-neutral clock forms.
         for p in (r"\b\d{1,2}:\d{2}\b", r"\b\d{1,2}h\d{0,2}\b", r"\b\d{1,2}\.\d{2}\b"):
             t = re.sub(p, " ", t, flags=re.I)
+        # Spaced hour-unit forms: "18 h" / "18 heures" not caught by the compact patterns above.
+        if self._lex_unit:
+            _hr_syns = "|".join(re.escape(s) for s, c in
+                                sorted(self._lex_unit.items(), key=lambda x: -len(x[0]))
+                                if c == "hour")
+            if _hr_syns:
+                t = re.sub(rf"\b\d{{1,2}}\s+(?:{_hr_syns})\b", " ", t, flags=re.I)
         # Relative durations "<in> N <unit>".
         if self._lex_in and self._lex_unit:
             inalt = "|".join(re.escape(m) for m in self._lex_in)

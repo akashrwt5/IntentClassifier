@@ -396,11 +396,15 @@ class NLUEngine:
                 if filled:
                     session.pending_slots[slot["name"]] = iso
             else:
-                value, _, _conf = self.entities.extract(slot["entity"], text)
-                # Open free-text entities (e.g. @remind) accept the raw answer as
-                # a fallback — a None structured extraction is expected, not a failure.
-                if value is None and self.entities.is_open(slot["entity"]):
-                    value = text.strip()
+                if self.entities.is_open(slot["entity"]):
+                    # For open free-text entities (e.g. @remind) always store what the
+                    # user actually said rather than a canonical English match from the
+                    # synonym table. The synonym table is used for recognition only, not
+                    # for storage — otherwise "prendre des médicaments" becomes
+                    # "Take Medication" in a French session.
+                    value = text.strip() or None
+                else:
+                    value, _, _conf = self.entities.extract(slot["entity"], text)
                 if value is not None:
                     session.pending_slots[slot["name"]] = value
         # Opportunistically fill OTHER slots mentioned in the same answer, but
@@ -580,6 +584,13 @@ class NLUEngine:
                 iso, filled = self._resolve_datetime(session, text)
                 if filled:
                     slots[slot["name"]] = iso
+                continue
+            # Open free-text entities (e.g. @remind) are handled by _fill_open_topics
+            # via _derive_topic, which strips carrier phrases and datetime cleanly.
+            # Attempting enum extraction here returns the English canonical name even
+            # for foreign-language input (e.g. "prendre des médicaments" → "Take
+            # Medication"), which is wrong for user-visible reminder names.
+            if self.entities.is_open(slot["entity"]):
                 continue
             value, _, _conf = self.entities.extract(slot["entity"], text, fuzzy=False)
             if value is not None:
