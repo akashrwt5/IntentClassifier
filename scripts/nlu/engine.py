@@ -105,7 +105,10 @@ class NLUEngine:
         self.entities = self._load_entities(language)
         self._carrier = self._build_carrier_patterns(language)
         self.sessions = SessionStore()
-        self.semantic = self._load_semantic(self.semantic_threshold)
+        if self.language in ("en", "", "multilingual"):
+            self.semantic = self._load_semantic(self.semantic_threshold)
+        else:
+            self.semantic = self._load_multilingual_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
 
     @staticmethod
@@ -238,6 +241,36 @@ class NLUEngine:
         except Exception as e:
             logger.error("nlu.semantic.load_failed",
                          extra={"nlu": {"reason": type(e).__name__}})
+            return None
+
+    def _load_multilingual_semantic(self, threshold: float):
+        """Construct the multilingual semantic stage for fr/de/da languages.
+
+        Uses MultilingualSemanticFallback from multilingual.SemanticSupport.semantic.
+        Returns None when any artifact is missing so the engine degrades gracefully
+        to TF-IDF-only without crashing. Missing artifacts are expected until
+        download_models.py and train_multilingual_semantic_head.py have been run.
+        """
+        try:
+            from multilingual.SemanticSupport.semantic import MultilingualSemanticFallback
+            return MultilingualSemanticFallback(threshold=threshold)
+        except FileNotFoundError as e:
+            logger.warning(
+                "nlu.multilingual_semantic.unavailable lang=%s reason=artifacts_missing: %s",
+                self.language, e,
+            )
+            return None
+        except MemoryError:
+            logger.error(
+                "nlu.multilingual_semantic.oom lang=%s reason=out_of_memory",
+                self.language,
+            )
+            return None
+        except Exception as e:
+            logger.error(
+                "nlu.multilingual_semantic.load_failed lang=%s reason=%s",
+                self.language, type(e).__name__,
+            )
             return None
 
     def _assert_label_schema_parity(self):
