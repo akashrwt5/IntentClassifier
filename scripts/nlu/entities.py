@@ -19,6 +19,17 @@ except Exception:
 
 BASE_DIR = Path(__file__).parent.parent.parent
 ENTITIES_PATH = BASE_DIR / "data" / "nlu_entities.json"
+LOCALIZATION_DIR = BASE_DIR / "data" / "localization"
+
+# Unicode-Latin-aware word boundaries for the lexicon-driven datetime parser.
+# Must match EntityExtractor.swift exactly so Swift and Python agree on every
+# golden fixture row. \b is avoided because its definition of "word" differs by
+# engine; an explicit class keeps fr/de/da accents (é, ü, ø, å, æ) as letters.
+_WB_L = r"(?<![0-9A-Za-zÀ-ÿ])"
+_WB_R = r"(?![0-9A-Za-zÀ-ÿ])"
+_WD_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+_MONTH_ORDER = ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"]
 
 
 def _levenshtein(a: str, b: str) -> int:
@@ -35,7 +46,8 @@ def _levenshtein(a: str, b: str) -> int:
 
 
 class EntityExtractor:
-    def __init__(self, entities_path: Path = ENTITIES_PATH, *, weekdays=None, word_nums=None):
+    def __init__(self, entities_path: Path = ENTITIES_PATH, *, weekdays=None, word_nums=None,
+                 language: str = "en", lexicon_path: Path = None):
         self.entities = json.loads(Path(entities_path).read_text(encoding="utf-8"))
         self._lookup = {}
         for name, cfg in self.entities.items():
@@ -50,6 +62,61 @@ class EntityExtractor:
             self._WEEKDAYS = weekdays
         if word_nums is not None:
             self._WORD_NUMS = word_nums
+
+        # Lexicon-driven datetime parsing for non-English languages. When absent
+        # (English, or a missing/undecodable file) self._lex stays None and
+        # extract_datetime falls through to the byte-identical English path.
+        self._lex = None
+        if language and language != "en":
+            if lexicon_path is None:
+                lexicon_path = LOCALIZATION_DIR / f"nlu_lexicon.{language}.json"
+            try:
+                self._lex = json.loads(Path(lexicon_path).read_text(encoding="utf-8"))
+            except Exception:
+                self._lex = None
+        if self._lex is not None:
+            self._build_lex_tables(self._lex)
+
+    # ----- Lexicon-driven datetime: reverse-lookup tables (built once) -----
+
+    def _build_lex_tables(self, d):
+        g = d.get("grammar", {})
+        self._lex_is24h = g.get("time_format") == "24h"
+        self._lex_conj = (g.get("conjunction") or "").lower() or None
+        # (phrase, minutes, hour) sorted longest-phrase-first to avoid partial hits
+        self._lex_idioms = sorted(
+            [(i["phrase"].lower(), i.get("minutes"), i.get("hour"))
+             for i in g.get("decimal_hour_idioms", []) if isinstance(i, dict) and "phrase" in i],
+            key=lambda x: (-len(x[0]), x[0]))
+        self._lex_weekday = {}                         # synonym -> 0..6 (Mon..Sun)
+        for idx, name in enumerate(_WD_ORDER):
+            for syn in d.get("weekdays", {}).get(name, []):
+                self._lex_weekday[syn.lower()] = idx
+        self._lex_month = {}                           # synonym -> 1..12
+        for mi, name in enumerate(_MONTH_ORDER, 1):
+            for syn in d.get("months", {}).get(name, []):
+                self._lex_month[syn.lower()] = mi
+        self._lex_number = {}                          # synonym -> int
+        for k, syns in d.get("numbers_0_to_31", {}).items():
+            for syn in syns:
+                self._lex_number[syn.lower()] = int(k)
+        for k, syns in d.get("ordinals_1_to_31", {}).items():
+            for syn in syns:
+                self._lex_number[syn.lower()] = int(k)
+        self._lex_number_phrases = sorted(self._lex_number.items(), key=lambda x: (-len(x[0]), x[0]))
+        self._lex_period = sorted(                     # (name, hour) longest-first
+            [(n.lower(), e["hour"]) for e in d.get("time_of_day", {}).values() for n in e["names"]],
+            key=lambda x: (-len(x[0]), x[0]))
+        self._lex_day_anchor = sorted(                 # (phrase, key) longest-first
+            [(p.lower(), key) for key, ps in d.get("day_anchors", {}).items() for p in ps],
+            key=lambda x: (-len(x[0]), x[0]))
+        self._lex_unit = {}                            # synonym -> canonical unit
+        for canon, syns in d.get("relative_units", {}).items():
+            for syn in syns:
+                self._lex_unit[syn.lower()] = canon
+        rm = d.get("relative_markers", {})
+        self._lex_in = sorted([m.lower() for m in rm.get("in", [])], key=len, reverse=True)
+        self._lex_at = sorted([m.lower() for m in rm.get("at", [])], key=len, reverse=True)
 
     # Fuzzy enum matching only considers synonyms at least this long. Short
     # memory names (Car, Gym, Pub, Mute, one…) collide with common ASR words
@@ -185,6 +252,202 @@ class EntityExtractor:
             dt = dt.astimezone()  # attach local tz
         return dt.astimezone(timezone.utc).isoformat(timespec="minutes")
 
+    # ----- Lexicon-driven datetime parser (fr/de/da) -----
+
+    @staticmethod
+    def _lex_boundary(phrase: str) -> str:
+        return _WB_L + re.escape(phrase) + _WB_R
+
+    def _lex_normalise_numbers(self, t: str) -> str:
+        """Replace spoken number words with digits (longest phrase first)."""
+        for phrase, val in self._lex_number_phrases:
+            t = re.sub(self._lex_boundary(phrase), str(val), t)
+        return t
+
+    def _lex_adjacent_hour(self, t: str, start: int, end: int):
+        """Hour number adjacent to a decimal-hour idiom: look right (skipping the
+        conjunction and hour-unit words), then left. Returns int or None."""
+        skip = {self._lex_conj} if self._lex_conj else set()
+        skip |= {syn for syn, c in self._lex_unit.items() if c == "hour"}
+
+        def first_number(tokens):
+            for tok in tokens:
+                if tok in skip or tok == "":
+                    continue
+                if re.fullmatch(r"\d{1,2}", tok):
+                    return int(tok)
+                if tok in self._lex_number:
+                    return self._lex_number[tok]
+                return None  # first significant token is not a number -> stop
+            return None
+
+        rtok = re.findall(r"[0-9A-Za-zÀ-ÿ]+", t[end:])
+        h = first_number(rtok)
+        if h is not None:
+            return h
+        ltok = list(reversed(re.findall(r"[0-9A-Za-zÀ-ÿ]+", t[:start])))
+        return first_number(ltok)
+
+    def _extract_datetime_lex(self, text: str, now: datetime):
+        """Returns (dt, time_explicit, explicit_day) or None. Mirrors
+        EntityExtractor._extractDateTimeLexicon in Swift exactly."""
+        t = text.lower().strip()
+
+        def blank(s, a, b):
+            return s[:a] + " " * (b - a) + s[b:]
+
+        # A. Relative durations: "<in> N <unit>"
+        if self._lex_in and self._lex_unit:
+            inalt = "|".join(re.escape(m) for m in self._lex_in)
+            ualt = "|".join(re.escape(u) for u in sorted(self._lex_unit, key=len, reverse=True))
+            m = re.search(rf"{_WB_L}(?:{inalt})\s+(\d+)\s+({ualt}){_WB_R}", t)
+            if m:
+                n = int(m.group(1)); canon = self._lex_unit[m.group(2).lower()]
+                delta = {"minute": timedelta(minutes=n), "hour": timedelta(hours=n),
+                         "day": timedelta(days=n), "week": timedelta(weeks=n),
+                         "month": timedelta(days=30 * n), "year": timedelta(days=365 * n)}[canon]
+                return (now + delta, True, False)
+
+        # B. yesterday / past rejection
+        for phrase, key in self._lex_day_anchor:
+            if key == "yesterday" and re.search(self._lex_boundary(phrase), t):
+                return None
+
+        t = self._lex_normalise_numbers(t)
+        base_day = now; explicit_day = False; consumed_anchor = False
+
+        # C. Day anchor (longest phrase first)
+        for phrase, key in self._lex_day_anchor:
+            if key == "yesterday":
+                continue
+            m = re.search(self._lex_boundary(phrase), t)
+            if not m:
+                continue
+            off = {"today": 0, "tomorrow": 1, "day_after_tomorrow": 2,
+                   "next_week": 7, "next_month": 30, "next_year": 365}.get(key)
+            if key == "this_weekend":
+                base_day = now + timedelta(days=(5 - now.weekday()) % 7)
+            elif off is not None:
+                base_day = now + timedelta(days=off)
+            else:
+                continue
+            explicit_day = True; consumed_anchor = True
+            t = blank(t, m.start(), m.end()); break
+
+        # C2. Weekday names
+        if not consumed_anchor:
+            for syn, idx in sorted(self._lex_weekday.items(), key=lambda x: (-len(x[0]), x[0])):
+                m = re.search(self._lex_boundary(syn), t)
+                if m:
+                    base_day = now + timedelta(days=((idx - now.weekday()) % 7 or 7))
+                    explicit_day = True; consumed_anchor = True
+                    t = blank(t, m.start(), m.end()); break
+
+        # C3. Date of month "<day>[.] <month>"
+        if not consumed_anchor and self._lex_month:
+            malt = "|".join(re.escape(m) for m in sorted(self._lex_month, key=len, reverse=True))
+            m = re.search(rf"{_WB_L}(\d{{1,2}})\.?\s+({malt}){_WB_R}", t)
+            if m:
+                day = int(m.group(1)); mon = self._lex_month[m.group(2).lower()]
+                if 1 <= day <= 31:
+                    cand = now.replace(month=mon, day=day, hour=9, minute=0, second=0, microsecond=0)
+                    if cand.date() < now.date():
+                        cand = cand.replace(year=now.year + 1)
+                    base_day = cand; explicit_day = True
+                    t = blank(t, m.start(), m.end())
+
+        # D. Clock time
+        hour = minute = None
+        m = re.search(r"\b(\d{1,2}):(\d{2})\b", t)
+        if m:
+            hour, minute = int(m.group(1)), int(m.group(2)); t = blank(t, m.start(), m.end())
+        if hour is None:
+            m = re.search(r"\b(\d{1,2})h(\d{2})?\b", t)
+            if m:
+                hour = int(m.group(1)); minute = int(m.group(2)) if m.group(2) else 0
+                t = blank(t, m.start(), m.end())
+        if hour is None:
+            m = re.search(r"\b(\d{1,2})\.(\d{2})\b", t)
+            if m and 0 <= int(m.group(2)) <= 59:
+                hour, minute = int(m.group(1)), int(m.group(2)); t = blank(t, m.start(), m.end())
+        # D2. Absolute idioms (hour set: midi/minuit/Mitternacht/midnat)
+        if hour is None:
+            for phrase, mins, h in self._lex_idioms:
+                if h is None:
+                    continue
+                m = re.search(self._lex_boundary(phrase), t)
+                if m:
+                    hour = h; minute = mins or 0; t = blank(t, m.start(), m.end()); break
+        # D3. Decimal-hour idioms (minutes set) + adjacent hour number
+        if hour is None:
+            for phrase, mins, h in self._lex_idioms:
+                if mins is None or h is not None:
+                    continue
+                m = re.search(self._lex_boundary(phrase), t)
+                if not m:
+                    continue
+                hh = self._lex_adjacent_hour(t, m.start(), m.end())
+                if hh is None:
+                    continue
+                if mins >= 0:
+                    hour, minute = hh, mins
+                else:
+                    hour, minute = (hh - 1) % 24, 60 + mins
+                t = blank(t, m.start(), m.end()); break
+        # D4. Named hour + conjunction ("15 Uhr 30", "drei Uhr")
+        if hour is None and self._lex_conj:
+            m = re.search(rf"\b(\d{{1,2}})\s+{re.escape(self._lex_conj)}(?:\s+(\d{{1,2}}))?\b", t)
+            if m:
+                hour = int(m.group(1)); minute = int(m.group(2)) if m.group(2) else 0
+                t = blank(t, m.start(), m.end())
+        # D5. "<at> <digit>[:mm]"
+        if hour is None and self._lex_at:
+            atalt = "|".join(re.escape(x) for x in self._lex_at)
+            m = re.search(rf"{_WB_L}(?:{atalt})\s+(\d{{1,2}})(?::(\d{{2}}))?{_WB_R}", t)
+            if m:
+                hour = int(m.group(1)); minute = int(m.group(2)) if m.group(2) else 0
+                t = blank(t, m.start(), m.end())
+        # D6. Bare number as the whole input
+        if hour is None:
+            m = re.match(r"^\s*(\d{1,2})\s*$", t)
+            if m:
+                hour, minute = int(m.group(1)), 0
+
+        # E. Period of day (longest name first)
+        period_hour = None
+        for name, ph in self._lex_period:
+            if re.search(self._lex_boundary(name), t):
+                period_hour = ph; break
+
+        # F. Combine
+        if hour is not None:
+            minute = minute or 0
+            if not (0 <= minute <= 59):
+                return None
+            # Explicit afternoon/evening/night shifts a 1-11 clock hour into PM.
+            if period_hour is not None and period_hour >= 13 and 1 <= hour <= 11:
+                hour += 12
+            # 24h languages: never apply the bare 1-6 -> PM heuristic.
+            if not (0 <= hour <= 23):
+                return None
+            dt = base_day.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            if not explicit_day and dt <= now:
+                dt += timedelta(days=1)
+            if explicit_day and base_day.date() < now.date():
+                return None
+            return (dt, True, explicit_day)
+
+        if period_hour is not None:
+            dt = base_day.replace(hour=period_hour, minute=0, second=0, microsecond=0)
+            if not explicit_day and dt <= now:
+                dt += timedelta(days=1)
+            return (dt, True, explicit_day)
+
+        if explicit_day:
+            return (base_day.replace(hour=9, minute=0, second=0, microsecond=0), False, True)
+
+        return None
+
     def extract_datetime(self, text: str, now: datetime = None):
         """Return (iso, span, confidence, time_explicit).
 
@@ -200,6 +463,16 @@ class EntityExtractor:
             now = datetime.now().astimezone()
         elif now.tzinfo is None:
             now = now.astimezone()
+
+        # Non-English: drive the whole parse from the language lexicon. The
+        # English path below is left byte-identical for language == "en".
+        if self._lex is not None:
+            res = self._extract_datetime_lex(text, now)
+            if res is None:
+                return None, None, 0.0, False, False
+            dt, time_explicit, explicit_day = res
+            return self._to_utc_iso(dt), text.strip(), 1.0, time_explicit, explicit_day
+
         t = text.lower().strip()
 
         # --- 1. Relative durations: "in 10 minutes", "in an hour", "in a few minutes" ---
@@ -445,9 +718,37 @@ class EntityExtractor:
     ]
 
     def strip_datetime(self, text: str) -> str:
+        if self._lex is not None:
+            return self._strip_datetime_lex(text)
         t = text
         for p in self._TIME_PATTERNS:
             t = re.sub(p, " ", t, flags=re.I)
+        return re.sub(r"\s+", " ", t).strip(" .,")
+
+    def _strip_datetime_lex(self, text: str) -> str:
+        """Remove lexicon-recognised date/time fragments so the remainder is an
+        open topic. Mirrors EntityExtractor.stripDateTime (lexicon path)."""
+        t = text
+        # Language-neutral clock forms.
+        for p in (r"\b\d{1,2}:\d{2}\b", r"\b\d{1,2}h\d{0,2}\b", r"\b\d{1,2}\.\d{2}\b"):
+            t = re.sub(p, " ", t, flags=re.I)
+        # Relative durations "<in> N <unit>".
+        if self._lex_in and self._lex_unit:
+            inalt = "|".join(re.escape(m) for m in self._lex_in)
+            ualt = "|".join(re.escape(u) for u in sorted(self._lex_unit, key=len, reverse=True))
+            t = re.sub(rf"{_WB_L}(?:{inalt})\s+\d+\s+(?:{ualt}){_WB_R}", " ", t, flags=re.I)
+        # Phrase lists: anchors, weekdays, months, periods, idioms.
+        phrases = ([p for p, _ in self._lex_day_anchor]
+                   + list(self._lex_weekday.keys())
+                   + list(self._lex_month.keys())
+                   + [n for n, _ in self._lex_period]
+                   + [p for p, _, _ in self._lex_idioms])
+        for ph in sorted(phrases, key=len, reverse=True):
+            t = re.sub(self._lex_boundary(ph), " ", t, flags=re.I)
+        # Trailing markers + the conjunction.
+        markers = self._lex_in + self._lex_at + ([self._lex_conj] if self._lex_conj else [])
+        for mk in sorted(set(markers), key=len, reverse=True):
+            t = re.sub(self._lex_boundary(mk), " ", t, flags=re.I)
         return re.sub(r"\s+", " ", t).strip(" .,")
 
     def extract(self, entity: str, text: str, fuzzy: bool = True):
