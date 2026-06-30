@@ -6,11 +6,9 @@
   "grammar": {
     "time_format": "24h",
     "decimal_hour_idioms": [
-      "kvart over",
-      "halv",
-      "kvart i",
-      "minutter over",
-      "minutter i"
+      {"phrase": "kvart over", "minutes": 15},
+      {"phrase": "halv", "minutes": -30},
+      {"phrase": "kvart i", "minutes": -15}
     ],
     "conjunction": "og",
     "notes": "PARSER TRAP: Danish 'halv' counts DOWN to the named hour (like German), not up. 'halv tre' = 2:30, NOT 3:30. So 'halv X' = X minus 30 minutes. 'kvart over to' = 2:15, 'kvart i tre' = 2:45. Spoken Danish commonly uses 12h clock-face idioms ('halv tre') even though written/digital Danish is 24h; 'om eftermiddagen/aftenen' may be added to disambiguate AM/PM. 'klokken' (often shortened 'kl.') precedes a bare hour number."

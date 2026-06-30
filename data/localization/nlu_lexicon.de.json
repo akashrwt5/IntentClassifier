@@ -6,10 +6,10 @@
   "grammar": {
     "time_format": "24h",
     "decimal_hour_idioms": [
-      "Viertel nach",
-      "halb",
-      "Viertel vor",
-      "dreiviertel"
+      {"phrase": "Viertel nach", "minutes": 15},
+      {"phrase": "halb", "minutes": -30},
+      {"phrase": "Viertel vor", "minutes": -15},
+      {"phrase": "dreiviertel", "minutes": -15}
     ],
     "conjunction": "Uhr",
     "notes": "PARSER TRAP: German 'halb' counts DOWN to the NAMED hour, not up. 'halb drei' = 2:30 (half of the way TO three), NOT 3:30. Likewise 'halb sechs' = 5:30. Do not map 'halb X' to X:30 - map it to (X-1):30. // 'Viertel nach drei' = 3:15, 'Viertel vor drei' = 2:45. In some regions (Saxony, Bavaria, Austria) 'dreiviertel drei' = 2:45 and 'viertel drei' = 2:15 - regional, flag for reviewer. // Times are spoken in 24h with 'Uhr' as the hour-minute joiner: '15 Uhr 30' = 15:30; bare 'um drei' is ambiguous between 3:00 and 15:00 and should resolve by context/AM-PM."
