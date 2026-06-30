@@ -46,8 +46,8 @@ SEQ_LEN = 64
 parser = argparse.ArgumentParser(description="Compare FP32 vs INT8 multilingual embeddings")
 parser.add_argument("--n-samples",  type=int, default=100,
                     help="Phrases per language to sample for comparison (default: 100)")
-parser.add_argument("--languages",  nargs="+", default=["fr", "de", "da"],
-                    choices=["fr", "de", "da", "en"],
+parser.add_argument("--languages",  nargs="+", default=["en", "fr", "de", "da"],
+                    choices=["en", "fr", "de", "da"],
                     help="Languages to include (default: fr de da)")
 parser.add_argument("--latency-reps", type=int, default=50,
                     help="Repetitions for latency benchmark (default: 50)")

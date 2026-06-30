@@ -45,8 +45,8 @@ SEQ_LEN         = 64
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 parser = argparse.ArgumentParser(description="Train multilingual semantic head")
-parser.add_argument("--include-en", action="store_true",
-                    help="Also include multilingual/data/en.csv in training")
+parser.add_argument("--exclude-en", action="store_true",
+                    help="Exclude multilingual/data/en.csv from training")
 parser.add_argument("--max-per-intent", type=int, default=250,
                     help="Cap per-class rows to limit near-duplicate spam (default: 250)")
 parser.add_argument("--C", type=float, default=3.0,
@@ -137,9 +137,9 @@ def main() -> None:
         sys.exit(1)
 
     # ── Load per-language CSVs ─────────────────────────────────────────────
-    languages = ["fr", "de", "da"]
-    if args.include_en:
-        languages.append("en")
+    languages = ["en", "fr", "de", "da"]
+    if args.exclude_en:
+        languages.remove("en")
 
     frames = []
     for lang in languages:
