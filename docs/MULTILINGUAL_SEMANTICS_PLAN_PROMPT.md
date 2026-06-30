@@ -37,8 +37,15 @@ will execute the plan step by step.
 app. The app classifies voice utterances into intents (volume up/down, set reminder,
 change memory program, etc.) and extracts slot values.
 
-**Working branch:** `claude/multilingual-nlu-status-check-s7ggcw`
-Always develop and commit on this branch. Do not push to main.
+**Working branch:** `claude/multilingual-nlu-status-check-s7ggcw/MulitlingualSemanticSupport`
+Create this branch off `claude/multilingual-nlu-status-check-s7ggcw` if it does not yet exist:
+```bash
+git fetch origin
+git checkout claude/multilingual-nlu-status-check-s7ggcw
+git checkout -b claude/multilingual-nlu-status-check-s7ggcw/MulitlingualSemanticSupport
+```
+Always develop and commit on this branch. Do not push to main or to the parent
+branch without explicit permission.
 
 ### The four-stage NLU pipeline
 
@@ -75,47 +82,67 @@ Stage 3 get embeddings computed from a mismatched tokeniser, the head was traine
 on English embedding geometry, and rescue accuracy is materially worse than for
 English — the system effectively has no semantic safety net for non-English users.
 
-### What already exists (do not re-invent)
+### Critical architecture constraint — DO NOT TOUCH EXISTING SEMANTIC CODE
 
-Before proposing anything, read these files carefully:
+**The existing semantic implementation is off-limits.** Do not propose any changes to:
+- `scripts/nlu/semantic.py`
+- `scripts/nlu/engine.py`
+- `scripts/train_semantic_head.py`
+- `scripts/build_semantic_index.py`
+- `scripts/test_semantic.py`
+- `scripts/debug_semantic_scores.py`
+- `models/semantic_head.npz`
+- `models/minilm-l6-v2.onnx`
+- `models/minilm-vocab.txt`
 
-| File | What it does |
-|------|-------------|
-| `scripts/nlu/semantic.py` | Current `SemanticFallback` class — embedder + head inference |
-| `scripts/nlu/engine.py` | Stage 3 wiring: lines ~512–535; `_load_semantic` ~220–239 |
-| `scripts/train_semantic_head.py` | Trains the logistic head on MiniLM embeddings |
-| `scripts/build_semantic_index.py` | Builds cosine index (legacy, possibly unused) |
-| `scripts/test_semantic.py` | Tests current semantic head |
-| `scripts/debug_semantic_scores.py` | Diagnostic tool for embedding scores |
-| `multilingual/train_multilingual.py` | Trains per-language TF-IDF models (LANGUAGES dict ~line 106) |
-| `config/calibration.json` | Per-language `conf_threshold`, `temperature`, `macro_f1_holdout` |
-| `data/localization/` | Per-language JSON files: `nlu_schema.<lang>.json`, `nlu_entities.<lang>.json`, `nlu_lexicon.<lang>.json` |
-| `multilingual/models/` | Per-language TF-IDF model artifacts (en, fr, de, da) |
-| `multilingual/data/` | Per-language training CSVs used for TF-IDF models |
+These files and artifacts serve the English production path and must remain
+completely untouched. The English Stage 3 pipeline must continue to work exactly
+as it does today, with zero modifications.
 
-Read `docs/adding-a-new-language.md` for a description of the file structure and
-what is deliberately deferred. The "Semantic rescue (Stage 3) — English only"
-section is the deferred capability this plan must address.
+**All multilingual semantic code lives in a new, self-contained module:**
+```
+multilingual/SemanticSupport/
+```
+
+The existing code is reference material only. Read it to understand patterns,
+class shapes, artifact formats, and the head `.npz` schema — then write your own
+parallel implementation from scratch in the new folder. The implementation agent
+will write new code that mirrors the design of the existing code without touching
+the original files.
+
+### What already exists (read as reference — do not modify)
+
+| File | Read for | Do not modify |
+|------|----------|---------------|
+| `scripts/nlu/semantic.py` | `SemanticFallback` class design, ONNX path, tokeniser pattern, `.npz` head format | ✗ |
+| `scripts/nlu/engine.py` lines 220–245 | `_load_semantic` method — how the engine instantiates Stage 3 | ✗ |
+| `scripts/nlu/engine.py` lines 510–540 | Stage 3 rescue logic, `AGREEMENT_THRESHOLD`, `semantic_threshold` | ✗ |
+| `scripts/train_semantic_head.py` | How the head is trained, what it outputs, `Default Fallback Intent` handling | ✗ |
+| `multilingual/train_multilingual.py` | LANGUAGES dict (~line 106), data pipeline pattern | ✗ |
+| `config/calibration.json` | Per-language thresholds and temperatures | ✗ |
+| `data/localization/` | Language file structure | ✗ |
+| `multilingual/models/` | Existing per-language TF-IDF artifact layout | ✗ |
+| `multilingual/data/` | Per-language training CSVs (training data for the new head) | read only |
+
+Read `docs/adding-a-new-language.md`, section "Deliberately deferred capabilities",
+for the deferred capability this plan addresses.
 
 ### Key constraints
 
-1. **Latency budget:** The current MiniLM ONNX path takes ~8ms embed + <1ms head.
-   Any multilingual encoder must fit within ~15ms on a server CPU. Measure; don't
-   guess.
+1. **Latency budget:** The current English MiniLM ONNX path takes ~8ms embed +
+   <1ms head. Any multilingual encoder must fit within ~15ms on a server CPU.
+   Measure; don't guess.
 2. **Artifact size budget:** The English MiniLM is ~23 MB (INT8 quantised). A
-   multilingual encoder may be larger — the plan must state the size and justify why
-   it is acceptable, or propose quantisation.
-3. **No breaking changes to the English path.** English must continue using its
-   existing head and embedder unchanged. Any change to `SemanticFallback` must be
-   backwards-compatible or isolated behind a language parameter.
-4. **iOS is out of scope for this plan.** The iOS semantic model lives in
-   `STT/STT/STT/Resources/Multilingual/` and is a separate work item. This plan
-   covers the Python server pipeline only.
-5. **No dependency on sentence-transformers at runtime.** The production path uses
-   the ONNX encoder + custom WordPiece tokeniser to avoid a heavy dependency. Any
-   new encoder must also be available as ONNX (or a comparable self-contained
-   format). `sentence-transformers` is acceptable for training/embedding-generation
-   only.
+   multilingual encoder will be larger — the plan must state the size and justify
+   why it is acceptable, or propose quantisation.
+3. **Zero changes to the English path.** English users must continue hitting the
+   existing `SemanticFallback` in `scripts/nlu/semantic.py` unchanged. The new
+   multilingual module must be completely additive.
+4. **iOS is out of scope for this plan.** This plan covers the Python server
+   pipeline only.
+5. **No dependency on sentence-transformers at runtime.** The production path must
+   use an ONNX encoder to avoid a heavy dependency. `sentence-transformers` is
+   acceptable for training/embedding-generation only.
 
 ---
 
@@ -129,116 +156,189 @@ logical sense.
 
 Choose a multilingual sentence embedding model. Candidates to evaluate:
 
-- `paraphrase-multilingual-MiniLM-L12-v2` (Sentence Transformers, 278M params, ~135 MB FP32, ~50 MB INT8)
-- `paraphrase-multilingual-mpnet-base-v2` (Sentence Transformers, 278M params, ~420 MB FP32)
-- `multilingual-e5-small` (Microsoft, 118M params, ~100 MB FP32)
-- `LaBSE` (Google, 471M params, ~360 MB FP32)
+- `paraphrase-multilingual-MiniLM-L12-v2` (Sentence Transformers, ~50 MB INT8)
+- `paraphrase-multilingual-mpnet-base-v2` (Sentence Transformers, ~420 MB FP32)
+- `multilingual-e5-small` (Microsoft, ~100 MB FP32)
+- `LaBSE` (Google, ~360 MB FP32)
 
 For each candidate, the plan must state:
 - Whether it has an available ONNX export or can be exported with `optimum-cli`
-- INT8 quantisation viability and expected size
-- Expected embedding dimension and compatibility with the existing logistic head shape
-- Estimated latency on CPU (can be estimated from parameter count and dimension if
-  not benchmarkable; flag as estimate)
-- Whether the vocabulary covers French, German, and Danish adequately (check if the
-  model card lists these languages)
+- INT8 quantisation viability and expected size after quantisation
+- Embedding dimension and whether it differs from MiniLM-L6-v2's 384 dimensions
+- Estimated CPU inference latency (measure or estimate from parameter count — flag as estimate)
+- Whether the vocabulary natively covers French, German, and Danish
 - A final recommendation with justification
 
 ### 2. Head retraining strategy
 
-The current `semantic_head.npz` was trained on English MiniLM embeddings. Switching
-the encoder changes the embedding space, so the head must be retrained.
+A new logistic head must be trained on multilingual embeddings from the chosen
+encoder. The head must be separate from the English `semantic_head.npz` and live
+in `multilingual/SemanticSupport/models/`.
 
 The plan must specify:
-- What training data to use (the existing `multilingual/data/` CSVs are a natural
-  starting point — verify they contain enough per-intent examples)
-- Whether to train one shared head across all languages or per-language heads
-- How to handle the `Default Fallback Intent` class (currently an explicit
-  out-of-scope class in the head — this must be preserved)
-- How to evaluate head quality: what metric, what holdout split, what minimum
-  accuracy to gate on before shipping
-- How `train_semantic_head.py` must change (or whether a new script is needed)
+- What training data to use — the existing `multilingual/data/` CSVs (fr, de, da,
+  en) are the natural source; verify row counts are sufficient per intent
+- Whether to train one shared head across all languages or per-language heads, and why
+- How to preserve the `Default Fallback Intent` class as an explicit out-of-scope
+  class (mirror the existing approach from `train_semantic_head.py`)
+- What holdout split to use and what minimum macro F1 to require per language
+  before the head is considered shippable
 
-### 3. Code changes in `scripts/nlu/semantic.py`
+### 3. New module layout: `multilingual/SemanticSupport/`
 
-The plan must specify precisely what changes are needed. Minimum expected surface:
-- How `SemanticFallback.__init__` learns which encoder/vocab to use (language param?
-  config file? artifact name convention?)
-- How the ONNX session and tokeniser are selected per language without breaking the
-  English path
-- Whether `SemanticFallback` stays as one class or splits into a base + subclasses
-- What changes (if any) are needed in `_embed_onnx`, `_tokenise`, `_wordpiece`
-  to support the multilingual model's vocabulary format
-- What artifact naming convention to use (e.g., `models/multilingual-minilm-l12-v2.onnx`,
-  `models/semantic_head_multilingual.npz`)
-
-### 4. Code changes in `scripts/nlu/engine.py`
-
-The plan must specify:
-- How `_load_semantic` (around line 220) selects the right `SemanticFallback`
-  variant based on the engine's `language` parameter
-- Whether `AGREEMENT_THRESHOLD` (0.50) and `semantic_threshold` need per-language
-  tuning or if the current values generalise
-- What logging changes (if any) are needed to distinguish English vs. multilingual
-  rescue in telemetry
-
-### 5. Artifact layout
-
-Propose the on-disk layout for all new artifacts. Example (adjust based on your
-encoder choice):
+**All new code goes here.** The plan must specify the complete folder structure and
+the purpose of every file, for example:
 
 ```
-models/
-  semantic_head.npz                    ← existing English head (DO NOT REMOVE)
-  minilm-l6-v2.onnx                   ← existing English encoder (DO NOT REMOVE)
-  minilm-vocab.txt                     ← existing English vocab (DO NOT REMOVE)
-  multilingual-minilm-l12-v2.onnx     ← new multilingual encoder
-  multilingual-minilm-vocab.txt        ← new multilingual vocab/tokenizer
-  semantic_head_multilingual.npz       ← new head trained on multilingual embeddings
+multilingual/SemanticSupport/
+  __init__.py
+  semantic.py          — MultilingualSemanticFallback class (mirrors SemanticFallback design)
+  tokeniser.py         — Multilingual tokeniser for the chosen encoder's vocab format
+  models/
+    <encoder>.onnx     — multilingual ONNX encoder (downloaded/exported by setup script)
+    <encoder>-vocab.*  — vocab/tokenizer file for the encoder
+    semantic_head_multilingual.npz  — logistic head trained on multilingual embeddings
+    manifest.json      — SHA-256 checksums of all artifacts
+scripts/SemanticSupport/
+  download_multilingual_encoder.py  — downloads and ONNX-exports the encoder
+  train_multilingual_semantic_head.py  — trains the head on multilingual embeddings
+  test_multilingual_semantic.py     — validates head accuracy per language
+  debug_multilingual_semantic.py    — diagnostic tool (mirrors debug_semantic_scores.py)
+```
+
+The plan must justify this layout and note any deviations from the example above.
+
+### 4. `MultilingualSemanticFallback` class design
+
+Describe the design of the new class in `multilingual/SemanticSupport/semantic.py`.
+It mirrors the design of `SemanticFallback` in `scripts/nlu/semantic.py` but is
+written independently — use the existing class as a reference, not a base class.
+
+The plan must specify:
+- Constructor signature — what parameters it takes (head path, encoder path, threshold)
+- How it loads and warms up the ONNX encoder session
+- How the tokeniser is selected for the chosen multilingual encoder (the existing
+  WordPiece tokeniser may need adaptation for a different vocabulary format —
+  describe what changes are required)
+- The `classify(text) -> (intent, confidence)` interface (must be identical to
+  the existing `SemanticFallback.classify` so `engine.py` can call either)
+- Whether `is_available()` should surface which languages are covered
+
+### 5. Engine integration — the only touch point on existing code
+
+The only connection between the new module and the existing engine is in
+`scripts/nlu/engine.py`'s `_load_semantic` method (lines ~220–239). The plan must
+describe the smallest possible change to this method:
+- How it detects that `language != "en"` and loads `MultilingualSemanticFallback`
+  from `multilingual/SemanticSupport/semantic.py` instead of the English `SemanticFallback`
+- How it falls back gracefully if the multilingual artifacts are missing (log a
+  warning and leave `self.semantic = None`, exactly as the English path does today)
+- What import pattern to use (inline import inside `_load_semantic` to avoid
+  circular deps, mirroring the existing `from .semantic import SemanticFallback`)
+- Whether `AGREEMENT_THRESHOLD` (0.50) and `semantic_threshold` generalise to
+  non-English languages or need per-language values in `config/calibration.json`
+- What logging changes are needed so telemetry can distinguish English vs.
+  multilingual rescue
+
+Note: `_load_semantic` is the **only method in `engine.py` that may be touched**.
+The Stage 3 rescue logic itself (lines 512–535) must not change.
+
+### 6. Artifact layout
+
+State the complete on-disk layout of all new artifacts after the plan is
+implemented. English artifacts are shown for reference — they must remain
+unchanged:
+
+```
+models/                                      ← English artifacts — DO NOT TOUCH
+  semantic_head.npz
+  minilm-l6-v2.onnx
+  minilm-vocab.txt
+
+multilingual/SemanticSupport/models/         ← All new artifacts go here
+  <encoder-name>.onnx                        ← multilingual encoder
+  <encoder-name>-vocab.<ext>                 ← vocab/tokenizer file
+  semantic_head_multilingual.npz             ← new logistic head
+  manifest.json                              ← SHA-256 checksums
 ```
 
 State:
-- Exact file names and sizes (estimate if not yet generated)
-- Whether the multilingual head replaces or supplements the English head
-- How `manifest.json` in `models/` should be updated
+- Exact file names (based on the chosen encoder)
+- Estimated sizes (FP32 and INT8 if quantised)
+- What `manifest.json` contains and how it is generated
 
-### 6. Training and download scripts
+### 7. Scripts: download, train, test
 
-Specify what scripts need to be created or modified:
+Describe each new script under `scripts/SemanticSupport/`:
 
-- A script to download and ONNX-export the chosen multilingual encoder
-  (analogous to `scripts/download_minilm.py` if it exists — check first)
-- Changes to `scripts/train_semantic_head.py` to support `--language multilingual`
-  or a `--encoder` flag
-- Whether the multilingual training run should generate the head from the combined
-  `multilingual/data/*.csv` corpora or from a separate multilingual embedding CSV
+**`download_multilingual_encoder.py`**
+- What it downloads and from where
+- How it exports to ONNX (via `optimum-cli` or `torch.onnx.export`)
+- Whether it applies INT8 quantisation and how
+- Output file names and expected sizes
+- Idempotent: skip download if artifact already present and manifest checksum matches
 
-### 7. Testing gates
+**`train_multilingual_semantic_head.py`**
+- Input: the multilingual encoder ONNX + `multilingual/data/*.csv` training files
+- How it generates embeddings for all utterances across all languages
+- How it trains the logistic head (same sklearn LogisticRegression pattern as the
+  existing `train_semantic_head.py`)
+- How it handles `Default Fallback Intent` as an explicit out-of-scope class
+- Output: `multilingual/SemanticSupport/models/semantic_head_multilingual.npz`
+- Minimum accuracy gate before writing the artifact
 
-Specify the tests that must pass before the implementation is considered complete:
+**`test_multilingual_semantic.py`**
+- Loads `MultilingualSemanticFallback`
+- Runs the four smoke-test utterances listed in section 8
+- Reports per-language accuracy on a held-out split
+- Exits non-zero if any language falls below the minimum F1 threshold
 
-- A minimum macro F1 on the semantic holdout for each language (fr, de, da)
-  compared to the current English baseline (~0.85 target based on TF-IDF holdout)
-- A regression test confirming the English path still produces identical output
-  (parity test on `models/semantic_head.npz` before and after the change)
-- An end-to-end smoke test: for each of the utterances listed below, the engine
-  must rescue the intent correctly when `language=<lang>` is set:
-  - French: "je n'entends pas bien dans un endroit bruyant" (→ Cmd.MemoryChange)
-  - French: "c'est trop fort" (→ Cmd.VolumeDecrease)
-  - German: "ich höre schlecht in lauten Umgebungen" (→ Cmd.MemoryChange)
-  - Danish: "det er for højt" (→ Cmd.VolumeDecrease)
+**`debug_multilingual_semantic.py`**
+- Mirrors `scripts/debug_semantic_scores.py`
+- Accepts `--text` and `--language` flags
+- Prints embedding norm, top-5 intent scores, and whether rescue would fire
 
-### 8. Migration and backwards compatibility
+### 8. Testing gates
 
-- How does a deployment that has the old artifacts upgrade? (i.e., what happens if
-  `multilingual-minilm-l12-v2.onnx` is missing — graceful fallback to English
-  head or to TF-IDF only?)
-- Is there a flag in `config/calibration.json` or `nlu_schema.json` to enable the
-  multilingual head per language?
+The plan must specify the tests that constitute a complete, shippable
+implementation:
 
-### 9. Open questions
+**Accuracy gate (per language):**
+- Minimum macro F1 on held-out split: fr ≥ 0.80, de ≥ 0.78, da ≥ 0.75
+- Rationale: slightly below TF-IDF holdout F1 is acceptable because the semantic
+  head only fires on low-confidence TF-IDF cases
 
-List every question the implementation agent must resolve before starting, formatted as:
+**Regression gate (English path unchanged):**
+- Run the existing `scripts/test_semantic.py` before and after — output must be
+  byte-identical
+- Confirms that `_load_semantic` change does not affect the English code path
+
+**Smoke tests (end-to-end, `language=<lang>`):**
+
+| Utterance | Language | Expected rescue intent |
+|-----------|----------|----------------------|
+| "je n'entends pas bien dans un endroit bruyant" | fr | Cmd.MemoryChange |
+| "c'est trop fort" | fr | Cmd.VolumeDecrease |
+| "ich höre schlecht in lauten Umgebungen" | de | Cmd.MemoryChange |
+| "det er for højt" | da | Cmd.VolumeDecrease |
+
+These must pass via `NLUEngine(language=<lang>)` end-to-end, not just via direct
+`MultilingualSemanticFallback.classify()` calls.
+
+### 9. Migration and graceful degradation
+
+- What happens when multilingual artifacts are absent (fresh checkout, partial
+  install)? The plan must describe the fallback: log a warning at startup and set
+  `self.semantic = None` for non-English engines, identical to how the English
+  path degrades today.
+- Is there a config flag to enable/disable multilingual semantic rescue per
+  language without deleting artifacts? Propose one if needed.
+- How does the plan handle the case where only some language artifacts are present
+  (e.g., fr + de built but da not yet)?
+
+### 10. Open questions
+
+List every question the implementation agent must resolve before starting:
 
 ```
 Q1. [topic] — <what needs to be decided and what information is needed>
@@ -249,7 +349,8 @@ Q1. [topic] — <what needs to be decided and what information is needed>
 ## DELIVERABLE
 
 Commit `docs/MULTILINGUAL_SEMANTICS_IMPLEMENTATION.md` to branch
-`claude/multilingual-nlu-status-check-s7ggcw` with commit message:
+`claude/multilingual-nlu-status-check-s7ggcw/MulitlingualSemanticSupport`
+with commit message:
 
 ```
 docs: multilingual semantic rescue implementation plan
@@ -263,19 +364,30 @@ should be able to pick it up and implement without asking clarifying questions
 
 ## EXPLORATION CHECKLIST
 
-Before writing the plan, verify each item by reading the actual files:
+Complete every item by reading the actual files before writing the plan:
 
 ```
-[ ] Read scripts/nlu/semantic.py in full — understand the tokeniser and head format
-[ ] Read scripts/nlu/engine.py lines 220–245 (_load_semantic) and 510–540 (Stage 3)
-[ ] Read scripts/train_semantic_head.py — understand how the head is trained
+[ ] Read scripts/nlu/semantic.py in full
+    — understand SemanticFallback class, ONNX path, _tokenise/_wordpiece, .npz head format
+[ ] Read scripts/nlu/engine.py lines 220–245 (_load_semantic)
+    — note exactly how it instantiates SemanticFallback and falls back on failure
+[ ] Read scripts/nlu/engine.py lines 510–540
+    — note AGREEMENT_THRESHOLD, semantic_threshold, and rescue acceptance logic
+[ ] Read scripts/train_semantic_head.py in full
+    — understand training data format, head output schema, Default Fallback handling
 [ ] Check if scripts/download_minilm.py exists; read it if so
-[ ] Read multilingual/train_multilingual.py lines 100–120 (LANGUAGES dict)
-[ ] Read config/calibration.json — note per-language thresholds
-[ ] List multilingual/data/ — confirm which language CSVs exist and their row counts
-[ ] List models/ — note every file and its size (use ls -lh)
+    — for the download/export pattern to mirror
+[ ] Read multilingual/train_multilingual.py lines 100–120
+    — note LANGUAGES dict entries and data file paths
+[ ] Read config/calibration.json
+    — note per-language conf_threshold values
+[ ] Run: ls -lh multilingual/data/
+    — confirm which language CSVs exist and their sizes
+[ ] Run: ls -lh models/
+    — note every existing semantic artifact and its size
+[ ] Run: ls -lh multilingual/models/
+    — check if any per-language semantic artifacts already exist
 [ ] Read docs/adding-a-new-language.md §Deliberately deferred capabilities
-[ ] Check if any per-language semantic artifacts already exist in multilingual/models/
 ```
 
 Only after completing this checklist should you begin writing the plan.
