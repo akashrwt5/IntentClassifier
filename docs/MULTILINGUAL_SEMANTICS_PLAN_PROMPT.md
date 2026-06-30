@@ -130,19 +130,31 @@ for the deferred capability this plan addresses.
 ### Key constraints
 
 1. **Latency budget:** The current English MiniLM ONNX path takes ~8ms embed +
-   <1ms head. Any multilingual encoder must fit within ~15ms on a server CPU.
-   Measure; don't guess.
-2. **Artifact size budget:** The English MiniLM is ~23 MB (INT8 quantised). A
-   multilingual encoder will be larger — the plan must state the size and justify
-   why it is acceptable, or propose quantisation.
-3. **Zero changes to the English path.** English users must continue hitting the
+   <1ms head. The multilingual encoder must fit within ~15ms embed on a server CPU.
+   The plan must include benchmark numbers for each timing component; estimates
+   flagged as such are acceptable, but guesses without justification are not.
+2. **Artifact size:** The plan must state FP32 size, INT8 size, peak memory usage
+   during inference, and the quantisation accuracy trade-off (macro F1 delta FP32 vs.
+   INT8). Justify the chosen format.
+3. **Offline-first — no runtime downloads.** All model and tokenizer artifacts must
+   exist locally before the application starts. The runtime must load only local files.
+   Nothing may be fetched from the network at inference time, ever.
+4. **Reproducible builds.** Running `scripts/SemanticSupport/download_models.py`
+   multiple times must produce byte-identical artifacts. After the initial setup the
+   repository must be fully usable offline.
+5. **Zero changes to the English path.** English users must continue hitting the
    existing `SemanticFallback` in `scripts/nlu/semantic.py` unchanged. The new
-   multilingual module must be completely additive.
-4. **iOS is out of scope for this plan.** This plan covers the Python server
-   pipeline only.
-5. **No dependency on sentence-transformers at runtime.** The production path must
-   use an ONNX encoder to avoid a heavy dependency. `sentence-transformers` is
-   acceptable for training/embedding-generation only.
+   multilingual module is completely additive. The English production path must remain
+   byte-for-byte compatible before and after this change.
+6. **Core ML forward-compatibility.** Although iOS is out of scope for this plan,
+   the selected ONNX graph and any preprocessing steps must remain compatible with
+   future Core ML conversion. Avoid runtime dependencies or graph ops that would make
+   Core ML deployment significantly harder.
+7. **iOS is otherwise out of scope for this plan.** This plan covers the Python
+   server pipeline only.
+8. **No dependency on sentence-transformers at runtime.** The production path must
+   use the ONNX encoder to avoid a heavy dependency. `sentence-transformers` is
+   acceptable only for training and embedding-generation scripts.
 
 ---
 
@@ -152,22 +164,25 @@ Produce a plan document at `docs/MULTILINGUAL_SEMANTICS_IMPLEMENTATION.md` that
 addresses each of the following sections. Sections may be in any order that makes
 logical sense.
 
-### 1. Encoder selection
+### 1. Encoder
 
-Choose a multilingual sentence embedding model. Candidates to evaluate:
+**The encoder is fixed: `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`.**
+Do not evaluate alternative encoders unless a blocking technical issue is encountered
+(e.g., the model cannot be exported to ONNX, INT8 quantisation degrades macro F1 by
+more than 3 points, or a hard dependency conflict arises). If a blocking issue occurs,
+document it explicitly and escalate before switching models.
 
-- `paraphrase-multilingual-MiniLM-L12-v2` (Sentence Transformers, ~50 MB INT8)
-- `paraphrase-multilingual-mpnet-base-v2` (Sentence Transformers, ~420 MB FP32)
-- `multilingual-e5-small` (Microsoft, ~100 MB FP32)
-- `LaBSE` (Google, ~360 MB FP32)
-
-For each candidate, the plan must state:
-- Whether it has an available ONNX export or can be exported with `optimum-cli`
-- INT8 quantisation viability and expected size after quantisation
-- Embedding dimension and whether it differs from MiniLM-L6-v2's 384 dimensions
-- Estimated CPU inference latency (measure or estimate from parameter count — flag as estimate)
-- Whether the vocabulary natively covers French, German, and Danish
-- A final recommendation with justification
+The plan must document the following properties of this encoder:
+- Hugging Face model ID and the `optimum-cli` or `torch.onnx.export` command used to
+  produce the ONNX graph
+- FP32 ONNX file size and INT8 quantised file size (use `onnxruntime.quantization`)
+- Embedding dimension: **384** (same as English MiniLM-L6-v2 — confirm this)
+- Peak memory during ONNX inference (measure with `tracemalloc` or `psutil`)
+- Estimated CPU inference latency per utterance (benchmark with 100 warm runs)
+- Vocabulary coverage for French, German, and Danish (tokenisation UNK rate on a
+  100-sentence sample per language — must be below 1%)
+- Quantisation accuracy trade-off: macro F1 delta between FP32 and INT8 on the
+  held-out multilingual split (acceptable if delta < 1.5 points)
 
 ### 2. Head retraining strategy
 
@@ -193,17 +208,21 @@ the purpose of every file, for example:
 multilingual/SemanticSupport/
   __init__.py
   semantic.py          — MultilingualSemanticFallback class (mirrors SemanticFallback design)
-  tokeniser.py         — Multilingual tokeniser for the chosen encoder's vocab format
+  tokeniser.py         — Multilingual tokeniser for the encoder's vocab format
   models/
-    <encoder>.onnx     — multilingual ONNX encoder (downloaded/exported by setup script)
-    <encoder>-vocab.*  — vocab/tokenizer file for the encoder
-    semantic_head_multilingual.npz  — logistic head trained on multilingual embeddings
-    manifest.json      — SHA-256 checksums of all artifacts
+    paraphrase-multilingual-MiniLM-L12-v2.onnx        — FP32 ONNX encoder
+    paraphrase-multilingual-MiniLM-L12-v2.int8.onnx   — INT8 quantised encoder (if accuracy acceptable)
+    tokenizer.json
+    tokenizer_config.json
+    special_tokens_map.json
+    vocab.txt                                          — if applicable for the tokeniser
+    semantic_head_multilingual.npz                     — logistic head trained on multilingual embeddings
+    manifest.json                                      — SHA-256 checksums of all artifacts above
 scripts/SemanticSupport/
-  download_multilingual_encoder.py  — downloads and ONNX-exports the encoder
-  train_multilingual_semantic_head.py  — trains the head on multilingual embeddings
-  test_multilingual_semantic.py     — validates head accuracy per language
-  debug_multilingual_semantic.py    — diagnostic tool (mirrors debug_semantic_scores.py)
+  download_models.py              — downloads encoder + tokenizer, exports ONNX, quantises, writes manifest
+  train_multilingual_semantic_head.py  — trains the logistic head on multilingual embeddings
+  test_multilingual_semantic.py   — validates per-language accuracy + smoke tests
+  debug_multilingual_semantic.py  — diagnostic tool (mirrors debug_semantic_scores.py)
 ```
 
 The plan must justify this layout and note any deviations from the example above.
@@ -243,62 +262,138 @@ describe the smallest possible change to this method:
 Note: `_load_semantic` is the **only method in `engine.py` that may be touched**.
 The Stage 3 rescue logic itself (lines 512–535) must not change.
 
-### 6. Artifact layout
+### 6. Artifact layout and size budget
 
 State the complete on-disk layout of all new artifacts after the plan is
 implemented. English artifacts are shown for reference — they must remain
 unchanged:
 
 ```
-models/                                      ← English artifacts — DO NOT TOUCH
+models/                                              ← English artifacts — DO NOT TOUCH
   semantic_head.npz
   minilm-l6-v2.onnx
   minilm-vocab.txt
 
-multilingual/SemanticSupport/models/         ← All new artifacts go here
-  <encoder-name>.onnx                        ← multilingual encoder
-  <encoder-name>-vocab.<ext>                 ← vocab/tokenizer file
-  semantic_head_multilingual.npz             ← new logistic head
-  manifest.json                              ← SHA-256 checksums
+multilingual/SemanticSupport/models/                 ← All new artifacts go here
+  paraphrase-multilingual-MiniLM-L12-v2.onnx        ← FP32 encoder
+  paraphrase-multilingual-MiniLM-L12-v2.int8.onnx   ← INT8 quantised encoder (if shipped)
+  tokenizer.json
+  tokenizer_config.json
+  special_tokens_map.json
+  vocab.txt                                          ← if applicable
+  semantic_head_multilingual.npz                     ← logistic head
+  manifest.json                                      ← SHA-256 of every file above
 ```
 
-State:
-- Exact file names (based on the chosen encoder)
-- Estimated sizes (FP32 and INT8 if quantised)
-- What `manifest.json` contains and how it is generated
+The plan must include a table with measured or estimated values for each artifact:
+
+| File | FP32 size | INT8 size | Memory at inference | Embed latency (CPU) | Embed dimension |
+|------|-----------|-----------|--------------------|--------------------|-----------------|
+| `paraphrase-multilingual-MiniLM-L12-v2.onnx` | ? MB | — | ? MB | ? ms | 384 |
+| `paraphrase-multilingual-MiniLM-L12-v2.int8.onnx` | — | ? MB | ? MB | ? ms | 384 |
+| `semantic_head_multilingual.npz` | ? KB | — | negligible | <1 ms | — |
+
+Flag any value that is estimated rather than measured. Also state:
+- Which format (FP32 or INT8) is recommended for production and why
+- Quantisation trade-off: macro F1 delta FP32 vs. INT8 on held-out multilingual split
+- How `manifest.json` is structured (JSON dict of `{filename: sha256_hex}`) and
+  which script generates it (`download_models.py`)
 
 ### 7. Scripts: download, train, test
 
-Describe each new script under `scripts/SemanticSupport/`:
+Describe each new script under `scripts/SemanticSupport/`. For each script the plan
+must state the exact command to run it and list every output artifact it produces.
 
-**`download_multilingual_encoder.py`**
-- What it downloads and from where
-- How it exports to ONNX (via `optimum-cli` or `torch.onnx.export`)
-- Whether it applies INT8 quantisation and how
-- Output file names and expected sizes
-- Idempotent: skip download if artifact already present and manifest checksum matches
+**`download_models.py`** ← the required first-run setup script
+- Downloads `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` from
+  Hugging Face (model weights + all tokenizer files)
+- Exports to ONNX via `optimum-cli export onnx` or equivalent
+- Produces INT8 quantised ONNX via `onnxruntime.quantization.quantize_dynamic`
+- Stores all artifacts under `multilingual/SemanticSupport/models/`
+- Generates `manifest.json` with SHA-256 checksums of every artifact
+- **Idempotent:** if all artifacts are present and all checksums match, exits
+  immediately without re-downloading or re-generating anything
+- **No network access at runtime** — this script is the only place network I/O
+  is permitted; once it completes the system is fully offline
+
+Command and outputs:
+```
+python scripts/SemanticSupport/download_models.py
+
+Outputs:
+  multilingual/SemanticSupport/models/paraphrase-multilingual-MiniLM-L12-v2.onnx
+  multilingual/SemanticSupport/models/paraphrase-multilingual-MiniLM-L12-v2.int8.onnx
+  multilingual/SemanticSupport/models/tokenizer.json
+  multilingual/SemanticSupport/models/tokenizer_config.json
+  multilingual/SemanticSupport/models/special_tokens_map.json
+  multilingual/SemanticSupport/models/vocab.txt          (if applicable)
+  multilingual/SemanticSupport/models/manifest.json
+```
 
 **`train_multilingual_semantic_head.py`**
-- Input: the multilingual encoder ONNX + `multilingual/data/*.csv` training files
-- How it generates embeddings for all utterances across all languages
-- How it trains the logistic head (same sklearn LogisticRegression pattern as the
-  existing `train_semantic_head.py`)
-- How it handles `Default Fallback Intent` as an explicit out-of-scope class
+- Requires: artifacts from `download_models.py` must already exist
+- Input: multilingual ONNX encoder + `multilingual/data/*.csv` training files
+- Generates embeddings for all utterances across all languages using the ONNX encoder
+- Trains a sklearn LogisticRegression head (mirroring `train_semantic_head.py` pattern)
+- Preserves `Default Fallback Intent` as an explicit out-of-scope class
+- Gates on minimum accuracy before writing output — exits non-zero if gate fails
 - Output: `multilingual/SemanticSupport/models/semantic_head_multilingual.npz`
-- Minimum accuracy gate before writing the artifact
+
+Command and outputs:
+```
+python scripts/SemanticSupport/train_multilingual_semantic_head.py
+
+Outputs:
+  multilingual/SemanticSupport/models/semantic_head_multilingual.npz
+  (updates manifest.json with new checksum)
+```
 
 **`test_multilingual_semantic.py`**
-- Loads `MultilingualSemanticFallback`
-- Runs the four smoke-test utterances listed in section 8
-- Reports per-language accuracy on a held-out split
-- Exits non-zero if any language falls below the minimum F1 threshold
+- Loads `MultilingualSemanticFallback` from `multilingual/SemanticSupport/semantic.py`
+- Reports per-language macro F1 on a held-out split
+- Runs the four end-to-end smoke tests listed in section 8
+- Exits non-zero if any language falls below minimum F1 threshold
+
+Command and outputs:
+```
+python scripts/SemanticSupport/test_multilingual_semantic.py
+
+Outputs: per-language F1 report, pass/fail for each smoke test, exit code
+```
 
 **`debug_multilingual_semantic.py`**
 - Mirrors `scripts/debug_semantic_scores.py`
 - Accepts `--text` and `--language` flags
-- Prints embedding norm, top-5 intent scores, and whether rescue would fire
+- Prints: tokenisation result, UNK rate, embedding norm, top-5 intent scores with
+  probabilities, and whether rescue would fire at current threshold
 
-### 8. Testing gates
+Command:
+```
+python scripts/SemanticSupport/debug_multilingual_semantic.py --text "c'est trop fort" --language fr
+```
+
+### 8. Benchmarks
+
+The implementation plan must specify how each of the following will be measured and
+what the acceptable upper bound is. Benchmarks must be run on CPU (no GPU assumed
+for server deployment).
+
+| Component | How to measure | Target upper bound |
+|-----------|---------------|-------------------|
+| Model load time | Time from `ort.InferenceSession(path)` to warm-up complete | < 3 s |
+| Tokenisation time | Time to tokenise a 10-word utterance (100 warm runs, median) | < 0.5 ms |
+| Embedding generation | Time from tokenised input to L2-normalised 384-dim vector (100 warm runs, median) | < 15 ms |
+| Logistic head inference | Time from embedding vector to (intent, confidence) tuple | < 1 ms |
+| End-to-end Stage 3 latency | Time from raw text string to rescue result, including all steps | < 20 ms |
+| Peak memory during inference | `tracemalloc` or `psutil.Process().memory_info().rss` delta during embed | < 300 MB |
+
+The plan must include the measurement script (inline in `test_multilingual_semantic.py`
+or a dedicated `--benchmark` flag) and the actual measured values for the chosen
+encoder. If measurement is not possible during planning, provide estimates flagged as
+such with the methodology (e.g., "estimated from parameter count × dimension ratio
+relative to English MiniLM measured at 8ms").
+
+### 9. Testing gates
 
 The plan must specify the tests that constitute a complete, shippable
 implementation:
@@ -325,7 +420,7 @@ implementation:
 These must pass via `NLUEngine(language=<lang>)` end-to-end, not just via direct
 `MultilingualSemanticFallback.classify()` calls.
 
-### 9. Migration and graceful degradation
+### 10. Migration and graceful degradation
 
 - What happens when multilingual artifacts are absent (fresh checkout, partial
   install)? The plan must describe the fallback: log a warning at startup and set
@@ -336,7 +431,7 @@ These must pass via `NLUEngine(language=<lang>)` end-to-end, not just via direct
 - How does the plan handle the case where only some language artifacts are present
   (e.g., fr + de built but da not yet)?
 
-### 10. Open questions
+### 11. Open questions
 
 List every question the implementation agent must resolve before starting:
 
@@ -359,6 +454,30 @@ docs: multilingual semantic rescue implementation plan
 The document must be self-contained — an engineer who has never seen this codebase
 should be able to pick it up and implement without asking clarifying questions
 (other than the open questions you explicitly flag).
+
+The implementation plan must include a **"Setup and execution"** section that shows
+the exact commands to run in order, the output artifacts each command produces, and
+what a successful run looks like:
+
+```
+# Step 1 — download and export model artifacts (one-time, requires network)
+python scripts/SemanticSupport/download_models.py
+# Produces: multilingual/SemanticSupport/models/{encoder.onnx, encoder.int8.onnx,
+#            tokenizer.json, tokenizer_config.json, special_tokens_map.json,
+#            vocab.txt, manifest.json}
+
+# Step 2 — train the logistic rescue head on multilingual embeddings
+python scripts/SemanticSupport/train_multilingual_semantic_head.py
+# Produces: multilingual/SemanticSupport/models/semantic_head_multilingual.npz
+#           (manifest.json updated with new checksum)
+
+# Step 3 — validate accuracy and run smoke tests
+python scripts/SemanticSupport/test_multilingual_semantic.py
+# Prints: per-language macro F1, benchmark timings, smoke test pass/fail
+# Exits 0 on success, non-zero if any gate fails
+```
+
+After step 1, the repository must be fully usable offline.
 
 ---
 
