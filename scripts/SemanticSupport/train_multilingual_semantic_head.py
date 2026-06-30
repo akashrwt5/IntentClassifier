@@ -153,17 +153,21 @@ def main() -> None:
         print("ERROR: No language CSV files found.")
         sys.exit(1)
 
-    data = pd.concat(frames, ignore_index=True).drop_duplicates(subset=["text", "intent"])
-    print(f"\nTotal in-scope phrases (before cap): {len(data)}")
+    # Apply per-class cap per language BEFORE merging so no single language
+    # crowds out others. Without this, tail(250) on a 4-language concat keeps
+    # only the last language's rows, discarding French/German training data.
+    capped_frames = []
+    for frame in frames:
+        capped = (
+            frame.groupby("intent")
+                 .tail(args.max_per_intent)
+                 .reset_index(drop=True)
+        )
+        capped_frames.append(capped)
 
-    # ── Per-class cap (same as English head: removes near-duplicate spam) ──
-    data = (
-        data.groupby("intent")
-            .tail(args.max_per_intent)
-            .sample(frac=1, random_state=42)
-            .reset_index(drop=True)
-    )
-    print(f"In-scope after capping at {args.max_per_intent} per intent: {len(data)}")
+    data = pd.concat(capped_frames, ignore_index=True).drop_duplicates(subset=["text", "intent"])
+    data = data.sample(frac=1, random_state=42).reset_index(drop=True)
+    print(f"\nTotal in-scope phrases (after per-language cap of {args.max_per_intent}): {len(data)}")
     print(f"Intents: {data['intent'].nunique()}")
 
     # ── OOS class: inject explicit out-of-scope data if available ─────────
