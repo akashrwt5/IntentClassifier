@@ -498,6 +498,14 @@ class EntityExtractor:
                      "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n),
                      "day":    timedelta(days=n),     "week": timedelta(weeks=n)}[unit]
             return self._to_utc_iso(now + delta), m.group(), 1.0, True, False
+        # "for N units" — treated as relative duration, same semantics as "in N units"
+        m = re.search(r"\bfor\s+(\d+)\s*(minute|min|hour|hr|day|week)s?\b", t)
+        if m:
+            n, unit = int(m.group(1)), m.group(2)
+            delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
+                     "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n),
+                     "day":    timedelta(days=n),     "week": timedelta(weeks=n)}[unit]
+            return self._to_utc_iso(now + delta), m.group(), 1.0, True, False
         # "in an hour / in a minute"
         m = re.search(r"\bin\s+an?\s+(minute|min|hour|hr|day|week)s?\b", t)
         if m:
@@ -718,6 +726,7 @@ class EntityExtractor:
 
     _TIME_PATTERNS = [
         r"\bin\s+\d+\s*(?:minute|min|hour|hr|day|week)s?\b",
+        r"\bfor\s+\d+\s*(?:minute|min|hour|hr|day|week)s?\b",
         r"\b\d{1,2}(?::\d{2})?\s*[ap]\.?\s*m\.?\b",
         r"\b\d{1,2}:\d{2}\b",
         # "at 5" / "by 7" — remove the connector AND the orphaned bare number

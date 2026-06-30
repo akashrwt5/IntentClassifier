@@ -103,6 +103,10 @@
       "regex": "\\bnudge me\\b|\\bslip my mind\\b|\\bjot this down\\b|\\bnote this down\\b|\\bdon'?t (let me )?forget\\b"
     },
     {
+      "intent": "reminders.add",
+      "regex": "\\b(rappelle[\\s-]?moi|r[eé]gler\\s+une\\s+alarme|mettre?\\s+une\\s+alarme|fixer?\\s+une\\s+alarme|cr[eé]er?\\s+un\\s+rappel|d[eé]finir?\\s+un\\s+rappel|mettre?\\s+un\\s+rappel|poser\\s+un\\s+rappel|ajouter\\s+un\\s+rappel|planifier\\s+un\\s+rappel|configurer\\s+un\\s+rappel)\\b"
+    },
+    {
       "intent": "Cmd.VolumeDecrease",
       "regex": "\\b(too|way|so|very|really)\\s+(hot|loud|bright|much)\\b|\\bcoming in (way )?too (hot|loud)\\b|\\btake the edge off\\b"
     },

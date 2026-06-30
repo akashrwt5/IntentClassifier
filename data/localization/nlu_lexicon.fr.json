@@ -190,6 +190,10 @@
     "euh"
   ],
   "carrier_phrases": [
+    "^veuillez\\s+",
+    "^r[eé]gler?\\s+une\\s+alarme\\s*(?:pour|de|d')?\\s*",
+    "^mettre?\\s+une\\s+alarme\\s*(?:pour|de|d')?\\s*",
+    "^fixer?\\s+(?:un\\s+rappel|une\\s+alarme)\\s*(?:pour|de|d')?\\s*",
     "^rappelle[\\s-]moi\\s+(de\\s+|d')?\\s*",
     "^rappelle\\s+moi\\s+(de\\s+|d')?\\s*",
     "^n'oublie\\s+pas\\s+(de\\s+|d')?\\s*",
