@@ -29,6 +29,7 @@ from .context import SessionStore
 BASE_DIR = Path(__file__).parent.parent.parent
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 LABELS_JSON_PATH = BASE_DIR / "models" / "intent_labels.json"
+LOC_DIR = BASE_DIR / "data" / "localization"
 
 # Fallback default for the semantic-rescue threshold when the schema omits it.
 # The schema's "semantic_threshold" is the single source of truth; this is only
@@ -78,8 +79,10 @@ class NLUEngine:
     # enough that a flat (genuinely-ambiguous) distribution is rejected.
     AGREEMENT_THRESHOLD = 0.50
 
-    def __init__(self, schema_path: Path = SCHEMA_PATH, model_name: str | None = None):
-        self.schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
+    def __init__(self, schema_path: Path = SCHEMA_PATH, model_name: str | None = None,
+                 language: str = "en"):
+        self.language = language
+        self.schema = self._load_schema(schema_path, language)
         self.intents = self.schema["intents"]
         self.threshold = self.schema.get("confidence_threshold", 0.70)
         self.affirmative = set(self.schema.get("affirmative", []))
@@ -99,10 +102,80 @@ class NLUEngine:
         # engine, so the two can never drift.
         self.semantic_threshold = self.schema.get("semantic_threshold", DEFAULT_SEMANTIC_THRESHOLD)
         self.classifier = self._load_classifier(model_name)
-        self.entities = EntityExtractor()
+        self.entities = self._load_entities(language)
         self.sessions = SessionStore()
         self.semantic = self._load_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
+
+    @staticmethod
+    def _load_schema(schema_path: Path, language: str) -> dict:
+        """Load canonical schema then deep-merge the language overlay (if any).
+
+        Overlay keys applied: intents[].fulfillment, intents[].slots[].prompt,
+        affirmative, negative, followup prompts. Structural keys (entity, required,
+        action) always come from the canonical schema. Missing overlay → English.
+        """
+        import copy
+        schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
+        if language in ("en", ""):
+            return schema
+
+        overlay_path = LOC_DIR / f"nlu_schema.{language}.json"
+        if not overlay_path.exists():
+            logger.warning("nlu.schema.overlay_missing lang=%s", language)
+            return schema
+
+        try:
+            overlay = json.loads(overlay_path.read_text(encoding="utf-8"))
+        except Exception:
+            logger.error("nlu.schema.overlay_decode_error lang=%s", language)
+            return schema
+
+        merged = copy.deepcopy(schema)
+
+        # Merge per-intent fulfillment + slot prompts
+        for intent_name, ov_intent in overlay.get("intents", {}).items():
+            if intent_name not in merged["intents"]:
+                continue
+            if "fulfillment" in ov_intent:
+                merged["intents"][intent_name]["fulfillment"] = ov_intent["fulfillment"]
+            ov_slots = {s["name"]: s for s in ov_intent.get("slots", []) if "name" in s}
+            for slot in merged["intents"][intent_name].get("slots", []):
+                if slot.get("name") in ov_slots and "prompt" in ov_slots[slot["name"]]:
+                    slot["prompt"] = ov_slots[slot["name"]]["prompt"]
+
+        # Merge followup prompts
+        for key in ("followup",):
+            if key in overlay and key in merged:
+                for subkey, val in overlay[key].items():
+                    if isinstance(val, dict):
+                        merged[key].setdefault(subkey, {}).update(val)
+                    else:
+                        merged[key][subkey] = val
+
+        # Merge yes/no sets
+        if "affirmative" in overlay:
+            merged["affirmative"] = overlay["affirmative"]
+        if "negative" in overlay:
+            merged["negative"] = overlay["negative"]
+
+        return merged
+
+    @staticmethod
+    def _load_entities(language: str) -> EntityExtractor:
+        """Build an EntityExtractor for the given language.
+
+        Non-English: loads nlu_entities.<lang>.json and passes the language so
+        the lexicon-driven datetime parser is activated. Falls back to English
+        if the file is absent.
+        """
+        if language in ("en", "", "multilingual"):
+            return EntityExtractor()
+        entities_path = LOC_DIR / f"nlu_entities.{language}.json"
+        if not entities_path.exists():
+            logger.warning("nlu.entities.missing lang=%s — falling back to English", language)
+            return EntityExtractor()
+        return EntityExtractor(entities_path=entities_path, language=language)
 
     def _load_classifier(self, model_name: str | None = None) -> IntentClassifier:
         """Load the appropriate TF-IDF model: production (default) or multilingual (en/fr/de/da)."""

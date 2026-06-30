@@ -69,17 +69,27 @@ def main():
              "production=scripts/models/intent_model.onnx (default), "
              "or any multilingual model (en/fr/de/da/multilingual/multilingual_small)."
     )
+    parser.add_argument(
+        "--language", "-l",
+        choices=["en", "fr", "de", "da"],
+        default=None,
+        help="Language for schema prompts and datetime parsing. Defaults to "
+             "--model when --model is en/fr/de/da, else 'en'."
+    )
     args = parser.parse_args()
 
+    # Infer language from model when not explicitly set
+    lang = args.language or (args.model if args.model in ("en", "fr", "de", "da") else "en")
+
     try:
-        engine = NLUEngine(model_name=args.model)
+        engine = NLUEngine(model_name=args.model, language=lang)
     except FileNotFoundError as e:
         print(f"❌ {e}", file=sys.stderr)
         sys.exit(1)
 
     model_label = "production" if args.model == "production" else args.model
     print("=== On-device NLU (Dialogflow replacement) ===")
-    print(f"    Model: {model_label}")
+    print(f"    Model: {model_label}  |  Language: {lang}")
     print("    Type 'exit' to quit, 'reset' to clear the conversation.\n")
 
     while True:
