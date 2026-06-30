@@ -639,7 +639,7 @@ class NLUEngine:
         r"^\s*please\s+",
         r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*",
         r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*",
-        r"^\s*set(?:\s+up)?\s+(?:a\s+)?reminder\b\s*(?:to|about|for\s+(?!\d))?\s*",
+        r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about|for\s+(?!\d))?\s*",
         r"^\s*make\s+sure\s+(?:i|to)\b\s*",
         r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
     ]
