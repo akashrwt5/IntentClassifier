@@ -60,40 +60,33 @@ sys.path.insert(0, str(BASE_DIR / "multilingual" / "SemanticSupport"))
 from tokeniser import MultilingualTokeniser, SEQ_LEN as _SEQ_LEN
 
 
-def embed_batch(session, tokeniser: MultilingualTokeniser, texts: list) -> np.ndarray:
-    """Embed a list of texts using the static-shape ONNX session.
+def embed_one(session, tokeniser: MultilingualTokeniser, text: str) -> np.ndarray:
+    """Embed a single text. Returns L2-normalised (384,) float32 vector.
 
-    Each text is tokenised individually (shape (1, 64)) and then stacked so
-    the batch runs as a single ONNX call. The static shape constraint means
-    every call has the same (N, 64) dimension — no dynamic resizing.
+    The ONNX graph has a static batch size of 1 (required for ANE/CoreML
+    compatibility), so each call processes exactly one sentence.
     """
-    batch_ids   = []
-    batch_mask  = []
-    batch_types = []
-    for text in texts:
-        ids, mask, types = tokeniser.encode(text)
-        batch_ids.append(ids[0])    # (64,)
-        batch_mask.append(mask[0])  # (64,)
-        batch_types.append(types[0])
-
-    input_ids      = np.stack(batch_ids,   axis=0).astype(np.int64)   # (N, 64)
-    attention_mask = np.stack(batch_mask,  axis=0).astype(np.int64)   # (N, 64)
-    token_type_ids = np.stack(batch_types, axis=0).astype(np.int64)   # (N, 64)
-
-    outputs    = session.run(None, {
-        "input_ids":      input_ids,
-        "attention_mask": attention_mask,
-        "token_type_ids": token_type_ids,
+    ids, mask, types = tokeniser.encode(text)   # all shape (1, 64)
+    outputs   = session.run(None, {
+        "input_ids":      ids,
+        "attention_mask": mask,
+        "token_type_ids": types,
     })
-    token_emb  = outputs[0]                                             # (N, 64, 384)
-    expanded   = attention_mask[:, :, np.newaxis].astype(np.float32)   # (N, 64, 1)
-    summed     = (token_emb * expanded).sum(axis=1)                    # (N, 384)
-    counts     = expanded.sum(axis=1)                                   # (N, 1)
-    vecs       = summed / np.where(counts == 0, 1.0, counts)
+    token_emb = outputs[0][0]                                      # (64, 384)
+    mask_f    = mask[0].astype(np.float32)                         # (64,)
+    summed    = (token_emb * mask_f[:, np.newaxis]).sum(axis=0)    # (384,)
+    vec       = summed / max(mask_f.sum(), 1.0)
+    norm      = np.linalg.norm(vec)
+    return (vec / norm if norm > 0 else vec).astype(np.float32)
 
-    norms = np.linalg.norm(vecs, axis=1, keepdims=True)
-    norms = np.where(norms == 0, 1.0, norms)
-    return (vecs / norms).astype(np.float32)
+
+def embed_batch(session, tokeniser: MultilingualTokeniser, texts: list) -> np.ndarray:
+    """Embed a list of texts. Returns L2-normalised (N, 384) float32 array.
+
+    Loops one sentence at a time — the ONNX graph has a static batch dimension
+    of 1, so multi-sample batching is not supported at the graph level.
+    """
+    return np.stack([embed_one(session, tokeniser, t) for t in texts], axis=0)
 
 
 def embed_all(texts: list, batch_size: int = 64) -> np.ndarray:

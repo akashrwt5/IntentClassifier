@@ -65,33 +65,33 @@ def _make_session(onnx_path: Path):
     return ort.InferenceSession(str(onnx_path), opts)
 
 
-def _embed_batch(sess, tokeniser, texts: list) -> np.ndarray:
-    """Return L2-normalised (N, 384) float32 embeddings."""
-    batch_ids, batch_mask, batch_types = [], [], []
-    for text in texts:
-        ids, mask, types = tokeniser.encode(text)
-        batch_ids.append(ids[0])
-        batch_mask.append(mask[0])
-        batch_types.append(types[0])
+def _embed_one(sess, tokeniser, text: str) -> np.ndarray:
+    """Return L2-normalised (384,) float32 embedding for a single text.
 
-    input_ids      = np.stack(batch_ids,   axis=0).astype(np.int64)
-    attention_mask = np.stack(batch_mask,  axis=0).astype(np.int64)
-    token_type_ids = np.stack(batch_types, axis=0).astype(np.int64)
-
-    out      = sess.run(None, {
-        "input_ids":      input_ids,
-        "attention_mask": attention_mask,
-        "token_type_ids": token_type_ids,
+    The ONNX graph has a static batch dimension of 1 (required for ANE/CoreML
+    compatibility), so we always feed exactly one sentence per call.
+    """
+    ids, mask, types = tokeniser.encode(text)   # all shape (1, 64)
+    out       = sess.run(None, {
+        "input_ids":      ids,
+        "attention_mask": mask,
+        "token_type_ids": types,
     })
-    token_emb = out[0]                                                   # (N, 64, 384)
-    expanded  = attention_mask[:, :, np.newaxis].astype(np.float32)     # (N, 64, 1)
-    summed    = (token_emb * expanded).sum(axis=1)                      # (N, 384)
-    counts    = np.where(expanded.sum(axis=1) == 0, 1.0,
-                         expanded.sum(axis=1))                           # (N, 1)
-    vecs      = summed / counts
-    norms     = np.linalg.norm(vecs, axis=1, keepdims=True)
-    norms     = np.where(norms == 0, 1.0, norms)
-    return (vecs / norms).astype(np.float32)
+    token_emb = out[0][0]                                  # (64, 384)
+    mask_f    = mask[0].astype(np.float32)                 # (64,)
+    summed    = (token_emb * mask_f[:, np.newaxis]).sum(axis=0)
+    vec       = summed / max(mask_f.sum(), 1.0)
+    norm      = np.linalg.norm(vec)
+    return (vec / norm if norm > 0 else vec).astype(np.float32)
+
+
+def _embed_batch(sess, tokeniser, texts: list) -> np.ndarray:
+    """Return L2-normalised (N, 384) float32 embeddings.
+
+    Loops one sentence at a time because the ONNX graph has a static batch
+    size of 1 — the ANE does not support dynamic batch dimensions.
+    """
+    return np.stack([_embed_one(sess, tokeniser, t) for t in texts], axis=0)
 
 
 def _classify_batch(vecs: np.ndarray, weights, bias, labels) -> list:
