@@ -38,7 +38,7 @@
 | DVC (datasets) + MLflow (local file backend) | roadmap §16 | ⬜ unblocked |
 | Real tests/ pytest tree (unit/component/golden/parity/perf) | roadmap §15 | 🟡 started (tests/ exists: smoke, datetime parity, phase-0 guards) |
 | InferenceBackend / session-state / notifyExecution contracts (prose spec) | ADR-001 AI#3, ADR-002 AI#5 | ✅ done — `spec/contracts/runtime-contract-v1.md` (the engine_compat anchor: 5 seams, session blob schema, outcome taxonomy, snapshot push, ordering rules, Python conformance-gap table) |
-| Freeze ADR-003 Part-12 interface contracts; import-linter in CI | ADR-003 AI#6,7 | ⬜ unblocked |
+| Freeze ADR-003 Part-12 interface contracts; import-linter in CI | ADR-003 AI#6,7 | ✅ done — contracts frozen via ratification + runtime-contract-v1.md; boundary rules CI-enforced by tests/test_package_boundaries.py (AST-based: runtime↛buildtime, compiler↛engine, content/spec code-free, engine dependency-lean) |
 
 ## Phases 2–5
 
@@ -86,6 +86,13 @@
 
 ## Iteration log
 
+- **2026-07-14 (h)** — ND-2 M0–M4 + ND-3 executed (see ND rows). Then:
+  official wrong-action definition wired into evaluate (predicted-actionable
+  + confident; raw-classifier upper bound 244/4-langs — budget gate needs
+  the engine-in-the-loop harness, tracked); package-boundary rules enforced
+  in CI (AST test). Post-migration baseline refreshed with the new fields.
+  Next: engine-in-the-loop wrong-action harness, DVC/MLflow (owner input),
+  compiler build stages.
 - **2026-07-14 (g)** — Capability map materialized (12 capabilities ×
   59 intents, machine-checked; label plan amended to align intent domains
   with A3). Unified evaluate shipped: report_card-schema-valid JSON,

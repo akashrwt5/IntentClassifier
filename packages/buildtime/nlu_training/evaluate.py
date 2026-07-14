@@ -5,13 +5,16 @@ emits ONE JSON artifact carrying every gate metric: per-language macro-F1 /
 holdout accuracy / ECE, wrong-action counts, and OOS recall (recall of the
 fallback class).
 
-NOTE on wrong_action_count semantics (v0): counted here as CONFIDENT
-misclassifications on the full holdout (pred != true with confidence >=
-the calibrated threshold) — a strict proxy that upper-bounds the official
-budget. The charter's <=5 budget is defined over the curated wrong-action
-suite of actionable commands (a Help_* topic confused with another Help_*
-topic is not a wrong device action); wire that suite in here when it lands,
-keeping this field's meaning aligned with meta/report_card.json.
+wrong_action_count (OFFICIAL definition, per the medical-safety budget):
+a turn where the model CONFIDENTLY predicts an ACTIONABLE intent that
+differs from the truth — i.e. the device would fire an action it shouldn't.
+Predicted help.* or sys.oos.fallback cannot fire an action (help shows
+content; fallback routes to GenAI narration), so confident confusions INTO
+those classes are missed/deflected turns, not wrong actions. Confusions
+FROM any true label INTO a different actionable intent count — including
+help-utterances confidently misread as device commands, the worst case.
+The broader proxy (all confident misclassifications) is still reported as
+confident_misclassifications per language for trend-watching.
 
 Usage:
     PYTHONPATH=packages/buildtime python -m nlu_training.evaluate \
@@ -38,6 +41,14 @@ CALIBRATION = REPO_ROOT / "config" / "calibration.json"
 # map once it exists so this file needs no edit then.
 FALLBACK_LABEL = "sys.oos.fallback"
 ACCURACY_FLOOR = 0.80
+# Medical-safety budget: max confident wrong ACTIONS across shipped
+# (non-waived) languages. Charter: ≤5 global, moving toward per-domain.
+WRONG_ACTION_BUDGET = 5
+
+
+def is_actionable(label: str) -> bool:
+    """True if a prediction of this label fires a device/app action."""
+    return not label.startswith("help.") and label != FALLBACK_LABEL
 # Danish is flag-gated (fails its floor; native-data program pending) —
 # excluded from gates_passed, never from the report itself.
 GATE_WAIVERS = {"da"}
@@ -87,11 +98,14 @@ def evaluate_language(lang: str, calibration: dict) -> dict:
     correct = (y_pred == y_true)
     threshold = calibration[lang]["conf_threshold"]
     wrong_confident = (~correct) & (conf >= threshold)
+    # Official wrong actions: confident + predicted label would FIRE an action.
+    pred_actionable = np.array([is_actionable(p) for p in y_pred])
+    wrong_action = wrong_confident & pred_actionable
 
+    # Per-domain by the PREDICTED domain (the domain that would wrongly act).
     per_domain: dict[str, int] = {}
-    for label in y_true[wrong_confident]:
-        domain = ("sys" if label == FALLBACK_LABEL
-                  else str(label).split(".")[0].split("_")[0].lower())
+    for label in y_pred[wrong_action]:
+        domain = str(label).split(".")[0]
         per_domain[domain] = per_domain.get(domain, 0) + 1
 
     oos_mask = y_true == FALLBACK_LABEL
@@ -105,8 +119,9 @@ def evaluate_language(lang: str, calibration: dict) -> dict:
             "holdout_accuracy": round(float(correct.mean()), 4),
             "ece": round(_ece(conf, correct.astype(float)), 4),
         },
-        "wrong_action_count": int(wrong_confident.sum()),
+        "wrong_action_count": int(wrong_action.sum()),
         "wrong_action_per_domain": per_domain,
+        "confident_misclassifications": int(wrong_confident.sum()),
         "oos_recall": round(oos_recall, 4),
         "n_holdout": int(len(y_true)),
     }
@@ -129,9 +144,15 @@ def evaluate_all(langs: list[str]) -> dict:
             per_domain[k] = per_domain.get(k, 0) + v
     oos_recall = min(d["oos_recall"] for d in details.values())
 
+    # gates_passed = accuracy floors. The ≤5 wrong-action budget is a SYSTEM
+    # property (engine keyword tiers + thresholds + confirmation gates sit
+    # between the raw classifier and any action); the raw-classifier count
+    # reported here is an upper bound for trend-watching, not the budget
+    # gate. The budget gate needs the engine-in-the-loop harness (tracked
+    # in known-issues.md).
+    shipped = [lang for lang in langs if lang not in GATE_WAIVERS]
     gates_passed = all(
-        per_language[lang]["holdout_accuracy"] >= ACCURACY_FLOOR
-        for lang in langs if lang not in GATE_WAIVERS)
+        per_language[lang]["holdout_accuracy"] >= ACCURACY_FLOOR for lang in shipped)
 
     return {
         "per_language": per_language,
@@ -153,8 +174,8 @@ def main(argv: list[str] | None = None) -> int:
     for lang, m in report["per_language"].items():
         print(f"  {lang}: acc={m['holdout_accuracy']:.3f} macroF1={m['macro_f1']:.3f} "
               f"ece={m['ece']:.4f}")
-    print(f"  wrong-action count: {report['wrong_action_count']} "
-          f"(per domain: {report['wrong_action_per_domain']})")
+    print(f"  wrong-action count (official, all langs): {report['wrong_action_count']} "
+          f"(per predicted domain: {report['wrong_action_per_domain']})")
     print(f"  OOS recall (min over langs): {report['oos_recall']:.3f}")
     print(f"  gates_passed: {report['gates_passed']}  →  {args.out}")
     return 0 if report["gates_passed"] else 1

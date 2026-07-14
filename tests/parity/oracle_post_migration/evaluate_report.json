@@ -21,17 +21,16 @@
       "ece": 0.0236
     }
   },
-  "wrong_action_count": 604,
+  "wrong_action_count": 244,
   "wrong_action_per_domain": {
-    "device": 118,
-    "help": 270,
+    "device": 127,
+    "activity": 41,
+    "streaming": 35,
+    "transcription": 7,
     "messaging": 10,
-    "sys": 90,
-    "activity": 51,
-    "streaming": 25,
-    "reminders": 24,
-    "transcription": 6,
-    "translation": 10
+    "translation": 4,
+    "reminders": 13,
+    "find": 7
   },
   "oos_recall": 0.59,
   "gates_passed": true

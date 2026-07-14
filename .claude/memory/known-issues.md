@@ -45,11 +45,15 @@ _None open. Recently fixed:_
 - **iOS coordination pending:** ship datasets/label_migration_map.json to
   the STT repo and regenerate golden fixtures in the same release window.
 
-- **No curated wrong-action suite yet.** The unified evaluate's v0
-  wrong_action_count is a strict proxy (confident holdout misclassifications:
-  323 across 4 langs) that upper-bounds the official ≤5 budget, which is
-  defined over actionable commands only. Build the curated suite and wire it
-  into `nlu_training.evaluate` (Phase 1).
+- **Wrong-action budget needs an engine-in-the-loop harness.** The unified
+  evaluate now reports the OFFICIAL definition (confident prediction of an
+  actionable intent ≠ truth): 244 across 4 langs at the raw-classifier
+  level (device 127). The ≤5 budget is a SYSTEM property — keyword tiers,
+  thresholds, confirmation gates, and semantic agreement sit between the
+  raw classifier and any action — so the budget gate requires replaying the
+  holdout through NLUEngine.handle, not the bare pipeline. Build that
+  harness (Phase 1 follow-up); until then wrong_action_count is a trend
+  upper bound, not a CI gate.
 - **Danish OOS recall is weak (0.51)** — fallback-class recall from the
   unified evaluate; compounds the known Danish macro-F1 gap.
 
