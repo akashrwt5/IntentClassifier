@@ -37,7 +37,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.lock
-          pip install ruff black darker mypy pytest pytest-cov
+          pip install ruff black darker mypy pytest pytest-cov "jsonschema>=4.18"
 
       # Enforced gate — the repo already passes this lean rule set.
       - name: Ruff (lint)
@@ -66,3 +66,16 @@ jobs:
 
       - name: Pytest
         run: pytest -ra
+
+      # Spec-conformance gate (ADR-005 AI#6): the golden example bundles must
+      # validate clean through the shared validator library — the same code
+      # path the compiler and Studio use. The pytest suites above already run
+      # tests/test_bundle_spec.py + tests/test_validator_library.py; this step
+      # additionally exercises the CLI entry point end-to-end.
+      - name: Bundle spec conformance (shared validator CLI)
+        run: |
+          export PYTHONPATH=packages/buildtime
+          for b in spec/examples/3.0/*/; do
+            echo "== validating $b"
+            python -m nlu_compiler "$b"
+          done

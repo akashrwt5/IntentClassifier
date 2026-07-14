@@ -37,7 +37,7 @@
 | nlu_training package + unified evaluate JSON | roadmap §9.2 | ⬜ unblocked |
 | DVC (datasets) + MLflow (local file backend) | roadmap §16 | ⬜ unblocked |
 | Real tests/ pytest tree (unit/component/golden/parity/perf) | roadmap §15 | 🟡 started (tests/ exists: smoke, datetime parity, phase-0 guards) |
-| InferenceBackend / session-state / notifyExecution contracts (prose spec) | ADR-001 AI#3, ADR-002 AI#5 | ⬜ unblocked |
+| InferenceBackend / session-state / notifyExecution contracts (prose spec) | ADR-001 AI#3, ADR-002 AI#5 | ✅ done — `spec/contracts/runtime-contract-v1.md` (the engine_compat anchor: 5 seams, session blob schema, outcome taxonomy, snapshot push, ordering rules, Python conformance-gap table) |
 | Freeze ADR-003 Part-12 interface contracts; import-linter in CI | ADR-003 AI#6,7 | ⬜ unblocked |
 
 ## Phases 2–5
@@ -86,6 +86,12 @@
 
 ## Iteration log
 
+- **2026-07-14 (f)** — CI now runs the spec-conformance gate (validator CLI
+  over both golden bundles + jsonschema in CI deps). Runtime Interface
+  Contract v1 authored (spec/contracts/) — the number engine_compat gates
+  against; includes the Python engine's conformance-gap table as Phase-1/2
+  work items. Next: capability repartition map (proposal), nlu_training/
+  evaluate JSON, DVC/MLflow.
 - **2026-07-14 (e)** — Shared validator library v0 shipped
   (packages/buildtime/nlu_compiler: stages 1–5, 8–10 + CLI + 13 tests, all
   Part-6 failure classes mutation-tested). ND-3 label-migration plan
