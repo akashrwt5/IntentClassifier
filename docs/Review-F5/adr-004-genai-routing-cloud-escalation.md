@@ -1,7 +1,7 @@
 # ADR-004: GenAI Routing & Cloud Escalation Architecture
 ## Governing All Interaction Between the On-Device Platform and Cloud AI
 
-**Status:** Proposed — rev. 2 (2026-07-14): capability-vs-provider-abstraction justification (§1.1), prompt ownership & multi-provider architecture (§5.1), streaming scoping (§5.2), determinism rationale for the egress boundary (§5.3), routing-reason telemetry (§2, §10 actions)
+**Status:** Accepted — ratified 2026-07-14; was Proposed — rev. 2 (2026-07-14): capability-vs-provider-abstraction justification (§1.1), prompt ownership & multi-provider architecture (§5.1), streaming scoping (§5.2), determinism rationale for the egress boundary (§5.3), routing-reason telemetry (§2, §10 actions)
 **Date:** 2026-07-14
 **Depends on:** ADR-001 (shared runtime), ADR-001.1 (boundaries — esp. Part 8: no networking in the runtime), ADR-002 (capabilities + dispatch), ADR-003 (orchestration, policy engine, closed state machine)
 **Formalizes:** the existing stage-4 fallback (`FALLBACK/GENAI` results; app-constructed requests; the deliberate rule that the raw utterance never enters an `NLUResult`) into a complete, policy-governed architecture.

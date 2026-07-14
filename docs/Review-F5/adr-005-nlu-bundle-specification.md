@@ -1,7 +1,7 @@
 # ADR-005: NLU Bundle Specification & Bundle Compiler Architecture
 ## The Official Contract Between the Training Pipeline, the Compiler, and Every Runtime
 
-**Status:** Proposed
+**Status:** Accepted — ratified 2026-07-14 (was: Proposed)
 **Date:** 2026-07-14
 **Depends on:** ADR-001 (bundle concept, D1), ADR-001.1 (Bundle Interface §9.2, format contract §9.6, stable-identifier rule), ADR-002 (capability manifests, action contracts), ADR-003 (compiled policies, plan facts, closed vocabularies, package boundaries), ADR-004 (routing tables, telemetry enums, nothing-LLM-shaped-in-bundle rule)
 **Audience & force:** This is the engineering contract between the Python training pipeline, the Bundle Compiler, the iOS runtime, the Android runtime, and any future platform. Independent teams implement against this document. Changes to it follow the format-versioning rules it defines (Part 8).

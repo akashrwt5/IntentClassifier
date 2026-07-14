@@ -1,7 +1,7 @@
 # ADR-002: Capability & Action Execution Architecture
 ## How Features Are Organized and Registered, and How the Shared Runtime's Decisions Become Platform Actions
 
-**Status:** Proposed — covers both follow-up requirements from the ADR-001.1 approval
+**Status:** Accepted — ratified 2026-07-14 (was: Proposed — covers both follow-up requirements from the ADR-001.1 approval)
 **Date:** 2026-07-13
 **Depends on:** ADR-001 (shared runtime direction), ADR-001.1 (boundary specification — extends its Action Interface §9.4)
 

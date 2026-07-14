@@ -1,7 +1,7 @@
 # ADR-001: Shared Runtime Strategy for the On-Device NLU Platform
 ## Python + Swift + Kotlin vs. Configuration-Driven Native vs. Shared C++ vs. Shared Rust
 
-**Status:** Proposed — for Technical Architecture Review Board decision
+**Status:** Accepted — ratified 2026-07-14 (was: Proposed — for Technical Architecture Review Board decision)
 **Date:** 2026-07-13
 **Deciders:** Platform lead, iOS lead, Android lead, ML lead
 **Supersedes:** R2 in `docs/production-architecture-review-and-roadmap.md` (which recommended a Rust core without full justification — this document provides the analysis and *revises the timing* of that recommendation)

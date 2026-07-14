@@ -57,6 +57,21 @@ use **Context7** (hosted at `https://mcp.context7.com/mcp`) for library docs onl
 Revisit only if a private, authenticated hosting path is explicitly approved.
 
 
+## ADR-010 — Review-F5 platform ADRs 001–005 ratified
+**Status:** Accepted (owner ratification, 2026-07-14). **What:** the five
+Review-F5 platform ADRs move Proposed → Accepted as written:
+ADR-001 shared-runtime strategy (Option B now; Rust core only at the
+Android-multi-turn trigger), ADR-002 capability & action-execution SDK,
+ADR-003 conversation orchestration (Orchestrator/Planner/Dialogue/Policy),
+ADR-004 GenAI routing & cloud escalation (narration-only, utterance-only
+egress), ADR-005 NLU Bundle spec & compiler. **Why:** unblocks gated Phase-1
+work (bundle schemas/compiler, capability repartition, contract freezing).
+Phase 2 (Rust core / Android) remains **trigger-gated** despite ratification;
+signing keys, consent/legal, restructure, and label-space changes remain
+separately approval-gated (EXECUTION_STATUS ND-2/3/8/9). Detail:
+`docs/Review-F5/adr-00{1..5}-*.md`.
+
+
 ## Related memory
 
 Training/calibration -> `training.md` · Mobile -> `mobile.md` · Roadmap ->

@@ -1,7 +1,7 @@
 # ADR-003: Conversation Orchestration Platform
 ## How the Assistant Reasons, Plans, and Manages Conversations
 
-**Status:** Proposed — revised per Board review (rev. 2, 2026-07-14): Planner/Workflow boundary defined (§3), Policy Engine lifecycle expanded (§8), state machine declared closed (§4), Planner extensibility contract (§3), context storage model (§5), component interface contracts (Part 12), package boundaries (Part 13)
+**Status:** Accepted — ratified 2026-07-14; was Proposed — revised per Board review (rev. 2, 2026-07-14): Planner/Workflow boundary defined (§3), Policy Engine lifecycle expanded (§8), state machine declared closed (§4), Planner extensibility contract (§3), context storage model (§5), component interface contracts (Part 12), package boundaries (Part 13)
 **Date:** 2026-07-13 (rev. 2: 2026-07-14)
 **Depends on:** ADR-001 (shared runtime), ADR-001.1 (boundary specification), ADR-002 (capabilities + action execution/SDK)
 **Placement:** Everything in this document is **shared-runtime logic + configuration** by the ADR-001.1 four-question test — orchestration decisions change what the user experiences (Q3) and are behaviors (Q4). Nothing here moves native; nothing here alters approved boundaries.
