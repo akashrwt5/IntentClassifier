@@ -58,7 +58,7 @@
 | 5 | Placeholder DEFAULT_GENAI_URL | ✅ startup guard + tests |
 | 6–8 | (see roadmap Appendix A) | ⬜ to reconcile next iteration |
 | 9 | Engage.zip / checkpoints / skeleton dirs | ✅ already absent (ND-4) |
-| 10 | unknown_data.csv privacy | ✅ documented / ⏸ enforcement ND-5 |
+| 10 | unknown_data.csv privacy | ✅ documented + enforced (ND-5) |
 
 ## Needs decision — approval-gated queue (charter §7)
 
@@ -68,22 +68,31 @@
 | ND-2 | 🟡 **DECIDED: plan-first.** Owner wants the move map + parity strategy proposed for review before any restructure. Deliverable: `docs/Review-F5/restructure-move-plan.md` (next iterations). | Phase 1 structure |
 | ND-3 | 🟡 **DECIDED: plan-first.** Owner wants the migration map + expected metric impact vs baseline proposed before any label-space change. Deliverable: label-migration plan + baseline diff. | Phase 1 exit gate |
 | ND-4 | ✅ **RESOLVED 2026-07-14 — already clean.** Deletion approved, but `Engage.zip`, `checkpoints/`, and skeleton `multilingual_intent/` dirs no longer exist in the working tree or git index (removed in an earlier cleanup). A#9 closed, nothing to delete. | — |
-| ND-5 | **Approve privacy enforcement change**: `predict.py` unknown-data logging → counters by default, raw text behind explicit opt-in consent flag; set retention window (legal input needed). | A#10 close-out |
-| ND-6 | **Provide real GitHub team handles** for CODEOWNERS (placeholders `@intentclassifier/*` in place). | CODEOWNERS effectiveness |
-| ND-7 | **Provision `INTENTCLASSIFIER_PAT`** secret so iOS parity CI runs. | A#4 |
+| ND-5 | ✅ **RESOLVED 2026-07-14 — implemented.** `scripts/unknown_log.py`: counters by default (`data/unknown_counters.csv`), raw text only behind `NLU_COLLECT_RAW_UNKNOWN`; `predict.py` wired through it + its placeholder GenAI URL removed. Tests added. Open sub-item: retention window for consented raw text (legal). | — |
+| ND-6 | ✅ **RESOLVED 2026-07-14 — keep placeholders.** Owner decision: `@intentclassifier/*` placeholders stay until the GitHub org/teams exist; rules inert but documented. | — |
+| ND-7 | ⏸ **DEFERRED (owner decision 2026-07-14).** iOS parity CI stays skipped until `INTENTCLASSIFIER_PAT` is provisioned. A#4 remains open with owner. | A#4 |
 | ND-8 | **Signing keys / KMS / trust root** decisions for bundle signing (Ed25519, rotation runbook). | Compiler stages 11–15, Phase 3 |
 | ND-9 | **GenAI consent flow + legal review** for assist.cloud capability. | Phase 3 |
 
 ## Newly discovered backlog
 
-- **Tracked model artifacts:** `multilingual/models/multilingual/*.{pkl,onnx,json}`
-  are committed to git, contradicting the repo rule that generated artifacts are
-  gitignored and regenerated. Removing them from tracking is a deletion →
-  needs approval (proposed as ND-10). Verify regenerability via `make train`
-  before untracking.
+- ✅ **ND-10 RESOLVED 2026-07-14 (untrack after regen check — executed).**
+  Regen check via `train_multilingual.py --all`: en/fr/de/multilingual/
+  multilingual_small all pass gates and re-export → untracked (30 files) +
+  gitignored. **Exception: `da/` stays tracked** — Danish fails the 0.80
+  accuracy gate (0.760) so its artifacts are NOT regenerable from a clean
+  checkout; untracking them would lose the only copy. Revisit when the
+  Danish native-data program lifts it past the gate (Phase 5).
 
 ## Iteration log
 
+- **2026-07-14 (c)** — Second decision round: ND-5 implemented
+  (unknown_log.py counters-by-default + opt-in raw, predict.py wired +
+  legacy placeholder GenAI URL removed, 6 new tests); ND-6 closed
+  (placeholders intentional); ND-7 deferred (owner); ND-10 executed —
+  30 artifact files untracked after live regen check, Danish kept tracked
+  (fails 0.80 gate at 0.760, not regenerable). Next: ND-2 move plan,
+  ND-3 label plan, spec/bundle/3.0 schemas.
 - **2026-07-14 (b)** — Decision round: ADRs 001–005 ratified (ND-1) and
   recorded (ADR files + decisions.md ADR-010); ND-2/ND-3 set to plan-first;
   ND-4 closed — approved junk already absent from repo (A#9 done). Discovered

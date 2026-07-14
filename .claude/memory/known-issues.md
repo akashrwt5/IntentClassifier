@@ -17,10 +17,19 @@ _None open. Recently fixed:_
 
 ## Privacy / data-collection
 
-- **`scripts/predict.py::save_unknown()` logs raw text by default** — deviates
-  from the documented stance (default = counters, raw text opt-in only; see
-  `docs/privacy-unknown-data.md`). Fix is approval-gated (privacy) — queued in
-  `docs/Review-F5/EXECUTION_STATUS.md` "Needs decision". (Appendix A #10, RK6)
+- **FIXED (ND-5, 2026-07-14):** `predict.py` unknown-data logging now goes
+  through `scripts/unknown_log.py` — aggregate counters by default, raw text
+  only behind `NLU_COLLECT_RAW_UNKNOWN` (see `docs/privacy-unknown-data.md`).
+  Open sub-item: retention window for consented raw text (legal decision).
+
+## Artifacts
+
+- **Danish model artifacts are tracked in git as a deliberate exception**
+  (`multilingual/models/da/`): Danish fails the trainer's 0.80 accuracy gate
+  (0.760), so `train_multilingual.py --all` exports nothing for it — the
+  tracked copies are the only ones. All other model dirs were untracked +
+  gitignored after a live regen check (ND-10, 2026-07-14). Untrack `da/` once
+  the native-data program lifts it past the gate.
 
 ## Quality gaps
 
