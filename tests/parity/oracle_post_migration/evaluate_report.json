@@ -1,0 +1,38 @@
+{
+  "per_language": {
+    "en": {
+      "macro_f1": 0.8801,
+      "holdout_accuracy": 0.8953,
+      "ece": 0.0129
+    },
+    "fr": {
+      "macro_f1": 0.8288,
+      "holdout_accuracy": 0.845,
+      "ece": 0.0252
+    },
+    "de": {
+      "macro_f1": 0.7908,
+      "holdout_accuracy": 0.8228,
+      "ece": 0.0239
+    },
+    "da": {
+      "macro_f1": 0.7348,
+      "holdout_accuracy": 0.7646,
+      "ece": 0.0236
+    }
+  },
+  "wrong_action_count": 604,
+  "wrong_action_per_domain": {
+    "device": 118,
+    "help": 270,
+    "messaging": 10,
+    "sys": 90,
+    "activity": 51,
+    "streaming": 25,
+    "reminders": 24,
+    "transcription": 6,
+    "translation": 10
+  },
+  "oos_recall": 0.59,
+  "gates_passed": true
+}

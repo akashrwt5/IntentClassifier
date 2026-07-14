@@ -311,7 +311,7 @@ class NLUEngine:
         only_in_model = labels - schema_intents
         only_in_schema = schema_intents - labels
         # Default Fallback Intent is allowed to be schema-only (it's a catch-all)
-        only_in_schema.discard("Default Fallback Intent")
+        only_in_schema.discard("sys.oos.fallback")
         if only_in_model or only_in_schema:
             raise RuntimeError(
                 f"Label/schema mismatch detected.\n"
@@ -439,7 +439,7 @@ class NLUEngine:
         weak_keyword = (self.classifier.last_stage == "keyword"
                         and self.classifier.last_keyword_tier == "contains")
         if (new_intent != intent_name
-                and new_intent != "Default Fallback Intent"
+                and new_intent != "sys.oos.fallback"
                 and new_conf >= self.INTERRUPT_THRESHOLD
                 and not weak_keyword
                 and self.intents.get(new_intent) is not None):
@@ -569,11 +569,11 @@ class NLUEngine:
             "slot_confidence_threshold", 0.60
         ) if has_slots else self.threshold
 
-        if intent == "Default Fallback Intent" or conf < effective_threshold:
+        if intent == "sys.oos.fallback" or conf < effective_threshold:
             # Stage 3: semantic rescue via MiniLM when TF-IDF is uncertain
             if self.semantic is not None:
                 sem_intent, sem_conf = self.semantic.classify(text)
-                if sem_intent != "Default Fallback Intent":
+                if sem_intent != "sys.oos.fallback":
                     # Two ways to accept a rescue:
                     #   1. Standard: the head clears the absolute softmax floor.
                     #   2. Agreement gate: TF-IDF and the head INDEPENDENTLY land
@@ -587,7 +587,7 @@ class NLUEngine:
                     #      real command.
                     accept_threshold = self.semantic_threshold
                     if (sem_intent == intent
-                            and intent != "Default Fallback Intent"):
+                            and intent != "sys.oos.fallback"):
                         accept_threshold = self.AGREEMENT_THRESHOLD
                     if sem_conf >= accept_threshold:
                         sem_cfg = self.intents.get(sem_intent)

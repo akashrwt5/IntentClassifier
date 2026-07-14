@@ -33,6 +33,18 @@ _None open. Recently fixed:_
 
 ## Quality gaps
 
+- **de macro-F1 dipped −0.030 in the ND-3 label migration** (0.821 → 0.791;
+  accuracy held at −0.010). Deterministic effect of re-optimizing the
+  57-class softmax after removing the two dialogue-act classes; weakest
+  classes are small-support `help.*` topics (worst: help.battery.show 0.25).
+  Follow-up: per-class C/class-weight re-tune for de, or targeted data.
+- **Semantic-rescue artifacts must be regenerated locally** after ND-3
+  (heads/indexes are gitignored and still carry old labels wherever they
+  exist on a dev machine): run the semantic training targets before using
+  the engine's semantic stage. Same for the CoreML fixtures (macOS export).
+- **iOS coordination pending:** ship datasets/label_migration_map.json to
+  the STT repo and regenerate golden fixtures in the same release window.
+
 - **No curated wrong-action suite yet.** The unified evaluate's v0
   wrong_action_count is a strict proxy (confident holdout misclassifications:
   323 across 4 langs) that upper-bounds the official ≤5 budget, which is

@@ -9,19 +9,19 @@
   "version": 2,
   "confidence_threshold": 0.7,
   "intents": {
-    "Cmd.VolumeIncrease": {
+    "device.volume.increase": {
       "fulfillment": "Lydstyrke skruet op."
     },
-    "Cmd.VolumeDecrease": {
+    "device.volume.decrease": {
       "fulfillment": "Lydstyrke skruet ned."
     },
-    "Cmd.VolumeMute": {
+    "device.volume.mute": {
       "fulfillment": "Lyd slået fra."
     },
-    "Cmd.VolumeUnmute": {
+    "device.volume.unmute": {
       "fulfillment": "Lyd slået til."
     },
-    "Cmd.MemoryChange": {
+    "device.memory.change": {
       "fulfillment": "Program skiftet.",
       "slots": [
         {
@@ -30,7 +30,7 @@
         }
       ]
     },
-    "reminders.add": {
+    "reminders.task.create": {
       "fulfillment": "Påmindelse oprettet.",
       "slots": [
         {
@@ -47,163 +47,157 @@
         }
       ]
     },
-    "reminders.complete": {
+    "reminders.task.complete": {
       "fulfillment": "Påmindelse markeret som færdig."
     },
-    "Cmd.SendMessage": {
+    "messaging.message.send": {
       "fulfillment": "Klar til at optage din besked."
     },
-    "Cmd.SendMessage - yes": {
-      "fulfillment": "Besked sendt."
-    },
-    "Cmd.SendMessage - no": {
-      "fulfillment": "Okay, annulleret."
-    },
-    "Cmd.FindMyPhone": {
+    "find.phone.locate": {
       "fulfillment": "Finder din telefon."
     },
-    "Cmd.BatteryLevel": {
+    "device.status.battery": {
       "fulfillment": "Tjekker batteriniveau."
     },
-    "Cmd.ListenMessage": {
+    "messaging.message.listen": {
       "fulfillment": "Afspiller din besked."
     },
-    "Cmd.TranslationStart": {
+    "translation.session.start": {
       "fulfillment": "Åbner Translate."
     },
-    "Cmd.TranscribeStart": {
+    "transcription.session.start": {
       "fulfillment": "Åbner Transcribe."
     },
-    "Cmd.StreamingStart": {
+    "streaming.session.start": {
       "fulfillment": "Streaming startet."
     },
-    "Cmd.StreamingStop": {
+    "streaming.session.stop": {
       "fulfillment": "Streaming stoppet."
     },
-    "Cmd.ActivityRun": {
+    "activity.run.query": {
       "fulfillment": "Starter løbeaktivitet."
     },
-    "Cmd.ActivityWalk": {
+    "activity.walk.query": {
       "fulfillment": "Starter gåaktivitet."
     },
-    "Cmd.ActivityStep": {
+    "activity.step.query": {
       "fulfillment": "Viser antal skridt."
     },
-    "Cmd.ActivityStand": {
+    "activity.stand.query": {
       "fulfillment": "Viser ståaktivitet."
     },
-    "Cmd.ActivityCycle": {
+    "activity.cycle.query": {
       "fulfillment": "Starter cykelaktivitet."
     },
-    "Cmd.ActivityAerobics": {
+    "activity.aerobics.query": {
       "fulfillment": "Starter aerobic."
     },
-    "Cmd.ActivityExercise": {
+    "activity.exercise.query": {
       "fulfillment": "Starter træning."
     },
-    "Cmd.ActivityCalories": {
+    "activity.calories.query": {
       "fulfillment": "Viser kalorier."
     },
-    "Help_Volume": {
+    "help.volume.show": {
       "fulfillment": "Her er hjælp til lydstyrke."
     },
-    "Help_ChangingMemories": {
+    "help.changing_memories.show": {
       "fulfillment": "Her er hjælp til at skifte program."
     },
-    "Help_MemoryOptions": {
+    "help.memory_options.show": {
       "fulfillment": "Her er programindstillinger."
     },
-    "Help_Pairing": {
+    "help.pairing.show": {
       "fulfillment": "Her er hjælp til parring."
     },
-    "Help_FindMyHearingAids": {
+    "help.find_my_hearing_aids.show": {
       "fulfillment": "Her er hjælp til at finde dine høreapparater."
     },
-    "Help_Accessories": {
+    "help.accessories.show": {
       "fulfillment": "Her er hjælp til tilbehør."
     },
-    "Help_RemoteProgramming": {
+    "help.remote_programming.show": {
       "fulfillment": "Her er hjælp til fjernprogrammering."
     },
-    "Help_Tinnitus": {
+    "help.tinnitus.show": {
       "fulfillment": "Her er hjælp til tinnitus."
     },
-    "Help_SelfCheck": {
+    "help.self_check.show": {
       "fulfillment": "Her er hjælp til SelfCheck."
     },
-    "Help_ThriveScore": {
+    "help.thrive_score.show": {
       "fulfillment": "Her er hjælp til Thrive Score."
     },
-    "Help_DeviceSettings": {
+    "help.device_settings.show": {
       "fulfillment": "Her er hjælp til enhedsindstillinger."
     },
-    "Help_IntelliVoice": {
+    "help.intelli_voice.show": {
       "fulfillment": "Her er hjælp til IntelliVoice."
     },
-    "Help_FallAlert": {
+    "help.fall_alert.show": {
       "fulfillment": "Her er hjælp til Fall Alert."
     },
-    "Help_HearShare": {
+    "help.hear_share.show": {
       "fulfillment": "Her er hjælp til HearShare."
     },
-    "Help_VoiceAssistant": {
+    "help.voice_assistant.show": {
       "fulfillment": "Her er hjælp til stemmeassistenten."
     },
-    "Help_InsertDevice": {
+    "help.insert_device.show": {
       "fulfillment": "Her er hjælp til at sætte din enhed i."
     },
-    "Help_AppSettings": {
+    "help.app_settings.show": {
       "fulfillment": "Her er hjælp til app-indstillinger."
     },
-    "Help_CleanCare": {
+    "help.clean_care.show": {
       "fulfillment": "Her er hjælp til rengøring og pleje."
     },
-    "Help_Customize": {
+    "help.customize.show": {
       "fulfillment": "Her er hjælp til tilpasning."
     },
-    "Help_WhatsNew": {
+    "help.whats_new.show": {
       "fulfillment": "Her er det nye."
     },
-    "Help_WiCROS": {
+    "help.wi_c_r_o_s.show": {
       "fulfillment": "Her er hjælp til WiCROS."
     },
-    "Help_Home": {
+    "help.home.show": {
       "fulfillment": "Her er hjælp til startskærmen."
     },
-    "Help_Battery": {
+    "help.battery.show": {
       "fulfillment": "Her er hjælp til batteri."
     },
-    "Help_Reminder": {
+    "help.reminder.show": {
       "fulfillment": "Her er hjælp til påmindelser."
     },
-    "Help_Translate": {
+    "help.translate.show": {
       "fulfillment": "Her er hjælp til Translate."
     },
-    "Help_Transcribe": {
+    "help.transcribe.show": {
       "fulfillment": "Her er hjælp til Transcribe."
     },
-    "Help_Health": {
+    "help.health.show": {
       "fulfillment": "Her er hjælp til Health."
     },
-    "Help_HeartRate": {
+    "help.heart_rate.show": {
       "fulfillment": "Her er hjælp til Heart Rate."
     },
-    "Help_HeartRateRecovery": {
+    "help.heart_rate_recovery.show": {
       "fulfillment": "Her er hjælp til Heart Rate Recovery."
     },
-    "Help_HearingCareAnywhereConnect": {
+    "help.hearing_care_anywhere_connect.show": {
       "fulfillment": "Her er hjælp til Hearing Care Anywhere."
     },
-    "Help_MaskMode": {
+    "help.mask_mode.show": {
       "fulfillment": "Her er hjælp til Mask Mode."
     },
-    "Help_EdgeMode": {
+    "help.edge_mode.show": {
       "fulfillment": "Her er hjælp til Edge Mode."
     },
-    "Help_DemoMode": {
+    "help.demo_mode.show": {
       "fulfillment": "Her er hjælp til Demo Mode."
     },
-    "Default Fallback Intent": {
+    "sys.oos.fallback": {
       "fulfillment": ""
     }
   },

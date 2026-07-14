@@ -9,19 +9,19 @@
   "version": 2,
   "confidence_threshold": 0.7,
   "intents": {
-    "Cmd.VolumeIncrease": {
+    "device.volume.increase": {
       "fulfillment": "Volume augmenté."
     },
-    "Cmd.VolumeDecrease": {
+    "device.volume.decrease": {
       "fulfillment": "Volume baissé."
     },
-    "Cmd.VolumeMute": {
+    "device.volume.mute": {
       "fulfillment": "Son coupé."
     },
-    "Cmd.VolumeUnmute": {
+    "device.volume.unmute": {
       "fulfillment": "Son rétabli."
     },
-    "Cmd.MemoryChange": {
+    "device.memory.change": {
       "fulfillment": "Programme changé.",
       "slots": [
         {
@@ -30,7 +30,7 @@
         }
       ]
     },
-    "reminders.add": {
+    "reminders.task.create": {
       "fulfillment": "Rappel créé.",
       "slots": [
         {
@@ -47,163 +47,157 @@
         }
       ]
     },
-    "reminders.complete": {
+    "reminders.task.complete": {
       "fulfillment": "Rappel marqué comme terminé."
     },
-    "Cmd.SendMessage": {
+    "messaging.message.send": {
       "fulfillment": "Prêt à enregistrer ton message."
     },
-    "Cmd.SendMessage - yes": {
-      "fulfillment": "Message envoyé."
-    },
-    "Cmd.SendMessage - no": {
-      "fulfillment": "D'accord, annulé."
-    },
-    "Cmd.FindMyPhone": {
+    "find.phone.locate": {
       "fulfillment": "Je cherche ton téléphone."
     },
-    "Cmd.BatteryLevel": {
+    "device.status.battery": {
       "fulfillment": "Je vérifie le niveau de batterie."
     },
-    "Cmd.ListenMessage": {
+    "messaging.message.listen": {
       "fulfillment": "Lecture de ton message."
     },
-    "Cmd.TranslationStart": {
+    "translation.session.start": {
       "fulfillment": "Ouverture de Translate."
     },
-    "Cmd.TranscribeStart": {
+    "transcription.session.start": {
       "fulfillment": "Ouverture de Transcribe."
     },
-    "Cmd.StreamingStart": {
+    "streaming.session.start": {
       "fulfillment": "Diffusion démarrée."
     },
-    "Cmd.StreamingStop": {
+    "streaming.session.stop": {
       "fulfillment": "Diffusion arrêtée."
     },
-    "Cmd.ActivityRun": {
+    "activity.run.query": {
       "fulfillment": "Démarrage de l'activité course."
     },
-    "Cmd.ActivityWalk": {
+    "activity.walk.query": {
       "fulfillment": "Démarrage de l'activité marche."
     },
-    "Cmd.ActivityStep": {
+    "activity.step.query": {
       "fulfillment": "Affichage du nombre de pas."
     },
-    "Cmd.ActivityStand": {
+    "activity.stand.query": {
       "fulfillment": "Affichage de l'activité debout."
     },
-    "Cmd.ActivityCycle": {
+    "activity.cycle.query": {
       "fulfillment": "Démarrage de l'activité vélo."
     },
-    "Cmd.ActivityAerobics": {
+    "activity.aerobics.query": {
       "fulfillment": "Démarrage de l'aérobic."
     },
-    "Cmd.ActivityExercise": {
+    "activity.exercise.query": {
       "fulfillment": "Démarrage de l'exercice."
     },
-    "Cmd.ActivityCalories": {
+    "activity.calories.query": {
       "fulfillment": "Affichage des calories."
     },
-    "Help_Volume": {
+    "help.volume.show": {
       "fulfillment": "Voici de l'aide sur le volume."
     },
-    "Help_ChangingMemories": {
+    "help.changing_memories.show": {
       "fulfillment": "Voici de l'aide sur les programmes."
     },
-    "Help_MemoryOptions": {
+    "help.memory_options.show": {
       "fulfillment": "Voici les options de programmes."
     },
-    "Help_Pairing": {
+    "help.pairing.show": {
       "fulfillment": "Voici de l'aide sur l'appairage."
     },
-    "Help_FindMyHearingAids": {
+    "help.find_my_hearing_aids.show": {
       "fulfillment": "Voici de l'aide pour retrouver tes aides auditives."
     },
-    "Help_Accessories": {
+    "help.accessories.show": {
       "fulfillment": "Voici de l'aide sur les accessoires."
     },
-    "Help_RemoteProgramming": {
+    "help.remote_programming.show": {
       "fulfillment": "Voici de l'aide sur le réglage à distance."
     },
-    "Help_Tinnitus": {
+    "help.tinnitus.show": {
       "fulfillment": "Voici de l'aide sur les acouphènes."
     },
-    "Help_SelfCheck": {
+    "help.self_check.show": {
       "fulfillment": "Voici de l'aide sur SelfCheck."
     },
-    "Help_ThriveScore": {
+    "help.thrive_score.show": {
       "fulfillment": "Voici de l'aide sur le Thrive Score."
     },
-    "Help_DeviceSettings": {
+    "help.device_settings.show": {
       "fulfillment": "Voici de l'aide sur les réglages de l'appareil."
     },
-    "Help_IntelliVoice": {
+    "help.intelli_voice.show": {
       "fulfillment": "Voici de l'aide sur IntelliVoice."
     },
-    "Help_FallAlert": {
+    "help.fall_alert.show": {
       "fulfillment": "Voici de l'aide sur Fall Alert."
     },
-    "Help_HearShare": {
+    "help.hear_share.show": {
       "fulfillment": "Voici de l'aide sur HearShare."
     },
-    "Help_VoiceAssistant": {
+    "help.voice_assistant.show": {
       "fulfillment": "Voici de l'aide sur l'assistant vocal."
     },
-    "Help_InsertDevice": {
+    "help.insert_device.show": {
       "fulfillment": "Voici de l'aide pour insérer ton appareil."
     },
-    "Help_AppSettings": {
+    "help.app_settings.show": {
       "fulfillment": "Voici de l'aide sur les réglages de l'application."
     },
-    "Help_CleanCare": {
+    "help.clean_care.show": {
       "fulfillment": "Voici de l'aide sur le nettoyage et l'entretien."
     },
-    "Help_Customize": {
+    "help.customize.show": {
       "fulfillment": "Voici de l'aide sur la personnalisation."
     },
-    "Help_WhatsNew": {
+    "help.whats_new.show": {
       "fulfillment": "Voici les nouveautés."
     },
-    "Help_WiCROS": {
+    "help.wi_c_r_o_s.show": {
       "fulfillment": "Voici de l'aide sur WiCROS."
     },
-    "Help_Home": {
+    "help.home.show": {
       "fulfillment": "Voici de l'aide sur l'écran d'accueil."
     },
-    "Help_Battery": {
+    "help.battery.show": {
       "fulfillment": "Voici de l'aide sur la batterie."
     },
-    "Help_Reminder": {
+    "help.reminder.show": {
       "fulfillment": "Voici de l'aide sur les rappels."
     },
-    "Help_Translate": {
+    "help.translate.show": {
       "fulfillment": "Voici de l'aide sur Translate."
     },
-    "Help_Transcribe": {
+    "help.transcribe.show": {
       "fulfillment": "Voici de l'aide sur Transcribe."
     },
-    "Help_Health": {
+    "help.health.show": {
       "fulfillment": "Voici de l'aide sur Health."
     },
-    "Help_HeartRate": {
+    "help.heart_rate.show": {
       "fulfillment": "Voici de l'aide sur la fréquence cardiaque."
     },
-    "Help_HeartRateRecovery": {
+    "help.heart_rate_recovery.show": {
       "fulfillment": "Voici de l'aide sur la récupération de la fréquence cardiaque."
     },
-    "Help_HearingCareAnywhereConnect": {
+    "help.hearing_care_anywhere_connect.show": {
       "fulfillment": "Voici de l'aide sur Hearing Care Anywhere."
     },
-    "Help_MaskMode": {
+    "help.mask_mode.show": {
       "fulfillment": "Voici de l'aide sur Mask Mode."
     },
-    "Help_EdgeMode": {
+    "help.edge_mode.show": {
       "fulfillment": "Voici de l'aide sur Edge Mode."
     },
-    "Help_DemoMode": {
+    "help.demo_mode.show": {
       "fulfillment": "Voici de l'aide sur Demo Mode."
     },
-    "Default Fallback Intent": {
+    "sys.oos.fallback": {
       "fulfillment": ""
     }
   },

@@ -1,3 +1,7 @@
+> **Label space migrated 2026-07-14 (ND-3):** 59 → 57 intents,
+> domain.object.action taxonomy; `Cmd.SendMessage - yes/no` dissolved into
+> `datasets/confirmation_fixtures.csv`; map: `datasets/label_migration_map.json`.
+
 # Memory: Datasets
 
 > Single responsibility: training/eval data lineage and rules. Full guide:

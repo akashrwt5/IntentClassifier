@@ -66,8 +66,11 @@ embeddings run through ONNX. `coremltools`/`torch` are export-only (macOS/CI).
 
 ## Intents
 
-VOLUME, REMINDER, NOTIFICATIONS, PUSH TO TALK, TRANSLATE, TRANSCRIBE,
-TELEHEARAI, SELFCHECK, MEMORY. See `content/nlu_schema.json` for the source of truth.
+57 intents in the `domain.object.action` taxonomy across 12 capabilities
+(device.volume, device.memory, device.status, streaming, reminders,
+messaging.ptt, translation, transcription, find, activity, help, sys) —
+migrated 2026-07-14 (ND-3, map: `datasets/label_migration_map.json`).
+`content/nlu_schema.json` is the source of truth.
 
 ## Related memory
 

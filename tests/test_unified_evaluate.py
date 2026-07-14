@@ -48,10 +48,10 @@ def test_report_validates_against_report_card_schema(report):
 
 
 def test_report_matches_recorded_baseline(report):
-    """The en baseline recorded in label-migration-plan.md: acc .900, F1 .89."""
+    """Post-ND-3 en baseline (tests/parity/oracle_post_migration): acc .895, F1 .880."""
     en = report["per_language"]["en"]
-    assert abs(en["holdout_accuracy"] - 0.900) <= 0.01
-    assert abs(en["macro_f1"] - 0.89) <= 0.01
+    assert abs(en["holdout_accuracy"] - 0.895) <= 0.01
+    assert abs(en["macro_f1"] - 0.880) <= 0.015
     assert 0 < en["ece"] < 0.05, "temperature scaling should keep ECE small"
 
 

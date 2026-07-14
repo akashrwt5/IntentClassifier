@@ -1,1379 +1,1338 @@
 text,intent
-i can barely make out what people say,Cmd.VolumeIncrease
-everything sounds too faint,Cmd.VolumeIncrease
-voices are too soft for me,Cmd.VolumeIncrease
-crank the sound up a bit,Cmd.VolumeIncrease
-boost the loudness please,Cmd.VolumeIncrease
-make speech louder,Cmd.VolumeIncrease
-turn the level up,Cmd.VolumeIncrease
-i'm missing half the conversation,Cmd.VolumeIncrease
-speech is too quiet,Cmd.VolumeIncrease
-could you raise the volume,Cmd.VolumeIncrease
-bump it up a little,Cmd.VolumeIncrease
-everything is too low,Cmd.VolumeIncrease
-i want it louder,Cmd.VolumeIncrease
-amplify the sound for me,Cmd.VolumeIncrease
-raise the loudness,Cmd.VolumeIncrease
-the tv is too quiet for me,Cmd.VolumeIncrease
-i keep missing words,Cmd.VolumeIncrease
-sound feels weak,Cmd.VolumeIncrease
-give me a bit more volume,Cmd.VolumeIncrease
-step the volume up,Cmd.VolumeIncrease
-louder please,Cmd.VolumeIncrease
-i can't hear the speaker well,Cmd.VolumeIncrease
-turn things up so i can hear,Cmd.VolumeIncrease
-make my aids louder,Cmd.VolumeIncrease
-push the level higher,Cmd.VolumeIncrease
-increase how loud it is,Cmd.VolumeIncrease
-people sound muffled and faint,Cmd.VolumeIncrease
-i need to hear better turn it up,Cmd.VolumeIncrease
-turn the sound down a bit,Cmd.VolumeDecrease
-make it softer please,Cmd.VolumeDecrease
-lower the volume,Cmd.VolumeDecrease
-it's too loud for me,Cmd.VolumeDecrease
-bring the level down,Cmd.VolumeDecrease
-quieter please,Cmd.VolumeDecrease
-ease the volume back,Cmd.VolumeDecrease
-that's painfully loud,Cmd.VolumeDecrease
-the sound is too strong,Cmd.VolumeDecrease
-cut the volume a little,Cmd.VolumeDecrease
-drop the level down,Cmd.VolumeDecrease
-tone the loudness down,Cmd.VolumeDecrease
-i need it softer,Cmd.VolumeDecrease
-too much volume right now,Cmd.VolumeDecrease
-soften things up,Cmd.VolumeDecrease
-knock the sound back,Cmd.VolumeDecrease
-scale the volume down,Cmd.VolumeDecrease
-it's blasting my ears,Cmd.VolumeDecrease
-dial the loudness down,Cmd.VolumeDecrease
-everything is way too loud,Cmd.VolumeDecrease
-make speech quieter,Cmd.VolumeDecrease
-lower how loud it is,Cmd.VolumeDecrease
-trim the volume,Cmd.VolumeDecrease
-back the level off,Cmd.VolumeDecrease
-the noise level is too high,Cmd.VolumeDecrease
-ratchet it down a notch,Cmd.VolumeDecrease
-gentle on the volume,Cmd.VolumeDecrease
-i need it more quiet,Cmd.VolumeDecrease
-give me a little quiet,Cmd.VolumeDecrease
-quiet it down for me,Cmd.VolumeDecrease
-i'd like things quieter,Cmd.VolumeDecrease
-make my surroundings quieter,Cmd.VolumeDecrease
-bring me some quiet,Cmd.VolumeDecrease
-my ears are taking a beating,Cmd.VolumeDecrease
-the noise is pounding my ears,Cmd.VolumeDecrease
-this is hammering my ears,Cmd.VolumeDecrease
-my ears can't take this pounding,Cmd.VolumeDecrease
-the sound is battering my ears,Cmd.VolumeDecrease
-cut all the sound,Cmd.VolumeMute
-total silence please,Cmd.VolumeMute
-kill the audio completely,Cmd.VolumeMute
-i want absolute quiet,Cmd.VolumeMute
-shut the sound off,Cmd.VolumeMute
-silence everything,Cmd.VolumeMute
-turn all sound off,Cmd.VolumeMute
-no sound at all please,Cmd.VolumeMute
-fully mute the aids,Cmd.VolumeMute
-stop all audio,Cmd.VolumeMute
-mute it entirely,Cmd.VolumeMute
-block out every sound,Cmd.VolumeMute
-i need complete silence now,Cmd.VolumeMute
-zero volume please,Cmd.VolumeMute
-switch the sound off,Cmd.VolumeMute
-quiet everything down to nothing,Cmd.VolumeMute
-mute right now,Cmd.VolumeMute
-i want pure silence,Cmd.VolumeMute
-cut every bit of sound,Cmd.VolumeMute
-make it dead silent,Cmd.VolumeMute
-no sound whatsoever please,Cmd.VolumeMute
-kill all the noise completely,Cmd.VolumeMute
-total quiet now please,Cmd.VolumeMute
-shut off all sound for me,Cmd.VolumeMute
-silence the aids entirely,Cmd.VolumeMute
-i need it perfectly quiet,Cmd.VolumeMute
-mute all audio right now,Cmd.VolumeMute
-take everything to silence,Cmd.VolumeMute
-absolutely no sound please,Cmd.VolumeMute
-turn the sound back on,Cmd.VolumeUnmute
-unmute my aids,Cmd.VolumeUnmute
-bring the audio back,Cmd.VolumeUnmute
-restore the sound,Cmd.VolumeUnmute
-switch sound back on,Cmd.VolumeUnmute
-take my aids off mute,Cmd.VolumeUnmute
-let the audio return,Cmd.VolumeUnmute
-end the silence,Cmd.VolumeUnmute
-reactivate the sound,Cmd.VolumeUnmute
-sound back please,Cmd.VolumeUnmute
-undo the mute,Cmd.VolumeUnmute
-stop muting now,Cmd.VolumeUnmute
-i can listen again turn it on,Cmd.VolumeUnmute
-give me sound again,Cmd.VolumeUnmute
-re-enable the audio,Cmd.VolumeUnmute
-put the volume back on,Cmd.VolumeUnmute
-unmute everything,Cmd.VolumeUnmute
-bring my sound back,Cmd.VolumeUnmute
-let me hear things again,Cmd.VolumeUnmute
-i can hear now turn it on,Cmd.VolumeUnmute
-give me audio again,Cmd.VolumeUnmute
-stop the silence i want sound,Cmd.VolumeUnmute
-return the sound to my aids,Cmd.VolumeUnmute
-switch my hearing back on,Cmd.VolumeUnmute
-take the mute off,Cmd.VolumeUnmute
-i'd like sound again please,Cmd.VolumeUnmute
-wake the sound back up,Cmd.VolumeUnmute
-put my hearing back on,Cmd.VolumeUnmute
-let the audio come back,Cmd.VolumeUnmute
-i want my aids making sound again,Cmd.VolumeUnmute
-cancel the mute please,Cmd.VolumeUnmute
-unmute me,Cmd.VolumeUnmute
-turn the mute off,Cmd.VolumeUnmute
-get me off mute,Cmd.VolumeUnmute
-sound on again please,Cmd.VolumeUnmute
-reactivate my hearing aid sound,Cmd.VolumeUnmute
-i'd like to hear once more,Cmd.VolumeUnmute
-let me hear things once again,Cmd.VolumeUnmute
-restore my hearing now,Cmd.VolumeUnmute
-get my sound going again,Cmd.VolumeUnmute
-i want sound coming through again,Cmd.VolumeUnmute
-end the mute let me hear,Cmd.VolumeUnmute
-i'm walking into a loud bar,Cmd.MemoryChange
-switch me to the restaurant setting,Cmd.MemoryChange
-i'm sitting down in a crowded diner,Cmd.MemoryChange
-change to my outdoor program,Cmd.MemoryChange
-set my aids for a noisy party,Cmd.MemoryChange
-i'm getting in the car now,Cmd.MemoryChange
-put me in the music listening mode,Cmd.MemoryChange
-i'm heading into a meeting,Cmd.MemoryChange
-tune for this windy weather,Cmd.MemoryChange
-i'm at the gym now,Cmd.MemoryChange
-give me my tv watching program,Cmd.MemoryChange
-change into the quiet mode,Cmd.MemoryChange
-i just walked into church,Cmd.MemoryChange
-switch to the program for restaurants,Cmd.MemoryChange
-set it up for a concert hall,Cmd.MemoryChange
-i need my noisy environment setting,Cmd.MemoryChange
-move me to the speech in noise mode,Cmd.MemoryChange
-i'm starting my commute,Cmd.MemoryChange
-use the setting for outdoors,Cmd.MemoryChange
-flip into my everyday program,Cmd.MemoryChange
-i'm in a loud cafeteria now,Cmd.MemoryChange
-change the program for this place,Cmd.MemoryChange
-adjust the mode for traffic,Cmd.MemoryChange
-i'm settling in to watch a film,Cmd.MemoryChange
-switch to the program made for crowds,Cmd.MemoryChange
-load my driving profile,Cmd.MemoryChange
-set my hearing for a busy street,Cmd.MemoryChange
-i'm about to join a phone call,Cmd.MemoryChange
-change to the comfortable indoor mode,Cmd.MemoryChange
-i'm in a big echoey room now,Cmd.MemoryChange
-the program isn't right for where i am,Cmd.MemoryChange
-this setting doesn't suit this place,Cmd.MemoryChange
-i need a better program for here,Cmd.MemoryChange
-switch me to something better for this spot,Cmd.MemoryChange
-this mode isn't working for my surroundings,Cmd.MemoryChange
-i just took a seat in a noisy cafe,Cmd.MemoryChange
-i'm now seated in a loud coffee shop,Cmd.MemoryChange
-settling into a busy restaurant,Cmd.MemoryChange
-i just sat down somewhere really loud,Cmd.MemoryChange
-i'm seated in a crowded noisy spot,Cmd.MemoryChange
-how much charge is left,Cmd.BatteryLevel
-are my aids fully charged,Cmd.BatteryLevel
-what's my battery at,Cmd.BatteryLevel
-do i need to recharge,Cmd.BatteryLevel
-how long will the battery last,Cmd.BatteryLevel
-is the battery low,Cmd.BatteryLevel
-tell me the battery percentage,Cmd.BatteryLevel
-how much power do i have left,Cmd.BatteryLevel
-will these last till tonight,Cmd.BatteryLevel
-check my charge level,Cmd.BatteryLevel
-are the batteries about to run out,Cmd.BatteryLevel
-how many hours of charge remain,Cmd.BatteryLevel
-is there plenty of battery,Cmd.BatteryLevel
-what's the charge on my aids,Cmd.BatteryLevel
-should i charge them now,Cmd.BatteryLevel
-how full is the battery,Cmd.BatteryLevel
-battery level please,Cmd.BatteryLevel
-are my hearing aids charged enough,Cmd.BatteryLevel
-do these have enough power left,Cmd.BatteryLevel
-is my charge running low,Cmd.BatteryLevel
-power level check,Cmd.BatteryLevel
-have i got enough battery for the day,Cmd.BatteryLevel
-is it time to charge,Cmd.BatteryLevel
-how depleted is the battery,Cmd.BatteryLevel
-tell me how charged they are,Cmd.BatteryLevel
-what percentage of battery is left,Cmd.BatteryLevel
-are my aids running out of power,Cmd.BatteryLevel
-send the tv audio to my aids,Cmd.StreamingStart
-start streaming the television,Cmd.StreamingStart
-play my phone audio through my aids,Cmd.StreamingStart
-stream the music into my ears,Cmd.StreamingStart
-route the movie sound to my hearing aids,Cmd.StreamingStart
-begin streaming to my devices,Cmd.StreamingStart
-connect the tv sound to me,Cmd.StreamingStart
-let me hear the show through my aids,Cmd.StreamingStart
-stream the podcast to my hearing aids,Cmd.StreamingStart
-put the audio into my ears,Cmd.StreamingStart
-start the audio stream,Cmd.StreamingStart
-send sound straight to my aids,Cmd.StreamingStart
-play the call through my hearing aids,Cmd.StreamingStart
-stream from my tv now,Cmd.StreamingStart
-i want to listen to the tv through my aids,Cmd.StreamingStart
-beam the audio over to me,Cmd.StreamingStart
-hook my aids up to the tv sound,Cmd.StreamingStart
-direct the music to my hearing aids,Cmd.StreamingStart
-feed the audio into my devices,Cmd.StreamingStart
-turn on streaming to my ears,Cmd.StreamingStart
-stop streaming to my aids,Cmd.StreamingStop
-end the tv audio stream,Cmd.StreamingStop
-i'm finished listening to the stream,Cmd.StreamingStop
-cut off the streamed audio,Cmd.StreamingStop
-stop sending sound to my hearing aids,Cmd.StreamingStop
-turn streaming off now,Cmd.StreamingStop
-end streaming from the tv,Cmd.StreamingStop
-quit the audio stream,Cmd.StreamingStop
-halt the streaming,Cmd.StreamingStop
-no more streaming please,Cmd.StreamingStop
-stop playing the tv through my aids,Cmd.StreamingStop
-disconnect me from the stream,Cmd.StreamingStop
-shut off the streamed sound,Cmd.StreamingStop
-i'm done with the stream,Cmd.StreamingStop
-close the audio streaming,Cmd.StreamingStop
-stop the music going to my aids,Cmd.StreamingStop
-end the broadcast to my hearing aids,Cmd.StreamingStop
-end my tv streaming,Cmd.StreamingStop
-stop the audio coming to my aids,Cmd.StreamingStop
-quit streaming the television,Cmd.StreamingStop
-i don't want the stream anymore,Cmd.StreamingStop
-close the connection to the tv sound,Cmd.StreamingStop
-stop piping audio to my ears,Cmd.StreamingStop
-turn off the tv streaming,Cmd.StreamingStop
-cut the streamed audio to my aids,Cmd.StreamingStop
-finish the streaming session,Cmd.StreamingStop
-cut the tv connection to my aids,Cmd.StreamingStop
-disconnect the television audio,Cmd.StreamingStop
-end the tv link to my aids,Cmd.StreamingStop
-stop the tv feed to my hearing aids,Cmd.StreamingStop
-drop the connection to the tv sound,Cmd.StreamingStop
-i'm about to go for a run,Cmd.ActivityRun
-log my jog,Cmd.ActivityRun
-start recording my run,Cmd.ActivityRun
-i'm heading out running,Cmd.ActivityRun
-begin my running workout,Cmd.ActivityRun
-record this run for me,Cmd.ActivityRun
-start my jog tracking,Cmd.ActivityRun
-time my run,Cmd.ActivityRun
-i'm going jogging now,Cmd.ActivityRun
-capture my running session,Cmd.ActivityRun
-start tracking my jog,Cmd.ActivityRun
-log this running workout,Cmd.ActivityRun
-kick off my run tracking,Cmd.ActivityRun
-i want to record a run,Cmd.ActivityRun
-log the run i just did,Cmd.ActivityRun
-record the miles i ran,Cmd.ActivityRun
-save the run i just finished,Cmd.ActivityRun
-note my jog,Cmd.ActivityRun
-track the run i completed,Cmd.ActivityRun
-log my finished run,Cmd.ActivityRun
-i'm going for a stroll,Cmd.ActivityWalk
-log my walk,Cmd.ActivityWalk
-start my walk tracking,Cmd.ActivityWalk
-record this walk,Cmd.ActivityWalk
-i'm off for a walk,Cmd.ActivityWalk
-time my stroll,Cmd.ActivityWalk
-capture my walking session,Cmd.ActivityWalk
-start logging my walk,Cmd.ActivityWalk
-i'm taking a walk now,Cmd.ActivityWalk
-record my steps on this walk,Cmd.ActivityWalk
-track my stroll,Cmd.ActivityWalk
-begin my walking workout,Cmd.ActivityWalk
-log a walk for me,Cmd.ActivityWalk
-log the stroll i just took,Cmd.ActivityWalk
-track the walk i did,Cmd.ActivityWalk
-record the walking i just finished,Cmd.ActivityWalk
-i went for a walk log it,Cmd.ActivityWalk
-save my walk,Cmd.ActivityWalk
-note down my walk,Cmd.ActivityWalk
-i'm off for a stroll please track it,Cmd.ActivityWalk
-heading out for a stroll record it,Cmd.ActivityWalk
-going for a walk track it for me,Cmd.ActivityWalk
-start tracking this stroll,Cmd.ActivityWalk
-log the stroll i'm taking,Cmd.ActivityWalk
-how many steps today,Cmd.ActivityStep
-what's my step count,Cmd.ActivityStep
-show my steps so far,Cmd.ActivityStep
-check my step total,Cmd.ActivityStep
-step count please,Cmd.ActivityStep
-am i close to my step goal,Cmd.ActivityStep
-tell me my steps for today,Cmd.ActivityStep
-what's my daily step number,Cmd.ActivityStep
-how far along my steps am i,Cmd.ActivityStep
-steps so far today,Cmd.ActivityStep
-give me my step tally,Cmd.ActivityStep
-how many steps to my goal,Cmd.ActivityStep
-display my step count,Cmd.ActivityStep
-check my stand hours,Cmd.ActivityStand
-what's my standing time,Cmd.ActivityStand
-how many stand hours today,Cmd.ActivityStand
-track my standing,Cmd.ActivityStand
-show my stand count,Cmd.ActivityStand
-am i meeting my stand goal,Cmd.ActivityStand
-how much have i stood today,Cmd.ActivityStand
-standing time please,Cmd.ActivityStand
-tell me my stand hours,Cmd.ActivityStand
-how long on my feet today,Cmd.ActivityStand
-log my standing time,Cmd.ActivityStand
-have i stood enough today,Cmd.ActivityStand
-my standing total please,Cmd.ActivityStand
-check standing progress,Cmd.ActivityStand
-track my bike ride,Cmd.ActivityCycle
-i'm going cycling,Cmd.ActivityCycle
-log my ride,Cmd.ActivityCycle
-start my cycling workout,Cmd.ActivityCycle
-record this bike ride,Cmd.ActivityCycle
-how far have i cycled,Cmd.ActivityCycle
-begin tracking my ride,Cmd.ActivityCycle
-i'm heading out on the bike,Cmd.ActivityCycle
-capture my cycling session,Cmd.ActivityCycle
-time my bike ride,Cmd.ActivityCycle
-start logging my cycling,Cmd.ActivityCycle
-track my biking,Cmd.ActivityCycle
-how many miles have i biked,Cmd.ActivityCycle
-record my ride for me,Cmd.ActivityCycle
-log this cycling session,Cmd.ActivityCycle
-track my aerobics,Cmd.ActivityAerobics
-start my aerobics workout,Cmd.ActivityAerobics
-log my aerobics session,Cmd.ActivityAerobics
-i'm doing aerobics now,Cmd.ActivityAerobics
-record my aerobics,Cmd.ActivityAerobics
-capture my aerobics class,Cmd.ActivityAerobics
-time my aerobics,Cmd.ActivityAerobics
-start my cardio class tracking,Cmd.ActivityAerobics
-log this aerobics workout,Cmd.ActivityAerobics
-i'm starting aerobics,Cmd.ActivityAerobics
-track my dance workout,Cmd.ActivityAerobics
-record my aerobic exercise,Cmd.ActivityAerobics
-begin my aerobics session,Cmd.ActivityAerobics
-log my cardio dance,Cmd.ActivityAerobics
-track my workout,Cmd.ActivityExercise
-i'm about to exercise,Cmd.ActivityExercise
-log my exercise,Cmd.ActivityExercise
-start my workout,Cmd.ActivityExercise
-record my training session,Cmd.ActivityExercise
-begin tracking my exercise,Cmd.ActivityExercise
-i'm working out now,Cmd.ActivityExercise
-capture my workout,Cmd.ActivityExercise
-time my exercise,Cmd.ActivityExercise
-start logging my training,Cmd.ActivityExercise
-track this gym session,Cmd.ActivityExercise
-record my workout for me,Cmd.ActivityExercise
-i'm hitting the gym track it,Cmd.ActivityExercise
-log my exercise session,Cmd.ActivityExercise
-begin my workout tracking,Cmd.ActivityExercise
-how many calories have i burned,Cmd.ActivityCalories
-what's my calorie burn today,Cmd.ActivityCalories
-show my calories,Cmd.ActivityCalories
-check my burned calories,Cmd.ActivityCalories
-calorie count please,Cmd.ActivityCalories
-how much energy have i burned,Cmd.ActivityCalories
-tell me my calories for today,Cmd.ActivityCalories
-what's my burn so far,Cmd.ActivityCalories
-display my calorie total,Cmd.ActivityCalories
-how many calories today,Cmd.ActivityCalories
-my calorie burn please,Cmd.ActivityCalories
-calories burned so far,Cmd.ActivityCalories
-give me my energy burn,Cmd.ActivityCalories
-how many calories did i burn,Cmd.ActivityCalories
-text my friend,Cmd.SendMessage
-send a message to my wife,Cmd.SendMessage
-i want to message my son,Cmd.SendMessage
-shoot a text to mom,Cmd.SendMessage
-send word to my daughter,Cmd.SendMessage
-drop my brother a message,Cmd.SendMessage
-write a text to my neighbor,Cmd.SendMessage
-message my husband,Cmd.SendMessage
-send a quick text,Cmd.SendMessage
-let my friend know i'm on my way,Cmd.SendMessage
-text my sister,Cmd.SendMessage
-send a note to dad,Cmd.SendMessage
-compose a message to my coworker,Cmd.SendMessage
-i need to text someone,Cmd.SendMessage
-fire off a text,Cmd.SendMessage
-send a text to my doctor,Cmd.SendMessage
-message my family,Cmd.SendMessage
-get a text to my friend,Cmd.SendMessage
-start a text to my partner,Cmd.SendMessage
-i have news to text a contact,Cmd.SendMessage
-send my update to someone,Cmd.SendMessage
-let a contact know my news by text,Cmd.SendMessage
-text a contact with my news,Cmd.SendMessage
-i want to tell someone my news in a message,Cmd.SendMessage
-message a contact an update,Cmd.SendMessage
-share my news with a contact by text,Cmd.SendMessage
-yes send it,Cmd.SendMessage - yes
-go ahead and send,Cmd.SendMessage - yes
-yep send that,Cmd.SendMessage - yes
-send it now,Cmd.SendMessage - yes
-yes please send,Cmd.SendMessage - yes
-sounds good send it,Cmd.SendMessage - yes
-correct send it off,Cmd.SendMessage - yes
-send it as is,Cmd.SendMessage - yes
-yeah go ahead,Cmd.SendMessage - yes
-that works send it,Cmd.SendMessage - yes
-affirmative send it,Cmd.SendMessage - yes
-ok send the message,Cmd.SendMessage - yes
-yes that's good send,Cmd.SendMessage - yes
-yep that's correct send it,Cmd.SendMessage - yes
-that's exactly right go ahead,Cmd.SendMessage - yes
-yes please go ahead and send,Cmd.SendMessage - yes
-correct that's the message,Cmd.SendMessage - yes
-yeah send it like that,Cmd.SendMessage - yes
-that's what i meant send it,Cmd.SendMessage - yes
-right send that one,Cmd.SendMessage - yes
-no don't send,Cmd.SendMessage - no
-scrap that text,Cmd.SendMessage - no
-don't send it,Cmd.SendMessage - no
-stop wait that's wrong,Cmd.SendMessage - no
-no cancel that,Cmd.SendMessage - no
-hold off on sending,Cmd.SendMessage - no
-delete that message,Cmd.SendMessage - no
-nope don't send it,Cmd.SendMessage - no
-forget the message,Cmd.SendMessage - no
-abort the text,Cmd.SendMessage - no
-that's not right cancel,Cmd.SendMessage - no
-no leave it,Cmd.SendMessage - no
-don't send that please,Cmd.SendMessage - no
-cancel it,Cmd.SendMessage - no
-wait that's not what i said,Cmd.SendMessage - no
-no that came out wrong,Cmd.SendMessage - no
-that's not correct cancel it,Cmd.SendMessage - no
-nope redo that message,Cmd.SendMessage - no
-stop that's not what i meant,Cmd.SendMessage - no
-that's wrong don't send it,Cmd.SendMessage - no
-no scrap it,Cmd.SendMessage - no
-read my messages out loud,Cmd.ListenMessage
-play back my texts,Cmd.ListenMessage
-what messages do i have,Cmd.ListenMessage
-read my latest text,Cmd.ListenMessage
-play my new messages,Cmd.ListenMessage
-read out who texted me,Cmd.ListenMessage
-any new messages read them,Cmd.ListenMessage
-speak my messages,Cmd.ListenMessage
-play the text i just got,Cmd.ListenMessage
-read my unread messages,Cmd.ListenMessage
-tell me my messages,Cmd.ListenMessage
-hear my texts please,Cmd.ListenMessage
-read me the latest message,Cmd.ListenMessage
-play my incoming texts,Cmd.ListenMessage
-read me what people sent,Cmd.ListenMessage
-play the messages i received,Cmd.ListenMessage
-what texts came in for me,Cmd.ListenMessage
-read my new texts aloud,Cmd.ListenMessage
-let me listen to my messages,Cmd.ListenMessage
-play who messaged me,Cmd.ListenMessage
-read out my incoming messages,Cmd.ListenMessage
-tell me what messages i got,Cmd.ListenMessage
-speak my latest texts to me,Cmd.ListenMessage
-play back the texts i received,Cmd.ListenMessage
-read my message inbox,Cmd.ListenMessage
-what did my contacts send me,Cmd.ListenMessage
-what messages did people send me,Cmd.ListenMessage
-did anyone send me anything read it,Cmd.ListenMessage
-read me what was sent,Cmd.ListenMessage
-tell me what people texted,Cmd.ListenMessage
-play what people sent me,Cmd.ListenMessage
-where did i leave my phone,Cmd.FindMyPhone
-help me find my phone,Cmd.FindMyPhone
-make my phone ring,Cmd.FindMyPhone
-i can't find my phone,Cmd.FindMyPhone
-locate my phone for me,Cmd.FindMyPhone
-ping my phone,Cmd.FindMyPhone
-where's my cell phone,Cmd.FindMyPhone
-find my handset,Cmd.FindMyPhone
-sound an alert on my phone,Cmd.FindMyPhone
-i misplaced my phone find it,Cmd.FindMyPhone
-track down my phone,Cmd.FindMyPhone
-my phone is lost ring it,Cmd.FindMyPhone
-buzz my phone so i hear it,Cmd.FindMyPhone
-where is my mobile,Cmd.FindMyPhone
-help me track down my phone,Cmd.FindMyPhone
-i lost my phone make it sound,Cmd.FindMyPhone
-where could my phone be ring it,Cmd.FindMyPhone
-set off an alert on my phone,Cmd.FindMyPhone
-my handset is missing please ring it,Cmd.FindMyPhone
-sound my phone so i can locate it,Cmd.FindMyPhone
-i can't locate my phone ping it,Cmd.FindMyPhone
-make my lost phone beep,Cmd.FindMyPhone
-find where my phone went,Cmd.FindMyPhone
-track down my handset for me,Cmd.FindMyPhone
-locate my handset,Cmd.FindMyPhone
-find my cell for me,Cmd.FindMyPhone
-track down my mobile,Cmd.FindMyPhone
-i can't find my handset ring it,Cmd.FindMyPhone
-start transcribing this,Cmd.TranscribeStart
-write down what's being said,Cmd.TranscribeStart
-turn speech into text now,Cmd.TranscribeStart
-begin the live transcript,Cmd.TranscribeStart
-transcribe what i'm hearing,Cmd.TranscribeStart
-put this conversation into writing,Cmd.TranscribeStart
-start the captions,Cmd.TranscribeStart
-capture this talk as text,Cmd.TranscribeStart
-get a transcript going,Cmd.TranscribeStart
-convert what they're saying to text,Cmd.TranscribeStart
-start writing down the speech,Cmd.TranscribeStart
-give me live captions now,Cmd.TranscribeStart
-transcribe this meeting,Cmd.TranscribeStart
-begin converting speech to text,Cmd.TranscribeStart
-caption what people are saying around me,Cmd.TranscribeStart
-put captions on everyone's speech,Cmd.TranscribeStart
-show me text of what people say,Cmd.TranscribeStart
-caption the people talking,Cmd.TranscribeStart
-write out what folks are saying,Cmd.TranscribeStart
-translate this for me now,Cmd.TranslationStart
-start translating what they say,Cmd.TranslationStart
-turn on translation,Cmd.TranslationStart
-translate their speech into english,Cmd.TranslationStart
-begin live translation,Cmd.TranslationStart
-translate this conversation,Cmd.TranslationStart
-switch on translate mode,Cmd.TranslationStart
-translate what i'm hearing,Cmd.TranslationStart
-start translating to spanish,Cmd.TranslationStart
-translate them into my language,Cmd.TranslationStart
-get translation going,Cmd.TranslationStart
-translate the speech now,Cmd.TranslationStart
-begin translating for me,Cmd.TranslationStart
-translate this person's words,Cmd.TranslationStart
-start the live translation,Cmd.TranslationStart
-they're speaking a foreign language translate it,Cmd.TranslationStart
-i can't understand their language translate,Cmd.TranslationStart
-i can't understand this foreign language,Cmd.TranslationStart
-help me understand what they're saying in another language,Cmd.TranslationStart
-they're speaking another language i can't follow,Cmd.TranslationStart
-understand this foreign speaker for me,Cmd.TranslationStart
-put their foreign words into my language,Cmd.TranslationStart
-i don't understand their foreign language,Cmd.TranslationStart
-convert this foreign language to english,Cmd.TranslationStart
-they don't speak english help me understand them,Cmd.TranslationStart
-remind me to take my pills at 8,reminders.add
-set a reminder to call the clinic,reminders.add
-don't let me forget my appointment,reminders.add
-remind me about dinner at six,reminders.add
-make a reminder to charge my aids,reminders.add
-i need a reminder to take medication,reminders.add
-set something to remind me tomorrow,reminders.add
-remind me to water the plants,reminders.add
-add a reminder for my meeting,reminders.add
-remind me to call my daughter later,reminders.add
-put a reminder for my checkup,reminders.add
-help me remember to buy milk,reminders.add
-remind me to leave at noon,reminders.add
-set a reminder for my pills tonight,reminders.add
-create a reminder to pay the bill,reminders.add
-nudge me to stretch in an hour,reminders.add
-remind me about the doctor on friday,reminders.add
-set a daily reminder for my vitamins,reminders.add
-remind me to take out the trash,reminders.add
-i want a reminder for my class,reminders.add
-alert me when it's time to leave,reminders.add
-give me an alert at the scheduled time,reminders.add
-set an alert so i don't miss it,reminders.add
-i have an appointment coming up don't let me miss it,reminders.add
-make sure i don't miss my appointment,reminders.add
-buzz me when it's time,reminders.add
-notify me when the time comes,reminders.add
-i can't miss this appointment remind me,reminders.add
-set an alert for my appointment,reminders.add
-poke me when the time arrives,reminders.add
-mark my reminder done,reminders.complete
-i finished that task,reminders.complete
-check off my reminder,reminders.complete
-that reminder is complete,reminders.complete
-i took my pills mark it done,reminders.complete
-clear that reminder,reminders.complete
-i did it cross it off,reminders.complete
-complete my reminder,reminders.complete
-mark that task finished,reminders.complete
-i handled that remove the reminder,reminders.complete
-done with that reminder,reminders.complete
-i already did that mark complete,reminders.complete
-close out that reminder,reminders.complete
-that one's finished,reminders.complete
-i already did that one clear it,reminders.complete
-that task is taken care of,reminders.complete
-go ahead and finish that reminder,reminders.complete
-i wrapped that up mark it done,reminders.complete
-you can clear that reminder now,reminders.complete
-that's handled cross it off,reminders.complete
-i completed it remove the reminder,reminders.complete
-done dealt with that reminder,reminders.complete
-i finished that reminder mark it,reminders.complete
-that reminder is done remove it,reminders.complete
-check that reminder off the list,reminders.complete
-i'm done with that task clear the reminder,reminders.complete
-cross that reminder off,reminders.complete
-that to-do is finished mark it complete,reminders.complete
-wrap up that reminder it's done,reminders.complete
-i've completed that reminder,reminders.complete
-how do i adjust the volume,Help_Volume
-explain the volume controls,Help_Volume
-where do i change loudness,Help_Volume
-how can i set volume per ear,Help_Volume
-help me understand volume settings,Help_Volume
-what are the volume options,Help_Volume
-how do volume adjustments work,Help_Volume
-guide me on changing volume,Help_Volume
-where is the loudness control,Help_Volume
-how do i tweak the volume on each side,Help_Volume
-explain how to make it louder or softer,Help_Volume
-volume settings help,Help_Volume
-how does the volume control work,Help_Volume
-what's the way to change volume,Help_Volume
-help with the volume feature,Help_Volume
-how do i make one side louder,Help_Volume
-explain adjusting volume per ear,Help_Volume
-where do i control the loudness,Help_Volume
-help with volume on each aid,Help_Volume
-how do i balance the volume between ears,Help_Volume
-what's the volume control feature,Help_Volume
-how do i turn the volume up in the app,Help_Volume
-guide me on volume adjustment,Help_Volume
-where are the loudness settings,Help_Volume
-how do volume changes get saved,Help_Volume
-explain the loudness controls,Help_Volume
-help me understand volume per side,Help_Volume
-can i have a different volume in each ear,Help_Volume
-set independent loudness per side,Help_Volume
-different volume for my left and right,Help_Volume
-adjust each ear's volume separately,Help_Volume
-control the loudness of each aid on its own,Help_Volume
-how do i switch programs,Help_ChangingMemories
-explain changing memories,Help_ChangingMemories
-how do i move between settings,Help_ChangingMemories
-what's the way to change my program,Help_ChangingMemories
-help me understand switching memories,Help_ChangingMemories
-how do different programs work,Help_ChangingMemories
-guide me through changing memories,Help_ChangingMemories
-how can i flip between modes,Help_ChangingMemories
-explain how memory switching works,Help_ChangingMemories
-where do i change which program i'm on,Help_ChangingMemories
-help with switching between programs,Help_ChangingMemories
-how do i toggle my hearing programs,Help_ChangingMemories
-what does changing memory do,Help_ChangingMemories
-memory switching help,Help_ChangingMemories
-how do i go from one program to another,Help_ChangingMemories
-explain how to move between my programs,Help_ChangingMemories
-help understanding program switching,Help_ChangingMemories
-how does changing profiles work,Help_ChangingMemories
-guide me on switching my hearing programs,Help_ChangingMemories
-what's the way to change between settings,Help_ChangingMemories
-how do i learn about changing programs,Help_ChangingMemories
-explain switching my hearing modes,Help_ChangingMemories
-help with moving between memories,Help_ChangingMemories
-how do program changes work on my aids,Help_ChangingMemories
-help me switch between profiles,Help_ChangingMemories
-how do i switch profiles,Help_ChangingMemories
-guide me on switching profiles,Help_ChangingMemories
-i need help changing between my programs,Help_ChangingMemories
-walk me through switching profiles,Help_ChangingMemories
-can i rename my memories,Help_MemoryOptions
-explain memory options,Help_MemoryOptions
-how do i delete a program,Help_MemoryOptions
-what memory settings are available,Help_MemoryOptions
-how do i save a favorite program,Help_MemoryOptions
-can i set a program for a place,Help_MemoryOptions
-help with memory presets,Help_MemoryOptions
-how do custom programs work,Help_MemoryOptions
-explain the program options,Help_MemoryOptions
-how many memories can i have,Help_MemoryOptions
-can i add a new memory,Help_MemoryOptions
-what are my program choices,Help_MemoryOptions
-help me set up a custom memory,Help_MemoryOptions
-how do i manage my programs,Help_MemoryOptions
-explain my program setup options,Help_MemoryOptions
-how do i organize my memories,Help_MemoryOptions
-what can i do with program presets,Help_MemoryOptions
-help managing my saved programs,Help_MemoryOptions
-how do i add or remove a program,Help_MemoryOptions
-guide me on program options,Help_MemoryOptions
-how do i pair my aids to my phone,Help_Pairing
-explain bluetooth pairing,Help_Pairing
-my aids won't connect to the app,Help_Pairing
-help pairing with my phone,Help_Pairing
-how to set up bluetooth,Help_Pairing
-guide me through pairing,Help_Pairing
-why won't my aids pair,Help_Pairing
-how do i link my aids to bluetooth,Help_Pairing
-pairing help please,Help_Pairing
-steps to pair my devices,Help_Pairing
-my hearing aids lost connection to the phone,Help_Pairing
-how to bond my aids with the app,Help_Pairing
-bluetooth pairing help,Help_Pairing
-my aids dropped their bluetooth connection,Help_Pairing
-i lost the connection to my hearing aids,Help_Pairing
-my hearing aids disconnected reconnect them,Help_Pairing
-the connection to my aids dropped,Help_Pairing
-my aids won't stay connected to my phone,Help_Pairing
-reconnect my hearing aids to the app,Help_Pairing
-my aids keep losing the bluetooth link,Help_Pairing
-help my aids lost connection to the phone,Help_Pairing
-how do i find lost hearing aids,Help_FindMyHearingAids
-explain the find my aids feature,Help_FindMyHearingAids
-where is the locator for my aids,Help_FindMyHearingAids
-how does finding my aids work,Help_FindMyHearingAids
-help me locate misplaced aids,Help_FindMyHearingAids
-what's the find my hearing aids tool,Help_FindMyHearingAids
-how can the app help me find my aids,Help_FindMyHearingAids
-guide me to the aid finder,Help_FindMyHearingAids
-how do i track down my aids,Help_FindMyHearingAids
-where do i see my aids last location,Help_FindMyHearingAids
-help finding my hearing aids feature,Help_FindMyHearingAids
-how do i use find my hearing aids,Help_FindMyHearingAids
-what does the locate aids feature do,Help_FindMyHearingAids
-find my aids help,Help_FindMyHearingAids
-how do i search for my hearing aids in the app,Help_FindMyHearingAids
-what accessories work with my aids,Help_Accessories
-explain the remote microphone,Help_Accessories
-how do i use the tv streamer,Help_Accessories
-what add-ons are available,Help_Accessories
-help with the remote mic,Help_Accessories
-do my aids support a tv connector,Help_Accessories
-what extra devices can i pair,Help_Accessories
-explain the accessory options,Help_Accessories
-how does the mini remote work,Help_Accessories
-what gadgets are compatible,Help_Accessories
-tell me about the available accessories,Help_Accessories
-how do i set up the tv accessory,Help_Accessories
-accessories help please,Help_Accessories
-what hardware can i add,Help_Accessories
-guide me on accessories,Help_Accessories
-can i use a clip on microphone,Help_Accessories
-does it work with a remote mic,Help_Accessories
-can i connect an external mic,Help_Accessories
-what microphones can i pair,Help_Accessories
-is there a tv streaming accessory,Help_Accessories
-can i add a partner mic,Help_Accessories
-does a remote microphone work with my aids,Help_Accessories
-what extra mics are supported,Help_Accessories
-can i use a lapel mic with my aids,Help_Accessories
-can i stream using a remote microphone,Help_Accessories
-does a clip on mic send audio to my aids,Help_Accessories
-use an external mic accessory with my aids,Help_Accessories
-does the partner mic stream to my hearing aids,Help_Accessories
-can i pair a wearable microphone,Help_Accessories
-stream from an accessory mic to my aids,Help_Accessories
-what microphone accessories can stream to me,Help_Accessories
-connect a remote mic accessory,Help_Accessories
-how does remote programming work,Help_RemoteProgramming
-can my audiologist tune my aids remotely,Help_RemoteProgramming
-explain remote adjustments,Help_RemoteProgramming
-how do i get remote fine tuning,Help_RemoteProgramming
-what is remote tuning,Help_RemoteProgramming
-can settings be changed from afar,Help_RemoteProgramming
-explain how remote tuning works,Help_RemoteProgramming
-how do remote updates to my aids work,Help_RemoteProgramming
-guide me on remote programming,Help_RemoteProgramming
-how does my provider adjust my aids remotely,Help_RemoteProgramming
-what does remote programming let me do,Help_RemoteProgramming
-help understanding remote tuning,Help_RemoteProgramming
-explain how my audiologist tunes me remotely,Help_RemoteProgramming
-help with getting a remote adjustment,Help_RemoteProgramming
-how do remote fittings work,Help_RemoteProgramming
-guide me on remote fine tuning,Help_RemoteProgramming
-how do i ask for a remote fitting,Help_RemoteProgramming
-what is the remote fitting process,Help_RemoteProgramming
-my ears keep ringing what can i do,Help_Tinnitus
-explain the tinnitus features,Help_Tinnitus
-how do i manage ringing in my ears,Help_Tinnitus
-help with the buzzing in my ears,Help_Tinnitus
-what does the tinnitus tool do,Help_Tinnitus
-how do i use tinnitus relief,Help_Tinnitus
-is there a feature for ear ringing,Help_Tinnitus
-explain how to ease tinnitus,Help_Tinnitus
-how does the masking sound help tinnitus,Help_Tinnitus
-help for the constant ringing,Help_Tinnitus
-what are my options for tinnitus,Help_Tinnitus
-how do i turn on tinnitus relief,Help_Tinnitus
-guide me on tinnitus management,Help_Tinnitus
-tinnitus feature help,Help_Tinnitus
-how can my aids help with ringing,Help_Tinnitus
-help with the ringing in my ears feature,Help_Tinnitus
-how do i manage my tinnitus,Help_Tinnitus
-the masking sound feature help,Help_Tinnitus
-how do i start the tinnitus relief sound,Help_Tinnitus
-explain how the aids help with ringing,Help_Tinnitus
-what's the tinnitus relief feature,Help_Tinnitus
-how do i turn on the soothing sound,Help_Tinnitus
-help for my ear ringing,Help_Tinnitus
-guide me on tinnitus relief,Help_Tinnitus
-what does the tinnitus feature do,Help_Tinnitus
-how do i use the masking noise,Help_Tinnitus
-explain the relief sound for ringing ears,Help_Tinnitus
-the ringing in my ears is unbearable,Help_Tinnitus
-this ear ringing is driving me crazy,Help_Tinnitus
-i can't stand the ringing in my ears,Help_Tinnitus
-the constant ringing is maddening,Help_Tinnitus
-help the ringing won't stop,Help_Tinnitus
-how do i run a self check,Help_SelfCheck
-explain the self check feature,Help_SelfCheck
-how do i test my hearing aids,Help_SelfCheck
-what does the self check do,Help_SelfCheck
-help me check if my aids work,Help_SelfCheck
-how to run diagnostics on my aids,Help_SelfCheck
-guide me through a self check,Help_SelfCheck
-how do i verify my aids are working,Help_SelfCheck
-self check help please,Help_SelfCheck
-where is the device test,Help_SelfCheck
-how do i make sure my aids are okay,Help_SelfCheck
-explain how to test my devices,Help_SelfCheck
-run me through the self check,Help_SelfCheck
-what does a self check tell me,Help_SelfCheck
-how do i diagnose my hearing aids,Help_SelfCheck
-how do i diagnose a problem with my aids,Help_SelfCheck
-run me through testing my hearing aids,Help_SelfCheck
-help checking if something is wrong with my aid,Help_SelfCheck
-how do i troubleshoot my aids myself,Help_SelfCheck
-guide me on running a device test,Help_SelfCheck
-what does running a diagnostic check do,Help_SelfCheck
-what is my thrive score,Help_ThriveScore
-explain how the thrive score works,Help_ThriveScore
-where do i see my wellness score,Help_ThriveScore
-how is my score calculated,Help_ThriveScore
-help me understand the thrive score,Help_ThriveScore
-what does my body and brain score mean,Help_ThriveScore
-how do i improve my thrive score,Help_ThriveScore
-explain the engagement score,Help_ThriveScore
-what goes into the thrive score,Help_ThriveScore
-where is my daily score,Help_ThriveScore
-what's a good thrive score,Help_ThriveScore
-how do i check my wellness score,Help_ThriveScore
-explain my brain score,Help_ThriveScore
-thrive score help,Help_ThriveScore
-where do i find my overall rating,Help_ThriveScore
-show my daily wellness rating,Help_ThriveScore
-what's my total thrive number,Help_ThriveScore
-where is my engagement rating,Help_ThriveScore
-my overall score for the day,Help_ThriveScore
-how do i view my thrive rating,Help_ThriveScore
-where's my combined body and brain rating,Help_ThriveScore
-what is my daily achievement score,Help_ThriveScore
-the audio keeps cutting out what do i do,Help_DeviceSettings
-my aids sound distorted help,Help_DeviceSettings
-why does the sound drop sometimes,Help_DeviceSettings
-everything sounds fuzzy how do i fix it,Help_DeviceSettings
-help my aids sound off,Help_DeviceSettings
-the sound quality went bad,Help_DeviceSettings
-my hearing aids sound muffled,Help_DeviceSettings
-why is there static in my aids,Help_DeviceSettings
-how do i fix poor sound quality,Help_DeviceSettings
-the audio is breaking up,Help_DeviceSettings
-my aids keep glitching,Help_DeviceSettings
-sound is crackling in my hearing aids,Help_DeviceSettings
-help with bad audio from my aids,Help_DeviceSettings
-why do my aids sound strange,Help_DeviceSettings
-my hearing aids aren't sounding right,Help_DeviceSettings
-my hearing aids keep cutting out,Help_DeviceSettings
-help my aids sound crackly,Help_DeviceSettings
-the sound quality is poor lately,Help_DeviceSettings
-why do my aids buzz,Help_DeviceSettings
-my aids keep dropping sound,Help_DeviceSettings
-help fixing the sound on my aids,Help_DeviceSettings
-the audio is distorted on my hearing aids,Help_DeviceSettings
-my aids sound tinny,Help_DeviceSettings
-why is my hearing aid quiet on one side,Help_DeviceSettings
-troubleshoot my hearing aid sound,Help_DeviceSettings
-my aids cut out intermittently,Help_DeviceSettings
-help with poor audio from my aids,Help_DeviceSettings
-the sound keeps breaking up,Help_DeviceSettings
-my hearing aids sound off today,Help_DeviceSettings
-fix the static in my aids,Help_DeviceSettings
-why do my aids sound muffled,Help_DeviceSettings
-help my hearing aids aren't sounding right,Help_DeviceSettings
-sort out the sound issue on my aids,Help_DeviceSettings
-fix the sound problems on my aids,Help_DeviceSettings
-help with my hearing aid sound settings,Help_DeviceSettings
-sort out my device audio,Help_DeviceSettings
-my aids need adjusting they sound bad,Help_DeviceSettings
-repair the audio on my hearing aids,Help_DeviceSettings
-help me fix my aid settings,Help_DeviceSettings
-the sound keeps cutting in and out,Help_DeviceSettings
-my audio quality has gone downhill,Help_DeviceSettings
-the sound from my aids has gotten worse,Help_DeviceSettings
-my hearing aid sound keeps glitching,Help_DeviceSettings
-fix the declining sound on my aids,Help_DeviceSettings
-how does intellivoice work,Help_IntelliVoice
-explain the smart voice feature,Help_IntelliVoice
-what does intelligent voice do,Help_IntelliVoice
-how do i turn on intellivoice,Help_IntelliVoice
-help with the speech enhancement feature,Help_IntelliVoice
-what is the ai voice feature,Help_IntelliVoice
-how does the voice clarity feature work,Help_IntelliVoice
-explain dnn speech enhancement,Help_IntelliVoice
-when should i use intellivoice,Help_IntelliVoice
-guide me on intelligent voice,Help_IntelliVoice
-intellivoice help please,Help_IntelliVoice
-what does the smart speech mode do,Help_IntelliVoice
-how do i enable speech enhancement,Help_IntelliVoice
-explain how intellivoice helps,Help_IntelliVoice
-tell me about the intelligent voice feature,Help_IntelliVoice
-how does fall detection work,Help_FallAlert
-will my aids alert someone if i fall,Help_FallAlert
-explain the fall alert feature,Help_FallAlert
-what happens when i fall,Help_FallAlert
-help with fall alerts,Help_FallAlert
-does it notify family if i take a tumble,Help_FallAlert
-explain how fall alerts are sent,Help_FallAlert
-how do i turn on fall detection,Help_FallAlert
-what does the fall alert do,Help_FallAlert
-guide me on fall alerts,Help_FallAlert
-who gets notified if i fall,Help_FallAlert
-fall detection help,Help_FallAlert
-how reliable is the fall alert,Help_FallAlert
-how do fall notifications work,Help_FallAlert
-will it notice if i take a tumble,Help_FallAlert
-does it catch a fall,Help_FallAlert
-will it know if i fall over,Help_FallAlert
-does it spot a fall and alert someone,Help_FallAlert
-will a tumble trigger an alert,Help_FallAlert
-how do i share what i hear,Help_HearShare
-explain hearshare,Help_HearShare
-can someone listen along with me,Help_HearShare
-help setting up hearshare,Help_HearShare
-how do i add a person to hearshare,Help_HearShare
-what is the hearshare feature,Help_HearShare
-explain how to share my audio,Help_HearShare
-how do i let a caregiver listen,Help_HearShare
-guide me through hearshare,Help_HearShare
-hearshare help please,Help_HearShare
-can i share my hearing aid sound with family,Help_HearShare
-how does hearshare connect another person,Help_HearShare
-what does shared listening do,Help_HearShare
-help me use hearshare,Help_HearShare
-how do i let another person hear with me,Help_HearShare
-explain sharing my audio with family,Help_HearShare
-help with the shared listening feature,Help_HearShare
-can a caregiver listen to what i hear,Help_HearShare
-how do i invite someone to hearshare,Help_HearShare
-what does the share listening feature do,Help_HearShare
-how do i share my hearing aid audio,Help_HearShare
-guide me on sharing what i hear,Help_HearShare
-can two people listen together,Help_HearShare
-how does sharing audio with another person work,Help_HearShare
-help setting up shared listening,Help_HearShare
-explain how to share my sound,Help_HearShare
-let a friend hear what i hear,Help_HearShare
-share my hearing with another person,Help_HearShare
-i want someone to listen along,Help_HearShare
-stream what i hear to a family member,Help_HearShare
-can my spouse hear through my aids,Help_HearShare
-share my audio with a loved one,Help_HearShare
-let another person hear what i hear,Help_HearShare
-stream my hearing to someone else,Help_HearShare
-can a friend listen along with me,Help_HearShare
-share my hearing aid audio with someone,Help_HearShare
-let a family member listen in,Help_HearShare
-send what i hear to another person,Help_HearShare
-how do i let someone listen with me,Help_HearShare
-share my audio so others can hear,Help_HearShare
-what voice assistants can i use,Help_VoiceAssistant
-can i use siri with my aids,Help_VoiceAssistant
-explain the voice assistant feature,Help_VoiceAssistant
-how do i set up google assistant,Help_VoiceAssistant
-help with the voice assistant,Help_VoiceAssistant
-does it work with alexa,Help_VoiceAssistant
-how do i talk to my voice assistant,Help_VoiceAssistant
-explain how voice control works,Help_VoiceAssistant
-how do i enable the assistant,Help_VoiceAssistant
-what can the voice assistant do,Help_VoiceAssistant
-guide me on the voice assistant,Help_VoiceAssistant
-voice assistant help please,Help_VoiceAssistant
-how do i use voice commands,Help_VoiceAssistant
-can i control my aids by voice,Help_VoiceAssistant
-tell me about the voice assistant,Help_VoiceAssistant
-explain using a voice assistant with my aids,Help_VoiceAssistant
-help setting up voice control,Help_VoiceAssistant
-can i pair siri to my hearing aids,Help_VoiceAssistant
-guide me on the voice assistant feature,Help_VoiceAssistant
-how do i use google assistant with my aids,Help_VoiceAssistant
-what voice helpers are supported,Help_VoiceAssistant
-how do i put my hearing aids in,Help_InsertDevice
-explain how to insert my aids,Help_InsertDevice
-which way does the aid go in my ear,Help_InsertDevice
-help putting in my hearing aids,Help_InsertDevice
-my aid keeps falling out how do i fit it,Help_InsertDevice
-how do i wear my aids properly,Help_InsertDevice
-guide me on inserting my hearing aids,Help_InsertDevice
-how should the aid sit in my ear,Help_InsertDevice
-tips for putting in my aids,Help_InsertDevice
-how do i place the dome in my ear,Help_InsertDevice
-help me fit my hearing aids,Help_InsertDevice
-what's the right way to insert my aids,Help_InsertDevice
-how do i get the aid to stay in,Help_InsertDevice
-explain proper aid placement,Help_InsertDevice
-inserting hearing aids help,Help_InsertDevice
-my hearing aid keeps slipping out,Help_InsertDevice
-the aid won't stay in my ear,Help_InsertDevice
-my device won't sit properly,Help_InsertDevice
-the hearing aid falls out when i chew,Help_InsertDevice
-my aid feels loose in my ear,Help_InsertDevice
-why does my aid keep coming out,Help_InsertDevice
-the dome won't stay put,Help_InsertDevice
-my aid keeps working its way out,Help_InsertDevice
-how do i keep my aid from falling out,Help_InsertDevice
-my device keeps falling out of my ear,Help_InsertDevice
-the aid keeps dropping out of my ear,Help_InsertDevice
-my hearing aid falls out of my ear,Help_InsertDevice
-the device won't stay seated in my ear,Help_InsertDevice
-my aid keeps popping out,Help_InsertDevice
-my hearing aid won't stay in it keeps coming out,Help_InsertDevice
-how do i change the app settings,Help_AppSettings
-where are the app preferences,Help_AppSettings
-explain the settings menu,Help_AppSettings
-how do i reset the app,Help_AppSettings
-help with the app configuration,Help_AppSettings
-how do i update my app preferences,Help_AppSettings
-where do i manage app options,Help_AppSettings
-how do i change the app language,Help_AppSettings
-guide me through app settings,Help_AppSettings
-how do i adjust notifications in the app,Help_AppSettings
-how do i restore default app settings,Help_AppSettings
-where do i find the settings page,Help_AppSettings
-how do i set up the app the way i want,Help_AppSettings
-explain how to configure the app,Help_AppSettings
-how do i clean my hearing aids,Help_CleanCare
-explain how to care for my aids,Help_CleanCare
-can my aids get wet,Help_CleanCare
-help keeping my hearing aids clean,Help_CleanCare
-what's the best way to clean my aids,Help_CleanCare
-tips for cleaning my aids,Help_CleanCare
-how do i remove wax from my aids,Help_CleanCare
-guide me on caring for my hearing aids,Help_CleanCare
-cleaning and care help,Help_CleanCare
-how should i store my aids overnight,Help_CleanCare
-how do i keep moisture out of my aids,Help_CleanCare
-explain hearing aid maintenance,Help_CleanCare
-is it safe to get my aids wet,Help_CleanCare
-can my hearing aids handle water,Help_CleanCare
-what if my aids get damp,Help_CleanCare
-are my aids waterproof,Help_CleanCare
-can i wear my aids in the shower,Help_CleanCare
-what happens if my aids get wet,Help_CleanCare
-is moisture bad for my hearing aids,Help_CleanCare
-can i clean my aids with water,Help_CleanCare
-how do i deal with sweat on my aids,Help_CleanCare
-how do i take care of my aids,Help_CleanCare
-upkeep for my hearing aids,Help_CleanCare
-how do i look after my hearing aids,Help_CleanCare
-keeping my aids in good shape,Help_CleanCare
-caring for and maintaining my aids,Help_CleanCare
-how do i personalize my sound,Help_Customize
-explain how to customize my aids,Help_Customize
-can i fine tune the bass and treble,Help_Customize
-how do i tailor my hearing experience,Help_Customize
-help customizing my settings,Help_Customize
-how do i adjust the tone of my aids,Help_Customize
-what can i personalize on my aids,Help_Customize
-guide me on customizing sound,Help_Customize
-how do i set my own preferences,Help_Customize
-how do i change the sound profile,Help_Customize
-customization help please,Help_Customize
-how do i make the sound my own,Help_Customize
-can i adjust settings for my taste,Help_Customize
-explain personalizing my hearing aids,Help_Customize
-how do i customize how things sound,Help_Customize
-how do i fine tune my sound preferences,Help_Customize
-explain personalizing my hearing,Help_Customize
-where do i adjust bass and treble,Help_Customize
-help tailoring my hearing experience,Help_Customize
-how do i set my own sound profile,Help_Customize
-what can i personalize on my hearing aids,Help_Customize
-guide me on customizing my sound,Help_Customize
-how do i change the tone of my aids,Help_Customize
-explain the personalization options,Help_Customize
-how do i make the sound suit me,Help_Customize
-help customizing how things sound,Help_Customize
-where do i tweak my sound settings,Help_Customize
-what's new in the app,Help_WhatsNew
-show me the latest features,Help_WhatsNew
-what got added recently,Help_WhatsNew
-any new updates to know about,Help_WhatsNew
-explain what changed in this version,Help_WhatsNew
-what's been updated lately,Help_WhatsNew
-tell me about new features,Help_WhatsNew
-what's different in the latest release,Help_WhatsNew
-show recent changes,Help_WhatsNew
-what improvements are new,Help_WhatsNew
-help me see what's new,Help_WhatsNew
-what features were just added,Help_WhatsNew
-catch me up on new stuff,Help_WhatsNew
-what's new in this update,Help_WhatsNew
-recent feature updates please,Help_WhatsNew
-how does the cros system work,Help_WiCROS
-explain wireless cros,Help_WiCROS
-what is a cros hearing aid,Help_WiCROS
-help with my cros setup,Help_WiCROS
-how does cros send sound to my good ear,Help_WiCROS
-what does the cros do,Help_WiCROS
-explain how cros and bicros work,Help_WiCROS
-how do i use my cros device,Help_WiCROS
-guide me on the cros feature,Help_WiCROS
-what is wicros,Help_WiCROS
-cros help please,Help_WiCROS
-how does the cros transmitter work,Help_WiCROS
-how do i set up cros,Help_WiCROS
-explain the cros for single sided hearing,Help_WiCROS
-tell me about the cros system,Help_WiCROS
-i don't know how to use this app,Help_Home
-walk me through the basics,Help_Home
-what can this app do for me,Help_Home
-i'm new help me get started,Help_Home
-give me an overview of the app,Help_Home
-i'm confused by all these screens,Help_Home
-help me figure out the app,Help_Home
-what should i do first here,Help_Home
-i need a hand getting going,Help_Home
-explain the main screen to me,Help_Home
-where do i go to do things,Help_Home
-help me get oriented,Help_Home
-what are the main things i can do,Help_Home
-introduce me to the app,Help_Home
-i'm completely lost in here,Help_Home
-this is all confusing to me,Help_Home
-i can't make sense of the app,Help_Home
-i don't get how any of this works,Help_Home
-help i'm overwhelmed by the app,Help_Home
-should i use rechargeable or disposable batteries,Help_Battery
-explain battery options for my aids,Help_Battery
-my battery drains too fast why,Help_Battery
-how long should a battery last,Help_Battery
-help with battery questions,Help_Battery
-what battery size do my aids use,Help_Battery
-tips to make my batteries last longer,Help_Battery
-why is my battery life getting shorter,Help_Battery
-explain hearing aid batteries,Help_Battery
-how do i change the battery,Help_Battery
-what's the best battery for my aids,Help_Battery
-guide me on battery care,Help_Battery
-battery help please,Help_Battery
-how do i store spare batteries,Help_Battery
-why do batteries die quickly in my aids,Help_Battery
-explain the reminder feature,Help_Reminder
-how do i manage my reminders,Help_Reminder
-help with setting up reminders,Help_Reminder
-where do i see my reminders,Help_Reminder
-how do i edit a reminder,Help_Reminder
-what can the reminder feature do,Help_Reminder
-guide me on using reminders,Help_Reminder
-how do i make a repeating reminder,Help_Reminder
-can i get daily reminders,Help_Reminder
-explain how to schedule reminders,Help_Reminder
-how do reminder notifications work,Help_Reminder
-can i set up a daily reminder,Help_Reminder
-is there a daily reminder option,Help_Reminder
-how do i make a reminder repeat daily,Help_Reminder
-set a recurring daily reminder,Help_Reminder
-can reminders repeat every day,Help_Reminder
-explain the translate feature,Help_Translate
-how does translation work in the app,Help_Translate
-is spanish supported for translation,Help_Translate
-help with the translate function,Help_Translate
-how accurate is the translation,Help_Translate
-what is the translate feature,Help_Translate
-guide me on using translate,Help_Translate
-does translate save conversations,Help_Translate
-how do i set the translation language,Help_Translate
-can it translate two languages at once,Help_Translate
-how do i use the translation tool,Help_Translate
-explain real time translation,Help_Translate
-what does the translate feature do,Help_Translate
-help with the language translation feature,Help_Translate
-how good is the translation feature,Help_Translate
-which languages does translation support,Help_Translate
-tell me about the translation feature,Help_Translate
-can the app translate languages for me,Help_Translate
-explain how translation works on my aids,Help_Translate
-is there a translation feature,Help_Translate
-what's the translate feature for,Help_Translate
-how do i set up language translation,Help_Translate
-help understanding the translate feature,Help_Translate
-does translation work both ways,Help_Translate
-what translation languages are offered,Help_Translate
-how do i pick a translation language,Help_Translate
-is real time translation available,Help_Translate
-is spanish available for translation,Help_Translate
-which languages are supported for translation,Help_Translate
-are there many languages to translate,Help_Translate
-is my language offered for translation,Help_Translate
-what languages does the translate feature offer,Help_Translate
-is german one of the translation options,Help_Translate
-can it translate into french,Help_Translate
-are foreign languages supported,Help_Translate
-do you support italian translation,Help_Translate
-how does transcribe work,Help_Transcribe
-explain the transcription feature,Help_Transcribe
-help with transcription,Help_Transcribe
-can i save my transcripts,Help_Transcribe
-how accurate is the transcription,Help_Transcribe
-guide me on using transcribe,Help_Transcribe
-does transcribe keep my conversations,Help_Transcribe
-where do i find transcription,Help_Transcribe
-how do i read what was transcribed,Help_Transcribe
-explain how captions work in the app,Help_Transcribe
-what does the transcribe feature do,Help_Transcribe
-how do i use speech to text,Help_Transcribe
-captions feature help,Help_Transcribe
-help with the captioning feature,Help_Transcribe
-is there a way to caption conversations,Help_Transcribe
-tell me about live captions,Help_Transcribe
-what's the transcription feature for,Help_Transcribe
-how do captions work on my aids,Help_Transcribe
-do my aids show subtitles of speech,Help_Transcribe
-explain the speech to text feature,Help_Transcribe
-help understanding transcription,Help_Transcribe
-what can the caption feature do,Help_Transcribe
-how do i view a transcript,Help_Transcribe
-is the transcribe feature free,Help_Transcribe
-where do transcripts get saved,Help_Transcribe
-where do i see my health data,Help_Health
-explain the health dashboard,Help_Health
-how do i view my fitness summary,Help_Health
-where is my activity overview,Help_Health
-help with the health screen,Help_Health
-what health info does the app track,Help_Health
-guide me to my wellness data,Help_Health
-where do i see steps and exercise together,Help_Health
-how do i read my health stats,Help_Health
-what's on the health dashboard,Help_Health
-how do i check my overall activity,Help_Health
-explain my fitness tracking,Help_Health
-where do my health metrics show,Help_Health
-where is my fitness overview,Help_Health
-show my activity and exercise summary,Help_Health
-my daily health metrics,Help_Health
-where do my steps and workouts show together,Help_Health
-open my wellness dashboard,Help_Health
-my overall activity stats,Help_Health
-can my aids track my heart rate,Help_HeartRate
-how do i see my heart rate,Help_HeartRate
-where do i find my pulse readings,Help_HeartRate
-help with heart rate tracking,Help_HeartRate
-do my aids measure bpm,Help_HeartRate
-how does heart rate monitoring work,Help_HeartRate
-guide me to my heart rate,Help_HeartRate
-where do i see my beats per minute,Help_HeartRate
-how accurate is the heart rate,Help_HeartRate
-how do i check my pulse on the app,Help_HeartRate
-explain how heart rate is measured,Help_HeartRate
-what does the heart rate feature show,Help_HeartRate
-where do i check my bpm,Help_HeartRate
-show me my bpm,Help_HeartRate
-what's my current bpm,Help_HeartRate
-view my beats per minute reading,Help_HeartRate
-my bpm please,Help_HeartRate
-track my bpm on the app,Help_HeartRate
-see my pulse in bpm,Help_HeartRate
-how do i read my bpm,Help_HeartRate
-what is heart rate recovery,Help_HeartRateRecovery
-explain the recovery metric,Help_HeartRateRecovery
-how do i see how fast my heart recovers,Help_HeartRateRecovery
-where is my heart rate recovery,Help_HeartRateRecovery
-help understanding recovery rate,Help_HeartRateRecovery
-how is heart rate recovery measured,Help_HeartRateRecovery
-what does my recovery score mean,Help_HeartRateRecovery
-guide me on heart rate recovery,Help_HeartRateRecovery
-how do i check my recovery after exercise,Help_HeartRateRecovery
-explain how recovery is tracked,Help_HeartRateRecovery
-why does heart rate recovery matter,Help_HeartRateRecovery
-where do i find recovery data,Help_HeartRateRecovery
-how good is my heart rate recovery,Help_HeartRateRecovery
-what's a healthy recovery rate,Help_HeartRateRecovery
-how do i connect for a remote appointment,Help_HearingCareAnywhereConnect
-explain hearing care anywhere,Help_HearingCareAnywhereConnect
-how do i reach my audiologist through the app,Help_HearingCareAnywhereConnect
-help connecting to my provider remotely,Help_HearingCareAnywhereConnect
-what is hearing care anywhere,Help_HearingCareAnywhereConnect
-how do i request remote care,Help_HearingCareAnywhereConnect
-how do i send a request to my specialist,Help_HearingCareAnywhereConnect
-guide me on connecting with my clinician,Help_HearingCareAnywhereConnect
-how does remote care connect work,Help_HearingCareAnywhereConnect
-set up a remote session with my provider,Help_HearingCareAnywhereConnect
-hearing care anywhere help,Help_HearingCareAnywhereConnect
-how do i get new settings from my audiologist,Help_HearingCareAnywhereConnect
-how do i link with my hearing professional,Help_HearingCareAnywhereConnect
-explain connecting for remote support,Help_HearingCareAnywhereConnect
-how do i start a remote care request,Help_HearingCareAnywhereConnect
-explain the mask mode feature,Help_MaskMode
-how do i turn on mask mode,Help_MaskMode
-help with mask mode,Help_MaskMode
-how does mask mode help with face masks,Help_MaskMode
-guide me on mask mode,Help_MaskMode
-how do i enable mask mode for masks,Help_MaskMode
-mask mode help please,Help_MaskMode
-does mask mode help me hear masked voices,Help_MaskMode
-explain how mask mode works,Help_MaskMode
-how do i use mask mode,Help_MaskMode
-when is mask mode useful,Help_MaskMode
-explain when to use mask mode,Help_MaskMode
-help understanding mask mode,Help_MaskMode
-how do i switch on mask mode for masks,Help_MaskMode
-what is mask mode good for,Help_MaskMode
-how does mask mode help with covered faces,Help_MaskMode
-what is edge mode,Help_EdgeMode
-explain edge mode,Help_EdgeMode
-help with edge mode,Help_EdgeMode
-what does edge mode do,Help_EdgeMode
-how does edge mode improve sound,Help_EdgeMode
-guide me on edge mode,Help_EdgeMode
-how do i turn on edge mode for tough situations,Help_EdgeMode
-edge mode help please,Help_EdgeMode
-explain how edge mode works,Help_EdgeMode
-how do i use edge mode,Help_EdgeMode
-when is edge mode helpful,Help_EdgeMode
-explain when edge mode helps,Help_EdgeMode
-help me understand edge mode,Help_EdgeMode
-how do i trigger edge mode in noise,Help_EdgeMode
-what situations is edge mode for,Help_EdgeMode
-guide me on using edge mode,Help_EdgeMode
-how does edge mode adapt the sound,Help_EdgeMode
-there's too much wind noise what setting helps,Help_EdgeMode
-the wind outside is overwhelming what can i do,Help_EdgeMode
-cut the wind noise with a setting,Help_EdgeMode
-help with wind noise when i'm outdoors,Help_EdgeMode
-what mode handles a windy environment,Help_EdgeMode
-reduce wind noise in tough conditions,Help_EdgeMode
-the wind is ruining my hearing outside,Help_EdgeMode
-a setting for very windy places,Help_EdgeMode
-what is demo mode,Help_DemoMode
-explain demo mode,Help_DemoMode
-how do i turn on demo mode,Help_DemoMode
-what does demo mode do,Help_DemoMode
-how do i use the demo feature,Help_DemoMode
-is demo mode for trying features,Help_DemoMode
-guide me on demo mode,Help_DemoMode
-demo mode help please,Help_DemoMode
-what's the point of demo mode,Help_DemoMode
-explain how demo mode works,Help_DemoMode
-how do i enable demo mode,Help_DemoMode
-when would i use demo mode,Help_DemoMode
-tell me about demo mode,Help_DemoMode
-who won the game last night,Default Fallback Intent
-what's a good movie to watch,Default Fallback Intent
-recommend me a book,Default Fallback Intent
-how do i bake bread,Default Fallback Intent
-what's the score of the match,Default Fallback Intent
-tell me a fun fact,Default Fallback Intent
-what's the meaning of life,Default Fallback Intent
-how tall is mount everest,Default Fallback Intent
-what time is the sunset,Default Fallback Intent
-give me a recipe for soup,Default Fallback Intent
-what's a good restaurant nearby,Default Fallback Intent
-how do i get rid of weeds,Default Fallback Intent
-what should i watch tonight,Default Fallback Intent
-who is the president,Default Fallback Intent
-what's on tv tonight,Default Fallback Intent
-how do i tie a tie,Default Fallback Intent
-what's the capital of japan,Default Fallback Intent
-plan my vacation,Default Fallback Intent
-what should i wear today,Default Fallback Intent
-how do i make coffee,Default Fallback Intent
-what's a good gift idea,Default Fallback Intent
-tell me about the news,Default Fallback Intent
-how far is the nearest store,Default Fallback Intent
+i can barely make out what people say,device.volume.increase
+everything sounds too faint,device.volume.increase
+voices are too soft for me,device.volume.increase
+crank the sound up a bit,device.volume.increase
+boost the loudness please,device.volume.increase
+make speech louder,device.volume.increase
+turn the level up,device.volume.increase
+i'm missing half the conversation,device.volume.increase
+speech is too quiet,device.volume.increase
+could you raise the volume,device.volume.increase
+bump it up a little,device.volume.increase
+everything is too low,device.volume.increase
+i want it louder,device.volume.increase
+amplify the sound for me,device.volume.increase
+raise the loudness,device.volume.increase
+the tv is too quiet for me,device.volume.increase
+i keep missing words,device.volume.increase
+sound feels weak,device.volume.increase
+give me a bit more volume,device.volume.increase
+step the volume up,device.volume.increase
+louder please,device.volume.increase
+i can't hear the speaker well,device.volume.increase
+turn things up so i can hear,device.volume.increase
+make my aids louder,device.volume.increase
+push the level higher,device.volume.increase
+increase how loud it is,device.volume.increase
+people sound muffled and faint,device.volume.increase
+i need to hear better turn it up,device.volume.increase
+turn the sound down a bit,device.volume.decrease
+make it softer please,device.volume.decrease
+lower the volume,device.volume.decrease
+it's too loud for me,device.volume.decrease
+bring the level down,device.volume.decrease
+quieter please,device.volume.decrease
+ease the volume back,device.volume.decrease
+that's painfully loud,device.volume.decrease
+the sound is too strong,device.volume.decrease
+cut the volume a little,device.volume.decrease
+drop the level down,device.volume.decrease
+tone the loudness down,device.volume.decrease
+i need it softer,device.volume.decrease
+too much volume right now,device.volume.decrease
+soften things up,device.volume.decrease
+knock the sound back,device.volume.decrease
+scale the volume down,device.volume.decrease
+it's blasting my ears,device.volume.decrease
+dial the loudness down,device.volume.decrease
+everything is way too loud,device.volume.decrease
+make speech quieter,device.volume.decrease
+lower how loud it is,device.volume.decrease
+trim the volume,device.volume.decrease
+back the level off,device.volume.decrease
+the noise level is too high,device.volume.decrease
+ratchet it down a notch,device.volume.decrease
+gentle on the volume,device.volume.decrease
+i need it more quiet,device.volume.decrease
+give me a little quiet,device.volume.decrease
+quiet it down for me,device.volume.decrease
+i'd like things quieter,device.volume.decrease
+make my surroundings quieter,device.volume.decrease
+bring me some quiet,device.volume.decrease
+my ears are taking a beating,device.volume.decrease
+the noise is pounding my ears,device.volume.decrease
+this is hammering my ears,device.volume.decrease
+my ears can't take this pounding,device.volume.decrease
+the sound is battering my ears,device.volume.decrease
+cut all the sound,device.volume.mute
+total silence please,device.volume.mute
+kill the audio completely,device.volume.mute
+i want absolute quiet,device.volume.mute
+shut the sound off,device.volume.mute
+silence everything,device.volume.mute
+turn all sound off,device.volume.mute
+no sound at all please,device.volume.mute
+fully mute the aids,device.volume.mute
+stop all audio,device.volume.mute
+mute it entirely,device.volume.mute
+block out every sound,device.volume.mute
+i need complete silence now,device.volume.mute
+zero volume please,device.volume.mute
+switch the sound off,device.volume.mute
+quiet everything down to nothing,device.volume.mute
+mute right now,device.volume.mute
+i want pure silence,device.volume.mute
+cut every bit of sound,device.volume.mute
+make it dead silent,device.volume.mute
+no sound whatsoever please,device.volume.mute
+kill all the noise completely,device.volume.mute
+total quiet now please,device.volume.mute
+shut off all sound for me,device.volume.mute
+silence the aids entirely,device.volume.mute
+i need it perfectly quiet,device.volume.mute
+mute all audio right now,device.volume.mute
+take everything to silence,device.volume.mute
+absolutely no sound please,device.volume.mute
+turn the sound back on,device.volume.unmute
+unmute my aids,device.volume.unmute
+bring the audio back,device.volume.unmute
+restore the sound,device.volume.unmute
+switch sound back on,device.volume.unmute
+take my aids off mute,device.volume.unmute
+let the audio return,device.volume.unmute
+end the silence,device.volume.unmute
+reactivate the sound,device.volume.unmute
+sound back please,device.volume.unmute
+undo the mute,device.volume.unmute
+stop muting now,device.volume.unmute
+i can listen again turn it on,device.volume.unmute
+give me sound again,device.volume.unmute
+re-enable the audio,device.volume.unmute
+put the volume back on,device.volume.unmute
+unmute everything,device.volume.unmute
+bring my sound back,device.volume.unmute
+let me hear things again,device.volume.unmute
+i can hear now turn it on,device.volume.unmute
+give me audio again,device.volume.unmute
+stop the silence i want sound,device.volume.unmute
+return the sound to my aids,device.volume.unmute
+switch my hearing back on,device.volume.unmute
+take the mute off,device.volume.unmute
+i'd like sound again please,device.volume.unmute
+wake the sound back up,device.volume.unmute
+put my hearing back on,device.volume.unmute
+let the audio come back,device.volume.unmute
+i want my aids making sound again,device.volume.unmute
+cancel the mute please,device.volume.unmute
+unmute me,device.volume.unmute
+turn the mute off,device.volume.unmute
+get me off mute,device.volume.unmute
+sound on again please,device.volume.unmute
+reactivate my hearing aid sound,device.volume.unmute
+i'd like to hear once more,device.volume.unmute
+let me hear things once again,device.volume.unmute
+restore my hearing now,device.volume.unmute
+get my sound going again,device.volume.unmute
+i want sound coming through again,device.volume.unmute
+end the mute let me hear,device.volume.unmute
+i'm walking into a loud bar,device.memory.change
+switch me to the restaurant setting,device.memory.change
+i'm sitting down in a crowded diner,device.memory.change
+change to my outdoor program,device.memory.change
+set my aids for a noisy party,device.memory.change
+i'm getting in the car now,device.memory.change
+put me in the music listening mode,device.memory.change
+i'm heading into a meeting,device.memory.change
+tune for this windy weather,device.memory.change
+i'm at the gym now,device.memory.change
+give me my tv watching program,device.memory.change
+change into the quiet mode,device.memory.change
+i just walked into church,device.memory.change
+switch to the program for restaurants,device.memory.change
+set it up for a concert hall,device.memory.change
+i need my noisy environment setting,device.memory.change
+move me to the speech in noise mode,device.memory.change
+i'm starting my commute,device.memory.change
+use the setting for outdoors,device.memory.change
+flip into my everyday program,device.memory.change
+i'm in a loud cafeteria now,device.memory.change
+change the program for this place,device.memory.change
+adjust the mode for traffic,device.memory.change
+i'm settling in to watch a film,device.memory.change
+switch to the program made for crowds,device.memory.change
+load my driving profile,device.memory.change
+set my hearing for a busy street,device.memory.change
+i'm about to join a phone call,device.memory.change
+change to the comfortable indoor mode,device.memory.change
+i'm in a big echoey room now,device.memory.change
+the program isn't right for where i am,device.memory.change
+this setting doesn't suit this place,device.memory.change
+i need a better program for here,device.memory.change
+switch me to something better for this spot,device.memory.change
+this mode isn't working for my surroundings,device.memory.change
+i just took a seat in a noisy cafe,device.memory.change
+i'm now seated in a loud coffee shop,device.memory.change
+settling into a busy restaurant,device.memory.change
+i just sat down somewhere really loud,device.memory.change
+i'm seated in a crowded noisy spot,device.memory.change
+how much charge is left,device.status.battery
+are my aids fully charged,device.status.battery
+what's my battery at,device.status.battery
+do i need to recharge,device.status.battery
+how long will the battery last,device.status.battery
+is the battery low,device.status.battery
+tell me the battery percentage,device.status.battery
+how much power do i have left,device.status.battery
+will these last till tonight,device.status.battery
+check my charge level,device.status.battery
+are the batteries about to run out,device.status.battery
+how many hours of charge remain,device.status.battery
+is there plenty of battery,device.status.battery
+what's the charge on my aids,device.status.battery
+should i charge them now,device.status.battery
+how full is the battery,device.status.battery
+battery level please,device.status.battery
+are my hearing aids charged enough,device.status.battery
+do these have enough power left,device.status.battery
+is my charge running low,device.status.battery
+power level check,device.status.battery
+have i got enough battery for the day,device.status.battery
+is it time to charge,device.status.battery
+how depleted is the battery,device.status.battery
+tell me how charged they are,device.status.battery
+what percentage of battery is left,device.status.battery
+are my aids running out of power,device.status.battery
+send the tv audio to my aids,streaming.session.start
+start streaming the television,streaming.session.start
+play my phone audio through my aids,streaming.session.start
+stream the music into my ears,streaming.session.start
+route the movie sound to my hearing aids,streaming.session.start
+begin streaming to my devices,streaming.session.start
+connect the tv sound to me,streaming.session.start
+let me hear the show through my aids,streaming.session.start
+stream the podcast to my hearing aids,streaming.session.start
+put the audio into my ears,streaming.session.start
+start the audio stream,streaming.session.start
+send sound straight to my aids,streaming.session.start
+play the call through my hearing aids,streaming.session.start
+stream from my tv now,streaming.session.start
+i want to listen to the tv through my aids,streaming.session.start
+beam the audio over to me,streaming.session.start
+hook my aids up to the tv sound,streaming.session.start
+direct the music to my hearing aids,streaming.session.start
+feed the audio into my devices,streaming.session.start
+turn on streaming to my ears,streaming.session.start
+stop streaming to my aids,streaming.session.stop
+end the tv audio stream,streaming.session.stop
+i'm finished listening to the stream,streaming.session.stop
+cut off the streamed audio,streaming.session.stop
+stop sending sound to my hearing aids,streaming.session.stop
+turn streaming off now,streaming.session.stop
+end streaming from the tv,streaming.session.stop
+quit the audio stream,streaming.session.stop
+halt the streaming,streaming.session.stop
+no more streaming please,streaming.session.stop
+stop playing the tv through my aids,streaming.session.stop
+disconnect me from the stream,streaming.session.stop
+shut off the streamed sound,streaming.session.stop
+i'm done with the stream,streaming.session.stop
+close the audio streaming,streaming.session.stop
+stop the music going to my aids,streaming.session.stop
+end the broadcast to my hearing aids,streaming.session.stop
+end my tv streaming,streaming.session.stop
+stop the audio coming to my aids,streaming.session.stop
+quit streaming the television,streaming.session.stop
+i don't want the stream anymore,streaming.session.stop
+close the connection to the tv sound,streaming.session.stop
+stop piping audio to my ears,streaming.session.stop
+turn off the tv streaming,streaming.session.stop
+cut the streamed audio to my aids,streaming.session.stop
+finish the streaming session,streaming.session.stop
+cut the tv connection to my aids,streaming.session.stop
+disconnect the television audio,streaming.session.stop
+end the tv link to my aids,streaming.session.stop
+stop the tv feed to my hearing aids,streaming.session.stop
+drop the connection to the tv sound,streaming.session.stop
+i'm about to go for a run,activity.run.query
+log my jog,activity.run.query
+start recording my run,activity.run.query
+i'm heading out running,activity.run.query
+begin my running workout,activity.run.query
+record this run for me,activity.run.query
+start my jog tracking,activity.run.query
+time my run,activity.run.query
+i'm going jogging now,activity.run.query
+capture my running session,activity.run.query
+start tracking my jog,activity.run.query
+log this running workout,activity.run.query
+kick off my run tracking,activity.run.query
+i want to record a run,activity.run.query
+log the run i just did,activity.run.query
+record the miles i ran,activity.run.query
+save the run i just finished,activity.run.query
+note my jog,activity.run.query
+track the run i completed,activity.run.query
+log my finished run,activity.run.query
+i'm going for a stroll,activity.walk.query
+log my walk,activity.walk.query
+start my walk tracking,activity.walk.query
+record this walk,activity.walk.query
+i'm off for a walk,activity.walk.query
+time my stroll,activity.walk.query
+capture my walking session,activity.walk.query
+start logging my walk,activity.walk.query
+i'm taking a walk now,activity.walk.query
+record my steps on this walk,activity.walk.query
+track my stroll,activity.walk.query
+begin my walking workout,activity.walk.query
+log a walk for me,activity.walk.query
+log the stroll i just took,activity.walk.query
+track the walk i did,activity.walk.query
+record the walking i just finished,activity.walk.query
+i went for a walk log it,activity.walk.query
+save my walk,activity.walk.query
+note down my walk,activity.walk.query
+i'm off for a stroll please track it,activity.walk.query
+heading out for a stroll record it,activity.walk.query
+going for a walk track it for me,activity.walk.query
+start tracking this stroll,activity.walk.query
+log the stroll i'm taking,activity.walk.query
+how many steps today,activity.step.query
+what's my step count,activity.step.query
+show my steps so far,activity.step.query
+check my step total,activity.step.query
+step count please,activity.step.query
+am i close to my step goal,activity.step.query
+tell me my steps for today,activity.step.query
+what's my daily step number,activity.step.query
+how far along my steps am i,activity.step.query
+steps so far today,activity.step.query
+give me my step tally,activity.step.query
+how many steps to my goal,activity.step.query
+display my step count,activity.step.query
+check my stand hours,activity.stand.query
+what's my standing time,activity.stand.query
+how many stand hours today,activity.stand.query
+track my standing,activity.stand.query
+show my stand count,activity.stand.query
+am i meeting my stand goal,activity.stand.query
+how much have i stood today,activity.stand.query
+standing time please,activity.stand.query
+tell me my stand hours,activity.stand.query
+how long on my feet today,activity.stand.query
+log my standing time,activity.stand.query
+have i stood enough today,activity.stand.query
+my standing total please,activity.stand.query
+check standing progress,activity.stand.query
+track my bike ride,activity.cycle.query
+i'm going cycling,activity.cycle.query
+log my ride,activity.cycle.query
+start my cycling workout,activity.cycle.query
+record this bike ride,activity.cycle.query
+how far have i cycled,activity.cycle.query
+begin tracking my ride,activity.cycle.query
+i'm heading out on the bike,activity.cycle.query
+capture my cycling session,activity.cycle.query
+time my bike ride,activity.cycle.query
+start logging my cycling,activity.cycle.query
+track my biking,activity.cycle.query
+how many miles have i biked,activity.cycle.query
+record my ride for me,activity.cycle.query
+log this cycling session,activity.cycle.query
+track my aerobics,activity.aerobics.query
+start my aerobics workout,activity.aerobics.query
+log my aerobics session,activity.aerobics.query
+i'm doing aerobics now,activity.aerobics.query
+record my aerobics,activity.aerobics.query
+capture my aerobics class,activity.aerobics.query
+time my aerobics,activity.aerobics.query
+start my cardio class tracking,activity.aerobics.query
+log this aerobics workout,activity.aerobics.query
+i'm starting aerobics,activity.aerobics.query
+track my dance workout,activity.aerobics.query
+record my aerobic exercise,activity.aerobics.query
+begin my aerobics session,activity.aerobics.query
+log my cardio dance,activity.aerobics.query
+track my workout,activity.exercise.query
+i'm about to exercise,activity.exercise.query
+log my exercise,activity.exercise.query
+start my workout,activity.exercise.query
+record my training session,activity.exercise.query
+begin tracking my exercise,activity.exercise.query
+i'm working out now,activity.exercise.query
+capture my workout,activity.exercise.query
+time my exercise,activity.exercise.query
+start logging my training,activity.exercise.query
+track this gym session,activity.exercise.query
+record my workout for me,activity.exercise.query
+i'm hitting the gym track it,activity.exercise.query
+log my exercise session,activity.exercise.query
+begin my workout tracking,activity.exercise.query
+how many calories have i burned,activity.calories.query
+what's my calorie burn today,activity.calories.query
+show my calories,activity.calories.query
+check my burned calories,activity.calories.query
+calorie count please,activity.calories.query
+how much energy have i burned,activity.calories.query
+tell me my calories for today,activity.calories.query
+what's my burn so far,activity.calories.query
+display my calorie total,activity.calories.query
+how many calories today,activity.calories.query
+my calorie burn please,activity.calories.query
+calories burned so far,activity.calories.query
+give me my energy burn,activity.calories.query
+how many calories did i burn,activity.calories.query
+text my friend,messaging.message.send
+send a message to my wife,messaging.message.send
+i want to message my son,messaging.message.send
+shoot a text to mom,messaging.message.send
+send word to my daughter,messaging.message.send
+drop my brother a message,messaging.message.send
+write a text to my neighbor,messaging.message.send
+message my husband,messaging.message.send
+send a quick text,messaging.message.send
+let my friend know i'm on my way,messaging.message.send
+text my sister,messaging.message.send
+send a note to dad,messaging.message.send
+compose a message to my coworker,messaging.message.send
+i need to text someone,messaging.message.send
+fire off a text,messaging.message.send
+send a text to my doctor,messaging.message.send
+message my family,messaging.message.send
+get a text to my friend,messaging.message.send
+start a text to my partner,messaging.message.send
+i have news to text a contact,messaging.message.send
+send my update to someone,messaging.message.send
+let a contact know my news by text,messaging.message.send
+text a contact with my news,messaging.message.send
+i want to tell someone my news in a message,messaging.message.send
+message a contact an update,messaging.message.send
+share my news with a contact by text,messaging.message.send
+read my messages out loud,messaging.message.listen
+play back my texts,messaging.message.listen
+what messages do i have,messaging.message.listen
+read my latest text,messaging.message.listen
+play my new messages,messaging.message.listen
+read out who texted me,messaging.message.listen
+any new messages read them,messaging.message.listen
+speak my messages,messaging.message.listen
+play the text i just got,messaging.message.listen
+read my unread messages,messaging.message.listen
+tell me my messages,messaging.message.listen
+hear my texts please,messaging.message.listen
+read me the latest message,messaging.message.listen
+play my incoming texts,messaging.message.listen
+read me what people sent,messaging.message.listen
+play the messages i received,messaging.message.listen
+what texts came in for me,messaging.message.listen
+read my new texts aloud,messaging.message.listen
+let me listen to my messages,messaging.message.listen
+play who messaged me,messaging.message.listen
+read out my incoming messages,messaging.message.listen
+tell me what messages i got,messaging.message.listen
+speak my latest texts to me,messaging.message.listen
+play back the texts i received,messaging.message.listen
+read my message inbox,messaging.message.listen
+what did my contacts send me,messaging.message.listen
+what messages did people send me,messaging.message.listen
+did anyone send me anything read it,messaging.message.listen
+read me what was sent,messaging.message.listen
+tell me what people texted,messaging.message.listen
+play what people sent me,messaging.message.listen
+where did i leave my phone,find.phone.locate
+help me find my phone,find.phone.locate
+make my phone ring,find.phone.locate
+i can't find my phone,find.phone.locate
+locate my phone for me,find.phone.locate
+ping my phone,find.phone.locate
+where's my cell phone,find.phone.locate
+find my handset,find.phone.locate
+sound an alert on my phone,find.phone.locate
+i misplaced my phone find it,find.phone.locate
+track down my phone,find.phone.locate
+my phone is lost ring it,find.phone.locate
+buzz my phone so i hear it,find.phone.locate
+where is my mobile,find.phone.locate
+help me track down my phone,find.phone.locate
+i lost my phone make it sound,find.phone.locate
+where could my phone be ring it,find.phone.locate
+set off an alert on my phone,find.phone.locate
+my handset is missing please ring it,find.phone.locate
+sound my phone so i can locate it,find.phone.locate
+i can't locate my phone ping it,find.phone.locate
+make my lost phone beep,find.phone.locate
+find where my phone went,find.phone.locate
+track down my handset for me,find.phone.locate
+locate my handset,find.phone.locate
+find my cell for me,find.phone.locate
+track down my mobile,find.phone.locate
+i can't find my handset ring it,find.phone.locate
+start transcribing this,transcription.session.start
+write down what's being said,transcription.session.start
+turn speech into text now,transcription.session.start
+begin the live transcript,transcription.session.start
+transcribe what i'm hearing,transcription.session.start
+put this conversation into writing,transcription.session.start
+start the captions,transcription.session.start
+capture this talk as text,transcription.session.start
+get a transcript going,transcription.session.start
+convert what they're saying to text,transcription.session.start
+start writing down the speech,transcription.session.start
+give me live captions now,transcription.session.start
+transcribe this meeting,transcription.session.start
+begin converting speech to text,transcription.session.start
+caption what people are saying around me,transcription.session.start
+put captions on everyone's speech,transcription.session.start
+show me text of what people say,transcription.session.start
+caption the people talking,transcription.session.start
+write out what folks are saying,transcription.session.start
+translate this for me now,translation.session.start
+start translating what they say,translation.session.start
+turn on translation,translation.session.start
+translate their speech into english,translation.session.start
+begin live translation,translation.session.start
+translate this conversation,translation.session.start
+switch on translate mode,translation.session.start
+translate what i'm hearing,translation.session.start
+start translating to spanish,translation.session.start
+translate them into my language,translation.session.start
+get translation going,translation.session.start
+translate the speech now,translation.session.start
+begin translating for me,translation.session.start
+translate this person's words,translation.session.start
+start the live translation,translation.session.start
+they're speaking a foreign language translate it,translation.session.start
+i can't understand their language translate,translation.session.start
+i can't understand this foreign language,translation.session.start
+help me understand what they're saying in another language,translation.session.start
+they're speaking another language i can't follow,translation.session.start
+understand this foreign speaker for me,translation.session.start
+put their foreign words into my language,translation.session.start
+i don't understand their foreign language,translation.session.start
+convert this foreign language to english,translation.session.start
+they don't speak english help me understand them,translation.session.start
+remind me to take my pills at 8,reminders.task.create
+set a reminder to call the clinic,reminders.task.create
+don't let me forget my appointment,reminders.task.create
+remind me about dinner at six,reminders.task.create
+make a reminder to charge my aids,reminders.task.create
+i need a reminder to take medication,reminders.task.create
+set something to remind me tomorrow,reminders.task.create
+remind me to water the plants,reminders.task.create
+add a reminder for my meeting,reminders.task.create
+remind me to call my daughter later,reminders.task.create
+put a reminder for my checkup,reminders.task.create
+help me remember to buy milk,reminders.task.create
+remind me to leave at noon,reminders.task.create
+set a reminder for my pills tonight,reminders.task.create
+create a reminder to pay the bill,reminders.task.create
+nudge me to stretch in an hour,reminders.task.create
+remind me about the doctor on friday,reminders.task.create
+set a daily reminder for my vitamins,reminders.task.create
+remind me to take out the trash,reminders.task.create
+i want a reminder for my class,reminders.task.create
+alert me when it's time to leave,reminders.task.create
+give me an alert at the scheduled time,reminders.task.create
+set an alert so i don't miss it,reminders.task.create
+i have an appointment coming up don't let me miss it,reminders.task.create
+make sure i don't miss my appointment,reminders.task.create
+buzz me when it's time,reminders.task.create
+notify me when the time comes,reminders.task.create
+i can't miss this appointment remind me,reminders.task.create
+set an alert for my appointment,reminders.task.create
+poke me when the time arrives,reminders.task.create
+mark my reminder done,reminders.task.complete
+i finished that task,reminders.task.complete
+check off my reminder,reminders.task.complete
+that reminder is complete,reminders.task.complete
+i took my pills mark it done,reminders.task.complete
+clear that reminder,reminders.task.complete
+i did it cross it off,reminders.task.complete
+complete my reminder,reminders.task.complete
+mark that task finished,reminders.task.complete
+i handled that remove the reminder,reminders.task.complete
+done with that reminder,reminders.task.complete
+i already did that mark complete,reminders.task.complete
+close out that reminder,reminders.task.complete
+that one's finished,reminders.task.complete
+i already did that one clear it,reminders.task.complete
+that task is taken care of,reminders.task.complete
+go ahead and finish that reminder,reminders.task.complete
+i wrapped that up mark it done,reminders.task.complete
+you can clear that reminder now,reminders.task.complete
+that's handled cross it off,reminders.task.complete
+i completed it remove the reminder,reminders.task.complete
+done dealt with that reminder,reminders.task.complete
+i finished that reminder mark it,reminders.task.complete
+that reminder is done remove it,reminders.task.complete
+check that reminder off the list,reminders.task.complete
+i'm done with that task clear the reminder,reminders.task.complete
+cross that reminder off,reminders.task.complete
+that to-do is finished mark it complete,reminders.task.complete
+wrap up that reminder it's done,reminders.task.complete
+i've completed that reminder,reminders.task.complete
+how do i adjust the volume,help.volume.show
+explain the volume controls,help.volume.show
+where do i change loudness,help.volume.show
+how can i set volume per ear,help.volume.show
+help me understand volume settings,help.volume.show
+what are the volume options,help.volume.show
+how do volume adjustments work,help.volume.show
+guide me on changing volume,help.volume.show
+where is the loudness control,help.volume.show
+how do i tweak the volume on each side,help.volume.show
+explain how to make it louder or softer,help.volume.show
+volume settings help,help.volume.show
+how does the volume control work,help.volume.show
+what's the way to change volume,help.volume.show
+help with the volume feature,help.volume.show
+how do i make one side louder,help.volume.show
+explain adjusting volume per ear,help.volume.show
+where do i control the loudness,help.volume.show
+help with volume on each aid,help.volume.show
+how do i balance the volume between ears,help.volume.show
+what's the volume control feature,help.volume.show
+how do i turn the volume up in the app,help.volume.show
+guide me on volume adjustment,help.volume.show
+where are the loudness settings,help.volume.show
+how do volume changes get saved,help.volume.show
+explain the loudness controls,help.volume.show
+help me understand volume per side,help.volume.show
+can i have a different volume in each ear,help.volume.show
+set independent loudness per side,help.volume.show
+different volume for my left and right,help.volume.show
+adjust each ear's volume separately,help.volume.show
+control the loudness of each aid on its own,help.volume.show
+how do i switch programs,help.changing_memories.show
+explain changing memories,help.changing_memories.show
+how do i move between settings,help.changing_memories.show
+what's the way to change my program,help.changing_memories.show
+help me understand switching memories,help.changing_memories.show
+how do different programs work,help.changing_memories.show
+guide me through changing memories,help.changing_memories.show
+how can i flip between modes,help.changing_memories.show
+explain how memory switching works,help.changing_memories.show
+where do i change which program i'm on,help.changing_memories.show
+help with switching between programs,help.changing_memories.show
+how do i toggle my hearing programs,help.changing_memories.show
+what does changing memory do,help.changing_memories.show
+memory switching help,help.changing_memories.show
+how do i go from one program to another,help.changing_memories.show
+explain how to move between my programs,help.changing_memories.show
+help understanding program switching,help.changing_memories.show
+how does changing profiles work,help.changing_memories.show
+guide me on switching my hearing programs,help.changing_memories.show
+what's the way to change between settings,help.changing_memories.show
+how do i learn about changing programs,help.changing_memories.show
+explain switching my hearing modes,help.changing_memories.show
+help with moving between memories,help.changing_memories.show
+how do program changes work on my aids,help.changing_memories.show
+help me switch between profiles,help.changing_memories.show
+how do i switch profiles,help.changing_memories.show
+guide me on switching profiles,help.changing_memories.show
+i need help changing between my programs,help.changing_memories.show
+walk me through switching profiles,help.changing_memories.show
+can i rename my memories,help.memory_options.show
+explain memory options,help.memory_options.show
+how do i delete a program,help.memory_options.show
+what memory settings are available,help.memory_options.show
+how do i save a favorite program,help.memory_options.show
+can i set a program for a place,help.memory_options.show
+help with memory presets,help.memory_options.show
+how do custom programs work,help.memory_options.show
+explain the program options,help.memory_options.show
+how many memories can i have,help.memory_options.show
+can i add a new memory,help.memory_options.show
+what are my program choices,help.memory_options.show
+help me set up a custom memory,help.memory_options.show
+how do i manage my programs,help.memory_options.show
+explain my program setup options,help.memory_options.show
+how do i organize my memories,help.memory_options.show
+what can i do with program presets,help.memory_options.show
+help managing my saved programs,help.memory_options.show
+how do i add or remove a program,help.memory_options.show
+guide me on program options,help.memory_options.show
+how do i pair my aids to my phone,help.pairing.show
+explain bluetooth pairing,help.pairing.show
+my aids won't connect to the app,help.pairing.show
+help pairing with my phone,help.pairing.show
+how to set up bluetooth,help.pairing.show
+guide me through pairing,help.pairing.show
+why won't my aids pair,help.pairing.show
+how do i link my aids to bluetooth,help.pairing.show
+pairing help please,help.pairing.show
+steps to pair my devices,help.pairing.show
+my hearing aids lost connection to the phone,help.pairing.show
+how to bond my aids with the app,help.pairing.show
+bluetooth pairing help,help.pairing.show
+my aids dropped their bluetooth connection,help.pairing.show
+i lost the connection to my hearing aids,help.pairing.show
+my hearing aids disconnected reconnect them,help.pairing.show
+the connection to my aids dropped,help.pairing.show
+my aids won't stay connected to my phone,help.pairing.show
+reconnect my hearing aids to the app,help.pairing.show
+my aids keep losing the bluetooth link,help.pairing.show
+help my aids lost connection to the phone,help.pairing.show
+how do i find lost hearing aids,help.find_my_hearing_aids.show
+explain the find my aids feature,help.find_my_hearing_aids.show
+where is the locator for my aids,help.find_my_hearing_aids.show
+how does finding my aids work,help.find_my_hearing_aids.show
+help me locate misplaced aids,help.find_my_hearing_aids.show
+what's the find my hearing aids tool,help.find_my_hearing_aids.show
+how can the app help me find my aids,help.find_my_hearing_aids.show
+guide me to the aid finder,help.find_my_hearing_aids.show
+how do i track down my aids,help.find_my_hearing_aids.show
+where do i see my aids last location,help.find_my_hearing_aids.show
+help finding my hearing aids feature,help.find_my_hearing_aids.show
+how do i use find my hearing aids,help.find_my_hearing_aids.show
+what does the locate aids feature do,help.find_my_hearing_aids.show
+find my aids help,help.find_my_hearing_aids.show
+how do i search for my hearing aids in the app,help.find_my_hearing_aids.show
+what accessories work with my aids,help.accessories.show
+explain the remote microphone,help.accessories.show
+how do i use the tv streamer,help.accessories.show
+what add-ons are available,help.accessories.show
+help with the remote mic,help.accessories.show
+do my aids support a tv connector,help.accessories.show
+what extra devices can i pair,help.accessories.show
+explain the accessory options,help.accessories.show
+how does the mini remote work,help.accessories.show
+what gadgets are compatible,help.accessories.show
+tell me about the available accessories,help.accessories.show
+how do i set up the tv accessory,help.accessories.show
+accessories help please,help.accessories.show
+what hardware can i add,help.accessories.show
+guide me on accessories,help.accessories.show
+can i use a clip on microphone,help.accessories.show
+does it work with a remote mic,help.accessories.show
+can i connect an external mic,help.accessories.show
+what microphones can i pair,help.accessories.show
+is there a tv streaming accessory,help.accessories.show
+can i add a partner mic,help.accessories.show
+does a remote microphone work with my aids,help.accessories.show
+what extra mics are supported,help.accessories.show
+can i use a lapel mic with my aids,help.accessories.show
+can i stream using a remote microphone,help.accessories.show
+does a clip on mic send audio to my aids,help.accessories.show
+use an external mic accessory with my aids,help.accessories.show
+does the partner mic stream to my hearing aids,help.accessories.show
+can i pair a wearable microphone,help.accessories.show
+stream from an accessory mic to my aids,help.accessories.show
+what microphone accessories can stream to me,help.accessories.show
+connect a remote mic accessory,help.accessories.show
+how does remote programming work,help.remote_programming.show
+can my audiologist tune my aids remotely,help.remote_programming.show
+explain remote adjustments,help.remote_programming.show
+how do i get remote fine tuning,help.remote_programming.show
+what is remote tuning,help.remote_programming.show
+can settings be changed from afar,help.remote_programming.show
+explain how remote tuning works,help.remote_programming.show
+how do remote updates to my aids work,help.remote_programming.show
+guide me on remote programming,help.remote_programming.show
+how does my provider adjust my aids remotely,help.remote_programming.show
+what does remote programming let me do,help.remote_programming.show
+help understanding remote tuning,help.remote_programming.show
+explain how my audiologist tunes me remotely,help.remote_programming.show
+help with getting a remote adjustment,help.remote_programming.show
+how do remote fittings work,help.remote_programming.show
+guide me on remote fine tuning,help.remote_programming.show
+how do i ask for a remote fitting,help.remote_programming.show
+what is the remote fitting process,help.remote_programming.show
+my ears keep ringing what can i do,help.tinnitus.show
+explain the tinnitus features,help.tinnitus.show
+how do i manage ringing in my ears,help.tinnitus.show
+help with the buzzing in my ears,help.tinnitus.show
+what does the tinnitus tool do,help.tinnitus.show
+how do i use tinnitus relief,help.tinnitus.show
+is there a feature for ear ringing,help.tinnitus.show
+explain how to ease tinnitus,help.tinnitus.show
+how does the masking sound help tinnitus,help.tinnitus.show
+help for the constant ringing,help.tinnitus.show
+what are my options for tinnitus,help.tinnitus.show
+how do i turn on tinnitus relief,help.tinnitus.show
+guide me on tinnitus management,help.tinnitus.show
+tinnitus feature help,help.tinnitus.show
+how can my aids help with ringing,help.tinnitus.show
+help with the ringing in my ears feature,help.tinnitus.show
+how do i manage my tinnitus,help.tinnitus.show
+the masking sound feature help,help.tinnitus.show
+how do i start the tinnitus relief sound,help.tinnitus.show
+explain how the aids help with ringing,help.tinnitus.show
+what's the tinnitus relief feature,help.tinnitus.show
+how do i turn on the soothing sound,help.tinnitus.show
+help for my ear ringing,help.tinnitus.show
+guide me on tinnitus relief,help.tinnitus.show
+what does the tinnitus feature do,help.tinnitus.show
+how do i use the masking noise,help.tinnitus.show
+explain the relief sound for ringing ears,help.tinnitus.show
+the ringing in my ears is unbearable,help.tinnitus.show
+this ear ringing is driving me crazy,help.tinnitus.show
+i can't stand the ringing in my ears,help.tinnitus.show
+the constant ringing is maddening,help.tinnitus.show
+help the ringing won't stop,help.tinnitus.show
+how do i run a self check,help.self_check.show
+explain the self check feature,help.self_check.show
+how do i test my hearing aids,help.self_check.show
+what does the self check do,help.self_check.show
+help me check if my aids work,help.self_check.show
+how to run diagnostics on my aids,help.self_check.show
+guide me through a self check,help.self_check.show
+how do i verify my aids are working,help.self_check.show
+self check help please,help.self_check.show
+where is the device test,help.self_check.show
+how do i make sure my aids are okay,help.self_check.show
+explain how to test my devices,help.self_check.show
+run me through the self check,help.self_check.show
+what does a self check tell me,help.self_check.show
+how do i diagnose my hearing aids,help.self_check.show
+how do i diagnose a problem with my aids,help.self_check.show
+run me through testing my hearing aids,help.self_check.show
+help checking if something is wrong with my aid,help.self_check.show
+how do i troubleshoot my aids myself,help.self_check.show
+guide me on running a device test,help.self_check.show
+what does running a diagnostic check do,help.self_check.show
+what is my thrive score,help.thrive_score.show
+explain how the thrive score works,help.thrive_score.show
+where do i see my wellness score,help.thrive_score.show
+how is my score calculated,help.thrive_score.show
+help me understand the thrive score,help.thrive_score.show
+what does my body and brain score mean,help.thrive_score.show
+how do i improve my thrive score,help.thrive_score.show
+explain the engagement score,help.thrive_score.show
+what goes into the thrive score,help.thrive_score.show
+where is my daily score,help.thrive_score.show
+what's a good thrive score,help.thrive_score.show
+how do i check my wellness score,help.thrive_score.show
+explain my brain score,help.thrive_score.show
+thrive score help,help.thrive_score.show
+where do i find my overall rating,help.thrive_score.show
+show my daily wellness rating,help.thrive_score.show
+what's my total thrive number,help.thrive_score.show
+where is my engagement rating,help.thrive_score.show
+my overall score for the day,help.thrive_score.show
+how do i view my thrive rating,help.thrive_score.show
+where's my combined body and brain rating,help.thrive_score.show
+what is my daily achievement score,help.thrive_score.show
+the audio keeps cutting out what do i do,help.device_settings.show
+my aids sound distorted help,help.device_settings.show
+why does the sound drop sometimes,help.device_settings.show
+everything sounds fuzzy how do i fix it,help.device_settings.show
+help my aids sound off,help.device_settings.show
+the sound quality went bad,help.device_settings.show
+my hearing aids sound muffled,help.device_settings.show
+why is there static in my aids,help.device_settings.show
+how do i fix poor sound quality,help.device_settings.show
+the audio is breaking up,help.device_settings.show
+my aids keep glitching,help.device_settings.show
+sound is crackling in my hearing aids,help.device_settings.show
+help with bad audio from my aids,help.device_settings.show
+why do my aids sound strange,help.device_settings.show
+my hearing aids aren't sounding right,help.device_settings.show
+my hearing aids keep cutting out,help.device_settings.show
+help my aids sound crackly,help.device_settings.show
+the sound quality is poor lately,help.device_settings.show
+why do my aids buzz,help.device_settings.show
+my aids keep dropping sound,help.device_settings.show
+help fixing the sound on my aids,help.device_settings.show
+the audio is distorted on my hearing aids,help.device_settings.show
+my aids sound tinny,help.device_settings.show
+why is my hearing aid quiet on one side,help.device_settings.show
+troubleshoot my hearing aid sound,help.device_settings.show
+my aids cut out intermittently,help.device_settings.show
+help with poor audio from my aids,help.device_settings.show
+the sound keeps breaking up,help.device_settings.show
+my hearing aids sound off today,help.device_settings.show
+fix the static in my aids,help.device_settings.show
+why do my aids sound muffled,help.device_settings.show
+help my hearing aids aren't sounding right,help.device_settings.show
+sort out the sound issue on my aids,help.device_settings.show
+fix the sound problems on my aids,help.device_settings.show
+help with my hearing aid sound settings,help.device_settings.show
+sort out my device audio,help.device_settings.show
+my aids need adjusting they sound bad,help.device_settings.show
+repair the audio on my hearing aids,help.device_settings.show
+help me fix my aid settings,help.device_settings.show
+the sound keeps cutting in and out,help.device_settings.show
+my audio quality has gone downhill,help.device_settings.show
+the sound from my aids has gotten worse,help.device_settings.show
+my hearing aid sound keeps glitching,help.device_settings.show
+fix the declining sound on my aids,help.device_settings.show
+how does intellivoice work,help.intelli_voice.show
+explain the smart voice feature,help.intelli_voice.show
+what does intelligent voice do,help.intelli_voice.show
+how do i turn on intellivoice,help.intelli_voice.show
+help with the speech enhancement feature,help.intelli_voice.show
+what is the ai voice feature,help.intelli_voice.show
+how does the voice clarity feature work,help.intelli_voice.show
+explain dnn speech enhancement,help.intelli_voice.show
+when should i use intellivoice,help.intelli_voice.show
+guide me on intelligent voice,help.intelli_voice.show
+intellivoice help please,help.intelli_voice.show
+what does the smart speech mode do,help.intelli_voice.show
+how do i enable speech enhancement,help.intelli_voice.show
+explain how intellivoice helps,help.intelli_voice.show
+tell me about the intelligent voice feature,help.intelli_voice.show
+how does fall detection work,help.fall_alert.show
+will my aids alert someone if i fall,help.fall_alert.show
+explain the fall alert feature,help.fall_alert.show
+what happens when i fall,help.fall_alert.show
+help with fall alerts,help.fall_alert.show
+does it notify family if i take a tumble,help.fall_alert.show
+explain how fall alerts are sent,help.fall_alert.show
+how do i turn on fall detection,help.fall_alert.show
+what does the fall alert do,help.fall_alert.show
+guide me on fall alerts,help.fall_alert.show
+who gets notified if i fall,help.fall_alert.show
+fall detection help,help.fall_alert.show
+how reliable is the fall alert,help.fall_alert.show
+how do fall notifications work,help.fall_alert.show
+will it notice if i take a tumble,help.fall_alert.show
+does it catch a fall,help.fall_alert.show
+will it know if i fall over,help.fall_alert.show
+does it spot a fall and alert someone,help.fall_alert.show
+will a tumble trigger an alert,help.fall_alert.show
+how do i share what i hear,help.hear_share.show
+explain hearshare,help.hear_share.show
+can someone listen along with me,help.hear_share.show
+help setting up hearshare,help.hear_share.show
+how do i add a person to hearshare,help.hear_share.show
+what is the hearshare feature,help.hear_share.show
+explain how to share my audio,help.hear_share.show
+how do i let a caregiver listen,help.hear_share.show
+guide me through hearshare,help.hear_share.show
+hearshare help please,help.hear_share.show
+can i share my hearing aid sound with family,help.hear_share.show
+how does hearshare connect another person,help.hear_share.show
+what does shared listening do,help.hear_share.show
+help me use hearshare,help.hear_share.show
+how do i let another person hear with me,help.hear_share.show
+explain sharing my audio with family,help.hear_share.show
+help with the shared listening feature,help.hear_share.show
+can a caregiver listen to what i hear,help.hear_share.show
+how do i invite someone to hearshare,help.hear_share.show
+what does the share listening feature do,help.hear_share.show
+how do i share my hearing aid audio,help.hear_share.show
+guide me on sharing what i hear,help.hear_share.show
+can two people listen together,help.hear_share.show
+how does sharing audio with another person work,help.hear_share.show
+help setting up shared listening,help.hear_share.show
+explain how to share my sound,help.hear_share.show
+let a friend hear what i hear,help.hear_share.show
+share my hearing with another person,help.hear_share.show
+i want someone to listen along,help.hear_share.show
+stream what i hear to a family member,help.hear_share.show
+can my spouse hear through my aids,help.hear_share.show
+share my audio with a loved one,help.hear_share.show
+let another person hear what i hear,help.hear_share.show
+stream my hearing to someone else,help.hear_share.show
+can a friend listen along with me,help.hear_share.show
+share my hearing aid audio with someone,help.hear_share.show
+let a family member listen in,help.hear_share.show
+send what i hear to another person,help.hear_share.show
+how do i let someone listen with me,help.hear_share.show
+share my audio so others can hear,help.hear_share.show
+what voice assistants can i use,help.voice_assistant.show
+can i use siri with my aids,help.voice_assistant.show
+explain the voice assistant feature,help.voice_assistant.show
+how do i set up google assistant,help.voice_assistant.show
+help with the voice assistant,help.voice_assistant.show
+does it work with alexa,help.voice_assistant.show
+how do i talk to my voice assistant,help.voice_assistant.show
+explain how voice control works,help.voice_assistant.show
+how do i enable the assistant,help.voice_assistant.show
+what can the voice assistant do,help.voice_assistant.show
+guide me on the voice assistant,help.voice_assistant.show
+voice assistant help please,help.voice_assistant.show
+how do i use voice commands,help.voice_assistant.show
+can i control my aids by voice,help.voice_assistant.show
+tell me about the voice assistant,help.voice_assistant.show
+explain using a voice assistant with my aids,help.voice_assistant.show
+help setting up voice control,help.voice_assistant.show
+can i pair siri to my hearing aids,help.voice_assistant.show
+guide me on the voice assistant feature,help.voice_assistant.show
+how do i use google assistant with my aids,help.voice_assistant.show
+what voice helpers are supported,help.voice_assistant.show
+how do i put my hearing aids in,help.insert_device.show
+explain how to insert my aids,help.insert_device.show
+which way does the aid go in my ear,help.insert_device.show
+help putting in my hearing aids,help.insert_device.show
+my aid keeps falling out how do i fit it,help.insert_device.show
+how do i wear my aids properly,help.insert_device.show
+guide me on inserting my hearing aids,help.insert_device.show
+how should the aid sit in my ear,help.insert_device.show
+tips for putting in my aids,help.insert_device.show
+how do i place the dome in my ear,help.insert_device.show
+help me fit my hearing aids,help.insert_device.show
+what's the right way to insert my aids,help.insert_device.show
+how do i get the aid to stay in,help.insert_device.show
+explain proper aid placement,help.insert_device.show
+inserting hearing aids help,help.insert_device.show
+my hearing aid keeps slipping out,help.insert_device.show
+the aid won't stay in my ear,help.insert_device.show
+my device won't sit properly,help.insert_device.show
+the hearing aid falls out when i chew,help.insert_device.show
+my aid feels loose in my ear,help.insert_device.show
+why does my aid keep coming out,help.insert_device.show
+the dome won't stay put,help.insert_device.show
+my aid keeps working its way out,help.insert_device.show
+how do i keep my aid from falling out,help.insert_device.show
+my device keeps falling out of my ear,help.insert_device.show
+the aid keeps dropping out of my ear,help.insert_device.show
+my hearing aid falls out of my ear,help.insert_device.show
+the device won't stay seated in my ear,help.insert_device.show
+my aid keeps popping out,help.insert_device.show
+my hearing aid won't stay in it keeps coming out,help.insert_device.show
+how do i change the app settings,help.app_settings.show
+where are the app preferences,help.app_settings.show
+explain the settings menu,help.app_settings.show
+how do i reset the app,help.app_settings.show
+help with the app configuration,help.app_settings.show
+how do i update my app preferences,help.app_settings.show
+where do i manage app options,help.app_settings.show
+how do i change the app language,help.app_settings.show
+guide me through app settings,help.app_settings.show
+how do i adjust notifications in the app,help.app_settings.show
+how do i restore default app settings,help.app_settings.show
+where do i find the settings page,help.app_settings.show
+how do i set up the app the way i want,help.app_settings.show
+explain how to configure the app,help.app_settings.show
+how do i clean my hearing aids,help.clean_care.show
+explain how to care for my aids,help.clean_care.show
+can my aids get wet,help.clean_care.show
+help keeping my hearing aids clean,help.clean_care.show
+what's the best way to clean my aids,help.clean_care.show
+tips for cleaning my aids,help.clean_care.show
+how do i remove wax from my aids,help.clean_care.show
+guide me on caring for my hearing aids,help.clean_care.show
+cleaning and care help,help.clean_care.show
+how should i store my aids overnight,help.clean_care.show
+how do i keep moisture out of my aids,help.clean_care.show
+explain hearing aid maintenance,help.clean_care.show
+is it safe to get my aids wet,help.clean_care.show
+can my hearing aids handle water,help.clean_care.show
+what if my aids get damp,help.clean_care.show
+are my aids waterproof,help.clean_care.show
+can i wear my aids in the shower,help.clean_care.show
+what happens if my aids get wet,help.clean_care.show
+is moisture bad for my hearing aids,help.clean_care.show
+can i clean my aids with water,help.clean_care.show
+how do i deal with sweat on my aids,help.clean_care.show
+how do i take care of my aids,help.clean_care.show
+upkeep for my hearing aids,help.clean_care.show
+how do i look after my hearing aids,help.clean_care.show
+keeping my aids in good shape,help.clean_care.show
+caring for and maintaining my aids,help.clean_care.show
+how do i personalize my sound,help.customize.show
+explain how to customize my aids,help.customize.show
+can i fine tune the bass and treble,help.customize.show
+how do i tailor my hearing experience,help.customize.show
+help customizing my settings,help.customize.show
+how do i adjust the tone of my aids,help.customize.show
+what can i personalize on my aids,help.customize.show
+guide me on customizing sound,help.customize.show
+how do i set my own preferences,help.customize.show
+how do i change the sound profile,help.customize.show
+customization help please,help.customize.show
+how do i make the sound my own,help.customize.show
+can i adjust settings for my taste,help.customize.show
+explain personalizing my hearing aids,help.customize.show
+how do i customize how things sound,help.customize.show
+how do i fine tune my sound preferences,help.customize.show
+explain personalizing my hearing,help.customize.show
+where do i adjust bass and treble,help.customize.show
+help tailoring my hearing experience,help.customize.show
+how do i set my own sound profile,help.customize.show
+what can i personalize on my hearing aids,help.customize.show
+guide me on customizing my sound,help.customize.show
+how do i change the tone of my aids,help.customize.show
+explain the personalization options,help.customize.show
+how do i make the sound suit me,help.customize.show
+help customizing how things sound,help.customize.show
+where do i tweak my sound settings,help.customize.show
+what's new in the app,help.whats_new.show
+show me the latest features,help.whats_new.show
+what got added recently,help.whats_new.show
+any new updates to know about,help.whats_new.show
+explain what changed in this version,help.whats_new.show
+what's been updated lately,help.whats_new.show
+tell me about new features,help.whats_new.show
+what's different in the latest release,help.whats_new.show
+show recent changes,help.whats_new.show
+what improvements are new,help.whats_new.show
+help me see what's new,help.whats_new.show
+what features were just added,help.whats_new.show
+catch me up on new stuff,help.whats_new.show
+what's new in this update,help.whats_new.show
+recent feature updates please,help.whats_new.show
+how does the cros system work,help.wi_c_r_o_s.show
+explain wireless cros,help.wi_c_r_o_s.show
+what is a cros hearing aid,help.wi_c_r_o_s.show
+help with my cros setup,help.wi_c_r_o_s.show
+how does cros send sound to my good ear,help.wi_c_r_o_s.show
+what does the cros do,help.wi_c_r_o_s.show
+explain how cros and bicros work,help.wi_c_r_o_s.show
+how do i use my cros device,help.wi_c_r_o_s.show
+guide me on the cros feature,help.wi_c_r_o_s.show
+what is wicros,help.wi_c_r_o_s.show
+cros help please,help.wi_c_r_o_s.show
+how does the cros transmitter work,help.wi_c_r_o_s.show
+how do i set up cros,help.wi_c_r_o_s.show
+explain the cros for single sided hearing,help.wi_c_r_o_s.show
+tell me about the cros system,help.wi_c_r_o_s.show
+i don't know how to use this app,help.home.show
+walk me through the basics,help.home.show
+what can this app do for me,help.home.show
+i'm new help me get started,help.home.show
+give me an overview of the app,help.home.show
+i'm confused by all these screens,help.home.show
+help me figure out the app,help.home.show
+what should i do first here,help.home.show
+i need a hand getting going,help.home.show
+explain the main screen to me,help.home.show
+where do i go to do things,help.home.show
+help me get oriented,help.home.show
+what are the main things i can do,help.home.show
+introduce me to the app,help.home.show
+i'm completely lost in here,help.home.show
+this is all confusing to me,help.home.show
+i can't make sense of the app,help.home.show
+i don't get how any of this works,help.home.show
+help i'm overwhelmed by the app,help.home.show
+should i use rechargeable or disposable batteries,help.battery.show
+explain battery options for my aids,help.battery.show
+my battery drains too fast why,help.battery.show
+how long should a battery last,help.battery.show
+help with battery questions,help.battery.show
+what battery size do my aids use,help.battery.show
+tips to make my batteries last longer,help.battery.show
+why is my battery life getting shorter,help.battery.show
+explain hearing aid batteries,help.battery.show
+how do i change the battery,help.battery.show
+what's the best battery for my aids,help.battery.show
+guide me on battery care,help.battery.show
+battery help please,help.battery.show
+how do i store spare batteries,help.battery.show
+why do batteries die quickly in my aids,help.battery.show
+explain the reminder feature,help.reminder.show
+how do i manage my reminders,help.reminder.show
+help with setting up reminders,help.reminder.show
+where do i see my reminders,help.reminder.show
+how do i edit a reminder,help.reminder.show
+what can the reminder feature do,help.reminder.show
+guide me on using reminders,help.reminder.show
+how do i make a repeating reminder,help.reminder.show
+can i get daily reminders,help.reminder.show
+explain how to schedule reminders,help.reminder.show
+how do reminder notifications work,help.reminder.show
+can i set up a daily reminder,help.reminder.show
+is there a daily reminder option,help.reminder.show
+how do i make a reminder repeat daily,help.reminder.show
+set a recurring daily reminder,help.reminder.show
+can reminders repeat every day,help.reminder.show
+explain the translate feature,help.translate.show
+how does translation work in the app,help.translate.show
+is spanish supported for translation,help.translate.show
+help with the translate function,help.translate.show
+how accurate is the translation,help.translate.show
+what is the translate feature,help.translate.show
+guide me on using translate,help.translate.show
+does translate save conversations,help.translate.show
+how do i set the translation language,help.translate.show
+can it translate two languages at once,help.translate.show
+how do i use the translation tool,help.translate.show
+explain real time translation,help.translate.show
+what does the translate feature do,help.translate.show
+help with the language translation feature,help.translate.show
+how good is the translation feature,help.translate.show
+which languages does translation support,help.translate.show
+tell me about the translation feature,help.translate.show
+can the app translate languages for me,help.translate.show
+explain how translation works on my aids,help.translate.show
+is there a translation feature,help.translate.show
+what's the translate feature for,help.translate.show
+how do i set up language translation,help.translate.show
+help understanding the translate feature,help.translate.show
+does translation work both ways,help.translate.show
+what translation languages are offered,help.translate.show
+how do i pick a translation language,help.translate.show
+is real time translation available,help.translate.show
+is spanish available for translation,help.translate.show
+which languages are supported for translation,help.translate.show
+are there many languages to translate,help.translate.show
+is my language offered for translation,help.translate.show
+what languages does the translate feature offer,help.translate.show
+is german one of the translation options,help.translate.show
+can it translate into french,help.translate.show
+are foreign languages supported,help.translate.show
+do you support italian translation,help.translate.show
+how does transcribe work,help.transcribe.show
+explain the transcription feature,help.transcribe.show
+help with transcription,help.transcribe.show
+can i save my transcripts,help.transcribe.show
+how accurate is the transcription,help.transcribe.show
+guide me on using transcribe,help.transcribe.show
+does transcribe keep my conversations,help.transcribe.show
+where do i find transcription,help.transcribe.show
+how do i read what was transcribed,help.transcribe.show
+explain how captions work in the app,help.transcribe.show
+what does the transcribe feature do,help.transcribe.show
+how do i use speech to text,help.transcribe.show
+captions feature help,help.transcribe.show
+help with the captioning feature,help.transcribe.show
+is there a way to caption conversations,help.transcribe.show
+tell me about live captions,help.transcribe.show
+what's the transcription feature for,help.transcribe.show
+how do captions work on my aids,help.transcribe.show
+do my aids show subtitles of speech,help.transcribe.show
+explain the speech to text feature,help.transcribe.show
+help understanding transcription,help.transcribe.show
+what can the caption feature do,help.transcribe.show
+how do i view a transcript,help.transcribe.show
+is the transcribe feature free,help.transcribe.show
+where do transcripts get saved,help.transcribe.show
+where do i see my health data,help.health.show
+explain the health dashboard,help.health.show
+how do i view my fitness summary,help.health.show
+where is my activity overview,help.health.show
+help with the health screen,help.health.show
+what health info does the app track,help.health.show
+guide me to my wellness data,help.health.show
+where do i see steps and exercise together,help.health.show
+how do i read my health stats,help.health.show
+what's on the health dashboard,help.health.show
+how do i check my overall activity,help.health.show
+explain my fitness tracking,help.health.show
+where do my health metrics show,help.health.show
+where is my fitness overview,help.health.show
+show my activity and exercise summary,help.health.show
+my daily health metrics,help.health.show
+where do my steps and workouts show together,help.health.show
+open my wellness dashboard,help.health.show
+my overall activity stats,help.health.show
+can my aids track my heart rate,help.heart_rate.show
+how do i see my heart rate,help.heart_rate.show
+where do i find my pulse readings,help.heart_rate.show
+help with heart rate tracking,help.heart_rate.show
+do my aids measure bpm,help.heart_rate.show
+how does heart rate monitoring work,help.heart_rate.show
+guide me to my heart rate,help.heart_rate.show
+where do i see my beats per minute,help.heart_rate.show
+how accurate is the heart rate,help.heart_rate.show
+how do i check my pulse on the app,help.heart_rate.show
+explain how heart rate is measured,help.heart_rate.show
+what does the heart rate feature show,help.heart_rate.show
+where do i check my bpm,help.heart_rate.show
+show me my bpm,help.heart_rate.show
+what's my current bpm,help.heart_rate.show
+view my beats per minute reading,help.heart_rate.show
+my bpm please,help.heart_rate.show
+track my bpm on the app,help.heart_rate.show
+see my pulse in bpm,help.heart_rate.show
+how do i read my bpm,help.heart_rate.show
+what is heart rate recovery,help.heart_rate_recovery.show
+explain the recovery metric,help.heart_rate_recovery.show
+how do i see how fast my heart recovers,help.heart_rate_recovery.show
+where is my heart rate recovery,help.heart_rate_recovery.show
+help understanding recovery rate,help.heart_rate_recovery.show
+how is heart rate recovery measured,help.heart_rate_recovery.show
+what does my recovery score mean,help.heart_rate_recovery.show
+guide me on heart rate recovery,help.heart_rate_recovery.show
+how do i check my recovery after exercise,help.heart_rate_recovery.show
+explain how recovery is tracked,help.heart_rate_recovery.show
+why does heart rate recovery matter,help.heart_rate_recovery.show
+where do i find recovery data,help.heart_rate_recovery.show
+how good is my heart rate recovery,help.heart_rate_recovery.show
+what's a healthy recovery rate,help.heart_rate_recovery.show
+how do i connect for a remote appointment,help.hearing_care_anywhere_connect.show
+explain hearing care anywhere,help.hearing_care_anywhere_connect.show
+how do i reach my audiologist through the app,help.hearing_care_anywhere_connect.show
+help connecting to my provider remotely,help.hearing_care_anywhere_connect.show
+what is hearing care anywhere,help.hearing_care_anywhere_connect.show
+how do i request remote care,help.hearing_care_anywhere_connect.show
+how do i send a request to my specialist,help.hearing_care_anywhere_connect.show
+guide me on connecting with my clinician,help.hearing_care_anywhere_connect.show
+how does remote care connect work,help.hearing_care_anywhere_connect.show
+set up a remote session with my provider,help.hearing_care_anywhere_connect.show
+hearing care anywhere help,help.hearing_care_anywhere_connect.show
+how do i get new settings from my audiologist,help.hearing_care_anywhere_connect.show
+how do i link with my hearing professional,help.hearing_care_anywhere_connect.show
+explain connecting for remote support,help.hearing_care_anywhere_connect.show
+how do i start a remote care request,help.hearing_care_anywhere_connect.show
+explain the mask mode feature,help.mask_mode.show
+how do i turn on mask mode,help.mask_mode.show
+help with mask mode,help.mask_mode.show
+how does mask mode help with face masks,help.mask_mode.show
+guide me on mask mode,help.mask_mode.show
+how do i enable mask mode for masks,help.mask_mode.show
+mask mode help please,help.mask_mode.show
+does mask mode help me hear masked voices,help.mask_mode.show
+explain how mask mode works,help.mask_mode.show
+how do i use mask mode,help.mask_mode.show
+when is mask mode useful,help.mask_mode.show
+explain when to use mask mode,help.mask_mode.show
+help understanding mask mode,help.mask_mode.show
+how do i switch on mask mode for masks,help.mask_mode.show
+what is mask mode good for,help.mask_mode.show
+how does mask mode help with covered faces,help.mask_mode.show
+what is edge mode,help.edge_mode.show
+explain edge mode,help.edge_mode.show
+help with edge mode,help.edge_mode.show
+what does edge mode do,help.edge_mode.show
+how does edge mode improve sound,help.edge_mode.show
+guide me on edge mode,help.edge_mode.show
+how do i turn on edge mode for tough situations,help.edge_mode.show
+edge mode help please,help.edge_mode.show
+explain how edge mode works,help.edge_mode.show
+how do i use edge mode,help.edge_mode.show
+when is edge mode helpful,help.edge_mode.show
+explain when edge mode helps,help.edge_mode.show
+help me understand edge mode,help.edge_mode.show
+how do i trigger edge mode in noise,help.edge_mode.show
+what situations is edge mode for,help.edge_mode.show
+guide me on using edge mode,help.edge_mode.show
+how does edge mode adapt the sound,help.edge_mode.show
+there's too much wind noise what setting helps,help.edge_mode.show
+the wind outside is overwhelming what can i do,help.edge_mode.show
+cut the wind noise with a setting,help.edge_mode.show
+help with wind noise when i'm outdoors,help.edge_mode.show
+what mode handles a windy environment,help.edge_mode.show
+reduce wind noise in tough conditions,help.edge_mode.show
+the wind is ruining my hearing outside,help.edge_mode.show
+a setting for very windy places,help.edge_mode.show
+what is demo mode,help.demo_mode.show
+explain demo mode,help.demo_mode.show
+how do i turn on demo mode,help.demo_mode.show
+what does demo mode do,help.demo_mode.show
+how do i use the demo feature,help.demo_mode.show
+is demo mode for trying features,help.demo_mode.show
+guide me on demo mode,help.demo_mode.show
+demo mode help please,help.demo_mode.show
+what's the point of demo mode,help.demo_mode.show
+explain how demo mode works,help.demo_mode.show
+how do i enable demo mode,help.demo_mode.show
+when would i use demo mode,help.demo_mode.show
+tell me about demo mode,help.demo_mode.show
+who won the game last night,sys.oos.fallback
+what's a good movie to watch,sys.oos.fallback
+recommend me a book,sys.oos.fallback
+how do i bake bread,sys.oos.fallback
+what's the score of the match,sys.oos.fallback
+tell me a fun fact,sys.oos.fallback
+what's the meaning of life,sys.oos.fallback
+how tall is mount everest,sys.oos.fallback
+what time is the sunset,sys.oos.fallback
+give me a recipe for soup,sys.oos.fallback
+what's a good restaurant nearby,sys.oos.fallback
+how do i get rid of weeds,sys.oos.fallback
+what should i watch tonight,sys.oos.fallback
+who is the president,sys.oos.fallback
+what's on tv tonight,sys.oos.fallback
+how do i tie a tie,sys.oos.fallback
+what's the capital of japan,sys.oos.fallback
+plan my vacation,sys.oos.fallback
+what should i wear today,sys.oos.fallback
+how do i make coffee,sys.oos.fallback
+what's a good gift idea,sys.oos.fallback
+tell me about the news,sys.oos.fallback
+how far is the nearest store,sys.oos.fallback

@@ -36,7 +36,7 @@ CALIBRATION = REPO_ROOT / "config" / "calibration.json"
 # The trained OOS / fallback class in the CURRENT label space. After the
 # ND-3 migration this becomes 'sys.oos.fallback' — read from the migration
 # map once it exists so this file needs no edit then.
-FALLBACK_LABEL = "Default Fallback Intent"
+FALLBACK_LABEL = "sys.oos.fallback"
 ACCURACY_FLOOR = 0.80
 # Danish is flag-gated (fails its floor; native-data program pending) —
 # excluded from gates_passed, never from the report itself.

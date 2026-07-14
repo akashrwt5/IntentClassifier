@@ -61,7 +61,7 @@ VOCAB_PATH = MODEL_DIR / "minilm-vocab.txt"
 HEAD_NPZ   = MODEL_DIR / "semantic_head.npz"
 HEAD_JSON  = MODEL_DIR / "semantic_head.json"
 
-FALLBACK_INTENT = "Default Fallback Intent"
+FALLBACK_INTENT = "sys.oos.fallback"
 
 sys.path.insert(0, str(BASE_DIR / "scripts"))
 import sys as _sys

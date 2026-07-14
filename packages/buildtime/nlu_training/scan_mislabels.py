@@ -114,7 +114,7 @@ def main():
         label  = r["intent"].strip()
         if added_only and (text, label) not in added_set:
             continue
-        if label == "Default Fallback Intent":
+        if label == "sys.oos.fallback":
             continue
 
         hit_intents = matches(text, compiled)
