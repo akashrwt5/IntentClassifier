@@ -1,70 +1,45 @@
 #!/usr/bin/env python3
+"""QUARANTINED — DO NOT RUN. (Appendix A #1, risk RK5)
+
+This script auto-labeled ``data/unknown_data.csv`` rows using keyword rules
+that emit the RETIRED flat uppercase label taxonomy (VOLUME, REMINDER, ...).
+The shipping multilingual pipeline uses a different label space; appending
+these rows to ``data/01_source_base_training_data.csv`` would silently poison
+training data and corrupt the next retrain.
+
+It is kept only as a historical reference. It refuses to run unconditionally.
+
+If a keyword-bootstrap labeler is ever needed again it must be rewritten to:
+  1. target the CURRENT intent taxonomy (see .claude/memory/datasets.md),
+  2. write to a review queue, never directly into training data,
+  3. pass the holdout-leakage guard before any retrain.
+
+See docs/Review-F5/production-architecture-review-and-roadmap.md, Appendix A #1.
 """
-Auto-label unknown/low-confidence inputs using keyword rules.
 
-Reads:  data/unknown_data.csv
-Writes: data/01_source_base_training_data.csv (appends matching rows)
+import sys
 
-Run periodically to grow training data from real user inputs.
-Always review the output manually before retraining.
+BANNER = """
+!! QUARANTINED SCRIPT — REFUSING TO RUN !!
+
+scripts/auto_label.py writes a retired label taxonomy and would poison
+training data (Review-F5 Appendix A #1, risk RK5). It has been disabled.
+
+Nothing was read or written. See the module docstring for the rewrite
+requirements if this functionality is ever needed again.
 """
 
-import pandas as pd
-from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent
-UNKNOWN_PATH = BASE_DIR / "data" / "unknown_data.csv"
-TRAINING_PATH = BASE_DIR / "data" / "01_source_base_training_data.csv"
-
-# ---------- Keyword rules ----------
-# Add rules here as you discover patterns in unknown_data.csv
-KEYWORD_RULES = {
-    "volume":       "VOLUME",
-    "louder":       "VOLUME",
-    "quieter":      "VOLUME",
-    "mute":         "VOLUME",
-    "remind":       "REMINDER",
-    "reminder":     "REMINDER",
-    "weather":      "WEATHER_FORECAST",
-    "notification": "NOTIFICATIONS",
-    "translate":    "TRANSLATE",
-    "transcribe":   "TRANSCRIBE",
-    "telehear":     "TELEHEARAI",
-    "selfcheck":    "SELFCHECK",
-    "self check":   "SELFCHECK",
-    "memory":       "MEMORY",
-}
+def main() -> None:
+    sys.exit(BANNER)
 
 
-def auto_label(text: str) -> str | None:
-    t = text.lower().strip()
-    for keyword, intent in KEYWORD_RULES.items():
-        if keyword in t:
-            return intent
-    return None
-
-
-def main():
-    if not UNKNOWN_PATH.exists():
-        print("❌ No unknown_data.csv found")
-        return
-
-    unknown = pd.read_csv(UNKNOWN_PATH)
-    rows = []
-
-    for _, r in unknown.iterrows():
-        intent = auto_label(str(r["text"]))
-        if intent:
-            rows.append([r["text"], intent])
-
-    if rows:
-        df = pd.DataFrame(rows, columns=["text", "intent"])
-        df.to_csv(TRAINING_PATH, mode="a", header=False, index=False)
-        print(f"✅ Added {len(rows)} samples to training data")
-        print("⚠️  Review data/01_source_base_training_data.csv before retraining!")
-    else:
-        print("❌ No rows could be auto-labeled")
-
+# --- Historical reference only (dead code, guarded by the exit above) -------
+# KEYWORD_RULES mapped substrings to retired labels, e.g.:
+#   "volume" -> "VOLUME", "remind" -> "REMINDER", "weather" -> "WEATHER_FORECAST"
+# and appended matches from data/unknown_data.csv to
+# data/01_source_base_training_data.csv without review.
+# -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     main()
