@@ -28,10 +28,12 @@ live status + Needs-decision queue in `docs/Review-F5/EXECUTION_STATUS.md`.
   rewritten [x] · CODEOWNERS added [x] · GenAI placeholder-URL startup guard
   [x] · unknown_data privacy stance documented [x] · junk deletion (Engage.zip,
   checkpoints/) [x — already absent] · iOS parity CI secret [gated].
-- **Phase 1 (platform foundations):** next up — spec/bundle/3.0 schemas,
-  bundle compiler validator, capability repartition, nlu_training package,
-  DVC/MLflow, real tests/ tree. packages/ restructure + label-space cleanup
-  are approval-gated.
+- **Phase 1 (platform foundations):** IN PROGRESS. Done: spec/bundle/3.0
+  (16 JSON Schemas, portable-regex spec + corpus, golden bundles minimal+full,
+  conformance tests). Next: shared validator library (compiler stages 1–10),
+  capability repartition, nlu_training package, DVC/MLflow. packages/
+  restructure awaits move-plan approval (ND-2); label-space cleanup awaits
+  its plan (ND-3).
 - **Phases 2–5:** ratification-gated (Rust core/Android) or blocked on Phase 1.
 
 ## In progress / near-term

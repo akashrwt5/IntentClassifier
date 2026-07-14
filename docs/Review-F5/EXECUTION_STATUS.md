@@ -28,8 +28,8 @@
 
 | Task | Ref | State |
 |---|---|---|
-| spec/bundle/3.0 JSON Schemas + portable-regex subset + 2 golden bundles | ADR-005 AI#1,2 | ⬜ next up (ADR-005 ratified — fully unblocked) |
-| Bundle compiler stages 1–10 as shared validator library | ADR-005 §5 | ⬜ blocked by schemas |
+| spec/bundle/3.0 JSON Schemas + portable-regex subset + 2 golden bundles | ADR-005 AI#1,2 | ✅ done — 16 schemas, portable-regex.md + corpus, minimal+full golden bundles, conformance tests green (tests/test_bundle_spec.py). Format 3.0 declared initial versioned format (AI#1). |
+| Bundle compiler stages 1–10 as shared validator library | ADR-005 §5 | ⬜ next up — schemas exist; seed checks (stages 1–3, 8, 9) already live in test_bundle_spec.py |
 | Bundle compiler stages 11–15 (packaging/signing) | ADR-005 §5 | ⏸ signing gated (ND-8) |
 | packages/ + apps/cli + spec/ restructure | roadmap §13 | ⏸ gated — large restructure (ND-2) |
 | Label-space cleanup (dialogue-act labels, taxonomy migration) | roadmap §2.3, ADR-002 A7 | ⏸ gated — changes shipped label set (ND-3) |
@@ -65,7 +65,7 @@
 | ID | Question | Blocking |
 |---|---|---|
 | ND-1 | ✅ **RESOLVED 2026-07-14 — Ratified.** ADRs 001–005 accepted as written (owner decision via decision prompt). Status lines updated in the ADR files; recorded as ADR-010 in `.claude/memory/decisions.md`. Phase 2 stays trigger-gated. | — |
-| ND-2 | 🟡 **DECIDED: plan-first.** Owner wants the move map + parity strategy proposed for review before any restructure. Deliverable: `docs/Review-F5/restructure-move-plan.md` (next iterations). | Phase 1 structure |
+| ND-2 | 🟡 **PLAN DELIVERED — awaiting owner approval.** `docs/Review-F5/restructure-move-plan.md`: phases M0–M4, move map, frozen-oracle parity strategy. No moves until approved. | Phase 1 structure |
 | ND-3 | 🟡 **DECIDED: plan-first.** Owner wants the migration map + expected metric impact vs baseline proposed before any label-space change. Deliverable: label-migration plan + baseline diff. | Phase 1 exit gate |
 | ND-4 | ✅ **RESOLVED 2026-07-14 — already clean.** Deletion approved, but `Engage.zip`, `checkpoints/`, and skeleton `multilingual_intent/` dirs no longer exist in the working tree or git index (removed in an earlier cleanup). A#9 closed, nothing to delete. | — |
 | ND-5 | ✅ **RESOLVED 2026-07-14 — implemented.** `scripts/unknown_log.py`: counters by default (`data/unknown_counters.csv`), raw text only behind `NLU_COLLECT_RAW_UNKNOWN`; `predict.py` wired through it + its placeholder GenAI URL removed. Tests added. Open sub-item: retention window for consented raw text (legal). | — |
@@ -86,6 +86,11 @@
 
 ## Iteration log
 
+- **2026-07-14 (d)** — Phase 1 started. Authored spec/bundle/3.0 (16 JSON
+  Schemas + defs), portable-regex.md with normative corpus, golden bundles
+  minimal+full, conformance tests (8 passing; seed stages 1–3/8/9 checks).
+  jsonschema added to dev deps. ND-2 move plan delivered for review.
+  Next: shared validator library (compiler stages 1–10), ND-3 label plan.
 - **2026-07-14 (c)** — Second decision round: ND-5 implemented
   (unknown_log.py counters-by-default + opt-in raw, predict.py wired +
   legacy placeholder GenAI URL removed, 6 new tests); ND-6 closed
