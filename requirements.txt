@@ -1,12 +1,18 @@
-pandas>=2.0
-scikit-learn>=1.3
-scipy>=1.10        # bounded scalar minimization for temperature-scaling fit
-joblib>=1.3
-onnxruntime>=1.16
-skl2onnx>=1.16
-numpy>=1.24
+# Direct runtime dependencies (high-level, human-edited).
+# Upper bounds cap the next MAJOR to prevent silent, reproducibility-breaking
+# drift in model output (esp. scikit-learn / numpy). Exact, fully-resolved
+# versions are pinned in requirements.lock — regenerate with `make lock`.
+# Keep this list in sync with [project].dependencies in pyproject.toml.
+
+pandas>=2.0,<3.0
+scikit-learn>=1.3,<2.0
+scipy>=1.10,<2.0        # bounded scalar minimization for temperature-scaling fit
+joblib>=1.3,<2.0
+onnxruntime>=1.16,<2.0
+skl2onnx>=1.16,<2.0
+numpy>=1.24,<3.0
 
 # Optional: widens system date-time parsing coverage in the NLU engine.
 # The engine has a built-in pure-Python regex parser and works without this;
 # install it for more robust natural-language date handling on the server side.
-dateparser>=1.2 ; python_version >= "3.8"
+dateparser>=1.2,<2.0 ; python_version >= "3.8"

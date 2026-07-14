@@ -1,0 +1,58 @@
+# Pre-commit hooks for the Intent Classifier repo.
+#
+#   pip install pre-commit   (or: make install-dev)
+#   pre-commit install       (installs the git hook)
+#   pre-commit run --all-files
+#
+# Hooks are aligned with pyproject.toml so local commits and CI agree.
+# Kept lenient/non-breaking: Ruff auto-fixes and Black reformats; neither
+# enforces the strict style gates that the existing code hasn't adopted yet.
+
+default_language_version:
+  python: python3.10
+
+exclude: |
+  (?x)^(
+      \.venv.*/|
+      checkpoints/|
+      models/|
+      multilingual_intent/models/|
+      .*\.mlpackage/
+  )
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]  # block accidental commits of large model binaries
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+
+  # Format-on-touch: darker applies Black to CHANGED LINES ONLY, so touching a
+  # legacy file doesn't reformat the whole thing. Run `make format-all` for a
+  # deliberate one-time full-repo Black pass.
+  - repo: https://github.com/akaihola/darker
+    rev: v2.1.1
+    hooks:
+      - id: darker
+        additional_dependencies: [black==24.10.0]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        files: ^(scripts/nlu/|multilingual/[^/]+\.py)
+        args: ["--config-file=pyproject.toml"]

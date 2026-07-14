@@ -1,0 +1,68 @@
+name: CI (lint + type + test)
+
+# Fast Linux quality gate. Runs the same checks as pre-commit and the Makefile.
+# The macOS Core ML runtime parity job lives in coreml-macos.yml.
+
+on:
+  push:
+    branches: [feature/production-work, main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    env:
+      # The ONNX string-normalizer needs a UTF-8 locale.
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need history so we can diff against the base ref
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+          pip install ruff black darker mypy pytest pytest-cov
+
+      # Enforced gate — the repo already passes this lean rule set.
+      - name: Ruff (lint)
+        run: ruff check .
+
+      # Format-on-touch: darker runs Black on the CHANGED LINES ONLY (vs the base
+      # ref), so new code must be formatted without a repo-wide reformat of
+      # history (which would conflict with the other in-flight feature branches).
+      - name: Format (darker — Black on changed lines)
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+          fi
+          if [ -z "$BASE" ] || ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+            echo "No valid base ref; skipping diff-based format check."; exit 0
+          fi
+          darker --check --revision "$BASE" .
+
+      # Informational while the codebase is type-annotated module-by-module
+      # (ADR-008). Not blocking; adopt strictness per module as types land.
+      - name: MyPy (type check, non-blocking)
+        continue-on-error: true
+        run: mypy scripts/nlu multilingual/*.py
+
+      - name: Pytest
+        run: pytest -ra

@@ -375,15 +375,6 @@ class EntityExtractor:
             m = re.search(r"\b(\d{1,2})\.(\d{2})\b", t)
             if m and 0 <= int(m.group(2)) <= 59:
                 hour, minute = int(m.group(1)), int(m.group(2)); t = blank(t, m.start(), m.end())
-        # D1. Digit + spaced clock-hour marker: "18 h" / "18 heures"
-        # Uses clock_hour_markers (not relative_units.hour) so duration words like
-        # Danish "timer" or German "Stunden" are never misread as clock suffixes.
-        if hour is None and self._lex_clock_hour:
-            _hr_alt = "|".join(re.escape(s) for s in self._lex_clock_hour)
-            m = re.search(rf"\b(\d{{1,2}})\s+(?:{_hr_alt})\b", t)
-            if m:
-                hour = int(m.group(1)); minute = 0
-                t = blank(t, m.start(), m.end())
         # D2. Absolute idioms (hour set: midi/minuit/Mitternacht/midnat)
         if hour is None:
             for phrase, mins, h in self._lex_idioms:
@@ -408,6 +399,19 @@ class EntityExtractor:
                 else:
                     hour, minute = (hh - 1) % 24, 60 + mins
                 t = blank(t, m.start(), m.end()); break
+        # D1. Digit + spaced clock-hour marker: "18 h" / "18 heures".
+        # Runs AFTER the decimal-hour idioms (D3) so a bare "N heures" doesn't
+        # consume the hour before an adjacent "et demie" / "moins le quart" /
+        # "et quart" adjustment can apply (otherwise the minutes are dropped).
+        # Uses clock_hour_markers (not relative_units.hour) so duration words like
+        # Danish "timer" or German "Stunden" are never misread as clock suffixes.
+        if hour is None and self._lex_clock_hour:
+            _hr_alt = "|".join(re.escape(s) for s in self._lex_clock_hour)
+            m = re.search(rf"\b(\d{{1,2}})\s+(?:{_hr_alt})\b", t)
+            if m:
+                hour = int(m.group(1))
+                minute = 0
+                t = blank(t, m.start(), m.end())
         # D4. Named hour + conjunction ("15 Uhr 30", "drei Uhr")
         if hour is None and self._lex_conj:
             m = re.search(rf"\b(\d{{1,2}})\s+{re.escape(self._lex_conj)}(?:\s+(\d{{1,2}}))?\b", t)

@@ -20,3 +20,24 @@ models/*.pkl
 
 # macOS
 __MACOSX/
+
+# Tooling caches
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Packaging / build
+build/
+dist/
+*.egg-info/
+
+# Pre-commit
+.pre-commit-cache/
+
+# Misc archives (regenerated)
+*.zip
+multilingual/SemanticSupport/models/*.onnx
