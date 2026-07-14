@@ -53,8 +53,11 @@ def render(r, engine, text):
             print(f"  💬 {r.message}")
         # The app layer (here, the CLI) builds the GenAI URL from the text it
         # already holds — the raw utterance is never returned in the result.
-        url = engine.genai_url + urllib.parse.quote(text)
-        print(f"  🔗 {url}")
+        if engine.genai_url:
+            url = engine.genai_url + urllib.parse.quote(text)
+            print(f"  🔗 {url}")
+        else:
+            print("  🔗 (no GenAI endpoint configured — set NLU_GENAI_URL)")
 
 
 def main():

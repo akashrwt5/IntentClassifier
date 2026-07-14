@@ -36,8 +36,10 @@ LOC_DIR = BASE_DIR / "data" / "localization"
 # used if that key is absent.
 DEFAULT_SEMANTIC_THRESHOLD = 0.55
 
-# Default GenAI endpoint base. Overridable via the NLU_GENAI_URL env var or a
-# "genai_url" key in the schema so the placeholder is never shipped silently.
+# Placeholder GenAI endpoint base. NEVER used at runtime: the startup guard in
+# NLUEngine.__init__ rejects it, so a real endpoint must be configured via the
+# NLU_GENAI_URL env var or a "genai_url" schema key (Review-F5 Appendix A #5,
+# risk RK1: user utterances must never be sent to an unregistered domain).
 DEFAULT_GENAI_URL = "https://genai.yourcompany.com/chat?query="
 
 logger = logging.getLogger("nlu.engine")
@@ -91,9 +93,8 @@ class NLUEngine:
         # utterance is NEVER embedded into an NLUResult (it would otherwise be
         # captured by any caller that logs the result). The app layer, which
         # already holds the text, constructs the navigation URL itself.
-        self.genai_url = (self.schema.get("genai_url")
-                          or os.environ.get("NLU_GENAI_URL")
-                          or DEFAULT_GENAI_URL)
+        self.genai_url = self._resolve_genai_url(
+            self.schema.get("genai_url") or os.environ.get("NLU_GENAI_URL"))
         # Opt-in raw-utterance logging. Off by default so medical-context
         # speech is never written to logs in production; enable in dev only.
         self._log_utterances = os.environ.get("NLU_LOG_UTTERANCES", "").lower() in ("1", "true", "yes")
@@ -110,6 +111,33 @@ class NLUEngine:
         else:
             self.semantic = self._load_multilingual_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
+
+    @staticmethod
+    def _resolve_genai_url(configured: str | None) -> str | None:
+        """Startup guard for the GenAI endpoint (Review-F5 Appendix A #5, RK1).
+
+        The placeholder ``DEFAULT_GENAI_URL`` points at an unregistered domain;
+        shipping it would leak user utterances (as query params) to whoever
+        registers it. It is therefore REJECTED, never silently used:
+
+        - no URL configured  -> GenAI URL disabled (``None``); callers must
+          handle the absence. Routing to the FALLBACK result is unaffected.
+        - placeholder configured explicitly -> hard error: misconfiguration
+          must fail loudly at startup, not at first fallback.
+        - any other URL -> used as-is.
+        """
+        if configured is None:
+            logger.warning(
+                "No GenAI endpoint configured (NLU_GENAI_URL / schema 'genai_url'); "
+                "GenAI fallback URL construction is disabled.")
+            return None
+        if configured == DEFAULT_GENAI_URL:
+            raise RuntimeError(
+                "Refusing to start with the placeholder GenAI URL "
+                f"({DEFAULT_GENAI_URL!r}). Configure a real endpoint via the "
+                "NLU_GENAI_URL env var or the schema 'genai_url' key. "
+                "(Review-F5 Appendix A #5, risk RK1)")
+        return configured
 
     @staticmethod
     def _load_schema(schema_path: Path, language: str) -> dict:
