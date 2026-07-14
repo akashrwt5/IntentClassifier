@@ -33,8 +33,8 @@
 | Bundle compiler stages 11–15 (packaging/signing) | ADR-005 §5 | ⏸ signing gated (ND-8) |
 | packages/ + apps/cli + spec/ restructure | roadmap §13 | ⏸ gated — large restructure (ND-2) |
 | Label-space cleanup (dialogue-act labels, taxonomy migration) | roadmap §2.3, ADR-002 A7 | ⏸ gated — changes shipped label set (ND-3) |
-| Repartition content/ into capabilities + capability.yaml | ADR-002 AI#3,4,6 | ⬜ unblocked |
-| nlu_training package + unified evaluate JSON | roadmap §9.2 | ⬜ unblocked |
+| Repartition content/ into capabilities + capability.yaml | ADR-002 AI#3,4,6 | 🟡 map materialized — `docs/Review-F5/capability-map.json` (12 capabilities, machine-checked over all 59 intents; supersedes ND-3 plan's naming sketch). Physical repartition follows ND-2 M3 + ND-3 approval. |
+| nlu_training package + unified evaluate JSON | roadmap §9.2 | ✅ v0 done — `packages/buildtime/nlu_training` (`python -m nlu_training`): one report_card-schema-valid JSON (per-lang F1/acc/ECE, wrong-action proxy count + per-domain, OOS recall, gates). Reproduces the recorded baseline exactly. |
 | DVC (datasets) + MLflow (local file backend) | roadmap §16 | ⬜ unblocked |
 | Real tests/ pytest tree (unit/component/golden/parity/perf) | roadmap §15 | 🟡 started (tests/ exists: smoke, datetime parity, phase-0 guards) |
 | InferenceBackend / session-state / notifyExecution contracts (prose spec) | ADR-001 AI#3, ADR-002 AI#5 | ✅ done — `spec/contracts/runtime-contract-v1.md` (the engine_compat anchor: 5 seams, session blob schema, outcome taxonomy, snapshot push, ordering rules, Python conformance-gap table) |
@@ -86,6 +86,14 @@
 
 ## Iteration log
 
+- **2026-07-14 (g)** — Capability map materialized (12 capabilities ×
+  59 intents, machine-checked; label plan amended to align intent domains
+  with A3). Unified evaluate shipped: report_card-schema-valid JSON,
+  baseline-exact (en .899/.893, fr .852/.840, de .833/.821, da .760/.728).
+  Finding: v0 wrong-action proxy (confident misclassifications) = 323 — the
+  official ≤5 budget needs the curated actionable-command suite; da OOS
+  recall 0.51 is weak (both noted in known-issues). Next: DVC/MLflow wiring
+  or ND-2/ND-3 execution on approval.
 - **2026-07-14 (f)** — CI now runs the spec-conformance gate (validator CLI
   over both golden bundles + jsonschema in CI deps). Runtime Interface
   Contract v1 authored (spec/contracts/) — the number engine_compat gates

@@ -33,6 +33,14 @@ _None open. Recently fixed:_
 
 ## Quality gaps
 
+- **No curated wrong-action suite yet.** The unified evaluate's v0
+  wrong_action_count is a strict proxy (confident holdout misclassifications:
+  323 across 4 langs) that upper-bounds the official ≤5 budget, which is
+  defined over actionable commands only. Build the curated suite and wire it
+  into `nlu_training.evaluate` (Phase 1).
+- **Danish OOS recall is weak (0.51)** — fallback-class recall from the
+  unified evaluate; compounds the known Danish macro-F1 gap.
+
 - **Danish accuracy** is the weakest language (holdout macro-F1 ≈ 0.74 vs
   ~0.83-0.90 for en/de/fr). Consider more data / augmentation / threshold review.
 - **Residual server↔device intent parity** on a few multilingual cases —
