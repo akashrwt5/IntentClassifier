@@ -1,0 +1,33 @@
+{
+  "per_language": {
+    "en": {
+      "macro_f1": 0.8927,
+      "holdout_accuracy": 0.8995,
+      "ece": 0.0169
+    },
+    "fr": {
+      "macro_f1": 0.8397,
+      "holdout_accuracy": 0.852,
+      "ece": 0.0174
+    },
+    "de": {
+      "macro_f1": 0.8213,
+      "holdout_accuracy": 0.833,
+      "ece": 0.0135
+    },
+    "da": {
+      "macro_f1": 0.7275,
+      "holdout_accuracy": 0.7599,
+      "ece": 0.0291
+    }
+  },
+  "wrong_action_count": 323,
+  "wrong_action_per_domain": {
+    "sys": 51,
+    "help": 132,
+    "cmd": 126,
+    "reminders": 14
+  },
+  "oos_recall": 0.51,
+  "gates_passed": true
+}
