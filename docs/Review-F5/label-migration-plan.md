@@ -43,6 +43,15 @@ Options:
   space, but changes OOS recall characteristics — higher risk to the
   wrong-action budget.
 
+> **Amendment (2026-07-14, supersedes the family table below where they
+> differ):** the authoritative new names live in
+> `docs/Review-F5/capability-map.json`, which aligns intent domains with the
+> ratified ADR-002 §A3 capability decomposition (e.g. `device.volume.increase`
+> not `audio.volume.increase`; `activity.steps.query` not
+> `health.activity.step`). The map is machine-checked to cover all 59 current
+> labels exactly. Everything else in this plan (baseline, gates, execution
+> steps, risks, the A/B decision) is unchanged.
+
 ## Change 3 — taxonomy migration to domain.object.action
 
 Mechanical rules, then the full map is generated as

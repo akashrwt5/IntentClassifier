@@ -1,0 +1,330 @@
+{
+  "$comment": "ADR-002 \u00a7A3 capability map, materialized. Machine-checked: covers all 59 current intents exactly. proposed_intent aligns the ND-3 taxonomy with A3 capability domains (supersedes the audio.*/health.* sketch in label-migration-plan.md).",
+  "source": "docs/Review-F5/adr-002-capability-architecture.md \u00a7A3",
+  "intent_count": 59,
+  "capabilities": {
+    "activity": [
+      "Cmd.ActivityAerobics",
+      "Cmd.ActivityCalories",
+      "Cmd.ActivityCycle",
+      "Cmd.ActivityExercise",
+      "Cmd.ActivityRun",
+      "Cmd.ActivityStand",
+      "Cmd.ActivityStep",
+      "Cmd.ActivityWalk"
+    ],
+    "device.memory": [
+      "Cmd.MemoryChange"
+    ],
+    "device.status": [
+      "Cmd.BatteryLevel"
+    ],
+    "device.volume": [
+      "Cmd.VolumeDecrease",
+      "Cmd.VolumeIncrease",
+      "Cmd.VolumeMute",
+      "Cmd.VolumeUnmute"
+    ],
+    "find": [
+      "Cmd.FindMyPhone"
+    ],
+    "help": [
+      "Help_Accessories",
+      "Help_AppSettings",
+      "Help_Battery",
+      "Help_ChangingMemories",
+      "Help_CleanCare",
+      "Help_Customize",
+      "Help_DemoMode",
+      "Help_DeviceSettings",
+      "Help_EdgeMode",
+      "Help_FallAlert",
+      "Help_FindMyHearingAids",
+      "Help_Health",
+      "Help_HearShare",
+      "Help_HearingCareAnywhereConnect",
+      "Help_HeartRate",
+      "Help_HeartRateRecovery",
+      "Help_Home",
+      "Help_InsertDevice",
+      "Help_IntelliVoice",
+      "Help_MaskMode",
+      "Help_MemoryOptions",
+      "Help_Pairing",
+      "Help_Reminder",
+      "Help_RemoteProgramming",
+      "Help_SelfCheck",
+      "Help_ThriveScore",
+      "Help_Tinnitus",
+      "Help_Transcribe",
+      "Help_Translate",
+      "Help_VoiceAssistant",
+      "Help_Volume",
+      "Help_WhatsNew",
+      "Help_WiCROS"
+    ],
+    "messaging.ptt": [
+      "Cmd.ListenMessage",
+      "Cmd.SendMessage",
+      "Cmd.SendMessage - no",
+      "Cmd.SendMessage - yes"
+    ],
+    "reminders": [
+      "reminders.add",
+      "reminders.complete"
+    ],
+    "streaming": [
+      "Cmd.StreamingStart",
+      "Cmd.StreamingStop"
+    ],
+    "sys": [
+      "Default Fallback Intent"
+    ],
+    "transcription": [
+      "Cmd.TranscribeStart"
+    ],
+    "translation": [
+      "Cmd.TranslationStart"
+    ]
+  },
+  "intents": {
+    "Cmd.ActivityAerobics": {
+      "capability": "activity",
+      "proposed_intent": "activity.aerobics.query"
+    },
+    "Cmd.ActivityCalories": {
+      "capability": "activity",
+      "proposed_intent": "activity.calories.query"
+    },
+    "Cmd.ActivityCycle": {
+      "capability": "activity",
+      "proposed_intent": "activity.cycle.query"
+    },
+    "Cmd.ActivityExercise": {
+      "capability": "activity",
+      "proposed_intent": "activity.exercise.query"
+    },
+    "Cmd.ActivityRun": {
+      "capability": "activity",
+      "proposed_intent": "activity.run.query"
+    },
+    "Cmd.ActivityStand": {
+      "capability": "activity",
+      "proposed_intent": "activity.stand.query"
+    },
+    "Cmd.ActivityStep": {
+      "capability": "activity",
+      "proposed_intent": "activity.step.query"
+    },
+    "Cmd.ActivityWalk": {
+      "capability": "activity",
+      "proposed_intent": "activity.walk.query"
+    },
+    "Cmd.BatteryLevel": {
+      "capability": "device.status",
+      "proposed_intent": "device.status.battery"
+    },
+    "Cmd.FindMyPhone": {
+      "capability": "find",
+      "proposed_intent": "find.phone.locate"
+    },
+    "Cmd.ListenMessage": {
+      "capability": "messaging.ptt",
+      "proposed_intent": "messaging.message.listen"
+    },
+    "Cmd.MemoryChange": {
+      "capability": "device.memory",
+      "proposed_intent": "device.memory.change"
+    },
+    "Cmd.SendMessage": {
+      "capability": "messaging.ptt",
+      "proposed_intent": "messaging.message.send"
+    },
+    "Cmd.SendMessage - no": {
+      "capability": "messaging.ptt",
+      "proposed_intent": null,
+      "note": "REMOVED \u2014 dialogue act dissolves into confirmation flow (no lexicon)"
+    },
+    "Cmd.SendMessage - yes": {
+      "capability": "messaging.ptt",
+      "proposed_intent": null,
+      "note": "REMOVED \u2014 dialogue act dissolves into confirmation flow (yes lexicon)"
+    },
+    "Cmd.StreamingStart": {
+      "capability": "streaming",
+      "proposed_intent": "streaming.session.start"
+    },
+    "Cmd.StreamingStop": {
+      "capability": "streaming",
+      "proposed_intent": "streaming.session.stop"
+    },
+    "Cmd.TranscribeStart": {
+      "capability": "transcription",
+      "proposed_intent": "transcription.session.start"
+    },
+    "Cmd.TranslationStart": {
+      "capability": "translation",
+      "proposed_intent": "translation.session.start"
+    },
+    "Cmd.VolumeDecrease": {
+      "capability": "device.volume",
+      "proposed_intent": "device.volume.decrease"
+    },
+    "Cmd.VolumeIncrease": {
+      "capability": "device.volume",
+      "proposed_intent": "device.volume.increase"
+    },
+    "Cmd.VolumeMute": {
+      "capability": "device.volume",
+      "proposed_intent": "device.volume.mute"
+    },
+    "Cmd.VolumeUnmute": {
+      "capability": "device.volume",
+      "proposed_intent": "device.volume.unmute"
+    },
+    "Default Fallback Intent": {
+      "capability": "sys",
+      "proposed_intent": "sys.oos.fallback"
+    },
+    "Help_Accessories": {
+      "capability": "help",
+      "proposed_intent": "help.accessories.show"
+    },
+    "Help_AppSettings": {
+      "capability": "help",
+      "proposed_intent": "help.app_settings.show"
+    },
+    "Help_Battery": {
+      "capability": "help",
+      "proposed_intent": "help.battery.show"
+    },
+    "Help_ChangingMemories": {
+      "capability": "help",
+      "proposed_intent": "help.changing_memories.show"
+    },
+    "Help_CleanCare": {
+      "capability": "help",
+      "proposed_intent": "help.clean_care.show"
+    },
+    "Help_Customize": {
+      "capability": "help",
+      "proposed_intent": "help.customize.show"
+    },
+    "Help_DemoMode": {
+      "capability": "help",
+      "proposed_intent": "help.demo_mode.show"
+    },
+    "Help_DeviceSettings": {
+      "capability": "help",
+      "proposed_intent": "help.device_settings.show"
+    },
+    "Help_EdgeMode": {
+      "capability": "help",
+      "proposed_intent": "help.edge_mode.show"
+    },
+    "Help_FallAlert": {
+      "capability": "help",
+      "proposed_intent": "help.fall_alert.show"
+    },
+    "Help_FindMyHearingAids": {
+      "capability": "help",
+      "proposed_intent": "help.find_my_hearing_aids.show"
+    },
+    "Help_Health": {
+      "capability": "help",
+      "proposed_intent": "help.health.show"
+    },
+    "Help_HearShare": {
+      "capability": "help",
+      "proposed_intent": "help.hear_share.show"
+    },
+    "Help_HearingCareAnywhereConnect": {
+      "capability": "help",
+      "proposed_intent": "help.hearing_care_anywhere_connect.show"
+    },
+    "Help_HeartRate": {
+      "capability": "help",
+      "proposed_intent": "help.heart_rate.show"
+    },
+    "Help_HeartRateRecovery": {
+      "capability": "help",
+      "proposed_intent": "help.heart_rate_recovery.show"
+    },
+    "Help_Home": {
+      "capability": "help",
+      "proposed_intent": "help.home.show"
+    },
+    "Help_InsertDevice": {
+      "capability": "help",
+      "proposed_intent": "help.insert_device.show"
+    },
+    "Help_IntelliVoice": {
+      "capability": "help",
+      "proposed_intent": "help.intelli_voice.show"
+    },
+    "Help_MaskMode": {
+      "capability": "help",
+      "proposed_intent": "help.mask_mode.show"
+    },
+    "Help_MemoryOptions": {
+      "capability": "help",
+      "proposed_intent": "help.memory_options.show"
+    },
+    "Help_Pairing": {
+      "capability": "help",
+      "proposed_intent": "help.pairing.show"
+    },
+    "Help_Reminder": {
+      "capability": "help",
+      "proposed_intent": "help.reminder.show"
+    },
+    "Help_RemoteProgramming": {
+      "capability": "help",
+      "proposed_intent": "help.remote_programming.show"
+    },
+    "Help_SelfCheck": {
+      "capability": "help",
+      "proposed_intent": "help.self_check.show"
+    },
+    "Help_ThriveScore": {
+      "capability": "help",
+      "proposed_intent": "help.thrive_score.show"
+    },
+    "Help_Tinnitus": {
+      "capability": "help",
+      "proposed_intent": "help.tinnitus.show"
+    },
+    "Help_Transcribe": {
+      "capability": "help",
+      "proposed_intent": "help.transcribe.show"
+    },
+    "Help_Translate": {
+      "capability": "help",
+      "proposed_intent": "help.translate.show"
+    },
+    "Help_VoiceAssistant": {
+      "capability": "help",
+      "proposed_intent": "help.voice_assistant.show"
+    },
+    "Help_Volume": {
+      "capability": "help",
+      "proposed_intent": "help.volume.show"
+    },
+    "Help_WhatsNew": {
+      "capability": "help",
+      "proposed_intent": "help.whats_new.show"
+    },
+    "Help_WiCROS": {
+      "capability": "help",
+      "proposed_intent": "help.wi_c_r_o_s.show"
+    },
+    "reminders.add": {
+      "capability": "reminders",
+      "proposed_intent": "reminders.task.create"
+    },
+    "reminders.complete": {
+      "capability": "reminders",
+      "proposed_intent": "reminders.task.complete"
+    }
+  }
+}
