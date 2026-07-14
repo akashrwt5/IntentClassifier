@@ -46,6 +46,17 @@ Black on changed lines only) so legacy history isn't reformatted (avoids conflic
 across the many in-flight branches); MyPy stays non-blocking with per-module
 tightening. Detail: `pyproject.toml`, `CONTRIBUTING.md`, `.pre-commit-config.yaml`.
 
+## ADR-009 — MCP transport: code graph stays local; web uses Context7 only
+**Status:** Accepted. **Why:** the code-graph server (CodeGraphContext, `cgc`)
+runs as a **local stdio** process and indexes this **proprietary** codebase.
+claude.ai web sessions can only reach **remote HTTPS** MCP servers, so putting the
+code graph on the web would mean exposing a private code index over the internet
+(tunnel or hosted box) — an unacceptable default. Decision: use the code graph
+**only on desktop** clients (Claude Code / Desktop in PyCharm); in web sessions
+use **Context7** (hosted at `https://mcp.context7.com/mcp`) for library docs only.
+Revisit only if a private, authenticated hosting path is explicitly approved.
+
+
 ## Related memory
 
 Training/calibration -> `training.md` · Mobile -> `mobile.md` · Roadmap ->

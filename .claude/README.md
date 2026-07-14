@@ -24,12 +24,19 @@ task needs, minimizing token usage.
   coremltools, TensorFlow Lite, NumPy, skl2onnx, scipy). Prefer it over recalling
   possibly-stale APIs.
 
-> The launch commands in `.mcp.json` are best-effort. Adjust `command`/`args`
-> to match your actually-installed servers (e.g. a local Code Graph Memory
-> binary or a different package name). A server that fails to start is ignored;
-> the others still load.
+> `.mcp.json` uses **CodeGraphContext** (`cgc mcp start`) for the code graph and
+> **Context7** (`npx @upstash/context7-mcp`). Install first: `pip install
+> codegraphcontext` then `cgc mcp setup` (see docs). These are **local stdio**
+> servers — they work with desktop clients (Claude Code / Claude Desktop /
+> Cowork desktop) that can spawn a local process; a browser-only web session
+> cannot. A server that fails to start is ignored; the others still load.
 
 ## Principle
 
 `CLAUDE.md` stays small (rules, standards, workflow, links). Project knowledge
 lives here in `memory/`, not in `CLAUDE.md`.
+
+> **Web sessions:** add Context7 as a remote connector in claude.ai
+> (Settings -> Connectors -> Add custom connector -> `https://mcp.context7.com/mcp`).
+> The code graph stays **desktop-only** by policy — proprietary code is not
+> exposed over the internet (see `memory/decisions.md` ADR-009).

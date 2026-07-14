@@ -4,9 +4,9 @@
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp@latest"]
     },
-    "code-graph-memory": {
-      "command": "npx",
-      "args": ["-y", "code-graph-memory-mcp@latest"]
+    "code-graph": {
+      "command": "cgc",
+      "args": ["mcp", "start"]
     }
   }
 }
