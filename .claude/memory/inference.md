@@ -7,7 +7,7 @@
 ## Quick CLI (classifier only)
 
 ```bash
-make predict               # = python scripts/predict.py
+make predict               # = python apps/cli/predict.py
 ```
 
 Loads `models/intent_model.onnx` + labels via ONNX Runtime. Gates:
@@ -19,11 +19,11 @@ Low-confidence inputs are appended to `data/unknown_data.csv` for later review.
 ## Full NLU engine (production path)
 
 ```bash
-make nlu                              # = python scripts/nlu_cli.py
-python scripts/nlu_cli_multilingual.py
+make nlu                              # = python apps/cli/nlu_cli.py
+python apps/cli/nlu_cli_multilingual.py
 ```
 
-`scripts/nlu/engine.py` -> `NLUEngine.handle(session_id, text)` returns an
+`packages/runtime/nlu_engine/engine.py` -> `NLUEngine.handle(session_id, text)` returns an
 `NLUResult` (intent, slots, confidence, `interrupted_intent`). Per-turn order:
 
 1. **Confirmation** — resolve an active yes/no context first.
@@ -41,14 +41,14 @@ python scripts/nlu_cli_multilingual.py
 
 ## Semantic rescue
 
-`scripts/nlu/semantic.py` — embeds the utterance (MiniLM via ONNX, one sentence
+`packages/runtime/nlu_engine/semantic.py` — embeds the utterance (MiniLM via ONNX, one sentence
 at a time) and matches against a prebuilt index / semantic head to recover
 intents the TF-IDF model misses. Multilingual variant under
 `multilingual/SemanticSupport/`.
 
 ## Key config/data at runtime
 
-`data/nlu_schema.json`, `data/nlu_entities.json`, `data/localization/`,
+`content/nlu_schema.json`, `content/nlu_entities.json`, `content/localization/`,
 `config/calibration.json`, `models/intent_labels.json`.
 
 ## Related memory

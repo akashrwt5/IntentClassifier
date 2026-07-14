@@ -17,10 +17,10 @@ data/  ──►  TRAIN  ──►  models/*.onnx (+labels, pipeline)  ──►
 ### English core model (TF-IDF + LogisticRegression → ONNX)
 
 ```bash
-make train                 # = python scripts/train.py   (version 3 data, default)
-python scripts/train.py -v 1   # original files
-python scripts/train.py -v 2   # corrected _2 files
-python scripts/train.py -v 3   # enhanced: _2 + 02_source_manual_corrections.csv (default)
+make train                 # = python packages/buildtime/nlu_training/train.py   (version 3 data, default)
+python packages/buildtime/nlu_training/train.py -v 1   # original files
+python packages/buildtime/nlu_training/train.py -v 2   # corrected _2 files
+python packages/buildtime/nlu_training/train.py -v 3   # enhanced: _2 + 02_source_manual_corrections.csv (default)
 ```
 
 Data lineage (see `data/DATA_PIPELINE.md`):
@@ -69,7 +69,7 @@ Training already prints a classification report, confusion matrix, and a
   (expected calibration error).
 - **Calibration** — per-language **temperature scaling**:
   ```bash
-  make calibrate           # = python scripts/calibrate_languages.py
+  make calibrate           # = python packages/buildtime/nlu_training/calibrate_languages.py
   ```
   Writes temperature, confidence thresholds, holdout macro-F1, and ECE per
   language to `config/calibration.json`. Decisions are recorded in
@@ -85,7 +85,7 @@ Training already prints a classification report, confusion matrix, and a
 ### Quick CLI (classifier only)
 
 ```bash
-make predict               # = python scripts/predict.py
+make predict               # = python apps/cli/predict.py
 ```
 
 Loads `models/intent_model.onnx` + labels via ONNX Runtime. Applies a confidence
@@ -96,8 +96,8 @@ threshold (`CONF_THRESHOLD = 0.70`) and a top-1/top-2 gap threshold
 ### Full NLU engine (production path)
 
 ```bash
-make nlu                   # = python scripts/nlu_cli.py
-python scripts/nlu_cli_multilingual.py     # multilingual entry point
+make nlu                   # = python apps/cli/nlu_cli.py
+python apps/cli/nlu_cli_multilingual.py     # multilingual entry point
 ```
 
 `packages/runtime/nlu_engine/engine.py` (`NLUEngine`) orchestrates each user turn in priority
@@ -107,8 +107,8 @@ combines `classifier.py`, `entities.py` (entity + datetime extraction),
 `context.py` (session/slot state), and `semantic.py` (semantic rescue). Results
 are returned as an `NLUResult` (intent, slots, confidence, `interrupted_intent`).
 
-Schema/config: `data/nlu_schema.json`, `data/nlu_entities.json`,
-`data/localization/`, and `config/calibration.json`.
+Schema/config: `content/nlu_schema.json`, `content/nlu_entities.json`,
+`content/localization/`, and `config/calibration.json`.
 
 ---
 

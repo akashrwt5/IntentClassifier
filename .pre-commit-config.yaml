@@ -54,5 +54,5 @@ repos:
     rev: v1.11.2
     hooks:
       - id: mypy
-        files: ^(scripts/nlu/|multilingual/[^/]+\.py)
+        files: ^(packages/(runtime|buildtime)/|apps/cli/|multilingual/[^/]+\.py)
         args: ["--config-file=pyproject.toml"]

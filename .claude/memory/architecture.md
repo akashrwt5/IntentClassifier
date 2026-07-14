@@ -17,7 +17,7 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
 ## Components (where things live)
 
 - **Core classifier** — TF-IDF + LogisticRegression exported to ONNX (~16KB).
-  Trained by `scripts/train.py`, run by `scripts/predict.py`.
+  Trained by `packages/buildtime/nlu_training/train.py`, run by `apps/cli/predict.py`.
 - **NLU engine** — `packages/runtime/nlu_engine/` (moved from `scripts/nlu/` in ND-2 M1; a deprecated `scripts/nlu` shim aliases the old import path for one release). The real Dialogflow replacement. Per-turn
   priority: **confirmation -> slot-filling (with interruption detection) ->
   classify**. Modules:
@@ -28,7 +28,7 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
   - `context.py` — session store / slot state (`SessionStore`).
   - `semantic.py` — embedding-based semantic rescue for low-confidence turns.
   - `manifest.py` — model/artifact manifest.
-  - CLI entry points: `scripts/nlu_cli.py`, `scripts/nlu_cli_multilingual.py`.
+  - CLI entry points: `apps/cli/nlu_cli.py`, `apps/cli/nlu_cli_multilingual.py`.
 - **Multilingual** — `multilingual/`: `train_multilingual.py`,
   `predict_multilingual.py`, `text_norm.py`, per-language temperature-scaling
   calibration -> `config/calibration.json`.
@@ -67,7 +67,7 @@ embeddings run through ONNX. `coremltools`/`torch` are export-only (macOS/CI).
 ## Intents
 
 VOLUME, REMINDER, NOTIFICATIONS, PUSH TO TALK, TRANSLATE, TRANSCRIBE,
-TELEHEARAI, SELFCHECK, MEMORY. See `data/nlu_schema.json` for the source of truth.
+TELEHEARAI, SELFCHECK, MEMORY. See `content/nlu_schema.json` for the source of truth.
 
 ## Related memory
 

@@ -10,10 +10,10 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
 
 ## What's actually here (current generation)
 
-- **NLU engine** — `scripts/nlu/`: per-turn priority *confirmation →
+- **NLU engine** — `packages/runtime/nlu_engine/`: per-turn priority *confirmation →
   slot-filling (with interruption detection) → classify*. Orchestrator in
   `engine.py`; classifier, entities/datetime, session state, semantic rescue
-  alongside. CLIs: `scripts/nlu_cli.py`, `scripts/nlu_cli_multilingual.py`.
+  alongside. CLIs: `apps/cli/nlu_cli.py`, `apps/cli/nlu_cli_multilingual.py`.
 - **Core classifier** — TF-IDF + LogisticRegression exported to ONNX (~16 KB).
 - **Multilingual** — `multilingual/`: training, prediction, text normalization,
   per-language temperature-scaling calibration (`config/calibration.json`).
@@ -24,8 +24,8 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
   (`multilingual/export_coreml_multilingual.py`); parity fixtures in
   `multilingual/test/`.
 
-Schema/config sources of truth: `data/nlu_schema.json`, `data/nlu_entities.json`,
-`data/localization/`, `config/calibration.json`.
+Schema/config sources of truth: `content/nlu_schema.json`, `content/nlu_entities.json`,
+`content/localization/`, `config/calibration.json`.
 
 ## Setup & workflow
 
@@ -57,7 +57,7 @@ macro-F1 ≈ 0.745).
 
 ## Data & privacy
 
-- `data/01_source_base_training_data.csv` — labeled training data.
+- `datasets/01_source_base_training_data.csv` — labeled training data.
 - `data/unknown_data.csv` — low-confidence inputs. Privacy stance: default is
   **aggregate counters only**; raw text collection is **opt-in**. See
   `docs/privacy-unknown-data.md`.

@@ -39,7 +39,7 @@ When you want to add new intents (for example, missing ones from Dialogflow) or 
    This merges your new phrases and regenerates `04_GENERATED_MASTER_training_data.csv`.
 3. **Retrain the models:**
    ```bash
-   python scripts/train.py
+   python packages/buildtime/nlu_training/train.py
    python scripts/train_semantic_head.py
    ```
    The trainers will automatically read the `04_GENERATED_MASTER_training_data.csv` file.

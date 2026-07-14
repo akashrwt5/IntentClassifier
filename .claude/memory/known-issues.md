@@ -10,7 +10,7 @@ _None open. Recently fixed:_
 - **FIXED — French decimal-hour idioms dropped their minutes.** `et demie` /
   `et quart` / `moins le quart` were lost when a "N heures" clock hour was
   present (e.g. `"huit heures moins le quart"` -> 08:00 instead of 07:45).
-  Cause: in `scripts/nlu/entities.py`, the digit+clock-marker step (D1) ran
+  Cause: in `entities.py` (then `scripts/nlu/`, now `packages/runtime/nlu_engine/`), the digit+clock-marker step (D1) ran
   before the decimal-hour idioms (D3) and consumed the hour. Fix: run D1 after
   D3. Full datetime parity suite green (25/25) across fr/de/da. Note: the shared
   fixtures also drive the iOS Swift parity test — keep both in sync.
@@ -18,7 +18,7 @@ _None open. Recently fixed:_
 ## Privacy / data-collection
 
 - **FIXED (ND-5, 2026-07-14):** `predict.py` unknown-data logging now goes
-  through `scripts/unknown_log.py` — aggregate counters by default, raw text
+  through `apps/cli/unknown_log.py` — aggregate counters by default, raw text
   only behind `NLU_COLLECT_RAW_UNKNOWN` (see `docs/privacy-unknown-data.md`).
   Open sub-item: retention window for consented raw text (legal decision).
 

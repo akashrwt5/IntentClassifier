@@ -49,3 +49,6 @@ multilingual/SemanticSupport/models/*.onnx
 multilingual/models/**
 !multilingual/models/da/
 !multilingual/models/da/**
+
+# Local bundle build output (ADR-005 Part 13)
+bundles/

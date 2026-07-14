@@ -4,10 +4,10 @@ Status: **Enforced** (approved ND-5, 2026-07-14; Review-F5 Appendix A #10,
 risk RK6). This file is the source of truth for what the product is allowed
 to collect from low-confidence turns.
 
-Implementation: `scripts/unknown_log.py` — counters by default to
+Implementation: `apps/cli/unknown_log.py` — counters by default to
 `data/unknown_counters.csv` (date, confidence bucket, count); raw text to
 `data/unknown_data.csv` only when `NLU_COLLECT_RAW_UNKNOWN` is set (the app
-layer must map this to real, revocable user consent). `scripts/predict.py`
+layer must map this to real, revocable user consent). `apps/cli/predict.py`
 routes through it. Tests: `tests/test_phase0_guards.py`.
 
 ## The stance
@@ -32,9 +32,9 @@ potentially sensitive personal data. Therefore:
 
 ## Enforcement history
 
-`scripts/predict.py::save_unknown()` (legacy CLI path) previously appended
+`apps/cli/predict.py::save_unknown()` (legacy CLI path) previously appended
 `[text, confidence, timestamp]` — raw text by default. Fixed 2026-07-14
-under ND-5 approval: it now delegates to `scripts/unknown_log.py`
+under ND-5 approval: it now delegates to `apps/cli/unknown_log.py`
 (counters by default, raw text opt-in). Open follow-up: the retention
 window for consented raw text still needs a legal decision.
 

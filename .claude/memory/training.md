@@ -7,10 +7,10 @@
 ## English core model
 
 ```bash
-make train                 # = python scripts/train.py   (version 3 data, default)
-python scripts/train.py -v 1   # original files
-python scripts/train.py -v 2   # corrected _2 files
-python scripts/train.py -v 3   # enhanced: _2 + 02_source_manual_corrections (default)
+make train                 # = python packages/buildtime/nlu_training/train.py   (version 3 data, default)
+python packages/buildtime/nlu_training/train.py -v 1   # original files
+python packages/buildtime/nlu_training/train.py -v 2   # corrected _2 files
+python packages/buildtime/nlu_training/train.py -v 3   # enhanced: _2 + 02_source_manual_corrections (default)
 ```
 
 Pipeline: `TfidfVectorizer` -> `LogisticRegression` (sklearn `Pipeline`) exported
@@ -46,7 +46,7 @@ low-confidence classifier turns (see `inference.md`).
 ## Calibration (temperature scaling)
 
 ```bash
-make calibrate             # = python scripts/calibrate_languages.py
+make calibrate             # = python packages/buildtime/nlu_training/calibrate_languages.py
 ```
 
 Fits **per-language temperature** (rank-preserving) and writes to
