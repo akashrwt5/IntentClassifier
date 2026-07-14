@@ -53,3 +53,45 @@ def test_genai_guard_passes_real_url_through():
     engine = _engine_module()
     url = "https://genai.example-real-endpoint.com/chat?query="
     assert engine.NLUEngine._resolve_genai_url(url) == url
+
+
+# --- unknown-data privacy enforcement (Appendix A #10, ND-5) -----------------
+
+def _unknown_log():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        "unknown_log_test", REPO_ROOT / "scripts" / "unknown_log.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_unknown_default_writes_counters_never_text(tmp_path, monkeypatch):
+    ul = _unknown_log()
+    monkeypatch.delenv(ul.RAW_OPT_IN_ENV, raising=False)
+    counters, raw = tmp_path / "counters.csv", tmp_path / "raw.csv"
+    assert ul.record_unknown("private medical utterance", 0.42, counters, raw) == "counter"
+    assert ul.record_unknown("another one", 0.48, counters, raw) == "counter"
+    assert not raw.exists(), "raw text must not be written without opt-in"
+    content = counters.read_text()
+    assert "private medical utterance" not in content
+    assert "0.4-0.5" in content
+    # both turns landed in the same day+bucket counter
+    assert any(line.endswith(",2") for line in content.strip().splitlines())
+
+
+def test_unknown_raw_requires_explicit_opt_in(tmp_path, monkeypatch):
+    ul = _unknown_log()
+    monkeypatch.setenv(ul.RAW_OPT_IN_ENV, "1")
+    counters, raw = tmp_path / "counters.csv", tmp_path / "raw.csv"
+    assert ul.record_unknown("consented text", 0.3, counters, raw) == "raw"
+    assert "consented text" in raw.read_text()
+    assert not counters.exists()
+
+
+def test_confidence_bucket_bounds():
+    ul = _unknown_log()
+    assert ul.confidence_bucket(0.0) == "0.0-0.1"
+    assert ul.confidence_bucket(0.55) == "0.5-0.6"
+    assert ul.confidence_bucket(1.0) == "0.9-1.0"

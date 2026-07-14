@@ -1,8 +1,14 @@
 # Privacy stance: `data/unknown_data.csv` (low-confidence utterance log)
 
-Status: **Documented stance — enforcement change pending approval** (Review-F5
-Appendix A #10, risk RK6). This file is the source of truth for what the
-product is allowed to collect from low-confidence turns.
+Status: **Enforced** (approved ND-5, 2026-07-14; Review-F5 Appendix A #10,
+risk RK6). This file is the source of truth for what the product is allowed
+to collect from low-confidence turns.
+
+Implementation: `scripts/unknown_log.py` — counters by default to
+`data/unknown_counters.csv` (date, confidence bucket, count); raw text to
+`data/unknown_data.csv` only when `NLU_COLLECT_RAW_UNKNOWN` is set (the app
+layer must map this to real, revocable user consent). `scripts/predict.py`
+routes through it. Tests: `tests/test_phase0_guards.py`.
 
 ## The stance
 
@@ -24,15 +30,13 @@ potentially sensitive personal data. Therefore:
    retention window, whichever comes first (window to be set with legal —
    see "Needs decision").
 
-## Current implementation vs. the stance (gap)
+## Enforcement history
 
-`scripts/predict.py::save_unknown()` (legacy CLI path) currently appends
-`[text, confidence, timestamp]` — raw text by default. This predates the
-stance. It is a **known deviation**, tracked in
-`.claude/memory/known-issues.md`. The fix (counters by default, raw text
-behind an opt-in flag) changes data-collection behavior and is therefore
-**approval-gated** (charter §7: privacy). See the "Needs decision" queue in
-`docs/Review-F5/EXECUTION_STATUS.md`.
+`scripts/predict.py::save_unknown()` (legacy CLI path) previously appended
+`[text, confidence, timestamp]` — raw text by default. Fixed 2026-07-14
+under ND-5 approval: it now delegates to `scripts/unknown_log.py`
+(counters by default, raw text opt-in). Open follow-up: the retention
+window for consented raw text still needs a legal decision.
 
 Mitigations already in place:
 

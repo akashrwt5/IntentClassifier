@@ -6,22 +6,27 @@ Usage:
     python scripts/predict.py
 """
 
-import onnxruntime as ort
-import numpy as np
-import joblib
+import os
+import sys
 import urllib.parse
-import csv
-from datetime import datetime
 from pathlib import Path
+
+import joblib
+import numpy as np
+import onnxruntime as ort
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from unknown_log import record_unknown  # noqa: E402  (privacy stance: A#10/ND-5)
 
 CONF_THRESHOLD = 0.70
 CONF_GAP_THRESHOLD = 0.20
-GENAI_BASE_URL = "https://genai.yourcompany.com/chat?query="
+# No placeholder default: a GenAI URL is only emitted when explicitly
+# configured (Review-F5 Appendix A #5, RK1 — same guard as scripts/nlu/engine.py).
+GENAI_BASE_URL = os.environ.get("NLU_GENAI_URL") or None
 
 BASE_DIR = Path(__file__).parent.parent
 MODEL_PATH = BASE_DIR / "models" / "intent_model.onnx"
 LABELS_PATH = BASE_DIR / "models" / "intent_labels.pkl"
-UNKNOWN_PATH = BASE_DIR / "data" / "unknown_data.csv"
 
 if not MODEL_PATH.exists():
     raise FileNotFoundError(f"Model not found: {MODEL_PATH.resolve()}")
@@ -33,14 +38,18 @@ inp = session.get_inputs()[0]
 input_name = inp.name
 LABELS = joblib.load(str(LABELS_PATH))
 
-if not UNKNOWN_PATH.exists():
-    with open(UNKNOWN_PATH, "w", newline="", encoding="utf-8") as f:
-        csv.writer(f).writerow(["text", "confidence", "timestamp"])
-
 
 def save_unknown(text, confidence):
-    with open(UNKNOWN_PATH, "a", newline="", encoding="utf-8") as f:
-        csv.writer(f).writerow([text, f"{confidence:.6f}", datetime.now().isoformat()])
+    # Privacy stance (docs/privacy-unknown-data.md): counters by default,
+    # raw text only behind the NLU_COLLECT_RAW_UNKNOWN opt-in.
+    record_unknown(text, confidence)
+
+
+def _genai_result(text: str, confidence: float) -> dict:
+    r = {"type": "GENAI", "intent": "GENAI", "confidence": confidence}
+    if GENAI_BASE_URL:
+        r["url"] = GENAI_BASE_URL + urllib.parse.quote(text)
+    return r
 
 
 def _format_input(text: str):
@@ -97,13 +106,11 @@ def predict(text: str) -> dict:
     if conf1 >= CONF_THRESHOLD and gap >= CONF_GAP_THRESHOLD:
         if intent == "OUT_OF_SCOPE":
             save_unknown(text, conf1)
-            return {"type": "GENAI", "intent": "GENAI",
-                    "url": GENAI_BASE_URL + urllib.parse.quote(text), "confidence": conf1}
+            return _genai_result(text, conf1)
         return {"type": "INTENT", "intent": intent, "confidence": conf1}
 
     save_unknown(text, conf1)
-    return {"type": "GENAI", "intent": "GENAI",
-            "url": GENAI_BASE_URL + urllib.parse.quote(text), "confidence": conf1}
+    return _genai_result(text, conf1)
 
 
 if __name__ == "__main__":
@@ -119,4 +126,5 @@ if __name__ == "__main__":
         if r["type"] == "INTENT":
             print(f"  ✅ INTENT → {r['intent']}  (confidence: {r['confidence']:.2f})\n")
         else:
-            print(f"  🤖 GENAI  ({r['confidence']:.2f}) → {r['url']}\n")
+            dest = r.get("url", "(no GenAI endpoint configured — set NLU_GENAI_URL)")
+            print(f"  🤖 GENAI  ({r['confidence']:.2f}) → {dest}\n")
