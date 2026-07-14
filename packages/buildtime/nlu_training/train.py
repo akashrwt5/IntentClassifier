@@ -37,17 +37,17 @@ _args = _parser.parse_args()
 # ---------- Paths ----------
 BASE_DIR = Path(__file__).resolve().parents[3]
 if _args.version == 1:
-    DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
-    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+    DATA_PATH    = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
+    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_100.csv"
 elif _args.version == 2:
-    DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
-    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+    DATA_PATH    = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
+    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
 else:
     # v3: corrected _2 data augmented with hand-written conversational
     # paraphrases (02_source_manual_corrections.csv). Holdout stays the v2 set so
     # the leakage guard below proves the corrections never copy a test phrase.
-    DATA_PATH    = BASE_DIR / "data" / "04_GENERATED_MASTER_training_data.csv"
-    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+    DATA_PATH    = BASE_DIR / "datasets" / "04_GENERATED_MASTER_training_data.csv"
+    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
 
 print(f"Data version: {_args.version}  |  {DATA_PATH.name}  |  holdout: {HOLDOUT_PATH.name}")
 MODELS_DIR = BASE_DIR / "models"

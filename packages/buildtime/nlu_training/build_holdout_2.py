@@ -8,9 +8,9 @@ import csv
 from pathlib import Path
 
 BASE_DIR    = Path(".")
-HOLDOUT_OLD = BASE_DIR / "data" / "semantic_holdout_100.csv"
-HOLDOUT_NEW = BASE_DIR / "data" / "semantic_holdout_2.csv"
-DATA2_PATH  = BASE_DIR / "data" / "01_source_base_training_data.csv"
+HOLDOUT_OLD = BASE_DIR / "datasets" / "semantic_holdout_100.csv"
+HOLDOUT_NEW = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
+DATA2_PATH  = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
 
 # ── New rows: 5 per unmeasured intent ──────────────────────────────────────
 # Style: natural paraphrases, NOT verbatim training phrases.

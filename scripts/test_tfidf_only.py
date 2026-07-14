@@ -17,7 +17,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
 PIPELINE_PATH = BASE_DIR / "models" / "intent_pipeline.pkl"
-HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
 
 BOLD = "\033[1m"
 GREEN = "\033[92m"

@@ -46,9 +46,9 @@ import numpy as np
 import pandas as pd
 
 BASE_DIR     = Path(__file__).resolve().parents[3]
-DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
-OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
-HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+DATA_PATH    = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
+OOS_PATH     = BASE_DIR / "datasets" / "semantic_oos.csv"
+HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_100.csv"
 MODEL_DIR    = BASE_DIR / "models"
 COREML_PATH  = MODEL_DIR / "MiniLMEmbedder.mlpackage"
 VOCAB_PATH   = MODEL_DIR / "minilm-vocab.txt"

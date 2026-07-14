@@ -39,20 +39,20 @@ _args = _parser.parse_args()
 
 BASE_DIR   = Path(__file__).resolve().parents[3]
 if _args.version == 1:
-    DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
-    OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
-    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+    DATA_PATH    = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
+    OOS_PATH     = BASE_DIR / "datasets" / "semantic_oos.csv"
+    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_100.csv"
 elif _args.version == 2:
-    DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
-    OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
-    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+    DATA_PATH    = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
+    OOS_PATH     = BASE_DIR / "datasets" / "semantic_oos_2.csv"
+    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
 else:
     # v3: enhanced training data (_2 + hand-written conversational paraphrases).
     # Reuses the v2 OOS and holdout sets — the corrections never include a
     # holdout phrase (verified by train.py's leakage guard).
-    DATA_PATH    = BASE_DIR / "data" / "04_GENERATED_MASTER_training_data.csv"
-    OOS_PATH     = BASE_DIR / "data" / "semantic_oos_2.csv"
-    HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_2.csv"
+    DATA_PATH    = BASE_DIR / "datasets" / "04_GENERATED_MASTER_training_data.csv"
+    OOS_PATH     = BASE_DIR / "datasets" / "semantic_oos_2.csv"
+    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
 
 print(f"Data version: {_args.version}  |  {DATA_PATH.name}  |  oos: {OOS_PATH.name}  |  holdout: {HOLDOUT_PATH.name}")
 MODEL_DIR  = BASE_DIR / "models"
@@ -138,7 +138,7 @@ def main():
     # largely garbled ASR of IN-DOMAIN requests. Training on it would teach the
     # head to replicate old Dialogflow's failures, so it is EXCLUDED. Instead we
     # train an EXPLICIT out-of-scope class from a CURATED clean OOS set
-    # (data/semantic_oos.csv): general-knowledge / other-domain queries that the
+    # (datasets/semantic_oos.csv): general-knowledge / other-domain queries that the
     # head should learn to reject rather than guess at via a probability floor.
     in_scope = data[data["intent"] != FALLBACK_INTENT]
     noisy_fb = data[data["intent"] == FALLBACK_INTENT]   # noisy eval only

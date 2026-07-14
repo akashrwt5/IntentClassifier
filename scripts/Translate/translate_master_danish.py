@@ -9,8 +9,8 @@ from deep_translator import GoogleTranslator
 socket.setdefaulttimeout(15)
 
 # Input and output file paths
-input_file = "/Users/akashrawat/PycharmProjects/IntentClassifier/data/04_GENERATED_MASTER_training_data.csv"
-output_file = "/Users/akashrawat/PycharmProjects/IntentClassifier/data/Generated_Master_training_Danish_Data.csv"
+input_file = "/Users/akashrawat/PycharmProjects/IntentClassifier/datasets/04_GENERATED_MASTER_training_data.csv"
+output_file = "/Users/akashrawat/PycharmProjects/IntentClassifier/datasets/Generated_Master_training_Danish_Data.csv"
 
 # Protected terms regex mappings
 replacements = [

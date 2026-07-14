@@ -14,9 +14,9 @@ from pathlib import Path
 from collections import Counter
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-DATA_PATH = BASE_DIR / "data" / "01_source_base_training_data.csv"
-OOS_PATH = BASE_DIR / "data" / "semantic_oos.csv"
-HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+DATA_PATH = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
+OOS_PATH = BASE_DIR / "datasets" / "semantic_oos.csv"
+HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_100.csv"
 
 def read_csv(path):
     """Read CSV and return list of dicts."""
@@ -118,7 +118,7 @@ print("\n" + "=" * 70)
 print("NEXT STEPS:")
 print("=" * 70)
 print("1. Add tail-class diversity to 01_source_base_training_data.csv (target ≥40 per intent)")
-print("2. Expand data/semantic_oos.csv with 244+ hard negatives → 400+ total")
-print("3. Rebuild data/semantic_holdout_100.csv to cover all 60 intents")
+print("2. Expand datasets/semantic_oos.csv with 244+ hard negatives → 400+ total")
+print("3. Rebuild datasets/semantic_holdout_100.csv to cover all 60 intents")
 print("4. Run: python scripts/train_semantic_head.py")
 print("\nDo NOT commit data changes until reviewing samples for accuracy.\n")

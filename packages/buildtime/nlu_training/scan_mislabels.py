@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Heuristic mislabel scanner for data/01_source_base_training_data.csv.
+Heuristic mislabel scanner for datasets/01_source_base_training_data.csv.
 
 It does NOT use the trained model (which would just echo its own biases).
 Instead it defines strong, mutually-exclusive keyword signatures for the
@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 BASE_DIR  = Path(__file__).resolve().parents[3]
-DATA_PATH = BASE_DIR / "data" / "01_source_base_training_data.csv"
+DATA_PATH = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
 
 # Strong, fairly exclusive signatures. A row labelled intent A but whose text
 # clearly matches intent B's signature (and not A's) is a mislabel candidate.

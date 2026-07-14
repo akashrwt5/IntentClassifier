@@ -12,8 +12,8 @@ registers for every intent, then:
   * filters out any phrase that appears in ANY holdout / benchmark / test set
     (zero leakage — the benchmarks must stay a true generalisation test),
   * dedupes against the base training data,
-  * writes  data/03_generated_augmented_phrases.csv        (just the new phrases), and
-  * writes  data/04_GENERATED_MASTER_training_data.csv   (the merged v3 training set =
+  * writes  datasets/03_generated_augmented_phrases.csv        (just the new phrases), and
+  * writes  datasets/04_GENERATED_MASTER_training_data.csv   (the merged v3 training set =
             base _2 + augmentation + hand corrections) that the trainers read.
 
 ────────────────────────────────────────────────────────────────────────────

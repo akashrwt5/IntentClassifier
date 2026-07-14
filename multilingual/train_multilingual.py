@@ -97,7 +97,7 @@ from text_norm import normalize_text   # shared lowercase + ASCII accent-folding
 
 # ───────────────────────── Paths & registry ──────────────────────────────────
 BASE_DIR = Path(__file__).parent              # .../multilingual
-DATA_DIR = BASE_DIR / "data"
+DATA_DIR = BASE_DIR.parent / "datasets" / "multilingual"  # moved from multilingual/data (ND-2 M3)
 MODELS_DIR = BASE_DIR / "models"
 TEST_DIR = BASE_DIR / "test"
 

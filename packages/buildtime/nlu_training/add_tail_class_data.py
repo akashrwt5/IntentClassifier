@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Add curated, genuinely-distinct paraphrases to tail intents in
-data/01_source_base_training_data.csv so every intent reaches >=40 rows.
+datasets/01_source_base_training_data.csv so every intent reaches >=40 rows.
 
 These are hand-written natural paraphrases in the hearing-aid / Thrive
 domain — NOT carrier-phrase permutations ("please X" / "can you X"),
@@ -24,8 +24,8 @@ from pathlib import Path
 from collections import Counter
 
 BASE_DIR     = Path(__file__).resolve().parents[3]
-DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
-HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
+DATA_PATH    = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
+HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_100.csv"
 
 # ── Curated additions (genuine paraphrases, not permutations) ──
 ADDITIONS = {

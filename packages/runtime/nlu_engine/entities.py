@@ -18,8 +18,8 @@ except Exception:
     _HAS_DATEPARSER = False
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-ENTITIES_PATH = BASE_DIR / "data" / "nlu_entities.json"
-LOCALIZATION_DIR = BASE_DIR / "data" / "localization"
+ENTITIES_PATH = BASE_DIR / "content" / "nlu_entities.json"
+LOCALIZATION_DIR = BASE_DIR / "content" / "localization"
 
 # Unicode-Latin-aware word boundaries for the lexicon-driven datetime parser.
 # Must match EntityExtractor.swift exactly so Swift and Python agree on every

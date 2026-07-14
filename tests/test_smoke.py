@@ -24,7 +24,7 @@ def test_key_project_files_exist():
         "Makefile",
         "requirements.txt",
         "config/calibration.json",
-        "data/nlu_schema.json",
+        "content/nlu_schema.json",
     ]:
         assert (REPO_ROOT / rel).exists(), f"missing expected file: {rel}"
 

@@ -37,7 +37,7 @@ _spec.loader.exec_module(_mod)
 EntityExtractor = _mod.EntityExtractor
 
 FIXTURE_DIR = Path(__file__).parent / "datetime_parity"
-LOC_DIR = BASE_DIR / "data" / "localization"
+LOC_DIR = BASE_DIR / "content" / "localization"
 NOW = datetime(2026, 6, 30, 0, 0, 0, tzinfo=timezone.utc)  # Tuesday 00:00 UTC
 
 _WD = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3,

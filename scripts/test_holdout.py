@@ -46,12 +46,12 @@ _args = _parser.parse_args()
 
 _BASE = Path(__file__).parent.parent
 if _args.version == 1:
-    HOLDOUT_PATH = _BASE / "data" / "semantic_holdout_100.csv"
+    HOLDOUT_PATH = _BASE / "datasets" / "semantic_holdout_100.csv"
     # v1 gate: 88/100 correct, ≤5 wrong-action
     _default_min   = 88
     _default_wrong = 5
 else:
-    HOLDOUT_PATH = _BASE / "data" / "semantic_holdout_2.csv"
+    HOLDOUT_PATH = _BASE / "datasets" / "semantic_holdout_2.csv"
     # v2 gate: ~75% of 345 correct (258), ≤15 wrong-action
     # Lower % floor because v2 contains many HARD novel paraphrases across 59 intents
     _default_min   = int(os.environ.get("MIN_HOLDOUT_TOTAL", "258"))

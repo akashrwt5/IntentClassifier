@@ -5,7 +5,7 @@ Dissolve the Cmd.Health intent.
 All 43 Cmd.Health rows are activity-metric queries (step/stand/walk/exercise)
 that duplicate the dedicated Cmd.Activity* intents. This script:
   1. Reassigns every Cmd.Health row to its matching activity intent.
-  2. Removes the Cmd.Health intent definition from data/nlu_schema.json.
+  2. Removes the Cmd.Health intent definition from content/nlu_schema.json.
 
 Reassignment rule (first match wins):
     step      -> Cmd.ActivityStep
@@ -26,8 +26,8 @@ from collections import Counter
 from pathlib import Path
 
 BASE_DIR    = Path(__file__).resolve().parents[3]
-DATA_PATH   = BASE_DIR / "data" / "01_source_base_training_data.csv"
-SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
+DATA_PATH   = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
+SCHEMA_PATH = BASE_DIR / "content" / "nlu_schema.json"
 SRC_INTENT  = "Cmd.Health"
 
 

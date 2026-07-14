@@ -47,8 +47,9 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
 3. **Classify** — fresh turn: ONNX classify -> confidence gate -> optional
    semantic rescue -> entity/datetime extraction -> slot prompts.
 
-Config/schema: `data/nlu_schema.json`, `data/nlu_entities.json`,
-`data/localization/`, `config/calibration.json`.
+Config/schema: `content/nlu_schema.json`, `content/nlu_entities.json`,
+`content/localization/`, `config/calibration.json` (moved from `data/` in
+ND-2 M3; training CSVs now live in `datasets/`).
 
 ## Dependency posture
 

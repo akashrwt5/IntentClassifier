@@ -50,7 +50,7 @@ import numpy as np
 BASE_DIR   = Path(__file__).parent.parent
 MODELS_DIR = BASE_DIR / "models"
 VOCAB_PATH = MODELS_DIR / "minilm-vocab.txt"
-DATA_PATH  = BASE_DIR / "data" / "01_source_base_training_data.csv"
+DATA_PATH  = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
 
 # Mirror the trainer exactly (train_semantic_head_coreml.py).
 MAX_LEN = 64

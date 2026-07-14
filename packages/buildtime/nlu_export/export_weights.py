@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-DATA_PATH = BASE_DIR / "data" / "01_source_base_training_data.csv"
+DATA_PATH = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
 WEIGHTS_PATH = BASE_DIR / "models" / "intent_classifier_weights.json"
 BASE_DIR.joinpath("models").mkdir(exist_ok=True)
 
