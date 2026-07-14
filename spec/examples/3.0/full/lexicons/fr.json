@@ -1,0 +1,41 @@
+{
+  "lang": "fr",
+  "affirmative": [
+    "oui",
+    "ouais",
+    "d'accord",
+    "ok",
+    "bien sûr",
+    "vas-y"
+  ],
+  "negative": [
+    "non",
+    "pas du tout",
+    "annule",
+    "laisse tomber"
+  ],
+  "uncertainty": [
+    "peut-être",
+    "je ne sais pas",
+    "je crois"
+  ],
+  "universal_verbs": {
+    "arrête": "verb.stop",
+    "annule": "verb.cancel",
+    "répète": "verb.repeat"
+  },
+  "carriers": [
+    "^(s'il vous plaît|s'il te plaît|peux-tu|pouvez-vous) ",
+    " (s'il vous plaît|s'il te plaît)$"
+  ],
+  "referents": {
+    "le premier": "ordinal",
+    "ça": "demonstrative",
+    "l'autre": "alternative"
+  },
+  "negation_cues": [
+    "ne",
+    "pas",
+    "jamais"
+  ]
+}

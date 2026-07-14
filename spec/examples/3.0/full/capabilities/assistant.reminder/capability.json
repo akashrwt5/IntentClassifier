@@ -1,0 +1,43 @@
+{
+  "id": "assistant.reminder",
+  "version": "1.0",
+  "owner": "assistant-team",
+  "status": "active",
+  "platforms": [
+    "ios",
+    "android",
+    "server"
+  ],
+  "languages": [
+    "en",
+    "fr"
+  ],
+  "actions": [
+    {
+      "key": "assistant.reminder.create",
+      "params": [
+        {
+          "name": "when",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "period",
+          "type": "entity_ref",
+          "required": false,
+          "entity": "shared.time_of_day"
+        }
+      ],
+      "descriptor": "Create a reminder (may carry medication semantics).",
+      "high_cost": true
+    }
+  ],
+  "availability": {
+    "conditions": [
+      {
+        "condition": "app.notifications_enabled"
+      }
+    ],
+    "unavailable_response": "reminder.unavailable"
+  }
+}

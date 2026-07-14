@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/policies.schema.json",
+  "title": "runtime/policies.json — fully-resolved policy tables (ADR-005 Part 2, ADR-003 §8)",
+  "description": "Compiled, flat, complete. The tighten-only merge algebra runs in the compiler (stage 5); a runtime never merges policy. Matrix completeness over the intent set is proved at compile time, not by this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["policy_schema", "policy_content", "confirmation", "thresholds"],
+  "properties": {
+    "policy_schema": { "type": "integer", "minimum": 1 },
+    "policy_content": { "type": "integer", "minimum": 1 },
+    "confirmation": {
+      "description": "intent id → confirmation policy. High-cost actions must resolve to 'always' (medical wrong-action budget).",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$": {
+          "type": "string",
+          "enum": ["always", "never", "when_ambiguous"]
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confidence", "interrupt", "semantic"],
+      "properties": {
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "interrupt": { "type": "number", "minimum": 0, "maximum": 1 },
+        "semantic": { "type": "number", "minimum": 0, "maximum": 1 },
+        "agreement": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_slot_attempts": { "type": "integer", "minimum": 1 },
+        "max_followup_depth": { "type": "integer", "minimum": 0 },
+        "session_timeout_s": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "experiment_overlay_id": { "type": "string" }
+  }
+}

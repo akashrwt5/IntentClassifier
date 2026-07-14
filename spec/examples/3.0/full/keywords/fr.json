@@ -1,0 +1,20 @@
+{
+  "lang": "fr",
+  "rules": [
+    {
+      "pattern": "^(coupe le son|silence)$",
+      "tier": 1,
+      "intent": "audio.volume.mute"
+    },
+    {
+      "pattern": "\\bvolume\\b",
+      "tier": 2,
+      "intent": "audio.volume.set"
+    },
+    {
+      "pattern": "\\brappel(le|s)?\\b",
+      "tier": 2,
+      "intent": "reminder.task.create"
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/bundle.schema.json",
+  "title": "bundle.json — the Bundle Manifest (ADR-005 Part 3)",
+  "description": "Single source of truth for the bundle. Read first; trusted only after the signature over manifest.sha256 ⊕ bundle.json verifies. Unknown fields are a compile error at authoring time; runtimes ignore unknown OPTIONAL fields per the additive minor-version rule (Part 10).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id", "format_version", "content_version", "compiler_version",
+    "engine_compat", "required_runtime_features", "languages", "capabilities",
+    "models", "policy_versions", "telemetry_schema_version", "training",
+    "checksums_root", "signature_info", "created_at", "channel"
+  ],
+  "properties": {
+    "bundle_id": {
+      "description": "Globally unique: content-hash-derived + monotonic counter. Keys every telemetry event.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{7,127}$"
+    },
+    "format_version": { "$ref": "defs.schema.json#/$defs/formatVersion" },
+    "content_version": {
+      "description": "Monotonic content release number, independent of format.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "compiler_version": {
+      "description": "Exact compiler build. Informational — runtimes MUST NOT gate on it (Part 8 prohibition).",
+      "$ref": "defs.schema.json#/$defs/nonEmptyString"
+    },
+    "engine_compat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_runtime_contract", "max_tested_runtime_contract"],
+      "properties": {
+        "min_runtime_contract": { "type": "integer", "minimum": 1 },
+        "max_tested_runtime_contract": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "required_runtime_features": {
+      "description": "Runtime lacking any listed flag refuses the bundle — declarative capability check, no probing.",
+      "type": "array",
+      "items": { "$ref": "defs.schema.json#/$defs/runtimeFeature" },
+      "uniqueItems": true
+    },
+    "languages": {
+      "description": "Declared languages with completeness. 'partial' allowed only for channel=dev|beta bundles, never production (enforced by compiler stage 9).",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z]{2}$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["full", "partial"] },
+            "missing": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "capabilities": {
+      "description": "The registry the SDK's contract-version gate reads (ADR-002 A7).",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["version", "status"],
+          "properties": {
+            "version": { "$ref": "defs.schema.json#/$defs/semverish" },
+            "status": { "$ref": "defs.schema.json#/$defs/capabilityStatus" },
+            "superseded_by": { "$ref": "defs.schema.json#/$defs/stableId" }
+          }
+        }
+      }
+    },
+    "models": {
+      "description": "{stage: {lang|'shared': {artifact, format, model_version, embedder_id?}}} — what the Inference Interface loads.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intent"],
+      "properties": {
+        "intent": { "$ref": "#/$defs/modelLangMap" },
+        "embedder": { "$ref": "#/$defs/modelLangMap" },
+        "semantic_head": { "$ref": "#/$defs/modelLangMap" }
+      }
+    },
+    "policy_versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "content"],
+      "properties": {
+        "schema": { "type": "integer", "minimum": 1 },
+        "content": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "telemetry_schema_version": {
+      "description": "Must match telemetry/schema.json (compiler stage 8).",
+      "type": "integer",
+      "minimum": 1
+    },
+    "training": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset_hashes", "run_ids"],
+      "properties": {
+        "dataset_hashes": {
+          "type": "object",
+          "additionalProperties": { "$ref": "defs.schema.json#/$defs/sha256" }
+        },
+        "run_ids": { "type": "array", "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" } }
+      }
+    },
+    "checksums_root": {
+      "description": "Hash of integrity/manifest.sha256 — binds the manifest to the file table under one signature.",
+      "$ref": "defs.schema.json#/$defs/sha256"
+    },
+    "signature_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scheme", "key_id"],
+      "properties": {
+        "scheme": { "type": "string", "enum": ["ed25519-v1"] },
+        "key_id": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+      }
+    },
+    "created_at": {
+      "description": "Normalized build timestamp (deterministic packaging, stage 14).",
+      "type": "string",
+      "format": "date-time"
+    },
+    "channel": { "$ref": "defs.schema.json#/$defs/channel" },
+    "report_card_summary": {
+      "type": "object",
+      "additionalProperties": { "type": ["number", "string", "integer"] }
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["experiment_id", "variant"],
+      "properties": {
+        "experiment_id": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+        "variant": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+      }
+    },
+    "release_notes_ref": { "type": "string" }
+  },
+  "$defs": {
+    "modelLangMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^([a-z]{2}|shared)$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["artifact", "format", "model_version"],
+          "properties": {
+            "artifact": {
+              "description": "Archive-relative path to the model file.",
+              "$ref": "defs.schema.json#/$defs/nonEmptyString"
+            },
+            "format": { "type": "string", "enum": ["onnx", "mlmodelc-ref", "json"] },
+            "model_version": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+            "embedder_id": {
+              "description": "Required for semantic_head entries: the embedder this head was trained against (mismatch = compile error, stage 8).",
+              "$ref": "defs.schema.json#/$defs/nonEmptyString"
+            },
+            "quantization": { "type": "string", "enum": ["fp32", "fp16", "int8"] }
+          }
+        }
+      }
+    }
+  }
+}

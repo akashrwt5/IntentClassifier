@@ -1,0 +1,43 @@
+{
+  "lang": "en",
+  "affirmative": [
+    "yes",
+    "yeah",
+    "yep",
+    "sure",
+    "ok",
+    "okay",
+    "please do"
+  ],
+  "negative": [
+    "no",
+    "nope",
+    "nah",
+    "don't",
+    "cancel that"
+  ],
+  "uncertainty": [
+    "maybe",
+    "not sure",
+    "i think"
+  ],
+  "universal_verbs": {
+    "stop": "verb.stop",
+    "cancel": "verb.cancel",
+    "repeat": "verb.repeat"
+  },
+  "carriers": [
+    "^(please|could you|can you) ",
+    " (please|for me)$"
+  ],
+  "referents": {
+    "the first one": "ordinal",
+    "that": "demonstrative",
+    "the other one": "alternative"
+  },
+  "negation_cues": [
+    "not",
+    "don't",
+    "never"
+  ]
+}

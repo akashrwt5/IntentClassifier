@@ -1,0 +1,39 @@
+{
+  "ladder": [
+    {
+      "step": "semantic_rescue",
+      "when": {
+        "below_confidence": 0.7
+      }
+    },
+    {
+      "step": "clarify",
+      "when": {
+        "after_attempts": 1
+      }
+    },
+    {
+      "step": "assist_cloud",
+      "when": {
+        "after_attempts": 2,
+        "requires_feature": "assist_cloud",
+        "requires_consent": true
+      },
+      "budget_per_session": 3
+    },
+    {
+      "step": "give_up",
+      "when": {
+        "after_attempts": 3
+      }
+    }
+  ],
+  "assist_cloud": {
+    "enabled": false,
+    "timeout_ms": 4000,
+    "routing_reasons": [
+      "low_confidence",
+      "oos"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/defs.schema.json",
+  "title": "Shared definitions — NLU Bundle format 3.0 (ADR-005)",
+  "description": "Common $defs referenced by every schema in this format version. Stable identifiers per ADR-001.1 §5: ids, never indices.",
+  "$defs": {
+    "stableId": {
+      "description": "Stable identifier grammar (ADR-005 stage 10): lowercase dotted segments, e.g. 'audio.volume.set'.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "intentId": {
+      "description": "Intent id in the domain.object.action taxonomy (roadmap §2.3).",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+    },
+    "lang": {
+      "description": "ISO 639-1 language code.",
+      "type": "string",
+      "pattern": "^[a-z]{2}$"
+    },
+    "formatVersion": {
+      "description": "Bundle format version: integer major.minor (ADR-005 Part 8).",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "semverish": {
+      "description": "Capability/model version: major.minor or major.minor.patch.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+    },
+    "portableRegex": {
+      "description": "A pattern in the portable regex subset (spec/bundle/portable-regex.md). Subset conformance is proved by compiler stage 10, not by this schema.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "responseKey": {
+      "description": "Key into a capability's responses/{lang}.json.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["dev", "beta", "production"]
+    },
+    "capabilityStatus": {
+      "type": "string",
+      "enum": ["draft", "active", "deprecated"]
+    },
+    "runtimeFeature": {
+      "description": "Closed feature-flag vocabulary for format 3.0 (ADR-005 Part 3/Part 12). Extended only by a format minor bump.",
+      "type": "string",
+      "enum": ["frames", "plans", "conditional_steps", "assist_cloud", "retrieval_steps", "llm_planner"]
+    },
+    "modelStage": {
+      "description": "Cascade stages with model artifacts.",
+      "type": "string",
+      "enum": ["intent", "embedder", "semantic_head"]
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

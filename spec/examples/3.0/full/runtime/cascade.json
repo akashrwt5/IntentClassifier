@@ -1,0 +1,38 @@
+{
+  "stages": [
+    {
+      "id": "keyword",
+      "enabled": true
+    },
+    {
+      "id": "tfidf",
+      "enabled": true,
+      "input": {
+        "dtype": "string",
+        "shape": [
+          1
+        ]
+      },
+      "output": {
+        "dtype": "float32",
+        "dim": 3
+      }
+    },
+    {
+      "id": "semantic",
+      "enabled": true,
+      "input": {
+        "dtype": "int64",
+        "shape": [
+          1,
+          128
+        ],
+        "max_len": 128
+      },
+      "output": {
+        "dtype": "float32",
+        "dim": 4
+      }
+    }
+  ]
+}

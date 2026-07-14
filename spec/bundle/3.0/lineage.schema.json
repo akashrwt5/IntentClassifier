@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/lineage.schema.json",
+  "title": "meta/lineage.json — full reproducibility record (ADR-005 Part 2)",
+  "description": "Dataset hashes (DVC), training environment lock hash, compiler version, git commits, experiment ids. Device-ignored.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["dataset_hashes", "env_lock_hash", "compiler_version", "git_commit"],
+  "properties": {
+    "dataset_hashes": {
+      "description": "dataset name → DVC/content hash; per-capability keys preserve per-capability provenance.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "defs.schema.json#/$defs/sha256" }
+    },
+    "env_lock_hash": { "$ref": "defs.schema.json#/$defs/sha256" },
+    "compiler_version": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+    "git_commit": { "type": "string", "pattern": "^[a-f0-9]{7,40}$" },
+    "training_run_ids": { "type": "array", "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" } },
+    "experiment_ids": { "type": "array", "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" } }
+  }
+}

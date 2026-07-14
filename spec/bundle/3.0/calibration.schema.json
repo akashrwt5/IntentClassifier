@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/calibration.schema.json",
+  "title": "models/intent/{lang}/calibration.json — temperature scaling record",
+  "description": "Runtimes apply softmax(logits / temperature). Calibration must exist for every shipped model (stage 8).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["temperature", "conf_threshold"],
+  "properties": {
+    "temperature": { "type": "number", "exclusiveMinimum": 0 },
+    "conf_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+    "method": { "type": "string", "enum": ["temperature_scaling"], "default": "temperature_scaling" },
+    "ece_raw": { "type": "number", "minimum": 0 },
+    "ece_calibrated": { "type": "number", "minimum": 0 },
+    "fitted_on": {
+      "description": "Dataset hash the temperature was fitted on (leakage audit).",
+      "$ref": "defs.schema.json#/$defs/sha256"
+    }
+  }
+}

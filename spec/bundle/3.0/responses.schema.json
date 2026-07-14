@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/responses.schema.json",
+  "title": "capabilities/{id}/responses/{lang}.json — all user-facing text (ADR-005 Part 2)",
+  "description": "Every prompt key referenced by workflows/policies must exist here for every declared language (compiler stage 9). Placeholders use {slot_name}.",
+  "type": "object",
+  "minProperties": 1,
+  "additionalProperties": false,
+  "patternProperties": {
+    "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$": {
+      "oneOf": [
+        { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text"],
+          "properties": {
+            "text": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+            "variants": {
+              "description": "Optional alternates the runtime may rotate through.",
+              "type": "array",
+              "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+            },
+            "comment": { "type": "string" }
+          }
+        }
+      ]
+    }
+  }
+}

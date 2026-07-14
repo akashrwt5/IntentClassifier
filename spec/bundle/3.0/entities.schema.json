@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/entities.schema.json",
+  "title": "entities/*.json and capabilities/{id}/entities.json — entity tables (ADR-005 Part 2)",
+  "description": "Synonym→canonical tables, portable-regex patterns, or dynamic-source declarations. Canonical values are stable identifiers; conflicting synonym→different-canonical mappings are a compile error (stage 3/4).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entities"],
+  "properties": {
+    "entities": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "type": "string", "enum": ["list", "pattern", "dynamic"] },
+            "values": {
+              "description": "type=list: canonical value → synonyms (per language where applicable).",
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "patternProperties": {
+                  "^[a-z]{2}$": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+                  }
+                }
+              }
+            },
+            "pattern": {
+              "description": "type=pattern: portable-regex-subset pattern (stage 10).",
+              "$ref": "defs.schema.json#/$defs/portableRegex"
+            },
+            "fuzzy": { "type": "boolean", "default": false },
+            "dynamic_source": {
+              "description": "type=dynamic: which capability-context snapshot supplies values at runtime (ADR-002 A5).",
+              "$ref": "defs.schema.json#/$defs/stableId"
+            },
+            "normalization": { "type": "string", "enum": ["nfc_casefold", "none"], "default": "nfc_casefold" }
+          },
+          "allOf": [
+            { "if": { "properties": { "type": { "const": "list" } } }, "then": { "required": ["values"] } },
+            { "if": { "properties": { "type": { "const": "pattern" } } }, "then": { "required": ["pattern"] } },
+            { "if": { "properties": { "type": { "const": "dynamic" } } }, "then": { "required": ["dynamic_source"] } }
+          ]
+        }
+      }
+    }
+  }
+}

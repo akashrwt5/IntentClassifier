@@ -1,0 +1,29 @@
+{
+  "bundle_id": "golden-minimal-3.0-000001",
+  "format_version": "3.0",
+  "content_version": 1,
+  "compiler_version": "nlu-compiler 0.0.0-golden",
+  "engine_compat": { "min_runtime_contract": 1, "max_tested_runtime_contract": 1 },
+  "required_runtime_features": [],
+  "languages": { "en": { "status": "full" } },
+  "capabilities": {
+    "device.audio": { "version": "1.0", "status": "active" }
+  },
+  "models": {
+    "intent": {
+      "en": { "artifact": "models/intent/en/model.onnx", "format": "onnx", "model_version": "golden-en-1" }
+    }
+  },
+  "policy_versions": { "schema": 1, "content": 1 },
+  "telemetry_schema_version": 1,
+  "training": {
+    "dataset_hashes": {
+      "device.audio/en": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "run_ids": ["golden-run-0001"]
+  },
+  "checksums_root": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "signature_info": { "scheme": "ed25519-v1", "key_id": "dev-key-golden" },
+  "created_at": "2026-01-01T00:00:00Z",
+  "channel": "dev"
+}

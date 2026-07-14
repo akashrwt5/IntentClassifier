@@ -1,0 +1,26 @@
+{
+  "intents": {
+    "audio.volume.mute": {
+      "capability": "device.audio"
+    },
+    "audio.volume.set": {
+      "capability": "device.audio"
+    },
+    "reminder.task.create": {
+      "capability": "assistant.reminder"
+    }
+  },
+  "admission_caps": {
+    "max_concurrent_flows": 1,
+    "max_queued_intents": 1
+  },
+  "conflict_rules": [
+    {
+      "pair": [
+        "device.audio",
+        "assistant.reminder"
+      ],
+      "resolution": "clarify"
+    }
+  ]
+}

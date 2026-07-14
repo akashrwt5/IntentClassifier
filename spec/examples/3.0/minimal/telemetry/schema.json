@@ -1,0 +1,9 @@
+{
+  "telemetry_schema_version": 1,
+  "enums": {
+    "stages": ["keyword", "tfidf", "semantic", "fallback"],
+    "routing_reason": ["confident", "low_confidence", "oos", "unavailable"],
+    "outcome": ["fulfilled", "confirmed", "cancelled", "abandoned", "fallback"],
+    "lifecycle": ["discovered", "downloaded", "verified", "warmed", "active", "retired", "rolled_back"]
+  }
+}

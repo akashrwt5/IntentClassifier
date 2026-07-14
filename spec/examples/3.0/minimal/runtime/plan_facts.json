@@ -1,0 +1,7 @@
+{
+  "intents": {
+    "audio.volume.mute": { "capability": "device.audio" },
+    "audio.volume.set": { "capability": "device.audio" }
+  },
+  "admission_caps": { "max_concurrent_flows": 1 }
+}

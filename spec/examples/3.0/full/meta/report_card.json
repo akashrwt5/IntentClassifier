@@ -1,0 +1,25 @@
+{
+  "per_language": {
+    "en": {
+      "macro_f1": 0.94,
+      "holdout_accuracy": 0.95,
+      "ece": 0.02
+    },
+    "fr": {
+      "macro_f1": 0.9,
+      "holdout_accuracy": 0.91,
+      "ece": 0.02
+    }
+  },
+  "wrong_action_count": 1,
+  "wrong_action_per_domain": {
+    "audio": 1,
+    "reminder": 0
+  },
+  "oos_recall": 0.88,
+  "per_capability_f1": {
+    "device.audio": 0.95,
+    "assistant.reminder": 0.9
+  },
+  "gates_passed": true
+}

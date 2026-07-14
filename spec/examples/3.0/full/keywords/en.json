@@ -1,0 +1,23 @@
+{
+  "lang": "en",
+  "rules": [
+    {
+      "pattern": "^mute$",
+      "tier": 1,
+      "intent": "audio.volume.mute"
+    },
+    {
+      "pattern": "\\bvolume\\b",
+      "tier": 2,
+      "intent": "audio.volume.set",
+      "guards": [
+        "\\bunmute\\b"
+      ]
+    },
+    {
+      "pattern": "remind(er)?s?\\b",
+      "tier": 2,
+      "intent": "reminder.task.create"
+    }
+  ]
+}

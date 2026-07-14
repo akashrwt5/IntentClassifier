@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/plan_facts.schema.json",
+  "title": "runtime/plan_facts.json — planner lookup tables (ADR-005 Part 2, ADR-003)",
+  "description": "Compiler-derived (never hand-authored): intent → {capability, workflow}, admission caps, conflict rules.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["intents"],
+  "properties": {
+    "intents": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["capability"],
+          "properties": {
+            "capability": { "$ref": "defs.schema.json#/$defs/stableId" },
+            "workflow": {
+              "description": "Defaults to the intent id (one workflow per intent in 3.0).",
+              "$ref": "defs.schema.json#/$defs/intentId"
+            }
+          }
+        }
+      }
+    },
+    "admission_caps": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_concurrent_flows": { "type": "integer", "minimum": 1 },
+        "max_queued_intents": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "conflict_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["pair", "resolution"],
+        "properties": {
+          "pair": {
+            "type": "array", "minItems": 2, "maxItems": 2,
+            "items": { "$ref": "defs.schema.json#/$defs/stableId" }
+          },
+          "resolution": { "type": "string", "enum": ["first_wins", "last_wins", "clarify"] }
+        }
+      }
+    }
+  }
+}

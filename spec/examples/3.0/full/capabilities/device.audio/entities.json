@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "device.audio.volume_level": {
+      "type": "list",
+      "fuzzy": false,
+      "values": {
+        "low": {
+          "en": [
+            "low",
+            "quiet",
+            "soft"
+          ],
+          "fr": [
+            "bas",
+            "faible",
+            "doux"
+          ]
+        },
+        "medium": {
+          "en": [
+            "medium",
+            "normal",
+            "middle"
+          ],
+          "fr": [
+            "moyen",
+            "normal"
+          ]
+        },
+        "high": {
+          "en": [
+            "high",
+            "loud",
+            "max"
+          ],
+          "fr": [
+            "fort",
+            "haut",
+            "maximum"
+          ]
+        }
+      }
+    }
+  }
+}

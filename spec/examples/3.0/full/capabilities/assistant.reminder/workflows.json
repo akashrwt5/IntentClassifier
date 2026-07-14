@@ -1,0 +1,42 @@
+{
+  "intents": {
+    "reminder.task.create": {
+      "slots": [
+        {
+          "name": "when",
+          "entity": "assistant.reminder.time",
+          "required": true,
+          "prompt": "reminder.ask_time",
+          "reprompt": "reminder.ask_time_again",
+          "validation": [
+            {
+              "predicate": "not_past",
+              "failure_prompt": "reminder.time_past"
+            }
+          ]
+        },
+        {
+          "name": "period",
+          "entity": "shared.time_of_day",
+          "required": false,
+          "prompt": "reminder.ask_period"
+        }
+      ],
+      "confirmation": {
+        "required": true,
+        "prompt": "reminder.confirm",
+        "high_cost": true
+      },
+      "completion": {
+        "action": "assistant.reminder.create",
+        "response": "reminder.created"
+      },
+      "followup": {
+        "prompt": "reminder.another",
+        "on_yes": "reminder.task.create",
+        "on_no": "reminder.done",
+        "timeout_prompt": "reminder.timeout"
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "intents": {
+    "audio.volume.set": {
+      "slots": [
+        {
+          "name": "level",
+          "entity": "device.audio.volume_level",
+          "required": true,
+          "prompt": "audio.volume.ask_level",
+          "reprompt": "audio.volume.ask_level_again",
+          "validation": [
+            {
+              "predicate": "one_of",
+              "params": {
+                "values": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              },
+              "failure_prompt": "audio.volume.invalid_level"
+            }
+          ]
+        }
+      ],
+      "completion": {
+        "action": "device.audio.set_volume",
+        "response": "audio.volume.set_done"
+      }
+    },
+    "audio.volume.mute": {
+      "completion": {
+        "action": "device.audio.mute",
+        "response": "audio.volume.mute_done"
+      }
+    }
+  }
+}

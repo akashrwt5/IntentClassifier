@@ -1,0 +1,17 @@
+{
+  "policy_schema": 1,
+  "policy_content": 1,
+  "confirmation": {
+    "audio.volume.mute": "never",
+    "audio.volume.set": "never"
+  },
+  "thresholds": {
+    "confidence": 0.7,
+    "interrupt": 0.75,
+    "semantic": 0.55
+  },
+  "limits": {
+    "max_slot_attempts": 3,
+    "session_timeout_s": 120
+  }
+}

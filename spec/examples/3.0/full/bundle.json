@@ -1,0 +1,98 @@
+{
+  "bundle_id": "golden-full-3.0-000001",
+  "format_version": "3.0",
+  "content_version": 2,
+  "compiler_version": "nlu-compiler 0.0.0-golden",
+  "engine_compat": {
+    "min_runtime_contract": 1,
+    "max_tested_runtime_contract": 2
+  },
+  "required_runtime_features": [
+    "frames"
+  ],
+  "languages": {
+    "en": {
+      "status": "full"
+    },
+    "fr": {
+      "status": "full"
+    }
+  },
+  "capabilities": {
+    "device.audio": {
+      "version": "1.0",
+      "status": "active"
+    },
+    "assistant.reminder": {
+      "version": "1.0",
+      "status": "active"
+    }
+  },
+  "models": {
+    "intent": {
+      "en": {
+        "artifact": "models/intent/en/model.onnx",
+        "format": "onnx",
+        "model_version": "golden-en-2"
+      },
+      "fr": {
+        "artifact": "models/intent/fr/model.onnx",
+        "format": "onnx",
+        "model_version": "golden-fr-2"
+      }
+    },
+    "embedder": {
+      "shared": {
+        "artifact": "models/embedder/encoder.onnx",
+        "format": "onnx",
+        "model_version": "minilm-l6-golden",
+        "quantization": "int8"
+      }
+    },
+    "semantic_head": {
+      "en": {
+        "artifact": "models/semantic_head/en/head.json",
+        "format": "json",
+        "model_version": "golden-head-en-2",
+        "embedder_id": "minilm-l6-golden"
+      },
+      "fr": {
+        "artifact": "models/semantic_head/fr/head.json",
+        "format": "json",
+        "model_version": "golden-head-fr-2",
+        "embedder_id": "minilm-l6-golden"
+      }
+    }
+  },
+  "policy_versions": {
+    "schema": 1,
+    "content": 2
+  },
+  "telemetry_schema_version": 1,
+  "training": {
+    "dataset_hashes": {
+      "device.audio/en": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "device.audio/fr": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "assistant.reminder/en": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "assistant.reminder/fr": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "run_ids": [
+      "golden-run-0002"
+    ]
+  },
+  "checksums_root": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "signature_info": {
+    "scheme": "ed25519-v1",
+    "key_id": "dev-key-golden"
+  },
+  "created_at": "2026-01-01T00:00:00Z",
+  "channel": "dev",
+  "report_card_summary": {
+    "macro_f1_en": 0.94,
+    "macro_f1_fr": 0.9
+  },
+  "experiment": {
+    "experiment_id": "exp-golden-01",
+    "variant": "b"
+  }
+}

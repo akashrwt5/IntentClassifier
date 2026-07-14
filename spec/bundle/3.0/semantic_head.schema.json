@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/semantic_head.schema.json",
+  "title": "models/semantic_head/{lang}/head.json — stage-3 classification head",
+  "description": "Linear head over the shared embedder. embedder_id ties the head to the exact encoder+vocab pair it was trained against — a mismatch is the silent-wrong-vector-space bug class, rejected at compile time (stage 8).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["embedder_id", "labels", "weights", "bias"],
+  "properties": {
+    "embedder_id": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+    "labels": {
+      "description": "Ordered; must equal the intent set plus the OOS class (stage 8).",
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "$ref": "defs.schema.json#/$defs/stableId" }
+    },
+    "oos_label": { "$ref": "defs.schema.json#/$defs/stableId" },
+    "weights": {
+      "description": "Row-major [n_labels][embedding_dim].",
+      "type": "array",
+      "minItems": 2,
+      "items": { "type": "array", "minItems": 1, "items": { "type": "number" } }
+    },
+    "bias": { "type": "array", "minItems": 2, "items": { "type": "number" } },
+    "embedding_dim": { "type": "integer", "minimum": 1 }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/lexicons.schema.json",
+  "title": "lexicons/{lang}.json — per-language behavior facts (ADR-005 Part 2)",
+  "description": "Yes/no lexicons (which replace dialogue-act classifier labels — roadmap §2.3), idioms, uncertainty markers, universal verbs, carrier phrases, referent tables, negation cues.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["lang", "affirmative", "negative"],
+  "properties": {
+    "lang": { "$ref": "defs.schema.json#/$defs/lang" },
+    "affirmative": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+    },
+    "negative": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+    },
+    "uncertainty": {
+      "type": "array", "uniqueItems": true,
+      "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+    },
+    "universal_verbs": {
+      "description": "verb surface form → normalized verb id (e.g. 'stop', 'cancel', 'repeat').",
+      "type": "object",
+      "additionalProperties": { "$ref": "defs.schema.json#/$defs/stableId" }
+    },
+    "carriers": {
+      "description": "Carrier phrases stripped before classification, as portable-regex patterns.",
+      "type": "array",
+      "items": { "$ref": "defs.schema.json#/$defs/portableRegex" }
+    },
+    "idioms": {
+      "description": "Idiomatic phrase → canonical meaning token.",
+      "type": "object",
+      "additionalProperties": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+    },
+    "referents": {
+      "description": "Referent surface forms ('the first one', 'that') → referent kind.",
+      "type": "object",
+      "additionalProperties": { "type": "string", "enum": ["ordinal", "demonstrative", "previous", "alternative"] }
+    },
+    "negation_cues": {
+      "type": "array", "uniqueItems": true,
+      "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+    }
+  }
+}

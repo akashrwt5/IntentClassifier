@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/keywords.schema.json",
+  "title": "keywords/{lang}.json — compiled keyword rules (ADR-005 Part 2)",
+  "description": "Stage-1 keyword pre-filter rules. Patterns MUST conform to the portable regex subset (compiler stage 10). Every rule's intent must exist (stage 3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["lang", "rules"],
+  "properties": {
+    "lang": { "$ref": "defs.schema.json#/$defs/lang" },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["pattern", "tier", "intent"],
+        "properties": {
+          "pattern": { "$ref": "defs.schema.json#/$defs/portableRegex" },
+          "tier": {
+            "description": "1 = exact-utterance short-circuit; 2 = substring/pattern boost requiring classifier agreement.",
+            "type": "integer", "minimum": 1, "maximum": 2
+          },
+          "intent": { "$ref": "defs.schema.json#/$defs/intentId" },
+          "guards": {
+            "description": "Negative guards: if any guard pattern matches, the rule does not fire.",
+            "type": "array",
+            "items": { "$ref": "defs.schema.json#/$defs/portableRegex" }
+          },
+          "case_insensitive": { "type": "boolean", "default": true }
+        }
+      }
+    }
+  }
+}

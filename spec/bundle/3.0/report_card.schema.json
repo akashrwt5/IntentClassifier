@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/report_card.schema.json",
+  "title": "meta/report_card.json — evaluation snapshot (ADR-005 Part 2)",
+  "description": "A bundle cannot be built from an evaluation that didn't run (stage 13). Device-ignored; consumed by registry, Studio, audit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["per_language", "wrong_action_count", "oos_recall"],
+  "properties": {
+    "per_language": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z]{2}$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["macro_f1", "holdout_accuracy"],
+          "properties": {
+            "macro_f1": { "type": "number", "minimum": 0, "maximum": 1 },
+            "holdout_accuracy": { "type": "number", "minimum": 0, "maximum": 1 },
+            "ece": { "type": "number", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "wrong_action_count": {
+      "description": "Global wrong-action budget: must be ≤ 5 and moving toward per-domain budgets (charter).",
+      "type": "integer",
+      "minimum": 0
+    },
+    "wrong_action_per_domain": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "oos_recall": { "type": "number", "minimum": 0, "maximum": 1 },
+    "per_capability_f1": {
+      "type": "object",
+      "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+    },
+    "gates_passed": { "type": "boolean" }
+  }
+}

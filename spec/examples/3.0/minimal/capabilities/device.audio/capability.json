@@ -1,0 +1,26 @@
+{
+  "id": "device.audio",
+  "version": "1.0",
+  "owner": "platform-team",
+  "status": "active",
+  "platforms": ["ios", "android", "server"],
+  "languages": ["en"],
+  "actions": [
+    {
+      "key": "device.audio.set_volume",
+      "params": [
+        { "name": "level", "type": "entity_ref", "required": true, "entity": "device.audio.volume_level" }
+      ],
+      "descriptor": "Set the hearing-aid volume to a named level."
+    },
+    {
+      "key": "device.audio.mute",
+      "params": [],
+      "descriptor": "Mute the hearing aid."
+    }
+  ],
+  "availability": {
+    "conditions": [{ "condition": "device.connected" }],
+    "unavailable_response": "audio.unavailable"
+  }
+}
