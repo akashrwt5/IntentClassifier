@@ -1,0 +1,29 @@
+# CODEOWNERS — review routing per Review-F5 roadmap §2.2.
+# Separates data/content ownership (linguists / content team) from NLU code
+# ownership (engineering) so data edits and engine edits get the right review.
+# NOTE: team handles below are placeholders — replace with real GitHub
+# teams/users once the org structure is provisioned (tracked in
+# docs/Review-F5/EXECUTION_STATUS.md "Needs decision" queue).
+
+# Default: engineering owns everything not matched below.
+*                         @intentclassifier/engineering
+
+# --- Data & content (linguists / content team) ------------------------------
+/data/                    @intentclassifier/content
+/config/calibration.json  @intentclassifier/ml-engineering
+/multilingual/data/       @intentclassifier/content
+
+# --- NLU engine & pipelines (engineering) -----------------------------------
+/scripts/nlu/             @intentclassifier/engineering
+/scripts/                 @intentclassifier/engineering
+/multilingual/            @intentclassifier/ml-engineering
+
+# --- Architecture docs & ADRs -----------------------------------------------
+/docs/Review-F5/          @intentclassifier/architecture
+
+# --- CI / repo meta ----------------------------------------------------------
+/.github/                 @intentclassifier/engineering
+/Makefile                 @intentclassifier/engineering
+/pyproject.toml           @intentclassifier/engineering
+/requirements*.txt        @intentclassifier/engineering
+/requirements.lock        @intentclassifier/engineering
