@@ -29,7 +29,7 @@
 | Task | Ref | State |
 |---|---|---|
 | spec/bundle/3.0 JSON Schemas + portable-regex subset + 2 golden bundles | ADR-005 AI#1,2 | ✅ done — 16 schemas, portable-regex.md + corpus, minimal+full golden bundles, conformance tests green (tests/test_bundle_spec.py). Format 3.0 declared initial versioned format (AI#1). |
-| Bundle compiler stages 1–10 as shared validator library | ADR-005 §5 | ⬜ next up — schemas exist; seed checks (stages 1–3, 8, 9) already live in test_bundle_spec.py |
+| Bundle compiler stages 1–10 as shared validator library | ADR-005 §5 | ✅ v0 done — `packages/buildtime/nlu_compiler/` (stages 1–5, 8–10 validation halves; transforms/ingestion arrive with the full compiler). CLI `python -m nlu_compiler <dir>`. 13 tests incl. mutation coverage of every Part-6 failure class. |
 | Bundle compiler stages 11–15 (packaging/signing) | ADR-005 §5 | ⏸ signing gated (ND-8) |
 | packages/ + apps/cli + spec/ restructure | roadmap §13 | ⏸ gated — large restructure (ND-2) |
 | Label-space cleanup (dialogue-act labels, taxonomy migration) | roadmap §2.3, ADR-002 A7 | ⏸ gated — changes shipped label set (ND-3) |
@@ -66,7 +66,7 @@
 |---|---|---|
 | ND-1 | ✅ **RESOLVED 2026-07-14 — Ratified.** ADRs 001–005 accepted as written (owner decision via decision prompt). Status lines updated in the ADR files; recorded as ADR-010 in `.claude/memory/decisions.md`. Phase 2 stays trigger-gated. | — |
 | ND-2 | 🟡 **PLAN DELIVERED — awaiting owner approval.** `docs/Review-F5/restructure-move-plan.md`: phases M0–M4, move map, frozen-oracle parity strategy. No moves until approved. | Phase 1 structure |
-| ND-3 | 🟡 **DECIDED: plan-first.** Owner wants the migration map + expected metric impact vs baseline proposed before any label-space change. Deliverable: label-migration plan + baseline diff. | Phase 1 exit gate |
+| ND-3 | 🟡 **PLAN DELIVERED — awaiting owner approval.** `docs/Review-F5/label-migration-plan.md`: remove 2 dialogue-act labels, full rename map to domain.object.action, recorded baseline table, iOS coordination steps. Sub-decision needed: Default-Fallback option A (keep as `sys.oos.fallback`, recommended) or B (thresholds only). | Phase 1 exit gate |
 | ND-4 | ✅ **RESOLVED 2026-07-14 — already clean.** Deletion approved, but `Engage.zip`, `checkpoints/`, and skeleton `multilingual_intent/` dirs no longer exist in the working tree or git index (removed in an earlier cleanup). A#9 closed, nothing to delete. | — |
 | ND-5 | ✅ **RESOLVED 2026-07-14 — implemented.** `scripts/unknown_log.py`: counters by default (`data/unknown_counters.csv`), raw text only behind `NLU_COLLECT_RAW_UNKNOWN`; `predict.py` wired through it + its placeholder GenAI URL removed. Tests added. Open sub-item: retention window for consented raw text (legal). | — |
 | ND-6 | ✅ **RESOLVED 2026-07-14 — keep placeholders.** Owner decision: `@intentclassifier/*` placeholders stay until the GitHub org/teams exist; rules inert but documented. | — |
@@ -86,6 +86,12 @@
 
 ## Iteration log
 
+- **2026-07-14 (e)** — Shared validator library v0 shipped
+  (packages/buildtime/nlu_compiler: stages 1–5, 8–10 + CLI + 13 tests, all
+  Part-6 failure classes mutation-tested). ND-3 label-migration plan
+  delivered (59-label inventory, baseline metrics recorded from the live
+  regen run). Next: capability repartition proposal or nlu_training
+  package; awaiting ND-2/ND-3 approvals for the gated work.
 - **2026-07-14 (d)** — Phase 1 started. Authored spec/bundle/3.0 (16 JSON
   Schemas + defs), portable-regex.md with normative corpus, golden bundles
   minimal+full, conformance tests (8 passing; seed stages 1–3/8/9 checks).
