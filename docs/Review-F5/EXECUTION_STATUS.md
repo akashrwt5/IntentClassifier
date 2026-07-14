@@ -5,7 +5,7 @@
 > and the last green commit.
 
 - **Branch:** `feature/production-work`
-- **Last green commit:** _(set after this iteration's `make check`)_
+- **Last green commit:** `febc3658` (ruff clean; pytest 33/33; mypy advisory — v2.3.0 crashes with an internal error in this env, tracked as tooling note)
 - **Iteration date:** 2026-07-14
 
 ## Phase 0 — Stop the bleeding
