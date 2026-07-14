@@ -15,6 +15,13 @@ _None open. Recently fixed:_
   D3. Full datetime parity suite green (25/25) across fr/de/da. Note: the shared
   fixtures also drive the iOS Swift parity test — keep both in sync.
 
+## Privacy / data-collection
+
+- **`scripts/predict.py::save_unknown()` logs raw text by default** — deviates
+  from the documented stance (default = counters, raw text opt-in only; see
+  `docs/privacy-unknown-data.md`). Fix is approval-gated (privacy) — queued in
+  `docs/Review-F5/EXECUTION_STATUS.md` "Needs decision". (Appendix A #10, RK6)
+
 ## Quality gaps
 
 - **Danish accuracy** is the weakest language (holdout macro-F1 ≈ 0.74 vs

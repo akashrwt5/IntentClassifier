@@ -18,6 +18,22 @@
   (`make lock`); CI installs from the lock.
 - French decimal-hour idiom bug fixed (parity suite 25/25) — see `known-issues.md`.
 
+## Review-F5 production execution (charter-driven)
+
+Phased plan in `docs/Review-F5/production-architecture-review-and-roadmap.md`;
+live status + Needs-decision queue in `docs/Review-F5/EXECUTION_STATUS.md`.
+
+- **Phase 0 (stop the bleeding):** deps lock [x] · pyproject [x] · PR CI [x] ·
+  French datetime fix [x] · auto_label.py quarantined [x] · root README
+  rewritten [x] · CODEOWNERS added [x] · GenAI placeholder-URL startup guard
+  [x] · unknown_data privacy stance documented [x] · junk deletion (Engage.zip,
+  checkpoints/) [gated] · iOS parity CI secret [gated].
+- **Phase 1 (platform foundations):** next up — spec/bundle/3.0 schemas,
+  bundle compiler validator, capability repartition, nlu_training package,
+  DVC/MLflow, real tests/ tree. packages/ restructure + label-space cleanup
+  are approval-gated.
+- **Phases 2–5:** ratification-gated (Rust core/Android) or blocked on Phase 1.
+
 ## In progress / near-term
 
 - Repo productionization: tooling (Ruff/Black/MyPy/Pytest), pre-commit, CI,
