@@ -27,7 +27,7 @@ live status + Needs-decision queue in `docs/Review-F5/EXECUTION_STATUS.md`.
   French datetime fix [x] · auto_label.py quarantined [x] · root README
   rewritten [x] · CODEOWNERS added [x] · GenAI placeholder-URL startup guard
   [x] · unknown_data privacy stance documented [x] · junk deletion (Engage.zip,
-  checkpoints/) [gated] · iOS parity CI secret [gated].
+  checkpoints/) [x — already absent] · iOS parity CI secret [gated].
 - **Phase 1 (platform foundations):** next up — spec/bundle/3.0 schemas,
   bundle compiler validator, capability repartition, nlu_training package,
   DVC/MLflow, real tests/ tree. packages/ restructure + label-space cleanup

@@ -21,14 +21,14 @@
 | CODEOWNERS (data/content vs scripts/nlu) | roadmap §2.2 | ✅ done — team handles are placeholders (see ND-6) |
 | Startup guard: reject placeholder DEFAULT_GENAI_URL | A#5, RK1 | ✅ done (this iteration; + tests) |
 | Document unknown_data.csv privacy stance | A#10, RK6 | ✅ documented (`docs/privacy-unknown-data.md`); enforcement gated (ND-5) |
-| Remove Engage.zip, checkpoints/, skeleton dirs | A#9 | ⏸ gated — deletion approval (ND-4) |
+| Remove Engage.zip, checkpoints/, skeleton dirs | A#9 | ✅ closed — items already absent (ND-4 approved, nothing to delete) |
 | Repair iOS parity CI (INTENTCLASSIFIER_PAT) | A#4 | ⏸ gated — secret provisioning (ND-7) |
 
 ## Phase 1 — Platform foundations (primary target, exit gate §8.1)
 
 | Task | Ref | State |
 |---|---|---|
-| spec/bundle/3.0 JSON Schemas + portable-regex subset + 2 golden bundles | ADR-005 AI#1,2 | ⬜ next up (schema authoring is unblocked; ratification of ADR-005 itself is ND-1) |
+| spec/bundle/3.0 JSON Schemas + portable-regex subset + 2 golden bundles | ADR-005 AI#1,2 | ⬜ next up (ADR-005 ratified — fully unblocked) |
 | Bundle compiler stages 1–10 as shared validator library | ADR-005 §5 | ⬜ blocked by schemas |
 | Bundle compiler stages 11–15 (packaging/signing) | ADR-005 §5 | ⏸ signing gated (ND-8) |
 | packages/ + apps/cli + spec/ restructure | roadmap §13 | ⏸ gated — large restructure (ND-2) |
@@ -57,25 +57,38 @@
 | 4 | iOS parity CI broken (PAT) | ⏸ ND-7 |
 | 5 | Placeholder DEFAULT_GENAI_URL | ✅ startup guard + tests |
 | 6–8 | (see roadmap Appendix A) | ⬜ to reconcile next iteration |
-| 9 | Engage.zip / checkpoints / skeleton dirs | ⏸ ND-4 |
+| 9 | Engage.zip / checkpoints / skeleton dirs | ✅ already absent (ND-4) |
 | 10 | unknown_data.csv privacy | ✅ documented / ⏸ enforcement ND-5 |
 
 ## Needs decision — approval-gated queue (charter §7)
 
 | ID | Question | Blocking |
 |---|---|---|
-| ND-1 | **Ratify ADRs 001–005?** They are Proposed; "Board ratifies" items (shared-runtime strategy, capability SDK, orchestration, GenAI routing, bundle spec) need explicit acceptance. | Phase 2 entirely; parts of 1 & 3 |
-| ND-2 | **Approve the repo-wide restructure** into `packages/` + `apps/cli` + `spec/` (mechanical, parity-replay-proven)? A move plan + parity strategy will be proposed first. | Phase 1 structure |
-| ND-3 | **Approve label-space cleanup**: remove `Cmd.SendMessage - yes/- no` classifier labels, decide Default-Fallback TF-IDF class, migrate taxonomy to `domain.object.action` with migration map? Re-trains models; affects metrics/safety. | Phase 1 exit gate |
-| ND-4 | **Approve deletion** of `Engage.zip`, `checkpoints/`, skeleton `multilingual_intent/` dirs (corpora preserved in DVC first)? | A#9 |
+| ND-1 | ✅ **RESOLVED 2026-07-14 — Ratified.** ADRs 001–005 accepted as written (owner decision via decision prompt). Status lines updated in the ADR files; recorded as ADR-010 in `.claude/memory/decisions.md`. Phase 2 stays trigger-gated. | — |
+| ND-2 | 🟡 **DECIDED: plan-first.** Owner wants the move map + parity strategy proposed for review before any restructure. Deliverable: `docs/Review-F5/restructure-move-plan.md` (next iterations). | Phase 1 structure |
+| ND-3 | 🟡 **DECIDED: plan-first.** Owner wants the migration map + expected metric impact vs baseline proposed before any label-space change. Deliverable: label-migration plan + baseline diff. | Phase 1 exit gate |
+| ND-4 | ✅ **RESOLVED 2026-07-14 — already clean.** Deletion approved, but `Engage.zip`, `checkpoints/`, and skeleton `multilingual_intent/` dirs no longer exist in the working tree or git index (removed in an earlier cleanup). A#9 closed, nothing to delete. | — |
 | ND-5 | **Approve privacy enforcement change**: `predict.py` unknown-data logging → counters by default, raw text behind explicit opt-in consent flag; set retention window (legal input needed). | A#10 close-out |
 | ND-6 | **Provide real GitHub team handles** for CODEOWNERS (placeholders `@intentclassifier/*` in place). | CODEOWNERS effectiveness |
 | ND-7 | **Provision `INTENTCLASSIFIER_PAT`** secret so iOS parity CI runs. | A#4 |
 | ND-8 | **Signing keys / KMS / trust root** decisions for bundle signing (Ed25519, rotation runbook). | Compiler stages 11–15, Phase 3 |
 | ND-9 | **GenAI consent flow + legal review** for assist.cloud capability. | Phase 3 |
 
+## Newly discovered backlog
+
+- **Tracked model artifacts:** `multilingual/models/multilingual/*.{pkl,onnx,json}`
+  are committed to git, contradicting the repo rule that generated artifacts are
+  gitignored and regenerated. Removing them from tracking is a deletion →
+  needs approval (proposed as ND-10). Verify regenerability via `make train`
+  before untracking.
+
 ## Iteration log
 
+- **2026-07-14 (b)** — Decision round: ADRs 001–005 ratified (ND-1) and
+  recorded (ADR files + decisions.md ADR-010); ND-2/ND-3 set to plan-first;
+  ND-4 closed — approved junk already absent from repo (A#9 done). Discovered
+  tracked model artifacts (see backlog). Next: draft the ND-2 move plan and
+  ND-3 label-migration plan; start spec/bundle/3.0 schemas (now unblocked).
 - **2026-07-14** — Bootstrap iteration. Reconciled Phase 0; quarantined
   auto_label.py; rewrote README; added CODEOWNERS; GenAI placeholder-URL
   startup guard (+ CLI None-handling + tests/test_phase0_guards.py); privacy
