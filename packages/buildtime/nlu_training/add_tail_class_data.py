@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 from collections import Counter
 
-BASE_DIR     = Path(__file__).parent.parent
+BASE_DIR     = Path(__file__).resolve().parents[3]
 DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
 HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
 

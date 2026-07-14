@@ -61,7 +61,7 @@ def _unknown_log():
     import importlib.util
 
     spec = importlib.util.spec_from_file_location(
-        "unknown_log_test", REPO_ROOT / "scripts" / "unknown_log.py")
+        "unknown_log_test", REPO_ROOT / "apps" / "cli" / "unknown_log.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod

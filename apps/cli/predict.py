@@ -3,7 +3,7 @@
 Intent classification inference using ONNX Runtime.
 
 Usage:
-    python scripts/predict.py
+    python apps/cli/predict.py
 """
 
 import os
@@ -24,7 +24,7 @@ CONF_GAP_THRESHOLD = 0.20
 # configured (Review-F5 Appendix A #5, RK1 — same guard as scripts/nlu/engine.py).
 GENAI_BASE_URL = os.environ.get("NLU_GENAI_URL") or None
 
-BASE_DIR = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).resolve().parents[2]
 MODEL_PATH = BASE_DIR / "models" / "intent_model.onnx"
 LABELS_PATH = BASE_DIR / "models" / "intent_labels.pkl"
 

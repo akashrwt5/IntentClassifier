@@ -65,7 +65,7 @@
 | ID | Question | Blocking |
 |---|---|---|
 | ND-1 | ✅ **RESOLVED 2026-07-14 — Ratified.** ADRs 001–005 accepted as written (owner decision via decision prompt). Status lines updated in the ADR files; recorded as ADR-010 in `.claude/memory/decisions.md`. Phase 2 stays trigger-gated. | — |
-| ND-2 | ✅ **APPROVED 2026-07-14 — executing.** M0 done (oracle frozen: `tests/parity/oracle_pre_restructure/`). M1 done (scripts/nlu → packages/runtime/nlu_engine + shim; 60/60 tests, evaluate byte-identical to oracle). M2–M4 next. | — |
+| ND-2 | ✅ **APPROVED 2026-07-14 — executing.** M0 done (oracle frozen). M1 done (engine → packages/runtime/nlu_engine + shim). M2 done (trainers/data-scripts → packages/buildtime/nlu_training; exports → nlu_export; CLIs + unknown_log → apps/cli; Makefile targets updated; dev/debug/test scripts stay in scripts/ for M4). Every phase: 60/60 tests + evaluate byte-identical to oracle. M3 (datasets/ + content/) next. | — |
 | ND-3 | ✅ **APPROVED 2026-07-14 (option A: sys.oos.fallback) — queued.** Executes after ND-2 M2–M4 so the migration lands on the final layout. | — |
 | ND-4 | ✅ **RESOLVED 2026-07-14 — already clean.** Deletion approved, but `Engage.zip`, `checkpoints/`, and skeleton `multilingual_intent/` dirs no longer exist in the working tree or git index (removed in an earlier cleanup). A#9 closed, nothing to delete. | — |
 | ND-5 | ✅ **RESOLVED 2026-07-14 — implemented.** `scripts/unknown_log.py`: counters by default (`data/unknown_counters.csv`), raw text only behind `NLU_COLLECT_RAW_UNKNOWN`; `predict.py` wired through it + its placeholder GenAI URL removed. Tests added. Open sub-item: retention window for consented raw text (legal). | — |

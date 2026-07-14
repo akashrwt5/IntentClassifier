@@ -3,14 +3,14 @@
 Interactive multi-turn NLU demo — the on-device Dialogflow replacement.
 
 Usage:
-    python scripts/nlu_cli.py
+    python apps/cli/nlu_cli.py
 """
 
 import sys
 import urllib.parse
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packages" / "runtime"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages" / "runtime"))
 from nlu_engine import NLUEngine  # noqa: E402
 
 SESSION = "cli-user"

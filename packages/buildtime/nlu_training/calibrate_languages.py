@@ -33,7 +33,7 @@ import unicodedata
 from collections import defaultdict
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).resolve().parents[3]
 MODELS_DIR  = BASE_DIR / "multilingual" / "models"
 TEST_DIR    = BASE_DIR / "multilingual" / "test"
 CONFIG_DIR  = BASE_DIR / "config"

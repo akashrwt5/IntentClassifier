@@ -39,7 +39,7 @@ from pathlib import Path
 
 import numpy as np
 
-BASE_DIR   = Path(__file__).parent.parent
+BASE_DIR   = Path(__file__).resolve().parents[3]
 MODELS_DIR = BASE_DIR / "models"
 DATA_DIR   = BASE_DIR / "data"
 

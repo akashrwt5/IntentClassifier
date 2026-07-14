@@ -5,12 +5,12 @@ Interactive multi-turn NLU demo with language/model selection.
 This is identical to nlu_cli.py except you can select which TF-IDF model to use.
 
 Usage:
-    python scripts/nlu_cli_multilingual.py                  # production model (default)
-    python scripts/nlu_cli_multilingual.py --model en       # English multilingual model
-    python scripts/nlu_cli_multilingual.py --model fr       # French multilingual model
-    python scripts/nlu_cli_multilingual.py --model de       # German multilingual model
-    python scripts/nlu_cli_multilingual.py --model da       # Danish multilingual model
-    python scripts/nlu_cli_multilingual.py --model multilingual  # combined multilingual model
+    python apps/cli/nlu_cli_multilingual.py                  # production model (default)
+    python apps/cli/nlu_cli_multilingual.py --model en       # English multilingual model
+    python apps/cli/nlu_cli_multilingual.py --model fr       # French multilingual model
+    python apps/cli/nlu_cli_multilingual.py --model de       # German multilingual model
+    python apps/cli/nlu_cli_multilingual.py --model da       # Danish multilingual model
+    python apps/cli/nlu_cli_multilingual.py --model multilingual  # combined multilingual model
 
 All models use the SAME NLU business logic (slot-filling, reminders, multi-turn context).
 The --model flag only selects which TF-IDF classifier handles intent prediction.
@@ -21,7 +21,7 @@ import sys
 import urllib.parse
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packages" / "runtime"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages" / "runtime"))
 from nlu_engine import NLUEngine  # noqa: E402
 
 SESSION = "cli-user"

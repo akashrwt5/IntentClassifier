@@ -33,7 +33,7 @@ import shutil
 import sys
 from pathlib import Path
 
-BASE_DIR   = Path(__file__).parent.parent
+BASE_DIR   = Path(__file__).resolve().parents[3]
 MODELS_DIR = BASE_DIR / "models"
 
 # Relative path from the STT repo root to the app's Resources folder.

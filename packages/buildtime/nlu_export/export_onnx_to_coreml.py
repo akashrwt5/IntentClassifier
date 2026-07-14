@@ -44,7 +44,7 @@ from pathlib import Path
 
 import numpy as np
 
-BASE_DIR   = Path(__file__).parent.parent
+BASE_DIR   = Path(__file__).resolve().parents[3]
 MODELS_DIR = BASE_DIR / "models"
 ONNX_PATH  = MODELS_DIR / "minilm-l6-v2.onnx"
 DST_PATH   = MODELS_DIR / "MiniLMEmbedder_fromONNX.mlpackage"

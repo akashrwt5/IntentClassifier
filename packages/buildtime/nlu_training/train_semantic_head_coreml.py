@@ -45,7 +45,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-BASE_DIR     = Path(__file__).parent.parent
+BASE_DIR     = Path(__file__).resolve().parents[3]
 DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
 OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
 HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
@@ -64,7 +64,10 @@ MAX_LEN = 64
 SEQ_LEN = 32
 
 sys.path.insert(0, str(BASE_DIR / "scripts"))
-from nlu.semantic import SemanticFallback  # for the WordPiece tokeniser
+import sys as _sys
+from pathlib import Path as _P
+_sys.path.insert(0, str(_P(__file__).resolve().parents[3] / 'packages' / 'runtime'))
+from nlu_engine.semantic import SemanticFallback  # for the WordPiece tokeniser
 
 
 # -- CoreML embedding ----------------------------------------------------------

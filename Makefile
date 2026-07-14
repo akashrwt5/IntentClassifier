@@ -69,7 +69,7 @@ precommit: ## Run all pre-commit hooks on all files
 # ---------------------------------------------------------------------------
 .PHONY: train
 train: ## Train the English TF-IDF intent model and export ONNX (version 3 data)
-	$(PYTHON) scripts/train.py
+	$(PYTHON) packages/buildtime/nlu_training/train.py
 
 .PHONY: train-multilingual
 train-multilingual: ## Train the multilingual intent model
@@ -77,15 +77,15 @@ train-multilingual: ## Train the multilingual intent model
 
 .PHONY: predict
 predict: ## Interactive inference CLI (English ONNX model)
-	$(PYTHON) scripts/predict.py
+	$(PYTHON) apps/cli/predict.py
 
 .PHONY: nlu
 nlu: ## Run the full NLU engine CLI
-	$(PYTHON) scripts/nlu_cli.py
+	$(PYTHON) apps/cli/nlu_cli.py
 
 .PHONY: calibrate
 calibrate: ## Fit per-language temperature scaling / calibration
-	$(PYTHON) scripts/calibrate_languages.py
+	$(PYTHON) packages/buildtime/nlu_training/calibrate_languages.py
 
 # ---------------------------------------------------------------------------
 # Model export (mobile: ONNX / CoreML / INT8)

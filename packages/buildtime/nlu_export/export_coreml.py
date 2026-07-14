@@ -63,7 +63,7 @@ from pathlib import Path
 
 import numpy as np
 
-BASE_DIR   = Path(__file__).parent.parent
+BASE_DIR   = Path(__file__).resolve().parents[3]
 MODELS_DIR = BASE_DIR / "models"
 
 MINILM_HF_NAME = "sentence-transformers/all-MiniLM-L6-v2"

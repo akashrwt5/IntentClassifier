@@ -36,7 +36,7 @@ import numpy as np
 import joblib
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).resolve().parents[3]
 PIPELINE_PATH = BASE_DIR / "models" / "intent_pipeline.pkl"
 LABELS_PATH   = BASE_DIR / "models" / "intent_labels.pkl"
 DATA_PATH     = BASE_DIR / "data"   / "01_source_base_training_data.csv"

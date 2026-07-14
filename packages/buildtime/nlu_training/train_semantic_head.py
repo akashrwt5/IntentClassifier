@@ -37,7 +37,7 @@ _parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
                           "3=enhanced (_2 + 02_source_manual_corrections.csv, default)")
 _args = _parser.parse_args()
 
-BASE_DIR   = Path(__file__).parent.parent
+BASE_DIR   = Path(__file__).resolve().parents[3]
 if _args.version == 1:
     DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
     OOS_PATH     = BASE_DIR / "data" / "semantic_oos.csv"
@@ -64,7 +64,10 @@ HEAD_JSON  = MODEL_DIR / "semantic_head.json"
 FALLBACK_INTENT = "Default Fallback Intent"
 
 sys.path.insert(0, str(BASE_DIR / "scripts"))
-from nlu.semantic import SemanticFallback  # for the WordPiece tokeniser
+import sys as _sys
+from pathlib import Path as _P
+_sys.path.insert(0, str(_P(__file__).resolve().parents[3] / 'packages' / 'runtime'))
+from nlu_engine.semantic import SemanticFallback  # for the WordPiece tokeniser
 
 
 # ── Batched ONNX embedding ───────────────────────────────────────────────────

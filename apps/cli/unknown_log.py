@@ -24,7 +24,7 @@ from pathlib import Path
 
 RAW_OPT_IN_ENV = "NLU_COLLECT_RAW_UNKNOWN"
 
-_BASE_DIR = Path(__file__).resolve().parent.parent
+_BASE_DIR = Path(__file__).resolve().parents[2]
 DEFAULT_COUNTERS_PATH = _BASE_DIR / "data" / "unknown_counters.csv"
 DEFAULT_RAW_PATH = _BASE_DIR / "data" / "unknown_data.csv"
 

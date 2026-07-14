@@ -13,7 +13,7 @@ What it downloads (~90 MB total from HuggingFace):
 from pathlib import Path
 import sys
 
-BASE_DIR   = Path(__file__).parent.parent
+BASE_DIR   = Path(__file__).resolve().parents[3]
 MODEL_DIR  = BASE_DIR / "models"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"
 VOCAB_PATH = MODEL_DIR / "minilm-vocab.txt"

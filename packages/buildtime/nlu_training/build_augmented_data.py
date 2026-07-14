@@ -34,7 +34,7 @@ import json, re, sys
 from pathlib import Path
 import pandas as pd
 
-BASE = Path(__file__).parent.parent
+BASE = Path(__file__).resolve().parents[3]
 DATA = BASE / "data"
 
 # ── Leakage blocklists ────────────────────────────────────────────────────────

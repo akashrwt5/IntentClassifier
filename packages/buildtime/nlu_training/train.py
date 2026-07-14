@@ -35,7 +35,7 @@ _parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
 _args = _parser.parse_args()
 
 # ---------- Paths ----------
-BASE_DIR = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).resolve().parents[3]
 if _args.version == 1:
     DATA_PATH    = BASE_DIR / "data" / "01_source_base_training_data.csv"
     HOLDOUT_PATH = BASE_DIR / "data" / "semantic_holdout_100.csv"
@@ -238,7 +238,10 @@ print(f"✅ Model size: {ONNX_PATH.stat().st_size / 1024:.1f} KB")
 # ---------- 11. Write model bundle manifest ----------
 import sys
 sys.path.insert(0, str(BASE_DIR / "scripts"))
-from nlu.manifest import generate_manifest
+import sys as _sys
+from pathlib import Path as _P
+_sys.path.insert(0, str(_P(__file__).resolve().parents[3] / 'packages' / 'runtime'))
+from nlu_engine.manifest import generate_manifest
 _meta = {"holdout_accuracy": round(final_holdout_acc, 4)} if final_holdout_acc is not None else None
 generate_manifest(BASE_DIR, meta=_meta)
 print("✅ Manifest written to models/manifest.json")
