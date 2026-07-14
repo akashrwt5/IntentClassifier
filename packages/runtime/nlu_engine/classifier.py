@@ -14,7 +14,7 @@ from pathlib import Path
 
 from .manifest import verify_manifest
 
-BASE_DIR = Path(__file__).parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parents[3]
 MODEL_PATH   = BASE_DIR / "models" / "intent_model.onnx"
 LABELS_PATH  = BASE_DIR / "models" / "intent_labels.pkl"
 SCHEMA_PATH  = BASE_DIR / "data"   / "nlu_schema.json"

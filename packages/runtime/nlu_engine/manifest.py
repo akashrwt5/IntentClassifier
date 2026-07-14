@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from typing import Optional
 
-BASE_DIR = Path(__file__).parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parents[3]
 MANIFEST_PATH = BASE_DIR / "models" / "manifest.json"
 
 # Artifacts that must stay in sync with each other. Covers BOTH the TF-IDF

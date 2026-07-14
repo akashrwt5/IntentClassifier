@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).parent.parent
 # package, whose __init__ pulls in numpy/torch that need not be installed here.
 import importlib.util  # noqa: E402
 _spec = importlib.util.spec_from_file_location(
-    "nlu_entities", BASE_DIR / "scripts" / "nlu" / "entities.py")
+    "nlu_entities", BASE_DIR / "packages" / "runtime" / "nlu_engine" / "entities.py")
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 EntityExtractor = _mod.EntityExtractor

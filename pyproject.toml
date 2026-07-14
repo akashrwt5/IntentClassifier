@@ -145,7 +145,7 @@ markers = [
 
 [tool.coverage.run]
 branch = true
-source = ["scripts/nlu", "multilingual"]
+source = ["packages/runtime/nlu_engine", "multilingual"]
 omit = ["*/__pycache__/*", "*/test_*.py"]
 
 [tool.coverage.report]

@@ -26,7 +26,7 @@ from .classifier import IntentClassifier
 from .entities import EntityExtractor
 from .context import SessionStore
 
-BASE_DIR = Path(__file__).parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parents[3]
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 LABELS_JSON_PATH = BASE_DIR / "models" / "intent_labels.json"
 LOC_DIR = BASE_DIR / "data" / "localization"

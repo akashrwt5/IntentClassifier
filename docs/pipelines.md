@@ -7,7 +7,7 @@ have `make` shortcuts (see the `Makefile`) and direct-script equivalents.
 data/  ──►  TRAIN  ──►  models/*.onnx (+labels, pipeline)  ──►  EXPORT  ──►  *.mlpackage / INT8
                 │                                                  │
                 └──►  EVALUATE (holdout / OOS / calibration)       └──►  PARITY TESTS (Tier-A/B, ANE)
-                                                                   INFERENCE ◄── NLU engine (scripts/nlu/)
+                                                                   INFERENCE ◄── NLU engine (packages/runtime/nlu_engine/ (moved from packages/runtime/nlu_engine/ — ND-2 M1))
 ```
 
 ---
@@ -100,7 +100,7 @@ make nlu                   # = python scripts/nlu_cli.py
 python scripts/nlu_cli_multilingual.py     # multilingual entry point
 ```
 
-`scripts/nlu/engine.py` (`NLUEngine`) orchestrates each user turn in priority
+`packages/runtime/nlu_engine/engine.py` (`NLUEngine`) orchestrates each user turn in priority
 order: **confirmation** (active yes/no context) → **slot-filling** (mid-collection,
 with high-confidence interruption detection) → **classify** (fresh turn). It
 combines `classifier.py`, `entities.py` (entity + datetime extraction),

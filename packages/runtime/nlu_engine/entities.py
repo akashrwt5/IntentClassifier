@@ -17,7 +17,7 @@ try:
 except Exception:
     _HAS_DATEPARSER = False
 
-BASE_DIR = Path(__file__).parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parents[3]
 ENTITIES_PATH = BASE_DIR / "data" / "nlu_entities.json"
 LOCALIZATION_DIR = BASE_DIR / "data" / "localization"
 

@@ -62,7 +62,7 @@ jobs:
       # (ADR-008). Not blocking; adopt strictness per module as types land.
       - name: MyPy (type check, non-blocking)
         continue-on-error: true
-        run: mypy scripts/nlu multilingual/*.py
+        run: mypy packages/runtime/nlu_engine packages/buildtime multilingual/*.py
 
       - name: Pytest
         run: pytest -ra

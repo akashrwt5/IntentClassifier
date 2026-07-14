@@ -18,7 +18,7 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
 
 - **Core classifier** — TF-IDF + LogisticRegression exported to ONNX (~16KB).
   Trained by `scripts/train.py`, run by `scripts/predict.py`.
-- **NLU engine** — `scripts/nlu/` (the real Dialogflow replacement). Per-turn
+- **NLU engine** — `packages/runtime/nlu_engine/` (moved from `scripts/nlu/` in ND-2 M1; a deprecated `scripts/nlu` shim aliases the old import path for one release). The real Dialogflow replacement. Per-turn
   priority: **confirmation -> slot-filling (with interruption detection) ->
   classify**. Modules:
   - `engine.py` — orchestrator (`NLUEngine`, `NLUResult`).

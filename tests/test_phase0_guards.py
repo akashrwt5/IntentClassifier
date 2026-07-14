@@ -32,7 +32,7 @@ def test_auto_label_is_quarantined():
 
 def _engine_module():
     try:
-        from nlu import engine  # path wired by conftest.py
+        from nlu_engine import engine  # path wired by conftest.py
     except ImportError as exc:
         pytest.skip(f"runtime dependency missing: {exc}")
     return engine

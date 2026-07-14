@@ -28,7 +28,7 @@ import numpy as np
 from pathlib import Path
 from typing import Optional, Tuple
 
-BASE_DIR   = Path(__file__).parent.parent.parent
+BASE_DIR   = Path(__file__).resolve().parents[3]
 MODEL_DIR  = BASE_DIR / "models"
 HEAD_PATH  = MODEL_DIR / "semantic_head.npz"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"

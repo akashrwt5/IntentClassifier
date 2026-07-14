@@ -51,7 +51,7 @@ def test_entity_extractor_loads_and_runs():
     Uses the real API: EntityExtractor(entities_path, ...) with
     extract_datetime(text) / extract(entity, text).
     """
-    mod = _load_leaf_module("nlu_entities_smoke", "scripts/nlu/entities.py")
+    mod = _load_leaf_module("nlu_entities_smoke", "packages/runtime/nlu_engine/entities.py")
     assert hasattr(mod, "EntityExtractor")
     extractor = mod.EntityExtractor()  # default (English) lexicon
     assert callable(extractor.extract_datetime)
@@ -67,7 +67,7 @@ def test_entity_extractor_loads_and_runs():
 def test_nlu_package_importable_if_deps_present():
     """Full engine import — skipped gracefully if runtime deps are absent."""
     try:
-        import nlu  # noqa: F401  (path wired by conftest.py)
+        import nlu_engine as nlu  # noqa: F401  (path wired by conftest.py)
     except ImportError as exc:
         pytest.skip(f"runtime dependency missing, skipping full-engine import: {exc}")
     assert hasattr(nlu, "NLUEngine")

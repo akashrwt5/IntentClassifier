@@ -47,7 +47,7 @@ format-check: ## Verify changed lines are formatted (darker) + Ruff
 
 .PHONY: typecheck
 typecheck: ## Type-check the maintained library code with MyPy
-	mypy scripts/nlu multilingual/*.py
+	mypy packages/runtime/nlu_engine packages/buildtime multilingual/*.py
 
 .PHONY: test
 test: ## Run the test suite

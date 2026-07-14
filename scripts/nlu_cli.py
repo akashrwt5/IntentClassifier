@@ -10,8 +10,8 @@ import sys
 import urllib.parse
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent))
-from nlu import NLUEngine  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packages" / "runtime"))
+from nlu_engine import NLUEngine  # noqa: E402
 
 SESSION = "cli-user"
 

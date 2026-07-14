@@ -65,8 +65,8 @@
 | ID | Question | Blocking |
 |---|---|---|
 | ND-1 | ✅ **RESOLVED 2026-07-14 — Ratified.** ADRs 001–005 accepted as written (owner decision via decision prompt). Status lines updated in the ADR files; recorded as ADR-010 in `.claude/memory/decisions.md`. Phase 2 stays trigger-gated. | — |
-| ND-2 | 🟡 **PLAN DELIVERED — awaiting owner approval.** `docs/Review-F5/restructure-move-plan.md`: phases M0–M4, move map, frozen-oracle parity strategy. No moves until approved. | Phase 1 structure |
-| ND-3 | 🟡 **PLAN DELIVERED — awaiting owner approval.** `docs/Review-F5/label-migration-plan.md`: remove 2 dialogue-act labels, full rename map to domain.object.action, recorded baseline table, iOS coordination steps. Sub-decision needed: Default-Fallback option A (keep as `sys.oos.fallback`, recommended) or B (thresholds only). | Phase 1 exit gate |
+| ND-2 | ✅ **APPROVED 2026-07-14 — executing.** M0 done (oracle frozen: `tests/parity/oracle_pre_restructure/`). M1 done (scripts/nlu → packages/runtime/nlu_engine + shim; 60/60 tests, evaluate byte-identical to oracle). M2–M4 next. | — |
+| ND-3 | ✅ **APPROVED 2026-07-14 (option A: sys.oos.fallback) — queued.** Executes after ND-2 M2–M4 so the migration lands on the final layout. | — |
 | ND-4 | ✅ **RESOLVED 2026-07-14 — already clean.** Deletion approved, but `Engage.zip`, `checkpoints/`, and skeleton `multilingual_intent/` dirs no longer exist in the working tree or git index (removed in an earlier cleanup). A#9 closed, nothing to delete. | — |
 | ND-5 | ✅ **RESOLVED 2026-07-14 — implemented.** `scripts/unknown_log.py`: counters by default (`data/unknown_counters.csv`), raw text only behind `NLU_COLLECT_RAW_UNKNOWN`; `predict.py` wired through it + its placeholder GenAI URL removed. Tests added. Open sub-item: retention window for consented raw text (legal). | — |
 | ND-6 | ✅ **RESOLVED 2026-07-14 — keep placeholders.** Owner decision: `@intentclassifier/*` placeholders stay until the GitHub org/teams exist; rules inert but documented. | — |
