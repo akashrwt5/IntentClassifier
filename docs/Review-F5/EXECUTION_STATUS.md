@@ -84,8 +84,27 @@
   checkout; untracking them would lose the only copy. Revisit when the
   Danish native-data program lifts it past the gate (Phase 5).
 
+## Newly discovered — SAFETY finding (2026-07-14, harness)
+
+**System-level wrong-action budget is NOT met:** 99 wrong actions on the
+shipped-language holdout replay (≈2–2.7% of turns) vs the ≤5 budget.
+Dominant causes: device.volume polarity confusions and help→command
+misfires; the CONFIRM gate never fires (no confirmation-required intents
+in the schema). Mitigations are policy/safety changes → **ND-11 in the
+decision queue**. Full data: `tests/parity/oracle_post_migration/
+wrong_action_system_report.json`.
+
+| ID | Question | Blocking |
+|---|---|---|
+| ND-11 | **Approve wrong-action mitigations** (any subset): (a) confirmation-require device.volume/streaming/device.memory actions below a confidence margin; (b) polarity keyword guards (mute/unmute, louder/quieter pairs); (c) raise the actionable-intent threshold; (d) re-enable semantic rescue after regenerating artifacts and re-measure. Each changes dialogue/safety behavior. | Wrong-action budget |
+
 ## Iteration log
 
+- **2026-07-14 (i)** — Engine-in-the-loop wrong-action harness built + run
+  (semantic off — stale local artifacts). System-level: en 39 / fr 32 /
+  de 28 / da 33; CONFIRM layer confirmed unused. Safety finding recorded
+  as ND-11 (owner decision needed on mitigations). Harness + report
+  committed as the budget-measurement baseline.
 - **2026-07-14 (h)** — ND-2 M0–M4 + ND-3 executed (see ND rows). Then:
   official wrong-action definition wired into evaluate (predicted-actionable
   + confident; raw-classifier upper bound 244/4-langs — budget gate needs

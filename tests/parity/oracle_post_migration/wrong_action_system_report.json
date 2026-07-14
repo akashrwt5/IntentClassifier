@@ -1,0 +1,367 @@
+{
+  "semantic_enabled": false,
+  "per_language": {
+    "en": {
+      "turns": 1461,
+      "wrong_actions": 39,
+      "confirm_gated_wrong": 0,
+      "fulfilled": 1107,
+      "prompted": 59,
+      "fallback": 295,
+      "confirmed": 0,
+      "per_domain": {
+        "device": 25,
+        "activity": 4,
+        "transcription": 4,
+        "translation": 5,
+        "streaming": 1
+      }
+    },
+    "fr": {
+      "turns": 1361,
+      "wrong_actions": 32,
+      "confirm_gated_wrong": 0,
+      "fulfilled": 904,
+      "prompted": 66,
+      "fallback": 391,
+      "confirmed": 0,
+      "per_domain": {
+        "activity": 6,
+        "transcription": 5,
+        "device": 14,
+        "messaging": 1,
+        "streaming": 4,
+        "find": 1,
+        "translation": 1
+      }
+    },
+    "de": {
+      "turns": 1383,
+      "wrong_actions": 28,
+      "confirm_gated_wrong": 0,
+      "fulfilled": 869,
+      "prompted": 80,
+      "fallback": 434,
+      "confirmed": 0,
+      "per_domain": {
+        "translation": 8,
+        "device": 7,
+        "streaming": 5,
+        "activity": 4,
+        "messaging": 1,
+        "find": 1,
+        "reminders": 1,
+        "transcription": 1
+      }
+    },
+    "da": {
+      "turns": 1334,
+      "wrong_actions": 33,
+      "confirm_gated_wrong": 0,
+      "fulfilled": 789,
+      "prompted": 81,
+      "fallback": 464,
+      "confirmed": 0,
+      "per_domain": {
+        "device": 17,
+        "streaming": 5,
+        "transcription": 2,
+        "activity": 4,
+        "messaging": 1,
+        "find": 3,
+        "reminders": 1
+      }
+    }
+  },
+  "examples": [
+    {
+      "lang": "en",
+      "text": "turn mute on",
+      "truth": "device.volume.mute",
+      "fired": "device.volume.unmute",
+      "confidence": 0.922
+    },
+    {
+      "lang": "en",
+      "text": "i need it more quiet",
+      "truth": "device.volume.decrease",
+      "fired": "device.volume.increase",
+      "confidence": 0.75
+    },
+    {
+      "lang": "en",
+      "text": "how do i turn down background noise?",
+      "truth": "help.customize.show",
+      "fired": "device.volume.decrease",
+      "confidence": 0.75
+    },
+    {
+      "lang": "en",
+      "text": "start my jog tracking",
+      "truth": "activity.run.query",
+      "fired": "activity.aerobics.query",
+      "confidence": 0.813
+    },
+    {
+      "lang": "en",
+      "text": "hush it up",
+      "truth": "device.volume.decrease",
+      "fired": "device.volume.mute",
+      "confidence": 0.9
+    },
+    {
+      "lang": "en",
+      "text": "how do i turn up the loudness on my hearing aids?",
+      "truth": "help.volume.show",
+      "fired": "device.volume.increase",
+      "confidence": 0.75
+    },
+    {
+      "lang": "en",
+      "text": "i'm walking into a loud bar",
+      "truth": "device.memory.change",
+      "fired": "activity.walk.query",
+      "confidence": 0.737
+    },
+    {
+      "lang": "en",
+      "text": "get down south",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.decrease",
+      "confidence": 0.935
+    },
+    {
+      "lang": "en",
+      "text": "how do i turn up the tv volume?",
+      "truth": "help.accessories.show",
+      "fired": "device.volume.increase",
+      "confidence": 0.75
+    },
+    {
+      "lang": "en",
+      "text": "how many calories did i burn jogging",
+      "truth": "activity.run.query",
+      "fired": "activity.calories.query",
+      "confidence": 0.907
+    },
+    {
+      "lang": "fr",
+      "text": "calories en travaillant",
+      "truth": "activity.exercise.query",
+      "fired": "activity.run.query",
+      "confidence": 0.819
+    },
+    {
+      "lang": "fr",
+      "text": "comment utiliser la fonction de transcription ?",
+      "truth": "help.transcribe.show",
+      "fired": "transcription.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "fr",
+      "text": "tuer le son",
+      "truth": "device.volume.mute",
+      "fired": "device.volume.unmute",
+      "confidence": 0.769
+    },
+    {
+      "lang": "fr",
+      "text": "ou dois-je mettre la batterie",
+      "truth": "help.battery.show",
+      "fired": "device.status.battery",
+      "confidence": 0.749
+    },
+    {
+      "lang": "fr",
+      "text": "s'il te plait, au moment ou la khan academy fait silence",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.mute",
+      "confidence": 0.9
+    },
+    {
+      "lang": "fr",
+      "text": "s'il vous plait, montrez-moi le guide d'utilisation de la transcription",
+      "truth": "help.transcribe.show",
+      "fired": "transcription.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "fr",
+      "text": "peux-tu me montrer de l'aide pour la transcription",
+      "truth": "help.transcribe.show",
+      "fired": "transcription.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "fr",
+      "text": "peux-tu eteindre le corps",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.mute",
+      "confidence": 0.725
+    },
+    {
+      "lang": "fr",
+      "text": "plus de streaming s'il vous plait",
+      "truth": "streaming.session.stop",
+      "fired": "device.volume.increase",
+      "confidence": 0.804
+    },
+    {
+      "lang": "fr",
+      "text": "pousser le niveau plus haut",
+      "truth": "device.volume.increase",
+      "fired": "device.volume.decrease",
+      "confidence": 0.724
+    },
+    {
+      "lang": "de",
+      "text": "thrive translate help",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "de",
+      "text": "turn mute on",
+      "truth": "device.volume.mute",
+      "fired": "device.volume.unmute",
+      "confidence": 0.989
+    },
+    {
+      "lang": "de",
+      "text": "my battery dies too quickly",
+      "truth": "help.battery.show",
+      "fired": "device.status.battery",
+      "confidence": 0.79
+    },
+    {
+      "lang": "de",
+      "text": "kannst du die stummschaltung andern?",
+      "truth": "device.memory.change",
+      "fired": "device.volume.unmute",
+      "confidence": 0.981
+    },
+    {
+      "lang": "de",
+      "text": "bitte streamen sie, youtube-musik.",
+      "truth": "sys.oos.fallback",
+      "fired": "streaming.session.start",
+      "confidence": 0.735
+    },
+    {
+      "lang": "de",
+      "text": "translate hello to french",
+      "truth": "sys.oos.fallback",
+      "fired": "translation.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "de",
+      "text": "kannst du mir mein laufziel zeigen?",
+      "truth": "activity.run.query",
+      "fired": "activity.walk.query",
+      "confidence": 0.922
+    },
+    {
+      "lang": "de",
+      "text": "when would i send a manual alert text message?",
+      "truth": "help.fall_alert.show",
+      "fired": "messaging.message.send",
+      "confidence": 0.9
+    },
+    {
+      "lang": "de",
+      "text": "stop muting now",
+      "truth": "device.volume.unmute",
+      "fired": "streaming.session.stop",
+      "confidence": 0.787
+    },
+    {
+      "lang": "de",
+      "text": "bitte schalten sie den motor aus",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.mute",
+      "confidence": 0.723
+    },
+    {
+      "lang": "da",
+      "text": "billedteksten folk taler",
+      "truth": "transcription.session.start",
+      "fired": "device.volume.increase",
+      "confidence": 0.763
+    },
+    {
+      "lang": "da",
+      "text": "sluk venligst alarmen",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.mute",
+      "confidence": 0.954
+    },
+    {
+      "lang": "da",
+      "text": "saette mig i restaurant mode",
+      "truth": "device.volume.decrease",
+      "fired": "device.memory.change",
+      "confidence": 1.0
+    },
+    {
+      "lang": "da",
+      "text": "haeve lydstyrken",
+      "truth": "device.volume.increase",
+      "fired": "device.volume.decrease",
+      "confidence": 0.832
+    },
+    {
+      "lang": "da",
+      "text": "stream venligst fra fjernmikrofonen",
+      "truth": "activity.stand.query",
+      "fired": "streaming.session.start",
+      "confidence": 0.919
+    },
+    {
+      "lang": "da",
+      "text": "start lydstrommen",
+      "truth": "streaming.session.start",
+      "fired": "transcription.session.start",
+      "confidence": 0.844
+    },
+    {
+      "lang": "da",
+      "text": "start min gangsporing",
+      "truth": "activity.walk.query",
+      "fired": "activity.run.query",
+      "confidence": 0.77
+    },
+    {
+      "lang": "da",
+      "text": "oversaet denne samtale",
+      "truth": "translation.session.start",
+      "fired": "transcription.session.start",
+      "confidence": 0.788
+    },
+    {
+      "lang": "da",
+      "text": "stop tv-stream",
+      "truth": "streaming.session.stop",
+      "fired": "streaming.session.start",
+      "confidence": 0.894
+    },
+    {
+      "lang": "da",
+      "text": "fortael mig en joke",
+      "truth": "sys.oos.fallback",
+      "fired": "device.status.battery",
+      "confidence": 0.889
+    }
+  ],
+  "wrong_actions_shipped_langs": 99,
+  "budget": 5,
+  "budget_met": false,
+  "wrong_action_rate_pct": {
+    "en": 2.67,
+    "fr": 2.35,
+    "de": 2.02,
+    "da": 2.47
+  }
+}

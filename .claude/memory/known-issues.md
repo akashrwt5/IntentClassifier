@@ -45,7 +45,20 @@ _None open. Recently fixed:_
 - **iOS coordination pending:** ship datasets/label_migration_map.json to
   the STT repo and regenerate golden fixtures in the same release window.
 
-- **Wrong-action budget needs an engine-in-the-loop harness.** The unified
+- **Wrong-action budget NOT met at holdout scale (system level).** The
+  engine-in-the-loop harness (wrong_action_harness.py, semantic disabled)
+  measures 99 wrong actions across shipped langs (en 39 / fr 32 / de 28;
+  da 33 waived) ≈ 2.0–2.7% of turns vs the ≤5 budget. Findings: (1) polarity
+  confusions inside device.volume ("turn mute on"→unmute, "more quiet"→
+  increase) dominate; (2) help-questions misfiring as device commands;
+  (3) the CONFIRM defense layer never fires on the replay — no intents are
+  confirmation-required in the current schema, so that whole gate is
+  unused. Candidate mitigations (POLICY changes → owner approval, §7):
+  confirmation-require volume/streaming actions at low margin; polarity
+  keyword guards; higher actionable-intent threshold; semantic rescue after
+  artifact regen. Baseline artifact:
+  tests/parity/oracle_post_migration/wrong_action_system_report.json.
+- **(superseded by the above) raw-classifier wrong-action upper bound.** The unified
   evaluate now reports the OFFICIAL definition (confident prediction of an
   actionable intent ≠ truth): 244 across 4 langs at the raw-classifier
   level (device 127). The ≤5 budget is a SYSTEM property — keyword tiers,
