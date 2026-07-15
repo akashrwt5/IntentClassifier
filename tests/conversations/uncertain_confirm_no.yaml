@@ -1,0 +1,8 @@
+# ND-11(a): 'no' cancels cleanly, no action fires.
+lang: en
+force_confirm: true
+turns:
+  - user: "turn the volume up"
+    expect: {type: CONFIRM}
+  - user: "no"
+    expect: {type: FULFILL, intent: sys.confirm.cancelled, action: null}

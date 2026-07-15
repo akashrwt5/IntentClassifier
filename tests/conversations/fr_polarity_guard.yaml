@@ -1,0 +1,5 @@
+# fr ND-11(b): 'moins fort' must never fire increase.
+lang: fr
+turns:
+  - user: "mets le moins fort possible"
+    expect: {not_intent: device.volume.increase}

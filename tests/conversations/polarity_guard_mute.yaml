@@ -1,0 +1,5 @@
+# ND-11(b): 'turn mute on' must never fire unmute.
+lang: en
+turns:
+  - user: "turn mute on"
+    expect: {intent: device.volume.mute}

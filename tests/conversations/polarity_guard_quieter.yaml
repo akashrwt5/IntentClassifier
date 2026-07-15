@@ -1,0 +1,5 @@
+# ND-11(b): a 'quieter' utterance must never fire volume-increase.
+lang: en
+turns:
+  - user: "i need it more quiet"
+    expect: {not_intent: device.volume.increase}

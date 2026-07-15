@@ -1,0 +1,4 @@
+lang: en
+turns:
+  - user: "start translating"
+    expect: {intent: translation.session.start}

@@ -1,0 +1,12 @@
+# Confident commands fulfil without friction; a mid-confidence volume change
+# (0.75 < the 0.80 confirm bar) correctly asks first — intended ND-11(a) behavior.
+lang: en
+turns:
+  - user: "mute"
+    expect: {type: FULFILL, intent: device.volume.mute, action: volume.mute}
+  - user: "unmute"
+    expect: {type: FULFILL, intent: device.volume.unmute}
+  - user: "turn the volume up"
+    expect: {type: CONFIRM, intent: device.volume.increase}
+  - user: "yes"
+    expect: {type: FULFILL, intent: device.volume.increase, action: volume.increase}

@@ -1,0 +1,7 @@
+# Out-of-scope chatter must deflect, never fire an action.
+lang: en
+turns:
+  - user: "what do you think about the election results"
+    expect: {type: FALLBACK}
+  - user: "tell me a good pasta recipe"
+    expect: {type: FALLBACK}

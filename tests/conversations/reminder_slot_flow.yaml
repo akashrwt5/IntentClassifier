@@ -1,0 +1,9 @@
+# Multi-turn slot filling: reminder needs what + when.
+lang: en
+turns:
+  - user: "set a reminder"
+    expect: {type: PROMPT, intent: reminders.task.create}
+  - user: "take my medication"
+    expect: {type: PROMPT}
+  - user: "tomorrow at 8am"
+    expect: {type: FULFILL, intent: reminders.task.create}

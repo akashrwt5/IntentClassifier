@@ -1,0 +1,7 @@
+# A high-confidence topic switch abandons the slot flow.
+lang: en
+turns:
+  - user: "set a reminder"
+    expect: {type: PROMPT, intent: reminders.task.create}
+  - user: "actually just mute my hearing aids"
+    expect: {intent: device.volume.mute}

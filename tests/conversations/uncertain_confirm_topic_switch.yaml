@@ -1,0 +1,8 @@
+# ND-11(a): an unrelated reply drops the held action — never fire on ambiguity.
+lang: en
+force_confirm: true
+turns:
+  - user: "start streaming"
+    expect: {type: CONFIRM, intent: streaming.session.start}
+  - user: "what's my battery level"
+    expect: {not_action: streaming.start}

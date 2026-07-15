@@ -1,0 +1,4 @@
+lang: de
+turns:
+  - user: "mach es leiser"
+    expect: {intent: device.volume.decrease}

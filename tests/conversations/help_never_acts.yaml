@@ -1,0 +1,7 @@
+# Help questions show content; they must not fire device actions.
+lang: en
+turns:
+  - user: "how do i pair my hearing aids"
+    expect: {intent_prefix: help.}
+  - user: "how does volume control work in the app"
+    expect: {not_action_prefix: volume.}

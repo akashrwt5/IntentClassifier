@@ -1,0 +1,8 @@
+# ND-11(a): uncertain command asks first; yes fires the held action.
+lang: en
+force_confirm: true
+turns:
+  - user: "mute my hearing aids"
+    expect: {type: CONFIRM, intent: device.volume.mute}
+  - user: "yes please"
+    expect: {type: FULFILL, intent: device.volume.mute, action: volume.mute}

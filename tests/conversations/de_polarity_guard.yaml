@@ -1,0 +1,5 @@
+# de ND-11(b): 'leiser' must never fire increase.
+lang: de
+turns:
+  - user: "bitte etwas leiser stellen"
+    expect: {not_intent: device.volume.increase}

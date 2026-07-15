@@ -1,0 +1,4 @@
+lang: en
+turns:
+  - user: "find my phone"
+    expect: {type: FULFILL, intent: find.phone.locate}
