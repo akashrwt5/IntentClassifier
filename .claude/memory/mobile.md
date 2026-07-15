@@ -26,7 +26,7 @@ artifact written alongside.
 ## INT8 quantization
 
 ```bash
-python scripts/SemanticSupport/quantize_multilingual.py
+python packages/buildtime/nlu_training/semantic_multilingual/quantize_multilingual.py
 python scripts/compare_coreml_quant.py    # size vs. accuracy comparison
 ```
 

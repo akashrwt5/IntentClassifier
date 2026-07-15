@@ -30,9 +30,9 @@ from pathlib import Path
 
 import numpy as np
 
-BASE_DIR  = Path(__file__).parent.parent.parent
+BASE_DIR  = Path(__file__).resolve().parents[4]
 MODEL_DIR = BASE_DIR / "multilingual" / "SemanticSupport" / "models"
-DATA_DIR  = BASE_DIR / "multilingual" / "data"
+DATA_DIR  = BASE_DIR / "datasets" / "multilingual"
 
 sys.path.insert(0, str(BASE_DIR))
 

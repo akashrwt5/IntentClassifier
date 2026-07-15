@@ -34,7 +34,7 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
   calibration -> `config/calibration.json`.
 - **Semantic support** — MiniLM embeddings via ONNX; heads trained by
   `scripts/train_semantic_head*.py`; multilingual variants under
-  `scripts/SemanticSupport/` and `multilingual/SemanticSupport/`.
+  `packages/buildtime/nlu_training/semantic_multilingual/` and `multilingual/SemanticSupport/`.
 - **Mobile export** — `multilingual/export_coreml_multilingual.py` (CoreML
   `.mlpackage`); INT8 quantization; parity tests in `multilingual/test/`.
 

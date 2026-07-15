@@ -41,7 +41,7 @@ log = logging.getLogger(__name__)
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
-BASE_DIR  = Path(__file__).parent.parent.parent
+BASE_DIR  = Path(__file__).resolve().parents[4]
 OUT_DIR   = BASE_DIR / "multilingual" / "SemanticSupport" / "models"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 

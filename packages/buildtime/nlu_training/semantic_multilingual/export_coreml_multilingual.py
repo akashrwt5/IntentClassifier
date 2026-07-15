@@ -45,7 +45,7 @@ from pathlib import Path
 
 import numpy as np
 
-BASE_DIR  = Path(__file__).parent.parent.parent
+BASE_DIR  = Path(__file__).resolve().parents[4]
 MODEL_DIR = BASE_DIR / "multilingual" / "SemanticSupport" / "models"
 sys.path.insert(0, str(BASE_DIR))
 

@@ -37,7 +37,7 @@ merge; shared `text_norm.py`.
 
 ```bash
 python scripts/train_semantic_head.py                                # English
-python scripts/SemanticSupport/train_multilingual_semantic_head.py   # multilingual
+python packages/buildtime/nlu_training/semantic_multilingual/train_multilingual_semantic_head.py   # multilingual
 ```
 
 Lightweight classifier head trained over MiniLM ONNX embeddings; used to rescue

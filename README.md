@@ -18,7 +18,7 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
 - **Multilingual** — `multilingual/`: training, prediction, text normalization,
   per-language temperature-scaling calibration (`config/calibration.json`).
 - **Semantic rescue** — MiniLM embeddings via ONNX for low-confidence turns
-  (`scripts/SemanticSupport/`, `multilingual/SemanticSupport/`). No
+  (`packages/buildtime/nlu_training/semantic_multilingual/`, `multilingual/SemanticSupport/`). No
   torch/transformers on the inference path.
 - **Mobile export** — CoreML `.mlpackage` + INT8 quantization
   (`multilingual/export_coreml_multilingual.py`); parity fixtures in

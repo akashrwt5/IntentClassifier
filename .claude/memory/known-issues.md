@@ -27,7 +27,7 @@ _None open. Recently fixed:_
 - **Multilingual semantic head is git-tracked with STALE (pre-migration)
   labels** (`multilingual/SemanticSupport/models/semantic_head_multilingual.npz`).
   Its encoder ONNX is gitignored and absent here; regenerating requires
-  `scripts/SemanticSupport/download_models.py` (network download) + the
+  `packages/buildtime/nlu_training/semantic_multilingual/download_models.py` (network download) + the
   trainer — OWNER ACTION on a dev machine. Until then fr/de/da engines
   degrade to TF-IDF-only (graceful; the stale head would emit old label
   names if its encoder were present). English head regenerated 2026-07-14

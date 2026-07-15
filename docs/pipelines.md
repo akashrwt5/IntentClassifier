@@ -49,7 +49,7 @@ Trains per-language variants (en/fr/de/da) with shared text normalization
 
 ```bash
 python scripts/train_semantic_head.py            # English
-python scripts/SemanticSupport/train_multilingual_semantic_head.py   # multilingual
+python packages/buildtime/nlu_training/semantic_multilingual/train_multilingual_semantic_head.py   # multilingual
 ```
 
 Trains a lightweight head over MiniLM embeddings used to "rescue" low-confidence
@@ -133,7 +133,7 @@ See `docs/coreml-conversion-guide.md` and `multilingual/COREML_RESULTS.md`.
 ### INT8 quantization
 
 ```bash
-python scripts/SemanticSupport/quantize_multilingual.py
+python packages/buildtime/nlu_training/semantic_multilingual/quantize_multilingual.py
 python scripts/compare_coreml_quant.py     # size vs. accuracy comparison
 ```
 

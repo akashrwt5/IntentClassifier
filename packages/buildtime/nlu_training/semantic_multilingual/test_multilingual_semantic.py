@@ -19,7 +19,7 @@ import argparse
 import sys
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(BASE_DIR / "scripts"))
 sys.path.insert(0, str(BASE_DIR))
 
@@ -137,7 +137,7 @@ if not args.skip_holdout:
     print("\n=== 4. Per-language macro-F1 holdout evaluation ===")
 
     GATES = {"en": 0.82, "fr": 0.80, "de": 0.78, "da": 0.75}
-    DATA_DIR = BASE_DIR / "multilingual" / "data"
+    DATA_DIR = BASE_DIR / "datasets" / "multilingual"
 
     try:
         from multilingual.SemanticSupport.semantic import MultilingualSemanticFallback

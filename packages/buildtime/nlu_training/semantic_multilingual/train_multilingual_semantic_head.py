@@ -2,7 +2,7 @@
 """
 Train the multilingual semantic classification head.
 
-Reads multilingual/data/{fr,de,da}.csv (and optionally en.csv), generates
+Reads datasets/multilingual/{fr,de,da}.csv (and optionally en.csv), generates
 384-dim embeddings using the local INT8 static-shape ONNX encoder, and fits a
 LogisticRegression head.  The "Default Fallback Intent" class is injected as an
 explicit out-of-scope class so rejection is learned, not threshold-guessed —
@@ -10,7 +10,7 @@ the same discipline as the English head in scripts/train_semantic_head.py.
 
 Pipeline:
   1. Load fr + de + da training phrases (and optionally en)
-  2. Append a curated OOS class (multilingual/data/oos_multilingual.csv if present)
+  2. Append a curated OOS class (datasets/multilingual/oos_multilingual.csv if present)
   3. Stratified 85/15 holdout split → train → per-class accuracy + macro-F1
   4. Retrain on 100% of data → save semantic_head_multilingual.npz
 
@@ -30,7 +30,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-BASE_DIR    = Path(__file__).parent.parent.parent
+BASE_DIR    = Path(__file__).resolve().parents[4]
 ML_DIR      = BASE_DIR / "multilingual"
 DATA_DIR    = ML_DIR.parent / "datasets" / "multilingual"  # moved in ND-2 M3
 MODEL_DIR   = ML_DIR / "SemanticSupport" / "models"
@@ -46,7 +46,7 @@ SEQ_LEN         = 64
 
 parser = argparse.ArgumentParser(description="Train multilingual semantic head")
 parser.add_argument("--exclude-en", action="store_true",
-                    help="Exclude multilingual/data/en.csv from training")
+                    help="Exclude datasets/multilingual/en.csv from training")
 parser.add_argument("--max-per-intent", type=int, default=250,
                     help="Cap per-class rows to limit near-duplicate spam (default: 250)")
 parser.add_argument("--C", type=float, default=3.0,
@@ -184,7 +184,7 @@ def main() -> None:
         print(f"Curated OOS phrases ('{FALLBACK_INTENT}'): {len(oos_texts)}")
     else:
         print(f"  [oos] {oos_path} not found — training WITHOUT a learned OOS class")
-        print("  (consider creating multilingual/data/oos_multilingual.csv for better rejection)")
+        print("  (consider creating datasets/multilingual/oos_multilingual.csv for better rejection)")
 
     texts   = data["text"].tolist() + oos_texts
     intents = data["intent"].tolist() + [FALLBACK_INTENT] * len(oos_texts)

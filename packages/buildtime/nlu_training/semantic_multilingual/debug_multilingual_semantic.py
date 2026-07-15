@@ -18,7 +18,7 @@ import argparse
 import sys
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(BASE_DIR / "scripts"))
 sys.path.insert(0, str(BASE_DIR))
 

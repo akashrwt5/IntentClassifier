@@ -40,7 +40,7 @@ from pathlib import Path
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 log = logging.getLogger(__name__)
 
-BASE_DIR  = Path(__file__).parent.parent.parent
+BASE_DIR  = Path(__file__).resolve().parents[4]
 MODEL_DIR = BASE_DIR / "multilingual" / "SemanticSupport" / "models"
 
 FP32_ONNX = MODEL_DIR / "paraphrase-multilingual-minilm-l12-v2.onnx"
