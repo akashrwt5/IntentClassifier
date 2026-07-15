@@ -24,6 +24,19 @@ _None open. Recently fixed:_
 
 ## Artifacts
 
+- **Multilingual semantic head is git-tracked with STALE (pre-migration)
+  labels** (`multilingual/SemanticSupport/models/semantic_head_multilingual.npz`).
+  Its encoder ONNX is gitignored and absent here; regenerating requires
+  `scripts/SemanticSupport/download_models.py` (network download) + the
+  trainer — OWNER ACTION on a dev machine. Until then fr/de/da engines
+  degrade to TF-IDF-only (graceful; the stale head would emit old label
+  names if its encoder were present). English head regenerated 2026-07-14
+  (57 labels, held-out 0.924).
+- **Semantic-rescue trade-off measured (en):** rescue recovers ~150
+  deflected valid commands per 1,461 turns (fallback 274→122) at +5 wrong
+  actions (23→28). Whether that trade ships is an owner call (part of
+  ND-11b).
+
 - **Danish model artifacts are tracked in git as a deliberate exception**
   (`multilingual/models/da/`): Danish fails the trainer's 0.80 accuracy gate
   (0.760), so `train_multilingual.py --all` exports nothing for it — the

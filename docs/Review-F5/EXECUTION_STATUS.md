@@ -53,11 +53,13 @@
 |---|---|---|
 | 1 | auto_label.py poisons training data | ✅ quarantined |
 | 2 | Root README 3 generations stale | ✅ rewritten |
-| 3 | (see roadmap Appendix A) | ⬜ to reconcile next iteration |
-| 4 | iOS parity CI broken (PAT) | ⏸ ND-7 |
-| 5 | Placeholder DEFAULT_GENAI_URL | ✅ startup guard + tests |
-| 6–8 | (see roadmap Appendix A) | ⬜ to reconcile next iteration |
-| 9 | Engage.zip / checkpoints / skeleton dirs | ✅ already absent (ND-4) |
+| 3 | `Cmd.SendMessage - yes/no` labels in data + schema | ✅ removed in the ND-3 migration (1,741 rows → confirmation_fixtures.csv) |
+| 4 | iOS parity CI broken (PAT) | ⏸ ND-7 (owner) |
+| 5 | Placeholder DEFAULT_GENAI_URL | ✅ startup guard + tests (engine AND legacy predict path) |
+| 6 | One CI workflow, main unprotected | 🟡 CI runs on main pushes + all PRs (ci.yml) and includes the spec-conformance gate; **branch-protection rules are a GitHub setting only the owner can flip** — added to owner to-dos |
+| 7 | Danish below ship bar — flag off | ✅ flag-gated (gate-waived, never shipped); improved 0.745 → 0.800 macro-F1/acc by the recipe fix; native-holdout program remains the ship condition |
+| 8 | requirements >= ranges, non-reproducible | ✅ bounded ranges + requirements.lock (pre-existing), CI installs from lock; env lock hash flows into bundle lineage |
+| 9 | Junk + duplicate module trees | 🟡 CORRECTED: Engage.zip/checkpoints/skeletons were already absent (ND-4), **but the duplicate `scripts/SemanticSupport` vs `multilingual/SemanticSupport` trees still exist** — consolidation pending (touches semantic pipelines; queue with semantic-artifact regen work) |
 | 10 | unknown_data.csv privacy | ✅ documented + enforced (ND-5) |
 
 ## Needs decision — approval-gated queue (charter §7)

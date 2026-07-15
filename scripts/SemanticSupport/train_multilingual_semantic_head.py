@@ -32,7 +32,7 @@ import pandas as pd
 
 BASE_DIR    = Path(__file__).parent.parent.parent
 ML_DIR      = BASE_DIR / "multilingual"
-DATA_DIR    = ML_DIR / "data"
+DATA_DIR    = ML_DIR.parent / "datasets" / "multilingual"  # moved in ND-2 M3
 MODEL_DIR   = ML_DIR / "SemanticSupport" / "models"
 ONNX_PATH   = MODEL_DIR / "paraphrase-multilingual-minilm-l12-v2.int8.onnx"
 VOCAB_PATH  = MODEL_DIR / "multilingual-vocab.txt"
