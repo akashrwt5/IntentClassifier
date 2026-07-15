@@ -35,7 +35,9 @@ def engine():
 def test_polarity_guard_mute_never_fires_unmute(engine):
     engine.reset("pg1")
     r = engine.handle("pg1", "turn mute on")
+    # Borderline confidence → ask-first is acceptable; firing unmute is not.
     assert r.intent == "device.volume.mute", (r.intent, r.type)
+    assert r.type in ("FULFILL", "CONFIRM")
 
 
 def test_polarity_guard_quiet_never_fires_increase(engine):

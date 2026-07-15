@@ -114,6 +114,7 @@ class NLUEngine:
         uc = self.schema.get("uncertain_confirm", {})
         self._confirm_intents = set(uc.get("intents", []))
         self._confirm_below = uc.get("below_confidence", 0.80)
+        self._confirm_floor = uc.get("confirm_floor", 0.55)
         self._confirm_generic_prompt = uc.get(
             "prompt", "Just to be sure — should I go ahead with that?")
         self._confirm_cancel_msg = uc.get("cancel_message", "Okay, I won't.")
@@ -667,6 +668,17 @@ class NLUEngine:
                             result.tfidf_intent       = intent
                             result.tfidf_confidence   = conf
                             return result
+            # ND-11(a) extension: a below-threshold prediction of a
+            # confirm-gated action with respectable confidence asks first
+            # instead of deflecting to GenAI — 'turn mute on' at 0.65 should
+            # produce "Just to be sure — mute?" rather than a fallback.
+            if (cfg is not None and intent in self._confirm_intents
+                    and conf >= self._confirm_floor and not cfg.get("slots")):
+                session.pending_confirm = {"intent": intent, "action": cfg.get("action"),
+                                           "fulfillment": cfg.get("fulfillment", "")}
+                return NLUResult(type="CONFIRM", intent=intent, action=cfg.get("action"),
+                                 message=cfg.get("confirm_prompt", self._confirm_generic_prompt),
+                                 confidence=conf)
             return self._genai_fallback(conf)
         if cfg is None:
             return self._genai_fallback(conf)

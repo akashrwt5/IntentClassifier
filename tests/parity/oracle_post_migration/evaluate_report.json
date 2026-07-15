@@ -1,37 +1,37 @@
 {
   "per_language": {
     "en": {
-      "macro_f1": 0.8801,
-      "holdout_accuracy": 0.8953,
-      "ece": 0.0129
+      "macro_f1": 0.8962,
+      "holdout_accuracy": 0.9069,
+      "ece": 0.0175
     },
     "fr": {
-      "macro_f1": 0.8288,
-      "holdout_accuracy": 0.845,
-      "ece": 0.0252
+      "macro_f1": 0.8529,
+      "holdout_accuracy": 0.8655,
+      "ece": 0.022
     },
     "de": {
-      "macro_f1": 0.7908,
-      "holdout_accuracy": 0.8228,
-      "ece": 0.0239
+      "macro_f1": 0.8206,
+      "holdout_accuracy": 0.8445,
+      "ece": 0.0221
     },
     "da": {
-      "macro_f1": 0.7348,
-      "holdout_accuracy": 0.7646,
-      "ece": 0.0236
+      "macro_f1": 0.7875,
+      "holdout_accuracy": 0.7999,
+      "ece": 0.0385
     }
   },
-  "wrong_action_count": 244,
+  "wrong_action_count": 228,
   "wrong_action_per_domain": {
-    "device": 127,
-    "activity": 41,
-    "streaming": 35,
-    "transcription": 7,
-    "messaging": 10,
+    "device": 109,
+    "activity": 34,
+    "reminders": 20,
+    "streaming": 37,
+    "transcription": 6,
     "translation": 4,
-    "reminders": 13,
-    "find": 7
+    "messaging": 12,
+    "find": 6
   },
-  "oos_recall": 0.59,
+  "oos_recall": 0.69,
   "gates_passed": true
 }

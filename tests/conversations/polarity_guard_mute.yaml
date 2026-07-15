@@ -1,5 +1,8 @@
-# ND-11(b): 'turn mute on' must never fire unmute.
+# ND-11(b)+(a): 'turn mute on' must never fire unmute; at borderline
+# confidence it asks first, and yes fires MUTE (guard applied pre-confirm).
 lang: en
 turns:
   - user: "turn mute on"
-    expect: {intent: device.volume.mute}
+    expect: {type: CONFIRM, intent: device.volume.mute}
+  - user: "yes"
+    expect: {type: FULFILL, intent: device.volume.mute, action: volume.mute}

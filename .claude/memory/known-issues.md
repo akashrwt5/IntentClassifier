@@ -33,7 +33,13 @@ _None open. Recently fixed:_
 
 ## Quality gaps
 
-- **de macro-F1 dipped −0.030 in the ND-3 label migration** (0.821 → 0.791;
+- **RESOLVED (2026-07-14): de macro-F1 dip.** Root cause was the TF-IDF
+  recipe, not the migration: min_df=2 discarded once-occurring German
+  compounds, starving small help.* classes. min_df=1 lifts EVERY language
+  (en .907/.896, fr .866/.853, de .845/.821, da .800/.787 — de fully
+  recovered above pre-migration; Danish now a hair from its 0.80 floor).
+  ONNX grows ~2x (en 2.3MB, de 3.4MB) — inside the on-device budget.
+- **(historical) de macro-F1 dipped −0.030 in the ND-3 label migration** (0.821 → 0.791;
   accuracy held at −0.010). Deterministic effect of re-optimizing the
   57-class softmax after removing the two dialogue-act classes; weakest
   classes are small-support `help.*` topics (worst: help.battery.show 0.25).

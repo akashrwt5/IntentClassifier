@@ -1,4 +1,7 @@
+# Borderline de volume command asks first (ND-11a extension), never misfires.
 lang: de
 turns:
   - user: "mach es leiser"
-    expect: {intent: device.volume.decrease}
+    expect: {type: CONFIRM, intent: device.volume.decrease}
+  - user: "ja"
+    expect: {type: FULFILL, intent: device.volume.decrease}

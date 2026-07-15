@@ -1,73 +1,71 @@
 {
   "semantic_enabled": false,
-  "mitigations": "ND-11 (a) uncertainty-confirm <0.80 on volume/streaming + (b) polarity guards",
+  "mitigations": "ND-11 (a)+(b) + confirm-floor extension + min_df=1 recipe fix",
   "per_language": {
     "en": {
       "turns": 1461,
-      "wrong_actions": 25,
-      "confirm_gated_wrong": 19,
-      "fulfilled": 1038,
+      "wrong_actions": 23,
+      "confirm_gated_wrong": 27,
+      "fulfilled": 1039,
       "prompted": 59,
-      "fallback": 295,
-      "confirmed": 69,
+      "fallback": 274,
+      "confirmed": 89,
       "per_domain": {
-        "activity": 4,
         "device": 11,
+        "activity": 3,
         "transcription": 4,
-        "translation": 5,
+        "translation": 4,
         "streaming": 1
       }
     },
     "fr": {
       "turns": 1361,
-      "wrong_actions": 26,
-      "confirm_gated_wrong": 5,
-      "fulfilled": 879,
-      "prompted": 66,
-      "fallback": 391,
-      "confirmed": 25,
+      "wrong_actions": 19,
+      "confirm_gated_wrong": 10,
+      "fulfilled": 867,
+      "prompted": 68,
+      "fallback": 378,
+      "confirmed": 48,
       "per_domain": {
-        "activity": 6,
         "transcription": 5,
-        "device": 10,
+        "device": 6,
         "messaging": 1,
-        "find": 1,
-        "streaming": 2,
-        "translation": 1
+        "activity": 2,
+        "find": 2,
+        "translation": 1,
+        "streaming": 2
       }
     },
     "de": {
       "turns": 1383,
-      "wrong_actions": 22,
-      "confirm_gated_wrong": 6,
-      "fulfilled": 834,
-      "prompted": 80,
-      "fallback": 434,
-      "confirmed": 35,
+      "wrong_actions": 25,
+      "confirm_gated_wrong": 8,
+      "fulfilled": 819,
+      "prompted": 82,
+      "fallback": 425,
+      "confirmed": 57,
       "per_domain": {
         "translation": 8,
-        "device": 4,
-        "activity": 4,
+        "device": 6,
+        "activity": 6,
         "messaging": 1,
-        "find": 1,
         "streaming": 2,
-        "reminders": 1,
+        "find": 1,
         "transcription": 1
       }
     },
     "da": {
       "turns": 1334,
-      "wrong_actions": 27,
-      "confirm_gated_wrong": 6,
-      "fulfilled": 764,
+      "wrong_actions": 17,
+      "confirm_gated_wrong": 10,
+      "fulfilled": 747,
       "prompted": 81,
-      "fallback": 464,
-      "confirmed": 25,
+      "fallback": 456,
+      "confirmed": 50,
       "per_domain": {
-        "device": 13,
-        "streaming": 3,
-        "transcription": 2,
-        "activity": 4,
+        "device": 9,
+        "streaming": 1,
+        "activity": 2,
         "messaging": 1,
         "find": 3,
         "reminders": 1
@@ -77,13 +75,6 @@
   "examples": [
     {
       "lang": "en",
-      "text": "start my jog tracking",
-      "truth": "activity.run.query",
-      "fired": "activity.aerobics.query",
-      "confidence": 0.813
-    },
-    {
-      "lang": "en",
       "text": "hush it up",
       "truth": "device.volume.decrease",
       "fired": "device.volume.mute",
@@ -91,24 +82,31 @@
     },
     {
       "lang": "en",
+      "text": "help with battery questions",
+      "truth": "help.battery.show",
+      "fired": "device.status.battery",
+      "confidence": 0.735
+    },
+    {
+      "lang": "en",
       "text": "i'm walking into a loud bar",
       "truth": "device.memory.change",
       "fired": "activity.walk.query",
-      "confidence": 0.737
+      "confidence": 0.75
     },
     {
       "lang": "en",
       "text": "get down south",
       "truth": "sys.oos.fallback",
       "fired": "device.volume.decrease",
-      "confidence": 0.935
+      "confidence": 0.955
     },
     {
       "lang": "en",
       "text": "how many calories did i burn jogging",
       "truth": "activity.run.query",
       "fired": "activity.calories.query",
-      "confidence": 0.907
+      "confidence": 0.928
     },
     {
       "lang": "en",
@@ -119,24 +117,17 @@
     },
     {
       "lang": "en",
-      "text": "log my cardio dance",
-      "truth": "activity.aerobics.query",
-      "fired": "activity.run.query",
-      "confidence": 0.905
-    },
-    {
-      "lang": "en",
       "text": "turn mute off",
       "truth": "device.volume.unmute",
       "fired": "device.volume.mute",
-      "confidence": 0.963
+      "confidence": 0.975
     },
     {
       "lang": "en",
       "text": "shut off the streamed sound",
       "truth": "streaming.session.stop",
       "fired": "device.volume.mute",
-      "confidence": 0.983
+      "confidence": 0.875
     },
     {
       "lang": "en",
@@ -146,11 +137,11 @@
       "confidence": 0.9
     },
     {
-      "lang": "fr",
-      "text": "calories en travaillant",
-      "truth": "activity.exercise.query",
-      "fired": "activity.run.query",
-      "confidence": 0.819
+      "lang": "en",
+      "text": "lower how loud it is",
+      "truth": "device.volume.decrease",
+      "fired": "device.volume.increase",
+      "confidence": 0.902
     },
     {
       "lang": "fr",
@@ -158,13 +149,6 @@
       "truth": "help.transcribe.show",
       "fired": "transcription.session.start",
       "confidence": 0.9
-    },
-    {
-      "lang": "fr",
-      "text": "ou dois-je mettre la batterie",
-      "truth": "help.battery.show",
-      "fired": "device.status.battery",
-      "confidence": 0.749
     },
     {
       "lang": "fr",
@@ -189,31 +173,45 @@
     },
     {
       "lang": "fr",
-      "text": "plus de streaming s'il vous plait",
-      "truth": "streaming.session.stop",
-      "fired": "device.volume.increase",
-      "confidence": 0.804
-    },
-    {
-      "lang": "fr",
       "text": "peux-tu envoyer un sms a levitar",
       "truth": "sys.oos.fallback",
       "fired": "messaging.message.send",
-      "confidence": 0.949
-    },
-    {
-      "lang": "fr",
-      "text": "suivre mon exercice aerobique",
-      "truth": "activity.aerobics.query",
-      "fired": "activity.exercise.query",
-      "confidence": 0.987
+      "confidence": 0.972
     },
     {
       "lang": "fr",
       "text": "peux-tu augmenter le volume",
       "truth": "device.volume.unmute",
       "fired": "device.volume.increase",
-      "confidence": 0.995
+      "confidence": 0.993
+    },
+    {
+      "lang": "fr",
+      "text": "couper le volume",
+      "truth": "device.volume.decrease",
+      "fired": "device.volume.mute",
+      "confidence": 0.926
+    },
+    {
+      "lang": "fr",
+      "text": "comment puis-je voir combien de pas j'ai fait aujourd'hui ?",
+      "truth": "help.health.show",
+      "fired": "activity.step.query",
+      "confidence": 0.729
+    },
+    {
+      "lang": "fr",
+      "text": "comment utiliser la transcription",
+      "truth": "help.transcribe.show",
+      "fired": "transcription.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "fr",
+      "text": "meilleur iphone",
+      "truth": "sys.oos.fallback",
+      "fired": "find.phone.locate",
+      "confidence": 0.807
     },
     {
       "lang": "de",
@@ -227,21 +225,21 @@
       "text": "turn mute on",
       "truth": "device.volume.mute",
       "fired": "device.volume.unmute",
-      "confidence": 0.989
+      "confidence": 0.991
     },
     {
       "lang": "de",
       "text": "my battery dies too quickly",
       "truth": "help.battery.show",
       "fired": "device.status.battery",
-      "confidence": 0.79
+      "confidence": 0.818
     },
     {
       "lang": "de",
       "text": "kannst du die stummschaltung andern?",
       "truth": "device.memory.change",
       "fired": "device.volume.unmute",
-      "confidence": 0.981
+      "confidence": 0.98
     },
     {
       "lang": "de",
@@ -255,7 +253,14 @@
       "text": "kannst du mir mein laufziel zeigen?",
       "truth": "activity.run.query",
       "fired": "activity.walk.query",
-      "confidence": 0.922
+      "confidence": 0.957
+    },
+    {
+      "lang": "de",
+      "text": "kannst du das ziel ausarbeiten?",
+      "truth": "activity.exercise.query",
+      "fired": "activity.stand.query",
+      "confidence": 0.741
     },
     {
       "lang": "de",
@@ -266,31 +271,17 @@
     },
     {
       "lang": "de",
+      "text": "stop muting now",
+      "truth": "device.volume.unmute",
+      "fired": "streaming.session.stop",
+      "confidence": 0.817
+    },
+    {
+      "lang": "de",
       "text": "best iphone",
       "truth": "sys.oos.fallback",
       "fired": "find.phone.locate",
-      "confidence": 0.989
-    },
-    {
-      "lang": "de",
-      "text": "wie weit bin ich gelaufen?",
-      "truth": "activity.run.query",
-      "fired": "activity.walk.query",
-      "confidence": 0.98
-    },
-    {
-      "lang": "de",
-      "text": "kannst du die stummschaltung einschalten?",
-      "truth": "device.volume.mute",
-      "fired": "device.volume.unmute",
-      "confidence": 1.0
-    },
-    {
-      "lang": "da",
-      "text": "sluk venligst alarmen",
-      "truth": "sys.oos.fallback",
-      "fired": "device.volume.mute",
-      "confidence": 0.954
+      "confidence": 0.744
     },
     {
       "lang": "da",
@@ -301,71 +292,74 @@
     },
     {
       "lang": "da",
-      "text": "haeve lydstyrken",
-      "truth": "device.volume.increase",
-      "fired": "device.volume.decrease",
-      "confidence": 0.832
-    },
-    {
-      "lang": "da",
       "text": "stream venligst fra fjernmikrofonen",
       "truth": "activity.stand.query",
       "fired": "streaming.session.start",
-      "confidence": 0.919
+      "confidence": 0.88
     },
     {
       "lang": "da",
-      "text": "start lydstrommen",
-      "truth": "streaming.session.start",
-      "fired": "transcription.session.start",
-      "confidence": 0.844
-    },
-    {
-      "lang": "da",
-      "text": "start min gangsporing",
-      "truth": "activity.walk.query",
-      "fired": "activity.run.query",
-      "confidence": 0.77
-    },
-    {
-      "lang": "da",
-      "text": "oversaet denne samtale",
-      "truth": "translation.session.start",
-      "fired": "transcription.session.start",
-      "confidence": 0.788
-    },
-    {
-      "lang": "da",
-      "text": "stop tv-stream",
-      "truth": "streaming.session.stop",
-      "fired": "streaming.session.start",
-      "confidence": 0.894
-    },
-    {
-      "lang": "da",
-      "text": "fortael mig en joke",
-      "truth": "sys.oos.fallback",
-      "fired": "device.status.battery",
-      "confidence": 0.889
+      "text": "kan du traede kalorier",
+      "truth": "activity.step.query",
+      "fired": "activity.calories.query",
+      "confidence": 0.877
     },
     {
       "lang": "da",
       "text": "sluk venligst motoren",
       "truth": "sys.oos.fallback",
       "fired": "device.volume.mute",
-      "confidence": 0.954
+      "confidence": 0.962
+    },
+    {
+      "lang": "da",
+      "text": "bestille en pizza",
+      "truth": "sys.oos.fallback",
+      "fired": "messaging.message.send",
+      "confidence": 0.966
+    },
+    {
+      "lang": "da",
+      "text": "stille alt ned til ingenting",
+      "truth": "device.volume.mute",
+      "fired": "device.volume.decrease",
+      "confidence": 0.825
+    },
+    {
+      "lang": "da",
+      "text": "forbinde til min telefon",
+      "truth": "help.pairing.show",
+      "fired": "find.phone.locate",
+      "confidence": 0.798
+    },
+    {
+      "lang": "da",
+      "text": "kan du forlagt telefon",
+      "truth": "help.fall_alert.show",
+      "fired": "find.phone.locate",
+      "confidence": 0.828
+    },
+    {
+      "lang": "da",
+      "text": "sluk venligst kroppen",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.mute",
+      "confidence": 0.962
+    },
+    {
+      "lang": "da",
+      "text": "fa mine horeapparater til at bippe, sa jeg kan finde dem",
+      "truth": "help.find_my_hearing_aids.show",
+      "fired": "device.status.battery",
+      "confidence": 0.843
     }
   ],
-  "wrong_actions_shipped_langs": 73,
+  "wrong_actions_shipped_langs": 67,
   "budget": 5,
   "budget_met": false,
-  "previous_unmitigated": {
-    "shipped_total": 99,
-    "per_lang": {
-      "en": 39,
-      "fr": 32,
-      "de": 28,
-      "da": 33
-    }
+  "history": {
+    "unmitigated": 99,
+    "after_nd11_ab": 73,
+    "after_recipe_fix_and_floor": 67
   }
 }

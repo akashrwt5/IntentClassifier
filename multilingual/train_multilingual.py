@@ -128,7 +128,12 @@ SMALL_NAME = "multilingual_small"     # -> multilingual_small_intent_model.onnx
 #                       (keeps only the 10,000 most frequent terms)
 #     Note: trigrams (1,3) were tested and rejected — they nearly doubled size
 #     (5.3 -> 9.5 MB) AND lowered accuracy, so no recipe uses them.
-FULL_TFIDF = dict(ngram_range=(1, 2), min_df=2, sublinear_tf=True)
+# min_df=1 (was 2): German compound words appear once and were discarded,
+# starving small help.* classes; min_df=1 lifts holdout acc/F1 for EVERY
+# language (en +.012/.016, fr +.021/.024, de +.022/.030 — 2026-07-14
+# experiment, docs/Review-F5/EXECUTION_STATUS.md). Vocab ~2x, ONNX grows
+# accordingly; still well inside the on-device budget.
+FULL_TFIDF = dict(ngram_range=(1, 2), min_df=1, sublinear_tf=True)
 SMALL_RECIPES = {
     "unigram":    dict(ngram_range=(1, 1), min_df=2, sublinear_tf=True),
     "maxfeat10k": dict(ngram_range=(1, 2), min_df=2, sublinear_tf=True, max_features=10000),

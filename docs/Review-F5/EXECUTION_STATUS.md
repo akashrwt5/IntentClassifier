@@ -100,6 +100,15 @@ wrong_action_system_report.json`.
 
 ## Iteration log
 
+- **2026-07-14 (j)** — Owner batch: (1) compiler stages 11–15 shipped
+  (deterministic .nlu packaging + dev-key Ed25519 signing + 3-gate verify;
+  ND-8 still open for production KMS). (2) Golden conversation corpus: 20
+  scripts + runner — immediately caught the recipe-change regression.
+  (3) de F1 dip ROOT-CAUSED and fixed: min_df=1 lifts every language
+  (en .907/.896 · fr .866/.853 · de .845/.821 · da .800/.787); OOS recall
+  .59→.69; recalibrated. Engine gained a confirm-floor: borderline gated
+  commands ask first instead of deflecting. Wrong actions: 99 → 73 → 67.
+  Baselines + tests updated. (4) DVC (local remote) + MLflow next.
 - **2026-07-14 (i)** — Engine-in-the-loop wrong-action harness built + run
   (semantic off — stale local artifacts). System-level: en 39 / fr 32 /
   de 28 / da 33; CONFIRM layer confirmed unused. Safety finding recorded
