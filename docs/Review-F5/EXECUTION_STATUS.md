@@ -43,7 +43,7 @@
 ## Phases 2–5
 
 - **Phase 2 (shared Rust core):** ⛔ **OWNER DIRECTIVE 2026-07-14: OFF THE ROADMAP.** The platform stays Python (training/tooling/reference engine) + native iOS and Android implementations. The ADR-001 Rust option is shelved indefinitely; revisit ONLY on an explicit owner request — the Android-dialogue trigger alone no longer suffices. The interface contracts (runtime-contract-v1.md) remain valuable regardless: they keep the Python engine and the native implementations aligned on the same seams.
-- **Phase 3 (OTA, signing, telemetry, assist.cloud):** blocked on Phase 1; keys/consent gated (ND-8, ND-9).
+- **Phase 3 (OTA, signing, telemetry, assist.cloud): IN PROGRESS** (Phase 1 complete; started 2026-07-14). Done: two-slot BundleManager (device lifecycle, 10 tests incl. security-event semantics, downgrade protection, disaster fallback); telemetry event generation + on-device aggregation (no-raw-text by construction, closed enums, bundle_id-keyed counters); key-rotation runbook DRAFT (rehearsal blocked on ND-8). Remaining: remote-config/registry service integration + staged-rollout tripwires (needs infra decisions), production signing (ND-8), assist.cloud consent flow (ND-9), fleet dashboards (needs telemetry backend choice).
 - **Phase 4 (Training Studio):** blocked on stable compiler API.
 - **Phase 5 (language scale-out):** ongoing; Danish stays flag-gated until native holdout passes.
 
@@ -99,6 +99,18 @@ wrong_action_system_report.json`.
 | ND-11 | ✅ **(a)+(b) APPROVED & EXECUTED 2026-07-14.** Polarity guards (4 rules × 4 languages) + uncertainty-confirmation gate (<0.80, volume/streaming, localized ask-first prompts). Result: shipped wrong actions **99 → 73** (−26%); 30 wrong guesses intercepted by CONFIRM; friction 2–5% of turns. Budget (≤5) still not met — residual is non-gated domains + high-confidence confusions. **ND-11b follow-up decision:** extend gate to activity/translation/transcription/find? raise confirm bar? re-measure with semantic after artifact regen? | Wrong-action budget |
 
 ## Iteration log
+
+- **2026-07-14 (l)** — Phase 3 opened (no-regret half): BundleManager
+  two-slot lifecycle (a test caught raw zlib.error escaping verify — now
+  every parse failure degrades gracefully); telemetry events + aggregation
+  (redaction by construction); key-rotation runbook draft. Gated halves
+  queued: ND-8 (prod keys + rehearsal), ND-9 (consent), infra choices
+  (remote config, telemetry backend, registry hosting) — new decision
+  ND-12 below. Suite 130/130.
+
+| ID | Question | Blocking |
+|---|---|---|
+| ND-12 | **Phase-3 infrastructure choices:** where do remote config + bundle registry + telemetry ingestion live (existing app backend? new service? vendor)? Determines the staged-rollout/tripwire implementation and the dashboards. | Phase 3 completion |
 
 - **2026-07-14 (k)** — Capability repartition executed: content/capabilities/
   source tree (12×57) with round-trip identity proof + CI drift guard;
