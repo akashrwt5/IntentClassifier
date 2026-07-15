@@ -48,7 +48,7 @@ WRONG_ACTION_BUDGET = 5
 
 def is_actionable(label: str) -> bool:
     """True if a prediction of this label fires a device/app action."""
-    return not label.startswith("help.") and label != FALLBACK_LABEL
+    return bool(label) and not label.startswith(("help.", "sys."))
 # Danish is flag-gated (fails its floor; native-data program pending) —
 # excluded from gates_passed, never from the report itself.
 GATE_WAIVERS = {"da"}

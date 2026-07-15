@@ -53,6 +53,9 @@ class Session:
     # it (keeping the day) instead of resolving against today.
     partial_datetime: Optional[str] = None
     last_active: float = 0.0        # wall-clock of the last handled turn
+    # ND-11(a): an action held back by the uncertainty-confirmation gate,
+    # awaiting the user's yes/no. {"intent", "action", "fulfillment"}.
+    pending_confirm: Optional[dict] = None
 
     # --- context parameter memory ---
     # Stores the last fulfilled parameters per intent family so the engine

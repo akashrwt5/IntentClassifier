@@ -102,6 +102,21 @@ class NLUEngine:
         # same value constructs SemanticFallback AND gates its result in the
         # engine, so the two can never drift.
         self.semantic_threshold = self.schema.get("semantic_threshold", DEFAULT_SEMANTIC_THRESHOLD)
+        # ND-11(b): polarity guards — high-precision lexical rules that stop a
+        # confident prediction of the OPPOSITE action ("turn mute on" must
+        # never fire unmute). Config-driven per language; see _apply_guards.
+        self._polarity_guards = [
+            (re.compile(g["pattern"], re.IGNORECASE), g["blocked_intent"], g["redirect_intent"])
+            for g in self.schema.get("polarity_guards", [])
+        ]
+        # ND-11(a): uncertainty-confirmation gate — flagged fire-and-forget
+        # intents below this confidence get an ask-first turn instead of firing.
+        uc = self.schema.get("uncertain_confirm", {})
+        self._confirm_intents = set(uc.get("intents", []))
+        self._confirm_below = uc.get("below_confidence", 0.80)
+        self._confirm_generic_prompt = uc.get(
+            "prompt", "Just to be sure — should I go ahead with that?")
+        self._confirm_cancel_msg = uc.get("cancel_message", "Okay, I won't.")
         self.classifier = self._load_classifier(model_name)
         self.entities = self._load_entities(language)
         self._carrier = self._build_carrier_patterns(language)
@@ -171,6 +186,8 @@ class NLUEngine:
                 continue
             if "fulfillment" in ov_intent:
                 merged["intents"][intent_name]["fulfillment"] = ov_intent["fulfillment"]
+            if "confirm_prompt" in ov_intent:
+                merged["intents"][intent_name]["confirm_prompt"] = ov_intent["confirm_prompt"]
             ov_slots = {s["name"]: s for s in ov_intent.get("slots", []) if "name" in s}
             for slot in merged["intents"][intent_name].get("slots", []):
                 if slot.get("name") in ov_slots and "prompt" in ov_slots[slot["name"]]:
@@ -184,6 +201,13 @@ class NLUEngine:
                         merged[key].setdefault(subkey, {}).update(val)
                     else:
                         merged[key][subkey] = val
+
+        # ND-11: language-specific polarity guards + confirmation-gate texts
+        # replace the English defaults wholesale (patterns are per-language).
+        if "polarity_guards" in overlay:
+            merged["polarity_guards"] = overlay["polarity_guards"]
+        if "uncertain_confirm" in overlay:
+            merged.setdefault("uncertain_confirm", {}).update(overlay["uncertain_confirm"])
 
         # Merge yes/no sets
         if "affirmative" in overlay:
@@ -328,6 +352,12 @@ class NLUEngine:
         # Bound input length before any inference: very long ASR output or
         # adversarial input should not drive tokenizer/regex work unbounded.
         text = text.strip()[:500]
+
+        if session.pending_confirm is not None:
+            result = self._handle_uncertain_confirmation(session, text, now)
+            self._log_decision(session_id, text, result, "uncertain_confirm",
+                               (time.perf_counter() - t0) * 1000.0)
+            return result
 
         confirm = self._active_confirmation(session)
         if confirm:
@@ -555,9 +585,48 @@ class NLUEngine:
                 return last
         return None
 
+    def _apply_polarity_guards(self, text: str, intent: str) -> str:
+        """ND-11(b): redirect a prediction contradicted by explicit polarity
+        words. Fires only when EXACTLY ONE guard matches the predicted intent
+        (two matching guards = ambiguous utterance — leave the prediction and
+        let thresholds/confirmation handle it)."""
+        if not self._polarity_guards:
+            return intent
+        low = text.lower()
+        hits = [redirect for rx, blocked, redirect in self._polarity_guards
+                if blocked == intent and rx.search(low)]
+        if len(hits) == 1 and hits[0] in self.intents:
+            logger.info("nlu.polarity_guard", extra={"nlu": {
+                "blocked": intent, "redirected": hits[0]}})
+            return hits[0]
+        return intent
+
+    def _handle_uncertain_confirmation(self, session, text, now=0.0):
+        """ND-11(a): resolve the ask-first turn for a held-back action."""
+        pending = session.pending_confirm
+        polarity = self._yes_no(text)
+        if polarity is True:
+            session.pending_confirm = None
+            result = NLUResult(type="FULFILL", intent=pending["intent"],
+                               action=pending["action"],
+                               message=pending.get("fulfillment", ""),
+                               confidence=1.0, complete=True)
+            session.record_fulfillment(pending["intent"], {})
+            return result
+        if polarity is False:
+            session.pending_confirm = None
+            return NLUResult(type="FULFILL", intent="sys.confirm.cancelled",
+                             action=None, message=self._confirm_cancel_msg,
+                             confidence=1.0, complete=True)
+        # Unclear reply: the user likely said something else entirely — drop
+        # the held action (never fire on ambiguity) and process this turn fresh.
+        session.pending_confirm = None
+        return self._handle_new_intent(session, text, now)
+
     def _handle_new_intent(self, session, text, now=0.0):
         session.decrement_contexts()
         intent, conf = self.classifier.classify(text)
+        intent = self._apply_polarity_guards(text, intent)
 
         cfg = self.intents.get(intent)
 
@@ -590,6 +659,7 @@ class NLUEngine:
                             and intent != "sys.oos.fallback"):
                         accept_threshold = self.AGREEMENT_THRESHOLD
                     if sem_conf >= accept_threshold:
+                        sem_intent = self._apply_polarity_guards(text, sem_intent)
                         sem_cfg = self.intents.get(sem_intent)
                         if sem_cfg is not None:
                             result = self._fulfill_intent(session, sem_intent, sem_conf, sem_cfg, text, now)
@@ -626,6 +696,14 @@ class NLUEngine:
             session.pending_slots = slots
             session.awaiting_slot = None
             return self._advance_slots(session, intent, cfg)
+        # ND-11(a): uncertainty gate — a flagged fire-and-forget action below
+        # the confirmation confidence bar asks first instead of firing.
+        if intent in self._confirm_intents and conf < self._confirm_below:
+            session.pending_confirm = {"intent": intent, "action": cfg.get("action"),
+                                       "fulfillment": cfg.get("fulfillment", "")}
+            prompt = cfg.get("confirm_prompt", self._confirm_generic_prompt)
+            return NLUResult(type="CONFIRM", intent=intent, action=cfg.get("action"),
+                             message=prompt, confidence=conf)
         result = NLUResult(type="FULFILL", intent=intent, action=cfg.get("action"),
                            message=cfg.get("fulfillment", ""), confidence=conf, complete=True)
         session.record_fulfillment(intent, {})

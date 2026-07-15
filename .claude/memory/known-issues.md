@@ -45,7 +45,16 @@ _None open. Recently fixed:_
 - **iOS coordination pending:** ship datasets/label_migration_map.json to
   the STT repo and regenerate golden fixtures in the same release window.
 
-- **Wrong-action budget NOT met at holdout scale (system level).** The
+- **Wrong-action budget still not met — improved 99 → 73 (ND-11 a+b, 2026-07-14).**
+  Polarity guards + uncertainty-confirmation gate (<0.80 on device.volume/
+  streaming) cut shipped-lang wrong actions 26% (en 39→25, fr 32→26,
+  de 28→22) and intercepted 30 wrong guesses behind CONFIRM turns (friction:
+  2–5% of turns ask first). Residual 73 is dominated by NON-gated domains
+  (activity queries, translation/transcription session starts) and
+  high-confidence (≥0.80) confusions. Next levers (owner decision):
+  extend the gate to activity/translation/transcription/find; raise the
+  confirm bar; re-measure with regenerated semantic rescue.
+- **(original finding, superseded)** **Wrong-action budget NOT met at holdout scale (system level).** The
   engine-in-the-loop harness (wrong_action_harness.py, semantic disabled)
   measures 99 wrong actions across shipped langs (en 39 / fr 32 / de 28;
   da 33 waived) ≈ 2.0–2.7% of turns vs the ≤5 budget. Findings: (1) polarity

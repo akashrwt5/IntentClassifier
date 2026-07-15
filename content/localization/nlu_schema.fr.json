@@ -10,16 +10,20 @@
   "confidence_threshold": 0.7,
   "intents": {
     "device.volume.increase": {
-      "fulfillment": "Volume augmenté."
+      "fulfillment": "Volume augmenté.",
+      "confirm_prompt": "Pour confirmer — augmenter le volume ?"
     },
     "device.volume.decrease": {
-      "fulfillment": "Volume baissé."
+      "fulfillment": "Volume baissé.",
+      "confirm_prompt": "Pour confirmer — baisser le volume ?"
     },
     "device.volume.mute": {
-      "fulfillment": "Son coupé."
+      "fulfillment": "Son coupé.",
+      "confirm_prompt": "Pour confirmer — couper le son de vos aides auditives ?"
     },
     "device.volume.unmute": {
-      "fulfillment": "Son rétabli."
+      "fulfillment": "Son rétabli.",
+      "confirm_prompt": "Pour confirmer — réactiver le son de vos aides auditives ?"
     },
     "device.memory.change": {
       "fulfillment": "Programme changé.",
@@ -69,10 +73,12 @@
       "fulfillment": "Ouverture de Transcribe."
     },
     "streaming.session.start": {
-      "fulfillment": "Diffusion démarrée."
+      "fulfillment": "Diffusion démarrée.",
+      "confirm_prompt": "Pour confirmer — démarrer la diffusion ?"
     },
     "streaming.session.stop": {
-      "fulfillment": "Diffusion arrêtée."
+      "fulfillment": "Diffusion arrêtée.",
+      "confirm_prompt": "Pour confirmer — arrêter la diffusion ?"
     },
     "activity.run.query": {
       "fulfillment": "Démarrage de l'activité course."
@@ -233,5 +239,30 @@
     "non merci",
     "laisse tomber",
     "oublie"
-  ]
+  ],
+  "polarity_guards": [
+    {
+      "pattern": "coupe[rz]? le son|silence",
+      "blocked_intent": "device.volume.unmute",
+      "redirect_intent": "device.volume.mute"
+    },
+    {
+      "pattern": "r[ée]active[rz]? le son|remet(s|tre) le son",
+      "blocked_intent": "device.volume.mute",
+      "redirect_intent": "device.volume.unmute"
+    },
+    {
+      "pattern": "moins fort|baisse|diminue|r[ée]duis|plus bas",
+      "blocked_intent": "device.volume.increase",
+      "redirect_intent": "device.volume.decrease"
+    },
+    {
+      "pattern": "plus fort|monte|augmente|plus haut",
+      "blocked_intent": "device.volume.decrease",
+      "redirect_intent": "device.volume.increase"
+    }
+  ],
+  "uncertain_confirm": {
+    "cancel_message": "D'accord, j'annule."
+  }
 }

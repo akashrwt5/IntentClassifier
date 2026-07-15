@@ -44,7 +44,7 @@ GATE_WAIVERS = {"da"}
 
 
 def is_actionable(label: str) -> bool:
-    return bool(label) and not label.startswith("help.") and label != FALLBACK_LABEL
+    return bool(label) and not label.startswith(("help.", "sys."))
 
 
 def replay_language(lang: str, semantic: bool) -> dict:

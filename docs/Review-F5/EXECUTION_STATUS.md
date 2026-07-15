@@ -96,7 +96,7 @@ wrong_action_system_report.json`.
 
 | ID | Question | Blocking |
 |---|---|---|
-| ND-11 | **Approve wrong-action mitigations** (any subset): (a) confirmation-require device.volume/streaming/device.memory actions below a confidence margin; (b) polarity keyword guards (mute/unmute, louder/quieter pairs); (c) raise the actionable-intent threshold; (d) re-enable semantic rescue after regenerating artifacts and re-measure. Each changes dialogue/safety behavior. | Wrong-action budget |
+| ND-11 | ✅ **(a)+(b) APPROVED & EXECUTED 2026-07-14.** Polarity guards (4 rules × 4 languages) + uncertainty-confirmation gate (<0.80, volume/streaming, localized ask-first prompts). Result: shipped wrong actions **99 → 73** (−26%); 30 wrong guesses intercepted by CONFIRM; friction 2–5% of turns. Budget (≤5) still not met — residual is non-gated domains + high-confidence confusions. **ND-11b follow-up decision:** extend gate to activity/translation/transcription/find? raise confirm bar? re-measure with semantic after artifact regen? | Wrong-action budget |
 
 ## Iteration log
 

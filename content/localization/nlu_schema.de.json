@@ -10,16 +10,20 @@
   "confidence_threshold": 0.7,
   "intents": {
     "device.volume.increase": {
-      "fulfillment": "Lautstärke erhöht."
+      "fulfillment": "Lautstärke erhöht.",
+      "confirm_prompt": "Zur Sicherheit — die Lautstärke erhöhen?"
     },
     "device.volume.decrease": {
-      "fulfillment": "Lautstärke verringert."
+      "fulfillment": "Lautstärke verringert.",
+      "confirm_prompt": "Zur Sicherheit — die Lautstärke verringern?"
     },
     "device.volume.mute": {
-      "fulfillment": "Stummgeschaltet."
+      "fulfillment": "Stummgeschaltet.",
+      "confirm_prompt": "Zur Sicherheit — Ihre Hörgeräte stummschalten?"
     },
     "device.volume.unmute": {
-      "fulfillment": "Stummschaltung aufgehoben."
+      "fulfillment": "Stummschaltung aufgehoben.",
+      "confirm_prompt": "Zur Sicherheit — die Stummschaltung aufheben?"
     },
     "device.memory.change": {
       "fulfillment": "Programm gewechselt.",
@@ -69,10 +73,12 @@
       "fulfillment": "Transcribe wird geöffnet."
     },
     "streaming.session.start": {
-      "fulfillment": "Streaming gestartet."
+      "fulfillment": "Streaming gestartet.",
+      "confirm_prompt": "Zur Sicherheit — das Streaming starten?"
     },
     "streaming.session.stop": {
-      "fulfillment": "Streaming beendet."
+      "fulfillment": "Streaming beendet.",
+      "confirm_prompt": "Zur Sicherheit — das Streaming beenden?"
     },
     "activity.run.query": {
       "fulfillment": "Aktivität Laufen wird gestartet."
@@ -236,5 +242,30 @@
     "vergiss es",
     "nein danke",
     "lieber nicht"
-  ]
+  ],
+  "polarity_guards": [
+    {
+      "pattern": "stumm(schalten)?\\b|\\bton aus\\b",
+      "blocked_intent": "device.volume.unmute",
+      "redirect_intent": "device.volume.mute"
+    },
+    {
+      "pattern": "stummschaltung (aufheben|beenden)|\\bton (wieder )?an\\b",
+      "blocked_intent": "device.volume.mute",
+      "redirect_intent": "device.volume.unmute"
+    },
+    {
+      "pattern": "\\bleiser\\b|\\brunter\\b|verringer|senken|reduzier",
+      "blocked_intent": "device.volume.increase",
+      "redirect_intent": "device.volume.decrease"
+    },
+    {
+      "pattern": "\\blauter\\b|\\bh[öo]her\\b|erh[öo]h|\\bhoch\\b",
+      "blocked_intent": "device.volume.decrease",
+      "redirect_intent": "device.volume.increase"
+    }
+  ],
+  "uncertain_confirm": {
+    "cancel_message": "In Ordnung, ich lasse es."
+  }
 }
