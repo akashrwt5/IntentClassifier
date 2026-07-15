@@ -84,8 +84,9 @@ class SemanticFallback:
                     f"MiniLM ONNX model not found: {model_path}. "
                     "Run `python scripts/download_minilm.py` first."
                 )
-            import onnxruntime as ort  # type: ignore
-            self._ort_session = ort.InferenceSession(str(model_path))
+            from .inference import OrtEmbedderBackend
+            self._backend = OrtEmbedderBackend(model_path)
+            self._ort_session = self._backend  # legacy truthiness checks
 
         # Warm-up: ONNX Runtime does graph/JIT setup and allocator priming on
         # the first inference. Doing one throwaway embed here moves that cost
@@ -137,15 +138,8 @@ class SemanticFallback:
     def _embed_onnx(self, text: str) -> np.ndarray:
         input_ids, attention_mask, token_type_ids = self._tokenise(text)
 
-        outputs = self._ort_session.run(
-            None,
-            {
-                "input_ids":      input_ids,
-                "attention_mask": attention_mask,
-                "token_type_ids": token_type_ids,
-            },
-        )
-        token_embeddings = outputs[0][0]
+        token_embeddings = self._backend.embed_tokens(
+            input_ids, attention_mask, token_type_ids)
         mask             = attention_mask[0]
         expanded         = mask[:, np.newaxis].astype(np.float32)
         summed           = (token_embeddings * expanded).sum(axis=0)

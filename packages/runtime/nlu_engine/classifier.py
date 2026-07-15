@@ -9,7 +9,6 @@ import json
 import re
 import numpy as np
 import joblib
-import onnxruntime as ort
 from pathlib import Path
 
 from .manifest import verify_manifest
@@ -106,18 +105,22 @@ class IntentClassifier:
                  model_path:   Path = MODEL_PATH,
                  labels_path:  Path = LABELS_PATH,
                  schema_path:  Path = SCHEMA_PATH,
-                 weights_path: Path = WEIGHTS_PATH):
-        if not model_path.exists():
+                 weights_path: Path = WEIGHTS_PATH,
+                 backend=None):
+        if backend is None and not model_path.exists():
             raise FileNotFoundError(
                 f"Model not found: {model_path}. Run `python scripts/train.py` first."
             )
         verify_manifest(BASE_DIR)
         self._schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
         self._kw_rules = _compile_keyword_rules(self._schema)
-        self.session = ort.InferenceSession(str(model_path))
-        self.inp = self.session.get_inputs()[0]
-        self.input_name = self.inp.name
         self.labels = joblib.load(str(labels_path))
+        # Inference-inversion seam (runtime-contract-v1 §2): the classifier
+        # never owns an ML runtime — the host injects one (ORT by default).
+        if backend is None:
+            from .inference import OrtIntentBackend
+            backend = OrtIntentBackend(model_path, len(self.labels))
+        self.backend = backend
         # Calibration temperature for softmax(logits / T). Sourced from the
         # exported weights JSON; defaults to 1.0 (plain softmax) when absent.
         self.temperature = _load_temperature(weights_path)
@@ -151,12 +154,6 @@ class IntentClassifier:
                         return rule["intent"], KEYWORD_CONFIDENCE[tier]
         return None, 0.0
 
-    def _format(self, text: str):
-        t = text.lower().strip()
-        return (np.array([[t]], dtype=object)
-                if len(self.inp.shape) == 2
-                else np.array([t], dtype=object))
-
     def classify(self, text: str):
         kw_intent, kw_conf = self._keyword_match(text)
         if kw_intent:
@@ -164,19 +161,9 @@ class IntentClassifier:
             return kw_intent, kw_conf
 
         self.last_stage = "tfidf"
-        outputs = self.session.run(None, {self.input_name: self._format(text)})
-        scores = None
-        for o in outputs:
-            if hasattr(o, "shape") and o.shape and o.shape[-1] == len(self.labels):
-                scores = o[0]
-                break
-        if scores is None:
-            scores = outputs[-1][0]
-
-        if isinstance(scores, dict):
+        scores = self.backend.tfidf_logits(text)
+        if isinstance(scores, dict):  # zipmap-style graph output
             scores = np.array([scores[l] for l in self.labels], dtype=float)
-        else:
-            scores = np.asarray(scores, dtype=float)
 
         # `scores` are raw decision-function logits (the ONNX graph is exported
         # with raw_scores=True). Temperature scaling is rank-preserving — dividing
