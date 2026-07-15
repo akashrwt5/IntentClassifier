@@ -100,6 +100,16 @@ wrong_action_system_report.json`.
 
 ## Iteration log
 
+- **2026-07-14 (m)** — Phase-2 objectives delivered in Python (owner
+  direction: no Rust; goals, not the language). The Python engine now fully
+  conforms to runtime-contract-v1 (gap table closed: InferenceBackend seam
+  with injectable ORT adapters, session blob round-trip, turn_id,
+  notify_execution, availability push with A6 unavailable routing) and is
+  the EXECUTABLE SPEC: conformance fixtures generated for native CI —
+  31 multi-turn conversation traces + 75 datetime clock-grid rows (3
+  reference instants × parity utterances × 3 langs, attacking the
+  clock-state drift gap ADR-001 identified). Self-conformance test keeps
+  fixtures honest. Parity held (harness en byte-identical). Suite 140/140.
 - **2026-07-14 (l)** — Phase 3 opened (no-regret half): BundleManager
   two-slot lifecycle (a test caught raw zlib.error escaping verify — now
   every parse failure degrades gracefully); telemetry events + aggregation

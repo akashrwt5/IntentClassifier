@@ -135,15 +135,19 @@ new interface members or vocab entries = contract version bump + bundle
 `required_runtime_features` flag where feature-gated; semantic changes to
 an existing member = major coordination per ADR-005 Part 10.
 
-## 8. Conformance status (2026-07-14)
+## 8. Conformance status (updated 2026-07-14 — Python engine CONFORMS)
 
-| Seam | Python engine today | Gap to v1 |
-|---|---|---|
-| `handle()` | `NLUEngine.handle` | turn_id threading; input bounding is present |
-| `InferenceBackend` | ORT inline in classifier/semantic | extract behind an interface (mechanical; ND-2 M1 window) |
-| Clock injection | wall-clock via `now` param in places | centralize monotonic provider |
-| Session blob | `SessionStore` in-memory | serialize to the §3 schema; host encryption N/A server-side |
-| `notify_execution` | not present (CLI executes nothing) | add no-op seam when SDK work starts |
-| Availability push | not present | add with capability repartition |
+| Seam | Status |
+|---|---|
+| `handle(text, turn_id)` | ✅ turn_id threaded into decision telemetry |
+| `InferenceBackend` | ✅ `nlu_engine/inference.py` — protocol + ORT adapters, injectable; iOS/Android implement the same two methods over CoreML / ORT Mobile |
+| Clock injection | ✅ SessionStore takes an injected clock (pre-existing) |
+| Session blob (§3) | ✅ `Session.to_blob()/from_blob()` — round-trip incl. held confirmations; no utterance text by construction |
+| `notify_execution` (§4) | ✅ recorded on session + telemetry; async-outcome dialogue reaction arrives with SDK work |
+| Availability push (§5) | ✅ atomic snapshot replace, stale-id drop, longest-prefix capability match, A6 unavailable routing (no action, intent recognized) |
 
-These gaps are tracked as Phase-1/2 work items, not defects.
+Cross-platform drift prevention (in lieu of a shared core — ADR-011): the
+Python engine is the EXECUTABLE SPECIFICATION. Native runtimes replay
+`tests/parity/engine_conformance/` (multi-turn conversation traces +
+datetime clock-grid) in their CI; `tests/test_engine_conformance_fixtures.py`
+keeps the fixtures honest against the live engine.

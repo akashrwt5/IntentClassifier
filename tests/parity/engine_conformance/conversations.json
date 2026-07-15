@@ -1,0 +1,513 @@
+{
+  "generator": "python-engine (executable spec, ADR-011)",
+  "semantic_enabled": false,
+  "scripts": {
+    "activity_calories": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "how many calories have i burned",
+          "type": "FULFILL",
+          "intent": "activity.calories.query",
+          "action": "activity.calories",
+          "confidence": 0.9886,
+          "complete": true
+        }
+      ]
+    },
+    "activity_heart_exercise": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "how long did i exercise today",
+          "type": "FULFILL",
+          "intent": "activity.exercise.query",
+          "action": "activity.exercise",
+          "confidence": 0.8665,
+          "complete": true
+        }
+      ]
+    },
+    "activity_steps": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "how many steps have i taken today",
+          "type": "FULFILL",
+          "intent": "activity.step.query",
+          "action": "activity.step",
+          "confidence": 0.9982,
+          "complete": true
+        }
+      ]
+    },
+    "battery_query": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "what's my battery level",
+          "type": "FULFILL",
+          "intent": "device.status.battery",
+          "action": "battery.level",
+          "confidence": 0.75,
+          "complete": true
+        }
+      ]
+    },
+    "de_battery": {
+      "lang": "de",
+      "turns": [
+        {
+          "user": "wie ist der batteriestand meiner hörgeräte",
+          "type": "FULFILL",
+          "intent": "device.status.battery",
+          "action": "battery.level",
+          "confidence": 0.8739,
+          "complete": true
+        }
+      ]
+    },
+    "de_polarity_guard": {
+      "lang": "de",
+      "turns": [
+        {
+          "user": "bitte etwas leiser stellen",
+          "type": "FULFILL",
+          "intent": "device.volume.decrease",
+          "action": "volume.decrease",
+          "confidence": 0.8036,
+          "complete": true
+        }
+      ]
+    },
+    "de_streaming_stop_guard": {
+      "lang": "de",
+      "turns": [
+        {
+          "user": "streaming beenden",
+          "type": "CONFIRM",
+          "intent": "streaming.session.stop",
+          "action": "streaming.stop",
+          "confidence": 0.5837,
+          "complete": false
+        }
+      ]
+    },
+    "de_volume": {
+      "lang": "de",
+      "turns": [
+        {
+          "user": "mach es leiser",
+          "type": "CONFIRM",
+          "intent": "device.volume.decrease",
+          "action": "volume.decrease",
+          "confidence": 0.6283,
+          "complete": false
+        },
+        {
+          "user": "ja",
+          "type": "FULFILL",
+          "intent": "device.volume.decrease",
+          "action": "volume.decrease",
+          "confidence": 1.0,
+          "complete": true
+        }
+      ]
+    },
+    "find_phone": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "find my phone",
+          "type": "FULFILL",
+          "intent": "find.phone.locate",
+          "action": "phone.find",
+          "confidence": 0.97,
+          "complete": true
+        }
+      ]
+    },
+    "fr_mute_guard": {
+      "lang": "fr",
+      "turns": [
+        {
+          "user": "coupe le son s'il te plaît",
+          "type": "FULFILL",
+          "intent": "device.volume.mute",
+          "action": "volume.mute",
+          "confidence": 0.9682,
+          "complete": true
+        }
+      ]
+    },
+    "fr_polarity_guard": {
+      "lang": "fr",
+      "turns": [
+        {
+          "user": "mets le moins fort possible",
+          "type": "CONFIRM",
+          "intent": "device.volume.decrease",
+          "action": "volume.decrease",
+          "confidence": 0.6161,
+          "complete": false
+        }
+      ]
+    },
+    "fr_reminder_one_shot": {
+      "lang": "fr",
+      "turns": [
+        {
+          "user": "rappelle-moi de prendre mes médicaments demain à 8 heures",
+          "type": "FULFILL",
+          "intent": "reminders.task.create",
+          "action": "reminders.task.create",
+          "confidence": 1.0,
+          "complete": true
+        }
+      ]
+    },
+    "fr_volume": {
+      "lang": "fr",
+      "turns": [
+        {
+          "user": "baisse le volume",
+          "type": "FULFILL",
+          "intent": "device.volume.decrease",
+          "action": "volume.decrease",
+          "confidence": 0.9075,
+          "complete": true
+        }
+      ]
+    },
+    "help_never_acts": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "how do i pair my hearing aids",
+          "type": "FULFILL",
+          "intent": "help.pairing.show",
+          "action": "help.pairing",
+          "confidence": 0.9767,
+          "complete": true
+        },
+        {
+          "user": "how does volume control work in the app",
+          "type": "FALLBACK",
+          "intent": "GENAI",
+          "action": "genai.fallback",
+          "confidence": 0.6768,
+          "complete": false
+        }
+      ]
+    },
+    "help_pairing_then_command": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "how do i pair my hearing aids with my phone",
+          "type": "FULFILL",
+          "intent": "help.pairing.show",
+          "action": "help.pairing",
+          "confidence": 0.9957,
+          "complete": true
+        },
+        {
+          "user": "mute",
+          "type": "FULFILL",
+          "intent": "device.volume.mute",
+          "action": "volume.mute",
+          "confidence": 0.97,
+          "complete": true
+        }
+      ]
+    },
+    "help_volume_vs_command": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "why is my volume changing by itself",
+          "type": "FALLBACK",
+          "intent": "GENAI",
+          "action": "genai.fallback",
+          "confidence": 0.2316,
+          "complete": false
+        }
+      ]
+    },
+    "listen_message": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "play my messages",
+          "type": "FULFILL",
+          "intent": "messaging.message.listen",
+          "action": "message.listen",
+          "confidence": 0.9992,
+          "complete": true
+        }
+      ]
+    },
+    "memory_change_flow": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "switch my hearing program",
+          "type": "PROMPT",
+          "intent": "device.memory.change",
+          "action": null,
+          "confidence": 1.0,
+          "complete": false
+        }
+      ]
+    },
+    "oos_deflects_to_fallback": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "what do you think about the election results",
+          "type": "FALLBACK",
+          "intent": "GENAI",
+          "action": "genai.fallback",
+          "confidence": 0.2913,
+          "complete": false
+        },
+        {
+          "user": "tell me a good pasta recipe",
+          "type": "FALLBACK",
+          "intent": "GENAI",
+          "action": "genai.fallback",
+          "confidence": 0.7724,
+          "complete": false
+        }
+      ]
+    },
+    "oos_then_valid_command": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "who won the football game last night",
+          "type": "FALLBACK",
+          "intent": "GENAI",
+          "action": "genai.fallback",
+          "confidence": 0.6527,
+          "complete": false
+        },
+        {
+          "user": "mute",
+          "type": "FULFILL",
+          "intent": "device.volume.mute",
+          "action": "volume.mute",
+          "confidence": 0.97,
+          "complete": true
+        }
+      ]
+    },
+    "polarity_guard_mute": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "turn mute on",
+          "type": "CONFIRM",
+          "intent": "device.volume.mute",
+          "action": "volume.mute",
+          "confidence": 0.6485,
+          "complete": false
+        },
+        {
+          "user": "yes",
+          "type": "FULFILL",
+          "intent": "device.volume.mute",
+          "action": "volume.mute",
+          "confidence": 1.0,
+          "complete": true
+        }
+      ]
+    },
+    "polarity_guard_quieter": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "i need it more quiet",
+          "type": "CONFIRM",
+          "intent": "device.volume.decrease",
+          "action": "volume.decrease",
+          "confidence": 0.75,
+          "complete": false
+        }
+      ]
+    },
+    "reminder_confirm_then_complete": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "remind me to call the audiologist tomorrow at 3pm",
+          "type": "FULFILL",
+          "intent": "reminders.task.create",
+          "action": "reminders.task.create",
+          "confidence": 1.0,
+          "complete": true
+        },
+        {
+          "user": "mark my reminder as done",
+          "type": "FULFILL",
+          "intent": "reminders.task.complete",
+          "action": "reminders.task.complete",
+          "confidence": 0.9872,
+          "complete": true
+        }
+      ]
+    },
+    "reminder_one_shot": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "remind me to take my medication tomorrow at 8am",
+          "type": "FULFILL",
+          "intent": "reminders.task.create",
+          "action": "reminders.task.create",
+          "confidence": 1.0,
+          "complete": true
+        }
+      ]
+    },
+    "reminder_slot_flow": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "set a reminder",
+          "type": "PROMPT",
+          "intent": "reminders.task.create",
+          "action": null,
+          "confidence": 1.0,
+          "complete": false
+        },
+        {
+          "user": "take my medication",
+          "type": "PROMPT",
+          "intent": "reminders.task.create",
+          "action": null,
+          "confidence": 1.0,
+          "complete": false
+        },
+        {
+          "user": "tomorrow at 8am",
+          "type": "FULFILL",
+          "intent": "reminders.task.create",
+          "action": "reminders.task.create",
+          "confidence": 1.0,
+          "complete": true
+        }
+      ]
+    },
+    "send_message_flow": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "send a message to my wife",
+          "type": "FULFILL",
+          "intent": "messaging.message.send",
+          "action": "message.compose",
+          "confidence": 0.9,
+          "complete": true
+        }
+      ]
+    },
+    "slot_interruption": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "set a reminder",
+          "type": "PROMPT",
+          "intent": "reminders.task.create",
+          "action": null,
+          "confidence": 1.0,
+          "complete": false
+        },
+        {
+          "user": "actually just mute my hearing aids",
+          "type": "FULFILL",
+          "intent": "device.volume.mute",
+          "action": "volume.mute",
+          "confidence": 0.8958,
+          "complete": true
+        }
+      ]
+    },
+    "streaming_stop": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "stop streaming",
+          "type": "FULFILL",
+          "intent": "streaming.session.stop",
+          "action": "streaming.stop",
+          "confidence": 0.9986,
+          "complete": true
+        }
+      ]
+    },
+    "transcribe_start": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "start transcribing this conversation",
+          "type": "FULFILL",
+          "intent": "transcription.session.start",
+          "action": "transcribe.open",
+          "confidence": 0.9,
+          "complete": true
+        }
+      ]
+    },
+    "translation_start": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "start translating",
+          "type": "FULFILL",
+          "intent": "translation.session.start",
+          "action": "translate.open",
+          "confidence": 0.9,
+          "complete": true
+        }
+      ]
+    },
+    "volume_direct_commands": {
+      "lang": "en",
+      "turns": [
+        {
+          "user": "mute",
+          "type": "FULFILL",
+          "intent": "device.volume.mute",
+          "action": "volume.mute",
+          "confidence": 0.97,
+          "complete": true
+        },
+        {
+          "user": "unmute",
+          "type": "FULFILL",
+          "intent": "device.volume.unmute",
+          "action": "volume.unmute",
+          "confidence": 0.97,
+          "complete": true
+        },
+        {
+          "user": "turn the volume up",
+          "type": "CONFIRM",
+          "intent": "device.volume.increase",
+          "action": "volume.increase",
+          "confidence": 0.75,
+          "complete": false
+        },
+        {
+          "user": "yes",
+          "type": "FULFILL",
+          "intent": "device.volume.increase",
+          "action": "volume.increase",
+          "confidence": 1.0,
+          "complete": true
+        }
+      ]
+    }
+  }
+}
