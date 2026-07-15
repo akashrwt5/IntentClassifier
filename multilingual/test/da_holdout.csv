@@ -1,1335 +1,1307 @@
 text,intent
-"fortael mig venligst, hvad mit standmal er",activity.stand.query
-kan du ligge her,sys.oos.fallback
-hvad er der pa hovedskaermen?,help.home.show
-hore det igen.,messaging.message.listen
-kan du ikke er afgiften for elektricitet svarende til afgiften for benzin,sys.oos.fallback
-hvordan skruer jeg ned for tinnitusstojen?,help.tinnitus.show
-kan du skifte hukommelse til fire,device.memory.change
-how many steps calories,activity.step.query
-puls hjaelp,help.heart_rate.show
-kan du skifte program til teater,device.memory.change
-kan du bruge kalorier i dag,activity.calories.query
-jeg vil have mindre volumen,device.volume.decrease
-kan du oge lydstyrken i horeapparatet,device.volume.increase
-alt er for lavt,device.volume.increase
-vis mig hjaelpen til transskribering,help.transcribe.show
-kan du saenke horelsen,device.volume.decrease
-hvad er den nemmeste made at begynde pa,help.home.show
-lyd pa,device.volume.unmute
-kan du indstille hukommelsen til hjemmet,device.memory.change
-lobeaktivitet,activity.run.query
-stop med at spille tv gennem mine hjaelpemidler,streaming.session.stop
-billedteksten folk taler,transcription.session.start
-kan du sla wi-fi til,sys.oos.fallback
-kan du jeg mistede mine horeapparater. kan du hjaelpe mig med at finde dem?,help.find_my_hearing_aids.show
-skift venligst indstilling til tre,device.memory.change
-fungerer begge mine horeapparater korrekt,help.self_check.show
-hvordan skifter jeg profil,help.changing_memories.show
-sluk venligst alarmen,sys.oos.fallback
-spore min genopretning af pulsen,help.heart_rate_recovery.show
-ordne det statiske i mine hjaelpemidler,help.device_settings.show
-hvordan justerer jeg min lydstyrke af tinnitus-stimulus pa mine hjaelpemidler?,help.thrive_score.show
-den har ansvaret for vabenhuset,sys.oos.fallback
-lydstyrken slukket,device.volume.mute
-kan du ga ned,sys.oos.fallback
-kan jeg bruge appen uden horeapparat,help.demo_mode.show
-anvende vindstojsreduktion,device.memory.change
-hvilke tilfojelser der er tilgaengelige,help.accessories.show
-kan du aendre hukommelsen til tre,device.memory.change
-fortael mig om pamindelsesfunktionen,help.reminder.show
-hvad er min batterilevetid?,device.status.battery
-hvordan torrer jeg mine horeapparater,help.clean_care.show
-optag venligst tv-streamsignal,streaming.session.start
-trives stemmeassistent hjaelp,help.voice_assistant.show
-kan du taelle kalorier i dag,activity.calories.query
-hjaelp til at skifte programmer pa min telefon,help.changing_memories.show
-"hvordan ved jeg, hvornar den professionelle har justeret hjaelpemidlet?",help.remote_programming.show
-jeg vil gerne hore mit budskab.,messaging.message.listen
-transskriberer holder mine samtaler,help.transcribe.show
-venligst hvor er voice ai?,help.intelli_voice.show
-ny pamindelse for hver dag,reminders.task.create
-pamindelse til mig,reminders.task.create
-hvor mange timers opladning tilbage,device.status.battery
-saette mig i restaurant mode,device.volume.decrease
-er horeapparaterne tilsluttet telefonen?,help.pairing.show
-pulsgendannelse brugervejledning,help.heart_rate_recovery.show
-hvordan far jeg mine horeapparater til at streame,help.accessories.show
-hvordan finder jeg masketilstand,help.mask_mode.show
-saenk venligst lydstyrken,device.volume.decrease
-venligst minde mig om 15 minutter at ga til baren,reminders.task.create
-hvordan virker stemmeklarhedsfunktionen,help.intelli_voice.show
-skal sende en besked,messaging.message.send
-hvordan far jeg en bedre hjernescore?,help.thrive_score.show
-hvordan skruer jeg ned for lydstyrken i kun et horeapparat?,help.volume.show
-begynde at oversaette pa fransk,translation.session.start
-kan du skrue mit hojre horeapparat ned,device.volume.decrease
-vis mig venligst mit aktivitetsmal?,activity.aerobics.query
-jeg skal tilslutte mine horeapparater til min telefon,help.pairing.show
-minde mig venligst om at betale min kreditkortregning,reminders.task.create
-hvad er der galt med mit hojre horeapparat,help.self_check.show
-en ramme for meget blaesende steder,help.edge_mode.show
-kan du jeg har forlagt mit hojre hjaelpemiddel,help.find_my_hearing_aids.show
-guide mig om batteripleje,help.battery.show
-mind mig venligst om blodbrodre,reminders.task.create
-saet venligst en pamindelse til 1 time,reminders.task.create
-jeg traener nu,activity.exercise.query
-haeve lydstyrken,device.volume.increase
-"afslutte pamindelsen om, at det er faerdigt",reminders.task.complete
-hvad er mit skridtmal?,activity.step.query
-hvordan oplader jeg mit itc horeapparat?,help.battery.show
-sla sig ned pa en travl restaurant,device.memory.change
-jeg skal parre horeapparatet til min telefon,help.pairing.show
-venligst jeg har brug for et bilbatteri,sys.oos.fallback
-hvad er intelligent stemme,help.intelli_voice.show
-hvor har jeg lagt mine horeapparater?,sys.oos.fallback
-send en hurtig stemmebesked,messaging.message.send
-lave lyd pa,device.volume.unmute
-hvordan forbinder jeg mine hjaelpemidler?,help.pairing.show
-tjek strommen,device.status.battery
-kan du restaurantprogram,device.memory.change
-stop med at streame tv,streaming.session.stop
-hvordan tilfojer man en anden person pa hearshare?,help.fall_alert.show
-maler mine hjaelpemidler bpm,help.heart_rate.show
-hvordan justerer jeg notifikationer i appen,help.app_settings.show
-har jeg naet mit cykelmal?,activity.cycle.query
-saet venligst nummer et,device.memory.change
-hvordan man kontrollerer horeapparaternes tilstand,help.self_check.show
-venligst parringshjaelpemidler pa min app,help.pairing.show
-hvor styrer jeg lydstyrken,help.volume.show
-optag min aerobic,activity.aerobics.query
-saette en pamindelse,reminders.task.create
-minde mig om at tage medicin om 5 minutter,reminders.task.create
-hjaelp til at aendre programmer,help.changing_memories.show
-kan du jeg flyder pa vejen,sys.oos.fallback
-accepterede min datter min hearshare-invitation?,help.hear_share.show
-"hvordan siger jeg, tag mig til hotellet pa spansk",translation.session.start
-venligst jeg kan ikke fa mit horeapparat ind,help.insert_device.show
-noter dette for mig,reminders.task.create
-hvad er aendret i denne nye version af appen?,help.whats_new.show
-can i see my step goal,activity.step.query
-batteriet aflades hurtigt,help.battery.show
-"forklar, hvornar kanttilstand hjaelper",help.edge_mode.show
-kan du minde mig om d-vitamin kl. hverdag,reminders.task.create
-kan du tilslutte venstre horeapparat,help.pairing.show
-parringshjaelpemidler pa min app,help.pairing.show
-hvordan far jeg mit venstre hjaelpemiddel til at streame,help.accessories.show
-hvor har jeg lagt mit venstre hjaelpemiddel?,help.find_my_hearing_aids.show
-hvordan bruger jeg appen uden hjaelpemidler tilsluttet?,help.demo_mode.show
-kan du aendre program til et,device.memory.change
-venligst dnn taleforbedring brugervejledning,help.intelli_voice.show
-hvordan skruer jeg op for lydstyrken kun i venstre side?,help.volume.show
-kan du lave mig en pamindelse,reminders.task.create
-venligst hjaelp ansigtsmaske problemer,help.mask_mode.show
-stream venligst fra fjernmikrofonen,activity.stand.query
-start lydstrommen,streaming.session.start
-kan du hjaelpe med tinnitus stojjusteringer i mine hjaelpemidler,help.tinnitus.show
-hvordan forbinder jeg en placering til min hukommelse?,help.memory_options.show
-hvordan aendrer jeg muligheder for notifikation pa mit horeapparat?,help.device_settings.show
-"venligst, jeg skal parre horeapparaterne med telefonen",help.pairing.show
-hjaelp til fjernprogrammering,help.remote_programming.show
-fortael mig om stemmeassistenten,help.voice_assistant.show
-find min enhed,find.phone.locate
-hjaelpe med at forsta fjerntuning,help.remote_programming.show
-hjaelp til parring af enheder,help.pairing.show
-kan du indstille programmet til automatisk,device.memory.change
-kan du vise mig et overblik over trives,help.whats_new.show
-mine hjaelpemidler bryder ud med mellemrum,help.device_settings.show
-mind mig venligst om at ga til laegen,reminders.task.create
-hjaelp venligst med justering af stojstimulus pa mine horeapparater,help.tinnitus.show
-begynd venligst at oversaette til fransk,translation.session.start
-kan du fa jeg naet mit aerobic-mal?,activity.aerobics.query
-hvordan slar jeg intellivoice til,help.intelli_voice.show
-hvordan bruger jeg mine horeapparater med tilbehor,help.accessories.show
-lydforbindelse til hjaelpemidler,streaming.session.start
-jeg er pa vej ud pa cyklen,activity.cycle.query
-hvor er horeapparatets serienummer?,help.device_settings.show
-hvordan diagnosticerer jeg mine horeapparater,help.self_check.show
-kan du minde mig om at levere til saint barbara katolske kirke pa fredag ​​9 til 9:30,reminders.task.create
-jeg kan ikke lide dobbelttryk-funktionen. hvordan slar jeg den fra?,help.device_settings.show
-hvordan har denne app aendret sig?,help.whats_new.show
-hvordan soger jeg efter mit venstre hjaelpemiddel?,help.find_my_hearing_aids.show
-hvordan beregnes pulsgendannelse?,help.heart_rate_recovery.show
-fortael mig batteristatus,device.status.battery
-skrue ned for mine horeapparater,device.volume.decrease
-lyden foles svag,device.volume.increase
-hjaelpe med tinnitusstimulusjustering pa mine hjaelpemidler,help.tinnitus.show
-hvordan oger jeg lydstyrken i kun det venstre horeapparat?,help.volume.show
-kan du ringe til hukommelsen,device.memory.change
-lyt til oplaegsholderen,streaming.session.start
-kan du sla lyden til pa horeapparater,device.volume.unmute
-gore min hjaelp tavs,device.volume.mute
-kan du indstille hukommelsen til en,device.memory.change
-hvor er lydstyrkekontrollen,help.volume.show
-"hvordan ved jeg, hvornar audiologen justerede horeapparatet?",help.remote_programming.show
-hvordan skifter jeg min mini-fjernbetjeningsmikrofon?,help.accessories.show
-hvordan slar jeg lyden til?,help.volume.show
-kan du sla lyden fra,device.volume.mute
-"venligst, jeg skal parre horeapparatet til min telefon",help.pairing.show
-kan den oversaette to sprog pa en gang,help.translate.show
-"kan du undskylde dette okay, jeg forstar det",sys.oos.fallback
-"hvordan ved jeg, om jeg har modtaget nye horeapparatindstillinger?",help.remote_programming.show
-"kan du minde mig om, at jeg har en laegetid",reminders.task.create
-kan du hjaelpe med startskaermen,help.home.show
-kan min audiolog fjernjustere hjaelpemidlerne?,help.remote_programming.show
-smid en besked,messaging.message.send
-hjaelpe med tinnitus lydjusteringer i mit horeapparat,help.tinnitus.show
-talen er for stille,device.volume.increase
-start min gangsporing,activity.walk.query
-forklare tradlose cros,help.wi_c_r_o_s.show
-how many steps have i taken this week,activity.step.query
-vinden odelaegger min horelse udenfor,help.edge_mode.show
-kan du oversaette hvor meget jeg skylder dig pa espanol,translation.session.start
-hvor kan jeg se hvad nogen siger?,help.transcribe.show
-where is my apple phone,find.phone.locate
-progeria ganchos bryllup for en del ar siden,sys.oos.fallback
-"spor det lob, jeg gennemforte",activity.run.query
-venligst debony logger pa,sys.oos.fallback
-lede lyden til mine horeapparater,streaming.session.start
-"kan du vise mig, hvordan man bruger pamindelse",help.reminder.show
-tilslut venligst det rigtige hjaelpemiddel,help.pairing.show
-venligst kun hvis det ikke er et problem for cdl,sys.oos.fallback
-hvordan slipper jeg af med voks i mine horeapparater,help.clean_care.show
-hvad er et godt genopretningsnummer,help.heart_rate_recovery.show
-venligst hey google taend masterlamperne,sys.oos.fallback
-hold det her pa min radar,reminders.task.create
-kan du lave lyd pa,device.volume.unmute
-afslutte streaming,streaming.session.stop
-begynd at streame tv til mine horeapparater,streaming.session.start
-lave en ny pamindelse,reminders.task.create
-how long have i been exercising,activity.exercise.query
-selvtjek mislykkedes.,help.self_check.show
-kan du indstille til 90 % lydstyrke,device.volume.increase
-mit horeapparat bliver ved med at glide ud,help.insert_device.show
-jeg ma hellere ikke glemme dette,reminders.task.create
-hjaelp til at skifte program pa mit horeapparat,help.changing_memories.show
-"kan du vide, hvor de har checken, vi skal skifte for at saette ind der. det er fint.",sys.oos.fallback
-hvor er fjernprogrammering,activity.stand.query
-vis mig hvor de er,help.find_my_hearing_aids.show
-jeg kan ikke forsta appen,help.home.show
-efterlade en optagelse,messaging.message.send
-send besked til min datter,messaging.message.send
-how do i know if an alert text message is received?,help.fall_alert.show
-kan du kalorier ga,activity.walk.query
-tag lyden af,device.volume.unmute
-hvor er fjernprogrammering,help.remote_programming.show
-saet lydstyrken pa igen,device.volume.unmute
-jeg mistede mit horeapparat,help.find_my_hearing_aids.show
-hjaelp til opsaetning af pamindelser,help.reminder.show
-hvornar skal jeg bruge intelligent stemme?,help.intelli_voice.show
-kan du indstille musik,device.memory.change
-kan du transskribere hjaelp,help.transcribe.show
-kan du afspille sidste besked,messaging.message.listen
-glem ikke at minde mig om det,reminders.task.create
-hvordan daemper jeg cros-senderen?,help.wi_c_r_o_s.show
-hvordan justerer jeg med kanttilstand?,help.edge_mode.show
-kan du pamindelse afsluttet.,reminders.task.complete
-oversaet denne samtale,translation.session.start
-kan du minde mig om at vagne kl.,reminders.task.create
-saet pamindelse til den 25. november,reminders.task.create
-find phone,find.phone.locate
-skal indstille en pamindelse,reminders.task.create
-lyd omdirigering,streaming.session.start
-kan du programmere en,device.memory.change
-selvtjek hjaelp,help.self_check.show
-stop tv-stream,streaming.session.stop
-tag mig til hurtig start,help.whats_new.show
-search android,find.phone.locate
-guide mig igennem det,help.home.show
-kan du mestre programmet,device.memory.change
-mind mig venligst om at ringe til mor i julen,reminders.task.create
-"jeg har allerede gjort det, ryddet det",reminders.task.complete
-skift mig til indstillingen for samtaler,device.memory.change
-relaeinformation,messaging.message.send
-kan du indstille programmet til nummer et,device.memory.change
-venligst hvor er hukommelsesknappen?,help.changing_memories.show
-er det ok at skubbe formen dybt?,help.insert_device.show
-kan du sla mit venstre hjaelpemiddel til,device.volume.unmute
-hvordan gor jeg dobbelttryk mindre folsomt?,help.device_settings.show
-hvordan justerer jeg tonen i mine hjaelpemidler,help.customize.show
-start oversaettelse til spansk,translation.session.start
-vis mig demotilstand,help.demo_mode.show
-aben oversaettelse,translation.session.start
-kan du lytte til mit tv,streaming.session.start
-bedes du afslutte denne pamindelse.,reminders.task.complete
-sog venligst efter min telefon,find.phone.locate
-kan du tak fordi du skiftede,sys.oos.fallback
-kan du indstille indstillingen til to,device.memory.change
-forklare tilbehorsmulighederne,help.accessories.show
-kan du jeg kan ikke fa mit horeapparat pa,help.insert_device.show
-"hvordan kontrollerer jeg, om hjaelpemidlet er parret med telefonen?",help.pairing.show
-kan du sagde andet program,sys.oos.fallback
-hvor er maskeindstillingen pa mine horeapparater,sys.oos.fallback
-kan jeg indstille programmet til en placering?,help.memory_options.show
-aktivere mit kontorprogram,device.memory.change
-forklare funktionen til selvtjek,help.self_check.show
-jeg kunne bruge en pamindelse senere,reminders.task.create
-kan du minde mig om at ringe i morgen,reminders.task.create
-kan du minde mig om at ringe til jose i morgen,reminders.task.create
-hvor opladet er mine hjaelpemidler,device.status.battery
-kan du indstille indstillingen til tre,device.memory.change
-oplysninger om trives-score,help.thrive_score.show
-hjaelp mig venligst med at opsnappe en faldalarm,help.fall_alert.show
-where is my left aid?,help.find_my_hearing_aids.show
-vis mig min pulshistorie,help.heart_rate.show
-kan du minde mig om at hente min recept pa mandag kl.,reminders.task.create
-hvordan skifter jeg fra den avancerede app til den grundlaeggende app?,help.app_settings.show
-vis mig hvor laenge jeg har gaet?,activity.walk.query
-venligst foderal bistand op til min energi,sys.oos.fallback
-lad mig lytte til mine beskeder,messaging.message.listen
-optag denne gatur,activity.walk.query
-hvordan aendrer jeg navnet pa mit tilbehor?,help.accessories.show
-afkryds min pamindelse,reminders.task.complete
-log denne aerobic traening,activity.aerobics.query
-det kommer for varmt ind,device.volume.decrease
-giv mig tekst til denne samtale,transcription.session.start
-afslutte lydstreamen,streaming.session.stop
-hvor mange aerobe minutter i denne uge,activity.aerobics.query
-gore tingene hojere,device.volume.increase
-hvordan kan appen hjaelpe mig med at finde mine hjaelpemidler,help.find_my_hearing_aids.show
-tilfoj venligst pamindelse med titel vaske bil,reminders.task.create
-kan jeg kontakte nogen?,messaging.message.send
-"jeg er ikke sikker pa, hvad jeg skal gore",help.home.show
-jeg kan ikke hore ud af mit hojre horeapparat,help.self_check.show
-turn up the loudness on my hearing aid,device.volume.increase
-hvorfor skaerer mit hojre ore hele tiden af,help.self_check.show
-regn. appen mig,sys.oos.fallback
-forklare pulsfunktionen,help.heart_rate.show
-mind mig venligst om at afhente recept i dag kl. 17.00.,reminders.task.create
-kan du vise mig den hurtige guide,help.whats_new.show
-taend for lyden i mit hojre horeapparat,device.volume.unmute
-hvor placerede jeg mit hojre horeapparat?,help.find_my_hearing_aids.show
-afbryd fjernsynets lyd,streaming.session.stop
-sla stream fra,streaming.session.stop
-aktivere streamingtilstand,streaming.session.start
-hvordan soger jeg efter mine hjaelpemidler?,help.find_my_hearing_aids.show
-hvordan virker komfortboost?,help.device_settings.show
-mindske lydstyrken i mine hjaelpemidler,device.volume.decrease
-aktiver venligst hojre horeapparat,device.volume.unmute
-hjaelp til justering af hvid stoj,help.tinnitus.show
-venligst eksklusive 30 til 1 odds,sys.oos.fallback
-hvordan kontrollerer jeg min overordnede aktivitet,help.health.show
-drej mit venstre horeapparat ned,device.volume.decrease
-hvordan justerer jeg min lydstyrke af den hvide stoj i mit hjaelpemiddel?,help.tinnitus.show
-hvordan tilpasser jeg mine indstillinger for venstre horeapparat?,help.customize.show
-hvordan tilfojer jeg en anden person med hearshare?,help.hear_share.show
-hvordan skruer jeg op for lydstyrken pa horeapparaterne?,help.volume.show
-kan du indstille pamindelse til i morgen,reminders.task.create
-kan du minde mig om at vaske bilen,reminders.task.create
-hvor mange kalorier har jeg brugt til aerobic?,activity.aerobics.query
-spore denne traeningssession,activity.exercise.query
-minde mig om min laegebesog,reminders.task.create
-hjaelp mig med at skifte mellem profiler,help.changing_memories.show
-fortael mig en joke,sys.oos.fallback
-hvordan bruger jeg intelligent stemme,help.intelli_voice.show
-hvilke tekster der kom ind til mig,messaging.message.listen
-kan du hjaelpe med at skifte programmer pa telefonen,help.changing_memories.show
-"kan du vise mig, hvor min telefon er",find.phone.locate
-hvorfor dor batterier hurtigt i mine hjaelpemidler,help.battery.show
-kan du begynde at oversaette til spansk,translation.session.start
-mine horeapparater lyder ikke rigtigt,help.device_settings.show
-"kan du, jeg har voksopbygning",help.clean_care.show
-hvor mange minutter har jeg lobet?,activity.run.query
-hvordan slar jeg masketilstand fra?,help.mask_mode.show
-kan du det er den der har problemer med,sys.oos.fallback
-har jeg staet nok i dag,activity.stand.query
-hjaelp med ringen for mine orer,help.tinnitus.show
-hvordan justerer jeg min tinnitusmasker pa mit venstre hjaelpemiddel?,help.tinnitus.show
-hvordan oger jeg lav tonehojde?,help.customize.show
-kan du traede kalorier,activity.step.query
-hvor meget har jeg lobet denne maned?,activity.run.query
-"kan du, jeg vil oprette et nyt program?",help.memory_options.show
-fa en besked til min datter,messaging.message.send
-hvordan tilfojer jeg en person til hearshare,help.hear_share.show
-mind mig venligst om at hente min recept i eftermiddag,reminders.task.create
-skriv til min soster,messaging.message.send
-hvordan aendrer jeg appens sprog,help.app_settings.show
-skal jeg oplade mit batteri,device.status.battery
-jeg har brug for mit stille program,device.memory.change
-hvordan tilpasser jeg mine horeapparathukommelser?,help.memory_options.show
-increase the right hearing aid,device.volume.increase
-hvordan flytter jeg mellem indstillinger,help.changing_memories.show
-sluk venligst motoren,sys.oos.fallback
-minimum volumen,device.volume.decrease
-kan du skrue ned for mit hojre hjaelpemiddel,device.volume.decrease
-hvor stopper jeg en faldalarm?,help.fall_alert.show
-jeg har nyheder at sende en sms til en kontakt,messaging.message.send
-kan du vise mig min ganghistorie?,activity.walk.query
-vis mig venligst mit traeningsmal,activity.exercise.query
-"venligst pa din bogforing, det er pa min side sa",sys.oos.fallback
-kan du stave til restaurant,sys.oos.fallback
-hvordan afslutter jeg demotilstand,help.demo_mode.show
-begynde at spore min traening,activity.exercise.query
-hvordan slar jeg lyden fra i mit hojre horeapparat?,help.volume.show
-forskellige slags behov,sys.oos.fallback
-i need more volume,device.volume.increase
-hjaelp til at parre mine hjaelpemidler,help.pairing.show
-sluk mit venstre horeapparat,device.volume.mute
-"bedes du bare holde mig, at du soger",sys.oos.fallback
-"kan du, jeg kan ikke finde min android-telefon",find.phone.locate
-mind mig venligst om at vagne kl. 7.,reminders.task.create
-hvad gor cros,help.wi_c_r_o_s.show
-hvor er oversaette,help.translate.show
-hjaelpe med tinnitus-stimulusjusteringer pa mit horeapparat,help.tinnitus.show
-where do i stop an alert message text message?,help.fall_alert.show
-skift venligst til automatisk,device.memory.change
-kan du tinnitus indstilling,device.memory.change
-batteriprocent,device.status.battery
-hvad er equalizeren,help.customize.show
-registrere min traening,activity.exercise.query
-hvilke sprog understotter oversaettelse,help.translate.show
-stream musikken ind i mine orer,streaming.session.start
-kan du hjaelpe med at aendre minder ved hjaelp af min app,help.changing_memories.show
-hvor kontrollerer jeg min horeapparatbalance?,help.wi_c_r_o_s.show
-when do i cancel a manual alert message?,help.fall_alert.show
-kan du lave en pamindelse for mig,reminders.task.create
-specialvaerktoj til rengoring af horeapparater,help.clean_care.show
-jeg har brug for hjaelp til streaming.,help.accessories.show
-hjaelp til justering af tinnituslyd pa mit horeapparat,help.thrive_score.show
-kan du gore tingene lettere at hore?,device.volume.increase
-kan du hjaelpe med problemer med ansigtsmasker,help.mask_mode.show
-hvorfor sidder mit horeapparat ikke pa mit hojre ore,help.self_check.show
-hvor meget batteri har jeg?,device.status.battery
-vis mig rundt i appen,help.home.show
-hvordan opsaetter man hearshare?,help.hear_share.show
-jeg er i et stort ekkoagtigt rum nu,device.memory.change
-"venligst, jeg skal afbryde horeapparaterne fra telefonen",help.pairing.show
-hvorfor far jeg ingen lyd,help.volume.show
-bestille en pizza,sys.oos.fallback
-hvordan far jeg adgang til cros-balancen?,help.wi_c_r_o_s.show
-jeg vil have det hojere,device.volume.increase
-reducere volumen,device.volume.decrease
-lave en note til senere,reminders.task.create
-"venligst det var nedslaende, og sa fandt jeg balance i naturen, det er bare at vaere en no-brainer, lige siden jeg har det godt",sys.oos.fallback
-kan du eller saette pa 6-maneders rengoring,sys.oos.fallback
-hvordan far jeg en bedre hjernescore?,help.memory_options.show
-hvordan saetter jeg horeapparater i mine orer?,help.insert_device.show
-"hvordan ved jeg, hvornar audiologen justerede hjaelpemidlerne?",help.remote_programming.show
-indstil programmet til hverdag,device.memory.change
-lydlos lige nu,device.volume.mute
-hvad transskriberer gor,help.transcribe.show
-hvor laenge har jeg danset,activity.exercise.query
-kan du kneppe af,sys.oos.fallback
-hjaelpe med at aendre minder pa mine horeapparater,help.changing_memories.show
-kan du programmere fire,device.memory.change
-saet venligst program til tilbedelse,device.memory.change
-hvordan bruger jeg pulsfunktionen?,help.heart_rate.show
-minde mig om d-vitamin kl. hver dag,reminders.task.create
-taende mit hojre hjaelpemiddel,device.volume.unmute
-alle skal sige ting to gange for mig,device.volume.increase
-kan du hjaelpe med dnn taleforbedring,help.intelli_voice.show
-hjaelp venligst med at aendre programmer pa mine hjaelpemidler,help.changing_memories.show
-mind mig venligst om at kobe maelk pa tirsdag kl. 20.00.,reminders.task.create
-hvordan justerer jeg min lydstyrke af tinnitusmaskeren i hjaelpemidlet?,help.tinnitus.show
-hvordan sletter jeg min fjernbetjeningsmikrofon?,help.accessories.show
-hjaelpemidlet bliver ved med at falde ud af mit ore,help.insert_device.show
-"venligst provinshoring dette venter pa at se, hvordan kan jeg hjaelpe dig",sys.oos.fallback
-send en seddel til far,messaging.message.send
-kan du derhjemme,sys.oos.fallback
-fortaelle mig om pulsfunktionen?,help.heart_rate.show
-where would i send a manual alert?,help.fall_alert.show
-saet en alarm til laegebesog i morgen tidlig,reminders.task.create
-starte oversaettelsen,translation.session.start
-skridt indtil videre i dag,activity.step.query
-hvad er forskellen mellem cros og wicros?,help.wi_c_r_o_s.show
-kan du minde mig om at hente min recept kl. pa lordag,reminders.task.create
-"kan du medier finde os, uanset hvor du far din podcast",sys.oos.fallback
-kan du fyre pa fredag,sys.oos.fallback
-hjaelp til kanttilstand,help.edge_mode.show
-kan det oversaettes til fransk,help.translate.show
-hvordan opdaterer jeg appen,help.app_settings.show
-jeg mangler stadig dele af samtalen,device.volume.increase
-skifte til stille tilstand,device.memory.change
-kan du minde mig om det i weekenden,reminders.task.create
-giv mig mit skridt,activity.step.query
-where is my right aid?,help.find_my_hearing_aids.show
-stille alt ned til ingenting,device.volume.mute
-kan du aendre indstillinger til nummer tre,device.memory.change
-hvordan aendrer jeg programmer pa hjaelpemidlet?,help.changing_memories.show
-giv mig en demonstration,help.demo_mode.show
-"hjaelpe med at tjekke, om der er noget galt med mit hjaelpemiddel",help.self_check.show
-kan du reducere lydstyrken,device.volume.decrease
-hor venligst mine tekster,messaging.message.listen
-kan du horeapparat ikke virker,help.self_check.show
-kan du indstille programmet til personligt,device.memory.change
-hvordan taender jeg trives,help.home.show
-kan du minde mig om at ringe til mor i julen,reminders.task.create
-hvor laenge har jeg dyrket aerobic?,activity.aerobics.query
-hvordan aendrer jeg lydstyrken pa hjaelpemidlet?,help.volume.show
-jeg vil sende en besked til nogen,messaging.message.send
-kan du fortaelle mig om pamindelsesfunktionen,help.reminder.show
-hjaelp til hvid stojjusteringer pa mine hjaelpemidler,help.tinnitus.show
-har jeg naet mit joggingmal?,activity.run.query
-jeg gik en tur log det,activity.walk.query
-kan du sla mine hjaelpemidler ned,device.volume.decrease
-"venligst, jeg onsker at blive mindet",reminders.task.create
-hjaelp til at skifte program pa mine horeapparater,help.changing_memories.show
-opsaetningspamindelse,reminders.task.create
-sende en sms til nogen,messaging.message.send
-kan du indstille hukommelse til bil,device.memory.change
-mind mig venligst om at lobe kl. 06.00.,reminders.task.create
-hvordan skruer jeg ned for mine horeapparater,help.volume.show
-tilfoje en pamindelse til mit mode,reminders.task.create
-kan du pulsguide,help.heart_rate.show
-kan du tage afstand fra new jersey,sys.oos.fallback
-hvordan opretter en omsorgsperson hearshare?,help.hear_share.show
-kan du lade mig hore det.,messaging.message.listen
-min enhed vil ikke sidde korrekt,help.insert_device.show
-where is my ios phone,find.phone.locate
-mit batteri aflades for hurtigt hvorfor,help.battery.show
-vis mig venligst mit skridttaeller,activity.step.query
-hvor mange procent af mit horeapparat der er opladet,device.status.battery
-hjaelp mig med at rette mine hjaelpeindstillinger,help.device_settings.show
-hvordan aktiverer jeg standardindstillingen pa horeapparaterne,help.device_settings.show
-jeg vil hore mit budskab.,messaging.message.listen
-kan du aendre hukommelse til nummer fire,device.memory.change
-hvordan fungerer engagementsscore?,help.thrive_score.show
-kan du jeg vil have mere volumen,device.volume.increase
-hjaelp til justering af tinnitusmasker pa mine hjaelpemidler,help.tinnitus.show
-skru ned for lyden pa horeapparatet,device.volume.decrease
-hvordan aendrer jeg hukommelsen pa hjaelpemidlet?,help.changing_memories.show
-hvordan justerer jeg lydstyrken af ​​tinnitusstojen i mine horeapparater?,help.tinnitus.show
-onsker at sende en besked,messaging.message.send
-hvordan udregnes min score,help.thrive_score.show
-hvordan man kan hore mindre vind med kanttilstand,help.edge_mode.show
-lad mig ikke glemme at vande blomster kl. 7.00,reminders.task.create
-hvor kan jeg se mine hjaelpemidler sidste placering,help.find_my_hearing_aids.show
-hvordan justerer jeg min tinnitusstoj?,help.tinnitus.show
-hvor mange minutter har jeg cyklet,activity.cycle.query
-j-lo og a-stang,sys.oos.fallback
-lyden bliver ved med at bryde op,help.device_settings.show
-kan du indstille programmet til stoj,device.memory.change
-hvordan konfigurerer jeg e-mail-meddelelser?,help.device_settings.show
-hjaelpe med lydstyrkejusteringer i mine horeapparater,help.volume.show
-hvor er pulsfunktionen?,help.heart_rate.show
-kan jeg se mit standmal?,activity.stand.query
-er afgiften for elektricitet ikke lig afgiften for benzin,sys.oos.fallback
-saet venligst hukommelsen til mode,device.memory.change
-forbinde til min telefon,help.pairing.show
-hvordan kan jeg tilpasse mine hojre horeapparater?,help.customize.show
-drej det for at trykke pa knappen minutmobler derinde som siri,sys.oos.fallback
-hvor er mine horeapparater?,help.find_my_hearing_aids.show
-hjaelp mig med at finde min iphone,find.phone.locate
-kan du skifte til hukommelse nummer to,device.memory.change
-hvad er masketilstand?,help.mask_mode.show
-er mit horeapparat tilsluttet appen?,help.pairing.show
-hvor meget liv der er tilbage i horeapparatets batterier,device.status.battery
-sende tv-lyden til mig,streaming.session.start
-hvordan fungerer pulsmaling,help.heart_rate.show
-"hvordan ved jeg, om horeapparaterne er tilsluttet min thrive-app?",help.pairing.show
-"vis mig, hvordan jeg saetter mit horeapparat pa",help.insert_device.show
-hvordan opretter jeg et nyt program,help.memory_options.show
-kan du forlagt telefon,help.fall_alert.show
-kan jeg opsaette geotagging,help.memory_options.show
-hvordan sletter jeg minder,help.memory_options.show
-mind mig venligst om det,reminders.task.create
-jeg vil oprette et nyt program?,help.memory_options.show
-hvor har jeg lagt mit horeapparat?,help.find_my_hearing_aids.show
-jeg vil hore fjernsynet i mine hjaelpemidler,streaming.session.start
-jeg har forlagt mit horeapparat,help.find_my_hearing_aids.show
-kan du starte tv-streaming,streaming.session.start
-hjaelp til parring af horeapparater pa telefonen,help.pairing.show
-saenk venligst lydstyrken i mine hjaelpemidler,device.volume.decrease
-hvad skal jeg bruge for at rense mit horeapparat?,help.clean_care.show
-stoppe med at streame fra min telefon,streaming.session.stop
-kan du programmere nummer tre,device.memory.change
-hvordan bruger jeg dnn taleforbedringsfunktion?,help.intelli_voice.show
-hvordan tilfojer man en anden person pa hearshare?,help.hear_share.show
-hvor laenge holder batteriet,device.status.battery
-start stream,streaming.session.start
-jeg har forlagt mit hojre hjaelpemiddel,help.find_my_hearing_aids.show
-hvad er stemmeassistent,help.voice_assistant.show
-hvordan slar jeg lyden til i horeapparatet?,help.volume.show
-lige her virker ikke,help.self_check.show
-det lyder for blodt,device.volume.increase
-sluk venligst kroppen,sys.oos.fallback
-saette mig i taletilstand,device.memory.change
-mind mig venligst om at lobe kl. 14.00. pa halloween,reminders.task.create
-venligst jeg mistede min hukommelse til restauranter og moder,help.memory_options.show
-kan du indstille programmet til hverdag,device.memory.change
-kan du lyde af,device.volume.mute
-kan du hjaelpe mig med stemmeassistenten,help.voice_assistant.show
-hjaelp til at parre med min telefon,help.pairing.show
-hvilke justeringer kan jeg foretage pa startskaermen?,help.home.show
-hvordan parrer jeg mine horeapparater?,help.pairing.show
-skal jeg bruge specialvaerktoj til at rense mit horeapparat?,help.clean_care.show
-kan du forlagt telefon,find.phone.locate
-hvordan ser jeg min puls,help.heart_rate.show
-maximum loudness,device.volume.increase
-batteri tjek venligst,device.status.battery
-hvordan tilslutter jeg mit venstre horeapparat igen,help.pairing.show
-hvordan aendrer jeg cros balancen pa senderen?,help.wi_c_r_o_s.show
-guide mig pa intelligent stemme,help.intelli_voice.show
-hvordan oger jeg min venlige score?,help.thrive_score.show
-aktivere direkte lyd,streaming.session.start
-jeg skal parre mit horeapparat til min telefon,help.pairing.show
-stream fra mikrofonen,streaming.session.start
-alt lyder for svagt,device.volume.increase
-hvad gor dette,help.home.show
-"fortael mig, hvad jeg skylder dig pa espanol",translation.session.start
-kan du minde mig om at ringe til nogen hver dag kl.,reminders.task.create
-begynde at optage for mig,transcription.session.start
-hvad der gar ind i trives-scoren,help.thrive_score.show
-kan du mindske det rigtige horeapparat,device.volume.decrease
-taend venligst mit venstre hjaelpemiddel,device.volume.unmute
-hvordan aendrer jeg lydstyrken pa det helt rigtige hjaelpemiddel?,help.volume.show
-"oversaet venligst, hvor meget skylder jeg dig pa espanol",translation.session.start
-"kan du aendre alle forprogrammerede indstillinger, nar de er aendret",sys.oos.fallback
-skifte til mit udendors program,device.memory.change
-indstil hukommelse til tale,device.memory.change
-parrer venligst mine horeapparater pa telefonen,help.pairing.show
-vaelg mit telefonprogram,device.memory.change
-sla streaming fra,streaming.session.stop
-hvordan skal jeg opbevare mine hjaelpemidler natten over,help.clean_care.show
-er hjaelpemidlerne tilsluttet telefonen?,help.pairing.show
-kan du ikke sa hojt,device.volume.decrease
-hvordan bruger jeg stemmeassistent,help.voice_assistant.show
-hvad er en sund restitutionsrate,help.heart_rate_recovery.show
-fortael mig om levende billedtekster,help.transcribe.show
-hvordan omdober jeg mit tilbehor?,help.accessories.show
-it's too quiet turn it up,device.volume.increase
-jeg satte mig bare et sted virkelig hojt,device.memory.change
-where do i stop an alert?,help.fall_alert.show
-hjaelp mig med at finde min telefon,find.phone.locate
-hvor ofte skal jeg rense mine horeapparater,help.clean_care.show
-kan du vise mig mit aktivitetsmal?,activity.aerobics.query
+"forklare, hvordan stemmestyring fungerer",help.voice_assistant.show
+forklare horeapparatbatterier,help.battery.show
+hvordan far jeg mere information om ipro-score?,help.thrive_score.show
+er min ladning ved at vaere lav,device.status.battery
+oprette en rykker om at betale regningen,reminders.task.create
 kan du arbejde indstilling,device.memory.change
-hvordan deler jeg lyden fra mit horeapparat,help.hear_share.show
-hvordan justerer jeg min lydstyrke af tinnitus-lydstyrken pa mit hjaelpemiddel?,help.tinnitus.show
-hjaelp til justering af tinnitus-lydstyrken i mit horeapparat,help.tinnitus.show
-det spraenger mine orer,device.volume.decrease
-hvordan kontrollerer jeg hvilket tilbehor jeg har tilsluttet mit hjaelpemiddel?,help.accessories.show
-kan du hente telefonen,find.phone.locate
-hjaelp til stream,help.accessories.show
-jeg vil gerne have en pamindelse,reminders.task.create
-det er mindre det hele for fanden,sys.oos.fallback
-indstil programmet til tre,device.memory.change
-stemmer er for blode til mig,device.volume.increase
-vaer venlig at hjaelpe med at aendre minder pa min hjaelp,help.changing_memories.show
-seneste pamindelse faerdig.,reminders.task.complete
-kan du indstille en pamindelse til kl. 7 i morgen om aftensmad,reminders.task.create
-hjaelp til at aendre minder ved hjaelp af min thrive app,help.changing_memories.show
-hvorfor bliver min batterilevetid kortere,help.battery.show
-forklare engagementsscore,help.thrive_score.show
-batterioplysninger,device.status.battery
-ga venligst op i volumen,device.volume.increase
-"hvordan taler jeg med en, der taler et andet sprog?",help.translate.show
-kan indstillinger aendres pa afstand,help.remote_programming.show
-"hvordan kontrollerer jeg, om mine horeapparater er tilsluttet thrive-appen?",help.pairing.show
-hvordan justerer jeg min lydstyrke af den hvide stoj i hjaelpemidlerne?,help.tinnitus.show
-vis mig en oversigt over ipro,help.whats_new.show
-jeg tog mine piller markere det faerdigt,reminders.task.complete
-"afspil venligst beskeden, jeg har faet.",messaging.message.listen
-hvordan far jeg vist nye indstillinger?,help.remote_programming.show
-hvor langt har jeg jogget?,activity.run.query
-hvad gor delt lytning,help.hear_share.show
-hjaelp til aktivitetsresultatet,help.thrive_score.show
-vis mig transskribere brugervejledning,help.transcribe.show
-jeg kan ikke huske hvor mine horeapparater er,help.find_my_hearing_aids.show
-"mit hjaelpemiddel bliver ved med at falde ud, hvordan passer jeg det",help.insert_device.show
-guide mig om programmuligheder,help.memory_options.show
-intellivoice brugervejledning,help.intelli_voice.show
-hjaelpe med at forsta oversaettelsesfunktionen,help.translate.show
-det er handteret kryds det af,reminders.task.complete
-kan du programmere to,device.memory.change
-indikerer restitution fitness,help.heart_rate_recovery.show
-afspil sidste besked,messaging.message.listen
-kan du hjaelpe med hvid stoj justeringer i min hjaelp,help.tinnitus.show
-streame tv-lyden,streaming.session.start
-jeg forstar ikke hvordan noget af det her virker,help.home.show
-er mine horeapparater parret med telefonen?,help.demo_mode.show
-"kan du streame, youtube musik.",sys.oos.fallback
-hvordan indstiller jeg oversaettelsessproget,help.translate.show
-kan du lytte til det.,messaging.message.listen
-hvordan skruer jeg op for lyden pa netop det rigtige horeapparat?,help.volume.show
-lad mig hore showet gennem mine hjaelpemidler,streaming.session.start
-stream venligst fra fjernmikrofonen,streaming.session.start
-hvilke ekstra mikrofoner der understottes,help.accessories.show
-har jeg gaet en time?,activity.walk.query
-"kan du bare holde mig, at du soger",sys.oos.fallback
-parre mit hojre horeapparat,help.pairing.show
-kan du skifte program til nummer to,device.memory.change
-kan du disse bliver ved med at gore dette,sys.oos.fallback
-kan du slukke for mit venstre hjaelpemiddel,device.volume.mute
-hvordan man oversaetter,help.translate.show
-venligst sceneskiltet,sys.oos.fallback
-tilslutte mine hjaelpemidler til tv-lyden,streaming.session.start
-indstille mine hjaelpemidler til en larmende fest,device.memory.change
-venligst skift til pub,device.memory.change
-kan du minde mig om at bestille en parkeringsplads til mit karnevalskrydstogt,reminders.task.create
-staende kalorier,activity.stand.query
-kan hoj musik forarsage tinnitus permanent,help.tinnitus.show
-kan du vise mig min staende historie,activity.stand.query
-log mit faerdige lob,activity.run.query
-jeg vil sende en besked,messaging.message.send
-hvor mange skridt har jeg gaet,activity.step.query
-"hvordan accepterer jeg de justeringer, som den professionelle har foretaget?",help.remote_programming.show
-hvordan bruger jeg appen uden horeapparater?,help.demo_mode.show
-"fa mine horeapparater til at bippe, sa jeg kan finde dem",help.find_my_hearing_aids.show
-hvor finder jeg indstillingssiden,help.app_settings.show
-hvor mange kalorier forbraendte jeg jogging,activity.run.query
-hjaelp til hovedskaermen,help.home.show
-skub mig pa 3,sys.oos.fallback
-hvordan far jeg en pamindelse til at gentage dagligt,help.reminder.show
-saet programmet til at traene,device.memory.change
-find android phone,find.phone.locate
-help me intercept a fall alert,help.fall_alert.show
-hvordan renser jeg mine horeapparater,help.clean_care.show
-skrue tingene et hak op,device.volume.increase
-sla oversaettelse til,translation.session.start
-"hvordan kan jeg se, hvor meget jeg har gaet i denne maned?",help.health.show
-find venligst mit hojre horeapparat,help.find_my_hearing_aids.show
-skift venligst indstilling til to,device.memory.change
-fortael mig om nyhederne,sys.oos.fallback
-kan du skifte til program et,device.memory.change
-vise mine skridt indtil videre,activity.step.query
-hjaelp venligst med tinnitusstimulusjustering pa mine horeapparater,help.tinnitus.show
-kan du parre mine horeapparater pa telefonen,help.pairing.show
-kan min horespecialist fjernjustere mit horeapparat?,help.remote_programming.show
-hvordan skifter jeg tone?,help.device_settings.show
-parrer mine horeapparater med thrive-appen,help.pairing.show
-ugentlig kalorieoversigt,activity.calories.query
-jeg har forlagt mine enheder,help.find_my_hearing_aids.show
-hvor opretter jeg en pamindelse,help.reminder.show
-venligst disse bliver ved med at gore dette,sys.oos.fallback
-hvordan bruger jeg mine horeapparater med tilbehor?,help.accessories.show
-hvor laenge pa mine fodder i dag,activity.stand.query
-skub mig pa 3,reminders.task.create
-hvor kan jeg se skridt og traene sammen,help.health.show
-hvordan fejlfinder jeg selv mine hjaelpemidler,help.self_check.show
-dele mine nyheder med en kontakt via sms,messaging.message.send
-hvordan justerer jeg min lydstyrke af tinnitusstojen i hjaelpemidlerne?,help.tinnitus.show
-kan du hvilken version af appen jeg bruger?,help.app_settings.show
-"aendre, hvordan mine horeapparater opforer sig",device.memory.change
-hvor er justeringen for sender og modtager?,help.wi_c_r_o_s.show
-kan du begynde at transskribere,transcription.session.start
-saette lyden ind i mine orer,streaming.session.start
-forbindelsen til mine hjaelpemidler faldt,help.pairing.show
-find mit andet hjaelpemiddel,help.find_my_hearing_aids.show
-kan du intelligent stemme hjaelpe,help.intelli_voice.show
-jeg mangler stadig ord,device.volume.increase
-kontrollere lydstyrken af ​​hvert hjaelpemiddel pa egen hand,help.volume.show
-stream min horelse til en anden,help.hear_share.show
-kan du minde mig om det,reminders.task.create
-hvordan virker lydstyrkejusteringer,help.volume.show
-afspil min besked,messaging.message.listen
-tak forbraendte kalorier i dag,activity.calories.query
-hvor mange kalorier i dag,activity.calories.query
-mind mig venligst om at hente min recept onsdag kl. 17.00.,reminders.task.create
-hvordan justerer jeg min lydstyrke af tinnitus-stojen i det rigtige hjaelpemiddel?,help.tinnitus.show
-kan du hjaelpe med justering af tinnitusvolumen til min hjaelp,help.tinnitus.show
-venligst diagnosticer mine horeapparater,help.self_check.show
-hvordan fjerner jeg parringen af ​​mine horeapparater?,help.pairing.show
-hvor lang tid jeg skal lade mit horeapparat helt op,help.battery.show
-er spansk understottet til oversaettelse,help.translate.show
-hvordan aendrer jeg mig,sys.oos.fallback
-hvor mange skridt mere for at na mit mal?,activity.step.query
-reducere det rigtige horeapparat,device.volume.decrease
-streame lyden direkte til mine hjaelpemidler,streaming.session.start
-hvordan aendrer jeg mine praeferencer?,help.device_settings.show
-hvor er horeapparatmodellen?,help.device_settings.show
-kan du optage dette mode,transcription.session.start
-kan du hjaelpe mig med at opsnappe en faldalarm,help.fall_alert.show
-kan du lydstyrke venstre hjaelpemiddel,device.volume.mute
-hvor parrer jeg mine horeapparater i appen?,help.pairing.show
-hvem vandt verdensmesterskabet?,sys.oos.fallback
-hjaelp til justering af tinnitusstoj,help.tinnitus.show
-jeg gik lige ind i kirken,device.memory.change
-tilbered svineribben pa grillen,sys.oos.fallback
-hvorfor falder lyden nogle gange,help.device_settings.show
-kan du programmere tre,device.memory.change
-kan du hjaelpe mig med at skifte tinnitus program,help.tinnitus.show
-hvordan slar jeg lyden fra for hjaelpemidlet?,help.volume.show
-"afspille de beskeder, jeg har modtaget",messaging.message.listen
-minde mig venligst om min aftale,reminders.task.create
-hvad er tinnituslindringsfunktionen,help.tinnitus.show
-venligst ud af din telefon okay,sys.oos.fallback
-hvor meget batteri der er tilbage,device.status.battery
-hvordan aendrer jeg navnet pa min fjernbetjeningsmikrofon?,help.accessories.show
-kan du jeg skal parre horeapparaterne med telefonen,help.pairing.show
-tilfoje pamindelse,reminders.task.create
-kan du minde mig om at hente min recept sondag kl.,reminders.task.create
-hvor ofte skal jeg bruge intelligent stemme?,help.intelli_voice.show
-mind mig venligst om at se tabellen om 5 minutter,reminders.task.create
-spil venligst frank sinatra,sys.oos.fallback
-beliggenhed,sys.oos.fallback
-kan du saette indstillingen til nummer et,device.memory.change
-"hvordan ved jeg, hvornar min professionelle har justeret mine horeapparater?",help.remote_programming.show
-find venligst mit hojre hjaelpemiddel,help.find_my_hearing_aids.show
-kan du fortaelle mig om engelsk sprog,sys.oos.fallback
-hvordan beder jeg om nye hjaelpeindstillinger?,help.remote_programming.show
-hvad skal jeg vide om denne nye app?,help.whats_new.show
-den er for hoj,device.volume.decrease
-set to 100% volume,device.volume.increase
-"hvordan ved jeg, hvornar min horespecialist justerede mine horeapparater?",help.remote_programming.show
-hvordan tilpasser jeg hjaelpemidlet?,help.customize.show
-log den tur jeg tager,activity.walk.query
-hvordan gemmer jeg indstilling i kanttilstand?,help.edge_mode.show
-where would i intercept an alert message text?,help.fall_alert.show
-hvor palidelig er faldberedskabet,help.fall_alert.show
-detect android phone,find.phone.locate
-venligst 328 ceder falder,sys.oos.fallback
-hvordan ser jeg min fitnessoversigt,help.health.show
-indstil hukommelsen til automatisk,device.memory.change
-hjaelp til at skifte programmer ved hjaelp af min thrive-app,help.changing_memories.show
-indstil venligst hukommelsen til restaurant,device.memory.change
-"hvordan ved jeg, hvornar min horespecialist justerede horeapparaterne?",help.remote_programming.show
-sla lyden til,device.volume.unmute
-hvor langt har jeg cyklet?,activity.cycle.query
-hjaelp venligst med at aendre minder ved at bruge min thrive app,help.changing_memories.show
-hvordan skifter jeg automatisk til en anden hukommelse til telefonopkald,help.device_settings.show
-hvordan man laver intelligent stemme,help.intelli_voice.show
-gore mine horeapparater blodere,device.volume.decrease
-tilpasse mine horeapparatindstillinger,help.customize.show
-stil venligst mine horeapparater,device.volume.decrease
-venligst bare krolle sammen i dine orer endnu,sys.oos.fallback
-hvordan fjerner jeg parringen af ​​mine hjaelpemidler fra min telefon?,help.pairing.show
-hvordan gor jeg horeapparaterne blodere?,help.volume.show
-stoppe musikken til at hjaelpe mig,streaming.session.stop
-hvordan far jeg en bedre trivescore?,help.intelli_voice.show
-jeg har brug for hjaelp til at parre til min telefon,help.pairing.show
-what is my exercise goal,activity.exercise.query
-sende en besked til en person,messaging.message.send
-vis mig trives assistent hjaelp,help.voice_assistant.show
-make the volume more,device.volume.increase
-"tv'et er taendt, men jeg savner, hvad de siger",device.volume.increase
-kan du abne transskribere,transcription.session.start
-reducere intensiteten,device.volume.decrease
-hvor er bi-cros-kontrollen?,help.wi_c_r_o_s.show
-kan du skifte indstilling til nummer tre,device.memory.change
-mine hjaelpemidler bliver ved med at tabe lyd,help.device_settings.show
-forskellig lydstyrke for min venstre og hojre,help.volume.show
-hjaelp mig med at sende information,messaging.message.send
-er der en tutorial,help.home.show
-vis mig tilgaengelige kommandoer,help.home.show
-skal jeg ga laengere for at na mit mal?,activity.walk.query
-kan du pa en made dette arsag jeg bare slags fjerne,sys.oos.fallback
-aftal en tid hos laegen i morgen kl. 10,reminders.task.create
-hvordan aendrer jeg ringetonerne pa mine horeapparater?,reminders.task.create
-kan du skrue op for lydstyrken pa mine horeapparater,device.volume.increase
-hvor mange minutter har jeg cyklet?,activity.cycle.query
-stop med at lytte til mit tv,streaming.session.stop
-marker venligst min sidste pamindelse som afsluttet,reminders.task.complete
-hvordan man deler information med parorende,help.hear_share.show
-venligst par hojre hjaelpemiddel,help.pairing.show
-tilslutte lyden til mine horeapparater,streaming.session.start
-vis mig brugervejledningen til oversaettelse,help.translate.show
-kan du saenke lydstyrken i horeapparatet,device.volume.decrease
-hvordan indstiller jeg pamindelser,help.reminder.show
-hvordan gor jeg dobbelttryk mere folsomt?,help.device_settings.show
-jeg kan ikke finde mit venstre horeapparat,help.find_my_hearing_aids.show
-hvordan fungerer tilpassede programmer,help.memory_options.show
-saette mig i musiklyttetilstand,device.memory.change
-hvordan forbinder jeg mine hjaelpemidler til min telefon?,help.pairing.show
-vis mig en oversigt over denne engage-app,help.whats_new.show
-hvad betyder pulsgendannelse?,help.heart_rate_recovery.show
-hvordan parrer jeg mine horeapparater med min bils bluetooth?,help.pairing.show
-brug profilen til stojende steder,device.memory.change
-pamindelse udfort.,reminders.task.complete
-hvordan skifter jeg til en anden hukommelse pa mit hjaelpemiddel?,help.changing_memories.show
-"buzz min telefon, sa jeg horer det",find.phone.locate
-kan du lige her virker ikke,help.self_check.show
-kan du skrue ned for lydstyrken pa mine horeapparater,device.volume.decrease
-optage besked,messaging.message.send
-folk lyder daempede og svage,device.volume.increase
-kan du jeg har forlagt mit andet hjaelpemiddel,help.find_my_hearing_aids.show
-skift venligst til hjemmet,device.memory.change
-hvordan far jeg adgang til indstillinger,help.home.show
-make it louder,device.volume.increase
-hvordan fungerer faldregistrering,help.fall_alert.show
-afspil mine nye beskeder,messaging.message.listen
-kan du indstille en pamindelse om at drikke vand i dag,reminders.task.create
-hvordan starter jeg at streame fra fjernmikrofonen?,help.accessories.show
-hjaelp venligst med at aendre minder,help.changing_memories.show
-hvor kan jeg se mine helbredsdata,help.health.show
-hvor finder jeg transskription,help.transcribe.show
-hvordan fungerer pulsgendannelse?,help.heart_rate_recovery.show
-hjaelp venligst med tinnitus stojjusteringer i mine hjaelpemidler,help.tinnitus.show
-"hvordan kan jeg se, hvor meget jeg har cyklet i denne maned?",help.health.show
-sluk venligst for lyden i mit horeapparat,device.volume.mute
-logge en cykelsession,activity.cycle.query
-afspille min telefonlyd gennem mine hjaelpemidler,streaming.session.start
-hvordan placerer jeg kuplen i mit ore,help.insert_device.show
-hvad betyder min krop og hjernescore,help.thrive_score.show
-ny pamindelse,reminders.task.create
-jeg skal bruge en pamindelse om dette,reminders.task.create
-when should i start a manual alert text?,help.fall_alert.show
-kan du hej det gor jeg ikke,sys.oos.fallback
-jeg har forlagt mit venstre horeapparat,help.find_my_hearing_aids.show
-jeg skal finde mine horeapparater,help.find_my_hearing_aids.show
-hjaelp til justering af tinnitusmasker,help.tinnitus.show
-mind mig venligst om middag kl. 1523,reminders.task.create
-kan du hjaelpe med lydstyrkejustering pa mit horeapparat,help.volume.show
-streame lyden til mine enheder,streaming.session.start
-hvordan ser ladningen ud,device.status.battery
-venligst inden khan academy stilhed,sys.oos.fallback
-kan du mit venstre ore virker ikke godt,help.self_check.show
-dette er overvaeldende,device.volume.decrease
-kan du ga ad helvede til,sys.oos.fallback
-tabe lyden i mit horeapparat,device.volume.decrease
-hvordan far jeg tallene til at falde ind,sys.oos.fallback
-hvordan sletter jeg tv-streameren?,help.accessories.show
-kan du hjaelpe med at parre horeapparater pa telefonen,help.pairing.show
-hvordan stopper jeg med at streame fra tv-streameren?,help.accessories.show
-kan du finde mit andet hjaelpemiddel,help.find_my_hearing_aids.show
-venligst brugte kalorier i dag,activity.calories.query
-vis hjaelpevejledning til at trives,help.thrive_score.show
-kan du indstille indstillingen til fire,device.memory.change
-"kan jeg forhandsvise de justeringer, som min fagmand har foretaget?",help.remote_programming.show
-hjaelp med venlig score,help.thrive_score.show
-vis mig venligst hvor min telefon er,find.phone.locate
-hvordan sikkerhedskopierer jeg indstillingerne i mit hojre hjaelpemiddel?,help.hearing_care_anywhere_connect.show
-kan du indstille hukommelsen til hverdag,device.memory.change
-indstil venligst en pamindelse til torsdag,reminders.task.create
-hvordan nulstiller jeg lydstyrken i mit hjaelpemiddel?,help.volume.show
-hvordan lader jeg en anden person hore med mig,help.hear_share.show
-turn the volume up,device.volume.increase
-"kan du og her er mit hjerte, det er taettere pa dig",sys.oos.fallback
-kan du skrue ned for lydstyrken pa mine hjaelpemidler,device.volume.decrease
-lav lyd fra,device.volume.mute
-hvordan laver jeg mit eget program?,help.memory_options.show
-hvordan virker det at finde mine hjaelpemidler,help.find_my_hearing_aids.show
-standse streamingen,streaming.session.stop
-hvordan far jeg en bedre karakter?,help.thrive_score.show
-seneste pamindelse gennemfort.,reminders.task.complete
-kan jeg bruge et klip pa mikrofonen,help.accessories.show
-saet venligst indstillingen til en,device.memory.change
-stemme til hjaelp,help.intelli_voice.show
-hvordan far jeg mere information om kropsscore?,help.thrive_score.show
-kan du nogle gange er det okay at holde en fridag,sys.oos.fallback
-hvordan bruger jeg kanttilstand,help.edge_mode.show
-hvordan virker ipro scoren?,help.thrive_score.show
-indlaes min koreprofil,device.memory.change
-kan jeg streame ved hjaelp af en fjernmikrofon,help.accessories.show
-start venligst fjernstreaming,streaming.session.start
-start min cardio-klassesporing,activity.aerobics.query
-hvordan forbedrer jeg min kropsscore?,help.thrive_score.show
-teste horeapparater,help.self_check.show
-kan jeg saette manedlige sundhedsmal,help.health.show
-what do i hear when an alert text message is received?,help.fall_alert.show
-mind mig venligst om at hente min recept kl. 17.00. pa tirsdag,reminders.task.create
-hvordan horer jeg mindre vind med kanttilstand?,help.edge_mode.show
-hvad gor tinnitus-funktionen,help.tinnitus.show
-oversaette guide,help.translate.show
-hjaelp til at parre hjaelpemidlerne med telefonen,help.pairing.show
-kan jeg lytte til justeringerne foretaget af min audiolog?,help.remote_programming.show
-besked til en ven,messaging.message.send
-"kan du stoppe med at lytte, sa stil dig et sporgsmal",sys.oos.fallback
-hjaelp til aktivitetsscore,help.hear_share.show
-link til mit horeapparat,help.pairing.show
-kan du ingen tv-fjernbetjening i frys app,sys.oos.fallback
-hvad skal jeg bruge til at rense mine horeapparater?,help.clean_care.show
-hvordan konfigurerer jeg google assistent,help.voice_assistant.show
-kan du indstille hukommelsen til golf,device.memory.change
-hvordan begynder jeg at streame fra mit tilbehor?,help.accessories.show
-lytte til den eksterne mikrofon,streaming.session.start
-mon ikke jeg har lagt det ind her et sted,sys.oos.fallback
-send en besked til min kone,messaging.message.send
-skru venligst op for lydstyrken pa horeapparater,device.volume.increase
-jeg har brug for vejledning,help.home.show
-skift venligst til golf,device.memory.change
-mind mig venligst om at borste mine taender,reminders.task.create
-kan du sla lyden til i horeapparaterne,device.volume.unmute
-hvad er intellivoice,help.intelli_voice.show
-kan du traene kalorier,activity.exercise.query
-hvordan man opretter begivenhed,help.reminder.show
-skal jeg bruge genopladelige eller engangsbatterier,help.home.show
-kan du vise mig mit traeningsmal,activity.exercise.query
-minde mig venligst om aftensmad om 1 time,reminders.task.create
-min lyd,device.volume.decrease
-hvordan sletter jeg en pamindelse,help.reminder.show
-hvorfor ser mit horeapparat ikke det samme ud som det i videoen?,help.insert_device.show
-how would i cancel an alert message text message?,help.fall_alert.show
-what do the fall indicators sound like?,help.fall_alert.show
-hvor er appindstillingerne,help.app_settings.show
-kan du tage lipitor,sys.oos.fallback
-mind mig venligst om at ringe til min bror pa veterandagen,reminders.task.create
-streame musikken,streaming.session.start
-where would i send a manual alert text?,help.fall_alert.show
-indstil venligst programmet til kontor,device.memory.change
-"venligst, jeg kan ikke lide dobbelttryk-funktionen. hvordan slar jeg den fra?",help.device_settings.show
-min telefon er tabt ring den,find.phone.locate
-hjaelp venligst med at aendre programmer pa min telefon,help.changing_memories.show
-hvor hvad er hjemmet,help.home.show
-hvor kan jeg se mine pulstendenser,help.heart_rate.show
-kan du pub hukommelse,device.memory.change
-hvorfor fungerer de rigtige horeapparater ikke,help.self_check.show
-gor det blodere venligst,device.volume.decrease
-er spansk tilgaengelig til oversaettelse,help.translate.show
-guide mig i forbindelse med min kliniker,help.hearing_care_anywhere_connect.show
-hvordan bruger jeg mit horeapparat med tilbehor,help.accessories.show
-vis hjaelpevejledning til art,help.thrive_score.show
-guide mig til at bruge kanttilstand,help.edge_mode.show
-skub mig til at straekke mig om en time,reminders.task.create
-skift venligst program til nummer tre,device.memory.change
-find mit handsaet,find.phone.locate
-hvordan aendres mikrofonens lydstyrke under stream?,help.accessories.show
-kan du maksimalt lydstyrke,device.volume.increase
-venligst sla horeapparaterne fra,device.volume.mute
-jeg har brug for mine stojende omgivelser,device.memory.change
-kan du onkyo modtager,sys.oos.fallback
-"kan du hej, mark, okay.",sys.oos.fallback
-ustilhed,device.volume.unmute
-forklare skiftende minder,help.changing_memories.show
-hjaelp til maskeringslydfunktionen,help.tinnitus.show
-jeg har brug for at skrive til nogen,messaging.message.send
-kan du minde mig om blodbrodre,reminders.task.create
-mind mig venligst om at se,reminders.task.create
-tjek mit opladningsniveau,device.status.battery
-hvad gor det at kore et diagnostisk tjek,help.self_check.show
-er jeg taet pa mit lobemal?,activity.run.query
-make volume louder,device.volume.increase
-er batterierne sunde?,device.status.battery
-hjaelp med den venlige score,help.thrive_score.show
-se venligst hvordan den bevaeger sig hele vejen henover.,sys.oos.fallback
-hvor mange anmodninger om hjaelp kan jeg indsende?,help.remote_programming.show
-vis mig venligst hvor laenge jeg har staet,activity.stand.query
-hvordan laver jeg min egen hukommelse til mine horeapparater?,help.memory_options.show
-kan du taleindstilling,device.memory.change
-skru ned for venstre horeapparat,device.volume.decrease
-hvordan justerer jeg min tinnitusindstilling?,help.tinnitus.show
-"fortael mig, hvad mit skridttaeller er?",activity.step.query
-hvordan tagger jeg en placering i min hukommelse?,help.memory_options.show
-how should i send a manual alert text?,help.fall_alert.show
-kan du pandora,sys.oos.fallback
-hvordan aendrer jeg minder pa mit hjaelpemiddel?,help.changing_memories.show
-stream dette til mine hjaelpemidler,streaming.session.start
-volumen lavere,device.volume.decrease
-vil du sende en besked til mig,messaging.message.send
-hvor langt er jeg fra mit aerobic-mal,activity.aerobics.query
-hvordan man aendrer hukommelsen,help.changing_memories.show
-hjaelpe med stojstimulusjustering i mine hjaelpemidler,help.tinnitus.show
-jeg vil oprette forbindelse til min audiolog,help.remote_programming.show
-hvordan sender jeg en besked til min horelaege,help.remote_programming.show
-jeg kan ikke huske hvor mit andet hjaelpemiddel er,help.find_my_hearing_aids.show
-skru venligst op for lydstyrken pa mit horeapparat,device.volume.increase
-skift venligst hukommelsen til to,device.memory.change
-spore mine skridt,activity.step.query
-mind mig venligst om at ga i seng om 5 minutter,reminders.task.create
-indstille min horelse til en travl gade,device.memory.change
-jeg kan ikke finde mit andet hjaelpemiddel,help.find_my_hearing_aids.show
-hvordan kan jeg se mine ugentlige interaktionsmal?,help.health.show
-hvad koster det pa mine hjaelpemidler,device.status.battery
-"venligst apps, som du kloger op",sys.oos.fallback
-skal jeg genoplade dem?,device.status.battery
-hjaelp venligst med tinnitusmaskerjusteringer i mit horeapparat,help.tinnitus.show
-hvor mange minutter har jeg traenet,activity.exercise.query
-kan jeg sammenligne audiologens justeringer?,help.remote_programming.show
-hvor er den virtuelle assistent?,help.voice_assistant.show
-saet programmet til modet,device.memory.change
-vise mit kalorieindhold,activity.calories.query
-lyt igen.,messaging.message.listen
-plz send en besked,messaging.message.send
-kalorier ga,activity.walk.query
-hvor justerer jeg bas og diskant,help.customize.show
-oprette en fjernaftale,help.hearing_care_anywhere_connect.show
-hvilke mikrofoner kan jeg parre,help.accessories.show
-kan du finde mit hojre horeapparat,help.find_my_hearing_aids.show
-kan jeg fa adgang til skyen?,help.hearing_care_anywhere_connect.show
-"stream venligst, youtube musik.",sys.oos.fallback
-kan du staende kalorier,activity.stand.query
-saet venligst pamindelse,reminders.task.create
-stream fra mit tv nu,streaming.session.start
-indstil programmet til personligt,device.memory.change
-for meget lydstyrke lige nu,device.volume.decrease
-parrer mine hjaelpemidler pa telefonen,help.pairing.show
-hvordan slar jeg tinnituslindring til,help.tinnitus.show
-jeg gar ind i en hoj bar,device.memory.change
-kan du blodgore tingene lidt?,device.volume.decrease
-kan du crowd-program,device.memory.change
-hjaelp venligst med justering af tinnituslydstyrke pa mine horeapparater,help.tinnitus.show
-kan du starte transskription,transcription.session.start
-hvordan skifter jeg til en anden hukommelse pa hjaelpemidlet?,help.changing_memories.show
-gendanne mine indstillinger fra skyen,help.hearing_care_anywhere_connect.show
-kan jeg sammenligne justeringerne foretaget af min audiolog?,help.remote_programming.show
-jeg har brug for en justering af mine hjaelpemidler,help.remote_programming.show
-sende talebesked,messaging.message.send
-where do i initiate a manual alert message?,help.fall_alert.show
-som far besked hvis jeg falder,help.fall_alert.show
-kan du stille hukommelsen,device.memory.change
-"vis mig tekst om, hvad folk siger",transcription.session.start
-opret en pamindelse,reminders.task.create
-hvad er trives assistent,help.voice_assistant.show
-kan du skrue mit hojre horeapparat op,device.volume.increase
-tone det lidt ned,device.volume.decrease
-kan du holde ud,sys.oos.fallback
-kan du jeg kan ikke finde mit rette hjaelpemiddel,help.find_my_hearing_aids.show
-hvordan forbedrer jeg min engagementsscore?,help.thrive_score.show
-bedes du finde en restaurant,sys.oos.fallback
-sende en stemmebesked,messaging.message.send
-saet venligst en pamindelse til mig,reminders.task.create
-what will i hear when an alert is sent?,help.fall_alert.show
-"hvordan ved jeg, hvor min hjaelp er?",help.find_my_hearing_aids.show
-hvad er modellen af ​​mit horeapparat?,help.device_settings.show
-hvad er serienummeret pa mit horeapparat?,help.device_settings.show
-hvad der transskriberes,help.transcribe.show
-jeg kan ikke finde mine horeapparater,help.find_my_hearing_aids.show
-hvordan nulstiller jeg mine sundhedsmal,help.health.show
-skal jeg saette oreproppen i forst,help.insert_device.show
-hvordan aendrer jeg faldalarmindstillingerne?,help.app_settings.show
-kan du guide mig?,help.home.show
-vis mig hjaelp til oversaettelse,help.translate.show
-husk at d-vitamin kl. hver dag,reminders.task.create
-android telefon mangler,find.phone.locate
-kan du huske en,device.memory.change
-kan du ga ned i lydstyrke,device.volume.decrease
-ping mine horeapparater,help.find_my_hearing_aids.show
-minde mig om dagen for,reminders.task.create
-hvordan abner jeg batteridoren,help.battery.show
-hjaelpe med ansigtsmasker,help.mask_mode.show
-hvad er min nuvaerende bpm,help.heart_rate.show
-mind mig venligst om at hente min recept pa mandag kl. 17.00.,reminders.task.create
-"kan du lofte enheden, der ikke registreres",sys.oos.fallback
-kan du mere volume tak,device.volume.increase
-lad mig hore tingene igen,device.volume.unmute
-hvordan deaktiverer jeg dobbelttryk pa mine hjaelpemidler?,help.device_settings.show
-hvordan skruer jeg op for lydstyrken pa mine horeapparater?,help.volume.show
-book mig en flyrejse,sys.oos.fallback
-kan du synkronisere horeapparat til tv,help.pairing.show
-hvordan soger jeg efter mine horeapparater i appen,help.find_my_hearing_aids.show
-slukket for lydstyrken,device.volume.mute
-hvordan fungerer oversaettelse i appen,help.translate.show
-forbedrer kanttilstand talens klarhed,help.edge_mode.show
-hvor ofte skal jeg bruge selvtjek?,help.self_check.show
-hvad gor equalizeren,help.customize.show
+hvordan viser jeg appen uden horeapparater?,help.demo_mode.show
+venligst eksklusive 30 til 1 odds,sys.oos.fallback
+hjaelpe med at forsta restitutionsgraden,help.heart_rate_recovery.show
+spore min aerobic,activity.aerobics.query
+kan du jeg skal afbryde mit horeapparat fra min telefon,help.pairing.show
+hjaelp til tinnitusfunktionen,help.tinnitus.show
+hjaelp mig venligst med at opsnappe en faldalarm,help.fall_alert.show
+kan du finde iphone,find.phone.locate
+hvad er udgangspunktet her,help.home.show
+afslutte denne pamindelse.,reminders.task.complete
+kan du vise mig en hurtig startguide,help.whats_new.show
+kan du vestenvinde blaese det op,sys.oos.fallback
+jeg vil have ren stilhed,device.volume.mute
+"hvor mange kalorier brugte jeg, mens jeg traenede",activity.exercise.query
+hvor er hjaelp til intelligent stemme,help.intelli_voice.show
+hjaelp til billedtekstfunktionen,help.transcribe.show
+venligst ny pamindelse om fitness,reminders.task.create
+"hvordan ved jeg, hvornar audiologen justerede hjaelpemidlerne?",help.remote_programming.show
+hvordan kontrollerer jeg forbindelsesstatus for mit horeapparat?,help.pairing.show
+kan du skifte til tale,device.memory.change
 hjaelp venligst jeg faldt og jeg kan ikke rejse mig,help.fall_alert.show
-kan du gore det hojere,device.volume.increase
-levere lyden til mine hjaelpemidler,streaming.session.start
-"stop venligst med at lytte, stil dig et sporgsmal",sys.oos.fallback
-vis mig venligst en oversigt over denne app,help.whats_new.show
-kan du hjaelpe til tele hore,help.hearing_care_anywhere_connect.show
-hvordan tildeler jeg en placering til min hukommelse?,help.memory_options.show
-bedste iphone,sys.oos.fallback
-when would i stop a text alert?,help.fall_alert.show
-bemaerk min lobetur,activity.run.query
-hjaelp til justering af tinnitusvolumen,help.tinnitus.show
-hvor er mit fitnessoverblik,help.health.show
-minde mig venligst om aftensmaden om 1 minut,reminders.task.create
-hjaelpe med engagementsscore,help.thrive_score.show
-hvordan holder jeg fugt ude af mine hjaelpemidler,help.clean_care.show
-hjaelp mig med at finde mit venstre horeapparat,help.find_my_hearing_aids.show
-hvad er mit batteriniveau,device.status.battery
-kan nogen lytte med mig,help.hear_share.show
-hvad er min kalorieforbraending i dag,activity.calories.query
-lad mig hore tv'et,streaming.session.start
-afspille min talebesked.,messaging.message.listen
-kan du vise mig trives assistent hjaelp,help.voice_assistant.show
-ga tilbage til min standardindstilling,device.memory.change
-kan du mit venstre horeapparat ikke reagerer,help.self_check.show
-hjaelp med intelligent stemme,help.intelli_voice.show
-alt er for blodt,device.volume.increase
-hvordan justerer jeg min lydstyrke af tinnitusmaskeren pa mit hjaelpemiddel?,help.tinnitus.show
-hvordan fungerer fjernbeslag,help.remote_programming.show
-kan du vise mig tinnitus-indstillinger,help.tinnitus.show
-er transskriberingsfunktionen gratis,help.transcribe.show
-hjaelpe med trivescore,help.thrive_score.show
-hvornar skal jeg bruge kanttilstand,help.edge_mode.show
-afskaere aen,streaming.session.stop
-hvor er cros balance-funktionen?,help.wi_c_r_o_s.show
-kan du ikke finde bose,sys.oos.fallback
-vis mig venligst brugervejledningen til transskribering,help.transcribe.show
-kan du hjaelpe med tinnitusmaskerjusteringer pa mit hjaelpemiddel,help.tinnitus.show
-skift venligst til kokken,device.memory.change
-jeg kan ikke huske hvor mine hjaelpemidler er,help.find_my_hearing_aids.show
-"kan du leve i dit ore, hvis der er en ledning",sys.oos.fallback
-find android telefon,find.phone.locate
-"kan du hej spec, hej god statistik hjerte. jeg fik ikke den daekning. men det pap, der hang i efteraret.",sys.oos.fallback
-hvordan parrer jeg mine hjaelpemidler til min telefon,help.pairing.show
-hvor langt skal jeg ga?,activity.walk.query
-kan du aktivere hojre horeapparat,device.volume.unmute
-hvornar hjaelper masketilstand,help.mask_mode.show
-hvordan vender jeg tilbage til min standardlydstyrke?,help.volume.show
-kan du skifte program til master,device.memory.change
-lydkvaliteten gik darligt,help.device_settings.show
-hvordan reducerer jeg lydstyrken i kun et horeapparat?,help.volume.show
-indstil venligst hukommelsen til nummer fire,device.memory.change
-send en sms til min ven,messaging.message.send
-lyden er alt for varm,device.volume.decrease
-vis mig en oversigt af slagsen,help.whats_new.show
-kan du tilslutte venstre hjaelpemiddel,help.pairing.show
-hvad er anderledes ved at engagere sig?,help.whats_new.show
+hvor mange skridt i dag,activity.step.query
+bruge mit saedvanlige program,device.memory.change
+hvordan gemmer jeg indstillinger i en ny hukommelse?,help.memory_options.show
+kan den oversaette to sprog pa en gang,help.translate.show
+how could i start a manual alert message?,help.fall_alert.show
+tale mine beskeder,messaging.message.listen
+gor venligst min hjaelp tavs,device.volume.mute
+giv mig et blidt skub klokken 9,reminders.task.create
+har jeg naet mit joggingmal?,activity.run.query
+hvad er den seneste cricket score?,sys.oos.fallback
+fortael mig mit batteriniveau,device.status.battery
+afbryd fjernsynets lyd,streaming.session.stop
+hvordan justerer jeg min tinnitusstoj pa hjaelpemidlet?,help.tinnitus.show
+genaktiver lyden,device.volume.unmute
+kan du vise mig mit skridtmal,activity.step.query
+skift venligst program til to,device.memory.change
+hvor mange kalorier i dag,activity.calories.query
+oversaette dem til mit sprog,translation.session.start
+kan jeg bruge thrive-assistent uden min telefon?,help.voice_assistant.show
+kan du finde min kone,sys.oos.fallback
+stream fra mikrofonen,streaming.session.start
+mind mig venligst om at tage medicin,reminders.task.create
+sende talebesked,messaging.message.send
+kan du hun bliver hos min telefon,sys.oos.fallback
+hvordan skruer man op for lyden,help.volume.show
+skru ned for lydstyrken pa mit horeapparat,device.volume.decrease
+kan du jeg har brug for hjaelp til at parre til min telefon,help.pairing.show
+min samlede score for dagen,help.thrive_score.show
+kan du saette nummer et,device.memory.change
 kan jeg lave en brugerdefineret hukommelse?,help.memory_options.show
-guide mig til at passe pa mine horeapparater,help.clean_care.show
-hjaelp mig med at huske at tage medicin kl. 9.00,reminders.task.create
-indstille en alarm for min aftale,reminders.task.create
-jeg skal have en besked til min son,messaging.message.send
-mind mig venligst i weekenden,reminders.task.create
-"hvordan laeser jeg, hvad der blev transskriberet",help.transcribe.show
-forbind venligst til tv,streaming.session.start
-stemmerne er svaere at hore,device.volume.increase
-locate iphone,find.phone.locate
-abne google map.,sys.oos.fallback
-"hvordan ved jeg, om mine horeapparater er tilsluttet min thrive-app?",help.find_my_hearing_aids.show
-jeg har brug for en anden hukommelse til denne placering,device.memory.change
-vis mig en oversigt over denne app,help.whats_new.show
-hvordan tilpasser jeg mit hjaelpemiddel?,help.customize.show
-starte en cykeltraening,activity.cycle.query
-lave en ny pamindelse,help.volume.show
-hvad kan jeg gore i app-indstillingerne?,help.app_settings.show
-hvordan transskriberer jeg mine ord?,help.transcribe.show
-hvor finder jeg trives assistenten?,help.voice_assistant.show
-hvordan bruger jeg transskriberingsfunktionen?,help.transcribe.show
-kan du sla lyden fra,device.volume.unmute
-kalorier brugt i dag,activity.calories.query
-venligst det er pa dig,sys.oos.fallback
-kan du indstille programmet til auditorium,device.memory.change
-kan du forst vaskemaskine,sys.oos.fallback
-skal jeg sta laengere for at na mit mal?,activity.stand.query
-kan du pamindelse til 16:15. besog bedstemor i dag,reminders.task.create
-absolut ingen lyd tak,device.volume.mute
-aktivere talefokus,device.memory.change
-hvad er mine cykelminutter i ugen?,activity.cycle.query
-jeg er pa vej ud at lobe,activity.run.query
-er mine horeapparater opladet nok,device.status.battery
-where do i stop a fall alert message?,help.fall_alert.show
-mind mig venligst om at lobe hver onsdag kl. 7.,reminders.task.create
-kan jeg fa daglige pamindelser,help.reminder.show
-hvordan skruer jeg op for lyden,help.volume.show
-hvordan aendrer jeg min telefonkontakt,help.fall_alert.show
-og lydstyrken tak,device.volume.increase
-skru ned for lyden i mit hojre horeapparat,device.volume.decrease
-hvordan slar jeg lyden fra?,help.volume.show
-husk venligst nummer tre,device.memory.change
-kan du numre,sys.oos.fallback
-faerdiggor denne pamindelse.,reminders.task.complete
-"mennesker, der baerer masker, er svaere at hore",help.mask_mode.show
-kan du minde mig om at tage medicin,reminders.task.create
-hvordan bruger jeg appen uden hjaelpemidler?,help.demo_mode.show
-kan du det generer dig med pasformen,sys.oos.fallback
-gore det mere stille,device.volume.decrease
-kan du indstille hukommelse til musik,device.memory.change
-minde mig hver dag om at laese en bog kl.,reminders.task.create
-mind mig venligst om fredag,reminders.task.create
-har jeg lobet en time?,activity.run.query
-venligst forst vaskemaskine,sys.oos.fallback
-hvad skal jeg vide om hjemme-appen,help.home.show
-det er ros her,device.volume.decrease
-hvor har jeg lagt mine enheder?,help.find_my_hearing_aids.show
-send besked til min ven,messaging.message.send
-kan du jeg har brug for mere volumen,device.volume.increase
-kan du ryste det af dig,sys.oos.fallback
-jeg er i et hojt cafeteria nu,device.memory.change
-forklare personaliseringsmulighederne,help.customize.show
-fyre en tekst af,messaging.message.send
-kan du indstille program til nummer tre,device.memory.change
-mind mig venligst om at kobe sko i paris,reminders.task.create
-"hvordan kontrollerer jeg, om hjaelpemidlerne er parret med min telefon?",help.pairing.show
-jeg vil ga en tur,activity.walk.query
-kan du slukke for kildestik,sys.oos.fallback
-understotter mine hjaelpemidler et tv-stik,help.accessories.show
-introducere mig til appen,help.home.show
-er demotilstand til at prove funktioner,help.demo_mode.show
-hvordan far jeg mere information om wellness-resultatet?,help.thrive_score.show
-hvordan kommer jeg til masketilstand?,help.mask_mode.show
-venligst chelsea ned i det mindste du prover,sys.oos.fallback
-gendan mine horeapparatindstillinger,help.hearing_care_anywhere_connect.show
-"hvordan ved jeg, hvornar min horespecialist har justeret mit horeapparat?",help.remote_programming.show
-mind mig venligst om at ringe til jose i morgen,reminders.task.create
-hvordan indsaetter jeg mit venstre horeapparat?,help.insert_device.show
-kan du hjaelpe med at skifte program pa mit horeapparat,help.changing_memories.show
-transskribere denne samtale,transcription.session.start
-kan du skole hukommelse,device.memory.change
-lyden er gennemtraengende,device.volume.decrease
-volume up right aid,device.volume.increase
-hvad er min lydstyrkekontrol,help.volume.show
-skaler lyden tilbage,device.volume.decrease
-hvordan bruger jeg selvkontrolfunktionen?,help.self_check.show
-kan du minde mig om at kobe maelk pa tirsdag kl.20.,reminders.task.create
-hvad er aendret i denne nye version?,help.whats_new.show
-kan du aendre indstilling til to,device.memory.change
-kan du jeg kan ikke huske hvor mit andet horeapparat er,help.find_my_hearing_aids.show
-venligst jeg har mistet mine horeapparater,help.find_my_hearing_aids.show
-tilslutte venstre horeapparat,help.pairing.show
-saenk niveauet,device.volume.decrease
-pamind mig venligst til i morgen,reminders.task.create
-"kan du vise mig, hvor laenge jeg har staet",activity.stand.query
-hvordan aendrer jeg navnet pa tv-streameren?,help.accessories.show
-hvordan konfigurerer jeg automatisk streaming?,help.device_settings.show
-kan du dnn taleforbedring brugervejledning,help.intelli_voice.show
-fa gang i oversaettelsen,translation.session.start
-kan du senest pamindelse afsluttet.,reminders.task.complete
-aben transskription,transcription.session.start
-batteri hjaelp tak,help.battery.show
-kan du aendre tone,help.device_settings.show
-hvordan aendrer jeg talefokus,help.customize.show
-lytte via mine horeapparater,streaming.session.start
-daempe den helt,device.volume.mute
-"hvordan kan jeg se, hvor hurtigt mit hjerte kommer sig",help.heart_rate_recovery.show
-hvor er enhedstesten,help.self_check.show
-hvordan deler jeg det jeg horer,help.hear_share.show
-mind venligst om fest kl. 12. pa fredag,reminders.task.create
-hvordan virker denne app,help.home.show
-sla mine hjaelpemidler til,device.volume.unmute
-kan du afspille min besked,messaging.message.listen
-hvordan man intelligent stemme,help.intelli_voice.show
-skift venligst indstilling til nummer to,device.memory.change
-forklar indstillingsmenuen,help.app_settings.show
-sluk for lyden i mit hojre horeapparat,device.volume.mute
-venligst find min kone,sys.oos.fallback
-kan du lydstyrke pa venstre hjaelpemiddel,device.volume.unmute
+"hvor mange kalorier har jeg brugt, mens jeg gar?",activity.walk.query
+hvordan justerer jeg min lydstyrke af tinnitusstojen i hjaelpemidlerne?,help.tinnitus.show
+indstil programmet til tale,device.memory.change
+vaer venlig at gore det hojere,device.volume.increase
+jeg har forlagt min hjaelp,help.find_my_hearing_aids.show
+hjaelp venligst med at aendre programmer ved hjaelp af min thrive-app,help.changing_memories.show
+sla lyden til igen,device.volume.unmute
+kan du mit venstre ore virker ikke godt,help.self_check.show
+"kan du det er en weekend. fortael alle, hvordan de smukke gensidige tilpasser din bilforsikring.",sys.oos.fallback
+denne tilstand virker ikke for mine omgivelser,device.memory.change
+hvordan aendrer jeg programmer pa mit hjaelpemiddel?,help.changing_memories.show
+kan du kalorier traene,activity.exercise.query
+jeg har brug for hjaelp til at parre mine horeapparater til telefonen,help.pairing.show
+hvor er intelligent stemme?,help.intelli_voice.show
+det hamrer mine orer,device.volume.decrease
+saet pamindelse til den 25. november,reminders.task.create
+kan du minde mig om at taende lyset kl. 20.00.,reminders.task.create
+discover android phone,find.phone.locate
+stream til begge horeapparater,streaming.session.start
+venligst hvor er min iphone,find.phone.locate
+kan du det er for stille skru op,device.volume.increase
+bluetooth virker ikke,help.pairing.show
+hvordan skifter jeg batteriet,help.battery.show
+venligst mit hojre horeapparat er pa 0%,sys.oos.fallback
+hvordan virker komfortboost?,help.device_settings.show
+kan du mode hukommelsen,device.memory.change
+kan du tage afstand fra new jersey,sys.oos.fallback
+vis hjaelpevejledning til ipro,help.thrive_score.show
+hvordan justerer jeg lydstyrken pa horeapparaterne?,help.volume.show
+hvordan er mit cykelforlob,activity.cycle.query
+hvordan gendanner jeg thrive app-indstillingerne?,help.hearing_care_anywhere_connect.show
+afslutte min tv-streaming,streaming.session.stop
+optage en besked til en ven,messaging.message.send
+minde mig om at tage medicin i dag pa et minut,reminders.task.create
 faerdiggor min pamindelse,reminders.task.complete
-hvordan bruger jeg mine hjaelpemidler med et tilbehor?,help.accessories.show
-min iphone genkender ikke mine venstre horeapparater,reminders.task.create
-kan du eksklusive 30 til 1 odds,sys.oos.fallback
-kan du taleprogram,device.memory.change
-kan du saette volumen pa,device.volume.unmute
-"hvordan ved jeg, hvornar min horespecialist justerede apparatet?",help.remote_programming.show
-kan du forhandler pamindelse,reminders.task.create
-hvordan forbinder jeg til en fjernaftale,help.hearing_care_anywhere_connect.show
-tilfoje maske som en tilpasset hukommelse,help.memory_options.show
-saenk venligst niveauet pa mine horeapparater,device.volume.decrease
-hvor mange kalorier brugt i dag,activity.calories.query
-minde mig om at vande planterne,reminders.task.create
-hvad hvis jeg ikke kan lide audiologens justeringer?,help.remote_programming.show
-hvordan skifter jeg mellem grundlaeggende og avanceret tilstand?,help.app_settings.show
-"fortael mig, hvad mit standmal er?",activity.stand.query
-hjaelp mig med at fa dem tilbage,help.find_my_hearing_aids.show
-roligere tak,device.volume.decrease
-hvad er hearshare-funktionen,help.hear_share.show
-skift venligst til hukommelse nummer to,device.memory.change
-se min krop og hjerne sundhed,help.health.show
-jeg har brug for retninger,help.home.show
-hvor meget batteri har jeg,device.status.battery
-forklare vedligeholdelse af horeapparat,help.clean_care.show
+kan du indstille program til tilbedelse,device.memory.change
+hvordan slar jeg lyden fra i venstre horeapparat?,help.volume.show
+hvordan tilpasser jeg mine indstillinger for venstre horeapparat?,help.customize.show
+kan du parringshjaelpemidler pa appen,help.pairing.show
+vis mig venligst brugervejledningen til transskribering,help.transcribe.show
+hjaelp med justeringer af hvid stoj i mit hjaelpemiddel,help.tinnitus.show
+oversaet dette for mig nu,translation.session.start
+kan du hjaelpe med at skifte programmer ved hjaelp af min thrive app,help.changing_memories.show
+hvordan tjekker jeg min puls pa appen,help.heart_rate.show
+stoppe med at streame fjernsynet,streaming.session.stop
+hvordan skifter jeg fra den grundlaeggende app til den avancerede app?,help.app_settings.show
+hvordan kobler jeg mit horeapparat fra min telefon?,help.pairing.show
+guide mig til at passe pa mine horeapparater,help.clean_care.show
+kan jeg se mit skridtmal?,activity.step.query
+forklare mig pulsgendannelse,help.heart_rate_recovery.show
+log min jog,activity.run.query
+hvordan bruger jeg mit hjaelpemiddel med et tilbehor?,help.accessories.show
+har jeg staet en time,activity.stand.query
+parrer mine horeapparater med min app,help.pairing.show
+minde mig om et stykke tid,reminders.task.create
+vis mig mit joggingmal,activity.run.query
+hjaelp til tale til tekst,help.transcribe.show
+horeapparat audio link,streaming.session.start
+"kan du fortaelle mig, hvor meget jeg skylder dig pa espanol",translation.session.start
+kan du hvilken version af appen jeg har?,help.app_settings.show
+abn venligst oversaettelse pa spansk,translation.session.start
+hvor mange procent af batteriet er tilbage,device.status.battery
+hvad er et godt genopretningsnummer,help.heart_rate_recovery.show
+hvor laenge har jeg staet i denne maned?,activity.stand.query
+minde mig venligst om den 27. august tomy fly,reminders.task.create
+hvordan kan jeg aendre mit program,help.changing_memories.show
+hvordan bruger jeg dette,help.home.show
+hvad er min puls?,help.heart_rate.show
+hjaelp venligst med stojstimulusjustering i mine hjaelpemidler,help.tinnitus.show
+hvordan vender jeg tilbage til min standardlydstyrke?,help.volume.show
+lyd omdirigering,streaming.session.start
+mind mig venligst om at hente min recept pa fredag ​​kl. 17.00.,reminders.task.create
+saenk venligst lydstyrken i mine horeapparater,device.volume.decrease
+har jeg naet mit traeningsmal,activity.exercise.query
+hvad kan stemmeassistenten gore,help.voice_assistant.show
+kan du skrue ned,device.volume.decrease
+how long did i work out,activity.exercise.query
+kan du skrue op for lydstyrken pa mine hjaelpemidler,device.volume.increase
+jeg er ny til dette,help.home.show
+hvad er mit antal cykler for maneden?,activity.cycle.query
+selv tjek brugervejledning,help.self_check.show
+hvordan slar jeg tinnitus fra,help.tinnitus.show
+kan du aendre hukommelsen til en,device.memory.change
+venligst tale til tekst hjaelp,help.transcribe.show
+stemmer er for blode til mig,device.volume.increase
+patch tv-lyden til mine hjaelpemidler,streaming.session.start
+send en hurtig besked,messaging.message.send
+lad mig lytte til mit budskab.,messaging.message.listen
+lave en note til senere,reminders.task.create
+kan du mindske horelsen,device.volume.decrease
+tidsplan pamindelser,reminders.task.create
+forklare de vigtigste muligheder,help.home.show
+"hvordan kan jeg se, hvor meget jeg har gaet i denne uge?",help.health.show
+kan du sende mig en rykker om at betale kabelregningen den 3. marts,reminders.task.create
+hvordan tilslutter jeg mit venstre horeapparat igen,help.pairing.show
+hvordan synkroniserer jeg min hjaelp til appen?,help.hearing_care_anywhere_connect.show
+draener kanttilstand batteriet hurtigere,help.edge_mode.show
+indstille min horelse til en travl gade,device.memory.change
+kan du saette mig en pamindelse,reminders.task.create
+hvad er overblikket,help.home.show
+folk lyder for blode,device.volume.increase
+aktiver venligst hojre horeapparat,device.volume.unmute
+hvordan gor jeg horeapparaterne blodere?,help.volume.show
+hvad skal jeg vide om hjemme-appen,help.home.show
+indstil venligst programmet til crowd,device.memory.change
+kan du mistet iphone,find.phone.locate
+lad min familie vide noget,messaging.message.send
+kan du skifte indstilling til nummer fire,device.memory.change
+hvor meget mere skal jeg lobe i dag?,activity.run.query
+hvordan korer jeg et selvtjek,help.self_check.show
+skift venligst program til at traene,device.memory.change
+stream min enheds lyd,streaming.session.start
+hvor palidelig er faldberedskabet,help.fall_alert.show
+stop med at lytte til mit tv,streaming.session.stop
+jeg larmer et sted,device.memory.change
+har jeg staet en time?,activity.stand.query
+how long have i been exercising,activity.exercise.query
+hvad er stojinduceret horetab,help.tinnitus.show
+hvordan bruger jeg translate,help.translate.show
+when would i start a manual alert?,help.fall_alert.show
+giv mig en pamindelse senere i dag,reminders.task.create
+venligst det er ham der har problemer med,sys.oos.fallback
+kan du sode bil,sys.oos.fallback
+afspil det igen.,messaging.message.listen
+indstille ny pamindelse,reminders.task.create
+kan du minde om fest kl. 12. pa fredag,reminders.task.create
+hvordan fungerer intellivoice?,help.intelli_voice.show
+aktivere direkte lyd,streaming.session.start
+jeg kan ikke forsta dette fremmedsprog,translation.session.start
+hvordan justerer jeg tv-lydstyrken?,help.accessories.show
+hvor kan jeg se om mit horeapparat virker?,help.self_check.show
+kan du horeapparater hver gang den dumme telefon gar,sys.oos.fallback
+lad mig hore mit tv,streaming.session.start
+venligst mine horeapparater mangler,help.find_my_hearing_aids.show
+saet venligst hukommelsen til nummer to,device.memory.change
+hvordan renser jeg mit itc horeapparat?,help.clean_care.show
+hvordan man oversaetter,help.translate.show
+hjaelp venligst med at parre enheder med thrive-appen,help.pairing.show
+kan du gore tingene lettere at hore?,device.volume.increase
+minde mig venligst hver dag om at laese en bog kl. 18.00.,reminders.task.create
+hvorfor lyder mine hjaelpemidler maerkelige,help.device_settings.show
+hvordan kan jeg indstille lydstyrken pr. ore,help.volume.show
+minde mig venligst om aftalen,reminders.task.create
+hjaelpe med at forsta oversaettelsesfunktionen,help.translate.show
+kan du indstille nummer tre,device.memory.change
+exercise goal,activity.exercise.query
+hvordan skruer jeg ned for baggrundsstoj?,help.customize.show
+lydstyrke ned hojre hjaelp,device.volume.decrease
+hjaelp med den venlige score,help.thrive_score.show
+hvordan nulstiller jeg lydstyrken pa horeapparatet?,help.volume.show
+hvilke forbedringer er nye,help.whats_new.show
+can i see my step goal,activity.step.query
+volumen fald,device.volume.decrease
+tilfoje en pamindelse,reminders.task.create
+pamind mig venligst 22:30. at lukke restauranten,reminders.task.create
+fortael mig om pamindelser,help.reminder.show
+stoppe optagelsen,transcription.session.start
+kan min fagmand fjernjustere hjaelpemidlet?,help.remote_programming.show
+indstil venligst nummer tre,device.memory.change
+kan du lose problemer med ansigtsmaske,help.mask_mode.show
 hvordan forbinder jeg med min horespecialist,help.hearing_care_anywhere_connect.show
-jeg skal afbryde horeapparaterne fra telefonen,help.pairing.show
-skifte lyttetilstand,device.memory.change
-skru venligst ned for lydstyrken pa mine hjaelpemidler,device.volume.decrease
-hvad er kanttilstand,help.edge_mode.show
-kan du hjaelpe mig med at finde et papir,sys.oos.fallback
-kan du hjaelpe med tinnitusmaskerjusteringer i mit horeapparat,help.tinnitus.show
-vis mig en hurtigstartguide,help.whats_new.show
-taende mit venstre hjaelpemiddel,device.volume.unmute
-hvorfor vil mine hjaelpemidler ikke parre sig,help.pairing.show
-lyden er for staerk,device.volume.decrease
-skrue ned for mit horeapparat,help.volume.show
-hvad er pulsgendannelse,help.heart_rate_recovery.show
-batteri godt nok til aftenen,device.status.battery
-hun bliver ved med at tale til mig,sys.oos.fallback
-hjaelp mig med at forsta denne app,help.home.show
-"kan du, jeg onsker at blive mindet om",reminders.task.create
-hvordan justerer jeg min lydstyrke af tinnitusmaskeren pa hjaelpemidlet?,help.tinnitus.show
-kan du minde mig om at kobe brod klokken 11 i morgen,reminders.task.create
-indstil hukommelsen til fjernsynet,device.memory.change
-kan du daempe mine hjaelpemidler,device.volume.mute
-begynde min lobetraening,activity.run.query
-sla al lyd fra lige nu,device.volume.mute
-venligst hjaelp til tele hore,help.hearing_care_anywhere_connect.show
-jeg vil skifte hukommelse,device.memory.change
-kan du vise mig mit cykelmal,activity.cycle.query
+hvordan aendrer jeg hukommelsen pa horeapparaterne?,help.changing_memories.show
+"lad en ven hore, hvad jeg horer",help.hear_share.show
+er batterierne ved at lobe tor,device.status.battery
+vis mig min aerobic statistik,activity.aerobics.query
+venligst et ​​horeapparat bliver ikke fundet,help.self_check.show
+kan du automatisk programmere,device.memory.change
+fortael det til nogen via sms,messaging.message.send
+parr venligst mine hjaelpemidler med min telefon,help.pairing.show
+venligst jeg mistede min hukommelse til restauranter og moder,help.memory_options.show
+guide mig pa intelligent stemme,help.intelli_voice.show
+accepterede min kone min hearshare-invitation?,help.hear_share.show
+hvordan far jeg en bedre karakter?,help.thrive_score.show
+"lyd min telefon, sa jeg kan finde den",find.phone.locate
+kan du selvtjek mislykkedes.,help.self_check.show
+jeg er faerdig med at lytte til streamen,streaming.session.stop
+pamindelse udfort.,reminders.task.complete
+kan du traeningsprogram,device.memory.change
+stream pa,streaming.session.start
+set to 80% volume,device.volume.increase
+er hjaelpemidlet forbundet med thrive-appen?,help.pairing.show
+mind mig venligst om at ga i seng,reminders.task.create
+kan du et horeapparat ikke bliver fundet,help.self_check.show
+step goal,activity.step.query
+hvordan sletter jeg min tv-streamer?,help.accessories.show
+kan du hjaelpe med justeringer af hvid stoj,help.tinnitus.show
+link venligst drev til horeapparat,help.pairing.show
+"kan du tage os med for at se glem det, vi er i bilen, og dronestojen vil koste, hvis jeg ogsa har dem i vejstojen, der forstaerkes",sys.oos.fallback
+hvordan fungerer hjernens score?,help.thrive_score.show
+"venligst provinshoring dette venter pa at se, hvordan kan jeg hjaelpe dig",sys.oos.fallback
+lydkvaliteten gik darligt,help.device_settings.show
+traek ned lige her i alice sporgsmal,sys.oos.fallback
+kan du minimum volumen,device.volume.decrease
+hvordan geotagger jeg en placering i min hukommelse?,help.memory_options.show
+jeg kan ikke fa mit horeapparat pa,help.insert_device.show
+kan jeg bruge saebe til at rense mine horeapparater?,help.clean_care.show
+hvad der gar ind i trives-scoren,help.thrive_score.show
+slukke for lydstyrken,device.volume.mute
+hjaelp til selvtjek,help.self_check.show
+kan du sla lyden til,device.volume.unmute
+stop med at sende lyd til mine horeapparater,streaming.session.stop
+"venligst, jeg var nede 17.000 tidligere i dag",sys.oos.fallback
+"vil du gerne ringe til dem og se, om de vil have mig til at sende dette enorme",sys.oos.fallback
+kan du minde mig om at lobe hver onsdag kl. 7.,reminders.task.create
+kan du indstille programmet til nummer et,device.memory.change
+kan du skrue op for lydstyrken pa mit horeapparat,device.volume.increase
+kan du sla mit hojre hjaelpemiddel til,device.volume.unmute
+kan du hjaelpe med tinnitus stojjusteringer i mine hjaelpemidler,help.tinnitus.show
+"hvordan ved jeg, hvornar fagmanden justerede horeapparatet?",help.remote_programming.show
+hvordan soger jeg efter mine hjaelpemidler?,help.find_my_hearing_aids.show
+hjaelp til faldvarsler,help.fall_alert.show
+kan du minde mig om aftensmad kl. 15.,reminders.task.create
+hvor efterlod jeg min telefon,find.phone.locate
+kan jeg hore min sidste besked?,messaging.message.listen
+kan min fagmand fjernjustere horeapparatet?,help.remote_programming.show
+er mit sprog tilbudt til oversaettelse,help.translate.show
+giv mig tekst til denne samtale,transcription.session.start
+jeg har brug for at hore bedre skrue op,device.volume.increase
+kan horespecialisten fjernjustere horeapparaterne?,help.remote_programming.show
+lad mig hore tingene igen,device.volume.unmute
+forstaerke lyden lidt,device.volume.increase
+hjaelp til taleforbedringsfunktionen,help.intelli_voice.show
+recover iphone,find.phone.locate
+kan du alex god manasseh. okay. vi ses tilbage ved skrivebordet heroppe.,sys.oos.fallback
+hvad er den bedste made at rense mine horeapparater pa,help.clean_care.show
+jeg har mistet mine horeapparater. kan du hjaelpe mig med at finde dem?,help.find_my_hearing_aids.show
+nedsat horelse,device.volume.decrease
+hvordan opretter en omsorgsperson hearshare?,help.hear_share.show
+hvad er min lydstyrkekontrol,help.volume.show
+kan du taende for horeapparatets lydstyrke,device.volume.unmute
+mind mig venligst om at ringe til mor i julen,reminders.task.create
+hvordan justerer jeg min tinnitusstoj i horeapparaterne?,help.tinnitus.show
+"hvordan ved jeg, hvornar min professionelle har justeret mine horeapparater?",help.remote_programming.show
+vil disse holde hele dagen?,device.status.battery
+hjaelpe med at forsta transskription,help.transcribe.show
+kan du hjaelpe med fjernprogrammering,help.remote_programming.show
+kan du adresseaendring,sys.oos.fallback
+kan du indstille til stram,sys.oos.fallback
+hvordan aendrer jeg minder pa mine hjaelpemidler?,help.changing_memories.show
+saet venligst program til nummer to,device.memory.change
+giv mig mit tv-program,device.memory.change
+hjaelp til startskaermen,help.home.show
+skift venligst til musik,device.memory.change
+hvordan opretter jeg et nyt program,help.memory_options.show
+kan du hjaelpe med hvid stoj justeringer i min hjaelp,help.tinnitus.show
+mind mig venligst om at tage medicin i dag kl.,reminders.task.create
+kan du hjaelpe med lydstyrkejustering pa mit horeapparat,help.volume.show
+kan du jeg kan ikke huske hvor mit venstre horeapparat er,help.find_my_hearing_aids.show
+hvordan aendrer jeg navnet pa den eksterne mikrofon?,help.accessories.show
+hvordan aendrer jeg lydstyrken pa fjernbetjeningens mikrofon?,help.accessories.show
+hjaelper kanttilstand pa stojende steder,help.edge_mode.show
+har jeg en normal hukommelse,help.changing_memories.show
+set to 100% volume,device.volume.increase
+kommer jeg igennem eftermiddagen?,device.status.battery
+kan du parre mit hojre horeapparat,help.pairing.show
+guide mig pa stemmeassistenten,help.voice_assistant.show
+mind mig venligst om at rense horeapparater i dag,reminders.task.create
+kan audiologen fjernjustere mine horeapparater?,help.remote_programming.show
+hvordan kan jeg tilpasse mine horeapparater?,help.customize.show
+hvordan justerer jeg min stojmasker i mit venstre horeapparat?,help.tinnitus.show
+hvilke tilfojelser der er tilgaengelige,help.accessories.show
+hvordan sletter jeg tv-streameren?,help.accessories.show
+hvad er nyt med mine horeapparater,help.whats_new.show
+kan du huske fire,device.memory.change
+hvordan skruer jeg ned for lydstyrken pa kun et horeapparat?,help.volume.show
+hjaelp venligst med aendringer i lydstyrken pa mine horeapparater,help.volume.show
+er mit horeapparat parret med telefonen?,help.pairing.show
+hjaelp til at aendre minder ved hjaelp af thrive-appen,help.changing_memories.show
+jeg vil have en pamindelse til min klasse,reminders.task.create
+hvordan aendrer jeg mine aktivitetsmal,help.health.show
+kan du hjaelpe med stream,help.accessories.show
+hvordan synkroniserer jeg disse sammen,help.pairing.show
+kan du minimum lydstyrke,device.volume.decrease
+kan du sla mine horeapparater fra,device.volume.mute
+where do i cancel a fall alert text?,help.fall_alert.show
+hvordan sletter jeg horeapparaterne fra telefonen?,help.pairing.show
+hvad er modellen af ​​mine hjaelpemidler?,help.device_settings.show
+kan du aktivere hojre horeapparat,device.volume.unmute
+what is my step count,activity.step.query
+hvordan slar jeg masketilstand fra?,help.mask_mode.show
+hvor mange aerobe minutter i denne uge,activity.aerobics.query
+sla streaming fra,streaming.session.stop
+begynde at skrive undertekster,transcription.session.start
+jeg har noget jeg skal huske,reminders.task.create
+skift venligst hukommelsen til nummer et,device.memory.change
+mind mig venligst om at lobe kl. 14.00. pa halloween,reminders.task.create
+hvornar deaktiveres kanttilstand,help.edge_mode.show
+send en kort besked,messaging.message.send
+oprette en talebesked,messaging.message.send
+hvad skal jeg have pa i dag,sys.oos.fallback
+jeg har brug for lidt ro,device.volume.decrease
+hvordan man bruger kanttilstand,help.edge_mode.show
+hjaelp med ringen for mine orer,help.tinnitus.show
+hvordan sender jeg en anmodning til min audiolog om hjaelp?,help.remote_programming.show
+"afslutte pamindelsen om, at det er faerdigt",reminders.task.complete
+hvor er min android,find.phone.locate
+hvordan skifter jeg til en anden hukommelse pa horeapparatet?,help.changing_memories.show
+skru op for lyden,device.volume.increase
+kan du skifte program til at virke,device.memory.change
+venligst skift til kontor,device.memory.change
+indstil programmet til tre,device.memory.change
+hvad er de nye funktioner til?,help.whats_new.show
+husk venligst fly kl. 06.00.,reminders.task.create
+tilsluttes direkte til hjaelpemidler,streaming.session.start
+hvordan skruer jeg ned for lyden pa mit hjaelpemiddel?,help.volume.show
+"kan du liste elementer, der ikke virker",sys.oos.fallback
+kan du skifte program til nummer to,device.memory.change
+kan du minde mig om at bestille en parkeringsplads til mit karnevalskrydstogt,reminders.task.create
+jeg vil gerne have en pamindelse,reminders.task.create
+er batterierne lavt,device.status.battery
+saette mig i restaurant mode,device.volume.decrease
+kan du tak fordi du skiftede,sys.oos.fallback
+hvordan oplader jeg mit batteri?,help.battery.show
+hvordan saenker jeg lydstyrken i hjaelpemidlerne?,help.volume.show
+kan du streame fra fjernmikrofonen,streaming.session.start
+lyden bliver ved med at bryde op,help.device_settings.show
+kan du indstille pamindelse til 25. november,reminders.task.create
+hvordan man forstaerker stemmen med kanttilstand,help.edge_mode.show
+kan du skifte program til nummer et,device.memory.change
+fa stemmer til at skille sig ud mere,device.volume.increase
+hvorfor virker min venstre meget svage ikke,help.self_check.show
+skifte til komfortabel indendors tilstand,device.memory.change
+hvordan sender jeg en besked til min laege,help.remote_programming.show
+"forklare, hvordan masketilstand fungerer",help.mask_mode.show
+venligst din tilladelse pa min mobiltelefon,sys.oos.fallback
+kan du vise mig transskribere brugervejledning,help.transcribe.show
+er mine horeapparater ved at blive darlige?,device.status.battery
+maximum sound,device.volume.increase
+parring af horeapparater med min app,help.pairing.show
+hvordan gar jeg til hovedskaermen?,help.home.show
+hvordan bruger jeg oversaettelsesvaerktojet,help.translate.show
+nud mig om dette senere,reminders.task.create
+optag venligst tv-streamsignal,streaming.session.start
+sla hjaelpemidlerne til,device.volume.unmute
+start billedteksterne,transcription.session.start
+hvordan far jeg adgang til indstillinger,help.home.show
+begynde en gatur,activity.walk.query
+vil disse vare til i aften,device.status.battery
+hvor laenge har jeg staet i denne uge,activity.stand.query
+skrue op for lyden,device.volume.increase
+jeg satte mig bare et sted virkelig hojt,device.memory.change
+hjaelp til opsaetning af stemmestyring,help.voice_assistant.show
+skal jeg saette det rigtige horeapparat bag oret?,help.insert_device.show
+kan du trives assistenthjaelp,help.voice_assistant.show
+where's my google phone,find.phone.locate
+android telefon mangler,find.phone.locate
+hjaelpe med tinnitus lydjusteringer i mit horeapparat,help.tinnitus.show
+hvordan sletter jeg minder,help.memory_options.show
+hvordan skal hjaelpemidlet sidde i mit ore,help.insert_device.show
+skift venligst til tinnitus,device.memory.change
+forklare den smarte stemme-funktion,help.intelli_voice.show
+hvordan aendrer jeg min telefonkontakt,help.fall_alert.show
+"hvordan ved jeg, om horeapparaterne er tilsluttet min thrive-app?",help.pairing.show
+kan du minde,reminders.task.create
+afslutte streaming,streaming.session.stop
+kan du score af tvillingspillet,sys.oos.fallback
+hvordan man korer diagnostik pa mine hjaelpemidler,help.self_check.show
+lyden bryder op,help.device_settings.show
+hjaelp venligst med at aendre minder,help.changing_memories.show
+hvad gor edge mode?,help.edge_mode.show
+tilslutte venstre horeapparat,help.pairing.show
+hjaelpe med at forsta masketilstand,help.mask_mode.show
+jeg har brug for hjaelp til mine indstillinger,help.device_settings.show
+hvordan forbedrer jeg min wellness-score?,help.thrive_score.show
+kan du daempe hjaelpemidlerne,device.volume.mute
+er mine hjaelpemidler vandtaette,help.clean_care.show
+hvordan parrer jeg mit horeapparat med min telefon?,help.pairing.show
+resterende batteriopladning,device.status.battery
+hvordan organiserer jeg mine minder,help.memory_options.show
+pump venligst op for lyden,device.volume.increase
+jeg vil gerne sende en besked,messaging.message.send
+"afspil den tekst, jeg lige har faet",messaging.message.listen
+hvordan aendrer jeg programmer pa hjaelpemidlet?,help.changing_memories.show
+kan du fuldfore pamindelsen,reminders.task.complete
+hvorfor virker venstre horeapparat ikke,help.self_check.show
+vise mine fremskridt i aerobic,activity.aerobics.query
+hvordan justerer jeg notifikationer i appen,help.app_settings.show
+"kan du hej spec, hej god statistik hjerte. jeg fik ikke den daekning. men det pap, der hang i efteraret.",sys.oos.fallback
+hvordan justerer jeg min tinnitusmasker pa mine hjaelpemidler?,help.tinnitus.show
+jeg gar en tur,activity.walk.query
+hvor ofte skal jeg rense mine horeapparater,help.clean_care.show
+kan jeg saette manedlige sundhedsmal,help.health.show
+skru ned for lyden,device.volume.decrease
+kan du hverdagshukommelse,device.memory.change
+hvordan deler jeg mine aktivitetsdata?,help.hear_share.show
+sende tv-lyden til mig,streaming.session.start
+hvordan far jeg adgang til intelligent stemme?,help.intelli_voice.show
+kan jeg lytte til justeringerne foretaget af min horespecialist?,help.remote_programming.show
+kan du huske at d-vitamin kl. hverdag,reminders.task.create
+jeg vil tilfoje en pamindelse,reminders.task.create
+hvad er hurtig start,help.whats_new.show
+hvordan handterer jeg sved pa mine hjaelpemidler,help.clean_care.show
+kan du skifte til master,device.memory.change
+kan det oversaettes til fransk,help.translate.show
+sende en tekst,messaging.message.send
+kan du indstille programmet til personligt,device.memory.change
+kan du ud af din telefon okay,sys.oos.fallback
+har jeg naet mit standmal,activity.stand.query
+hjaelpe med lydstyrkeaendringer pa mit hjaelpemiddel,help.volume.show
+kan du skrue ned for lyden pa horeapparatet,device.volume.decrease
+hvor er masketilstand?,help.mask_mode.show
 "kan du, mit horeapparat mangler",help.find_my_hearing_aids.show
-daempe det lidt,device.volume.decrease
-"fortael mig, hvad folk har skrevet",messaging.message.listen
-"oge det, jeg horer",device.volume.increase
-sms til et familiemedlem,messaging.message.send
-pumpe lyden op,device.volume.increase
-"beklager dette okay, jeg fik det",sys.oos.fallback
-hvordan far jeg min enhed til at streame,help.accessories.show
-"mit handsaet mangler, ring venligst",find.phone.locate
-lyd gennem horeapparater,streaming.session.start
-hvordan man saenker lydstyrken,sys.oos.fallback
-hvordan transskriberer jeg,help.transcribe.show
-venligst hjaelp mig med stemmeassistent,help.voice_assistant.show
+indstil venligst en pamindelse om middag med tom,reminders.task.create
+skru niveauet tilbage,device.volume.decrease
+vis mig mit lobemal,activity.run.query
+bryde det ned for mig,help.home.show
+hvad er kvantefysik?,sys.oos.fallback
+guide mig om fjernprogrammering,help.remote_programming.show
+"de taler et fremmed sprog, oversaet det",translation.session.start
+hvordan oplader du mit batteri?,help.battery.show
+lobeaktivitet,activity.run.query
+kan du skifte til hverdag,device.memory.change
+mind mig venligst om video hver dag ved middagstid,reminders.task.create
+skift venligst hukommelse til nummer to,device.memory.change
+"kan du vise mig, hvor min telefon er",find.phone.locate
+hvordan oger jeg lydstyrken i mine hjaelpemidler?,help.volume.show
+hvor er mine nye indstillinger?,help.remote_programming.show
+hvilke tekster der kom ind til mig,messaging.message.listen
+hvad kan jeg tilpasse pa mine hjaelpemidler,help.customize.show
+hjaelp venligst med at aendre programmer pa telefonen,help.changing_memories.show
+hvordan slar jeg lyden fra i mit hojre horeapparat?,help.volume.show
+kan du ny pamindelse spise et aeble hver dag kl.,reminders.task.create
+vis mig venligst min ganghistorie?,activity.walk.query
+send tv-lyden til mine hjaelpemidler,streaming.session.start
+kan du indstille hukommelsen til crowd,device.memory.change
+vil de overleve aftenen?,device.status.battery
+"vis mig, hvordan dette fungerer",help.home.show
+hvad er trives oversaette,help.translate.show
+venligst minde nummer to,device.memory.change
+kan du finde min sang,sys.oos.fallback
+kan du sla streaming til,streaming.session.start
+kan du minde mig om den 27. august tomy fly,reminders.task.create
+skyde en sms til mor,messaging.message.send
+hvad lader fjernprogrammering mig gore,help.remote_programming.show
+hvad er min forbraending indtil videre,activity.calories.query
+kan du jeg skal parre horeapparaterne med telefonen,help.pairing.show
+"hvordan ved jeg, om horeapparaterne er parret med telefonen?",help.pairing.show
+"venligst, jeg sagde, jeg holder kaeft",sys.oos.fallback
+kan du holde ud,sys.oos.fallback
+vis mig venligst brugervejledningen til mit tilbehor,help.accessories.show
+vis mig mit standmal,activity.stand.query
+hvordan far jeg mere information om wellness-resultatet?,help.thrive_score.show
+"jeg er ude at ga en tur, sa folg det",activity.walk.query
+"forklar, hvornar kanttilstand hjaelper",help.edge_mode.show
+hvordan skifter jeg til en anden hukommelse pa hjaelpemidlet?,help.changing_memories.show
+kan jeg dele min horeapparatlyd med familien,help.hear_share.show
+hvordan tilslutter jeg mine horeapparater?,help.pairing.show
+forklare min fitness-sporing,help.health.show
+hvor administrerer jeg notifikationer,help.app_settings.show
+kan du aendre indstilling til nummer tre,device.memory.change
+hvad er nyt i denne engage-app?,help.whats_new.show
+kan du afspille min sidste besked,messaging.message.listen
+streame udsendelsen til mine enheder,streaming.session.start
+hvordan man rengor horeapparater,help.clean_care.show
+hvordan justerer jeg min stojmasker pa mit hjaelpemiddel?,help.tinnitus.show
+glem ikke at minde mig om det,reminders.task.create
+send besked til min familie,messaging.message.send
+kan du lade mig hore mit tv,streaming.session.start
+ma jeg snooze en pamindelse,help.reminder.show
+tilfoj venligst maske som en tilpasset hukommelse,help.memory_options.show
+kan du fuldfore pamindelsen.,reminders.task.complete
+venligst adidas damestovler,sys.oos.fallback
+kan du have mig til at sige jeg elsker dig,sys.oos.fallback
+"kan du sizzlers i initieret af cham tryk her for at informere dem om, at du har modtaget denne ordre",sys.oos.fallback
+mind mig venligst om at ringe til min bror pa veterandagen,reminders.task.create
+hvordan overvager jeg min puls?,help.heart_rate.show
+opret en pamindelse,reminders.task.create
+kan du hjaelpe med at aendre programmer pa mine hjaelpemidler,help.changing_memories.show
+hvorfor gar lydstyrken pa mit horeapparat ned til ingenting,help.volume.show
+hvem vandt verdensmesterskabet?,sys.oos.fallback
+skru ned for lydstyrken pa mine horeapparater,device.volume.decrease
+start oversaettelse til spansk,translation.session.start
+"tak, jeg har glemt alt om udseende, tak fordi du mindede mig om det",sys.oos.fallback
+billedtekst denne samtale,transcription.session.start
+"mine hjaelpemidler er ikke, hvor jeg efterlod dem",help.find_my_hearing_aids.show
+kan du saette volumen pa,device.volume.unmute
+ror lyden gennem mine hjaelpemidler,streaming.session.start
+saet programmet til at virke,device.memory.change
+guide mig i kanttilstand,help.edge_mode.show
+jeg har brug for en anden hukommelse til denne placering,device.memory.change
+kan du indstille pamindelse til i morgen tidlig,reminders.task.create
+hvordan deaktiverer jeg masketilstand,help.mask_mode.show
+transskriber venligst denne samtale,transcription.session.start
+hvad kan jeg styre her,help.home.show
+tjek mit opladningsniveau,device.status.battery
+kan jeg streame ved hjaelp af en fjernmikrofon,help.accessories.show
+hjaelp venligst med justering af tinnitusstimulus i mine horeapparater,help.tinnitus.show
+hvorfor kan jeg ikke fa 200 point med wellness-score?,help.thrive_score.show
+hjaelp til tinnitusmaskerjusteringer i mit horeapparat,help.tinnitus.show
+kan du indstille hukommelsen til to,device.memory.change
+hvor finder jeg mine engagementsmal,help.health.show
+kan du hjaelpe til tale til tekst,help.transcribe.show
+kan du kan du altid tilfoje,sys.oos.fallback
+hvordan justerer jeg min tinnitusindstilling?,help.tinnitus.show
+gore tingene hojere,device.volume.increase
+besked en kontakt en opdatering,messaging.message.send
+hvordan far jeg det venstre horeapparat?,help.self_check.show
+preview app funktioner uden hjaelpemidler,help.demo_mode.show
+skal jeg ga laengere for at na mit mal?,activity.walk.query
+when do i intercept a fall alert text?,help.fall_alert.show
+hvad gor denne balancekontrol?,help.wi_c_r_o_s.show
+kan du foderal bistand op til min energi,sys.oos.fallback
+jeg kan ikke finde min telefon,find.phone.locate
+hjaelp til transskribering af horeapparater,help.transcribe.show
+lad mig hore fjernbetjeningens mikrofon,streaming.session.start
+forklare vedligeholdelse af horeapparat,help.clean_care.show
+saet programmet til hjem,device.memory.change
+hvordan kan jeg se mine ugentlige eviorment-mal?,help.health.show
+search android,find.phone.locate
+starte en cykeltraening,activity.cycle.query
+hvordan virker programaendringer pa mine hjaelpemidler,help.changing_memories.show
+mine horeapparater lyder slukkede i dag,help.device_settings.show
+kan du skrue mit hojre horeapparat ned,device.volume.decrease
+hvordan viser jeg appen uden hjaelpemidler?,help.demo_mode.show
+skru ned for lydstyrken pa mine hjaelpemidler,device.volume.decrease
+"kan du minde mig om, at jeg har en laegetid",reminders.task.create
+undskyld intet problem,sys.oos.fallback
+start min joggingsporing,activity.run.query
+er der mulighed for daglig pamindelse,help.reminder.show
+hvordan man dnn taleforbedring,help.intelli_voice.show
+hvad er en god film at se,sys.oos.fallback
+gore talen klarere,device.volume.increase
+indstil venligst en pamindelse til kl. 7 i morgen om aftensmad,reminders.task.create
+kan du venligst sende en besked,messaging.message.send
+hvordan reparerer jeg min bil,sys.oos.fallback
+saet venligst program til tilbedelse,device.memory.change
+hvordan aktiverer jeg kanttilstand,help.edge_mode.show
+mind mig venligst om at studere i morgen,reminders.task.create
+sende lydbesked,messaging.message.send
+hvordan far jeg bedre karakterer?,help.thrive_score.show
+turn up the volume,device.volume.increase
+begynde en cykeltur,activity.cycle.query
+lad mig sende en besked,messaging.message.send
+venligst jeg kan ikke fa mit horeapparat pa,help.insert_device.show
+kan du hjaelpe med lydstyrkeaendringer i mine horeapparater,help.volume.show
+hvordan fremforer jeg en intelligent stemme?,help.intelli_voice.show
+kan det vaere mindre hojt,device.volume.decrease
+hvad er modellen for mit hjaelpemiddel?,help.device_settings.show
+vis mig tinnitusindstillinger,help.tinnitus.show
+kan du pub hukommelse,device.memory.change
+parringshjaelp venligst,help.pairing.show
+saet venligst hukommelsen til stille,device.memory.change
+kan du lade mig hore fjernbetjeningens mikrofon,streaming.session.start
+kan du tale om min datter,sys.oos.fallback
+venligst jeg kan ikke finde min android-telefon,find.phone.locate
+saenk venligst lydstyrken i mine hjaelpemidler,device.volume.decrease
+parrer venligst horeapparater pa thrive-appen,help.pairing.show
+jeg kan ikke hore saerlig godt,device.volume.increase
+venligst find mit hjaelpemiddel,help.find_my_hearing_aids.show
+kan du indstille indstillingen til en,device.memory.change
+maximum loudness,device.volume.increase
+jeg kan ikke finde mit andet horeapparat,help.find_my_hearing_aids.show
+hvorfor er mit venstre horeapparat ikke parret,help.pairing.show
+venligst hjaelp mig med at transskribere,help.transcribe.show
+forklare tilbehorsmulighederne,help.accessories.show
+hvordan renser jeg mikrofonen,help.clean_care.show
+minde mig om at tage medicin om 5 minutter,reminders.task.create
+stream min horelse til en anden,help.hear_share.show
+fange mig pa nye ting,help.whats_new.show
+har jeg naet mit cykelmal?,activity.cycle.query
+afspille mikrofonen,streaming.session.start
+kan jeg aendre tinnitus stojen?,help.tinnitus.show
+hvad gor faldberedskabet,help.fall_alert.show
+kan du derhjemme,sys.oos.fallback
+spore mine enheder,help.find_my_hearing_aids.show
+kan du fa dem til at ringe?,help.find_my_hearing_aids.show
+jeg har brug for en hand i gang,help.home.show
+hvordan fungerer aktivitetsresultatet?,help.thrive_score.show
+hvordan aktiverer jeg masketilstand?,help.mask_mode.show
+sla masketilstand til,help.mask_mode.show
+er min kraft naesten vaek,device.status.battery
+kan du minde mig om at hente min recept lordag kl.,reminders.task.create
+kan du hjaelpe med lydstyrkeaendringer pa mit hjaelpemiddel,help.volume.show
+jeg skal tilfoje en pamindelse,reminders.task.create
+ned for lydstyrken,device.volume.decrease
+ma jeg sende en besked,messaging.message.send
+hvad er tilgaengeligt med den avancerede app?,help.app_settings.show
+kan jeg tilfoje en partner mikrofon,help.accessories.show
+hvor har jeg lagt mit horeapparat?,help.find_my_hearing_aids.show
+hvor mange kalorier har jeg tabt i denne uge,activity.calories.query
+kan du skifte program til et,device.memory.change
+kan jeg aendre navnet pa mit tilbehor?,help.accessories.show
+venligst hjaelp til pulsgendannelse,help.heart_rate_recovery.show
+kan du indstille indstillingen til to,device.memory.change
+hvordan beregnes den slags score?,help.thrive_score.show
+hvad viser pulsfunktionen,help.heart_rate.show
+sluk venligst alarmen,sys.oos.fallback
+marker sidste pamindelse som afsluttet,reminders.task.complete
+skru et hak ned,device.volume.decrease
+kan du daempe mine hjaelpemidler,device.volume.mute
+hvad er selvtjek,help.self_check.show
+hvordan bruger jeg transskriberingsfunktionen?,help.transcribe.show
+det er handteret kryds det af,reminders.task.complete
+hvordan nulstiller jeg appen,help.app_settings.show
+kan du skifte program til pub,device.memory.change
+mind mig venligst om at reservere en parkeringsplads til mit karnevalskrydstogt,reminders.task.create
+hvornar kunne jeg starte en manuel advarsel?,help.fall_alert.show
+kan du tinnitus indstilling,device.memory.change
+synkronisere lyden til mine hjaelpemidler,streaming.session.start
+kan du hey google taende masterlamperne,sys.oos.fallback
+er jeg taet pa mit aerobic-mal,activity.aerobics.query
+hvorfor kan jeg ikke hore noget gennem mine horeapparater,help.self_check.show
+when would i stop a manual alert?,help.fall_alert.show
+"hjaelpe med at tjekke, om der er noget galt med mit hjaelpemiddel",help.self_check.show
+when would i hear alert sent?,help.fall_alert.show
+kan du oversaette hvor meget jeg skylder dig pa espanol,translation.session.start
+hvordan fungerer telehoring,help.hearing_care_anywhere_connect.show
+"hvordan ved jeg, om jeg har modtaget nye indstillinger?",help.remote_programming.show
+hvordan skruer jeg op for lydstyrken pa kun et hjaelpemiddel?,help.volume.show
+lytte til tv,streaming.session.start
+"hvordan ved jeg, hvornar min horespecialist justerede horeapparaterne?",help.remote_programming.show
+sender,help.wi_c_r_o_s.show
+mind mig venligst om at hente min recept torsdag kl. 17.00.,reminders.task.create
+kan du tilslutte venstre hjaelpemiddel,help.pairing.show
+talen er for svag,device.volume.increase
+hvordan far jeg hjaelpen til at blive i,help.insert_device.show
+kan du teater indstilling,device.memory.change
+hvordan justerer jeg min lydstyrke af tinnitus-lydstyrken pa hjaelpemidlet?,help.tinnitus.show
+start oversaettelse til tysk,translation.session.start
+vise mig mit traeningsmal?,activity.exercise.query
+"mit hjaelpemiddel bliver ved med at falde ud, hvordan passer jeg det",help.insert_device.show
+venligst pa telefonen med pt ptt,sys.oos.fallback
+venligst hjaelp med hvid stoj justeringer i min hjaelp,help.tinnitus.show
+kan du ikke sa hojt,device.volume.decrease
+hvad er nyt i appen?,help.whats_new.show
+when do i cancel an alert text message?,help.fall_alert.show
+hvordan skifter du mit batteri?,help.battery.show
+kan du minde mig om at genopfylde recept i morgen,reminders.task.create
+kan du jeg har mistet mine horeapparater,help.find_my_hearing_aids.show
+skift venligst til hverdag,device.memory.change
+hvordan gor jeg dobbelttryk mindre folsomt?,help.device_settings.show
+find venligst android-telefon,find.phone.locate
+"forklare, hvordan hukommelsesskift fungerer",help.changing_memories.show
+"vis mig venligst, hvordan jeg saetter mit horeapparat i",help.insert_device.show
+hvad er pulsgendannelse?,help.heart_rate_recovery.show
+kan du personlige indstillinger,device.memory.change
+hvordan kommer jeg ud af,sys.oos.fallback
+guide mig til min puls,help.heart_rate.show
+hvordan begynder jeg at streame fra min tv-streamer?,help.accessories.show
+hjaelp venligst med fjernprogrammering,help.remote_programming.show
+kan du skifte til program nummer et,device.memory.change
+hvordan justerer jeg lydstyrken pa min fjernbetjeningsmikrofon?,help.accessories.show
+hvordan omdober jeg mit tilbehor?,help.accessories.show
+oge hvor hojt det er,device.volume.increase
+sla al lyd fra,device.volume.mute
+kan du indstille programmet til restaurant,device.memory.change
+mind venligst om fest kl. 12. pa fredag,reminders.task.create
+kan du slukke for kildestik,sys.oos.fallback
+hvilke stemmehjaelpere der stottes,help.voice_assistant.show
+kan jeg rense mine hjaelpemidler med vand,help.clean_care.show
+hvordan far jeg vist nye indstillinger?,help.remote_programming.show
+hvilke sprog tilbyder oversaettelsesfunktionen,help.translate.show
+kan du parre venstre hjaelpemiddel,help.pairing.show
+er mine horeapparater opladet nok,device.status.battery
+vise min lobeaktivitet,activity.run.query
+kan du skrue op for mine horeapparater,device.volume.increase
+kontrollere batteriniveauet,device.status.battery
+indstille en ny pamindelse,reminders.task.create
+hvor er min kombinerede krops- og hjernevurdering,help.thrive_score.show
+kan du indstille hukommelse til kokken,device.memory.change
+skrue lydstyrken tilbage,device.volume.decrease
+hvor mange skridt har jeg taget i dag?,activity.step.query
+jeg kan ikke finde mit andet hjaelpemiddel,help.find_my_hearing_aids.show
+hvordan aendrer jeg hukommelsen pa hjaelpemidlet?,help.changing_memories.show
+kan du stille mine horeapparater til ro,device.volume.decrease
+hvordan sletter jeg en pamindelse,help.reminder.show
+vise mig mit aktivitetsmal?,activity.aerobics.query
+hjaelp venligst med tinnitusmaskerjusteringer pa mit hjaelpemiddel,help.tinnitus.show
+kan du pamindelse til 16:15. besog bedstemor i dag,reminders.task.create
+venligst lydstyrke hojre hjaelp,device.volume.increase
+hvordan forbedrer jeg min aktivitetsscore?,help.thrive_score.show
+send en sms til min laege,messaging.message.send
+hvordan justerer jeg min tinnitusmasker i mit horeapparat?,help.tinnitus.show
+kan du ga ned,sys.oos.fallback
+hvordan man deler information med parorende,help.hear_share.show
+venligst pa det nordkoreanske kontor vil fanderne vaek her.,sys.oos.fallback
+skal jeg genoplade dem?,device.status.battery
+kan du pa dit bogholderi det hele er pa min side sa,sys.oos.fallback
+hvor laenge har jeg traenet?,activity.exercise.query
+saet venligst hukommelsen til stoj,device.memory.change
+"oversaet, hvor meget skylder jeg dig til spansk",translation.session.start
+hvor administrerer jeg mine pamindelser,help.reminder.show
+her om dette,sys.oos.fallback
+hjaelp venligst med justering af hvid stoj pa mit horeapparat,help.tinnitus.show
+hvordan beregnes pulsgendannelse?,help.heart_rate_recovery.show
+hvordan fjerner jeg parringen af ​​min fjernbetjeningsmikrofon?,help.accessories.show
+where is my right aid?,help.find_my_hearing_aids.show
+hvordan fungerer pulsmaling,help.heart_rate.show
+fortael mig om levende billedtekster,help.transcribe.show
+kan du skifte tjek hende ud,sys.oos.fallback
+hvor er,sys.oos.fallback
+kan du lave lydstyrken lavere,device.volume.decrease
+indstil pamindelsen til 5 minutter,reminders.task.create
+kan jeg se mit standmal,activity.stand.query
+hvornar annullerer jeg en faldbesked?,help.fall_alert.show
+hvordan far jeg adgang til cros-balancen?,help.wi_c_r_o_s.show
+hjaelp til hvid stojjusteringer pa mine hjaelpemidler,help.tinnitus.show
+bip aendring,help.device_settings.show
+kan du afspille min besked igen.,messaging.message.listen
+prov venligst at fa min horealder til at virke,help.self_check.show
+vis min pulsgendannelsestrend,help.heart_rate_recovery.show
+hjaelpe med aendringer i lydstyrken,help.volume.show
+saet venligst programmet til nummer et,device.memory.change
+minde mig fra mandag til onsdag,reminders.task.create
+jeg skal kontakte nogen,messaging.message.send
+kan jeg fa daglige pamindelser,help.reminder.show
+skift venligst til program nummer et,device.memory.change
+jeg mangler halvdelen af ​​samtalen,device.volume.increase
+vil et fald udlose en alarm,help.fall_alert.show
+hvordan kontakter jeg min kliniker for at fa hjaelp?,help.remote_programming.show
+kan du indstille indstillingen til nummer tre,device.memory.change
+vis mig transskriberingshjaelpen,help.transcribe.show
+mind mig venligst i morgen om,reminders.task.create
+spil shins kennedy.,sys.oos.fallback
+hvor er min puls,help.heart_rate.show
+hvad kan appen,help.home.show
+er der et sted at aendre mine app-indstillinger?,help.app_settings.show
+venligst dagens kalorieoptaelling,activity.calories.query
+stop tv-stream,streaming.session.stop
+kan du oversaette hvor meget jeg skylder dig til spansk,translation.session.start
+help me find my left hearing aid,help.find_my_hearing_aids.show
+skift venligst indstilling til to,device.memory.change
+indstil venligst en pamindelse til torsdag,reminders.task.create
+kan du selv tjekke hjaelp,help.self_check.show
+hvordan oger jeg diskanten,help.customize.show
+hojere tak,device.volume.increase
+sluk venligst for kildestikkene,sys.oos.fallback
+kan du minde mig om blodbrodre,reminders.task.create
+hvordan deler jeg mine horeoplysninger med min kone?,help.hear_share.show
+skru op for lyden pa horeapparatet,device.volume.increase
+aendre hukommelsen,device.memory.change
+kalorier aerobic,activity.aerobics.query
+kan du tilberede svineribs pa grillen,sys.oos.fallback
+tilfoje en pamindelse til mit mode,reminders.task.create
+kan du hjaelpe med tinnitus stimulus justering pa mit hjaelpemiddel,help.tinnitus.show
+mind mig venligst om at se,reminders.task.create
+hvordan finder jeg mit hojre horeapparat?,help.find_my_hearing_aids.show
+find mit andet horeapparat,help.find_my_hearing_aids.show
+hvordan konfigurerer jeg sociale meddelelser?,help.device_settings.show
+mine horeapparater lyder ikke rigtigt,help.device_settings.show
+kan du skrue ned for lyden,device.volume.decrease
+jeg vil ud at lobe,activity.run.query
+hvor kunne mine hjaelpemidler vaere blevet af,help.find_my_hearing_aids.show
+hvordan anmoder jeg om fjernpleje,help.hearing_care_anywhere_connect.show
+tilbered svineribben pa grillen,sys.oos.fallback
+hvordan man laver dnn taleforbedring,help.intelli_voice.show
+venligst vestenvinde blaeser det op,sys.oos.fallback
+kan jeg oplade mit batteri?,help.battery.show
+hvordan saetter jeg dette horeapparat i?,help.insert_device.show
+gore det mindre intenst,device.volume.decrease
+kan du skifte program til nummer fire,device.memory.change
+hvordan aktiverer jeg assistenten,help.voice_assistant.show
+kan du indstille programmet til tinnitus,device.memory.change
+lede lyden til mine horeapparater,streaming.session.start
+skru venligst ned,device.volume.decrease
+venligst jeg kan ikke finde mit rette hjaelpemiddel,help.find_my_hearing_aids.show
+deaktivere mine horeapparater,device.volume.mute
+"forklare, hvordan jeg skifter mine horetilstande",help.changing_memories.show
+jeg vil gerne oprette en ny hukommelse?,help.memory_options.show
+hvad er denne app til,help.home.show
+kan du minde mig om at lobe kl.,reminders.task.create
+kan du hjaelpe med at skifte programmer pa min telefon,help.changing_memories.show
+oplysninger om kropsscore,help.thrive_score.show
+kan jeg vise mine horeapparater,help.demo_mode.show
+vis mig hvor laenge jeg har staet,activity.stand.query
+tjek den pamindelse fra listen,reminders.task.complete
+talen kommer ikke tydeligt frem,device.volume.increase
+skru venligst lydstyrken til normal,device.volume.unmute
+vinden udenfor er overvaeldende hvad kan jeg gore,help.edge_mode.show
+"loft venligst enheden, der ikke registreres",sys.oos.fallback
+kan du tilfoje pamindelse om modet,reminders.task.create
+vis mig et overblik over trives,help.whats_new.show
+kan du huske brugervejledningen,help.reminder.show
+opret en daglig pamindelse om at tage medicin kl. 17.00.,reminders.task.create
+kan du streame fra mikrofonen,streaming.session.start
+tage alt til stilhed,device.volume.mute
+where would i stop a fall alert?,help.fall_alert.show
+forklare min hjernescore,help.thrive_score.show
+kan jeg demo mine horeapparater,help.demo_mode.show
+venligst restaurant i naerheden af ​​mig,sys.oos.fallback
+hvordan ser jeg mine helbredsfremskridt,help.health.show
+hvad kan du hjaelpe mig med,help.home.show
+how do i create a contact for fall alert?,help.fall_alert.show
+synkronisere pamindelser til mine horeapparater,help.reminder.show
+increase the left hearing aid,device.volume.increase
+hvordan aendrer jeg cros balancen pa senderen?,help.wi_c_r_o_s.show
+venligst minde mig om min laege aftale,reminders.task.create
+hvordan males pulsgendannelse,help.heart_rate_recovery.show
+"hvordan kontrollerer jeg, om mine hjaelpemidler er parret med telefonen?",help.pairing.show
+hvordan justerer jeg min tinnitusmasker?,help.tinnitus.show
+hvornar annullerer jeg en alarm?,help.fall_alert.show
+hvor meget har jeg lobet denne maned?,activity.run.query
+hvordan skruer jeg op for lydstyrken pa kun venstre horeapparat?,help.volume.show
+selvtjek mislykkedes.,help.self_check.show
+guide mig gennem hearshare,help.hear_share.show
+"fortael mig venligst, hvad mit skridtmal er",activity.step.query
+venligst hjaelp med stojstimulusjustering til min hjaelp,help.tinnitus.show
+kan du hjaelpe med stojstimulusjustering i mine hjaelpemidler,help.tinnitus.show
+kan fagmanden fjernjustere mit horeapparat?,help.remote_programming.show
+opsaette pamindelse,reminders.task.create
+hvordan tilpasser jeg mine horeapparater?,help.customize.show
+optage dette mode,transcription.session.start
+taend venligst for wi-fi,sys.oos.fallback
+hvor meget juice er tilbage,device.status.battery
+vis mig hjaelp til oversaettelse,help.translate.show
+slippe en talebesked,messaging.message.send
+kan du musikhukommelse,device.memory.change
+hvordan justerer jeg min tinnitusstoj i horeapparatet?,help.tinnitus.show
+hvordan man laver intelligent stemme,help.intelli_voice.show
+"kan du, jeg skal fjerne parringen af ​​mine horeapparater fra min telefon",help.pairing.show
+saet den til udendors indstilling,device.memory.change
+hvordan forbedrer jeg min trivescore?,help.thrive_score.show
+what sounds will i hear in my hearing aids if i fall?,help.fall_alert.show
+kan du hjaelpe med problemer med ansigtsmasker,help.mask_mode.show
+skal jeg snart oplade,device.status.battery
+turn my left hearing aid up,device.volume.increase
+"kan du perfektionere, hvordan det gar med dig",sys.oos.fallback
+hvordan diagnosticerer jeg mine horeapparater,help.self_check.show
+venligst godt ikke set en masse vaeske pa den side,sys.oos.fallback
+kan du godt ikke set en masse vaeske pa den side,sys.oos.fallback
+folk lyder daempede og svage,device.volume.increase
+kan du hjaelpe med tinnitus stojjustering i mit horeapparat,help.tinnitus.show
+kan jeg bruge en reversmikrofon med mine hjaelpemidler,help.accessories.show
+spille den sidste.,messaging.message.listen
+how do i turn on auto alert?,help.fall_alert.show
+fortael en kontaktperson mine nyheder via sms,messaging.message.send
+jeg har mistet mine horeapparater,help.find_my_hearing_aids.show
+hjaelpe med stojstimulusjusteringer i mine horeapparater,help.tinnitus.show
+hvor er lydstyrkekontrollen,help.volume.show
+aendre den aktive profil,device.memory.change
+guide mig til hjaelpemiddelsogeren,help.find_my_hearing_aids.show
+kan du det glatter ned er tvunget ned,sys.oos.fallback
+hvordan aktiverer jeg komfortforogelse?,help.device_settings.show
+giv mig en besked pa det planlagte tidspunkt,reminders.task.create
+forklare fjernmikrofonen,help.accessories.show
+hjaelpe mine hjaelpemidler med at miste forbindelsen til telefonen,help.pairing.show
+hvordan virker pulsen?,help.heart_rate.show
+hjaelp mig med at skifte mellem profiler,help.changing_memories.show
+kan du minde mig om at drikke vand hver dag klokken 10 om morgenen,reminders.task.create
+hvordan forbinder jeg to,help.pairing.show
+spore min gaafstand,activity.walk.query
+pa volumen,device.volume.unmute
+hvordan administrerer jeg mine programmer,help.memory_options.show
+hvordan gendanner jeg indstillingerne i mine hjaelpemidler?,help.hearing_care_anywhere_connect.show
+kan du minde om flyvningen kl. 06.00,reminders.task.create
+brug profilen til stojende steder,device.memory.change
+kan du gore lyden mere stille,device.volume.decrease
+hvordan konfigurerer jeg automatisk streaming?,help.device_settings.show
+indstil venligst programmet til stoj,device.memory.change
+telehore,help.hearing_care_anywhere_connect.show
+kan du hore sidste besked.,messaging.message.listen
+skaere lyden ned,device.volume.decrease
+kan du stave ordet maskine,sys.oos.fallback
+hjaelp til parring af horeapparater pa telefonen,help.pairing.show
+volumen pa hojre hjaelpemiddel,device.volume.unmute
+kan du hvad sker der,sys.oos.fallback
+kan du jeg har brug for hjaelp til at parre hjaelpemidlet,help.pairing.show
+hvordan skruer jeg ned for vindstojen,help.customize.show
+kan du vise mig den hurtige guide,help.whats_new.show
+kan du afslutte pamindelsen.,reminders.task.complete
+hjaelp til demotilstand,help.demo_mode.show
+find android telefon,find.phone.locate
+skridttaeller venligst,activity.step.query
+sla fjernstromning af mikrofoner fra,streaming.session.stop
+skifte til mit forudindstillede traeningscenter,device.memory.change
+hvordan bruger jeg stemmeassistenten,help.voice_assistant.show
+hvordan nulstiller jeg lydstyrken pa horeapparaterne?,help.volume.show
+dette er naesten ikke horbart,device.volume.increase
+intelligent stemmehjaelp,help.intelli_voice.show
+kan du nedgore ven sharon dell en personlig tjek din musik fra de andre definition kun finde,sys.oos.fallback
+kan du finde min android,find.phone.locate
+jeg onsker ikke at glemme dette,reminders.task.create
+find venligst mit hojre horeapparat,help.find_my_hearing_aids.show
+venligst hvor er strommen,sys.oos.fallback
+spil venligst den sidste.,messaging.message.listen
+kan du finde mit venstre horeapparat,help.find_my_hearing_aids.show
+raise the volume up,device.volume.increase
+hvordan sender cros lyd til mit gode ore,help.wi_c_r_o_s.show
+begynde at logge min cykling,activity.cycle.query
+kan du lyde af,device.volume.mute
+"hvordan ved jeg, at mit horeapparat oplader",help.battery.show
+trives stemmeassistent hjaelp,help.voice_assistant.show
+oversaet brugervejledning,help.translate.show
+lytte til mikrofonen,streaming.session.start
+kan du vende,sys.oos.fallback
+skru venligst op for lydstyrken,device.volume.increase
+hvad er min kalorieforbraending i dag,activity.calories.query
+ny pamindelse,reminders.task.create
+lyden fra mine hjaelpemidler er blevet vaerre,help.device_settings.show
+kan du skifte til udendors,device.memory.change
+jeg har brug for et skub i morgen tidlig,reminders.task.create
+hvordan justerer jeg min lydstyrke af tinnitus-lydstyrken i hjaelpemidlet?,help.tinnitus.show
+jeg gik lige ind i kirken,device.memory.change
+jeg kan ikke finde min hjaelp,help.find_my_hearing_aids.show
+hvordan deler jeg mine oplysninger med min kone?,help.hear_share.show
+kan du finde mit horeapparat,help.find_my_hearing_aids.show
+kan du fa jeg stod en time,activity.stand.query
+kan du lukke pa notre dame score i gar,sys.oos.fallback
+hvordan nulstiller jeg mine sundhedsmal,help.health.show
+tag lyden af,device.volume.unmute
+ga venligst tilbage til et hojt niveau,sys.oos.fallback
+how would i stop an alert?,help.fall_alert.show
+indstil programmet til fjernsynet,device.memory.change
+jeg vil have det hojere,device.volume.increase
+sla streaming til,streaming.session.start
+please wow det er et intenst nummer,sys.oos.fallback
+afspil min besked,messaging.message.listen
+optag dette lob for mig,activity.run.query
+batteri tilbage,device.status.battery
+find min manglende oresnegl,help.find_my_hearing_aids.show
+kan du vise mig min ganghistorie?,activity.walk.query
+"hvordan ved jeg, hvornar min horespecialist justerede mine horeapparater?",help.remote_programming.show
+"bedes medierne finde os, uanset hvor du far din podcast",sys.oos.fallback
+sende lyd til mine hjaelpemidler,streaming.session.start
+hvor er justeringen for sender og modtager?,help.wi_c_r_o_s.show
+hvordan virker faldberedskab?,help.fall_alert.show
+kan du spille den sidste.,messaging.message.listen
+skrue op for lydstyrken,device.volume.increase
+mindske lydstyrken,device.volume.decrease
+kan du nogen skulle ringe til mig og det gor jeg aldrig,sys.oos.fallback
+stop med at spille tv gennem mine hjaelpemidler,streaming.session.stop
+kan du minde mig om dette senere,reminders.task.create
+hvad er oversaette,help.translate.show
+"kan du, jeg kan ikke lide dobbelttryk-funktionen. hvordan slar jeg den fra?",help.device_settings.show
+kan du vise mig mit traeningsmal,activity.exercise.query
+hvordan tilfojer jeg en ny hukommelse?,help.memory_options.show
+aktivere mit kontorprogram,device.memory.change
+jeg vil gerne tale med min audiolog,help.remote_programming.show
+kan du ga tilbage til en hoj,sys.oos.fallback
+hvordan tilfojer jeg et automatisk telefonprogram?,help.device_settings.show
+hvad transskriberer gor,help.transcribe.show
+vis mig brugervejledningen til transskribering,help.transcribe.show
+hvordan aendrer jeg talefokus,help.customize.show
 lav en pamindelse til mig,reminders.task.create
-hvad er anderledes ved denne app?,help.whats_new.show
-jeg har mistet mit horeapparat,help.find_my_hearing_aids.show
+skru venligst ned for mine horeapparater,device.volume.decrease
+vendy's trykkede to gange pa det og har ikke virket,sys.oos.fallback
+skift venligst til tilbedelse,device.memory.change
+minimum lydstyrke,device.volume.decrease
+optag denne gatur,activity.walk.query
+affyre en sms til en kontakt,messaging.message.send
+indstil venligst en pamindelse om at tage medicin i dag kl.,reminders.task.create
+ma jeg omdobe mine minder,help.memory_options.show
+venligst hjaelp til tale til tekst,help.transcribe.show
+logge et lob,activity.run.query
+afslutte min pamindelse.,reminders.task.complete
+husk venligst pa denne aften,reminders.task.create
+hvordan baerer jeg mine hjaelpemidler korrekt,help.insert_device.show
+jeg har brug for mindre volumen,device.volume.decrease
+jeg skal finde mine horeapparater,help.find_my_hearing_aids.show
+log denne aerobic traening,activity.aerobics.query
+venligst parringshjaelpemidler pa min thrive-app,help.pairing.show
+hvordan bruger jeg selvkontrol,help.self_check.show
+tilslut mig til tv-lyd,streaming.session.start
+kan du indstille hukommelsen til stoj,device.memory.change
+kan du indstille hukommelse til bil,device.memory.change
+jeg vil sende en besked,messaging.message.send
+hvordan passer jeg pa mine horeapparater,help.clean_care.show
+hvordan tilpasser jeg horeapparatet?,help.customize.show
+vise kalorier forbraendte i denne uge,activity.calories.query
+jeg saetter mig til rette for tv-tid,device.memory.change
+bruge min hverdag,device.memory.change
+reducere det rigtige horeapparat,device.volume.decrease
+kan du taende mit hojre horeapparat,device.volume.unmute
+"skru op for tingene, sa jeg kan hore",device.volume.increase
+husk venligst brugervejledning,help.reminder.show
+skift venligst til tog,device.memory.change
+udfyld venligst min pamindelse.,reminders.task.complete
+hvordan kan jeg aendre plejepersonalets indstillinger?,help.app_settings.show
+begynde at streame tv til mine horeapparater,streaming.session.start
+hvordan aktiverer jeg auto bil-funktionen,help.device_settings.show
+kan du hjaelpe med tinnitusmaskerjusteringer pa mine hjaelpemidler,help.tinnitus.show
+kan jeg opsaette geotagging,help.memory_options.show
+hvordan far jeg adgang til pulsgendannelsesfunktionen?,help.heart_rate_recovery.show
+hvordan man korer selvtjek,help.self_check.show
+hvordan bruger jeg dnn taleforbedring,help.intelli_voice.show
+hjaelp venligst med at aendre minder ved at bruge min thrive app,help.changing_memories.show
+du skal minde mig om noget,reminders.task.create
+jeg har brug for mine stojende omgivelser,device.memory.change
+afbryde tv-forbindelsen til mine hjaelpemidler,streaming.session.stop
+increase the volume,device.volume.increase
+hvad er krydsbalancekontrollen?,help.wi_c_r_o_s.show
+"stop venligst med at lytte, stil dig et sporgsmal",sys.oos.fallback
+saette billedtekster pa alles tale,transcription.session.start
+kan du afspille min lydbesked.,messaging.message.listen
+kan du skifte program til tre,device.memory.change
+"jeg har brug for, at du indstiller en pamindelse til mig",reminders.task.create
+venligst jeg kan ikke huske hvor mit venstre hjaelpemiddel er,help.find_my_hearing_aids.show
+kan jeg sammenligne justeringerne foretaget af min professionelle?,help.remote_programming.show
+kan du skrue ned for lydstyrken pa mine horeapparater,device.volume.decrease
+sta mal,activity.stand.query
+stream fra en tilbehorsmikrofon til mine hjaelpemidler,help.accessories.show
+vinden odelaegger min horelse udenfor,help.edge_mode.show
+"forklare, hvornar du skal bruge masketilstand",help.mask_mode.show
+jeg har brug for en prompt senere,reminders.task.create
+kan du minde mig om eksamen hver fredag ​​kl.,reminders.task.create
+hjaelp til at skifte hukommelse pa telefonen,help.changing_memories.show
+minde mig hver dag undtagen sondage,reminders.task.create
+hvordan bruger jeg demofunktionen,help.demo_mode.show
+kan du lydstyrke venstre hjaelpemiddel,device.volume.mute
+hjaelp mig med at forsta graensefladen,help.home.show
+vis hjaelpevejledning til at trives,help.thrive_score.show
+hvordan starter jeg en anmodning om fjernpleje,help.hearing_care_anywhere_connect.show
+hvordan tager jeg det rigtige horeapparat ud?,help.insert_device.show
+giv mig lyd igen,device.volume.unmute
+besked til min familie,messaging.message.send
+hvordan man opsaetter geotagging,help.memory_options.show
+kan du programmere tre,device.memory.change
+hvordan opbevarer jeg reservebatterier,help.battery.show
+helt stille nu tak,device.volume.mute
+taend for min horelse igen,device.volume.unmute
+laeg en pamindelse til min kontrol,reminders.task.create
+"venligst bare ikke du ramte jorden, men vil tjekke det",sys.oos.fallback
+jeg er i bilen nu,device.memory.change
+lyd tilbage tak,device.volume.unmute
+skriv venligst et program for forskningsinstituttet,sys.oos.fallback
+indstille en pamindelse til,reminders.task.create
+kan trives male min puls,help.heart_rate.show
+jeg har brug for hjaelp til at parre mit hjaelpemiddel til min telefon,help.pairing.show
+afslutte udsendelsen til mine horeapparater,streaming.session.stop
+kan du taelle dagens kalorier,activity.calories.query
+hjaelp venligst med selvtjek,help.self_check.show
+guide mig om batteripleje,help.battery.show
+vis mig venligst hvor laenge jeg har staet,activity.stand.query
+hvordan sporer jeg mine hjaelpemidler,help.find_my_hearing_aids.show
+kan du skrue ned for mine horeapparater,device.volume.decrease
+hvor kan jeg se mine beats per minut,help.heart_rate.show
+kan du jeg er interesseret i min placering,sys.oos.fallback
+kan nogen lytte med mig,help.hear_share.show
+hvad er intellivoice,help.intelli_voice.show
+jeg far for meget lyd,device.volume.decrease
+hvordan justerer jeg for vind,help.customize.show
+spore min genopretning af pulsen,help.heart_rate_recovery.show
+bedste iphone,sys.oos.fallback
+kan du spille mig mikrofonen,streaming.session.start
+kan du saenke lydstyrken med 50 %,device.volume.decrease
+where do i stop a fall alert message?,help.fall_alert.show
+er realtidsoversaettelse tilgaengelig,help.translate.show
+kan du afspille sidste besked,messaging.message.listen
+taend for volumen,device.volume.unmute
+hvordan parrer jeg mine horeapparater med min telefon?,help.pairing.show
+skru lidt ned for lyden,device.volume.decrease
+hvordan justerer jeg krydsbalancen?,help.wi_c_r_o_s.show
+hvad er app-menuen,help.home.show
+hvad er det aktuelle batteriniveau,device.status.battery
+hvor skal jeg begynde at laere,help.home.show
+kan du minde mig om at hente min recept tirsdag kl.,reminders.task.create
+kan du begynde at optage for mig,transcription.session.start
+skift venligst program til tre,device.memory.change
+sluk for lyden i mit hojre horeapparat,device.volume.mute
+ma jeg lobe i en time?,activity.run.query
+venligst han aendrede det lige,sys.oos.fallback
+er min puls normal,help.heart_rate.show
+skift venligst til golf,device.memory.change
+starte min cykeltraening,activity.cycle.query
+hvad viser sundhedsskaermen?,help.health.show
+ring venligst til en ven,sys.oos.fallback
+laegge en besked ud,messaging.message.send
+ga venligst op i volumen,device.volume.increase
+kan du minde mig om det i morgen,reminders.task.create
+jeg er nodt til at bede folk om at gentage sig selv,device.volume.increase
+anbefale en film,sys.oos.fallback
+hjaelp venligst tilbehor,help.accessories.show
+hvordan nulstiller jeg lydstyrken pa hjaelpemidlet?,help.volume.show
+kan du ligge her,sys.oos.fallback
+minde mig om at tage skraldet ud,reminders.task.create
+kan du afspille min besked,messaging.message.listen
+hvor er mine horeapparater,help.find_my_hearing_aids.show
+seneste pamindelse udfort.,reminders.task.complete
+kan du jeg skal afbryde mine horeapparater fra min telefon,help.pairing.show
+kan du lave en pamindelse for mig,reminders.task.create
+hjaelpe med mine horeapparats lydindstillinger,help.device_settings.show
+forklare programmulighederne,help.memory_options.show
+streame telefonopkaldet,streaming.session.start
+kan du hjaelpe med tinnitus stimulus justering pa mine hjaelpemidler,help.tinnitus.show
+hvad er mit daglige skridtnummer,activity.step.query
+find mit rette hjaelpemiddel,help.find_my_hearing_aids.show
+dele min horelse med en anden person,help.hear_share.show
+hvad er tilgaengeligt med den grundlaeggende app?,help.app_settings.show
+lyden slukket,device.volume.mute
+hjaelpe med at oprette forbindelse til min udbyder eksternt,help.hearing_care_anywhere_connect.show
+hvordan aendrer jeg minder?,help.changing_memories.show
+jeg kan ikke finde mit hojre horeapparat,help.find_my_hearing_aids.show
+maximum volume,device.volume.increase
+hjaelpe med at aendre minder,help.changing_memories.show
+hvordan soger jeg efter min hjaelp?,help.find_my_hearing_aids.show
+hjaelpe med lydstyrkeaendringer pa mine horeapparater,help.volume.show
+hjaelpemidlet vil ikke blive i mit ore,help.insert_device.show
+kan du minde mig om at drikke vand senere i dag kl.,reminders.task.create
+kan du aendre indstilling til nummer et,device.memory.change
+hvordan soger jeg efter mit horeapparat?,help.find_my_hearing_aids.show
+hvordan daemper jeg cros-senderen?,help.wi_c_r_o_s.show
+kan du ringe til lydindgang,sys.oos.fallback
+kan du manedligt,sys.oos.fallback
+hvad kan jeg gore her?,help.home.show
+how do i locate my right hearing aid?,help.find_my_hearing_aids.show
+kan du skifte program til nummer tre,device.memory.change
+"hvordan kan jeg se, hvor meget jeg har cyklet i denne uge?",help.health.show
+hvordan justerer jeg min tinnitusmasker i det rigtige horeapparat?,help.tinnitus.show
+kan du indstille program til telefon,device.memory.change
+bruge appen uden hjaelpemidler tilsluttet,help.demo_mode.show
+volumen pa,device.volume.unmute
+venligst trives assistent hjaelp,help.voice_assistant.show
+kan du minde mig om at levere til saint barbara katolske kirke pa fredag ​​9 til 9:30,reminders.task.create
+kan du hjaelpe med justering af hvid stoj pa mit horeapparat,help.tinnitus.show
+hvor laenge har jeg staet?,activity.stand.query
+"hvordan siger jeg, tag mig til hotellet pa spansk",translation.session.start
+hvor mange skridt indtil mit mal,activity.step.query
+saet noget til at minde mig om i morgen,reminders.task.create
+vis mig en oversigt over denne app,help.whats_new.show
+giv mig et overblik over appen,help.home.show
+jeg har forlagt mit venstre horeapparat,help.find_my_hearing_aids.show
+hvor kunne min telefon ringe den,find.phone.locate
+streame lyd,streaming.session.start
+hvordan aendrer jeg horeapparatets hukommelse?,help.changing_memories.show
+hvordan anmoder jeg om finjustering af nye indstillinger?,help.remote_programming.show
+hvordan skruer jeg ned for lyden pa hjaelpemidlerne?,help.volume.show
+kan du skifte til restaurant,device.memory.change
+"venligst, jeg skal afbryde mine horeapparater fra min telefon",help.pairing.show
+skru ned for mit venstre hjaelpemiddel,device.volume.decrease
+"jeg horer ingen forskel, nar jeg aendrer min balancekontrol",help.wi_c_r_o_s.show
+hvad er anderledes i den seneste udgivelse,help.whats_new.show
+mind mig venligst om at jeg har en laegetid,reminders.task.create
+daempe horeapparater,device.volume.mute
+gor det blodere venligst,device.volume.decrease
+"forklare, hvordan du konfigurerer appen",help.app_settings.show
+hvordan man korer intelligent stemme,help.intelli_voice.show
+search phone,find.phone.locate
+hvad er mit skridttal for ugen?,activity.step.query
+hvordan bruger jeg intelligent stemme,help.intelli_voice.show
+drej det for at trykke pa knappen minutmobler derinde som siri,sys.oos.fallback
+"kan du ringe til dem og se, om de vil have mig til at sende dette enorme",sys.oos.fallback
+streamer partnermikrofonen til mine horeapparater,help.accessories.show
+hvor er mit modelnummer,help.device_settings.show
+hvordan man indstiller kalenderbegivenhed,help.reminder.show
+jeg vil hore mit budskab.,messaging.message.listen
+send sms,messaging.message.send
+hvordan tilfojer jeg tilbehor til min app?,help.accessories.show
+fortael mig en joke,sys.oos.fallback
+hvordan starter jeg at streame fra min fjernbetjeningsmikrofon?,help.accessories.show
+mit horeapparat bliver ved med at afbryde forbindelsen,help.device_settings.show
+parring af enheder med thrive-appen,help.pairing.show
+kan du skifte program til fire,device.memory.change
+kan du finde min enhed,find.phone.locate
+opdager den et fald og advarer nogen,help.fall_alert.show
+hvordan virker stemmeklarhedsfunktionen,help.intelli_voice.show
+jeg ma hellere ikke glemme dette,reminders.task.create
+hvor langt skal jeg ride for at na mit mal?,activity.cycle.query
+skriv til denne person,messaging.message.send
+vis mig venligst mit skridttaeller,activity.step.query
+hvad er der galt med mit hojre horeapparat,help.self_check.show
+hvordan deaktiverer jeg folsomheden af ​​dobbelttryk?,help.device_settings.show
+hjaelp mig venligst med at finde mine horeapparater,help.find_my_hearing_aids.show
+jeg kan naesten ikke hore noget,device.volume.increase
+hjaelp mig med at sende en talebesked,messaging.message.send
+send en hurtig sms,messaging.message.send
+"venligst, jeg skal parre horeapparaterne med telefonen",help.pairing.show
+"forklare, hvad der er aendret i denne version",help.whats_new.show
+skralde den et hak ned,device.volume.decrease
+hvor mange kalorier brugt i dag,activity.calories.query
+kan min audiolog fjernjustere mit hjaelpemiddel?,help.remote_programming.show
+pamind mig venligst kl. 19.00. den 11. november for at lave lektier,reminders.task.create
+hvad er godmorgen pa russisk,translation.session.start
+skriv til min soster,messaging.message.send
+kan du slukke for lyden,device.volume.mute
+saet venligst nummer to,device.memory.change
+hvordan justerer jeg min lydstyrke af tinnitus-lydstyrken pa horeapparatet?,help.tinnitus.show
+"kan du han har glemt dem, og du har brug for dem, lad mig vide, hvis jeg har en ledig eftermiddag, jeg kan kore over",sys.oos.fallback
+indstil venligst hukommelsen til fitnesscenter,device.memory.change
+alt lyder alt for hardt,device.volume.decrease
+draebe lyden,device.volume.mute
+kan du skrue ned for lyden i mit hojre horeapparat,device.volume.decrease
+tilfoje maske som en tilpasset hukommelse,help.memory_options.show
+what can my hearing aid do when i fall?,help.fall_alert.show
+jeg har forlagt begge mine hjaelpemidler,help.find_my_hearing_aids.show
+daempe lydstyrken,device.volume.decrease
+transskribere dette mode,transcription.session.start
+min hjaelp bliver ved med at dukke ud,help.insert_device.show
+begynde at logge min gang,activity.walk.query
+hjaelp venligst med at aendre programmer pa mine hjaelpemidler,help.changing_memories.show
+kan jeg oprette min egen brugerdefinerede hukommelse?,help.memory_options.show
+kan du minde mig om at hente min recept kl. pa fredag,reminders.task.create
+hvordan passer jeg pa mine hjaelpemidler,help.clean_care.show
+tilsluttes tv,streaming.session.start
+venligst det var kulsort ude i butikken,sys.oos.fallback
+jeg kan ikke fordrage ringen i mine orer,help.tinnitus.show
+skift venligst til mode,device.memory.change
+kan du vise mig mit vandremal?,activity.walk.query
+dele oplysninger med min datter,help.hear_share.show
+hvordan tilpasser jeg min lyd,help.customize.show
+jeg er pa vej til et mode,device.memory.change
+lytte til mit tv,streaming.session.start
+hvordan saenker jeg lydstyrken pa hjaelpemidlerne?,help.volume.show
+hvordan kobler jeg mine hjaelpemidler til bluetooth,help.pairing.show
+skyde en besked til nogen,messaging.message.send
+husk at lege med min kat hver dag kl.,reminders.task.create
+kan du ga ned i lydstyrke,device.volume.decrease
+forbinde mig til min audiolog,help.remote_programming.show
+kan du soge iphone,find.phone.locate
+jeg kan ikke finde mit rette hjaelpemiddel,help.find_my_hearing_aids.show
+er mine hjaelpemidler fuldt opladet,device.status.battery
+guide mig gennem graensefladen,help.home.show
+hvordan bager jeg brod,sys.oos.fallback
+hvordan justerer jeg lydstyrken pa mit tilbehor?,help.accessories.show
+hjaelp mig venligst med at sende en besked,messaging.message.send
+i can't find my left hearing aid,help.find_my_hearing_aids.show
+hvor meget motion har jeg lavet i dag,activity.exercise.query
+kan du hjaelpe med lydstyrkejusteringer i mine horeapparater,help.volume.show
+vis mig venligst mit aktivitetsmal?,activity.aerobics.query
+vis mig venligst en hurtigstartguide,help.whats_new.show
+hvad er mit kaloriemal,activity.calories.query
+kan du vred frugthave ol,sys.oos.fallback
+jeg kan ikke tage hvor hojt det er,device.volume.decrease
+hvad er min batteriladning,device.status.battery
+kan du skifte hand skat,sys.oos.fallback
+hvordan deler jeg mine velvaeredata?,help.hear_share.show
+hvad er mit antal aerobic i denne uge,activity.aerobics.query
+kan du indstille pamindelse til 5 minutter,reminders.task.create
+hvad gor denne intelligente stemme?,help.intelli_voice.show
+hvorfor falder lyden nogle gange,help.device_settings.show
+skriv venligst et program i switch,sys.oos.fallback
+hvor gar jeg hen for at gore ting,help.home.show
+hvor langt har jeg cyklet?,activity.cycle.query
+kan du hjaelpe med pulsen,help.heart_rate.show
+kan du aendre hukommelse til nummer fire,device.memory.change
+hjaelp venligst med lydstyrkeaendringer pa mit hjaelpemiddel,help.volume.show
+hvordan saetter jeg den automatiske bilhukommelse op,sys.oos.fallback
+hvordan justerer jeg min lydstyrke af tinnitusmaskeren pa horeapparatet?,help.tinnitus.show
+kan indstillinger aendres pa afstand,help.remote_programming.show
+kan du markere sidste pamindelse som afsluttet,reminders.task.complete
+tag mig til amazon,sys.oos.fallback
+hvordan virker remote care connect,help.hearing_care_anywhere_connect.show
+hvordan oger jeg min venlige score?,help.thrive_score.show
+parrer mine horeapparater pa telefonen,help.pairing.show
+hvordan forbinder jeg mine hjaelpemidler til min telefon?,help.pairing.show
+jeg ved ikke hvor jeg efterlod dem,help.find_my_hearing_aids.show
+jeg kan ikke hore ud af mit hojre horeapparat,help.self_check.show
+turn up the loudness on my aids,device.volume.increase
+kan du parre mine hjaelpemidler,help.pairing.show
+hvordan man bruger streamboost,sys.oos.fallback
+hvordan justerer jeg bas pa kant-tilstand?,help.edge_mode.show
+jeg mistede mine hjaelpemidler,help.find_my_hearing_aids.show
+hvordan soger jeg efter mit andet hjaelpemiddel?,help.find_my_hearing_aids.show
+hvordan udloser jeg kanttilstand i stoj,help.edge_mode.show
+hvad er dnn taleforbedring til,help.intelli_voice.show
+kan du hjaelpe med at parre enheder med thrive-appen,help.pairing.show
+tak forbraendte kalorier i dag,activity.calories.query
+afspil sidste besked,messaging.message.listen
+kan jeg aendre navnet pa tv-streameren?,help.accessories.show
+hvordan fungerer mini-fjernbetjeningen,help.accessories.show
