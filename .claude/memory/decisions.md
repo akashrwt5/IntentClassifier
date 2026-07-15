@@ -72,6 +72,19 @@ separately approval-gated (EXECUTION_STATUS ND-2/3/8/9). Detail:
 `docs/Review-F5/adr-00{1..5}-*.md`.
 
 
+## ADR-011 — No Rust core; Python + native iOS/Android is the strategy
+**Status:** Accepted (owner directive, 2026-07-14). **What:** the shared Rust
+runtime sketched in ADR-001 Phase 2 is removed from the active roadmap. The
+platform remains: Python for training, compiler, tooling, and the reference
+NLU engine; native iOS and native Android implementations on device. **Why:**
+owner decision — explore a shared core later only if required, on explicit
+request; the ADR-001 trigger (Android multi-turn dialogue) is no longer
+sufficient on its own. **Consequences:** cross-platform parity continues to
+be guaranteed by the contract + fixture approach (runtime-contract-v1.md,
+golden bundles, parity CSVs, conformance tests) rather than by a shared
+binary. No Rust code exists in the repo; none is planned.
+
+
 ## Related memory
 
 Training/calibration -> `training.md` · Mobile -> `mobile.md` · Roadmap ->

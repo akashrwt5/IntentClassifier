@@ -34,7 +34,7 @@ live status + Needs-decision queue in `docs/Review-F5/EXECUTION_STATUS.md`.
   capability repartition, nlu_training package, DVC/MLflow. packages/
   restructure awaits move-plan approval (ND-2); label-space cleanup awaits
   its plan (ND-3).
-- **Phases 2–5:** ratification-gated (Rust core/Android) or blocked on Phase 1.
+- **Phase 2 (Rust core): REMOVED by owner directive (ADR-011) — Python + native iOS/Android only; revisit solely on explicit owner request. Phases 3–5:** blocked on Phase-1 close-out / ongoing by design.
 
 ## In progress / near-term
 

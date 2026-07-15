@@ -42,7 +42,7 @@
 
 ## Phases 2–5
 
-- **Phase 2 (Rust core / Android):** ⛔ do not start — ratification-gated (ND-1) + trigger not fired. Allowed prep: Option-B config tables, interface contracts.
+- **Phase 2 (shared Rust core):** ⛔ **OWNER DIRECTIVE 2026-07-14: OFF THE ROADMAP.** The platform stays Python (training/tooling/reference engine) + native iOS and Android implementations. The ADR-001 Rust option is shelved indefinitely; revisit ONLY on an explicit owner request — the Android-dialogue trigger alone no longer suffices. The interface contracts (runtime-contract-v1.md) remain valuable regardless: they keep the Python engine and the native implementations aligned on the same seams.
 - **Phase 3 (OTA, signing, telemetry, assist.cloud):** blocked on Phase 1; keys/consent gated (ND-8, ND-9).
 - **Phase 4 (Training Studio):** blocked on stable compiler API.
 - **Phase 5 (language scale-out):** ongoing; Danish stays flag-gated until native holdout passes.
