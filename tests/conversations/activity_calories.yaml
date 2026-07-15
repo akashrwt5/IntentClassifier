@@ -1,0 +1,4 @@
+lang: en
+turns:
+  - user: "how many calories have i burned"
+    expect: {intent: activity.calories.query}

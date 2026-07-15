@@ -1,0 +1,6 @@
+lang: en
+turns:
+  - user: "remind me to call the audiologist tomorrow at 3pm"
+    expect: {type: FULFILL, intent: reminders.task.create}
+  - user: "mark my reminder as done"
+    expect: {intent: reminders.task.complete}

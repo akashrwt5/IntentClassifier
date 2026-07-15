@@ -1,0 +1,4 @@
+lang: en
+turns:
+  - user: "switch my hearing program"
+    expect: {intent: device.memory.change}

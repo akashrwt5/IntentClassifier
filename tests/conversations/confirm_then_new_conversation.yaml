@@ -1,0 +1,10 @@
+# After a cancelled confirm, the next command starts clean.
+lang: en
+force_confirm: true
+turns:
+  - user: "mute my hearing aids"
+    expect: {type: CONFIRM}
+  - user: "no"
+    expect: {intent: sys.confirm.cancelled}
+  - user: "mute"
+    expect: {intent: device.volume.mute}

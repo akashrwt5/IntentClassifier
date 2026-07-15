@@ -1,211 +1,10 @@
 {
   "_meta": {
-    "language": "fr",
-    "status": "draft-for-native-review",
     "kind": "localization-overlay",
+    "language": "fr",
     "localizes": "slot prompts, fulfillments, affirmative/negative/uncertain",
-    "pending": "keyword_triggers and back_reference regexes are language-specific grammar, authored separately"
-  },
-  "version": 2,
-  "confidence_threshold": 0.7,
-  "intents": {
-    "device.volume.increase": {
-      "fulfillment": "Volume augmenté.",
-      "confirm_prompt": "Pour confirmer — augmenter le volume ?"
-    },
-    "device.volume.decrease": {
-      "fulfillment": "Volume baissé.",
-      "confirm_prompt": "Pour confirmer — baisser le volume ?"
-    },
-    "device.volume.mute": {
-      "fulfillment": "Son coupé.",
-      "confirm_prompt": "Pour confirmer — couper le son de vos aides auditives ?"
-    },
-    "device.volume.unmute": {
-      "fulfillment": "Son rétabli.",
-      "confirm_prompt": "Pour confirmer — réactiver le son de vos aides auditives ?"
-    },
-    "device.memory.change": {
-      "fulfillment": "Programme changé.",
-      "slots": [
-        {
-          "name": "MemoryName",
-          "prompt": "Quel est le nom du programme ?"
-        }
-      ]
-    },
-    "reminders.task.create": {
-      "fulfillment": "Rappel créé.",
-      "slots": [
-        {
-          "name": "recurrence",
-          "prompt": ""
-        },
-        {
-          "name": "name",
-          "prompt": "Que veux-tu que je te rappelle ?"
-        },
-        {
-          "name": "date-time",
-          "prompt": "Quand dois-je te le rappeler ? Tu peux dire par exemple « à 9h », « demain à 15h » ou « dans 10 minutes »."
-        }
-      ]
-    },
-    "reminders.task.complete": {
-      "fulfillment": "Rappel marqué comme terminé."
-    },
-    "messaging.message.send": {
-      "fulfillment": "Prêt à enregistrer ton message."
-    },
-    "find.phone.locate": {
-      "fulfillment": "Je cherche ton téléphone."
-    },
-    "device.status.battery": {
-      "fulfillment": "Je vérifie le niveau de batterie."
-    },
-    "messaging.message.listen": {
-      "fulfillment": "Lecture de ton message."
-    },
-    "translation.session.start": {
-      "fulfillment": "Ouverture de Translate."
-    },
-    "transcription.session.start": {
-      "fulfillment": "Ouverture de Transcribe."
-    },
-    "streaming.session.start": {
-      "fulfillment": "Diffusion démarrée.",
-      "confirm_prompt": "Pour confirmer — démarrer la diffusion ?"
-    },
-    "streaming.session.stop": {
-      "fulfillment": "Diffusion arrêtée.",
-      "confirm_prompt": "Pour confirmer — arrêter la diffusion ?"
-    },
-    "activity.run.query": {
-      "fulfillment": "Démarrage de l'activité course."
-    },
-    "activity.walk.query": {
-      "fulfillment": "Démarrage de l'activité marche."
-    },
-    "activity.step.query": {
-      "fulfillment": "Affichage du nombre de pas."
-    },
-    "activity.stand.query": {
-      "fulfillment": "Affichage de l'activité debout."
-    },
-    "activity.cycle.query": {
-      "fulfillment": "Démarrage de l'activité vélo."
-    },
-    "activity.aerobics.query": {
-      "fulfillment": "Démarrage de l'aérobic."
-    },
-    "activity.exercise.query": {
-      "fulfillment": "Démarrage de l'exercice."
-    },
-    "activity.calories.query": {
-      "fulfillment": "Affichage des calories."
-    },
-    "help.volume.show": {
-      "fulfillment": "Voici de l'aide sur le volume."
-    },
-    "help.changing_memories.show": {
-      "fulfillment": "Voici de l'aide sur les programmes."
-    },
-    "help.memory_options.show": {
-      "fulfillment": "Voici les options de programmes."
-    },
-    "help.pairing.show": {
-      "fulfillment": "Voici de l'aide sur l'appairage."
-    },
-    "help.find_my_hearing_aids.show": {
-      "fulfillment": "Voici de l'aide pour retrouver tes aides auditives."
-    },
-    "help.accessories.show": {
-      "fulfillment": "Voici de l'aide sur les accessoires."
-    },
-    "help.remote_programming.show": {
-      "fulfillment": "Voici de l'aide sur le réglage à distance."
-    },
-    "help.tinnitus.show": {
-      "fulfillment": "Voici de l'aide sur les acouphènes."
-    },
-    "help.self_check.show": {
-      "fulfillment": "Voici de l'aide sur SelfCheck."
-    },
-    "help.thrive_score.show": {
-      "fulfillment": "Voici de l'aide sur le Thrive Score."
-    },
-    "help.device_settings.show": {
-      "fulfillment": "Voici de l'aide sur les réglages de l'appareil."
-    },
-    "help.intelli_voice.show": {
-      "fulfillment": "Voici de l'aide sur IntelliVoice."
-    },
-    "help.fall_alert.show": {
-      "fulfillment": "Voici de l'aide sur Fall Alert."
-    },
-    "help.hear_share.show": {
-      "fulfillment": "Voici de l'aide sur HearShare."
-    },
-    "help.voice_assistant.show": {
-      "fulfillment": "Voici de l'aide sur l'assistant vocal."
-    },
-    "help.insert_device.show": {
-      "fulfillment": "Voici de l'aide pour insérer ton appareil."
-    },
-    "help.app_settings.show": {
-      "fulfillment": "Voici de l'aide sur les réglages de l'application."
-    },
-    "help.clean_care.show": {
-      "fulfillment": "Voici de l'aide sur le nettoyage et l'entretien."
-    },
-    "help.customize.show": {
-      "fulfillment": "Voici de l'aide sur la personnalisation."
-    },
-    "help.whats_new.show": {
-      "fulfillment": "Voici les nouveautés."
-    },
-    "help.wi_c_r_o_s.show": {
-      "fulfillment": "Voici de l'aide sur WiCROS."
-    },
-    "help.home.show": {
-      "fulfillment": "Voici de l'aide sur l'écran d'accueil."
-    },
-    "help.battery.show": {
-      "fulfillment": "Voici de l'aide sur la batterie."
-    },
-    "help.reminder.show": {
-      "fulfillment": "Voici de l'aide sur les rappels."
-    },
-    "help.translate.show": {
-      "fulfillment": "Voici de l'aide sur Translate."
-    },
-    "help.transcribe.show": {
-      "fulfillment": "Voici de l'aide sur Transcribe."
-    },
-    "help.health.show": {
-      "fulfillment": "Voici de l'aide sur Health."
-    },
-    "help.heart_rate.show": {
-      "fulfillment": "Voici de l'aide sur la fréquence cardiaque."
-    },
-    "help.heart_rate_recovery.show": {
-      "fulfillment": "Voici de l'aide sur la récupération de la fréquence cardiaque."
-    },
-    "help.hearing_care_anywhere_connect.show": {
-      "fulfillment": "Voici de l'aide sur Hearing Care Anywhere."
-    },
-    "help.mask_mode.show": {
-      "fulfillment": "Voici de l'aide sur Mask Mode."
-    },
-    "help.edge_mode.show": {
-      "fulfillment": "Voici de l'aide sur Edge Mode."
-    },
-    "help.demo_mode.show": {
-      "fulfillment": "Voici de l'aide sur Demo Mode."
-    },
-    "sys.oos.fallback": {
-      "fulfillment": ""
-    }
+    "pending": "keyword_triggers and back_reference regexes are language-specific grammar, authored separately",
+    "status": "draft-for-native-review"
   },
   "affirmative": [
     "yes",
@@ -226,6 +25,7 @@
     "fais-le",
     "s'il te plaît"
   ],
+  "confidence_threshold": 0.7,
   "negative": [
     "no",
     "non",
@@ -242,27 +42,237 @@
   ],
   "polarity_guards": [
     {
-      "pattern": "coupe[rz]? le son|silence",
       "blocked_intent": "device.volume.unmute",
+      "pattern": "coupe[rz]? le son|silence",
       "redirect_intent": "device.volume.mute"
     },
     {
-      "pattern": "r[ée]active[rz]? le son|remet(s|tre) le son",
       "blocked_intent": "device.volume.mute",
+      "pattern": "r[ée]active[rz]? le son|remet(s|tre) le son",
       "redirect_intent": "device.volume.unmute"
     },
     {
-      "pattern": "moins fort|baisse|diminue|r[ée]duis|plus bas",
       "blocked_intent": "device.volume.increase",
+      "pattern": "moins fort|baisse|diminue|r[ée]duis|plus bas",
       "redirect_intent": "device.volume.decrease"
     },
     {
-      "pattern": "plus fort|monte|augmente|plus haut",
       "blocked_intent": "device.volume.decrease",
+      "pattern": "plus fort|monte|augmente|plus haut",
       "redirect_intent": "device.volume.increase"
+    },
+    {
+      "blocked_intent": "streaming.session.start",
+      "pattern": "arr[êe]te|stoppe|termine|fin de",
+      "redirect_intent": "streaming.session.stop"
+    },
+    {
+      "blocked_intent": "streaming.session.stop",
+      "pattern": "d[ée]marre|commence|lance",
+      "redirect_intent": "streaming.session.start"
     }
   ],
   "uncertain_confirm": {
     "cancel_message": "D'accord, j'annule."
+  },
+  "version": 2,
+  "intents": {
+    "activity.aerobics.query": {
+      "fulfillment": "Démarrage de l'aérobic."
+    },
+    "activity.calories.query": {
+      "fulfillment": "Affichage des calories."
+    },
+    "activity.cycle.query": {
+      "fulfillment": "Démarrage de l'activité vélo."
+    },
+    "activity.exercise.query": {
+      "fulfillment": "Démarrage de l'exercice."
+    },
+    "activity.run.query": {
+      "fulfillment": "Démarrage de l'activité course."
+    },
+    "activity.stand.query": {
+      "fulfillment": "Affichage de l'activité debout."
+    },
+    "activity.step.query": {
+      "fulfillment": "Affichage du nombre de pas."
+    },
+    "activity.walk.query": {
+      "fulfillment": "Démarrage de l'activité marche."
+    },
+    "device.memory.change": {
+      "fulfillment": "Programme changé.",
+      "slots": [
+        {
+          "name": "MemoryName",
+          "prompt": "Quel est le nom du programme ?"
+        }
+      ]
+    },
+    "device.status.battery": {
+      "fulfillment": "Je vérifie le niveau de batterie."
+    },
+    "device.volume.decrease": {
+      "confirm_prompt": "Pour confirmer — baisser le volume ?",
+      "fulfillment": "Volume baissé."
+    },
+    "device.volume.increase": {
+      "confirm_prompt": "Pour confirmer — augmenter le volume ?",
+      "fulfillment": "Volume augmenté."
+    },
+    "device.volume.mute": {
+      "confirm_prompt": "Pour confirmer — couper le son de vos aides auditives ?",
+      "fulfillment": "Son coupé."
+    },
+    "device.volume.unmute": {
+      "confirm_prompt": "Pour confirmer — réactiver le son de vos aides auditives ?",
+      "fulfillment": "Son rétabli."
+    },
+    "find.phone.locate": {
+      "fulfillment": "Je cherche ton téléphone."
+    },
+    "help.accessories.show": {
+      "fulfillment": "Voici de l'aide sur les accessoires."
+    },
+    "help.app_settings.show": {
+      "fulfillment": "Voici de l'aide sur les réglages de l'application."
+    },
+    "help.battery.show": {
+      "fulfillment": "Voici de l'aide sur la batterie."
+    },
+    "help.changing_memories.show": {
+      "fulfillment": "Voici de l'aide sur les programmes."
+    },
+    "help.clean_care.show": {
+      "fulfillment": "Voici de l'aide sur le nettoyage et l'entretien."
+    },
+    "help.customize.show": {
+      "fulfillment": "Voici de l'aide sur la personnalisation."
+    },
+    "help.demo_mode.show": {
+      "fulfillment": "Voici de l'aide sur Demo Mode."
+    },
+    "help.device_settings.show": {
+      "fulfillment": "Voici de l'aide sur les réglages de l'appareil."
+    },
+    "help.edge_mode.show": {
+      "fulfillment": "Voici de l'aide sur Edge Mode."
+    },
+    "help.fall_alert.show": {
+      "fulfillment": "Voici de l'aide sur Fall Alert."
+    },
+    "help.find_my_hearing_aids.show": {
+      "fulfillment": "Voici de l'aide pour retrouver tes aides auditives."
+    },
+    "help.health.show": {
+      "fulfillment": "Voici de l'aide sur Health."
+    },
+    "help.hear_share.show": {
+      "fulfillment": "Voici de l'aide sur HearShare."
+    },
+    "help.hearing_care_anywhere_connect.show": {
+      "fulfillment": "Voici de l'aide sur Hearing Care Anywhere."
+    },
+    "help.heart_rate.show": {
+      "fulfillment": "Voici de l'aide sur la fréquence cardiaque."
+    },
+    "help.heart_rate_recovery.show": {
+      "fulfillment": "Voici de l'aide sur la récupération de la fréquence cardiaque."
+    },
+    "help.home.show": {
+      "fulfillment": "Voici de l'aide sur l'écran d'accueil."
+    },
+    "help.insert_device.show": {
+      "fulfillment": "Voici de l'aide pour insérer ton appareil."
+    },
+    "help.intelli_voice.show": {
+      "fulfillment": "Voici de l'aide sur IntelliVoice."
+    },
+    "help.mask_mode.show": {
+      "fulfillment": "Voici de l'aide sur Mask Mode."
+    },
+    "help.memory_options.show": {
+      "fulfillment": "Voici les options de programmes."
+    },
+    "help.pairing.show": {
+      "fulfillment": "Voici de l'aide sur l'appairage."
+    },
+    "help.reminder.show": {
+      "fulfillment": "Voici de l'aide sur les rappels."
+    },
+    "help.remote_programming.show": {
+      "fulfillment": "Voici de l'aide sur le réglage à distance."
+    },
+    "help.self_check.show": {
+      "fulfillment": "Voici de l'aide sur SelfCheck."
+    },
+    "help.thrive_score.show": {
+      "fulfillment": "Voici de l'aide sur le Thrive Score."
+    },
+    "help.tinnitus.show": {
+      "fulfillment": "Voici de l'aide sur les acouphènes."
+    },
+    "help.transcribe.show": {
+      "fulfillment": "Voici de l'aide sur Transcribe."
+    },
+    "help.translate.show": {
+      "fulfillment": "Voici de l'aide sur Translate."
+    },
+    "help.voice_assistant.show": {
+      "fulfillment": "Voici de l'aide sur l'assistant vocal."
+    },
+    "help.volume.show": {
+      "fulfillment": "Voici de l'aide sur le volume."
+    },
+    "help.whats_new.show": {
+      "fulfillment": "Voici les nouveautés."
+    },
+    "help.wi_c_r_o_s.show": {
+      "fulfillment": "Voici de l'aide sur WiCROS."
+    },
+    "messaging.message.listen": {
+      "fulfillment": "Lecture de ton message."
+    },
+    "messaging.message.send": {
+      "fulfillment": "Prêt à enregistrer ton message."
+    },
+    "reminders.task.complete": {
+      "fulfillment": "Rappel marqué comme terminé."
+    },
+    "reminders.task.create": {
+      "fulfillment": "Rappel créé.",
+      "slots": [
+        {
+          "name": "recurrence",
+          "prompt": ""
+        },
+        {
+          "name": "name",
+          "prompt": "Que veux-tu que je te rappelle ?"
+        },
+        {
+          "name": "date-time",
+          "prompt": "Quand dois-je te le rappeler ? Tu peux dire par exemple « à 9h », « demain à 15h » ou « dans 10 minutes »."
+        }
+      ]
+    },
+    "streaming.session.start": {
+      "confirm_prompt": "Pour confirmer — démarrer la diffusion ?",
+      "fulfillment": "Diffusion démarrée."
+    },
+    "streaming.session.stop": {
+      "confirm_prompt": "Pour confirmer — arrêter la diffusion ?",
+      "fulfillment": "Diffusion arrêtée."
+    },
+    "sys.oos.fallback": {
+      "fulfillment": ""
+    },
+    "transcription.session.start": {
+      "fulfillment": "Ouverture de Transcribe."
+    },
+    "translation.session.start": {
+      "fulfillment": "Ouverture de Translate."
+    }
   }
 }

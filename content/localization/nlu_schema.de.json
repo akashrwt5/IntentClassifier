@@ -1,211 +1,10 @@
 {
   "_meta": {
-    "language": "de",
-    "status": "draft-for-native-review",
     "kind": "localization-overlay",
+    "language": "de",
     "localizes": "slot prompts, fulfillments, affirmative/negative/uncertain",
-    "pending": "keyword_triggers and back_reference regexes are language-specific grammar, authored separately"
-  },
-  "version": 2,
-  "confidence_threshold": 0.7,
-  "intents": {
-    "device.volume.increase": {
-      "fulfillment": "Lautstärke erhöht.",
-      "confirm_prompt": "Zur Sicherheit — die Lautstärke erhöhen?"
-    },
-    "device.volume.decrease": {
-      "fulfillment": "Lautstärke verringert.",
-      "confirm_prompt": "Zur Sicherheit — die Lautstärke verringern?"
-    },
-    "device.volume.mute": {
-      "fulfillment": "Stummgeschaltet.",
-      "confirm_prompt": "Zur Sicherheit — Ihre Hörgeräte stummschalten?"
-    },
-    "device.volume.unmute": {
-      "fulfillment": "Stummschaltung aufgehoben.",
-      "confirm_prompt": "Zur Sicherheit — die Stummschaltung aufheben?"
-    },
-    "device.memory.change": {
-      "fulfillment": "Programm gewechselt.",
-      "slots": [
-        {
-          "name": "MemoryName",
-          "prompt": "Wie heißt das Programm?"
-        }
-      ]
-    },
-    "reminders.task.create": {
-      "fulfillment": "Erinnerung erstellt.",
-      "slots": [
-        {
-          "name": "recurrence",
-          "prompt": ""
-        },
-        {
-          "name": "name",
-          "prompt": "Woran soll ich dich erinnern?"
-        },
-        {
-          "name": "date-time",
-          "prompt": "Wann soll ich dich erinnern? Du kannst zum Beispiel sagen '9 Uhr', 'morgen um 15 Uhr' oder 'in 10 Minuten'."
-        }
-      ]
-    },
-    "reminders.task.complete": {
-      "fulfillment": "Erinnerung als erledigt markiert."
-    },
-    "messaging.message.send": {
-      "fulfillment": "Bereit, deine Nachricht aufzunehmen."
-    },
-    "find.phone.locate": {
-      "fulfillment": "Ich suche dein Telefon."
-    },
-    "device.status.battery": {
-      "fulfillment": "Ich prüfe den Akkustand."
-    },
-    "messaging.message.listen": {
-      "fulfillment": "Ich spiele deine Nachricht ab."
-    },
-    "translation.session.start": {
-      "fulfillment": "Translate wird geöffnet."
-    },
-    "transcription.session.start": {
-      "fulfillment": "Transcribe wird geöffnet."
-    },
-    "streaming.session.start": {
-      "fulfillment": "Streaming gestartet.",
-      "confirm_prompt": "Zur Sicherheit — das Streaming starten?"
-    },
-    "streaming.session.stop": {
-      "fulfillment": "Streaming beendet.",
-      "confirm_prompt": "Zur Sicherheit — das Streaming beenden?"
-    },
-    "activity.run.query": {
-      "fulfillment": "Aktivität Laufen wird gestartet."
-    },
-    "activity.walk.query": {
-      "fulfillment": "Aktivität Gehen wird gestartet."
-    },
-    "activity.step.query": {
-      "fulfillment": "Ich zeige die Schrittzahl."
-    },
-    "activity.stand.query": {
-      "fulfillment": "Ich zeige die Stehaktivität."
-    },
-    "activity.cycle.query": {
-      "fulfillment": "Aktivität Radfahren wird gestartet."
-    },
-    "activity.aerobics.query": {
-      "fulfillment": "Aerobic wird gestartet."
-    },
-    "activity.exercise.query": {
-      "fulfillment": "Training wird gestartet."
-    },
-    "activity.calories.query": {
-      "fulfillment": "Ich zeige die Kalorien."
-    },
-    "help.volume.show": {
-      "fulfillment": "Hier ist Hilfe zur Lautstärke."
-    },
-    "help.changing_memories.show": {
-      "fulfillment": "Hier ist Hilfe zum Wechseln der Programme."
-    },
-    "help.memory_options.show": {
-      "fulfillment": "Hier sind die Programmoptionen."
-    },
-    "help.pairing.show": {
-      "fulfillment": "Hier ist Hilfe zum Koppeln."
-    },
-    "help.find_my_hearing_aids.show": {
-      "fulfillment": "Hier ist Hilfe, um deine Hörgeräte zu finden."
-    },
-    "help.accessories.show": {
-      "fulfillment": "Hier ist Hilfe zum Zubehör."
-    },
-    "help.remote_programming.show": {
-      "fulfillment": "Hier ist Hilfe zur Fernprogrammierung."
-    },
-    "help.tinnitus.show": {
-      "fulfillment": "Hier ist Hilfe zum Tinnitus."
-    },
-    "help.self_check.show": {
-      "fulfillment": "Hier ist Hilfe zu SelfCheck."
-    },
-    "help.thrive_score.show": {
-      "fulfillment": "Hier ist Hilfe zum Thrive Score."
-    },
-    "help.device_settings.show": {
-      "fulfillment": "Hier ist Hilfe zu den Geräteeinstellungen."
-    },
-    "help.intelli_voice.show": {
-      "fulfillment": "Hier ist Hilfe zu IntelliVoice."
-    },
-    "help.fall_alert.show": {
-      "fulfillment": "Hier ist Hilfe zu Fall Alert."
-    },
-    "help.hear_share.show": {
-      "fulfillment": "Hier ist Hilfe zu HearShare."
-    },
-    "help.voice_assistant.show": {
-      "fulfillment": "Hier ist Hilfe zum Sprachassistenten."
-    },
-    "help.insert_device.show": {
-      "fulfillment": "Hier ist Hilfe zum Einsetzen deines Geräts."
-    },
-    "help.app_settings.show": {
-      "fulfillment": "Hier ist Hilfe zu den App-Einstellungen."
-    },
-    "help.clean_care.show": {
-      "fulfillment": "Hier ist Hilfe zur Reinigung und Pflege."
-    },
-    "help.customize.show": {
-      "fulfillment": "Hier ist Hilfe zum Anpassen."
-    },
-    "help.whats_new.show": {
-      "fulfillment": "Hier ist, was es Neues gibt."
-    },
-    "help.wi_c_r_o_s.show": {
-      "fulfillment": "Hier ist Hilfe zu WiCROS."
-    },
-    "help.home.show": {
-      "fulfillment": "Hier ist Hilfe zum Startbildschirm."
-    },
-    "help.battery.show": {
-      "fulfillment": "Hier ist Hilfe zum Akku."
-    },
-    "help.reminder.show": {
-      "fulfillment": "Hier ist Hilfe zu den Erinnerungen."
-    },
-    "help.translate.show": {
-      "fulfillment": "Hier ist Hilfe zu Translate."
-    },
-    "help.transcribe.show": {
-      "fulfillment": "Hier ist Hilfe zu Transcribe."
-    },
-    "help.health.show": {
-      "fulfillment": "Hier ist Hilfe zu Health."
-    },
-    "help.heart_rate.show": {
-      "fulfillment": "Hier ist Hilfe zur Herzfrequenz."
-    },
-    "help.heart_rate_recovery.show": {
-      "fulfillment": "Hier ist Hilfe zur Herzfrequenzerholung."
-    },
-    "help.hearing_care_anywhere_connect.show": {
-      "fulfillment": "Hier ist Hilfe zu Hearing Care Anywhere."
-    },
-    "help.mask_mode.show": {
-      "fulfillment": "Hier ist Hilfe zum Mask Mode."
-    },
-    "help.edge_mode.show": {
-      "fulfillment": "Hier ist Hilfe zum Edge Mode."
-    },
-    "help.demo_mode.show": {
-      "fulfillment": "Hier ist Hilfe zum Demo Mode."
-    },
-    "sys.oos.fallback": {
-      "fulfillment": ""
-    }
+    "pending": "keyword_triggers and back_reference regexes are language-specific grammar, authored separately",
+    "status": "draft-for-native-review"
   },
   "affirmative": [
     "yes",
@@ -226,6 +25,7 @@
     "nur zu",
     "bitte"
   ],
+  "confidence_threshold": 0.7,
   "negative": [
     "no",
     "cancel",
@@ -245,27 +45,237 @@
   ],
   "polarity_guards": [
     {
-      "pattern": "stumm(schalten)?\\b|\\bton aus\\b",
       "blocked_intent": "device.volume.unmute",
+      "pattern": "stumm(schalten)?\\b|\\bton aus\\b",
       "redirect_intent": "device.volume.mute"
     },
     {
-      "pattern": "stummschaltung (aufheben|beenden)|\\bton (wieder )?an\\b",
       "blocked_intent": "device.volume.mute",
+      "pattern": "stummschaltung (aufheben|beenden)|\\bton (wieder )?an\\b",
       "redirect_intent": "device.volume.unmute"
     },
     {
-      "pattern": "\\bleiser\\b|\\brunter\\b|verringer|senken|reduzier",
       "blocked_intent": "device.volume.increase",
+      "pattern": "\\bleiser\\b|\\brunter\\b|verringer|senken|reduzier",
       "redirect_intent": "device.volume.decrease"
     },
     {
-      "pattern": "\\blauter\\b|\\bh[öo]her\\b|erh[öo]h|\\bhoch\\b",
       "blocked_intent": "device.volume.decrease",
+      "pattern": "\\blauter\\b|\\bh[öo]her\\b|erh[öo]h|\\bhoch\\b",
       "redirect_intent": "device.volume.increase"
+    },
+    {
+      "blocked_intent": "streaming.session.start",
+      "pattern": "beende|stopp|aufh[öo]ren|aus\\b",
+      "redirect_intent": "streaming.session.stop"
+    },
+    {
+      "blocked_intent": "streaming.session.stop",
+      "pattern": "starte|beginn|\\ban\\b",
+      "redirect_intent": "streaming.session.start"
     }
   ],
   "uncertain_confirm": {
     "cancel_message": "In Ordnung, ich lasse es."
+  },
+  "version": 2,
+  "intents": {
+    "activity.aerobics.query": {
+      "fulfillment": "Aerobic wird gestartet."
+    },
+    "activity.calories.query": {
+      "fulfillment": "Ich zeige die Kalorien."
+    },
+    "activity.cycle.query": {
+      "fulfillment": "Aktivität Radfahren wird gestartet."
+    },
+    "activity.exercise.query": {
+      "fulfillment": "Training wird gestartet."
+    },
+    "activity.run.query": {
+      "fulfillment": "Aktivität Laufen wird gestartet."
+    },
+    "activity.stand.query": {
+      "fulfillment": "Ich zeige die Stehaktivität."
+    },
+    "activity.step.query": {
+      "fulfillment": "Ich zeige die Schrittzahl."
+    },
+    "activity.walk.query": {
+      "fulfillment": "Aktivität Gehen wird gestartet."
+    },
+    "device.memory.change": {
+      "fulfillment": "Programm gewechselt.",
+      "slots": [
+        {
+          "name": "MemoryName",
+          "prompt": "Wie heißt das Programm?"
+        }
+      ]
+    },
+    "device.status.battery": {
+      "fulfillment": "Ich prüfe den Akkustand."
+    },
+    "device.volume.decrease": {
+      "confirm_prompt": "Zur Sicherheit — die Lautstärke verringern?",
+      "fulfillment": "Lautstärke verringert."
+    },
+    "device.volume.increase": {
+      "confirm_prompt": "Zur Sicherheit — die Lautstärke erhöhen?",
+      "fulfillment": "Lautstärke erhöht."
+    },
+    "device.volume.mute": {
+      "confirm_prompt": "Zur Sicherheit — Ihre Hörgeräte stummschalten?",
+      "fulfillment": "Stummgeschaltet."
+    },
+    "device.volume.unmute": {
+      "confirm_prompt": "Zur Sicherheit — die Stummschaltung aufheben?",
+      "fulfillment": "Stummschaltung aufgehoben."
+    },
+    "find.phone.locate": {
+      "fulfillment": "Ich suche dein Telefon."
+    },
+    "help.accessories.show": {
+      "fulfillment": "Hier ist Hilfe zum Zubehör."
+    },
+    "help.app_settings.show": {
+      "fulfillment": "Hier ist Hilfe zu den App-Einstellungen."
+    },
+    "help.battery.show": {
+      "fulfillment": "Hier ist Hilfe zum Akku."
+    },
+    "help.changing_memories.show": {
+      "fulfillment": "Hier ist Hilfe zum Wechseln der Programme."
+    },
+    "help.clean_care.show": {
+      "fulfillment": "Hier ist Hilfe zur Reinigung und Pflege."
+    },
+    "help.customize.show": {
+      "fulfillment": "Hier ist Hilfe zum Anpassen."
+    },
+    "help.demo_mode.show": {
+      "fulfillment": "Hier ist Hilfe zum Demo Mode."
+    },
+    "help.device_settings.show": {
+      "fulfillment": "Hier ist Hilfe zu den Geräteeinstellungen."
+    },
+    "help.edge_mode.show": {
+      "fulfillment": "Hier ist Hilfe zum Edge Mode."
+    },
+    "help.fall_alert.show": {
+      "fulfillment": "Hier ist Hilfe zu Fall Alert."
+    },
+    "help.find_my_hearing_aids.show": {
+      "fulfillment": "Hier ist Hilfe, um deine Hörgeräte zu finden."
+    },
+    "help.health.show": {
+      "fulfillment": "Hier ist Hilfe zu Health."
+    },
+    "help.hear_share.show": {
+      "fulfillment": "Hier ist Hilfe zu HearShare."
+    },
+    "help.hearing_care_anywhere_connect.show": {
+      "fulfillment": "Hier ist Hilfe zu Hearing Care Anywhere."
+    },
+    "help.heart_rate.show": {
+      "fulfillment": "Hier ist Hilfe zur Herzfrequenz."
+    },
+    "help.heart_rate_recovery.show": {
+      "fulfillment": "Hier ist Hilfe zur Herzfrequenzerholung."
+    },
+    "help.home.show": {
+      "fulfillment": "Hier ist Hilfe zum Startbildschirm."
+    },
+    "help.insert_device.show": {
+      "fulfillment": "Hier ist Hilfe zum Einsetzen deines Geräts."
+    },
+    "help.intelli_voice.show": {
+      "fulfillment": "Hier ist Hilfe zu IntelliVoice."
+    },
+    "help.mask_mode.show": {
+      "fulfillment": "Hier ist Hilfe zum Mask Mode."
+    },
+    "help.memory_options.show": {
+      "fulfillment": "Hier sind die Programmoptionen."
+    },
+    "help.pairing.show": {
+      "fulfillment": "Hier ist Hilfe zum Koppeln."
+    },
+    "help.reminder.show": {
+      "fulfillment": "Hier ist Hilfe zu den Erinnerungen."
+    },
+    "help.remote_programming.show": {
+      "fulfillment": "Hier ist Hilfe zur Fernprogrammierung."
+    },
+    "help.self_check.show": {
+      "fulfillment": "Hier ist Hilfe zu SelfCheck."
+    },
+    "help.thrive_score.show": {
+      "fulfillment": "Hier ist Hilfe zum Thrive Score."
+    },
+    "help.tinnitus.show": {
+      "fulfillment": "Hier ist Hilfe zum Tinnitus."
+    },
+    "help.transcribe.show": {
+      "fulfillment": "Hier ist Hilfe zu Transcribe."
+    },
+    "help.translate.show": {
+      "fulfillment": "Hier ist Hilfe zu Translate."
+    },
+    "help.voice_assistant.show": {
+      "fulfillment": "Hier ist Hilfe zum Sprachassistenten."
+    },
+    "help.volume.show": {
+      "fulfillment": "Hier ist Hilfe zur Lautstärke."
+    },
+    "help.whats_new.show": {
+      "fulfillment": "Hier ist, was es Neues gibt."
+    },
+    "help.wi_c_r_o_s.show": {
+      "fulfillment": "Hier ist Hilfe zu WiCROS."
+    },
+    "messaging.message.listen": {
+      "fulfillment": "Ich spiele deine Nachricht ab."
+    },
+    "messaging.message.send": {
+      "fulfillment": "Bereit, deine Nachricht aufzunehmen."
+    },
+    "reminders.task.complete": {
+      "fulfillment": "Erinnerung als erledigt markiert."
+    },
+    "reminders.task.create": {
+      "fulfillment": "Erinnerung erstellt.",
+      "slots": [
+        {
+          "name": "recurrence",
+          "prompt": ""
+        },
+        {
+          "name": "name",
+          "prompt": "Woran soll ich dich erinnern?"
+        },
+        {
+          "name": "date-time",
+          "prompt": "Wann soll ich dich erinnern? Du kannst zum Beispiel sagen '9 Uhr', 'morgen um 15 Uhr' oder 'in 10 Minuten'."
+        }
+      ]
+    },
+    "streaming.session.start": {
+      "confirm_prompt": "Zur Sicherheit — das Streaming starten?",
+      "fulfillment": "Streaming gestartet."
+    },
+    "streaming.session.stop": {
+      "confirm_prompt": "Zur Sicherheit — das Streaming beenden?",
+      "fulfillment": "Streaming beendet."
+    },
+    "sys.oos.fallback": {
+      "fulfillment": ""
+    },
+    "transcription.session.start": {
+      "fulfillment": "Transcribe wird geöffnet."
+    },
+    "translation.session.start": {
+      "fulfillment": "Translate wird geöffnet."
+    }
   }
 }

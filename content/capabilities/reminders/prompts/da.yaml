@@ -1,0 +1,12 @@
+reminders.task.complete:
+  fulfillment: Påmindelse markeret som færdig.
+reminders.task.create:
+  fulfillment: Påmindelse oprettet.
+  slots:
+  - name: recurrence
+    prompt: ''
+  - name: name
+    prompt: Hvad skal jeg minde dig om?
+  - name: date-time
+    prompt: Hvornår skal jeg minde dig om det? Du kan sige fx 'klokken 9', 'i morgen klokken 15' eller
+      'om 10 minutter'.

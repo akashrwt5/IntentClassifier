@@ -1,0 +1,5 @@
+# The classic wrong-action case: a volume QUESTION must not change volume.
+lang: en
+turns:
+  - user: "why is my volume changing by itself"
+    expect: {not_action_prefix: volume.}

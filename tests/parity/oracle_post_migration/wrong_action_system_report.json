@@ -1,11 +1,11 @@
 {
   "semantic_enabled": false,
-  "mitigations": "ND-11 (a)+(b) + confirm-floor extension + min_df=1 recipe fix",
+  "mitigations": "ND-11 a+b + confirm-floor + min_df=1 + streaming start/stop guards",
   "per_language": {
     "en": {
       "turns": 1461,
       "wrong_actions": 23,
-      "confirm_gated_wrong": 27,
+      "confirm_gated_wrong": 26,
       "fulfilled": 1039,
       "prompted": 59,
       "fallback": 274,
@@ -360,6 +360,6 @@
   "history": {
     "unmitigated": 99,
     "after_nd11_ab": 73,
-    "after_recipe_fix_and_floor": 67
+    "current": 67
   }
 }

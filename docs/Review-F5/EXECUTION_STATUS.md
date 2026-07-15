@@ -33,7 +33,7 @@
 | Bundle compiler stages 11–15 (packaging/signing) | ADR-005 §5 | ⏸ signing gated (ND-8) |
 | packages/ + apps/cli + spec/ restructure | roadmap §13 | ✅ done — M0–M4 executed with byte-identical oracle parity at every phase (see ND-2 row) |
 | Label-space cleanup (dialogue-act labels, taxonomy migration) | roadmap §2.3, ADR-002 A7 | ✅ done — executed under ND-3 approval (see ND-3 row); migration map is CI-checkable via datasets/label_migration_map.json |
-| Repartition content/ into capabilities + capability.yaml | ADR-002 AI#3,4,6 | 🟡 map materialized — `docs/Review-F5/capability-map.json` (12 capabilities, machine-checked over all 59 intents; supersedes ND-3 plan's naming sketch). Physical repartition follows ND-2 M3 + ND-3 approval. |
+| Repartition content/ into capabilities + capability.yaml | ADR-002 AI#3,4,6 | ✅ done — `content/capabilities/<id>/` source tree (12 capabilities × 57 intents: capability.yaml, per-intent YAML, per-language prompts) + platform.yaml for order-sensitive tables. `nlu_compiler.content_source` split/assemble/check; round-trip identity proven; drift guard in CI (tests/test_content_source.py). Engine still loads the compiled nlu_schema.json — regenerate via `assemble` after source edits. |
 | nlu_training package + unified evaluate JSON | roadmap §9.2 | ✅ v0 done — `packages/buildtime/nlu_training` (`python -m nlu_training`): one report_card-schema-valid JSON (per-lang F1/acc/ECE, wrong-action proxy count + per-domain, OOS recall, gates). Reproduces the recorded baseline exactly. |
 | DVC (datasets) + MLflow (local file backend) | roadmap §16 | ⬜ unblocked |
 | Real tests/ pytest tree (unit/component/golden/parity/perf) | roadmap §15 | 🟡 started (tests/ exists: smoke, datetime parity, phase-0 guards) |
@@ -100,6 +100,13 @@ wrong_action_system_report.json`.
 
 ## Iteration log
 
+- **2026-07-14 (k)** — Capability repartition executed: content/capabilities/
+  source tree (12×57) with round-trip identity proof + CI drift guard;
+  keyword/guard/lexicon tables stay platform-level (order-sensitive,
+  ADR-005-aligned). Corpus grown 20 → 35 scripts; caught a de streaming
+  start/stop polarity confusion → start/stop guard pairs added in all 4
+  languages via the new source-tree workflow. Wrong actions steady at 67
+  (guards fixed confirm-question correctness). Suite 116/116.
 - **2026-07-14 (j)** — Owner batch: (1) compiler stages 11–15 shipped
   (deterministic .nlu packaging + dev-key Ed25519 signing + 3-gate verify;
   ND-8 still open for production KMS). (2) Golden conversation corpus: 20

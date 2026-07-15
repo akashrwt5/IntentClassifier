@@ -1,0 +1,4 @@
+lang: fr
+turns:
+  - user: "rappelle-moi de prendre mes médicaments demain à 8 heures"
+    expect: {intent: reminders.task.create}

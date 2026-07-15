@@ -1,0 +1,12 @@
+reminders.task.complete:
+  fulfillment: Rappel marqué comme terminé.
+reminders.task.create:
+  fulfillment: Rappel créé.
+  slots:
+  - name: recurrence
+    prompt: ''
+  - name: name
+    prompt: Que veux-tu que je te rappelle ?
+  - name: date-time
+    prompt: Quand dois-je te le rappeler ? Tu peux dire par exemple « à 9h », « demain à 15h » ou « dans
+      10 minutes ».

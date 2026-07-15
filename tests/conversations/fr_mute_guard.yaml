@@ -1,0 +1,5 @@
+# fr: 'coupe le son' must never fire unmute.
+lang: fr
+turns:
+  - user: "coupe le son s'il te plaît"
+    expect: {not_intent: device.volume.unmute}

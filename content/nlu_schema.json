@@ -6,43 +6,43 @@
   "keyword_triggers": [
     {
       "intent": "translation.session.start",
-      "regex": "\\btranslat(e|es|ing|ion)\\b",
-      "not_regex": "\\b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\\b"
+      "not_regex": "\\b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\\b",
+      "regex": "\\btranslat(e|es|ing|ion)\\b"
     },
     {
       "intent": "transcription.session.start",
-      "regex": "\\btranscri(be|bing|ption)\\b",
-      "not_regex": "\\b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\\b"
+      "not_regex": "\\b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\\b",
+      "regex": "\\btranscri(be|bing|ption)\\b"
     },
     {
-      "intent": "device.volume.mute",
       "exact": [
         "mute",
         "silence"
-      ]
+      ],
+      "intent": "device.volume.mute"
     },
     {
       "intent": "device.volume.mute",
-      "regex": "\\b(silence|hush|shush)\\b",
-      "not_regex": "\\b(what|how|tell me|ask|explain|mean)\\b"
+      "not_regex": "\\b(what|how|tell me|ask|explain|mean)\\b",
+      "regex": "\\b(silence|hush|shush)\\b"
     },
     {
-      "intent": "device.volume.unmute",
       "exact": [
         "unmute"
-      ]
+      ],
+      "intent": "device.volume.unmute"
     },
     {
-      "intent": "messaging.message.send",
       "exact": [
         "push to talk",
         "ptt"
-      ]
+      ],
+      "intent": "messaging.message.send"
     },
     {
       "intent": "messaging.message.send",
-      "regex": "\\bsend\\b.{0,30}\\bmessage\\b",
-      "not_regex": "^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\\s+send|send\\s+it|send\\s+now)\\b"
+      "not_regex": "^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\\s+send|send\\s+it|send\\s+now)\\b",
+      "regex": "\\bsend\\b.{0,30}\\bmessage\\b"
     },
     {
       "intent": "device.volume.increase",
@@ -78,21 +78,21 @@
     },
     {
       "intent": "device.volume.increase",
-      "regex": "\\b(crank|jack|pump)\\b.{0,10}\\b(it|the|sound|volume|up|higher)\\b|\\b(boost|amp)\\b.{0,10}\\b(it|the|sound|volume)\\b",
-      "not_regex": "\\b(down|reduce|lower)\\b"
+      "not_regex": "\\b(down|reduce|lower)\\b",
+      "regex": "\\b(crank|jack|pump)\\b.{0,10}\\b(it|the|sound|volume|up|higher)\\b|\\b(boost|amp)\\b.{0,10}\\b(it|the|sound|volume)\\b"
     },
     {
       "intent": "device.volume.decrease",
       "regex": "\\b(decrease|lower|reduce|turn down)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(down|lower|quieter)\\b|\\bturn it down\\b|\\bturn down\\b|\\bvolume down\\b"
     },
     {
-      "intent": "find.phone.locate",
       "exact": [
         "find my phone",
         "where is my phone",
         "locate my phone",
         "find phone"
-      ]
+      ],
+      "intent": "find.phone.locate"
     },
     {
       "intent": "reminders.task.create",
@@ -112,8 +112,8 @@
     },
     {
       "intent": "device.volume.decrease",
-      "regex": "\\b(dim|soften|dampen|quieten)\\b.{0,15}\\b(audio|sound|volume|it)\\b",
-      "not_regex": "\\b(increase|raise|louder|up)\\b"
+      "not_regex": "\\b(increase|raise|louder|up)\\b",
+      "regex": "\\b(dim|soften|dampen|quieten)\\b.{0,15}\\b(audio|sound|volume|it)\\b"
     },
     {
       "intent": "help.device_settings.show",
@@ -133,13 +133,13 @@
     },
     {
       "intent": "streaming.session.start",
-      "regex": "\\bpatch\\b.{0,15}\\b(sound|audio)\\b.{0,10}\\bthrough\\b|\\bstream\\b.{0,15}\\b(from|phone|tv|device)\\b",
-      "not_regex": "\\b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another person|someone)\\b"
+      "not_regex": "\\b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another person|someone)\\b",
+      "regex": "\\bpatch\\b.{0,15}\\b(sound|audio)\\b.{0,10}\\bthrough\\b|\\bstream\\b.{0,15}\\b(from|phone|tv|device)\\b"
     },
     {
       "intent": "device.memory.change",
-      "regex": "\\b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\\b.{0,10}\\bmode\\b",
-      "not_regex": "\\b(what is|tell me about|help with|explain|how does|what does|about)\\b"
+      "not_regex": "\\b(what is|tell me about|help with|explain|how does|what does|about)\\b",
+      "regex": "\\b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\\b.{0,10}\\bmode\\b"
     },
     {
       "intent": "device.memory.change",
@@ -155,331 +155,331 @@
     }
   ],
   "intents": {
-    "device.volume.increase": {
-      "slots": [],
-      "action": "volume.increase",
-      "fulfillment": "Volume increased.",
-      "confirm_prompt": "Just to be sure — turn the volume up?"
+    "activity.aerobics.query": {
+      "action": "activity.aerobics",
+      "fulfillment": "Starting aerobics.",
+      "slots": []
     },
-    "device.volume.decrease": {
-      "slots": [],
-      "action": "volume.decrease",
-      "fulfillment": "Volume decreased.",
-      "confirm_prompt": "Just to be sure — turn the volume down?"
+    "activity.calories.query": {
+      "action": "activity.calories",
+      "fulfillment": "Showing calories.",
+      "slots": []
     },
-    "device.volume.mute": {
-      "slots": [],
-      "action": "volume.mute",
-      "fulfillment": "Muted.",
-      "confirm_prompt": "Just to be sure — mute your hearing aids?"
+    "activity.cycle.query": {
+      "action": "activity.cycle",
+      "fulfillment": "Starting cycle activity.",
+      "slots": []
     },
-    "device.volume.unmute": {
-      "slots": [],
-      "action": "volume.unmute",
-      "fulfillment": "Unmuted.",
-      "confirm_prompt": "Just to be sure — unmute your hearing aids?"
+    "activity.exercise.query": {
+      "action": "activity.exercise",
+      "fulfillment": "Starting exercise.",
+      "slots": []
+    },
+    "activity.run.query": {
+      "action": "activity.run",
+      "fulfillment": "Starting run activity.",
+      "slots": []
+    },
+    "activity.stand.query": {
+      "action": "activity.stand",
+      "fulfillment": "Showing stand activity.",
+      "slots": []
+    },
+    "activity.step.query": {
+      "action": "activity.step",
+      "fulfillment": "Showing step count.",
+      "slots": []
+    },
+    "activity.walk.query": {
+      "action": "activity.walk",
+      "fulfillment": "Starting walk activity.",
+      "slots": []
     },
     "device.memory.change": {
-      "slots": [
-        {
-          "name": "MemoryName",
-          "entity": "memory",
-          "required": true,
-          "prompt": "What is the name of the memory?"
-        }
-      ],
-      "fulfillment": "Memory changed.",
       "action": "memory.change",
       "back_reference": {
         "pattern": "\\b(change|switch|go|set|put|flip|take|bring|turn)\\s+(it\\s+|me\\s+|them\\s+|that\\s+)?back\\b|\\bback\\s+to\\s+(the|my)\\b|\\b(previous|prior|old)\\s+(program|memory|setting|mode|profile|one)\\b|\\brevert\\b|\\bundo\\b|\\bas before\\b|\\bthe way it was\\b",
         "slot": "MemoryName",
         "source": "prev_memory"
-      }
-    },
-    "reminders.task.create": {
+      },
+      "fulfillment": "Memory changed.",
       "slots": [
         {
-          "name": "recurrence",
-          "entity": "recurrence",
-          "required": false,
-          "prompt": ""
-        },
-        {
-          "name": "name",
-          "entity": "remind",
-          "required": true,
-          "prompt": "What do you want to be reminded?"
-        },
-        {
-          "name": "date-time",
-          "entity": "sys.date-time",
-          "required": true,
-          "prompt": "When should I remind you? You can say things like '9am', 'tomorrow at 3', or 'in 10 minutes'."
+          "entity": "memory",
+          "name": "MemoryName",
+          "prompt": "What is the name of the memory?",
+          "required": true
         }
-      ],
-      "fulfillment": "Reminder created.",
+      ]
+    },
+    "device.status.battery": {
+      "action": "battery.level",
+      "fulfillment": "Checking battery level.",
+      "slots": []
+    },
+    "device.volume.decrease": {
+      "action": "volume.decrease",
+      "confirm_prompt": "Just to be sure — turn the volume down?",
+      "fulfillment": "Volume decreased.",
+      "slots": []
+    },
+    "device.volume.increase": {
+      "action": "volume.increase",
+      "confirm_prompt": "Just to be sure — turn the volume up?",
+      "fulfillment": "Volume increased.",
+      "slots": []
+    },
+    "device.volume.mute": {
+      "action": "volume.mute",
+      "confirm_prompt": "Just to be sure — mute your hearing aids?",
+      "fulfillment": "Muted.",
+      "slots": []
+    },
+    "device.volume.unmute": {
+      "action": "volume.unmute",
+      "confirm_prompt": "Just to be sure — unmute your hearing aids?",
+      "fulfillment": "Unmuted.",
+      "slots": []
+    },
+    "find.phone.locate": {
+      "action": "phone.find",
+      "fulfillment": "Finding your phone.",
+      "slots": []
+    },
+    "help.accessories.show": {
+      "action": "help.accessories",
+      "fulfillment": "Here is help with accessories.",
+      "slots": []
+    },
+    "help.app_settings.show": {
+      "action": "help.app_settings",
+      "fulfillment": "Here is help with app settings.",
+      "slots": []
+    },
+    "help.battery.show": {
+      "action": "help.battery",
+      "fulfillment": "Here is help with battery.",
+      "slots": []
+    },
+    "help.changing_memories.show": {
+      "action": "help.memories",
+      "fulfillment": "Here is help with memories.",
+      "slots": []
+    },
+    "help.clean_care.show": {
+      "action": "help.clean_care",
+      "fulfillment": "Here is help with cleaning and care.",
+      "slots": []
+    },
+    "help.customize.show": {
+      "action": "help.customize",
+      "fulfillment": "Here is help with customization.",
+      "slots": []
+    },
+    "help.demo_mode.show": {
+      "action": "help.demo_mode",
+      "fulfillment": "Here is help with Demo Mode.",
+      "slots": []
+    },
+    "help.device_settings.show": {
+      "action": "help.device_settings",
+      "fulfillment": "Here is help with device settings.",
+      "slots": []
+    },
+    "help.edge_mode.show": {
+      "action": "help.edge_mode",
+      "fulfillment": "Here is help with Edge Mode.",
+      "slots": []
+    },
+    "help.fall_alert.show": {
+      "action": "help.fall_alert",
+      "fulfillment": "Here is help with Fall Alert.",
+      "slots": []
+    },
+    "help.find_my_hearing_aids.show": {
+      "action": "help.find_aids",
+      "fulfillment": "Here is help finding your hearing aids.",
+      "slots": []
+    },
+    "help.health.show": {
+      "action": "help.health",
+      "fulfillment": "Here is help with Health.",
+      "slots": []
+    },
+    "help.hear_share.show": {
+      "action": "help.hear_share",
+      "fulfillment": "Here is help with HearShare.",
+      "slots": []
+    },
+    "help.hearing_care_anywhere_connect.show": {
+      "action": "help.hearing_care_connect",
+      "fulfillment": "Here is help with Hearing Care Anywhere.",
+      "slots": []
+    },
+    "help.heart_rate.show": {
+      "action": "help.heart_rate",
+      "fulfillment": "Here is help with Heart Rate.",
+      "slots": []
+    },
+    "help.heart_rate_recovery.show": {
+      "action": "help.heart_rate_recovery",
+      "fulfillment": "Here is help with Heart Rate Recovery.",
+      "slots": []
+    },
+    "help.home.show": {
+      "action": "help.home",
+      "fulfillment": "Here is help with the home screen.",
+      "slots": []
+    },
+    "help.insert_device.show": {
+      "action": "help.insert_device",
+      "fulfillment": "Here is help inserting your device.",
+      "slots": []
+    },
+    "help.intelli_voice.show": {
+      "action": "help.intelli_voice",
+      "fulfillment": "Here is help with IntelliVoice.",
+      "slots": []
+    },
+    "help.mask_mode.show": {
+      "action": "help.mask_mode",
+      "fulfillment": "Here is help with Mask Mode.",
+      "slots": []
+    },
+    "help.memory_options.show": {
+      "action": "help.memory_options",
+      "fulfillment": "Here are memory options.",
+      "slots": []
+    },
+    "help.pairing.show": {
+      "action": "help.pairing",
+      "fulfillment": "Here is help with pairing.",
+      "slots": []
+    },
+    "help.reminder.show": {
+      "action": "help.reminder",
+      "fulfillment": "Here is help with reminders.",
+      "slots": []
+    },
+    "help.remote_programming.show": {
+      "action": "help.remote_programming",
+      "fulfillment": "Here is help with remote programming.",
+      "slots": []
+    },
+    "help.self_check.show": {
+      "action": "help.selfcheck",
+      "fulfillment": "Here is help with SelfCheck.",
+      "slots": []
+    },
+    "help.thrive_score.show": {
+      "action": "help.thrive_score",
+      "fulfillment": "Here is help with Thrive Score.",
+      "slots": []
+    },
+    "help.tinnitus.show": {
+      "action": "help.tinnitus",
+      "fulfillment": "Here is help with tinnitus.",
+      "slots": []
+    },
+    "help.transcribe.show": {
+      "action": "help.transcribe",
+      "fulfillment": "Here is help with Transcribe.",
+      "slots": []
+    },
+    "help.translate.show": {
+      "action": "help.translate",
+      "fulfillment": "Here is help with Translate.",
+      "slots": []
+    },
+    "help.voice_assistant.show": {
+      "action": "help.voice_assistant",
+      "fulfillment": "Here is help with Voice Assistant.",
+      "slots": []
+    },
+    "help.volume.show": {
+      "action": "help.volume",
+      "fulfillment": "Here is help with volume.",
+      "slots": []
+    },
+    "help.whats_new.show": {
+      "action": "help.whats_new",
+      "fulfillment": "Here is what's new.",
+      "slots": []
+    },
+    "help.wi_c_r_o_s.show": {
+      "action": "help.wicros",
+      "fulfillment": "Here is help with WiCROS.",
+      "slots": []
+    },
+    "messaging.message.listen": {
+      "action": "message.listen",
+      "fulfillment": "Playing your message.",
+      "slots": []
+    },
+    "messaging.message.send": {
+      "action": "message.compose",
+      "fulfillment": "Ready to record your message.",
+      "slots": []
+    },
+    "reminders.task.complete": {
+      "action": "reminders.task.complete",
+      "fulfillment": "Reminder marked as complete.",
+      "slots": []
+    },
+    "reminders.task.create": {
       "action": "reminders.task.create",
       "back_reference": {
         "pattern": "\\bremind me again\\b|\\bsame reminder\\b|\\bsame (one|thing)\\b|\\banother (one|reminder)\\b|\\brepeat (it|that|the reminder)\\b|\\bonce more\\b",
         "source": "last_fulfilled"
-      }
-    },
-    "reminders.task.complete": {
-      "slots": [],
-      "action": "reminders.task.complete",
-      "fulfillment": "Reminder marked as complete."
-    },
-    "messaging.message.send": {
-      "slots": [],
-      "action": "message.compose",
-      "fulfillment": "Ready to record your message."
-    },
-    "find.phone.locate": {
-      "slots": [],
-      "action": "phone.find",
-      "fulfillment": "Finding your phone."
-    },
-    "device.status.battery": {
-      "slots": [],
-      "action": "battery.level",
-      "fulfillment": "Checking battery level."
-    },
-    "messaging.message.listen": {
-      "slots": [],
-      "action": "message.listen",
-      "fulfillment": "Playing your message."
-    },
-    "translation.session.start": {
-      "slots": [],
-      "action": "translate.open",
-      "fulfillment": "Opening Translate."
-    },
-    "transcription.session.start": {
-      "slots": [],
-      "action": "transcribe.open",
-      "fulfillment": "Opening Transcribe."
+      },
+      "fulfillment": "Reminder created.",
+      "slots": [
+        {
+          "entity": "recurrence",
+          "name": "recurrence",
+          "prompt": "",
+          "required": false
+        },
+        {
+          "entity": "remind",
+          "name": "name",
+          "prompt": "What do you want to be reminded?",
+          "required": true
+        },
+        {
+          "entity": "sys.date-time",
+          "name": "date-time",
+          "prompt": "When should I remind you? You can say things like '9am', 'tomorrow at 3', or 'in 10 minutes'.",
+          "required": true
+        }
+      ]
     },
     "streaming.session.start": {
-      "slots": [],
       "action": "streaming.start",
+      "confirm_prompt": "Just to be sure — start streaming?",
       "fulfillment": "Streaming started.",
-      "confirm_prompt": "Just to be sure — start streaming?"
+      "slots": []
     },
     "streaming.session.stop": {
-      "slots": [],
       "action": "streaming.stop",
+      "confirm_prompt": "Just to be sure — stop streaming?",
       "fulfillment": "Streaming stopped.",
-      "confirm_prompt": "Just to be sure — stop streaming?"
-    },
-    "activity.run.query": {
-      "slots": [],
-      "action": "activity.run",
-      "fulfillment": "Starting run activity."
-    },
-    "activity.walk.query": {
-      "slots": [],
-      "action": "activity.walk",
-      "fulfillment": "Starting walk activity."
-    },
-    "activity.step.query": {
-      "slots": [],
-      "action": "activity.step",
-      "fulfillment": "Showing step count."
-    },
-    "activity.stand.query": {
-      "slots": [],
-      "action": "activity.stand",
-      "fulfillment": "Showing stand activity."
-    },
-    "activity.cycle.query": {
-      "slots": [],
-      "action": "activity.cycle",
-      "fulfillment": "Starting cycle activity."
-    },
-    "activity.aerobics.query": {
-      "slots": [],
-      "action": "activity.aerobics",
-      "fulfillment": "Starting aerobics."
-    },
-    "activity.exercise.query": {
-      "slots": [],
-      "action": "activity.exercise",
-      "fulfillment": "Starting exercise."
-    },
-    "activity.calories.query": {
-      "slots": [],
-      "action": "activity.calories",
-      "fulfillment": "Showing calories."
-    },
-    "help.volume.show": {
-      "slots": [],
-      "action": "help.volume",
-      "fulfillment": "Here is help with volume."
-    },
-    "help.changing_memories.show": {
-      "slots": [],
-      "action": "help.memories",
-      "fulfillment": "Here is help with memories."
-    },
-    "help.memory_options.show": {
-      "slots": [],
-      "action": "help.memory_options",
-      "fulfillment": "Here are memory options."
-    },
-    "help.pairing.show": {
-      "slots": [],
-      "action": "help.pairing",
-      "fulfillment": "Here is help with pairing."
-    },
-    "help.find_my_hearing_aids.show": {
-      "slots": [],
-      "action": "help.find_aids",
-      "fulfillment": "Here is help finding your hearing aids."
-    },
-    "help.accessories.show": {
-      "slots": [],
-      "action": "help.accessories",
-      "fulfillment": "Here is help with accessories."
-    },
-    "help.remote_programming.show": {
-      "slots": [],
-      "action": "help.remote_programming",
-      "fulfillment": "Here is help with remote programming."
-    },
-    "help.tinnitus.show": {
-      "slots": [],
-      "action": "help.tinnitus",
-      "fulfillment": "Here is help with tinnitus."
-    },
-    "help.self_check.show": {
-      "slots": [],
-      "action": "help.selfcheck",
-      "fulfillment": "Here is help with SelfCheck."
-    },
-    "help.thrive_score.show": {
-      "slots": [],
-      "action": "help.thrive_score",
-      "fulfillment": "Here is help with Thrive Score."
-    },
-    "help.device_settings.show": {
-      "slots": [],
-      "action": "help.device_settings",
-      "fulfillment": "Here is help with device settings."
-    },
-    "help.intelli_voice.show": {
-      "slots": [],
-      "action": "help.intelli_voice",
-      "fulfillment": "Here is help with IntelliVoice."
-    },
-    "help.fall_alert.show": {
-      "slots": [],
-      "action": "help.fall_alert",
-      "fulfillment": "Here is help with Fall Alert."
-    },
-    "help.hear_share.show": {
-      "slots": [],
-      "action": "help.hear_share",
-      "fulfillment": "Here is help with HearShare."
-    },
-    "help.voice_assistant.show": {
-      "slots": [],
-      "action": "help.voice_assistant",
-      "fulfillment": "Here is help with Voice Assistant."
-    },
-    "help.insert_device.show": {
-      "slots": [],
-      "action": "help.insert_device",
-      "fulfillment": "Here is help inserting your device."
-    },
-    "help.app_settings.show": {
-      "slots": [],
-      "action": "help.app_settings",
-      "fulfillment": "Here is help with app settings."
-    },
-    "help.clean_care.show": {
-      "slots": [],
-      "action": "help.clean_care",
-      "fulfillment": "Here is help with cleaning and care."
-    },
-    "help.customize.show": {
-      "slots": [],
-      "action": "help.customize",
-      "fulfillment": "Here is help with customization."
-    },
-    "help.whats_new.show": {
-      "slots": [],
-      "action": "help.whats_new",
-      "fulfillment": "Here is what's new."
-    },
-    "help.wi_c_r_o_s.show": {
-      "slots": [],
-      "action": "help.wicros",
-      "fulfillment": "Here is help with WiCROS."
-    },
-    "help.home.show": {
-      "slots": [],
-      "action": "help.home",
-      "fulfillment": "Here is help with the home screen."
-    },
-    "help.battery.show": {
-      "slots": [],
-      "action": "help.battery",
-      "fulfillment": "Here is help with battery."
-    },
-    "help.reminder.show": {
-      "slots": [],
-      "action": "help.reminder",
-      "fulfillment": "Here is help with reminders."
-    },
-    "help.translate.show": {
-      "slots": [],
-      "action": "help.translate",
-      "fulfillment": "Here is help with Translate."
-    },
-    "help.transcribe.show": {
-      "slots": [],
-      "action": "help.transcribe",
-      "fulfillment": "Here is help with Transcribe."
-    },
-    "help.health.show": {
-      "slots": [],
-      "action": "help.health",
-      "fulfillment": "Here is help with Health."
-    },
-    "help.heart_rate.show": {
-      "slots": [],
-      "action": "help.heart_rate",
-      "fulfillment": "Here is help with Heart Rate."
-    },
-    "help.heart_rate_recovery.show": {
-      "slots": [],
-      "action": "help.heart_rate_recovery",
-      "fulfillment": "Here is help with Heart Rate Recovery."
-    },
-    "help.hearing_care_anywhere_connect.show": {
-      "slots": [],
-      "action": "help.hearing_care_connect",
-      "fulfillment": "Here is help with Hearing Care Anywhere."
-    },
-    "help.mask_mode.show": {
-      "slots": [],
-      "action": "help.mask_mode",
-      "fulfillment": "Here is help with Mask Mode."
-    },
-    "help.edge_mode.show": {
-      "slots": [],
-      "action": "help.edge_mode",
-      "fulfillment": "Here is help with Edge Mode."
-    },
-    "help.demo_mode.show": {
-      "slots": [],
-      "action": "help.demo_mode",
-      "fulfillment": "Here is help with Demo Mode."
+      "slots": []
     },
     "sys.oos.fallback": {
-      "slots": [],
       "action": "genai.fallback",
-      "fulfillment": ""
+      "fulfillment": "",
+      "slots": []
+    },
+    "transcription.session.start": {
+      "action": "transcribe.open",
+      "fulfillment": "Opening Transcribe.",
+      "slots": []
+    },
+    "translation.session.start": {
+      "action": "translate.open",
+      "fulfillment": "Opening Translate.",
+      "slots": []
     }
   },
   "affirmative": [
@@ -515,27 +515,40 @@
   ],
   "polarity_guards": [
     {
-      "pattern": "\\bmute\\b",
       "blocked_intent": "device.volume.unmute",
+      "pattern": "\\bmute\\b",
       "redirect_intent": "device.volume.mute"
     },
     {
-      "pattern": "\\bunmute\\b|\\bun-mute\\b",
       "blocked_intent": "device.volume.mute",
+      "pattern": "\\bunmute\\b|\\bun-mute\\b",
       "redirect_intent": "device.volume.unmute"
     },
     {
-      "pattern": "\\b(quiet(er)?|lower|softer|decrease|reduce|down)\\b",
       "blocked_intent": "device.volume.increase",
+      "pattern": "\\b(quiet(er)?|lower|softer|decrease|reduce|down)\\b",
       "redirect_intent": "device.volume.decrease"
     },
     {
-      "pattern": "\\b(loud(er)?|higher|increase|raise|up)\\b",
       "blocked_intent": "device.volume.decrease",
+      "pattern": "\\b(loud(er)?|higher|increase|raise|up)\\b",
       "redirect_intent": "device.volume.increase"
+    },
+    {
+      "blocked_intent": "streaming.session.start",
+      "pattern": "\\b(stop|end|quit|finish|turn off)\\b",
+      "redirect_intent": "streaming.session.stop"
+    },
+    {
+      "blocked_intent": "streaming.session.stop",
+      "pattern": "\\b(start|begin|turn on)\\b",
+      "redirect_intent": "streaming.session.start"
     }
   ],
   "uncertain_confirm": {
+    "below_confidence": 0.8,
+    "cancel_message": "Okay, I won't.",
+    "confirm_floor": 0.55,
     "intents": [
       "device.volume.increase",
       "device.volume.decrease",
@@ -543,9 +556,6 @@
       "device.volume.unmute",
       "streaming.session.start",
       "streaming.session.stop"
-    ],
-    "below_confidence": 0.8,
-    "cancel_message": "Okay, I won't.",
-    "confirm_floor": 0.55
+    ]
   }
 }

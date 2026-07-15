@@ -1,0 +1,5 @@
+# de: stopping must never start a session.
+lang: de
+turns:
+  - user: "streaming beenden"
+    expect: {not_intent: streaming.session.start}

@@ -1,0 +1,4 @@
+lang: en
+turns:
+  - user: "how long did i exercise today"
+    expect: {intent: activity.exercise.query}
