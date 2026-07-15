@@ -1,0 +1,6 @@
+[core]
+    remote = localstore
+[cache]
+    type = copy
+['remote "localstore"']
+    url = ../../dvc-store

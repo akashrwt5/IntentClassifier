@@ -171,6 +171,9 @@ def main(argv: list[str] | None = None) -> int:
 
     report = evaluate_all(args.langs)
     args.out.write_text(json.dumps(report, indent=2) + "\n")
+    from .tracking import log_evaluation
+    if log_evaluation(report, run_name="evaluate", params={"langs": ",".join(args.langs)}):
+        print("  (logged to MLflow: ./mlruns)")
     for lang, m in report["per_language"].items():
         print(f"  {lang}: acc={m['holdout_accuracy']:.3f} macroF1={m['macro_f1']:.3f} "
               f"ece={m['ece']:.4f}")

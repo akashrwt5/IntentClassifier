@@ -52,3 +52,7 @@ multilingual/models/**
 
 # Local bundle build output (ADR-005 Part 13)
 bundles/
+/datasets
+
+# MLflow local file backend (roadmap §16)
+mlruns/
