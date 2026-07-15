@@ -122,6 +122,7 @@ class NLUEngine:
         self.entities = self._load_entities(language)
         self._carrier = self._build_carrier_patterns(language)
         self.sessions = SessionStore()
+        self._availability: dict = {}  # runtime-contract-v1 §5 snapshot
         if self.language in ("en", "", "multilingual"):
             self.semantic = self._load_semantic(self.semantic_threshold)
         else:
@@ -345,8 +346,53 @@ class NLUEngine:
                 f"Re-run `python scripts/train.py` and update nlu_schema.json to match."
             )
 
-    def handle(self, session_id: str, text: str) -> NLUResult:
+    # -- runtime-contract-v1 seams (§1, §4, §5) -------------------------------
+
+    def notify_execution(self, session_id: str, turn_id: str | None,
+                         outcome: str, detail: dict | None = None) -> None:
+        """Feedback edge from the Action Dispatcher (§4). v1 records the
+        outcome for referent/telemetry use; dialogue reaction to async
+        outcomes is schema-declared work that lands with the SDK."""
+        session = self.sessions.get(session_id)
+        session.last_execution = {"turn_id": turn_id, "outcome": outcome,
+                                  "detail": detail or {}}
+        logger.info("nlu.execution", extra={"nlu": {
+            "session_id": session_id, "turn_id": turn_id, "outcome": outcome}})
+
+    def push_availability(self, snapshot: dict) -> None:
+        """Availability snapshot push (§5): atomic replace; recognized-but-
+        unavailable intents route to an unavailable message, never an action
+        (ADR-002 A6 — intents are NEVER removed from the label space)."""
+        if snapshot.get("snapshot_id", 0) < self._availability.get("snapshot_id", -1):
+            return  # stale push dropped
+        self._availability = dict(snapshot)
+
+    def _capability_of(self, intent: str) -> str | None:
+        """Longest-prefix match of the intent id against pushed capability ids."""
+        caps = self._availability.get("capabilities", {})
+        best = None
+        for cap_id in caps:
+            if (intent == cap_id or intent.startswith(cap_id + ".")) and \
+                    (best is None or len(cap_id) > len(best)):
+                best = cap_id
+        return best
+
+    def _availability_block(self, intent: str) -> Optional["NLUResult"]:
+        cap = self._capability_of(intent)
+        if cap is None:
+            return None
+        entry = self._availability["capabilities"][cap]
+        if entry.get("state") == "unavailable":
+            msg = entry.get("unavailable_response") or self.schema.get(
+                "unavailable_message",
+                "That feature isn't available right now.")
+            return NLUResult(type="FULFILL", intent=intent, action=None,
+                             message=msg, confidence=1.0, complete=True)
+        return None
+
+    def handle(self, session_id: str, text: str, turn_id: str | None = None) -> NLUResult:
         t0 = time.perf_counter()
+        self._current_turn_id = turn_id
         session = self.sessions.get(session_id)  # resets a long-idle session
         now = self.sessions.now()
         session.expire_contexts(now)             # drop TTL-expired dialogue state
@@ -396,6 +442,7 @@ class NLUEngine:
 
         record = {
             "session_id": session_id,
+            "turn_id": getattr(self, "_current_turn_id", None),
             "stage": stage,
             "type": result.type,
             "intent": result.intent,
@@ -708,6 +755,9 @@ class NLUEngine:
             session.pending_slots = slots
             session.awaiting_slot = None
             return self._advance_slots(session, intent, cfg)
+        blocked = self._availability_block(intent)
+        if blocked is not None:
+            return blocked
         # ND-11(a): uncertainty gate — a flagged fire-and-forget action below
         # the confirmation confidence bar asks first instead of firing.
         if intent in self._confirm_intents and conf < self._confirm_below:

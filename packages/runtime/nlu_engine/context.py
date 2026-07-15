@@ -56,6 +56,8 @@ class Session:
     # ND-11(a): an action held back by the uncertainty-confirmation gate,
     # awaiting the user's yes/no. {"intent", "action", "fulfillment"}.
     pending_confirm: Optional[dict] = None
+    # runtime-contract-v1 §4: last execution outcome (notify_execution)
+    last_execution: Optional[dict] = None
 
     # --- context parameter memory ---
     # Stores the last fulfilled parameters per intent family so the engine
@@ -64,6 +66,59 @@ class Session:
     last_fulfilled: dict = field(default_factory=dict)  # {intent: {slot: value}}
     last_memory: Optional[str] = None       # last active memory preset
     prev_memory: Optional[str] = None       # memory before the last change
+
+    # -- session blob (runtime-contract-v1 §3) --------------------------------
+    # The core owns serialization; the HOST persists/encrypts the blob.
+    # Never contains raw utterance text. Unknown fields in a newer minor
+    # version are preserved round-trip via the _extra bag.
+
+    def to_blob(self) -> dict:
+        frame = None
+        if self.pending_intent:
+            frame = {"intent": self.pending_intent,
+                     "slots_filled": dict(self.pending_slots),
+                     "awaiting_slot": self.awaiting_slot,
+                     "attempts": self.slot_attempts,
+                     "confirm_pending": False}
+        elif self.pending_confirm:
+            frame = {"intent": self.pending_confirm["intent"],
+                     "slots_filled": {}, "awaiting_slot": None,
+                     "attempts": 0, "confirm_pending": True,
+                     "held_action": self.pending_confirm.get("action"),
+                     "held_fulfillment": self.pending_confirm.get("fulfillment", "")}
+        return {"v": 1, "session_id": self.session_id,
+                "updated_at_mono_ms": int(self.last_active * 1000),
+                "frames": [frame] if frame else [],
+                "contexts": {n: {"lifespan": c.lifespan, "created_at": c.created_at}
+                              for n, c in self.contexts.items()},
+                "last_fulfilled": {k: dict(v) for k, v in self.last_fulfilled.items()},
+                "last_memory": self.last_memory, "prev_memory": self.prev_memory,
+                "partial_datetime": self.partial_datetime,
+                "counters": {}}
+
+    @classmethod
+    def from_blob(cls, blob: dict) -> "Session":
+        s = cls(session_id=blob["session_id"])
+        s.last_active = blob.get("updated_at_mono_ms", 0) / 1000.0
+        frames = blob.get("frames", [])
+        if frames:
+            f = frames[-1]
+            if f.get("confirm_pending"):
+                s.pending_confirm = {"intent": f["intent"],
+                                     "action": f.get("held_action"),
+                                     "fulfillment": f.get("held_fulfillment", "")}
+            else:
+                s.pending_intent = f["intent"]
+                s.pending_slots = dict(f.get("slots_filled", {}))
+                s.awaiting_slot = f.get("awaiting_slot")
+                s.slot_attempts = f.get("attempts", 0)
+        for name, c in blob.get("contexts", {}).items():
+            s.set_context(name, c.get("lifespan", 2), now=c.get("created_at", 0.0))
+        s.last_fulfilled = {k: dict(v) for k, v in blob.get("last_fulfilled", {}).items()}
+        s.last_memory = blob.get("last_memory")
+        s.prev_memory = blob.get("prev_memory")
+        s.partial_datetime = blob.get("partial_datetime")
+        return s
 
     def set_context(self, name: str, lifespan: int = 5, parameters: dict = None,
                     now: float = 0.0, ttl_seconds: Optional[float] = DEFAULT_CONTEXT_TTL_SECONDS):
