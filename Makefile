@@ -90,6 +90,14 @@ calibrate: ## Fit per-language temperature scaling / calibration
 # ---------------------------------------------------------------------------
 # Model export (mobile: ONNX / CoreML / INT8)
 # ---------------------------------------------------------------------------
+.PHONY: build-bundle
+build-bundle: ## Build + dev-sign a .nlu bundle from an unpacked dir (SRC=..., OUT=...)
+	PYTHONPATH=packages/buildtime $(PYTHON) -m nlu_compiler.build $(or $(SRC),spec/examples/3.0/full) $(if $(OUT),--out $(OUT),)
+
+.PHONY: verify-bundle
+verify-bundle: ## Verify a .nlu bundle (BUNDLE=...)
+	PYTHONPATH=packages/buildtime $(PYTHON) -m nlu_compiler.verify $(or $(BUNDLE),bundles/full.nlu)
+
 .PHONY: export-coreml
 export-coreml: ## Export CoreML .mlpackage bundles (FP16 + FP32)
 	$(PYTHON) multilingual/export_coreml_multilingual.py --all --fp16 --fp32
