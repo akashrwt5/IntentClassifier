@@ -95,7 +95,14 @@ _None open. Recently fixed:_
   holdout through NLUEngine.handle, not the bare pipeline. Build that
   harness (Phase 1 follow-up); until then wrong_action_count is a trend
   upper bound, not a CI gate.
-- **Danish OOS recall is weak (0.51)** — fallback-class recall from the
+- **MILESTONE 2026-07-14: Danish passes the 0.80 accuracy gate for the
+  first time (0.812)** after the min_df=1 recipe fix + removal of 181
+  label-conflicted rows (80 texts trained under contradictory labels, incl.
+  'slå lyden til' as both mute AND unmute — preserved in
+  datasets/da_label_conflicts_review.csv for linguist review). Danish
+  REMAINS flag-gated: the ship condition is the native-authored holdout
+  (machine-translated data), not the numeric gate. da OOS recall now 0.68.
+- **(historical) Danish OOS recall is weak (0.51)** — fallback-class recall from the
   unified evaluate; compounds the known Danish macro-F1 gap.
 
 - **Danish accuracy** is the weakest language (holdout macro-F1 ≈ 0.74 vs

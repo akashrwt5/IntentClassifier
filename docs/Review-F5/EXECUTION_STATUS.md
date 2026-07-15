@@ -102,6 +102,16 @@ wrong_action_system_report.json`.
 
 ## Iteration log
 
+- **2026-07-14 (n)** — Danish data-quality pass: 80 texts were trained
+  under CONTRADICTORY labels ('slå lyden til' as both mute and unmute);
+  181 conflicted rows removed (preserved for linguist review in
+  datasets/da_label_conflicts_review.csv). **Danish passes the standard
+  0.80 gate for the first time: 0.812** (still flag-gated — ship condition
+  is the native holdout). All six models green at the standard gate;
+  recalibrated; en/fr/de artifacts deterministic-identical (fixtures
+  still match). English semantic head regenerated earlier this session;
+  multilingual head regen = owner machine. DVC pointer updated
+  (**owner: dvc push**). Suite 140/140.
 - **2026-07-14 (m)** — Phase-2 objectives delivered in Python (owner
   direction: no Rust; goals, not the language). The Python engine now fully
   conforms to runtime-contract-v1 (gap table closed: InferenceBackend seam

@@ -16,22 +16,22 @@
       "ece": 0.0221
     },
     "da": {
-      "macro_f1": 0.7875,
-      "holdout_accuracy": 0.7999,
-      "ece": 0.0385
+      "macro_f1": 0.7888,
+      "holdout_accuracy": 0.8116,
+      "ece": 0.032
     }
   },
-  "wrong_action_count": 228,
+  "wrong_action_count": 223,
   "wrong_action_per_domain": {
-    "device": 109,
-    "activity": 34,
-    "reminders": 20,
-    "streaming": 37,
-    "transcription": 6,
-    "translation": 4,
+    "device": 113,
+    "activity": 35,
+    "reminders": 16,
+    "streaming": 28,
+    "transcription": 5,
+    "translation": 5,
     "messaging": 12,
-    "find": 6
+    "find": 9
   },
-  "oos_recall": 0.69,
+  "oos_recall": 0.68,
   "gates_passed": true
 }
