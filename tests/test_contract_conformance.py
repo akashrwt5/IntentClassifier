@@ -31,8 +31,7 @@ def engine():
         warnings.simplefilter("ignore")
         from nlu_engine import NLUEngine
 
-        eng = NLUEngine(model_name="en", language="en")
-    eng.semantic = None
+        eng = NLUEngine(model_name="en", language="en", semantic_enabled=False)
     return eng
 
 

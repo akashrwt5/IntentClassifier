@@ -49,8 +49,7 @@ def _engine(lang: str):
     sys.path.insert(0, str(REPO / "packages" / "runtime"))
     from nlu_engine import NLUEngine
 
-    eng = NLUEngine(model_name=lang, language=lang)
-    eng.semantic = None  # deterministic core; regen with semantic post-artifacts
+    eng = NLUEngine(model_name=lang, language=lang, semantic_enabled=False)
     return eng
 
 

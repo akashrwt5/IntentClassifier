@@ -102,6 +102,20 @@ wrong_action_system_report.json`.
 
 ## Iteration log
 
+- **2026-07-14 (o)** — Owner-delegated recommendations executed: (1) ND-11b
+  — confirm gate extended to ALL state-changing fire-and-forget actions
+  (msg send, reminder complete, translation/transcription start, find-phone;
+  read-only queries deliberately ungated — no harm, no friction); 20
+  localized confirm prompts; wrong actions 67 → 65, +12 more wrong guesses
+  intercepted by ask-first; residual is high-confidence (≥0.80)
+  misclassifications — next lever is data/model, not gates. Danish
+  wrong actions 33 → 14 across the session. (2) Semantic rescue is now ONE
+  plug-and-play flag: schema `semantic_rescue_enabled` (per-language via
+  overlay) → env `NLU_SEMANTIC_RESCUE` kill-switch → constructor param;
+  disabled = artifacts never loaded; all callers switched; 5 flag tests.
+  Recommendation standing: flag OFF for shipped languages until the
+  wrong-action budget improves (en trade-off: −150 deflections / +5 wrong).
+  Suite 145/145.
 - **2026-07-14 (n)** — Danish data-quality pass: 80 texts were trained
   under CONTRADICTORY labels ('slå lyden til' as both mute and unmute);
   181 conflicted rows removed (preserved for linguist review in

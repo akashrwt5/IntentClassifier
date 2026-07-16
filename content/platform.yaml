@@ -137,6 +137,7 @@ polarity_guards:
 - blocked_intent: streaming.session.stop
   pattern: \b(start|begin|turn on)\b
   redirect_intent: streaming.session.start
+semantic_rescue_enabled: true
 semantic_threshold: 0.4
 slot_confidence_threshold: 0.6
 uncertain_confirm:
@@ -144,10 +145,15 @@ uncertain_confirm:
   cancel_message: Okay, I won't.
   confirm_floor: 0.55
   intents:
-  - device.volume.increase
   - device.volume.decrease
+  - device.volume.increase
   - device.volume.mute
   - device.volume.unmute
+  - find.phone.locate
+  - messaging.message.send
+  - reminders.task.complete
   - streaming.session.start
   - streaming.session.stop
+  - transcription.session.start
+  - translation.session.start
 version: 2

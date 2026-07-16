@@ -37,8 +37,9 @@ LANGS = ("fr", "de", "da")
 
 # Top-level schema keys owned by the platform (not any capability).
 PLATFORM_KEYS = ("version", "confidence_threshold", "slot_confidence_threshold",
-                 "semantic_threshold", "keyword_triggers", "affirmative",
-                 "negative", "polarity_guards", "uncertain_confirm")
+                 "semantic_threshold", "semantic_rescue_enabled",
+                 "keyword_triggers", "affirmative", "negative",
+                 "polarity_guards", "uncertain_confirm")
 
 
 def _yaml():
@@ -125,7 +126,7 @@ def assemble(write: bool = True) -> dict:
     # original position with intents where the current schema puts them.
     ordered = {}
     for key in ("version", "confidence_threshold", "slot_confidence_threshold",
-                "semantic_threshold", "keyword_triggers"):
+                "semantic_threshold", "semantic_rescue_enabled", "keyword_triggers"):
         if key in schema:
             ordered[key] = schema[key]
     ordered["intents"] = intents

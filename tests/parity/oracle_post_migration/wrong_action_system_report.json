@@ -1,15 +1,15 @@
 {
   "semantic_enabled": false,
-  "mitigations": "ND-11 a+b + confirm-floor + min_df=1 + streaming start/stop guards",
+  "mitigations": "guards + confirm gate (all state-changing actions, <0.80) + confirm-floor + recipe fix + da data clean",
   "per_language": {
     "en": {
       "turns": 1461,
       "wrong_actions": 23,
-      "confirm_gated_wrong": 26,
-      "fulfilled": 1039,
+      "confirm_gated_wrong": 29,
+      "fulfilled": 1034,
       "prompted": 59,
-      "fallback": 274,
-      "confirmed": 89,
+      "fallback": 270,
+      "confirmed": 98,
       "per_domain": {
         "device": 11,
         "activity": 3,
@@ -20,55 +20,52 @@
     },
     "fr": {
       "turns": 1361,
-      "wrong_actions": 19,
-      "confirm_gated_wrong": 10,
-      "fulfilled": 867,
+      "wrong_actions": 18,
+      "confirm_gated_wrong": 12,
+      "fulfilled": 862,
       "prompted": 68,
-      "fallback": 378,
-      "confirmed": 48,
+      "fallback": 375,
+      "confirmed": 56,
       "per_domain": {
         "transcription": 5,
         "device": 6,
         "messaging": 1,
         "activity": 2,
-        "find": 2,
+        "find": 1,
         "translation": 1,
         "streaming": 2
       }
     },
     "de": {
       "turns": 1383,
-      "wrong_actions": 25,
-      "confirm_gated_wrong": 8,
-      "fulfilled": 819,
+      "wrong_actions": 24,
+      "confirm_gated_wrong": 11,
+      "fulfilled": 813,
       "prompted": 82,
-      "fallback": 425,
-      "confirmed": 57,
+      "fallback": 419,
+      "confirmed": 69,
       "per_domain": {
         "translation": 8,
         "device": 6,
         "activity": 6,
         "messaging": 1,
         "streaming": 2,
-        "find": 1,
         "transcription": 1
       }
     },
     "da": {
-      "turns": 1334,
-      "wrong_actions": 17,
-      "confirm_gated_wrong": 10,
-      "fulfilled": 747,
-      "prompted": 81,
-      "fallback": 456,
-      "confirmed": 50,
+      "turns": 1306,
+      "wrong_actions": 14,
+      "confirm_gated_wrong": 8,
+      "fulfilled": 749,
+      "prompted": 89,
+      "fallback": 411,
+      "confirmed": 57,
       "per_domain": {
-        "device": 9,
-        "streaming": 1,
-        "activity": 2,
-        "messaging": 1,
-        "find": 3,
-        "reminders": 1
+        "device": 10,
+        "translation": 1,
+        "streaming": 2,
+        "find": 1
       }
     }
   },
@@ -278,10 +275,31 @@
     },
     {
       "lang": "de",
-      "text": "best iphone",
-      "truth": "sys.oos.fallback",
-      "fired": "find.phone.locate",
-      "confidence": 0.744
+      "text": "wie weit bin ich gelaufen?",
+      "truth": "activity.run.query",
+      "fired": "activity.walk.query",
+      "confidence": 0.978
+    },
+    {
+      "lang": "da",
+      "text": "hvor meget mere skal jeg lobe i dag?",
+      "truth": "activity.run.query",
+      "fired": "device.status.battery",
+      "confidence": 0.707
+    },
+    {
+      "lang": "da",
+      "text": "hvordan bruger jeg translate",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "da",
+      "text": "stoppe optagelsen",
+      "truth": "transcription.session.start",
+      "fired": "streaming.session.stop",
+      "confidence": 0.997
     },
     {
       "lang": "da",
@@ -292,74 +310,54 @@
     },
     {
       "lang": "da",
-      "text": "stream venligst fra fjernmikrofonen",
-      "truth": "activity.stand.query",
-      "fired": "streaming.session.start",
-      "confidence": 0.88
-    },
-    {
-      "lang": "da",
-      "text": "kan du traede kalorier",
-      "truth": "activity.step.query",
-      "fired": "activity.calories.query",
+      "text": "lyden bryder op",
+      "truth": "help.device_settings.show",
+      "fired": "device.volume.increase",
       "confidence": 0.877
     },
     {
       "lang": "da",
-      "text": "sluk venligst motoren",
-      "truth": "sys.oos.fallback",
-      "fired": "device.volume.mute",
-      "confidence": 0.962
-    },
-    {
-      "lang": "da",
-      "text": "bestille en pizza",
-      "truth": "sys.oos.fallback",
-      "fired": "messaging.message.send",
-      "confidence": 0.966
-    },
-    {
-      "lang": "da",
-      "text": "stille alt ned til ingenting",
-      "truth": "device.volume.mute",
+      "text": "bryde det ned for mig",
+      "truth": "help.home.show",
       "fired": "device.volume.decrease",
-      "confidence": 0.825
+      "confidence": 0.978
     },
     {
       "lang": "da",
-      "text": "forbinde til min telefon",
-      "truth": "help.pairing.show",
-      "fired": "find.phone.locate",
-      "confidence": 0.798
-    },
-    {
-      "lang": "da",
-      "text": "kan du forlagt telefon",
-      "truth": "help.fall_alert.show",
-      "fired": "find.phone.locate",
-      "confidence": 0.828
-    },
-    {
-      "lang": "da",
-      "text": "sluk venligst kroppen",
+      "text": "sluk venligst alarmen",
       "truth": "sys.oos.fallback",
       "fired": "device.volume.mute",
-      "confidence": 0.962
+      "confidence": 0.855
     },
     {
       "lang": "da",
-      "text": "fa mine horeapparater til at bippe, sa jeg kan finde dem",
-      "truth": "help.find_my_hearing_aids.show",
+      "text": "kan du slukke for kildestik",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.mute",
+      "confidence": 0.826
+    },
+    {
+      "lang": "da",
+      "text": "sluk venligst for kildestikkene",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.mute",
+      "confidence": 0.964
+    },
+    {
+      "lang": "da",
+      "text": "kan jeg oplade mit batteri?",
+      "truth": "help.battery.show",
       "fired": "device.status.battery",
-      "confidence": 0.843
+      "confidence": 0.903
     }
   ],
-  "wrong_actions_shipped_langs": 67,
+  "wrong_actions_shipped_langs": 65,
   "budget": 5,
   "budget_met": false,
   "history": {
     "unmitigated": 99,
-    "after_nd11_ab": 73,
-    "current": 67
+    "nd11_ab": 73,
+    "recipe_fix": 67,
+    "gate_extension": 65
   }
 }

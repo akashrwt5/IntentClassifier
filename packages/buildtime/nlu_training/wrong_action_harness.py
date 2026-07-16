@@ -16,10 +16,10 @@ Counting rules (single-turn replay):
 - ``FALLBACK`` / low-confidence                  → deflected, no action.
 - help.* / sys.* results never fire device actions.
 
-Semantic rescue is DISABLED for this run: local semantic artifacts are
-gitignored and may carry the pre-migration label space (known-issues.md);
-measuring through stale artifacts would be noise. Re-run with --semantic
-after regenerating them.
+Semantic rescue is controlled by the ONE flag (engine semantic_enabled /
+NLU_SEMANTIC_RESCUE / schema semantic_rescue_enabled). The harness passes
+--semantic straight through; default off for the deterministic core
+measurement.
 
 Usage:
     PYTHONPATH=packages/buildtime:packages/runtime \\
@@ -53,9 +53,7 @@ def replay_language(lang: str, semantic: bool) -> dict:
     sys.path.insert(0, str(REPO / "packages" / "runtime"))
     from nlu_engine import NLUEngine
 
-    engine = NLUEngine(model_name=lang, language=lang)
-    if not semantic:
-        engine.semantic = None
+    engine = NLUEngine(model_name=lang, language=lang, semantic_enabled=semantic)
 
     counts = {"turns": 0, "wrong_actions": 0, "confirm_gated_wrong": 0,
               "fulfilled": 0, "prompted": 0, "fallback": 0, "confirmed": 0}

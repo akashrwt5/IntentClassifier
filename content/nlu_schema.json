@@ -3,6 +3,7 @@
   "confidence_threshold": 0.7,
   "slot_confidence_threshold": 0.6,
   "semantic_threshold": 0.4,
+  "semantic_rescue_enabled": true,
   "keyword_triggers": [
     {
       "intent": "translation.session.start",
@@ -243,6 +244,7 @@
     },
     "find.phone.locate": {
       "action": "phone.find",
+      "confirm_prompt": "Just to be sure — ring your phone to find it?",
       "fulfillment": "Finding your phone.",
       "slots": []
     },
@@ -418,11 +420,13 @@
     },
     "messaging.message.send": {
       "action": "message.compose",
+      "confirm_prompt": "Just to be sure — send a message?",
       "fulfillment": "Ready to record your message.",
       "slots": []
     },
     "reminders.task.complete": {
       "action": "reminders.task.complete",
+      "confirm_prompt": "Just to be sure — mark your reminder as done?",
       "fulfillment": "Reminder marked as complete.",
       "slots": []
     },
@@ -473,11 +477,13 @@
     },
     "transcription.session.start": {
       "action": "transcribe.open",
+      "confirm_prompt": "Just to be sure — start transcription?",
       "fulfillment": "Opening Transcribe.",
       "slots": []
     },
     "translation.session.start": {
       "action": "translate.open",
+      "confirm_prompt": "Just to be sure — start translation?",
       "fulfillment": "Opening Translate.",
       "slots": []
     }
@@ -550,12 +556,17 @@
     "cancel_message": "Okay, I won't.",
     "confirm_floor": 0.55,
     "intents": [
-      "device.volume.increase",
       "device.volume.decrease",
+      "device.volume.increase",
       "device.volume.mute",
       "device.volume.unmute",
+      "find.phone.locate",
+      "messaging.message.send",
+      "reminders.task.complete",
       "streaming.session.start",
-      "streaming.session.stop"
+      "streaming.session.stop",
+      "transcription.session.start",
+      "translation.session.start"
     ]
   }
 }

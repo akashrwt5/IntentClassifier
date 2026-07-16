@@ -82,7 +82,7 @@ class NLUEngine:
     AGREEMENT_THRESHOLD = 0.50
 
     def __init__(self, schema_path: Path = SCHEMA_PATH, model_name: str | None = None,
-                 language: str = "en"):
+                 language: str = "en", semantic_enabled: bool | None = None):
         self.language = language
         self.schema = self._load_schema(schema_path, language)
         self.intents = self.schema["intents"]
@@ -123,11 +123,29 @@ class NLUEngine:
         self._carrier = self._build_carrier_patterns(language)
         self.sessions = SessionStore()
         self._availability: dict = {}  # runtime-contract-v1 §5 snapshot
-        if self.language in ("en", "", "multilingual"):
+        # Semantic rescue: ONE plug-and-play flag. Resolution order:
+        #   1. constructor param (tests/harness/apps),
+        #   2. NLU_SEMANTIC_RESCUE env var (ops kill-switch, "0"/"1"),
+        #   3. schema 'semantic_rescue_enabled' (content-owned default, per
+        #      language via overlay), default True.
+        # Disabled = artifacts are never even loaded (zero cost, zero risk of
+        # stale-artifact influence).
+        self.semantic_enabled = self._resolve_semantic_flag(semantic_enabled)
+        if not self.semantic_enabled:
+            self.semantic = None
+        elif self.language in ("en", "", "multilingual"):
             self.semantic = self._load_semantic(self.semantic_threshold)
         else:
             self.semantic = self._load_multilingual_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
+
+    def _resolve_semantic_flag(self, param: bool | None) -> bool:
+        if param is not None:
+            return param
+        env = os.environ.get("NLU_SEMANTIC_RESCUE")
+        if env is not None:
+            return env.strip().lower() in ("1", "true", "yes", "on")
+        return bool(self.schema.get("semantic_rescue_enabled", True))
 
     @staticmethod
     def _resolve_genai_url(configured: str | None) -> str | None:
@@ -203,6 +221,10 @@ class NLUEngine:
                         merged[key].setdefault(subkey, {}).update(val)
                     else:
                         merged[key][subkey] = val
+
+        # Per-language semantic-rescue override (one flag, overlay-scoped).
+        if "semantic_rescue_enabled" in overlay:
+            merged["semantic_rescue_enabled"] = overlay["semantic_rescue_enabled"]
 
         # ND-11: language-specific polarity guards + confirmation-gate texts
         # replace the English defaults wholesale (patterns are per-language).
