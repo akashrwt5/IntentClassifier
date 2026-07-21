@@ -123,6 +123,27 @@ wrong_action_system_report.json`.
   content_source assemble`; drift check: in sync). Env kill-switch
   (`NLU_SEMANTIC_RESCUE=1`) and constructor param remain available to opt
   back in per-run. Suite 145/145. Commit `7049ff01`.
+- **2026-07-21 — wrong-action confidence-cluster root cause (data, not
+  gates).** Inspected the 65 remaining system-level wrong actions: the
+  dominant, cross-language pattern was `help.X.show` losing to the paired
+  action intent, concentrated in de/da. Root cause: `datasets/multilingual/
+  de.csv` was 30% (3,434/9,826 rows) and `da.csv` 2.7% (258/9,645 rows)
+  EXACT byte-duplicates of `en.csv` rows under the same intent label —
+  untranslated English placeholders, not organic data (`train_multilingual.
+  py` already dedups this for the *combined* model; per-language models
+  were never covered). Removed the duplicate rows where the intent kept
+  ≥15 real-language examples afterward (de: 2,926 of 3,434 removed, 5
+  intents protected — see ND-13; da: all 258 removed, nothing protected);
+  originals preserved in `datasets/{de,da}_untranslated_placeholder_
+  review.csv`. Retrained + regated: **de 0.845→0.901, da 0.812→0.830**
+  (both well clear of the 0.80 floor). Regenerated holdouts + conformance
+  fixtures — diffs are confidence-only (no label changes), one
+  CONFIRM→FULFILL as confidence cleared the 0.80 gate. System wrong
+  actions: de 24→14, da 14→13 → **shipped-lang total 65→55**. Opened ND-13
+  for the 5 German intents that now have zero real German coverage (needs
+  translation, not more deletion). Suite 145/145 (one expected fixture
+  regen). Danish model artifacts recommitted per the existing tracked-da
+  exception (known-issues.md).
 - **2026-07-14 (n)** — Danish data-quality pass: 80 texts were trained
   under CONTRADICTORY labels ('slå lyden til' as both mute and unmute);
   181 conflicted rows removed (preserved for linguist review in
@@ -154,6 +175,7 @@ wrong_action_system_report.json`.
 | ID | Question | Blocking |
 |---|---|---|
 | ND-12 | **Phase-3 infrastructure choices:** where do remote config + bundle registry + telemetry ingestion live (existing app backend? new service? vendor)? Determines the staged-rollout/tripwire implementation and the dashboards. | Phase 3 completion |
+| ND-13 | **5 German intents ship with ZERO real German training data** (`streaming.session.stop`, `help.demo_mode.show`, `help.thrive_score.show`, `help.translate.show`, `messaging.message.send`) — discovered during the 2026-07-21 untranslated-placeholder cleanup; every existing example for these was an untranslated English row, so none could be removed without zeroing the intent. Needs professional/native German authoring (or a vetted MT pass reviewed by a German speaker) — not something this loop can safely generate itself. | German language quality |
 
 - **2026-07-14 (k)** — Capability repartition executed: content/capabilities/
   source tree (12×57) with round-trip identity proof + CI drift guard;

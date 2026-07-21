@@ -1,1384 +1,943 @@
 text,intent
-explain wireless cros,help.wi_c_r_o_s.show
-womit reinige ich meine horgerate?,help.clean_care.show
-wie stelle ich die lautstarke meines senders ein?,help.wi_c_r_o_s.show
-kann ich ein neues programm erstellen?,help.memory_options.show
-text someone for me,messaging.message.send
-wo ist die herzfrequenzfunktion in der app?,help.heart_rate.show
-"bitte lautstarke ausschalten, linke hilfe",device.volume.mute
-thrive translate help,help.translate.show
-guide me on using reminders,help.reminder.show
-setup a reminder,reminders.task.create
-how do i increase my thrive score?,help.thrive_score.show
-bin ich bitte eine stunde mit dem fahrrad gefahren?,activity.cycle.query
-how often is recovery measured,help.heart_rate_recovery.show
-bitte wechseln sie zu gottesdienst,device.memory.change
-mach es lauter,device.volume.increase
-i don't know what to do,help.home.show
-wie stelle ich meinen noise masker auf das richtige hilfsmittel ein?,help.tinnitus.show
-konnen sie mich in einer minute an das abendessen erinnern?,reminders.task.create
-give me a recipe for soup,sys.oos.fallback
-stop the tv feed to my hearing aids,streaming.session.stop
-stop piping audio to my ears,streaming.session.stop
-help me understand volume settings,help.volume.show
-new reminder,reminders.task.create
-bitte senken sie ihr gehor,device.volume.decrease
-what can the app do,help.home.show
-"bitte erinnern sie mich daran, am 19. august zur arbeit zu gehen",reminders.task.create
-"konnen sie mich daran erinnern, medikamente einzunehmen?",reminders.task.create
-use the audio streamer,streaming.session.start
-what languages can the translate feature use?,help.translate.show
-bitte erhohen sie die lautstarke,device.volume.increase
-konnen sie die kuche einrichten?,device.memory.change
-konnen sie mich in einer stunde an das abendessen erinnern?,reminders.task.create
-how do i use the app without hearing aids?,help.demo_mode.show
-close the stream,streaming.session.stop
-find where my phone went,find.phone.locate
-how many minutes have i been working out,activity.exercise.query
-do i need a charger soon?,device.status.battery
-how do i set up the automatic car memory,sys.oos.fallback
-i need it quieter,device.volume.decrease
-konnen sie mit der ubersetzung fur franzosisch beginnen?,translation.session.start
-i want to send a voice message,messaging.message.send
-please switch program to two,device.memory.change
-turn mute on,device.volume.mute
-paar richtige hilfe,help.pairing.show
-how do i run a self check,help.self_check.show
-start a run,activity.run.query
-"kannst du, dass es zu niedrig ist? dreh es auf",device.volume.increase
-my battery dies too quickly,help.battery.show
-kannst du die stummschaltung andern?,device.memory.change
-wie funktioniert die herzfrequenz?,help.heart_rate.show
-"kannst du, ich kann meine hilfe nicht finden?",help.find_my_hearing_aids.show
-was sind erinnerungen?,help.reminder.show
-should i use rechargeable or disposable batteries,help.battery.show
-wie hat sich ipro verandert?,help.whats_new.show
-how do i make the hearing aids softer?,help.volume.show
-konnen sie sich an das restaurant erinnern?,device.memory.change
-"bitte streamen sie, youtube-musik.",sys.oos.fallback
-bring me some quiet,device.volume.decrease
-explain the mask mode feature,help.mask_mode.show
-when will the batteries run out,device.status.battery
-so fuhren sie den selbsttest durch,help.self_check.show
-read my latest text,messaging.message.listen
-its too loudy,device.volume.decrease
-translate hello to french,sys.oos.fallback
-wie funktioniert die dnn-sprachverbesserung?,help.intelli_voice.show
-i want it louder,device.volume.increase
-can you switch program to one,device.memory.change
-listen to the remote mic,streaming.session.start
-set an alert for me,reminders.task.create
-habe ich cros oder wicros?,help.wi_c_r_o_s.show
-reminder help,help.reminder.show
-konnen sie beim radfahren kalorien verbrauchen?,activity.cycle.query
-"bitte, ich kann meine hilfe nicht finden",help.find_my_hearing_aids.show
-i can hear now turn it on,device.volume.unmute
-wie viele kalorien habe ich beim radfahren verbraucht?,activity.cycle.query
-kannst du mir mein laufziel zeigen?,activity.run.query
-any new updates to know about,help.whats_new.show
-how does edge mode improve sound,help.edge_mode.show
-start the audio stream,streaming.session.start
-"bitte spielen sie die nachricht ab, die ich erhalten habe.",messaging.message.listen
-"konnen sie mir sagen, das ist ein sehr enttauschendes furzgerausch?",sys.oos.fallback
-stop casting to my hearing aids,streaming.session.stop
-wo ist hilfe fur intelligente stimme?,help.intelli_voice.show
-how do i change to a different program on the hearing aid?,help.changing_memories.show
-can my audiologist tune my aids remotely,help.remote_programming.show
-kann ich das programm auf diesen speicherort einstellen?,help.memory_options.show
-i finished that reminder mark it,reminders.task.complete
-information on the ipro score,help.thrive_score.show
-wie andere ich die erinnerungen an den hilfsmitteln?,help.changing_memories.show
-everything is way too loud,device.volume.decrease
-bitte zeigen sie mir einen uberblick uber diese app,help.whats_new.show
-how does this app work,help.home.show
-play media through my hearing aids,streaming.session.start
-wie ordne ich einer erinnerung einen ort zu?,help.memory_options.show
-stream the audio directly to my aids,streaming.session.start
-show help guide for ipro,help.thrive_score.show
-start my workout,activity.exercise.query
-stummschaltung von horgeraten,device.volume.mute
-set new reminder,reminders.task.create
-switch my hearing aid program,device.memory.change
-"bitte erinnern sie mich daran, mein telefon jeden tag um 23:00 uhr aufzuladen.",reminders.task.create
-wie sende ich eine nachricht an meinen provider?,help.remote_programming.show
-where is my fitness overview,help.health.show
-explain how to move between my programs,help.changing_memories.show
-muss ich das richtige horgerat hinter mein ohr stecken?,help.insert_device.show
-i'm seated in a crowded noisy spot,device.memory.change
-read out my incoming messages,messaging.message.listen
-bitte wachs aufbauen,help.clean_care.show
-begin tracking aerobics,activity.aerobics.query
-wie stelle ich die lautstarke am horgerat zuruck?,help.volume.show
-please add reminder,reminders.task.create
-konnen sie die lautstarke des horgerats reduzieren?,device.volume.decrease
-mehr lautstarke am horgerat,device.volume.increase
-how do i adjust the volume on just the right aid?,help.volume.show
-siri got turned on on my hearing aids and i was turning it off,sys.oos.fallback
-explain how captions work in the app,help.transcribe.show
-bitte linke hilfe anschliessen,help.pairing.show
-begin tracking my ride,activity.cycle.query
-konnen sie mir die bedienungsanleitung zum transkribieren zeigen?,help.transcribe.show
-what's my remaining charge?,device.status.battery
-batterie ubrig,device.status.battery
-"bitte erinnern sie mich daran, mein telefon jeden tag um 23:00 uhr auszuschalten.",reminders.task.create
-let me send a message,messaging.message.send
-"wie uberprufe ich, welches zubehor ich mit meinem horgerat gekoppelt habe?",help.accessories.show
-wie koppele ich mein gerat mit meinem telefon?,help.pairing.show
-push the level higher,device.volume.increase
-help with the engagement score,help.thrive_score.show
-scan options,sys.oos.fallback
-its loudy,device.volume.decrease
-how can i change the caregiver settings?,help.app_settings.show
-where can i learn more,help.home.show
-wie stelle ich die lautstarke nur am linken horgerat ein?,help.volume.show
-i need another hearing program,device.memory.change
-kann man das linke horgerat vergrossern?,device.volume.increase
-"konnen sie mich daran erinnern, zum arzt zu gehen?",reminders.task.create
-ich mochte mehr volumen,device.volume.increase
-can i rename my memories,help.memory_options.show
-i would like to set a reminder,reminders.task.create
-kannst du dich einfach noch in deinen ohren zusammenrollen?,sys.oos.fallback
-ich brauche bitte hilfe beim koppeln meines gerats mit dem telefon,help.pairing.show
-"zeig mir, wie ich die erinnerung verwende",help.reminder.show
-kannst du das ziel ausarbeiten?,activity.exercise.query
-ich brauche hilfe beim koppeln der horgerate mit meinem telefon,help.pairing.show
-"konnen sie mich daran erinnern, mein telefon jeden tag um 23:00 uhr aufzuladen?",reminders.task.create
-how do i request remote care,help.hearing_care_anywhere_connect.show
-can you remember her,sys.oos.fallback
-start walking,activity.walk.query
-let the audio return,device.volume.unmute
-"konnen sie sich fur mein kind bedanken, als ich ein kleines madchen war und einen grossvater hatte, der mir das herz meines gesichts beigebracht hat?",sys.oos.fallback
-please switch memory to number one,device.memory.change
-bitte helfen sie beim koppeln von geraten,help.pairing.show
-bluetooth,help.pairing.show
-what is the power level,device.status.battery
-can you change to program number one,device.memory.change
-bitte stellen sie eine erinnerung fur die medikamenteneinnahme um 13:00 uhr ein.,reminders.task.create
-can you switch to meeting,device.memory.change
-konnen sie nach meinen horgeraten suchen?,help.find_my_hearing_aids.show
-there is a problem with my left hearing aid,help.self_check.show
-bitte stellen sie die lautstarke meines horgerats leiser ein,device.volume.decrease
-can you switch to auditorium,device.memory.change
-ich habe mein hilfsmittel verlegt,help.find_my_hearing_aids.show
-more volume,device.volume.increase
-kannst du mir helfen? ich brauche hilfe beim koppeln mit meinem telefon,help.pairing.show
-was hat sich in dieser neuen version geandert?,help.whats_new.show
-explain the fall alert feature,help.fall_alert.show
-close the connection to the tv sound,streaming.session.stop
-can i get through today?,device.status.battery
-done with that reminder,reminders.task.complete
-"kannst du mich daran erinnern, zu trainieren?",reminders.task.create
-can you change memory to four,device.memory.change
-bitte hier klicken funktioniert nicht,help.self_check.show
-kannst du ein android-handy finden?,find.phone.locate
-was ist erinnerung?,help.changing_memories.show
-start a message,messaging.message.send
-restore my hearing now,device.volume.unmute
-i need you to set a reminder for me,reminders.task.create
-track this workout,activity.exercise.query
-please switch to worship,device.memory.change
-ist die gebuhr fur strom nicht vergleichbar mit der gebuhr fur benzin?,sys.oos.fallback
-"kannst du, er ist auf dem bauch?",sys.oos.fallback
-konnen sie theaterprogramm?,device.memory.change
-"kannst du mir zeigen, wie lange ich gestanden habe?",activity.stand.query
-help me understand this,help.home.show
-how do i start streaming from my accessories?,help.accessories.show
-"bitte und hier ist mein herz, es ist naher bei dir",sys.oos.fallback
-i want my aids making sound again,device.volume.unmute
-track my aerobic exercise,activity.aerobics.query
-"bitte, wo ist mein iphone?",find.phone.locate
-can you set setting to two,device.memory.change
-lower the level,device.volume.decrease
-"woher weiss ich, wann der audiologe das hilfsmittel angepasst hat?",help.remote_programming.show
-how do i know if an alert is received?,help.fall_alert.show
-bitte ich muss das horgerat mit meinem telefon koppeln,help.pairing.show
-"bitte helfen sie mir, einen sturzalarm abzufangen",help.fall_alert.show
-how do i delete my remote mic?,help.accessories.show
-change how my hearing aids are behaving,device.memory.change
-use the setting for outdoors,device.memory.change
-"wie kann ich meine stimme nutzen, um das gedeihen zu kontrollieren?",help.voice_assistant.show
-can you switch setting to number four,device.memory.change
-when would i send a manual alert text message?,help.fall_alert.show
-how do i take out the right hearing aid?,help.insert_device.show
-wie koppele ich meine horgerate mit dem bluetooth meines autos?,help.pairing.show
-thrive-assistentenhilfe,help.voice_assistant.show
-konnen sie die lautstarke in meinem rechten horgerat ausschalten?,device.volume.mute
-wie aktiviere ich den komfort-boost?,help.device_settings.show
-how do i update my app preferences,help.app_settings.show
-begin tracking my exercise,activity.exercise.query
-"sag mir, was mein schrittziel ist",activity.step.query
-bitte spielen sie es noch einmal.,messaging.message.listen
-bitte helfen sie bei der bewaltigung von maskenproblemen,help.mask_mode.show
-"wie uberprufe ich, welches zubehor ich mit meinen hilfsmitteln gekoppelt habe?",help.accessories.show
-"kannst du, ich lasse dich schlafen?",sys.oos.fallback
-show my steps so far,activity.step.query
-"wie gehe ich vor, wenn ich cros-horgerate habe?",help.wi_c_r_o_s.show
-wie deaktiviere ich den maskenmodus?,help.mask_mode.show
-kann ich meinen akku aufladen?,help.battery.show
-kannst du dein gedachtnis trainieren?,device.memory.change
-can you set program to four,device.memory.change
-how long on my feet today,activity.stand.query
-that reminder is complete,reminders.task.complete
-help me track them,help.find_my_hearing_aids.show
-how does the cros system work,help.wi_c_r_o_s.show
-please lower the volume,device.volume.decrease
-what does thrive score mean?,help.thrive_score.show
-where's intellivoice?,help.intelli_voice.show
-show me around the app,help.home.show
-keep this in mind for me,reminders.task.create
-what does shared listening do,help.hear_share.show
-"kannst du das? und wenn die grosse eine kleine seitenstrasse ist, haben sie engel in die kirche geschickt",sys.oos.fallback
-explain personalizing my hearing aids,help.customize.show
-kannst du die umgebung anbeten?,device.memory.change
-"bitte, er liegt auf dem bauch",sys.oos.fallback
-will they survive the evening?,device.status.battery
-"kann gedeihen, erinnerung festlegen",help.reminder.show
-wie andere ich das horgerateprogramm?,help.changing_memories.show
-how do i change my mini remote mic?,help.accessories.show
-explain how to configure the app,help.app_settings.show
-disconnect the remote microphone,streaming.session.stop
-wie teile ich meine daten mit meiner frau?,help.hear_share.show
-write a message,messaging.message.send
-can you program four,device.memory.change
-connect to my hearing care provider,help.hearing_care_anywhere_connect.show
-can you set program to number two,device.memory.change
-"konnen sie mir sagen, dass es ein problem mit meinem rechten horgerat gibt?",help.self_check.show
-how do i access settings,help.home.show
-wie sehe ich meine areobic-ziele?,help.health.show
-let someone know about this,messaging.message.send
-leave a message,messaging.message.send
-let a family member listen in,help.hear_share.show
-schalte meine linke hilfe aus,device.volume.mute
-"kann es dir leid tun? okay, ich habe es verstanden",sys.oos.fallback
-voice text someone,messaging.message.send
-help me understand what they're saying in another language,translation.session.start
-bitte ubersetzen sie ins englische,translation.session.start
-"bitte hey google, schalte die hauptlampen ein",sys.oos.fallback
-kannst du in die kneipe wechseln?,device.memory.change
-bitte richten sie eine erinnerung fur die medikamenteneinnahme um 13:00 uhr ein.,reminders.task.create
-how do i change the tap button?,help.device_settings.show
-how do i switch from the advanced app to the basic app?,help.app_settings.show
-hilfe bei der gerauschreizanpassung meiner hilfsmittel,help.tinnitus.show
-kannst du? ich kann mein horgerat nicht finden,help.find_my_hearing_aids.show
-how to add another person on hearshare?,help.hear_share.show
-drop the level down,device.volume.decrease
-begin my running workout,activity.run.query
-kannst du mich meinen fernseher horen lassen?,streaming.session.start
-kannst du kuchenspeicher?,device.memory.change
-das rechte horgerat funktioniert nicht,help.self_check.show
-i'm in the car now,device.memory.change
-wireless hearing aid connection,streaming.session.start
-explain how to test my devices,help.self_check.show
-wie lautet die seriennummer meines hilfsmittels?,help.device_settings.show
-"ich kann mich nicht erinnern, wo meine linke hilfe ist",help.find_my_hearing_aids.show
-settling into a busy restaurant,device.memory.change
-"wo kann ich die worte sehen, die jemand sagt?",help.transcribe.show
-i want you to remind me something,reminders.task.create
-kannst du auf tinnitus umstellen?,device.memory.change
-track my calories,activity.calories.query
-stop muting now,device.volume.unmute
-dim the volume,device.volume.decrease
-kannst du und das ist ein zeichen des krieges,sys.oos.fallback
-play the tv through my hearing aids,streaming.session.start
-how much charge do i have left,device.status.battery
-show my current heart rate,help.heart_rate.show
-"konnen sie mir sagen, dass ich heute 17 riesen im minus hatte?",sys.oos.fallback
-how do i let someone listen with me,help.hear_share.show
-"konnen sie gut sein, dass auf dieser seite nicht viel flussigkeit zu sehen ist?",sys.oos.fallback
-beginnen sie mit dem remote-streaming auf meine horgerate,streaming.session.start
-konnen sie bis zum schweigen der khan-akademie?,sys.oos.fallback
-kannst du das hier? funktioniert nicht,help.self_check.show
-what's the way to change volume,help.volume.show
-bitte erhohen sie die lautstarke meiner hilfsmittel,device.volume.increase
-please switch to telephone,device.memory.change
-how do i request a remote adjustment,help.hearing_care_anywhere_connect.show
-bitte wechseln sie zur schule,device.memory.change
-kannst du es ablehnen?,device.volume.decrease
-where is the bi-cros control?,help.wi_c_r_o_s.show
-how does the engagement score work?,help.thrive_score.show
-was ist mein schrittziel?,activity.step.query
-guide me on volume adjustment,help.volume.show
-"bitte, ich habe ein chica-telefon, wenn sie etwas passendes fur sie finden konnen",sys.oos.fallback
-"bitte zeigen sie mir, wie ich die erinnerung verwende",help.remote_programming.show
-"kannst du die nachricht abspielen, die ich bekommen habe?",messaging.message.listen
-do i need to charge soon,device.status.battery
-kann der horakustiker die horgerate aus der ferne anpassen?,help.remote_programming.show
-wie speichere ich die von meinem horgerateakustiker vorgenommenen anpassungen?,help.remote_programming.show
-wie hoch ist meine schrittzahl?,activity.step.query
-bitte suchen sie eine bowlingbahn in der nahe,sys.oos.fallback
-konnen sie meine andere hilfe finden?,help.find_my_hearing_aids.show
-konnen sie mir bei der anpassung des weissen rauschens helfen?,help.tinnitus.show
-audio connection to aids,streaming.session.start
-it's too loud in here,device.volume.decrease
-begin live translation,translation.session.start
-wann sollte ich intellivoice verwenden?,help.intelli_voice.show
-bitte schalten sie den motor aus,sys.oos.fallback
-kann ich meiner erinnerung einen ort zuordnen?,help.memory_options.show
-wo gibt es hilfe zur selbstkontrolle?,help.self_check.show
-kannst du meine linke hilfe einschalten?,device.volume.unmute
-konnen sie beim streamen helfen?,help.accessories.show
-can you set me a reminder,reminders.task.create
-wie richte ich e-mail-benachrichtigungen ein?,help.device_settings.show
-my hearing aids sound off today,help.device_settings.show
-"bitte, ich kann mich nicht erinnern, wo mein anderes horgerat ist",help.find_my_hearing_aids.show
-edge mode help,help.edge_mode.show
-kannst du mir die doppeltippfunktion nicht gefallen? wie schalte ich es aus?,help.device_settings.show
-can i pair a wearable microphone,help.accessories.show
-can you change program to number one,device.memory.change
-send a message,messaging.message.send
-text my friend,messaging.message.send
-bitte feuern sie am freitag,sys.oos.fallback
-wie drehe ich die lautstarke in den hilfsmitteln herunter?,help.volume.show
-am i close to my calorie goal,activity.calories.query
-bitte zeigen sie mir die bedienungsanleitung fur mein zubehor,help.accessories.show
-kannst du auf ein auto umsteigen?,device.memory.change
-send a note to dad,messaging.message.send
-"konnen sie mich daran erinnern, mein rezept am freitag um 17:00 uhr abzuholen?",reminders.task.create
-play the audio directly in my ears,streaming.session.start
-bitte ist meine gehzeit?,activity.walk.query
-how does mask mode work,help.mask_mode.show
-kannst du die lautstarke der linken hilfe regeln?,device.volume.mute
-guide me through the interface,help.home.show
-wie verbinde ich meine horgerate mit dem telefon?,help.pairing.show
-ich muss mein horgerat von meinem telefon trennen,help.pairing.show
-how much have i stood today,activity.stand.query
-kann mein fachmann meine hilfsmittel aus der ferne anpassen?,help.remote_programming.show
-best iphone,sys.oos.fallback
-"kannst du, ich habe meine andere hilfe verlegt?",help.find_my_hearing_aids.show
-finde mein android,find.phone.locate
-so stellen sie eine erinnerung ein,help.reminder.show
-help me communicate with someone,messaging.message.send
-how do i go the home screen?,help.home.show
-how do i view my fitness summary,help.health.show
-ich kann mein horgerat nicht anbringen,help.insert_device.show
-wie stelle ich mein tinnitus-gerausch am gerat ein?,help.tinnitus.show
-hear audio in my aids,streaming.session.start
-wie sende ich eine hilfeanfrage an meinen fachmann?,help.remote_programming.show
-i'll need a reminder for this,reminders.task.create
-bitte erarbeiten sie das ziel,activity.exercise.query
-konnen sie die bluetooth-funktion eines autos mit einem horgerat synchronisieren?,help.pairing.show
-can you memory two,device.memory.change
-my hearing aid keeps slipping out,help.insert_device.show
-please set reminder,reminders.task.create
-how do i use the charging case,help.battery.show
-connect the tv sound to me,streaming.session.start
-help for streaming,help.accessories.show
-wozu dient die dnn-sprachverbesserung?,help.intelli_voice.show
-wie andere ich die tinnitus-gerausche?,help.tinnitus.show
-stoppen sie die aufnahme,transcription.session.start
-kannst du eine nahmaschine?,sys.oos.fallback
-gentle on the volume,device.volume.decrease
-kannst du die stummschaltung aufheben?,device.volume.unmute
-wie viele minuten bin ich gejoggt?,activity.run.query
-kann ich thrive assistant ohne mein telefon verwenden?,help.voice_assistant.show
-wie andere ich programme an den hilfsmitteln?,help.changing_memories.show
-bitte wechseln sie zum fernsehen,device.memory.change
-please set program to four,device.memory.change
-wie weit bin ich gelaufen?,activity.run.query
-wo ist intellivoice?,help.intelli_voice.show
-i want to send a message,messaging.message.send
-silence everything,device.volume.mute
-connect audio to hearing aids,streaming.session.start
-"bitte erinnern sie mich daran, zu trainieren",reminders.task.create
-bitte salsa zu meiner linken,sys.oos.fallback
-track down my handset for me,find.phone.locate
-lautstarke erhohen,device.volume.increase
-what does my body and brain score mean,help.thrive_score.show
-konnen sie sprach-zu-text-hilfe?,help.transcribe.show
-am i close to my aerobics goal,activity.aerobics.query
-what is my step count for the week?,activity.step.query
-please switch to television,device.memory.change
-finde meine andere hilfe,help.find_my_hearing_aids.show
-put the audio into my ears,streaming.session.start
 "woher weiss ich, wann der horgerateakustiker meine horgerate angepasst hat?",help.remote_programming.show
-wie stelle ich die lautstarke des tinnitus-gerausches in den hilfsmitteln ein?,help.tinnitus.show
-wie schalte ich die horgerate stumm?,help.volume.show
-haben sie bitte meine hearshare-einladung angenommen?,help.hear_share.show
-"konnen sie mir helfen, mein iphone zu finden?",find.phone.locate
-wie kann ich meinen audiologen um hilfe bitten?,help.remote_programming.show
-how do i balance the volume between ears,help.volume.show
-wie funktioniert der virtuelle assistent?,help.voice_assistant.show
-set an doctor's appointment for tomorrow at 10 am,reminders.task.create
-make things quieter,device.volume.decrease
-share my audio with a loved one,help.hear_share.show
-bitte dreh die lautstarke herunter,device.volume.decrease
-bitte helfen sie bei der fernprogrammierung,help.remote_programming.show
-hilfe bei der anpassung des larmreizes an meinen horgeraten,help.tinnitus.show
-steps so far today,activity.step.query
-please switch to mute,device.memory.change
-"bitte, das ist ein sehr enttauschendes furzgerausch",sys.oos.fallback
-bitte helfen sie mit zubehor,help.accessories.show
-"wie uberprufe ich, ob die horgerate mit der thrive-app verbunden sind?",help.pairing.show
-send a note,messaging.message.send
-konnen sie dieses gesprach aufzeichnen?,transcription.session.start
-how do i get to the main screen?,help.home.show
-i can't spot my hearing aids anywhere,help.find_my_hearing_aids.show
-wie wechsle ich auf meinem gerat zu einem anderen speicher?,help.changing_memories.show
-check my burned calories,activity.calories.query
-i don't get how any of this works,help.home.show
-how do i access self check?,help.self_check.show
-kannst du die maximale lautstarke erreichen?,device.volume.increase
-kannst du die lautstarke ausschalten?,device.volume.mute
-hilfe bei der tinnitus-gerauschanpassung in meinem horgerat,help.tinnitus.show
-kalorien beim gehen,activity.walk.query
-"konnen sie mich daran erinnern, jeden monat am 15. um 13 uhr lebensmittel einzukaufen?",reminders.task.create
-can you switch memory to four,device.memory.change
-machen sie die horgerate leiser,device.volume.decrease
-wie frage ich nach einer neuen einstellung?,help.remote_programming.show
-what's the best way to clean my hearing aids,help.clean_care.show
-what settings does edge mode change,help.edge_mode.show
-how often should i clean my hearing aids,help.clean_care.show
-help me send information,messaging.message.send
-i need to notify someone,messaging.message.send
-wie synchronisiere ich diese miteinander?,help.pairing.show
-using the app without aids connected,help.demo_mode.show
-wie passe ich mein horgerat individuell an?,help.customize.show
-make it softer please,device.volume.decrease
-habe ich mein laufziel erreicht?,activity.run.query
-wie stelle ich die lautstarke des weissen rauschens in den hilfsmitteln ein?,help.tinnitus.show
-wie drehe ich den ton des fernsehers auf?,help.accessories.show
-"kannst du lacheln, also kommen wir dazu",sys.oos.fallback
-decrease volume in my hearing aids,device.volume.decrease
-please change to tinnitus,device.memory.change
-zeigen sie mir eine ubersicht uber diese app,help.whats_new.show
-was zeigt der gesundheitsbildschirm?,help.health.show
-turn off remote mic streaming,streaming.session.stop
-konnen sie eine erinnerung fur 5 minuten einstellen?,reminders.task.create
-lass mich das remote-mikrofon horen,streaming.session.start
-set a new reminder,reminders.task.create
-alert me when it's time to leave,reminders.task.create
-hilfe bei der anpassung des tinnitusreizes in meinen horgeraten,help.tinnitus.show
-bitte beachten sie die bedienungsanleitung zur herzfrequenzwiederherstellung,help.heart_rate_recovery.show
-how do i connect my aids to my phone?,help.pairing.show
-too much volume right now,device.volume.decrease
-kann man die linke hilfe anschliessen?,help.pairing.show
-bitte machen sie eine pause und kommen sie zuruck,sys.oos.fallback
-how do i get better engagement scores?,help.thrive_score.show
-what's my daily step number,activity.step.query
-give me a little more sound,device.volume.increase
-turn the sound back on,device.volume.unmute
-was ist herzfrequenz-erholung?,help.heart_rate_recovery.show
-explain connecting for remote support,help.hearing_care_anywhere_connect.show
-can you set up a reminder for me,reminders.task.create
-log a walk,activity.walk.query
-i better not forget this,reminders.task.create
-turn on the volume in my left hearing aid,device.volume.unmute
-kannst du meine letzte aufnahme abspielen?,messaging.message.listen
-kannst du letztes push-to-talk spielen?,messaging.message.listen
-wie schalte ich tinnitus aus?,help.tinnitus.show
-wie stelle ich die lautstarke des tinnitus-maskers am horgerat ein?,help.tinnitus.show
-speech is too quiet,device.volume.increase
-help me locate one device,help.find_my_hearing_aids.show
-can you switch setting to number two,device.memory.change
-how can i flip between modes,help.changing_memories.show
-how do i track down my aids,help.find_my_hearing_aids.show
-hilfe bei lautstarkeanderungen in meinen hilfsmitteln,help.volume.show
-what's my calorie goal,activity.calories.query
-"was hore ich, wenn eine warnung gesendet wird?",help.fall_alert.show
-kannst du die stummschaltung einschalten?,device.volume.mute
-can you set reminders,reminders.task.create
-find my aids help,help.find_my_hearing_aids.show
-what's the translate feature for,help.translate.show
-does edge mode work automatically,help.edge_mode.show
-wie hat sich die art verandert?,help.whats_new.show
-where could my aids have gone,help.find_my_hearing_aids.show
-kannst du die schule einrichten?,device.memory.change
-kannst du das gedachtnis storen?,device.memory.change
-hilfe bei der zuordnung meiner hilfsmittel,help.pairing.show
-"bitte erinnern sie mich daran, mein rezept am montag um 17 uhr abzuholen.",reminders.task.create
-kannst du das mikrofon?,sys.oos.fallback
-wo kann ich einen benachrichtigungstext stoppen?,help.fall_alert.show
-kannst du das iphone verlieren?,find.phone.locate
-hilfe bei programmwechseln,help.changing_memories.show
-give me so much i don't know it's another problem,sys.oos.fallback
-can you set memory to number three,device.memory.change
-how do i turn on intellivoice,help.intelli_voice.show
-empfanger,help.wi_c_r_o_s.show
-walk me through the basics,help.home.show
-hilfe bei der anpassung der tinnitus-lautstarke an meinen geraten,help.tinnitus.show
-"konnen sie mich daran erinnern, dass ich einen arzttermin habe?",reminders.task.create
-"helfen sie mir, mein linkes horgerat zu finden",help.find_my_hearing_aids.show
-kannst du dem mikrofon zuhoren?,streaming.session.start
-translate guide,help.translate.show
-where is the loudness control,help.volume.show
-wie lautet die seriennummer meiner hilfsmittel?,help.device_settings.show
-konnen sie die ubersetzung offnen?,translation.session.start
-bitte lass mich meinen fernseher horen,streaming.session.start
-wozu dienen die neuen funktionen?,help.whats_new.show
-how many steps today,activity.step.query
-"konnen sie mir helfen, das tinnitus-programm zu andern?",help.tinnitus.show
-can you memory three,device.memory.change
-what do all these buttons do,help.home.show
-wie kann ich meine wochentlichen umgebungsziele sehen?,help.health.show
-make my surroundings quieter,device.volume.decrease
-bitte zeigen sie mir mein standziel,activity.stand.query
-what is the remote fitting process,help.remote_programming.show
-how long until i reach my aerobics goal,activity.aerobics.query
-reminder set,reminders.task.create
-stecke ich das horgerat hinter mein ohr?,help.insert_device.show
-show my running activity,activity.run.query
-where did i leave my other hearing aid?,help.find_my_hearing_aids.show
-"bitte danke fur mein kind, als ich ein kleines madchen war, mit einem grossvater, der mir das herz meines gesichts beigebracht hat",sys.oos.fallback
-"konnen sie mich daran erinnern, mein auto zu waschen?",reminders.task.create
-is the transcribe feature free,help.transcribe.show
-show me where they are,help.find_my_hearing_aids.show
-how do i make a repeating reminder,help.reminder.show
-tell my son i said hello,messaging.message.send
-is spanish available for translation,help.translate.show
-how far have i cycled,activity.cycle.query
-is german one of the translation options,help.translate.show
-bitte helfen sie mir beim andern der programme auf meinen horgeraten,help.changing_memories.show
-bitte ich brauche hilfe beim pairing,help.pairing.show
-show my step progress,activity.step.query
-letzte sprachnachricht abspielen.,messaging.message.listen
-wie viele schritte kalorien,activity.step.query
-"bitte, wo ist voice ai?",help.intelli_voice.show
-"bitte, ich lasse dich schlafen",sys.oos.fallback
-what are my options?,help.home.show
-"ich fange an, fernsehen auf meine horgerate zu streamen",streaming.session.start
-kannst du musikspeicher?,device.memory.change
-was ist neu in meiner app?,help.whats_new.show
-how many calories have i burned,activity.calories.query
-"bitte erinnern sie mich daran, meine katze zu futtern",reminders.task.create
-wie kann ich meine horgerate synchronisieren?,help.pairing.show
-erhohen sie die lautstarke meiner hilfen,device.volume.increase
-tell me about the available accessories,help.accessories.show
-wie greife ich auf intelligent voice zu?,help.intelli_voice.show
-how do i change to another program on my aid?,help.changing_memories.show
-how are my batteries doing?,device.status.battery
-where do transcripts get saved,help.transcribe.show
-explain dnn speech enhancement,help.intelli_voice.show
-bitte ubersetzen sie „how much do i owe you“ auf spanisch,translation.session.start
-put their foreign words into my language,translation.session.start
-erhohen sie die lautstarke meiner gerate,device.volume.increase
-"konnen sie mich daran erinnern, mein telefon jeden tag um 23:00 uhr auszuschalten?",reminders.task.create
-was ist die firmware-version meines gerats?,help.device_settings.show
-power level check,device.status.battery
-kann ich mein horgerat mit wasser reinigen?,help.clean_care.show
-"konnen sie mir zeigen, wo mein telefon ist?",find.phone.locate
-turn off the streaming,streaming.session.stop
-hilfe bei der veranderung von erinnerungen an meine hilfsmittel,help.changing_memories.show
-kannst du zur sprache wechseln?,device.memory.change
-mute right now,device.volume.mute
-tv-stream starten,streaming.session.start
-bitte neue erinnerung fur jeden tag,reminders.task.create
-can you switch to everyday,device.memory.change
-bitte wechseln sie zu „personlich“.,device.memory.change
-i can't find my phone,find.phone.locate
-zeigen sie mir eine kurzanleitung,help.whats_new.show
-schalten sie die lautstarke ein,device.volume.unmute
-bitte stellen sie eine erinnerung fur yoga morgen um 7 uhr ein,reminders.task.create
-connect me to tv audio,streaming.session.start
-ping my aids,help.find_my_hearing_aids.show
-"wie uberprufe ich, ob die horgerate mit der app verbunden sind?",help.pairing.show
-how do i add a person to hearshare,help.hear_share.show
-please switch memory to number two,device.memory.change
-wie messe ich meine herzfrequenz?,help.heart_rate.show
-"konnen sie sich erinnern, wie es geht?",sys.oos.fallback
-how do i switch profiles,help.changing_memories.show
-the wind outside is overwhelming what can i do,help.edge_mode.show
-kannst du mir das mikrofon vorspielen?,streaming.session.start
-edge mode help please,help.edge_mode.show
-it's blasting in my ears,device.volume.decrease
-explain how to schedule reminders,help.reminder.show
-bitte buchstabieren sie das wort maschine,sys.oos.fallback
-what is my thrive score,help.thrive_score.show
-kannst du den ton hoher machen?,device.volume.increase
-bin ich bitte nah an meinem fahrradziel?,activity.cycle.query
-kannst du jahrlich,sys.oos.fallback
-"bitte helfen sie mir, meine hilfsmittel zu finden",help.find_my_hearing_aids.show
-cut all the sound,device.volume.mute
-"woher weiss ich, wann mein fachmann die horgerate angepasst hat?",help.remote_programming.show
-play back the texts i received,messaging.message.listen
-wie stelle ich den noise masker in meinen horgeraten ein?,help.tinnitus.show
-how do i customize my right hearing aid settings?,help.customize.show
-kannst du einen piepton andern?,help.device_settings.show
-when should i initiate a manual alert text?,help.fall_alert.show
-kann man die lautstarke auf 80 % einstellen?,device.volume.increase
-kannst du zu einem hoch zuruckkehren?,sys.oos.fallback
-"bitte denken sie daran, dass sie verargert sind, wenn sie den lkw entladen",sys.oos.fallback
-wie viele kalorien habe ich beim radfahren verbrannt?,activity.cycle.query
-how do i start the tinnitus relief sound,help.tinnitus.show
-reduce the sound,device.volume.decrease
-wann sollte ich intelligente stimme verwenden?,help.intelli_voice.show
-let the stream begin,streaming.session.start
-bitte spielen sie die letzte nachricht ab,messaging.message.listen
-wie andere ich meine lautstarke?,help.volume.show
-konnen sie mir bei der selbstkontrolle helfen?,help.self_check.show
-end the tv connection,streaming.session.stop
-i need some guidance,help.home.show
-"ist es in ordnung, das horgerat tief hineinzuschieben?",help.insert_device.show
-how do i adjust the volume on my hearing aid?,help.volume.show
-wie stelle ich die lautstarke nur eines gerats ein?,help.volume.show
-ich mochte dem moderator zuhoren,streaming.session.start
-hebraisch ubersetzen,translation.session.start
-can you switch to program two,device.memory.change
-i would like to send a message,messaging.message.send
-write down what's being said,transcription.session.start
-konnen sie eine erinnerung an das gassigehen mit dem hund einrichten und diese jeden tag um 9 uhr wiederholen?,reminders.task.create
-bitte helfen sie mir bei der anpassung der tinnitus-lautstarke an meinen geraten,help.tinnitus.show
-bitte gedeihen sie im assistenten-benutzerhandbuch,help.voice_assistant.show
-what does ipro score mean?,help.thrive_score.show
-aerobe kalorien,activity.aerobics.query
-how do i assign a location to my memory?,help.memory_options.show
-suche android,find.phone.locate
-can you set reminders for me,reminders.task.create
-hilfe bei der anpassung des tinnitusreizes an meinen hilfsmitteln,help.tinnitus.show
-stimme ai,help.intelli_voice.show
-add a reminder for my meeting,reminders.task.create
-where do i find my overall rating,help.thrive_score.show
-personalisieren sie meine horgerateeinstellungen,help.memory_options.show
-help managing my saved programs,help.memory_options.show
-"wie uberprufe ich, welches zubehor ich mit meinen horgeraten gekoppelt habe?",help.accessories.show
-nicht so laut,device.volume.decrease
-translate this conversation,translation.session.start
-bitte schalten sie mein rechtes horgerat aus,device.volume.mute
-wie verwende ich intellivoice?,help.intelli_voice.show
-help with the app configuration,help.app_settings.show
-wie komme ich zur herzfrequenzfunktion?,help.heart_rate.show
-i can hardly hear it,device.volume.increase
-"kannst du, dass sie bei meinem handy bleibt?",sys.oos.fallback
-wie passe ich meine horgerate individuell an?,help.customize.show
-the sound is too low,device.volume.increase
-record something for another person,messaging.message.send
-stummschaltung bei horgeraten aufheben,device.volume.unmute
-help me find my devices,help.find_my_hearing_aids.show
-what does running a diagnostic check do,help.self_check.show
-wie stelle ich meinen tinnitus-masker in meinem gerat ein?,help.tinnitus.show
-note this down for me,reminders.task.create
-how do i set my own sound profile,help.customize.show
-what is wrong with my left hearing aid,help.self_check.show
-wo initiiere ich eine manuelle warnmeldung?,help.fall_alert.show
-track my bpm on the app,help.heart_rate.show
-how can the app help me find my aids,help.find_my_hearing_aids.show
-bitte verbrauchte kalorien heute,activity.calories.query
-turn things up so i can hear,device.volume.increase
-bitte schalten sie meine rechte hilfe ein,device.volume.unmute
-hearing aids translate help,help.translate.show
-my ears are taking a beating,device.volume.decrease
-konnen sie meine horgerate lauter stellen?,device.volume.increase
-please setting number two,device.memory.change
-"konnen sie mich daran erinnern, mein rezept am montag um 17:00 uhr abzuholen?",reminders.task.create
-can i clean my aids with water,help.clean_care.show
-konnen sie mir mit meiner app beim programmwechsel helfen?,help.changing_memories.show
-i need my noisy environment setting,device.memory.change
-konnen sie mich an meinen termin erinnern?,reminders.task.create
-wie komme ich zur homepage?,help.home.show
-where do i buy new batteries,help.battery.show
-how do i adjust my tinnitus masker in my aids?,help.tinnitus.show
-how do i turn on the soothing sound,help.tinnitus.show
-kannst du beim gehen kalorien verbrennen?,activity.walk.query
-the double tap feature is too sensitive. how do i adjust the sensitivity?,help.device_settings.show
-help with the volume feature,help.volume.show
-its too lound,device.volume.decrease
-verlegtes telefon,find.phone.locate
-bitte helfen sie mir bei der anpassung des tinnitus-maskers in meinen hilfsmitteln,help.tinnitus.show
-how do i connect my hearing aids,help.pairing.show
-"bitte, ich kann mich nicht erinnern, wo meine andere hilfe ist",help.find_my_hearing_aids.show
-"kannst du mich daran erinnern, schlafen zu gehen?",reminders.task.create
-where do my steps and workouts show together,help.health.show
-wie schalte ich den maskenmodus ein?,help.mask_mode.show
-wie viel lebensdauer die horgeratebatterien noch haben,device.status.battery
-i have news to text a contact,messaging.message.send
-preview app features without aids,help.demo_mode.show
-sind die hilfsmittel mit dem telefon verbunden?,help.pairing.show
-let me hear things again,device.volume.unmute
-kann ich meine einstellungen andern?,help.device_settings.show
-display my step count,activity.step.query
-what does this app do,help.home.show
-was ist die firmware-version meines horgerats?,help.device_settings.show
-was muss ich uber diese neue app wissen?,help.whats_new.show
-change my hearing mode,device.memory.change
-give me a recipe for dinner,sys.oos.fallback
-i'm heading out running,activity.run.query
-are my aids running out of power,device.status.battery
-how do i get better ipro scores?,help.thrive_score.show
-begin my workout,activity.exercise.query
-konnen sie in der app kopplungshilfen verwenden?,help.pairing.show
-bitte finde mein lied,sys.oos.fallback
-how depleted is the battery,device.status.battery
-"kannst du, ich brauche eine autobatterie?",sys.oos.fallback
-track this gym session,activity.exercise.query
-"kannst du mir horen, was transkribiert wird?",help.transcribe.show
-wie kann ich eine manuelle warnmeldung starten?,help.fall_alert.show
-why can't i hear people in masks,help.mask_mode.show
-ich brauche bitte hilfe beim koppeln des hilfsmittels,help.pairing.show
-can you switch to car,device.memory.change
-what's the transcription feature for,help.transcribe.show
-stehende kalorien,activity.stand.query
-set up audio streaming,streaming.session.start
-can i wear my aids in the shower,help.clean_care.show
-have i reached my stand goal?,activity.stand.query
-please record a message,messaging.message.send
-konnen sie meine erinnerung vervollstandigen?,reminders.task.complete
-"bitte ja, nimm einfach ein wenig abstand, ja",sys.oos.fallback
-konnen sie die erinnerung auf 17:00 uhr einstellen?,reminders.task.create
-add reminder,reminders.task.create
-how do i go from one program to another,help.changing_memories.show
-finde mein linkes horgerat,help.find_my_hearing_aids.show
-konnen sie mir bei der tinnitus-klanganpassung meines horgerats helfen?,help.tinnitus.show
-kannst du nicht so laut,device.volume.decrease
-show the last known location of my aids,help.find_my_hearing_aids.show
-"wie kann ich sehen, wie viel ich diesen monat gelaufen bin?",help.health.show
-what is streamboost,sys.oos.fallback
-hearing aids translate guide,help.translate.show
-kannst du mein gerat finden?,find.phone.locate
-"konnen sie eine erinnerung einrichten, um um 13:00 uhr medikamente einzunehmen?",reminders.task.create
-konnen sie sich an ihr zuhause erinnern?,device.memory.change
-i want to add a reminder,reminders.task.create
-please set setting to four,device.memory.change
-"konnen sie eine erinnerung einrichten, um um 21:00 uhr wasser zu trinken? jeden dienstag",reminders.task.create
-set my aids for a noisy party,device.memory.change
-bitte horen sie auf meinen fernseher,streaming.session.start
-explain the personalization options,help.customize.show
-can you change to program one,device.memory.change
-how can i get the left hearing aid?,help.self_check.show
-hearing aid battery,device.status.battery
-help me hear better in this crowd,device.memory.change
-wie andere ich klingeltone?,help.device_settings.show
-konnen sie ein meeting vereinbaren?,device.memory.change
-translate the speech now,translation.session.start
-bitte synchronisieren sie das bluetooth des autos mit dem horgerat,help.pairing.show
-"konnen sie mich daran erinnern, mein rezept um 17:00 uhr abzuholen? am freitag",reminders.task.create
-how does telehear work,help.hearing_care_anywhere_connect.show
-can i change my battery?,help.battery.show
-guide me on the voice assistant feature,help.voice_assistant.show
-konnen sie den schnellen code fur die binare suche finden?,sys.oos.fallback
-wie viele kalorien habe ich im stehen verbrannt?,activity.stand.query
-kannst du auf „ruhe“ umschalten?,device.memory.change
-remind me to take my medicine today in one minute,reminders.task.create
-battery,device.status.battery
-so richten sie das geotagging ein,help.memory_options.show
-kannst du draussen programmieren?,device.memory.change
-pairing aids,help.pairing.show
-the sound feels distant,device.volume.increase
-wie storniere ich eine sturzwarnung?,help.fall_alert.show
-does it work with alexa,help.voice_assistant.show
-"bitte erinnern sie mich daran, jeden morgen um 7 uhr wasser abzukochen.",reminders.task.create
-turn on translation,translation.session.start
-wie speichere ich die vom horgerateakustiker vorgenommenen anpassungen?,help.remote_programming.show
-will i make it through the day,device.status.battery
-wie wechsle ich die batterie meines horgerats?,help.battery.show
-kannst du ja einfach ein bisschen pause machen?,sys.oos.fallback
-lautstarke lauter machen,device.volume.increase
-what does activity score mean?,help.thrive_score.show
-help with the thrive score,help.thrive_score.show
-bitte helfen sie mir bei der anpassung des gerauschreizes an meinen horgeraten,help.tinnitus.show
-"ich kann mich nicht erinnern, wo mein linkes horgerat ist",help.find_my_hearing_aids.show
-was hat sich in dieser neuen version der app geandert?,help.whats_new.show
-battery good enough for the evening,device.status.battery
-"bitte, ich habe meine hilfe verloren. konnen sie mir helfen, es zu finden?",help.find_my_hearing_aids.show
-log my cardio dance,activity.aerobics.query
-my ears can't take this pounding,device.volume.decrease
-heading out for a stroll record it,activity.walk.query
-konnen sie mir bei der anpassung des tinnitusreizes in meinen horgeraten helfen?,help.tinnitus.show
-what does brain score mean?,help.thrive_score.show
-wie andere ich erinnerungen auf der hilfe?,help.changing_memories.show
-habe ich mein aktivitatsziel erreicht?,activity.aerobics.query
-bitte stellen sie die richtige lautstarke ein,device.volume.unmute
-kann man das horvermogen verringern?,device.volume.decrease
-explain the app to me,help.home.show
-i'm at the gym now,device.memory.change
-welches modell hat mein horgerat?,help.device_settings.show
-can i use a clip on microphone,help.accessories.show
-put a reminder for my checkup,reminders.task.create
-kannst du es finden?,sys.oos.fallback
-my left hearing aids,sys.oos.fallback
-bitte erinnern sie mich an meinen arzttermin,reminders.task.create
-"konntest du mir sagen, dass mich jemand anrufen sollte und ich es nie tue?",sys.oos.fallback
-wie stelle ich die lautstarke des tinnitus-reizs in den hilfsmitteln ein?,help.tinnitus.show
-konnen sie die lautstarke meiner hilfen verringern?,device.volume.decrease
-explain edge mode,help.edge_mode.show
-bitte stellen sie das rechte ohr fur einen hoheren klang ein,device.volume.increase
-wie stelle ich die lautstarke des tinnitus-gerauschs in meinen horgeraten ein?,help.tinnitus.show
-lass meine hilfe verstummen,device.volume.mute
-"kannst du es einfach nicht tun? du bist nicht auf dem boden aufgeschlagen, aber ich werde es uberprufen",sys.oos.fallback
-hilfe beim streamen,help.accessories.show
-"bitte zeig mir, wie lange ich gelaufen bin?",activity.walk.query
-wie drehe ich die lautstarke im hilfsmittel herunter?,help.volume.show
-can you switch setting to number three,device.memory.change
-explain how to make it louder or softer,help.volume.show
-tell someone this via text,messaging.message.send
-track my bike ride,activity.cycle.query
-please change program to number four,device.memory.change
-please help me send a message,messaging.message.send
-how do i change the app language,help.app_settings.show
-wie aktiviere ich die automatische benachrichtigung?,help.fall_alert.show
-wie kann ich meinen fachmann bei einem problem kontaktieren?,help.remote_programming.show
-"lautstarke erhohen, linke hilfe",device.volume.increase
-do i need to stand longer to reach my goal?,activity.stand.query
-konnen sie dieses treffen aufzeichnen?,transcription.session.start
-i want pure silence,device.volume.mute
-the sound keeps dropping out,help.device_settings.show
-don't let me forget this,reminders.task.create
-wie wechsle ich am horgerat zu einem anderen programm?,help.changing_memories.show
-what's the capital of japan?,sys.oos.fallback
-wie ich meine horgerate reinige,help.clean_care.show
-bitte helfen sie mir bei der anpassung des tinnitus-maskers in meinem horgerat,help.tinnitus.show
-tips for maintaining my hearing aids,help.clean_care.show
-hilfe zum transkribieren,help.transcribe.show
-can you program number one,device.memory.change
-how do i translate,help.translate.show
-remind me to take medicine in 5 minutes,reminders.task.create
-change to restaurant mode,device.memory.change
-konnen sie das linke horgerat?,sys.oos.fallback
-turn the sound down a bit,device.volume.decrease
-read me what was sent,messaging.message.listen
-hearing aid doesn't work,help.self_check.show
-zeig mir mein joggingziel,activity.run.query
-track my aerobics,activity.aerobics.query
-remind me to charge my phone every day at 11:00 p.m.,reminders.task.create
-create a future reminder,reminders.task.create
-track my workout,activity.exercise.query
-bitte dreh den ton leiser,device.volume.decrease
-how far am i from my aerobics goal,activity.aerobics.query
-record the miles i ran,activity.run.query
-share information with my daughter,help.hear_share.show
-offene ubersetzung,translation.session.start
-wie stelle ich meinen noise masker an den horgeraten ein?,help.tinnitus.show
-unmute everything,device.volume.unmute
-how do i increase my brain score?,help.thrive_score.show
-wie passe ich das horgerat an?,help.customize.show
-undo the mute,device.volume.unmute
-bitte zeigen sie mir einen uberblick uber die app,help.whats_new.show
-"bitte erinnere mich daran, morgen aufzuwachen",reminders.task.create
-reduce the noise level,device.volume.decrease
-what should i wear today,sys.oos.fallback
-"kannst du? ich kann mich nicht erinnern, wo mein linkes horgerat ist",help.find_my_hearing_aids.show
-change the memory,device.memory.change
-how do i view my activity summary,help.health.show
-kannst du nicht laut genug schreien?,sys.oos.fallback
-konnen sie ihrem cousin horgerate missbrauchen?,sys.oos.fallback
-how do i learn about changing programs,help.changing_memories.show
-give me a gentle nudge at 9,reminders.task.create
-what extra devices can i pair,help.accessories.show
-wie losche ich das zubehor?,help.accessories.show
-how long have i stood this week,activity.stand.query
-"bitte, mein horgerat fehlt",help.find_my_hearing_aids.show
-kannst du beim laufen kalorien verbrennen?,activity.run.query
-how is the body score calculated?,help.thrive_score.show
-"bitte, es gibt wirklich keine",sys.oos.fallback
-we expect an update,sys.oos.fallback
-how does the translation feature work?,help.translate.show
-how do i stop my phone ringing in my,sys.oos.fallback
-welche anpassungen kann ich auf dem startbildschirm vornehmen?,help.home.show
-how do i turn on edge mode for tough situations,help.edge_mode.show
-wie man intelligente stimme ausfuhrt,help.intelli_voice.show
-use the music program instead,device.memory.change
-what's different about engage?,help.whats_new.show
-"bitte lacheln sie, damit wir weitermachen konnen",sys.oos.fallback
-koppeln meiner hilfsmittel mit meinem telefon,help.pairing.show
-help for the constant ringing,help.tinnitus.show
-wie viele kalorien habe ich heute verbrannt?,activity.calories.query
-how do i turn on mask mode,help.mask_mode.show
-battery check now,device.status.battery
-konnen sie das telefon erkennen?,find.phone.locate
-using the app without hearing aids connected,help.demo_mode.show
-can you remind me of an appointment,reminders.task.create
-"konnen sie sich erinnern, dass sie genervt waren, als sie den lkw entluden?",sys.oos.fallback
-wo starte ich eine manuelle warnmeldung?,help.fall_alert.show
-ich habe mein linkes hilfsmittel verlegt,help.find_my_hearing_aids.show
-wie kann ich eine manuelle alarm-sms initiieren?,help.fall_alert.show
-is the battery low,device.status.battery
-i'm off for a walk,activity.walk.query
-can you memory number four,device.memory.change
-wie kann ich einen sturzalarm stoppen?,help.fall_alert.show
-wie wechsle ich zum musikspeicher?,help.changing_memories.show
-where is my daily score,help.thrive_score.show
-konnen sie eine kneipe einrichten?,device.memory.change
-how do i make the sound my own,help.customize.show
-turn it up,device.volume.increase
-kannst du telehoren?,help.hearing_care_anywhere_connect.show
-that to-do is finished mark it complete,reminders.task.complete
-wo kann ich ein neues programm erstellen?,help.memory_options.show
-wake the sound back up,device.volume.unmute
-explain how edge mode works,help.edge_mode.show
-kann ich mein horgerat mit meinem telefon koppeln?,help.pairing.show
-wie erstelle ich einen kontakt fur die sturzwarnung?,help.fall_alert.show
-"konnen sie mir eine erinnerung senden, um die kabelrechnung am 3. marz zu bezahlen?",reminders.task.create
-how do i back up my profile,help.hearing_care_anywhere_connect.show
-set it up for a concert hall,device.memory.change
-"bitte erinnern sie mich daran, joe in 30 minuten abzuholen",reminders.task.create
-demonstration mode,help.demo_mode.show
-"wie uberprufe ich, welches zubehor ich an mein hilfsmittel angeschlossen habe?",help.accessories.show
-i need to text someone,messaging.message.send
-are the batteries healthy?,device.status.battery
-hear my texts please,messaging.message.listen
-did i reach my workout goal,activity.exercise.query
-stummschaltung ausschalten,device.volume.unmute
-order a pizza,sys.oos.fallback
-how do i get a better brain score?,help.thrive_score.show
-wie speichere ich einstellungen in einem neuen speicher?,help.memory_options.show
-start a text to my partner,messaging.message.send
-sound feels weak,device.volume.increase
-wie stelle ich die lautstarke am hilfsmittel ein?,help.volume.show
-"bitte zeigen sie mir, wo mein telefon ist",find.phone.locate
-kann ihr horgerat nicht funktionieren?,help.self_check.show
-where is tinnitus in the app?,help.tinnitus.show
-spielen sie meine nachricht ab,messaging.message.listen
-wie stelle ich die lautstarke am horgerat ein?,help.volume.show
-why isn't my hearing aid charging,help.battery.show
-wie teile ich meine horinformationen mit meiner frau?,help.hear_share.show
-wie andere ich den sprachschwerpunkt?,help.customize.show
-my aid keeps falling out how do i fit it,help.insert_device.show
-how do i make the aids quieter?,help.volume.show
-help understanding recovery rate,help.heart_rate_recovery.show
-kannst du nach draussen wechseln?,device.memory.change
-bitte spielen sie frank sinatra,sys.oos.fallback
-tell me about the cros system,help.wi_c_r_o_s.show
-drop it down a few clicks,device.volume.decrease
-put captions on everyone's speech,transcription.session.start
-bitte zeigen sie mir eine hilfeanleitung fur mein zubehor,help.accessories.show
-can i get daily reminders,help.reminder.show
-konnen sie eine neue erinnerung zum thema fitness?,reminders.task.create
-"konnen sie mich daran erinnern, meine kreditkartenrechnung zu bezahlen?",reminders.task.create
-it needs to be softer,device.volume.decrease
-letzte erinnerung als erledigt markieren,reminders.task.complete
-"bitte fangen sie an, fernsehen auf meine horgerate zu streamen",streaming.session.start
-"tony's office, i myself india.",sys.oos.fallback
-guide me on heart rate recovery,help.heart_rate_recovery.show
-my device won't sit properly,help.insert_device.show
-help for my ear ringing,help.tinnitus.show
-kannst du ins englische ubersetzen?,translation.session.start
-konnen meine horgerate intellivoice nutzen?,help.intelli_voice.show
-bitte sturzalarm funktioniert nicht,help.fall_alert.show
-jot that down as a reminder,reminders.task.create
-help with the language translation feature,help.translate.show
-how do i exit demo mode,help.demo_mode.show
-my aid keeps working its way out,help.insert_device.show
-how do i open the battery door,help.battery.show
-that one's finished,reminders.task.complete
-wie reduziere ich die lautstarke?,help.volume.show
-please switch to tinnitus,device.memory.change
-ich benotige eine anpassung meiner horgerate,help.remote_programming.show
-how do i check my aids to make sure they’re working properly?,help.self_check.show
-bitte stellen sie den ton hoher ein,device.volume.increase
-wie soll ich eine manuelle benachrichtigung senden?,help.fall_alert.show
-thrive voice assistant help,help.voice_assistant.show
-what if my aids get damp,help.clean_care.show
-konnen sie die lautstarke meiner horgerate erhohen?,device.volume.increase
-how does transcribe work,help.transcribe.show
-bitte machen sie den ton an,device.volume.unmute
-"bitte, ich sagte, ich halte den mund",sys.oos.fallback
-stream from device,streaming.session.start
-bitte helfen sie mir bei der anpassung des tinnitus-stimulus an meinem horgerat,help.tinnitus.show
-demonstrate the app,help.demo_mode.show
-kannst du eine nachricht abspielen?,messaging.message.listen
-make it dead silent,device.volume.mute
-how do captions work on my aids,help.transcribe.show
-kannst du remote streamen?,streaming.session.start
-can i set a program for a place,help.memory_options.show
-how do i link two,help.pairing.show
-log my walk,activity.walk.query
-wie andere ich die lautstarke meines zubehors?,help.accessories.show
-konnen sie meine hilfe finden?,help.find_my_hearing_aids.show
-send word to my friend,messaging.message.send
-wie teile ich meine wellness-daten?,help.hear_share.show
-was ist komfortsteigerung?,help.device_settings.show
-lass mich den fernseher horen,streaming.session.start
-hilfe fur tele hier,help.hearing_care_anywhere_connect.show
-"konnen sie mich daran erinnern, um 7 uhr aufzuwachen?",reminders.task.create
-i'd like to pass along a message,messaging.message.send
-wie bringe ich meine hilfsmittel zum streamen?,help.accessories.show
-ich muss die horgerate mit dem telefon verbinden,help.pairing.show
-help me with translate,help.translate.show
-please change to speech,device.memory.change
-bitte 328 zedernfalle,sys.oos.fallback
-"kannst du, ich habe meine horgerate verloren? konnen sie mir helfen, sie zu finden?",help.find_my_hearing_aids.show
-wie komme ich zuruck zum hauptbildschirm?,help.home.show
-hilfe bei der fernprogrammierung,help.remote_programming.show
-"bitte stellen sie sicher, dass das programm funktioniert",device.memory.change
-wie andere ich den speicher meiner horgerate?,help.changing_memories.show
-what's new in the engage app?,help.whats_new.show
-how do i read my bpm,help.heart_rate.show
-the sound is way too hot,device.volume.decrease
-explain how recovery is tracked,help.heart_rate_recovery.show
-kannst du zum master wechseln?,device.memory.change
-solve this math problem,sys.oos.fallback
-"bitte erinnern sie mich daran, jeden tag um 16:00 uhr jemanden anzurufen.",reminders.task.create
-kannst du den ton lauter stellen?,device.volume.increase
-turn on streaming to my ears,streaming.session.start
-how do i go the main screen?,help.home.show
-does translate save conversations,help.translate.show
-wie stelle ich das programm auf diesen speicherort ein?,help.memory_options.show
-"woher weiss ich, ob die horgerate mit dem telefon gekoppelt sind?",help.pairing.show
-start running,activity.run.query
-wie spiele ich benachrichtigungen uber meine horgerate ab?,help.device_settings.show
-bitte zeigen sie mir meine laufgeschichte?,activity.walk.query
-koppeln sie mein rechtes horgerat,help.pairing.show
-"was ist, wenn mir die vom audiologen vorgenommenen anpassungen nicht gefallen?",help.remote_programming.show
-explain how the aids help with ringing,help.tinnitus.show
-put a message out,messaging.message.send
-when should i use edge mode,help.edge_mode.show
-how do i share my hearing aid usage with a caregiver?,help.hear_share.show
-konnen sie meine letzte erinnerung als abgeschlossen markieren?,reminders.task.complete
-ton aus,device.volume.mute
-track my heart rate,help.heart_rate.show
-i need a prompt later,reminders.task.create
-konnen sie mir das transkriptions-benutzerhandbuch zeigen?,help.transcribe.show
-bitte erinnern sie mich am wochenende daran,reminders.task.create
-show my heart rate recovery trend,help.heart_rate_recovery.show
-"bitte erinnern sie mich daran, mein rezept am freitag um 17 uhr abzuholen.",reminders.task.create
-kannst du meine letzte nachricht abspielen?,messaging.message.listen
-how do i update the app,help.app_settings.show
-wo habe ich mein anderes hilfsmittel hingelegt?,help.find_my_hearing_aids.show
-please change setting to number one,device.memory.change
-wie aktiviere ich die empfindlichkeit des doppeltipps?,help.device_settings.show
-konnen sie das programm bearbeiten?,device.memory.change
-walk me through switching profiles,help.changing_memories.show
-"bitte, es ist zu niedrig, drehen sie es auf",device.volume.increase
-help with the buzzing in my ears,help.tinnitus.show
-start my cardio class tracking,activity.aerobics.query
-lassen sie den ton in meinem horgerat fallen,device.volume.decrease
-konnen sie horgerate?,sys.oos.fallback
-wie storniere ich einen manuellen benachrichtigungstext?,help.fall_alert.show
-can i listen to the adjustments made by my hearing specialist?,help.remote_programming.show
-vollstandige erinnerung,reminders.task.complete
-kannst du kalorien im stehen verbrennen?,activity.stand.query
-wo telefon,find.phone.locate
-record the walking i just finished,activity.walk.query
-mein linkes horgerat reagiert nicht,help.self_check.show
-battery level please,device.status.battery
-turn my hearing aid down,device.volume.decrease
-"wie uberprufe ich, welches zubehor ich an meine horgerate angeschlossen habe?",help.accessories.show
-kannst du steam fernsehen?,streaming.session.start
-"konnen sie mir helfen, mein hilfsmittel mit meinem telefon zu koppeln?",help.pairing.show
-kannst du dem moderator zuhoren?,streaming.session.start
-dial down the volume,device.volume.decrease
-wie kann ich eine manuelle warnung auslosen?,help.fall_alert.show
-reconnect my hearing aids to the app,help.pairing.show
-wann wurde ich eine manuelle warnung starten?,help.fall_alert.show
-flip into my everyday program,device.memory.change
-kannst du? ich kann das nicht horen,sys.oos.fallback
-is there a feature for ear ringing,help.tinnitus.show
-wie kann ich die stummschaltung meiner horgerate aufheben?,help.volume.show
-explain how my audiologist tunes me remotely,help.remote_programming.show
-wie verbinde ich meine hilfsmittel?,help.pairing.show
-how do i test my hearing aids,help.self_check.show
-kannst du sonntag?,sys.oos.fallback
-bitte helfen sie mir bei der tinnitus-gerauschanpassung in meinem horgerat,help.tinnitus.show
-will edge mode reduce background noise,help.edge_mode.show
-"bitte erinnern sie mich daran, um 20 uhr das licht einzuschalten.",reminders.task.create
-clear that reminder,reminders.task.complete
-how do i get better wellness scores?,help.thrive_score.show
-j-lo and a-rod,sys.oos.fallback
-wie viel akku habe ich?,device.status.battery
-spielen sie meine nachricht noch einmal ab.,messaging.message.listen
-start transcribing this,transcription.session.start
-how do i adjust notifications in the app,help.app_settings.show
-bitte stellen sie eine erinnerung fur morgen um 7 uhr fur das abendessen ein,reminders.task.create
-amplify the sound for me,device.volume.increase
-"bitte nur, wenn es fur cdl kein problem darstellt",sys.oos.fallback
-vervollstandigen sie diese erinnerung.,reminders.task.complete
-bitte oder setzen sie eine 6-monats-reinigung ein,sys.oos.fallback
-how much longer do i need to stand?,activity.stand.query
-connect to media audio,streaming.session.start
-what does intelligent voice do,help.intelli_voice.show
-wie verbinde ich mein linkes hilfsmittel wieder?,help.pairing.show
-bitte selbsttest fehlgeschlagen.,help.self_check.show
-do i need to recharge,device.status.battery
-can the app translate languages for me,help.translate.show
-adjust my aids for this loud place,device.memory.change
-what can i personalize on my aids,help.customize.show
-it's blasting my ears,device.volume.decrease
-how accurate is the transcription,help.transcribe.show
-use an external mic accessory with my aids,help.accessories.show
-make things louder,device.volume.increase
-how long do i have to stand,activity.stand.query
-wie oft sollte ich den selbsttest durchfuhren?,help.self_check.show
-quit streaming,streaming.session.stop
-how to share hearing aid information with my son?,help.hear_share.show
-how good is the translation feature,help.translate.show
-explain the transcription feature,help.transcribe.show
-how do i see how much i have walked this week?,help.health.show
-guide me on switching my hearing programs,help.changing_memories.show
-the audio is too hot,device.volume.decrease
-can i listen to the adjustments made by the hearing specialist?,help.remote_programming.show
-konnen sie das tun? dies sind ihre horgerate,sys.oos.fallback
-finden sie mein anderes horgerat,help.find_my_hearing_aids.show
-iphone finden,find.phone.locate
-konnen sie mir eine anleitung fur mein zubehor zeigen?,help.accessories.show
-create a reminder for me,reminders.task.create
-wie lautet die seriennummer meiner horgerate?,help.device_settings.show
-please switch to music,device.memory.change
-"kannst du? ich kann mich nicht erinnern, wo meine linke hilfe ist",help.find_my_hearing_aids.show
-bitte wechseln sie zum restaurant,device.memory.change
-wo ist die speichertaste?,help.changing_memories.show
-how do i manage my tinnitus,help.tinnitus.show
-i want to reach someone,messaging.message.send
-can a friend listen along with me,help.hear_share.show
-kannst du das telefon finden?,find.phone.locate
-new reminder for every day,reminders.task.create
-end streaming from the tv,streaming.session.stop
-help with heart rate recovery,help.heart_rate_recovery.show
-i walked into a restaurant,device.memory.change
-wie synchronisiere ich meine thrive-app-einstellungen?,help.hearing_care_anywhere_connect.show
-ich habe mein gedachtnis fur restaurants und meetings verloren,help.memory_options.show
-in welcher erinnerung und in welcher erinnerung bin ich gerade?,help.changing_memories.show
-wann sollte ich die balance-kontrolle verwenden?,help.wi_c_r_o_s.show
-i'm getting in the car now,device.memory.change
-help me with thrive assistant,help.voice_assistant.show
-bitte finden sie ein android-telefon,find.phone.locate
-"wie hoch ist die lautstarke meines horgerats, wenn die lautstarke automatisch auf null sinkt?",help.volume.show
-"bitte, ich mochte mit meinem audiologen sprechen",help.remote_programming.show
-"ist es in ordnung, die form weit hineinzuschieben?",help.insert_device.show
-wo ist mein handy?,find.phone.locate
-can i set monthly health goals,help.health.show
-kannst du vom remote-mikrofon streamen?,streaming.session.start
-please program number three,device.memory.change
-"bitte erinnern sie mich daran, morgen anzurufen",reminders.task.create
-explain heart rate recovery to me,help.heart_rate_recovery.show
-bitte helfen sie mit dem startbildschirm,help.home.show
-was ist der erweiterte modus?,help.app_settings.show
-is it time to charge,device.status.battery
-"es ist zu leise, dreh es auf",device.volume.increase
-bitte helfen sie mir bei der programmanderung auf meiner hilfe,help.changing_memories.show
-wie entkoppele ich meine gerate von meinem telefon?,help.pairing.show
-show me an overview of engage,help.whats_new.show
-turn speech into text,transcription.session.start
-wie setze ich horgerate in meine ohren ein?,help.insert_device.show
-how do i show the app without aids connected?,help.demo_mode.show
-transcribe what i hear,transcription.session.start
-wo ist mein horgerat?,help.find_my_hearing_aids.show
-konnen sie eine erinnerung fur morgen einrichten?,reminders.task.create
-"ist es in ordnung, das horgerat weit hineinzuschieben?",help.insert_device.show
-wie andere ich die lautstarke meiner gerate?,help.volume.show
-can you help me get a message to someone?,messaging.message.send
-guide me through pairing,help.pairing.show
-"konnen sie mir helfen, meine hilfe zu finden?",help.find_my_hearing_aids.show
-text a contact with my news,messaging.message.send
-what is wrong with my right hearing aid,help.self_check.show
-kopplungshilfen in meiner app,help.pairing.show
-schrittkalorien,activity.step.query
-how accurate is the heart rate reading,help.heart_rate.show
-kann man horgerate mit seife reinigen?,help.clean_care.show
-wie finde ich meine hilfsmittel?,help.find_my_hearing_aids.show
-konnen sie meine horgerateeinstellungen personalisieren?,help.memory_options.show
-lass mich das mikrofon horen,streaming.session.start
-bring mich zur erinnerungshilfe,help.reminder.show
-remind me to leave at noon,reminders.task.create
-wie viele kalorien habe ich beim training verbrannt?,activity.exercise.query
-"kannst du mich daran erinnern, um 6 uhr morgens laufen zu gehen?",reminders.task.create
-i want sound coming through again,device.volume.unmute
-wie erhohe ich die hohen?,help.customize.show
-bitte spielen sie meine nachricht ab,messaging.message.listen
-ratchet the volume back,device.volume.decrease
-can you set memory to two,device.memory.change
-konnen sie mir beim koppeln von horgeraten am telefon helfen?,help.pairing.show
-konnen sie das linke horgerat verkleinern?,device.volume.decrease
-help with tinnitus stimulus adjustments in my hearing aid,help.tinnitus.show
-the audio is breaking up,help.device_settings.show
-wie andere ich den namen meines remote-mikrofons?,help.accessories.show
-hilfe bei der anpassung des weissen rauschens in meinen horgeraten,help.tinnitus.show
-where do i find recovery data,help.heart_rate_recovery.show
-konnen sie die erinnerung beenden?,reminders.task.complete
-"kannst du es leiser stellen, wenn es zu laut ist?",device.volume.decrease
-mir gefallen meine aktuellen horgerateeinstellungen nicht,help.memory_options.show
-reminder me every year to go to the doctor at 8 a.m.,reminders.task.create
-the wind is ruining my hearing outside,help.edge_mode.show
-koppeln meiner horgerate mit der thrive-app,help.pairing.show
-wie sende ich eine nachricht an meinen arzt?,help.app_settings.show
-wie viel bin ich diesen monat fahrrad gefahren?,activity.cycle.query
-konnen sie beim transkribieren helfen?,help.transcribe.show
-wie verwende ich die intellivoice-funktion?,help.intelli_voice.show
-schliessen sie das linke horgerat an,help.pairing.show
-i'm now seated in a loud coffee shop,device.memory.change
-send a text,messaging.message.send
-what's on tv tonight,sys.oos.fallback
-wie fuge ich einen neuen speicher hinzu?,help.memory_options.show
-wie lange laufe ich schon?,activity.run.query
-can i adjust mask mode,help.mask_mode.show
-shoot a message,messaging.message.send
+wie andere ich das horgerateprogramm?,help.changing_memories.show
+bitte helfen sie beim koppeln von horgeraten mit der thrive-app,help.pairing.show
+letzte audionachricht abspielen.,messaging.message.listen
+konnen sie mir beim koppeln der hilfsmittel helfen?,help.pairing.show
+bitte stellen sie das besprechungsprogramm ein,device.memory.change
+"konnen sie mir sagen, was mein schrittziel ist?",activity.step.query
 "wie kann ich meine stimme zum sprechen nutzen, um erfolgreich zu sein?",help.voice_assistant.show
-"bitte, ich kann mein richtiges hilfsmittel nicht finden",help.find_my_hearing_aids.show
-transmit a message,messaging.message.send
-pretty much every year,sys.oos.fallback
-log the run i just did,activity.run.query
-where do i find my pulse readings,help.heart_rate.show
-how do i set up the tv accessory,help.accessories.show
-i'm somewhere noisy,device.memory.change
-put the volume back on,device.volume.unmute
-"so uberprufen sie, ob horgerate funktionieren",help.self_check.show
-"konnen sie mir sagen, dass ich mein horgerat nicht einsetzen kann?",help.insert_device.show
-bitte lehnen sie es ab,device.volume.decrease
-kannst du das wort maschine buchstabieren?,sys.oos.fallback
-remind me from monday till wednesday,reminders.task.create
-how to run intellivoice,help.intelli_voice.show
-this setting doesn't suit this place,device.memory.change
-i took my pills mark it done,reminders.task.complete
-show me the translate user guide,help.translate.show
-wie spiele ich benachrichtigungen uber mein horgerat ab?,help.device_settings.show
-repair the audio on my hearing aids,help.device_settings.show
-bitte helfen sie bei den gerateeinstellungen,help.device_settings.show
-kannst du meine nachricht abspielen?,messaging.message.listen
-how do i get out of,sys.oos.fallback
-bitte beachten sie die bedienungsanleitung von intellvoice,help.intelli_voice.show
-"konnen sie mich daran erinnern, heute abend sport zu treiben?",reminders.task.create
-telefon abrufen,find.phone.locate
-"sag mir, was mein standziel ist",activity.stand.query
-wie reinige ich mein horgerat?,help.clean_care.show
-i need to send a message,messaging.message.send
-bitte zeigen sie mir die jury,sys.oos.fallback
-"wie uberprufe ich, welches zubehor ich mit meinem hilfsmittel gekoppelt habe?",help.accessories.show
-"bitte erinnern sie mich heute daran, wasser zu trinken",reminders.task.create
-i need help pairing my hearing aids to the phone,help.pairing.show
-how to share hearing aid information with my daughter?,help.hear_share.show
-kann ich mit meinem audiologen sprechen?,help.remote_programming.show
-turn all sound off,device.volume.mute
-hilfe beim koppeln der hilfsmittel mit dem telefon,help.pairing.show
-what's the meaning of life?,sys.oos.fallback
-i need a nudge later about this,reminders.task.create
-wie komme ich zum hauptbildschirm?,help.home.show
-wie stelle ich den tinnitus lauter ein?,help.tinnitus.show
-can i snooze a reminder,help.reminder.show
-"konnen sie mir dabei helfen, erinnerungen auf meinem telefon zu andern?",help.changing_memories.show
-information on the kind score,help.thrive_score.show
-wie schalte ich den cross-sender stumm?,help.wi_c_r_o_s.show
-konnen sie ihr aktivitatsziel erreichen?,activity.aerobics.query
-kannst du mit der aufnahme beginnen?,transcription.session.start
-is my charge running low,device.status.battery
-what's my power level,device.status.battery
-"kannst du wechseln, schau dir sie an",sys.oos.fallback
-kannst du die einstellung trainieren?,device.memory.change
-that task is taken care of,reminders.task.complete
-make it less loud,device.volume.decrease
-what's on the health dashboard,help.health.show
-how do i show the app without hearing aids?,help.demo_mode.show
-tell me about edge mode,help.edge_mode.show
-how do i accept the adjustments made by the audiologist?,help.remote_programming.show
-absolutely no sound please,device.volume.mute
-help pairing with my phone,help.pairing.show
-ich habe mein anderes horgerat verloren,help.find_my_hearing_aids.show
-what should i watch tonight,sys.oos.fallback
-explain my brain score,help.thrive_score.show
-kannst du musik programmieren?,device.memory.change
-bitte stellen sie eine erinnerung fur donnerstag ein,reminders.task.create
-wo finde ich den thrive-assistenten?,help.voice_assistant.show
-beginnen sie mit der transkription,transcription.session.start
-konnen sie sich an das auditorium erinnern?,device.memory.change
-bitte das linke horgerat,sys.oos.fallback
-bitte stellen sie die lautstarke meines rechten horgerats herunter,device.volume.decrease
-enable direct audio,streaming.session.start
-where is mask mode?,help.mask_mode.show
-wie verbinde ich mich mit dem bluetooth meines autos?,help.pairing.show
-what's the model of my aid?,help.device_settings.show
-"bitte, wo ist der selbsttest?",help.self_check.show
-where do i control the loudness,help.volume.show
-i'm confused,help.home.show
-how do i change to another program on the hearing aids?,help.changing_memories.show
-how do i save my settings online,help.hearing_care_anywhere_connect.show
-where's the find my hearing aid feature,help.find_my_hearing_aids.show
-konnen sie mich an das lehrertreffen am freitag erinnern?,reminders.task.create
-kannst du zu hause,sys.oos.fallback
-apple music sign in,sys.oos.fallback
-"bitte, es glattet sich, wird nach unten gezwungen",sys.oos.fallback
-bitte diagnostizieren sie meine horgerate,help.self_check.show
-"konnen sie sizzlers initiieren, die von cham eingeweiht wurden? tippen sie hier, um ihnen mitzuteilen, dass sie diese bestellung erhalten haben",sys.oos.fallback
-horgerat funktioniert nicht,help.self_check.show
-kann mein audiologe die hilfsmittel aus der ferne anpassen?,help.remote_programming.show
-how do i decrease the loudness in the hearing aid?,help.volume.show
-can i see my step goal?,activity.step.query
-was ist ein datenprotokoll?,help.device_settings.show
-konnen sie das richtige horgerat aktivieren?,device.volume.unmute
-please change program to one,device.memory.change
-bitte erinnern sie mich am donnerstag daran,reminders.task.create
-bitte erinnern sie sich jeden montag um 16 uhr an ein geschaftstreffen.,reminders.task.create
-can you help me send a message,messaging.message.send
-give me sound again,device.volume.unmute
-play my new messages,messaging.message.listen
-"konnen sie mir dabei helfen, erinnerungen zu andern?",help.changing_memories.show
-how do i make the sound suit me,help.customize.show
-end my tv streaming,streaming.session.stop
-how do i remove wax from my aids,help.clean_care.show
-bitte verringern sie die lautstarke meiner hilfen,device.volume.decrease
-wo kann ich eine warnung stoppen?,help.fall_alert.show
-wie fuge ich das autoprogramm hinzu?,help.device_settings.show
-kann ich das horgerat mit meinem telefon koppeln?,help.pairing.show
-wie lange habe ich trainiert,activity.exercise.query
-add new reminder,reminders.task.create
-kannst du mir einen pc-gaming-receiver geben?,sys.oos.fallback
-how do i get more information on the body score?,help.thrive_score.show
-turn up my left aid,device.volume.increase
-can you make them ring?,help.find_my_hearing_aids.show
-quit the audio stream,streaming.session.stop
-bitte erinnern sie mich heute daran,reminders.task.create
-remind about running every day at 6 a.m.,reminders.task.create
-show app capabilities without hearing aids,help.demo_mode.show
-how do i send a request to my specialist,help.hearing_care_anywhere_connect.show
-where do i change loudness,help.volume.show
-wo ist die herzfrequenzfunktion?,help.heart_rate.show
-yes please remind me,reminders.task.create
-wie koppele ich meine horgerate mit meinem telefon?,help.pairing.show
-wie stelle ich meinen noise masker ein?,help.tinnitus.show
-"konnen sie mich daran erinnern, meine familie am erntedankfest zu besuchen?",reminders.task.create
-take,sys.oos.fallback
-kannst du mir mein fahrradziel zeigen?,activity.cycle.query
-people sound far away,device.volume.increase
-can you trust you need to check out news max tv the fastest growing news channel in america?,sys.oos.fallback
-"konnen sie mir sagen, dass mein horgerat fehlt?",help.find_my_hearing_aids.show
-kannst du mich fur morgen daran erinnern?,reminders.task.create
-show me my calorie burn,activity.calories.query
-seto,sys.oos.fallback
-bitte koppeln sie hilfsmittel in meiner app,help.pairing.show
-how do i customize how things sound,help.customize.show
-what is mask mode good for,help.mask_mode.show
-track my walk,activity.walk.query
-pairing my aids with the thrive app,help.pairing.show
-can you switch to gym,device.memory.change
-bitte fugen sie eine maske als benutzerdefinierten speicher hinzu,help.memory_options.show
-remind me at,reminders.task.create
-bitte machen sie meine horgerate weicher,device.volume.decrease
-help with switching between programs,help.changing_memories.show
-where is the mask setting on my hearing aids,sys.oos.fallback
-too quiet,device.volume.increase
-wie kann ich die lautstarke in nur einem horgerat verringern?,help.volume.show
-how do i turn on fall detection,help.fall_alert.show
-can you switch to mute,device.memory.change
-how do i check my pulse on the app,help.heart_rate.show
-konnen sie mir etwas uber die amharische sprache erzahlen?,sys.oos.fallback
-how many steps have i taken this month?,activity.step.query
-kannst du das telefon vermissen?,find.phone.locate
-how do i get more information on the kind score?,help.thrive_score.show
-"kannst du, ich habe meine linke hilfe verlegt?",help.find_my_hearing_aids.show
-how do i down cls,sys.oos.fallback
-weekly calorie summary,activity.calories.query
-point me to what i can do here,help.home.show
-"woher weiss ich, wann mein horakustiker mein horgerat angepasst hat?",help.remote_programming.show
-patch the tv audio through to my aids,streaming.session.start
-setze ich zuerst das ohrpassstuck ein?,help.insert_device.show
-ich brauche hilfe bei meinen einstellungen,help.device_settings.show
-why can't i get 200 points with the wellness score?,help.thrive_score.show
-i'm getting too much sound,device.volume.decrease
-how do fall notifications work,help.fall_alert.show
-where did i put my hearing aids?,help.find_my_hearing_aids.show
-was heisst „guten morgen“ auf russisch?,translation.session.start
-where do i manage notifications,help.app_settings.show
-please change memory to number four,device.memory.change
-konnen sie mein linkes horgerat ausschalten?,device.volume.mute
-"woher weiss ich, wann mein audiologe meine horgerate angepasst hat?",help.remote_programming.show
-"bitte, ich habe einen pc-gaming-receiver",sys.oos.fallback
-pipe the sound through my aids,streaming.session.start
-explain sharing my audio with family,help.hear_share.show
-do my aids support a tv connector,help.accessories.show
-kann ich eine neue erinnerung erstellen?,help.memory_options.show
-wo ist mein telefon?,find.phone.locate
-how would i intercept an alert text?,help.fall_alert.show
-did i meet my calorie goal,activity.calories.query
-i'm taking a walk now,activity.walk.query
-konnen meine horgerate fur mehrere gerate eingerichtet werden?,help.pairing.show
-iphone erkennen,find.phone.locate
-shift into the outdoor profile,device.memory.change
-kannst du die lautstarke abstellen?,device.volume.mute
-bitte helfen sie mir bei der lautstarkeeinstellung meines horgerats,help.volume.show
-wie finde ich mein richtiges hilfsmittel?,help.find_my_hearing_aids.show
-meine lautstarke ist zu leise,device.volume.increase
-stop the audio stream,streaming.session.stop
-please make this quieter,device.volume.decrease
-open google map.,sys.oos.fallback
-wie verwende ich die dns-sprachverbesserung?,help.intelli_voice.show
-wie finde ich meine horgerate?,help.find_my_hearing_aids.show
-kannst du uber meine tochter sprechen?,sys.oos.fallback
-"bitte erinnern sie mich daran, am dienstag um 20 uhr milch zu kaufen.",reminders.task.create
-what's the simplest way to begin,help.home.show
-different kind of needs,sys.oos.fallback
+konnen sie ein restaurant finden?,sys.oos.fallback
+was ist die bi-cros-steuerung?,help.wi_c_r_o_s.show
+erinnere mich morgen daran,reminders.task.create
+"bitte helfen sie mir, das tinnitus-programm zu andern",help.tinnitus.show
+bitte stellen sie die lautstarke meines horgerats leiser ein,device.volume.decrease
+"bitte lautstarke verringern, rechte hilfe",device.volume.decrease
+erinnere mich jeden mittag an das video,reminders.task.create
+wie teile ich meine wellness-daten?,help.hear_share.show
+bitte offnen sie die ubersetzung auf spanisch,translation.session.start
+konnen sie sich an ein restaurant erinnern?,device.memory.change
+wie andere ich meine gehziele von taglich auf wochentlich?,help.health.show
+"kannst du? ich kann mich nicht erinnern, wo meine hilfsmittel sind",help.find_my_hearing_aids.show
+wann sollte ich den selbsttest verwenden?,help.self_check.show
+send a text message,messaging.message.send
+bitte ist diese erinnerung vollstandig,reminders.task.complete
+horen sie bitte fern,streaming.session.start
+wie lange mache ich schon aerobic?,activity.aerobics.query
+erinnere mich einmal ans laufen,reminders.task.create
+ich mochte meine nachricht horen.,messaging.message.listen
+wie verwende ich die intelligente sprachfunktion?,help.intelli_voice.show
+"bitte, er hat es einfach geandert",sys.oos.fallback
+"konnen sie anpassungen vornehmen? ich habe es im buro nicht gehort, bin aber bei ihnen",sys.oos.fallback
+how do i access translate,help.translate.show
+bitte stellen sie das programm auf telefon ein,device.memory.change
+bitte lass mich das nicht vergessen,reminders.task.create
+hat thrive erinnerungen?,help.reminder.show
+"woher weiss ich, wann der horgerateakustiker mein gerat angepasst hat?",help.remote_programming.show
+bitte erinnere mich an blutsbruder,reminders.task.create
+"woher weiss ich, wann der audiologe die hilfsmittel angepasst hat?",help.remote_programming.show
+wie schliesse ich mein richtiges hilfsmittel wieder an?,help.pairing.show
+wie verwende ich transkribieren?,help.transcribe.show
+hilfe bei der anpassung des weissen rauschens in meiner hilfe,help.tinnitus.show
+"bitte tippen sie auf und dann sehen sie ein restaurant, in dem sie als frage sicher sind, dass sie es auf einen anderen modus einstellen konnen, damit sie besser horen konnen",sys.oos.fallback
+how do i view my thrive rating,help.thrive_score.show
+"wie gehe ich vor, wenn ich cros-horgerate habe?",help.wi_c_r_o_s.show
+konnen sie aerobe kalorien zu sich nehmen?,activity.aerobics.query
+kann man horgerate testen?,help.self_check.show
+"kannst du, dass es so aussehen wurde?",sys.oos.fallback
+"bitte, und was jetzt passiert, ist, wenn es sich im streaming-modus befindet und darauf wartet, dass sie eine frage stellen",sys.oos.fallback
+konnen sie mit der ubersetzung ins deutsche beginnen?,translation.session.start
+beginnen sie mit der ubersetzung fur spanisch,translation.session.start
+wie drehe ich die lautstarke meiner horgerate herunter?,help.volume.show
+how good is the translation feature,help.translate.show
+how do i use the app without hearing aids connected?,help.demo_mode.show
+herzfrequenz-benutzerhandbuch,help.heart_rate.show
+kann man den speicher auf leise stellen?,device.memory.change
+show help guide for ipro,help.thrive_score.show
+konnen sie mir einen uberblick uber diese thrive-app zeigen?,help.whats_new.show
+wie aktiviere ich doppeltippen auf meinem horgerat?,help.device_settings.show
+bitte uberprufen sie die hilfe selbst,help.self_check.show
+wie andere ich die benachrichtigungsoptionen auf meinen horgeraten?,help.device_settings.show
+konnen sie die crowd-einstellung durchfuhren?,device.memory.change
+message someone,messaging.message.send
+hilfe beim tv-streamer,help.accessories.show
+was ist der maskenmodus?,help.mask_mode.show
+wie stelle ich meinen noise masker in den hilfsmitteln ein?,help.tinnitus.show
+ich mochte meinen fernseher horen,streaming.session.start
+stummschaltung aus,device.volume.unmute
+bitte schalten sie den speicher auf restaurant um,device.memory.change
+let my friend know i'm on my way,messaging.message.send
+turn streaming off,streaming.session.stop
+wie andere ich die lautstarke am gerat?,help.volume.show
+kannst du den ton ausschalten?,device.volume.mute
+wie wechsle ich an den hilfsmitteln auf ein anderes programm?,help.changing_memories.show
+bitte andern sie das programm auf draussen,device.memory.change
+"bitte sagen sie mir, was mein standziel ist",activity.stand.query
+wie kann ich ein programm mit einem geotag versehen?,help.memory_options.show
+"kannst du mich daran erinnern, morgen aufzuwachen?",reminders.task.create
+i need to notify someone,messaging.message.send
+bitte stellen sie das programm auf home ein,device.memory.change
+bitte erinnern sie den flug um 6 uhr.,reminders.task.create
+konnen sie das programm auf „alltaglich“ umstellen?,device.memory.change
+"konnen sie mir sagen, das ist ein sehr enttauschendes furzgerausch?",sys.oos.fallback
+bitte staatliche unterstutzung im rahmen meiner moglichkeiten,sys.oos.fallback
+maximale lautstarke,device.volume.increase
+beginnen sie mit der ubersetzung ins deutsche,translation.session.start
+wie lange muss ich noch stehen?,activity.stand.query
+"kannst du, ich weiss nicht, was du tust? ich vermisse etwas anderes",sys.oos.fallback
+"bitte, fisher holt sich im auto einen runter, also ist es im schrank",sys.oos.fallback
 kannst du den ton andern?,help.device_settings.show
+"bitte, ich habe meine hilfe verloren. konnen sie mir helfen, es zu finden?",help.find_my_hearing_aids.show
+aerobic-ziel,activity.aerobics.query
+konnen sie in ein restaurant wechseln?,device.memory.change
+hilfe beim koppeln meiner horgerate mit dem telefon,help.pairing.show
+wie kann ich das streaming von meinem remote-mikrofon beenden?,help.accessories.show
+"wie uberprufe ich, ob die horgerate mit der thrive-app verbunden sind?",help.pairing.show
+muss ich das linke horgerat hinter mein ohr stecken?,help.insert_device.show
+kannst du die einstellung trainieren?,device.memory.change
+lehne meine rechte hilfe ab,device.volume.decrease
+"konnen sie dr. dee 74 % steigerung gegenuber februar letzten jahres. ja, die radteams sprechen immer noch nicht von einer krise.",sys.oos.fallback
+"bitte, es ist zu niedrig, drehen sie es auf",device.volume.increase
+wie lange ist meine akkulaufzeit?,device.status.battery
+bitte zeigen sie mir einen uberblick uber diese thrive-app,help.whats_new.show
+how do i set the translation language,help.translate.show
+konnen sie mich morgen um 9 uhr daran erinnern?,reminders.task.create
+wie entkoppele ich mein remote-mikrofon?,help.accessories.show
+konnen sie mit der transkription beginnen?,transcription.session.start
+"kannst du wow, das ist eine intensive, intensive nummer",sys.oos.fallback
+"bitte erinnern sie mich daran, um 14:00 uhr zu laufen. an halloween",reminders.task.create
+wie wechsle ich auf meinen hilfsmitteln zu einem anderen programm?,help.changing_memories.show
+bitte helfen sie mir beim telehoren,help.hearing_care_anywhere_connect.show
+kannst du dich hier hinlegen?,sys.oos.fallback
+kannst du ein fitnessprogramm machen?,device.memory.change
+kann ich die standardeinstellung fur die horgerate aktivieren?,help.device_settings.show
+wie koppele ich meine horgerate mit dem bluetooth meines autos?,help.pairing.show
+"kannst du, ich kann meine richtige hilfe nicht finden?",help.find_my_hearing_aids.show
+bitte andern sie das programm auf golf,device.memory.change
+how do i use the demo feature,help.demo_mode.show
+turn off streaming,streaming.session.stop
+bitte erinnern sie sich an die bedienungsanleitung,help.reminder.show
+konnen sie mir bei der anpassung der gerauschreize in meinen hilfsmitteln helfen?,help.tinnitus.show
+"woher weiss ich, wo meine hilfsmittel sind?",help.find_my_hearing_aids.show
+hor noch mal zu.,messaging.message.listen
+ich brauche bitte hilfe beim koppeln des hilfsmittels,help.pairing.show
+bitte verbraucht heute kalorien,activity.calories.query
+bitte schalten sie die quellstecker aus,sys.oos.fallback
+kann ich einen benutzerdefinierten speicher erstellen?,help.memory_options.show
+"bitte dr. dee 74 % steigerung gegenuber februar letzten jahres. ja, die radteams sprechen immer noch nicht von einer krise.",sys.oos.fallback
+"bitte, kind, druckt ganz schnell die obere taste und lasst sie los, die lautstarke wird erhoht",sys.oos.fallback
+"bitte, sie bleibt bei meinem telefon",sys.oos.fallback
+"konnen sie mir helfen, mein linkes horgerat zu finden?",help.find_my_hearing_aids.show
+ich muss das horgerat mit meinem telefon koppeln,help.pairing.show
+konnen sie die lautstarke ihres horgerats erhohen?,device.volume.increase
+wie kann ich die lautstarke im richtigen hilfsmittel verringern?,help.volume.show
+"bitte und ich freue mich schon sehr darauf, die maske ganz bestimmt nicht mehr tragen zu mussen",sys.oos.fallback
+wie viele hilfeanfragen kann ich einreichen?,help.remote_programming.show
+stellen sie das rechte ohr auf hoheren klang ein,device.volume.increase
+bitte helfen sie mir bei der anpassung des gerauschreizes an meinen horgeraten,help.tinnitus.show
+bitte stellen sie eine verbindung zur fernbedienung her,streaming.session.start
+vollstandige erinnerung,help.clean_care.show
+kann der fachmann mein horgerat aus der ferne anpassen?,help.remote_programming.show
+"konnen sie mir sagen, dass es ein problem mit meinem rechten horgerat gibt?",help.self_check.show
+wie deaktiviere ich das doppeltippen auf meinem horgerat?,help.device_settings.show
+konnen sie sich an ihr zuhause erinnern?,device.memory.change
+konnen sie mich an meinen termin erinnern?,reminders.task.create
+zeigen sie mir einen uberblick uber diese thrive-app,help.whats_new.show
+pelase send a message,messaging.message.send
+lehne meine hilfsmittel ab,device.volume.decrease
+erinnere mich an das abendessen um 15:23 uhr,reminders.task.create
+wie kann ich meine horgerate synchronisieren?,help.pairing.show
+konnen sie metallplatten in myrtle beach storm verandern?,sys.oos.fallback
+"kannst du mich daran erinnern, zuzusehen?",reminders.task.create
+wie koppele ich mein gerat mit meinem telefon?,help.pairing.show
+stop the music going to my aids,streaming.session.stop
+how do i use the app without hearing aids?,help.demo_mode.show
+bitte erhohen sie die lautstarke,device.volume.increase
+kannst du den speicher auf theater einstellen?,device.memory.change
+kannst du mir mein laufziel zeigen?,activity.run.query
+konnen sie das telefon erkennen?,find.phone.locate
+"bitte beachten sie, dass die gebuhr fur strom nicht mit der gebuhr fur benzin vergleichbar ist",sys.oos.fallback
+"konnen sie mich daran erinnern, heute sport zu treiben?",reminders.task.create
+bitte schliessen sie eine sony nikon an,sys.oos.fallback
+what does ipro score mean?,help.thrive_score.show
+"konnen sie mich daran erinnern, mein rezept am mittwoch um 17:00 uhr abzuholen?",reminders.task.create
+quit the audio stream,streaming.session.stop
+konnen sie theaterkulisse?,device.memory.change
+"konnen sie mich daran erinnern, meine familie am erntedankfest zu besuchen?",reminders.task.create
+konnen sie bis zum schweigen der khan-akademie?,sys.oos.fallback
+wie andere ich meine automatischen einstellungen?,help.device_settings.show
+"kannst du, es war stockfinster im laden?",sys.oos.fallback
+hilfe bei der programmanderung meiner gerate,help.changing_memories.show
+meine horgerate haben zu viele hohen,help.customize.show
+wie koppele ich meine horgerate?,help.pairing.show
+kann man ein musikprogramm einstellen?,device.memory.change
+ich brauche hilfe beim koppeln meines horgerats mit dem telefon,help.pairing.show
+kann man das laufwerk mit dem horgerat verknupfen?,help.pairing.show
+was kann ich mit der basis-app machen?,help.app_settings.show
+how can i see what my hearing aid can do,help.demo_mode.show
+bitte stellen sie den speicher auf theater ein,device.memory.change
+how does the wellness score work?,help.thrive_score.show
+wie stelle ich erinnerungen ein?,help.reminder.show
+konnen sie mir bei der anpassung des tinnitus-maskers in meinen hilfsmitteln helfen?,help.tinnitus.show
+konnen sie burger durchsuchen?,sys.oos.fallback
+wie stelle ich den kantenmodus ein?,help.edge_mode.show
+konnen sie mir beim koppeln von geraten helfen?,help.pairing.show
+es gibt ein problem mit meinen horgeraten,help.self_check.show
+wie stelle ich die lautstarke meines horgerats ein?,help.volume.show
+konnen sie die alltagseinstellung vornehmen?,device.memory.change
+bitte geben sie mir ihre erlaubnis auf meinem handy,sys.oos.fallback
+konnen sie mich um 22:30 uhr daran erinnern? das restaurant schliessen,reminders.task.create
+wie lautet die seriennummer meines horgerats?,help.device_settings.show
+wie stelle ich die lautstarke des weissen rauschens auf meinem horgerat ein?,help.tinnitus.show
+ein horgerat wird nicht gefunden,help.self_check.show
+help with the engagement score,help.thrive_score.show
+bitte suchen sie mein anderes horgerat,help.find_my_hearing_aids.show
+tv-streaming starten,streaming.session.start
+kannst du die stummschaltung andern?,device.memory.change
+ich habe mein anderes horgerat verloren,help.find_my_hearing_aids.show
+bitte andern sie den speicher in „office“.,device.memory.change
+erinnere mich am wochenende daran,reminders.task.create
+konnen sie sprach-zu-text-hilfe?,help.transcribe.show
+bitte erinnern sie sich jeden montag um 16 uhr an ein geschaftstreffen.,reminders.task.create
+hilfe-stream,help.accessories.show
+spiele meine letzte aufnahme.,messaging.message.listen
+konnen sie ein tv-stream-signal empfangen?,streaming.session.start
+wie viel bin ich diese woche fahrrad gefahren?,activity.cycle.query
+"woher weiss ich, wann mein horgerateakustiker meine horgerate angepasst hat?",help.remote_programming.show
+konnen sie eine erinnerung einrichten?,reminders.task.create
+bitte zeig mir mein joggingziel,activity.run.query
+kann ich die anpassungen meines horakustikers vergleichen?,help.remote_programming.show
+warum funktionieren meine linken horgerate nicht?,help.self_check.show
+help for translate,help.translate.show
+bitte lehnen sie es ab,device.volume.decrease
+"konnen sie mich daran erinnern, mein telefon jeden tag um 23:00 uhr aufzuladen?",reminders.task.create
+zeig mir meine standgeschichte,activity.stand.query
+kannst du die lautstarke auf normal stellen?,device.volume.unmute
+kann man den speicher auf fernsehen umstellen?,device.memory.change
+kannst du vom mikrofon streamen?,streaming.session.start
+lautstarke lauter,device.volume.increase
+wie nah bin ich meinem aktuellen ziel.,activity.stand.query
+kannst du ein fernsehprogramm?,device.memory.change
+"wie uberprufe ich, welches zubehor ich an mein hilfsmittel angeschlossen habe?",help.accessories.show
+kann man die horgerate leiser machen?,device.volume.decrease
+"bleibt meine balance-kontrolle gleich, wenn ich das programm wechsle?",help.wi_c_r_o_s.show
+kannst du levitar eine sms schreiben?,sys.oos.fallback
+kannst du die verbleibende batterie?,device.status.battery
+send a message to someone,messaging.message.send
+get a message out,messaging.message.send
+kannst du das office-programm einstellen?,device.memory.change
+wie viele schritte habe ich diesen monat gemacht?,activity.step.query
+wie synchronisiere ich meine horgerate mit der app?,help.hearing_care_anywhere_connect.show
+"ich habe meine horgerate verloren. konnen sie mir helfen, sie zu finden?",help.find_my_hearing_aids.show
+konnen sie ein fitnessstudio einrichten?,device.memory.change
+kann der fachmann die horgerate aus der ferne anpassen?,help.remote_programming.show
+"bitte, ich habe mein hilfsmittel verlegt",help.find_my_hearing_aids.show
+hilf mir beim transkribieren,help.transcribe.show
+kann man restaurant buchstabieren?,sys.oos.fallback
+kann man ein leises programm einstellen?,device.memory.change
+zeigen sie mir das transkriptions-benutzerhandbuch,help.transcribe.show
+erinnerung festlegen: milch kaufen am 11. november um 17 uhr.,reminders.task.create
+konnen sie das auditorium-programm durchfuhren?,device.memory.change
+kannst du golf spielen?,device.memory.change
+wo ist hilfe fur voice ai?,help.intelli_voice.show
+kann man tinnitus programmieren?,device.memory.change
+"bitte, ich habe kein normales gedachtnis",help.memory_options.show
+erinnere mich an das abendessen um 15 uhr.,reminders.task.create
+bitte helfen sie beim koppeln der hilfsmittel,help.pairing.show
+erinnern sie mich bitte an das abendessen um 15:23 uhr,reminders.task.create
+"bitte, ich habe mein horgerat verloren",help.find_my_hearing_aids.show
+erhohen sie die lautstarke meiner horgerate,device.volume.increase
+was ist neu in dieser version?,help.whats_new.show
+konnen sie die letzte erinnerung ausfullen?,reminders.task.complete
+ich kann mein horgerat nicht finden,help.find_my_hearing_aids.show
+kann ich mir die vom fachmann vorgenommenen anpassungen anhoren?,help.remote_programming.show
+bitte andern sie den speicher in „zuhause“.,device.memory.change
+"bitte nicht, sie sind nicht auf dem boden aufgeschlagen, aber ich werde es uberprufen",sys.oos.fallback
+stummschaltung des tons bei horgeraten,device.volume.mute
+hilfe bei der anpassung des larmreizes an meinen hilfsmitteln,help.tinnitus.show
+start a text to my partner,messaging.message.send
+meine lautstarke ist zu leise,device.volume.increase
+hilfe beim streamen,help.accessories.show
+"erinnere mich daran, zuzusehen",reminders.task.create
+konnen sie den speicher auf besprechung umstellen?,device.memory.change
+"bitte, ich kann mich nicht erinnern, wo meine linke hilfe ist",help.find_my_hearing_aids.show
+konnen sie mir bei der lautstarkeanpassung meiner horgerate helfen?,help.volume.show
+konnen sie mir die bedienungsanleitung zum transkribieren zeigen?,help.transcribe.show
+ist mein hilfsmittel mit dem telefon verbunden?,help.pairing.show
+bitte stellen sie die lautstarke meines rechten horgerats herunter,device.volume.decrease
+sind die hilfsmittel mit dem telefon verbunden?,help.pairing.show
+bitte zeig mir mein fahrradziel,activity.cycle.query
+schalte meine rechte hilfe ein,device.volume.unmute
+wie stelle ich die lautstarke des gerauschmaskierers in meinem horgerat ein?,help.tinnitus.show
+kannst du es lauter machen?,device.volume.increase
+was ist transkribieren?,help.transcribe.show
+"konnen sie mich daran erinnern, morgen fruh medikamente einzunehmen?",reminders.task.create
+"kannst du westwinde haben, die es in die luft jagen?",sys.oos.fallback
+wie viel bin ich diesen monat fahrrad gefahren?,activity.cycle.query
+bitte helfen sie mit zubehor,help.accessories.show
+konnen sie dieses treffen aufzeichnen?,transcription.session.start
+bitte schalten sie den speicher auf telefon um,device.memory.change
+how is the kind score calculated?,help.thrive_score.show
+stop the tv feed to my hearing aids,streaming.session.stop
+bitte helfen sie mir bei der wiederherstellung der herzfrequenz,help.heart_rate_recovery.show
+bitte legen sie eine erinnerung fur den milchkauf am 11. november um 17:00 uhr fest.,reminders.task.create
+"wie uberprufe ich, ob die horgerate mit meiner thrive-app verbunden sind?",help.pairing.show
+konnen sie mir beim programmwechsel helfen?,help.changing_memories.show
+wo kann ich einen sturzalarmtext stoppen?,help.fall_alert.show
+empfanger,help.wi_c_r_o_s.show
+i need to send a message,messaging.message.send
+kann man das programm auf rauschen stellen?,device.memory.change
+text this person,messaging.message.send
+was steht auf der homepage?,help.home.show
+"erinnern sie sich daran, jeden tag um 6 uhr morgens zu laufen.",reminders.task.create
+"bitte erinnern sie mich daran, meinen computer zu uberprufen",reminders.task.create
+konnen sie mich an meinen arzttermin erinnern?,reminders.task.create
+"woher weiss ich, wann mein horakustiker meine horgerate angepasst hat?",help.remote_programming.show
+kann mein audiologe mein hilfsmittel aus der ferne anpassen?,help.remote_programming.show
+spiel es noch einmal.,messaging.message.listen
+end my tv streaming,streaming.session.stop
+explore the app in demo mode,help.demo_mode.show
+suche android,find.phone.locate
+disconnect from tv,streaming.session.stop
+cut off the streamed audio,streaming.session.stop
+konnen sie das programm auf office einstellen?,device.memory.change
+horen sie auf meinen fernseher,streaming.session.start
+wie aktiviere ich die automatische benachrichtigung?,help.fall_alert.show
+bitte zeigen sie mir einen uberblick uber die app,help.whats_new.show
+die heutige kalorienzahl,activity.calories.query
+ich mochte mehr volumen,device.volume.increase
+"konnen sie mich daran erinnern, nachsten donnerstag um 16 uhr medikamente einzunehmen?",reminders.task.create
+"bitte wunschte, du warst bei mir gewesen, es ist so voll auf ihrem john's pass, dass du keinen parkplatz finden kannst",sys.oos.fallback
+bitte stellen sie einen wecker fur den arzttermin morgen fruh ein,reminders.task.create
+bitte lassen sie den ton in mein horgerat fallen,device.volume.decrease
+kannst du mir die jury zeigen?,sys.oos.fallback
+wie andere ich den namen meines zubehors?,help.accessories.show
+"kannst du, ich bekomme mein horgerat nicht rein?",help.insert_device.show
+wie kann ich mit dem edge-modus besser horen?,help.edge_mode.show
+"bitte erinnern sie mich daran, um 20 uhr das licht einzuschalten.",reminders.task.create
+"bitte, ich habe meine horgerate verlegt",help.find_my_hearing_aids.show
+wie schliesse ich mein horgerat an?,help.pairing.show
+kannst du siri einfach mogen?,sys.oos.fallback
+kann man das programm auf master stellen?,device.memory.change
+wie stelle ich meinen noise masker im hilfsmittel ein?,help.tinnitus.show
+konnen sie den speicher auf master umstellen?,device.memory.change
+what does demo mode do,help.demo_mode.show
+bitte erstellen sie eine erinnerung,reminders.task.create
+konnen sie mit der ubersetzung fur deutsch beginnen?,translation.session.start
+speichert transkribieren meine gesprache?,help.transcribe.show
+wo ist hilfe fur intelligente stimme?,help.intelli_voice.show
+konnen sie mir bei der anpassung des larmreizes helfen?,help.tinnitus.show
+wie weit muss ich laufen?,activity.walk.query
+wie passe ich die hilfe an?,help.customize.show
+bitte am telefon mit pt ptt,sys.oos.fallback
+wo finde ich die app-einstellungen?,help.app_settings.show
+bitte machen sie den ton leiser,device.volume.decrease
+bitte oder setzen sie eine 6-monats-reinigung ein,sys.oos.fallback
+wie teile ich meine horgerateinformationen?,help.hear_share.show
+warum sinkt die lautstarke meines horgerats auf null?,help.volume.show
+konnen sie mir etwas uber die englische sprache erzahlen?,sys.oos.fallback
+was ist das klingeln in meinen ohren?,help.tinnitus.show
+bitte andern sie den speicher in „personlich“.,device.memory.change
+dispatch a text,messaging.message.send
+share my news with a contact by text,messaging.message.send
+kannst du die lautstarke in meinen hilfsmitteln erhohen?,device.volume.increase
+wie koppele ich mein zubehor?,help.accessories.show
+wie erstelle ich mein eigenes gedachtnis?,help.memory_options.show
+wie stelle ich die lautstarke nur des linken gerats ein?,help.volume.show
+bitte android-handy verloren,find.phone.locate
+"konnen sie mir sagen, dass mein horgerat fehlt?",help.find_my_hearing_aids.show
+konnen sie horgerate stumm schalten?,device.volume.mute
+bitte personalisieren sie meine horgerateeinstellungen,help.memory_options.show
+ich brauche eine anpassung meiner hilfsmittel,help.remote_programming.show
+kannst du? ich kann mein android-handy nicht finden,find.phone.locate
+kannst du dylans lampe am computer ausschalten?,sys.oos.fallback
+kannst du das programm auf golf umstellen?,device.memory.change
+wie sende ich eine hilfeanfrage an meinen fachmann?,help.remote_programming.show
+kannst du einen piepton andern?,help.device_settings.show
+kannst du die lautstarke der linken hilfe regeln?,device.volume.mute
+wie akzeptiere ich meine neuen einstellungen?,help.remote_programming.show
+kann man das fernsehprogramm einstellen?,device.memory.change
+"kannst du, ich habe meine hilfsmittel verlegt?",help.find_my_hearing_aids.show
+how accurate is the translation,help.translate.show
+habe ich bitte mein laufziel erreicht?,activity.run.query
+bitte helfen sie mir bei der tinnitus-klanganpassung meines horgerats,help.tinnitus.show
+"kannst du, ich habe mein richtiges hilfsmittel verlegt?",help.find_my_hearing_aids.show
+wie stelle ich mein tinnitus-gerausch am gerat ein?,help.tinnitus.show
+was sind die neuen funktionen des horgerats?,help.whats_new.show
+show me the help for translate,help.translate.show
+bitte schalten sie die lautstarke meines horgerats wieder ein,device.volume.unmute
+ich brauche bitte hilfe beim koppeln meines horgerats mit dem telefon,help.pairing.show
+"kannst du mich daran erinnern, mama an weihnachten anzurufen?",reminders.task.create
+kann der akku noch aufgeladen werden?,device.status.battery
+"woher weiss ich, ob eine benachrichtigungs-sms storniert wurde?",help.fall_alert.show
+bitte bitte mehr lautstarke,device.volume.increase
+kann man den speicher auf die menge umstellen?,device.memory.change
+"bitte erinnern sie mich daran, jeden morgen um 10 uhr wasser zu trinken",reminders.task.create
+"bitte, es war stockfinster im laden",sys.oos.fallback
+wie soll ich einen manuellen benachrichtigungstext senden?,help.fall_alert.show
+wie kann ich einen manuellen benachrichtigungstext senden?,help.fall_alert.show
+bitte wechseln sie in die kuche,device.memory.change
+wie viel prozent meines schrittziels habe ich heute erreicht?,activity.step.query
+text a quick note,messaging.message.send
+bitte schalten sie den speicher auf auto um,device.memory.change
+"konnen sie eine erinnerung einrichten, um morgen das rezept nachzufullen?",reminders.task.create
+wie kann ich die lautstarke in nur einem horgerat verringern?,help.volume.show
+bitte buchstabieren sie das wort maschine,sys.oos.fallback
+"konnen sie mich daran erinnern, jeden sonntag um 8 uhr zu abend zu essen?",reminders.task.create
+"erinnere mich daran, am dienstag um 20 uhr milch zu kaufen.",reminders.task.create
+hilfe zur wiederherstellung der herzfrequenz,help.heart_rate_recovery.show
+wie weit bin ich gelaufen,activity.walk.query
+konnen sie beim koppeln von horgeraten mit der thrive-app helfen?,help.pairing.show
+"bitte erinnern sie mich daran, mein rezept am freitag um 17 uhr abzuholen.",reminders.task.create
+"konnen sie mich daran erinnern, meine medikamente am dienstagmorgen um 10 uhr einzunehmen?",reminders.task.create
+wie lange fahre ich schon rad?,activity.cycle.query
+bitte stellen sie eine erinnerung fur 8 uhr ein.,reminders.task.create
+"erinnere mich daran, zu trainieren",reminders.task.create
+bitte machen sie eine pause und kommen sie zuruck,sys.oos.fallback
+"bitte, ich kann mich nicht erinnern, wo meine horgerate sind",help.find_my_hearing_aids.show
+erhohen sie die lautstarke meines horgerats,device.volume.increase
+konnen sie mir beim andern der programme meiner horgerate helfen?,help.changing_memories.show
+wann sollte ich intellivoice verwenden?,help.intelli_voice.show
+"kannst du, ich kann meine hilfe nicht finden?",help.find_my_hearing_aids.show
+"kannst du, ich denke nur: oh, das ist der punkt, an dem es weitergeht.",sys.oos.fallback
+schliessen sie das linke horgerat an,help.pairing.show
+konnen sie mir die bedienungsanleitung fur mein zubehor zeigen?,help.accessories.show
+"kannst du mir diese kostenlosen kerle besorgen, die so einen lampenfieber schwingen?",sys.oos.fallback
+forward a message,messaging.message.send
+konnen sie mir hilfe fur mein zubehor zeigen?,help.accessories.show
+"kannst du dich erinnern, dass ich hier reinkam und",sys.oos.fallback
+"konnen sie mir helfen, mein iphone zu finden?",find.phone.locate
+wie man die dnn-sprachverbesserung durchfuhrt,help.intelli_voice.show
+"bitte lass mich nicht vergessen, heute milch abzuholen",reminders.task.create
+bitte schalten sie den ton aus,device.volume.mute
+kann ihnen jemand helfen?,sys.oos.fallback
+bitte finden sie mein gerat,find.phone.locate
+"bitte, es ist damit beschaftigt, geboren zu werden",sys.oos.fallback
+wofur ist intelligente stimme?,help.intelli_voice.show
+bitte andern sie das programm auf auto,device.memory.change
+hilfe bei der tinnitus-stimulus-anpassung auf meiner hilfe,help.tinnitus.show
+kannst du das programm auf pub umstellen?,device.memory.change
+wie kann ich das streaming vom remote-mikrofon beenden?,help.accessories.show
+hilfe bei der anpassung der tinnitus-lautstarke an meinen geraten,help.tinnitus.show
+was muss ich uber diese neue app wissen?,help.whats_new.show
+maximaler klang,device.volume.increase
+kann man den speicher auf telefon umstellen?,device.memory.change
+konnen sie mit der einstellung arbeiten?,device.memory.change
+"bitte erinnern sie mich daran, die tabelle in 5 minuten zu sehen",reminders.task.create
+"kann ich meine hilfsmittel testen, um sicherzustellen, dass sie ordnungsgemass funktionieren?",help.self_check.show
+kannst du den tv-stream starten?,streaming.session.start
+niederlandische ubersetzung,translation.session.start
+"kannst du, dass es zu leise ist? dreh es lauter",device.volume.increase
+kannst du die erinnerung auf „kuche“ umstellen?,device.memory.change
+hearing aids translate help,help.translate.show
+"bitte wechsle deine hand, schatz",sys.oos.fallback
+wie reduziere ich die hintergrundgerausche?,help.customize.show
+finden sie meine richtige hilfe,help.find_my_hearing_aids.show
+"konnen sie mich daran erinnern, mein rezept um 17:00 uhr abzuholen? am samstag",reminders.task.create
+"bitte computer, schalten sie dylans lampe aus",sys.oos.fallback
+"erinnere mich daran, um 6 uhr morgens laufen zu gehen.",reminders.task.create
+wie stelle ich die lautstarke des weissen rauschens in meinem hilfsmittel ein?,help.tinnitus.show
+wo sind meine vorlieben?,help.device_settings.show
+"konnen sie mir sagen, dass es sich um einen spezialisten unter der rufnummer 800-3334 handelt?",sys.oos.fallback
+"kannst du, ich aufgeben?",sys.oos.fallback
+bitte schliessen sie eine quote von 30 zu 1 aus,sys.oos.fallback
+kannst du dein sprachgedachtnis?,device.memory.change
+so erstellen sie ein ereignis,help.reminder.show
+kannst du das an einem guten tag?,sys.oos.fallback
+is my language offered for translation,help.translate.show
+end the tv audio stream,streaming.session.stop
+bitte finde mein lied,sys.oos.fallback
+ich habe wachsablagerungen,help.clean_care.show
+"muss ich langer laufen, um mein ziel zu erreichen?",activity.walk.query
+kann man das programm auf leise stellen?,device.memory.change
+bitte stellen sie das programm auf golf ein,device.memory.change
+min. ton,device.volume.decrease
+suche nach meinem telefon,find.phone.locate
+how do i increase my brain score?,help.thrive_score.show
+drehen sie die lautstarke herunter,device.volume.decrease
+quit streaming the television,streaming.session.stop
+kannst du abschalten?,device.volume.mute
+wo finde ich tela hier?,help.hearing_care_anywhere_connect.show
+beginnen sie mit der ubersetzung fur franzosisch,translation.session.start
+wo ist mein horgerat?,help.find_my_hearing_aids.show
+wie richte ich e-mail-benachrichtigungen ein?,help.device_settings.show
+"bitte erinnern sie mich daran, mein rezept um 17:00 uhr abzuholen. am donnerstag",reminders.task.create
+wie viele kalorien habe ich beim gehen verbrannt?,activity.walk.query
+"erinnere mich daran, jeden sonntag um 8 uhr zu abend zu essen.",reminders.task.create
+wie kann ich eine sturzwarnung per sms stoppen?,help.fall_alert.show
+zeigen sie mir die bedienungsanleitung zum transkribieren,help.transcribe.show
+bitte mein rechtes horgerat ist auf 0 %,sys.oos.fallback
+konnen sie die banknummer fur das auto angeben?,sys.oos.fallback
+schalte mein rechtes horgerat aus,device.volume.mute
+wie passe ich meine tinnitus-gerauscheinstellungen an?,help.tinnitus.show
+bitte auf horsaalprogramm einstellen,device.memory.change
+konnen sie den ton in meinem horgerat unterdrucken?,device.volume.decrease
+wie passe ich mein linkes horgerat an?,help.customize.show
+"kannst du, ich habe meine hilfe verloren? konnen sie mir helfen, es zu finden?",help.find_my_hearing_aids.show
+drop a voice message,messaging.message.send
+wie teile ich meine informationen mit meiner frau?,help.hear_share.show
+"bitte, ich brauche morgen eine erinnerung",reminders.task.create
+what's a good thrive score,help.thrive_score.show
+bitte helfen sie mir bei der anpassung der tinnitus-lautstarke an meinen geraten,help.tinnitus.show
+hilf mir mit dem sprachassistenten,help.voice_assistant.show
+"konnen sie mir dabei helfen, erinnerungen an meine hilfsmittel zu andern?",help.changing_memories.show
+"kannst du das nur, wenn es kein problem fur cdl ist?",sys.oos.fallback
+es gibt ein problem mit meinem rechten horgerat,help.self_check.show
+wie erhohe ich die lautstarke in nur einem horgerat?,help.volume.show
+wie verwende ich intellivoice?,help.intelli_voice.show
+wie verbinde ich meine hilfsmittel wieder?,help.pairing.show
+wie komme ich zur balance-kontrolle?,help.wi_c_r_o_s.show
+wie erstelle ich ein neues programm?,help.memory_options.show
+konnen sie ein personliches programm erstellen?,device.memory.change
+bitte dreh den ton leiser,device.volume.decrease
+bitte helfen sie mir bei der lautstarkeeinstellung meines horgerats,help.volume.show
+kannst du das gedachtnis storen?,device.memory.change
+information on the body score,help.thrive_score.show
+kannst du am freitag feuern?,sys.oos.fallback
+bitte ubersetzen sie „wie viel schulde ich ihnen spanisch?“,translation.session.start
+benutzerhandbuch zur dnn-sprachverbesserung,help.intelli_voice.show
+"ist es in ordnung, das horgerat weit hineinzuschieben?",help.insert_device.show
+was ist der basismodus?,help.app_settings.show
+"woher weiss ich, ob eine warn-sms eingegangen ist?",help.fall_alert.show
+where do i find the translation feature,help.translate.show
+"kannst du mir sagen, dass ich meinem fahrradziel nahe bin?",activity.cycle.query
+konnen sie diese erinnerung ausfullen?,reminders.task.complete
+bitte restaurant in meiner nahe,sys.oos.fallback
+kann man das programm auf fernsehen umstellen?,device.memory.change
+kannst du meine linke hilfe einschalten?,device.volume.unmute
+wie stelle ich mein tinnitusgerausch in den horgeraten ein?,help.tinnitus.show
+bitte verbrauchte kalorien heute,activity.calories.query
+guide me on using translate,help.translate.show
+kann man das programm stumm schalten?,device.memory.change
+bitte zeigen sie mir meine laufgeschichte?,activity.walk.query
+wie kann ich eine warnmeldung per sms abfangen?,help.fall_alert.show
+wozu dient der selbsttest?,help.self_check.show
+bitte zeigen sie mir die bedienungsanleitung fur mein zubehor,help.accessories.show
+which languages does translation support,help.translate.show
+wie schalte ich den maskenmodus ein?,help.mask_mode.show
+bitte erinnern sie mich an das eltern-lehrer-treffen am freitag,reminders.task.create
+was ist erinnerung?,help.changing_memories.show
+please record a message,messaging.message.send
+bitte schalten sie den speicher auf das auditorium um,device.memory.change
+bitte drehen sie die lautstarke herunter,device.volume.decrease
+konnen sie mir zur erinnerung helfen?,help.reminder.show
+stream vom remote-mikrofon,streaming.session.start
+stop the audio stream,streaming.session.stop
+wie stelle ich mein tinnitus-gerausch ein?,help.tinnitus.show
+"bitte, ich interessiere mich fur meinen standort",sys.oos.fallback
+ubungsziel,activity.exercise.query
+lautstarke verringern,device.volume.decrease
+"kannst du, ich lasse dich schlafen?",sys.oos.fallback
+explain how demo mode works,help.demo_mode.show
+konnen sie das programm auf arbeit umstellen?,device.memory.change
+"kannst du, ich schwebe auf der strasse?",sys.oos.fallback
+bitte andern sie den speicher auf auto,device.memory.change
+bitte starten sie das remote-streaming,streaming.session.start
+bitte helfen sie mit dem hauptbildschirm,help.home.show
+kann ich mir die von meinem fachmann vorgenommenen anpassungen anhoren?,help.remote_programming.show
+kannst du ein programm fur den gottesdienst einstellen?,device.memory.change
+wie schliesse ich meine horgerate wieder an?,help.pairing.show
+wie andere ich erinnerungen auf der hilfe?,help.changing_memories.show
+"bitte wohnen sie in ihrem ohr, wenn ein kabel vorhanden ist",sys.oos.fallback
+"erinnere mich daran, jeden tag um 16 uhr jemanden anzurufen.",reminders.task.create
+"bitte, ich bin hier. es ist in 7 tagen. sie werden noch einmal gepaart. tschuss.",sys.oos.fallback
+konnen sie das programm auf sprache umstellen?,device.memory.change
+wie man sich selbst uberpruft,help.self_check.show
+bitte stellen sie das programm fur den gottesdienst ein,device.memory.change
+"konnen sie mich daran erinnern, dass ich ein meeting habe?",reminders.task.create
+erinnere mich an das eltern-lehrer-treffen am freitag,reminders.task.create
+wie finde ich die wiederherstellung der herzfrequenz?,help.heart_rate_recovery.show
+wie stelle ich die lautstarke des fernsehers ein?,help.accessories.show
+wie andere ich die erinnerungen meines horgerats?,help.changing_memories.show
+kannst du larm programmieren?,device.memory.change
+"kannst du, ich bin hier? es ist in 7 tagen. sie werden noch einmal gepaart. tschuss.",sys.oos.fallback
+konnen sie meine hilfsmittel finden?,help.find_my_hearing_aids.show
+"kannst du, es ist damit beschaftigt, geboren zu werden?",sys.oos.fallback
+wie stelle ich die lautstarke an nur einem gerat ein?,help.volume.show
+message a friend,messaging.message.send
+reach out with this message,messaging.message.send
+wo ist die homepage?,help.home.show
+end the tv link to my aids,streaming.session.stop
+bitte auf fernsehprogramm einstellen,device.memory.change
+konnen sie mir das transkriptions-benutzerhandbuch zeigen?,help.transcribe.show
+kannst du es noch einmal horen?,messaging.message.listen
+konnen sie mir mit zubehor helfen?,help.accessories.show
+kannst du den speicher auf „taglich“ einstellen?,device.memory.change
+konnen meine horgerate gleichzeitig auf einem iphone und einem ipad eingerichtet werden?,help.pairing.show
+kann man das tinnitus-programm einstellen?,device.memory.change
+does translation work both ways,help.translate.show
+was ist im edge-modus?,help.edge_mode.show
+"kannst du jedes mal ein horgerat bekommen, wenn das blode telefon ausgeht?",sys.oos.fallback
+let someone know about this,messaging.message.send
+bitte andern sie die erinnerung auf theater,device.memory.change
+wie viele schritte habe ich gemacht,activity.step.query
+suchen sie nach meinen horgeraten,help.find_my_hearing_aids.show
+"kannst du mir erlauben, das remote-mikrofon zu horen?",streaming.session.start
+bitte erhohen sie das richtige horgerat,device.volume.increase
+kannst du mir mein joggingziel zeigen?,activity.run.query
+"bitte erinnern sie mich daran, heute sport zu treiben",reminders.task.create
+kannst du nach hause wechseln?,device.memory.change
+erinnerung fur heute abend,reminders.task.create
+bitte schneiden sie ihre bedurfnisse ab.,sys.oos.fallback
+sind meine hilfsmittel mit dem telefon verbunden?,help.pairing.show
+wie schalte ich den maskenmodus aus?,help.mask_mode.show
+"bitte denken sie daran, morgen zu lernen",reminders.task.create
+hilfe beim andern von erinnerungen mithilfe meiner app,help.changing_memories.show
+wie spiele ich benachrichtigungen uber meine horgerate ab?,help.device_settings.show
+"erinnere mich daran, in 5 minuten ins bett zu gehen",reminders.task.create
+bitte mehr lautstarke,device.volume.increase
+konnen sie mich an 16:15 uhr erinnern? heute besuchen sie bitte oma,reminders.task.create
+beginnen sie mit dem remote-streaming auf meine horgerate,streaming.session.start
+konnen sie mich in einer minute an das abendessen erinnern?,reminders.task.create
+wie losche ich das zubehor?,help.accessories.show
+wie verbinde ich meine hilfsmittel?,help.pairing.show
+"bitte, er hat sie vergessen und sie brauchen sie. sagen sie mir bescheid, wenn ich einen freien nachmittag habe, kann ich vorbeifahren",sys.oos.fallback
+"konnen sie mir sagen, wer das innenministerium fur indien ist?",sys.oos.fallback
+"konnen sie eine erinnerung einrichten, um heute wasser zu trinken?",reminders.task.create
+wie stelle ich die lautstarke des tinnitus-gerausches in den hilfsmitteln ein?,help.tinnitus.show
+bitte schalten sie das programm stumm,device.memory.change
+wie lade ich mein horgerat auf?,help.battery.show
+"bitte erinnern sie mich daran, meine kreditkartenrechnung zu bezahlen",reminders.task.create
+bitte stellen sie den speicher auf auditorium ein,device.memory.change
+was bewirkt diese dns-sprachverbesserung?,help.intelli_voice.show
+legen sie eine erinnerung fur donnerstag fest,reminders.task.create
+kannst du das auto einstellen?,device.memory.change
+wie erhohe ich den bass?,help.customize.show
+kannst du nach android suchen?,find.phone.locate
+wie viele kalorien habe ich beim laufen verbraucht?,activity.run.query
+konnen sie das remote-streaming starten?,streaming.session.start
+ich habe kein normales gedachtnis,help.memory_options.show
+send sms,messaging.message.send
+bitte helfen sie mir beim andern der erinnerungen auf meinem telefon,help.changing_memories.show
+wie viele kalorien wurden heute verbraucht?,activity.calories.query
+translate user guide,help.translate.show
+konnen sie die bedienungsanleitung fur die herzfrequenzmessung verwenden?,help.heart_rate.show
+kannst du mein android finden?,find.phone.locate
+"konnen sie mir helfen, das gerat zu koppeln?",help.pairing.show
+konnen sie die stummschaltung der hilfsmittel aufheben?,device.volume.unmute
+kannst du mein horgerat so aussehen lassen wie im video?,help.insert_device.show
+"konnen sie sich daran erinnern, um 7 uhr morgens aufzustehen?",reminders.task.create
+wie finde ich mein richtiges hilfsmittel?,help.find_my_hearing_aids.show
+bitte schalten sie die horgerate stumm,device.volume.mute
+show me the translate user guide,help.translate.show
+wie stelle ich die lautstarke des tinnitus-gerauschs an meinem horgerat ein?,help.tinnitus.show
+wie erhohe ich die lautstarke in der linken hilfe?,help.volume.show
+"was machen meine hilfsmittel, wenn ich gesturzt bin?",help.fall_alert.show
+help with kind score,help.thrive_score.show
+"konnen sie mir eine erinnerung senden, dass ich in 10 minuten zur arbeit gehen soll?",reminders.task.create
+kann man das programm auf draussen umstellen?,device.memory.change
+how do i get better brain scores?,help.thrive_score.show
+beginnen sie mit der aufnahme,transcription.session.start
+"konnen sie elemente auflisten, die nicht funktionieren?",sys.oos.fallback
+wie trenne ich meine hilfsmittel?,help.pairing.show
+bitte geben sie die banknummer des autos an,sys.oos.fallback
+wie schliesse ich mein rechtes horgerat wieder an?,help.pairing.show
+wie finde ich mein anderes horgerat?,help.find_my_hearing_aids.show
+"konnen sie mich bitte daran erinnern, meine medikamente jeden morgen um 7:00 uhr einzunehmen?",reminders.task.create
+bitte helfen sie mir mit dem sprachassistenten,help.voice_assistant.show
+ich bekomme mein horgerat nicht rein,help.insert_device.show
+bitte in nur 3 minuten bereitstellen,sys.oos.fallback
+bitte stellen sie das programm auf theater ein,device.memory.change
+wie andere ich die erinnerungen an den hilfsmitteln?,help.changing_memories.show
+"konnen sie mir zeigen, wie ich horgerate in meine ohren einsetze?",help.insert_device.show
+konnen sie meine rechte hilfe ablehnen?,device.volume.decrease
+konnen sie meine horgerateeinstellungen personalisieren?,help.memory_options.show
+kannst du jahrlich,sys.oos.fallback
+fugen sie eine erinnerung fur morgen hinzu,reminders.task.create
+wie entkoppele ich mein horgerat von meinem telefon?,help.pairing.show
+"hilf mir, mein iphone zu finden",find.phone.locate
+bitte zuerst waschmaschine,sys.oos.fallback
+kann ich die klingeltone meines horgerats andern?,help.device_settings.show
+konnen sie ihr buro einrichten?,device.memory.change
+ich muss meine horgerate mit meinem telefon koppeln,help.pairing.show
+bitte schalten sie den speicher auf leise,device.memory.change
+wo gibt es hilfe zur selbstkontrolle?,help.self_check.show
+kannst du die akkulaufzeit noch behalten?,device.status.battery
+finde den produktnamen horgerate krass,help.device_settings.show
+wie entferne ich ohrenschmalz aus meinen horgeraten?,help.clean_care.show
+"woher weiss ich, ob eine manuelle warnung ausgelost wurde?",help.fall_alert.show
+"kannst du das? und jetzt passiert das, wenn es sich im streaming-modus befindet und darauf wartet, dass du eine frage stellst",sys.oos.fallback
+lautstarke auf der linken seite,device.volume.unmute
+bitte stellen sie die lautstarke ein,device.volume.unmute
+"hilf mir, einen sturzalarm abzufangen",help.fall_alert.show
+how do i improve my engagement score?,help.thrive_score.show
+"was ist, wenn ich im selbsttest ein x habe?",help.self_check.show
+which languages are supported for translation,help.translate.show
+wie hoch ist meine herzfrequenz?,help.heart_rate.show
+bitte linke hilfe koppeln,help.pairing.show
+i need to reach out to somebody,messaging.message.send
+bitte spielen sie die letzte sprachnachricht ab.,messaging.message.listen
+lehne meine horgerate ab,device.volume.decrease
+was ist mit der erweiterten app verfugbar?,help.app_settings.show
+bitte helfen sie mir,sys.oos.fallback
+bitte abstand von new jersey,sys.oos.fallback
+vervollstandigen sie diese erinnerung.,reminders.task.complete
+kann ich mich mit meinem audiologen verbinden?,help.remote_programming.show
+wie viele kalorien habe ich beim training verbraucht?,activity.exercise.query
+benutzerhandbuch zum selbsttest,help.self_check.show
+kannst du die lautstarke deines horgerats einstellen?,device.volume.unmute
+"konnen sie mir sagen, dass ich heute 17 riesen im minus hatte?",sys.oos.fallback
+konnen sie die lautstarke in meinem linken horgerat ausschalten?,device.volume.mute
+reduziere die lautstarke meiner hilfen,device.volume.decrease
+"kannst du, dass er sie vergessen hat und du sie brauchst? lass es mich wissen, wenn ich einen freien nachmittag habe, kann ich vorbeifahren",sys.oos.fallback
+bitte koppeln sie hilfsmittel in meiner app,help.pairing.show
+konnen sie suchmaschinen?,sys.oos.fallback
+konnen sie das benutzerhandbuch zur dnn-sprachverbesserung verwenden?,help.intelli_voice.show
+bitte ich brauche hilfe beim pairing,help.pairing.show
+wie messe ich die erholung meiner herzfrequenz?,help.heart_rate_recovery.show
+stummschalten der horgerate,device.volume.mute
+"konnen sie mir dabei helfen, erinnerungen auf meinem telefon zu andern?",help.changing_memories.show
+"erinnere mich daran, die tabelle in 5 minuten zu sehen",reminders.task.create
+wann sollte ich einen manuellen benachrichtigungstext starten?,help.fall_alert.show
+wie erhohe ich die hohe tonhohe?,help.customize.show
+wie sehe ich meine taglichen horgerateziele?,help.health.show
+bitte helfen sie mir bei der anpassung des tinnitus-maskers auf meinem gerat,help.tinnitus.show
+zeig mir mein radfahrziel,activity.cycle.query
+hilfe bei der selbstkontrolle,help.self_check.show
+bitte stellen sie eine erinnerung zum waschen des autos ein,reminders.task.create
+please send a message,messaging.message.send
+kann ich meine horgerate mit meinem telefon koppeln?,help.pairing.show
+"kannst du das? das ist derjenige, der probleme damit hat",sys.oos.fallback
+zeigen sie mir einen uberblick uber thrive,help.whats_new.show
+wo ist meine herzfrequenz?,help.heart_rate.show
+how do i get better ipro scores?,help.thrive_score.show
+ping my wife,messaging.message.send
+bitte zeig mir mein schrittziel,activity.step.query
+wie deaktiviere ich das doppeltippen auf meine hilfsmittel?,help.device_settings.show
+ubersetzung starten,translation.session.start
+bitte zeig mir mein laufziel,activity.run.query
+kannst du? ich kann meine richtige hilfe nicht finden,help.find_my_hearing_aids.show
+abschlusserinnerung.,reminders.task.complete
+wo ist die herzhilfe bei der genesung?,help.heart_rate_recovery.show
+bitte auf auto umsteigen,device.memory.change
+help with ipro score,help.thrive_score.show
+bitte schalten sie das programm auf tinnitus um,device.memory.change
+konnen sie ihr aktivitatsziel erreichen?,activity.aerobics.query
+help with thrive score,help.thrive_score.show
+hilfe bei der lautstarkeeinstellung meines horgerats,help.volume.show
+an den fernseher anschliessen,streaming.session.start
+wie richtet man hearshare ein?,help.hear_share.show
+"bitte, ich kann mich nicht erinnern, wo mein linkes horgerat ist",help.find_my_hearing_aids.show
+how does the thrive score work?,help.thrive_score.show
+"muss ich langer stehen, um mein ziel zu erreichen?",activity.stand.query
+wo iphone,find.phone.locate
+konnen sie mit dem transkribieren beginnen?,transcription.session.start
+i want to send a message,messaging.message.send
+konnen sie mich an ein treffen am 27. august erinnern?,reminders.task.create
+bitte spielen sie das mikrofon,streaming.session.start
+bitte mochte ich ein neues programm erstellen?,help.memory_options.show
+bitte danke fur die anderung,sys.oos.fallback
+bitte erinnern sie mich an meinen arzttermin,reminders.task.create
+wo ist meine linke hilfe?,help.find_my_hearing_aids.show
+bitte helfen sie mir bei lautstarkeanderungen auf meinem gerat,help.volume.show
+"bitte erinnern sie mich daran, joe in 30 minuten abzuholen",reminders.task.create
+bitte helfen sie mir beim andern der programme auf meinem telefon,help.changing_memories.show
+konnen sie den speicher stumm schalten?,device.memory.change
+konnen sie bitte eine erinnerung fur morgen um 7 uhr fur das abendessen einstellen?,reminders.task.create
+konnen sie ins buro wechseln?,device.memory.change
+bitte senken sie den pegel meiner horgerate,device.volume.decrease
+"bitte schmalere freundin sharon dell, eine personliche uberprufung deiner musik aus der definition der anderen, nur finden",sys.oos.fallback
+bitte stellen sie die erinnerung auf 17:00 uhr ein.,reminders.task.create
+tell me about demo mode,help.demo_mode.show
+wie verwende ich meine horgerate mit zubehor?,help.accessories.show
+legen sie eine erinnerung fur 8 uhr fest.,reminders.task.create
+entdecken sie das iphone,find.phone.locate
+bitte stellen sie das programm auf „menge“ ein,device.memory.change
+"konnen sie daran denken, medikamente einzunehmen?",reminders.task.create
+pass this along,messaging.message.send
+konnen sie eine erinnerung fur 8 uhr einstellen?,reminders.task.create
+wie stelle ich die cros-balance am sender ein?,help.wi_c_r_o_s.show
+konnen sie kalorien trainieren?,activity.exercise.query
+wo sind meine crowd-einstellungen?,help.memory_options.show
+where is my engagement rating,help.thrive_score.show
+"konnen sie mich daran erinnern, mein rezept um 17:00 uhr abzuholen? am donnerstag",reminders.task.create
+wie stelle ich die lautstarke des weissen rauschens in meinem horgerat ein?,help.tinnitus.show
+bitte machen sie meine horgerate stumm,device.volume.mute
+wie greife ich auf die cloud zu?,help.hearing_care_anywhere_connect.show
+ich kann mein anderes horgerat nicht finden,help.find_my_hearing_aids.show
+wie reinige ich mein ric-horgerat?,help.clean_care.show
+bitte helfen sie mit der sprachverbesserung,help.intelli_voice.show
+wie viel akku noch ubrig ist,device.status.battery
+show me translate user guide,help.translate.show
+wie gehe ich zum startbildschirm?,help.home.show
+hilfe zum selbstcheck,help.self_check.show
+stop piping audio to my ears,streaming.session.stop
+ich brauche hilfe beim koppeln des hilfsmittels,help.pairing.show
+wie richte ich automatisches streaming ein?,help.device_settings.show
+wie erstelle ich einen kontakt fur die sturzwarnung?,help.fall_alert.show
+wie verwende ich den selbsttest?,help.self_check.show
+lautstarke ausschalten,device.volume.mute
+how do i get more information on the activity score?,help.thrive_score.show
+kannst du nach meinem telefon suchen?,find.phone.locate
+how do i get a better activity score?,help.thrive_score.show
+bitte verringern sie die lautstarke meiner horgerate,device.volume.decrease
+stummschaltung der horgerate aufheben,device.volume.unmute
+transmit a message,messaging.message.send
+"konnen sie mich daran erinnern, einen parkplatz fur meine karnevalskreuzfahrt zu buchen?",reminders.task.create
+bitte erstellen sie eine neue erinnerung,reminders.task.create
+bitte stellen sie den speicher auf leise,device.memory.change
+i would like to send a message,messaging.message.send
+kannst du die lautstarke erhohen?,device.volume.increase
+kannst du wutendes obstgartenbier?,sys.oos.fallback
+explain demo mode,help.demo_mode.show
+wie stelle ich meinen gerauschmaskierer an meinem gerat ein?,help.tinnitus.show
+ich habe meine hilfsmittel verlegt,help.find_my_hearing_aids.show
+could you send a message,messaging.message.send
+wie sende ich eine nachricht an meinen arzt?,help.remote_programming.show
+kannst du das mikrofon spielen?,streaming.session.start
+"kannst du, ich brauche mehr volumen?",device.volume.increase
+warum gibt mein linkes horgerat keinen ton aus?,help.self_check.show
+bitte stellen sie das pub-programm ein,device.memory.change
+"bitte, ich kann mich nicht erinnern, wo mein anderes horgerat ist",help.find_my_hearing_aids.show
+wo ist hilfe zur dnn-sprachverbesserung?,help.intelli_voice.show
+bitte senden sie uns die quittung mit ihrem neuen guthaben unten und das war’s.,sys.oos.fallback
+kannst du mein laufziel erreichen?,activity.run.query
+erinnerungsflug um 6 uhr morgens.,reminders.task.create
+bitte drehe mein rechtes horgerat lauter,device.volume.increase
+what's the point of demo mode,help.demo_mode.show
+bitte stellen sie den speicher auf automatisch ein,device.memory.change
+does the app have a demo mode?,help.demo_mode.show
+wo soll ich eine manuelle alarm-sms starten?,help.fall_alert.show
+bitte belastige deinen cousin mit horgeraten,sys.oos.fallback
+"bitte erinnern sie mich daran, mein auto nachsten freitagmorgen abzuholen",reminders.task.create
+bitte haben sie eine stunde gestanden,activity.stand.query
+wie stelle ich meinen noise masker an meinem horgerat ein?,help.tinnitus.show
+was kann ich thrive assistant fragen?,help.voice_assistant.show
+bitte andern sie das programm in restaurant,device.memory.change
+bitte stellen sie das programm auf „personlich“ ein,device.memory.change
+bitte schliessen sie das linke horgerat an,help.pairing.show
+kann ich thrive assistant ohne mein telefon verwenden?,help.voice_assistant.show
+bitte stellen sie das programm auf tinnitus um,device.memory.change
+bitte spielen sie die letzte audionachricht ab.,messaging.message.listen
+kannst du das? ich kann das kaum horen,sys.oos.fallback
+bitte schliessen sie das richtige hilfsmittel an,help.pairing.show
+wie andere ich mein schrittziel von taglich auf wochentlich?,help.health.show
+bitte beginnen sie mit der aufnahme fur mich,transcription.session.start
+"wie hoch ist die lautstarke meines horgerats, wenn die lautstarke automatisch auf null sinkt?",help.volume.show
+kannst du den ton einschalten?,device.volume.unmute
+wo kann ich eine manuelle alarm-sms veranlassen?,help.fall_alert.show
+sollte mein horgerat so aussehen wie im video?,help.insert_device.show
+"woher weiss ich, wann mein horakustiker mein horgerat angepasst hat?",help.remote_programming.show
+bitte erinnern sie mich um 13 uhr daran. dass ich essen muss,reminders.task.create
+wie speichere ich einstellungen in einem neuen speicher?,help.memory_options.show
+"kannst du wechseln, schau dir sie an",sys.oos.fallback
+kann ich mein horgerat von meinem telefon trennen?,help.pairing.show
+bitte zeigen sie mir einen uberblick uber diese app,help.whats_new.show
+bitte andern sie das programm auf fitnessstudio,device.memory.change
+konnen sie eine erinnerung fur die besprechung hinzufugen?,reminders.task.create
+empfangen sie ein tv-stream-signal,streaming.session.start
+kannst du mir meine schrittzahl zeigen?,activity.step.query
+konnen sie adidas damenstiefel?,sys.oos.fallback
+bitte schalten sie das programm auf gottesdienst um,device.memory.change
+"bitte, wo ist mein iphone?",find.phone.locate
+"konnen sie mir helfen, mich daran zu erinnern, bae morgen um 9 uhr anzurufen?",reminders.task.create
+kannst du die schule einrichten?,device.memory.change
+kann man den speicher auf office umstellen?,device.memory.change
+how do i get a better body score?,help.thrive_score.show
+zeigen sie mir eine hilfe fur mein zubehor,help.accessories.show
+konnen sie die letzte erinnerung als abgeschlossen markieren?,reminders.task.complete
+wie kann ich meinen arzt um hilfe bitten?,help.remote_programming.show
+wo ist der hauptbildschirm?,help.home.show
+wo ist mein apple-telefon?,find.phone.locate
+"konnen sie daran denken, morgen zu lernen?",reminders.task.create
+i want to record a message,messaging.message.send
+wie funktioniert der virtuelle assistent?,help.voice_assistant.show
+kann man den tinnitus-speicher einstellen?,device.memory.change
+konnen sie mir helfen? ich brauche hilfe beim koppeln der hilfsmittel,help.pairing.show
+hey send a message,messaging.message.send
+hilfe bei der anpassung des tinnitus-stimulus an meinen horgeraten,help.tinnitus.show
+"konnen sie mit der thrive-app dabei helfen, erinnerungen zu verandern?",help.changing_memories.show
+bitte schalten sie den speicher auf arbeit um,device.memory.change
+kannst du meine audio-nachricht abspielen?,messaging.message.listen
+kannst du und das ist ein zeichen des krieges,sys.oos.fallback
+konnen sie mich um 13 uhr daran erinnern? dass ich essen muss,reminders.task.create
+wie bringe ich mein gerat zum streamen?,help.accessories.show
+verkleinern sie das linke horgerat,device.volume.decrease
+kannst du das golfprogramm einstellen?,device.memory.change
+schalte meine horgerate auf,device.volume.increase
+ich brauche hilfe beim koppeln der horgerate mit meinem telefon,help.pairing.show
+"konnen sie mich daran erinnern, die tabelle in 5 minuten zu sehen?",reminders.task.create
+"kannst du daran denken, meine familie am erntedankfest zu besuchen?",reminders.task.create
+bitte jemand vom motel in boise,sys.oos.fallback
+bitte salsa zu meiner linken,sys.oos.fallback
+wie kann ich mein aktuelles programm mit einem geotag versehen?,help.memory_options.show
+want to send a message,messaging.message.send
+kannst du die lautstarke erhohen?,device.volume.unmute
+"bitte, ich habe ein chica-telefon, wenn sie etwas passendes fur sie finden konnen",sys.oos.fallback
+record message,messaging.message.send
+konnen sie das programm auf telefon umstellen?,device.memory.change
+wie stelle ich mein tinnitusgerausch in den hilfsmitteln ein?,help.tinnitus.show
+bitte horen sie es noch einmal.,messaging.message.listen
+"ich kann mich nicht erinnern, wo mein anderes horgerat ist",help.find_my_hearing_aids.show
+ich mochte ein neues programm erstellen?,help.memory_options.show
+erinnerung hinzufugen: futtern sie eine katze in 3 minuten,reminders.task.create
+shoot a text to mom,messaging.message.send
+would you please send a message,messaging.message.send
+wie stelle ich die lautstarke des tinnitus in meinem horgerat ein?,help.tinnitus.show
+erinnerung auf 17:00 uhr einstellen,reminders.task.create
+bitte stellen sie das programm auf tinnitus ein,device.memory.change
+"erinnere mich daran, mein auto zu waschen",reminders.task.create
+bitte starten sie den tv-stream,streaming.session.start
+kannst du das programm auf auto einstellen?,device.memory.change
+neue erinnerung: iss jeden tag um 9 uhr einen apfel.,reminders.task.create
+kannst du das ziel ausarbeiten?,activity.exercise.query
+bitte vereinbaren sie einen physiotherapie-termin fur morgen fruh um 8:40 uhr.,reminders.task.create
+kannst du mit alexa das licht auf der veranda ausschalten?,sys.oos.fallback
+kannst du durchhalten?,sys.oos.fallback
+warum bekomme ich keinen ton?,help.volume.show
+can you pelase send a message,messaging.message.send
+wie oft sollte ich intelligente stimme verwenden?,help.intelli_voice.show
+wie andere ich programme?,help.changing_memories.show
+how does the brain score work?,help.thrive_score.show
+kann man das trainingsprogramm einstellen?,device.memory.change
+wachsaufbau,help.clean_care.show
+bitte fullen sie meine erinnerung aus.,reminders.task.complete
+"bitte, sie brauchen etwas hilfe",sys.oos.fallback
+"erinnere mich daran, morgen aufzuwachen",reminders.task.create
+bitte stellen sie das programm auf sprache um,device.memory.change
+kannst du letztes push-to-talk spielen?,messaging.message.listen
+kannst du den office-speicher einstellen?,device.memory.change
+help me understand the thrive score,help.thrive_score.show
+"konnen sie mir sagen, was das aufraumen angeht? ich bin ziemlich gut gelaufen",sys.oos.fallback
+help with the body score,help.thrive_score.show
+konnen sie die letzte audionachricht abspielen?,messaging.message.listen
+konnen sie eine erinnerung an das gassigehen mit dem hund einrichten und diese jeden tag um 9 uhr wiederholen?,reminders.task.create
+how do i get a better wellness score?,help.thrive_score.show
+ich habe mein anderes hilfsmittel verlegt,help.find_my_hearing_aids.show
+hilfe bei der lautstarkeanpassung meiner horgerate,help.volume.show
+konnen sie nach dem telefon suchen?,find.phone.locate
+"bitte, ich mochte meinen fernseher horen",streaming.session.start
+verringern sie das rechte horgerat,device.volume.decrease
+"konnen sie, neue erinnerung, jeden tag um 9 uhr einen apfel essen?",reminders.task.create
+konnen sie die lautstarke des horgerats reduzieren?,device.volume.decrease
+bitte beachten sie die bedienungsanleitung von intellvoice,help.intelli_voice.show
+text someone for me,messaging.message.send
+bitte riley ist ein manager von scott.,sys.oos.fallback
+bitte stellen sie das outdoor-programm ein,device.memory.change
+"bitte erinnern sie mich daran, mein rezept um 17:00 uhr abzuholen. am montag",reminders.task.create
+kannst du mir mein aktuelles ziel zeigen?,activity.stand.query
+kannst du kalorien laufen?,activity.run.query
+bitte helfen sie mir bei der anpassung des weissen rauschens in meinen horgeraten,help.tinnitus.show
+"bitte richten sie eine erinnerung ein, um morgen das rezept nachzufullen",reminders.task.create
+horgerate einschalten,device.volume.unmute
+"welche gerausche werde ich horen, wenn ich falle?",help.fall_alert.show
+kannst du mir einen pc-gaming-receiver geben?,sys.oos.fallback
+bitte erinnern sie mich um 19 uhr an vitamin d. taglich,reminders.task.create
+"kannst du das in gewisser weise tun, weil ich das einfach wegnehme",sys.oos.fallback
+"konnen sie mich daran erinnern, jeden tag um 16:00 uhr jemanden anzurufen?",reminders.task.create
+"konnen sie mir dabei helfen, erinnerungen zu andern?",help.changing_memories.show
+"kannst du, ich habe wachsablagerungen?",help.clean_care.show
+bitte verbinden sie mich mit meinem audiologen,help.remote_programming.show
+"bitte helfen sie mir dabei, erinnerungen an meine hilfsmittel zu andern",help.changing_memories.show
+konnen sie die erinnerung auf „alltaglich“ umstellen?,device.memory.change
+wie kann ich eine manuelle warnmeldung starten?,help.fall_alert.show
+kannst du? ich gehe und sie haben nicht funktioniert,sys.oos.fallback
+turn off remote mic streaming,streaming.session.stop
+wie andere ich die lautstarke meiner gerate?,help.volume.show
+wie andere ich erinnerungen?,help.changing_memories.show
+how do i get better wellness scores?,help.thrive_score.show
+"kannst du hey spec, hallo gutes statistikherz? ich habe diese berichterstattung nicht erhalten. aber der karton, der im herbst hing.",sys.oos.fallback
+hilfe fur telehorer,help.hearing_care_anywhere_connect.show
+wo sind die app-einstellungen?,help.app_settings.show
+"woher weiss ich, wann mein horakustiker das horgerat angepasst hat?",help.remote_programming.show
+schnellstart,help.whats_new.show

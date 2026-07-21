@@ -1,6 +1,5 @@
 {
   "semantic_enabled": false,
-  "mitigations": "guards + confirm gate (all state-changing actions, <0.80) + confirm-floor + recipe fix + da data clean",
   "per_language": {
     "en": {
       "turns": 1461,
@@ -37,35 +36,33 @@
       }
     },
     "de": {
-      "turns": 1383,
-      "wrong_actions": 24,
-      "confirm_gated_wrong": 11,
-      "fulfilled": 813,
-      "prompted": 82,
-      "fallback": 419,
-      "confirmed": 69,
+      "turns": 942,
+      "wrong_actions": 14,
+      "confirm_gated_wrong": 2,
+      "fulfilled": 607,
+      "prompted": 69,
+      "fallback": 244,
+      "confirmed": 22,
       "per_domain": {
+        "reminders": 1,
+        "activity": 4,
         "translation": 8,
-        "device": 6,
-        "activity": 6,
-        "messaging": 1,
-        "streaming": 2,
-        "transcription": 1
+        "device": 1
       }
     },
     "da": {
-      "turns": 1306,
-      "wrong_actions": 14,
+      "turns": 1258,
+      "wrong_actions": 13,
       "confirm_gated_wrong": 8,
-      "fulfilled": 749,
-      "prompted": 89,
-      "fallback": 411,
-      "confirmed": 57,
+      "fulfilled": 738,
+      "prompted": 76,
+      "fallback": 395,
+      "confirmed": 49,
       "per_domain": {
-        "device": 10,
-        "translation": 1,
-        "streaming": 2,
-        "find": 1
+        "device": 5,
+        "translation": 3,
+        "streaming": 3,
+        "messaging": 2
       }
     }
   },
@@ -212,80 +209,87 @@
     },
     {
       "lang": "de",
-      "text": "thrive translate help",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
-      "confidence": 0.9
-    },
-    {
-      "lang": "de",
-      "text": "turn mute on",
-      "truth": "device.volume.mute",
-      "fired": "device.volume.unmute",
-      "confidence": 0.991
-    },
-    {
-      "lang": "de",
-      "text": "my battery dies too quickly",
-      "truth": "help.battery.show",
-      "fired": "device.status.battery",
-      "confidence": 0.818
-    },
-    {
-      "lang": "de",
-      "text": "kannst du die stummschaltung andern?",
-      "truth": "device.memory.change",
-      "fired": "device.volume.unmute",
-      "confidence": 0.98
-    },
-    {
-      "lang": "de",
-      "text": "translate hello to french",
-      "truth": "sys.oos.fallback",
-      "fired": "translation.session.start",
-      "confidence": 0.9
+      "text": "vollstandige erinnerung",
+      "truth": "help.clean_care.show",
+      "fired": "reminders.task.complete",
+      "confidence": 0.988
     },
     {
       "lang": "de",
       "text": "kannst du mir mein laufziel zeigen?",
       "truth": "activity.run.query",
       "fired": "activity.walk.query",
-      "confidence": 0.957
+      "confidence": 0.963
     },
     {
       "lang": "de",
-      "text": "kannst du das ziel ausarbeiten?",
-      "truth": "activity.exercise.query",
-      "fired": "activity.stand.query",
-      "confidence": 0.741
-    },
-    {
-      "lang": "de",
-      "text": "when would i send a manual alert text message?",
-      "truth": "help.fall_alert.show",
-      "fired": "messaging.message.send",
+      "text": "help for translate",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
       "confidence": 0.9
     },
     {
       "lang": "de",
-      "text": "stop muting now",
-      "truth": "device.volume.unmute",
-      "fired": "streaming.session.stop",
-      "confidence": 0.817
+      "text": "zeig mir meine standgeschichte",
+      "truth": "activity.stand.query",
+      "fired": "activity.walk.query",
+      "confidence": 0.927
     },
     {
       "lang": "de",
-      "text": "wie weit bin ich gelaufen?",
-      "truth": "activity.run.query",
-      "fired": "activity.walk.query",
-      "confidence": 0.978
+      "text": "how accurate is the translation",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "de",
+      "text": "show me the help for translate",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "de",
+      "text": "hearing aids translate help",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "de",
+      "text": "does translation work both ways",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "de",
+      "text": "translate user guide",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
+    },
+    {
+      "lang": "de",
+      "text": "show me the translate user guide",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
     },
     {
       "lang": "da",
-      "text": "hvor meget mere skal jeg lobe i dag?",
-      "truth": "activity.run.query",
-      "fired": "device.status.battery",
-      "confidence": 0.707
+      "text": "kan du stille mine horeapparater til ro",
+      "truth": "device.volume.decrease",
+      "fired": "device.volume.mute",
+      "confidence": 0.871
+    },
+    {
+      "lang": "da",
+      "text": "sla lyden tilbage",
+      "truth": "device.volume.decrease",
+      "fired": "device.volume.unmute",
+      "confidence": 0.975
     },
     {
       "lang": "da",
@@ -296,68 +300,56 @@
     },
     {
       "lang": "da",
-      "text": "stoppe optagelsen",
-      "truth": "transcription.session.start",
-      "fired": "streaming.session.stop",
-      "confidence": 0.997
+      "text": "kan du stille en diagnose pa mine horeapparater",
+      "truth": "help.self_check.show",
+      "fired": "device.volume.mute",
+      "confidence": 0.877
     },
     {
       "lang": "da",
-      "text": "saette mig i restaurant mode",
-      "truth": "device.volume.decrease",
+      "text": "kan du stave til restaurant",
+      "truth": "sys.oos.fallback",
       "fired": "device.memory.change",
       "confidence": 1.0
     },
     {
       "lang": "da",
-      "text": "lyden bryder op",
-      "truth": "help.device_settings.show",
-      "fired": "device.volume.increase",
-      "confidence": 0.877
+      "text": "oversaet brugervejledning",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.86
     },
     {
       "lang": "da",
-      "text": "bryde det ned for mig",
-      "truth": "help.home.show",
+      "text": "stille alt ned til ingenting",
+      "truth": "device.volume.mute",
       "fired": "device.volume.decrease",
-      "confidence": 0.978
+      "confidence": 0.954
     },
     {
       "lang": "da",
-      "text": "sluk venligst alarmen",
-      "truth": "sys.oos.fallback",
-      "fired": "device.volume.mute",
-      "confidence": 0.855
+      "text": "kan min aegtefaelle hore gennem mine hjaelpemidler",
+      "truth": "help.hear_share.show",
+      "fired": "streaming.session.start",
+      "confidence": 0.902
     },
     {
       "lang": "da",
-      "text": "kan du slukke for kildestik",
-      "truth": "sys.oos.fallback",
-      "fired": "device.volume.mute",
-      "confidence": 0.826
+      "text": "stop med at lyde nu",
+      "truth": "device.volume.unmute",
+      "fired": "streaming.session.stop",
+      "confidence": 0.979
     },
     {
       "lang": "da",
-      "text": "sluk venligst for kildestikkene",
-      "truth": "sys.oos.fallback",
-      "fired": "device.volume.mute",
-      "confidence": 0.964
-    },
-    {
-      "lang": "da",
-      "text": "kan jeg oplade mit batteri?",
-      "truth": "help.battery.show",
-      "fired": "device.status.battery",
-      "confidence": 0.903
+      "text": "gemmer translate mine samtaler?",
+      "truth": "help.translate.show",
+      "fired": "translation.session.start",
+      "confidence": 0.9
     }
   ],
-  "wrong_actions_shipped_langs": 65,
+  "wrong_actions_shipped_langs": 55,
   "budget": 5,
   "budget_met": false,
-  "history": {
-    "unmitigated": 99,
-    "nd11_ab": 73,
-    "recipe_fix": 67,
-    "gate_extension": 65
-  }
+  "mitigations": "guards + confirm gate (all state-changing actions, <0.80) + confirm-floor + recipe fix + da label-conflict clean + de/da untranslated-placeholder clean"
 }

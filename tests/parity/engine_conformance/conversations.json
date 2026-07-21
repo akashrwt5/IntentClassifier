@@ -62,7 +62,7 @@
           "type": "FULFILL",
           "intent": "device.status.battery",
           "action": "battery.level",
-          "confidence": 0.8739,
+          "confidence": 0.9723,
           "complete": true
         }
       ]
@@ -75,7 +75,7 @@
           "type": "FULFILL",
           "intent": "device.volume.decrease",
           "action": "volume.decrease",
-          "confidence": 0.8036,
+          "confidence": 0.8533,
           "complete": true
         }
       ]
@@ -85,11 +85,11 @@
       "turns": [
         {
           "user": "streaming beenden",
-          "type": "CONFIRM",
+          "type": "FULFILL",
           "intent": "streaming.session.stop",
           "action": "streaming.stop",
-          "confidence": 0.5837,
-          "complete": false
+          "confidence": 0.8823,
+          "complete": true
         }
       ]
     },
@@ -101,7 +101,7 @@
           "type": "CONFIRM",
           "intent": "device.volume.decrease",
           "action": "volume.decrease",
-          "confidence": 0.6283,
+          "confidence": 0.7827,
           "complete": false
         },
         {

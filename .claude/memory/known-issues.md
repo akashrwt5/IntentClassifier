@@ -102,6 +102,31 @@ _None open. Recently fixed:_
   datasets/da_label_conflicts_review.csv for linguist review). Danish
   REMAINS flag-gated: the ship condition is the native-authored holdout
   (machine-translated data), not the numeric gate. da OOS recall now 0.68.
+- **MILESTONE 2026-07-21: de 0.845→0.901, da 0.812→0.830 — untranslated
+  English placeholders removed from training data.** Root-caused the
+  wrong-action confidence cluster (misfires at ≥0.80 conf): `de.csv`/`da.csv`
+  were 30%/2.7% exact byte-duplicates of `en.csv` rows under the SAME intent
+  label — i.e. never-translated English filler, not organic code-switching
+  (`train_multilingual.py`'s cross-language dedup comment already flagged
+  this for the *combined* model; it wasn't applied per-language). Removed
+  2,926 de rows / 258 da rows where the intent kept ≥15 real-language
+  examples after removal; preserved verbatim in
+  `datasets/de_untranslated_placeholder_review.csv` /
+  `datasets/da_untranslated_placeholder_review.csv` (not discarded — same
+  pattern as the Danish label-conflict review file). Retrained + regated
+  (both comfortably above 0.80); regenerated holdouts + conformance
+  fixtures (confidence-only diffs, no label changes, one CONFIRM→FULFILL
+  as confidence cleared the 0.80 gate). System wrong-action count:
+  de 24→14, da 14→13 (shipped-lang total 65→55). Suite 145/145.
+- **NOT fixed — 5 German intents have ZERO real German training data**
+  (`streaming.session.stop`, `help.demo_mode.show`,
+  `help.thrive_score.show`, `help.translate.show`,
+  `messaging.message.send`): every example for these intents in `de.csv`
+  was one of the untranslated-English rows above; removing them would have
+  zeroed the intent out entirely, so they were deliberately left untouched
+  (still English-only coverage — a real German phrasing will likely still
+  misfire for these five). This needs either professional/native German
+  authoring or a vetted MT pass, not another deletion. Tracked as ND-13.
 - **(historical) Danish OOS recall is weak (0.51)** — fallback-class recall from the
   unified evaluate; compounds the known Danish macro-F1 gap.
 
