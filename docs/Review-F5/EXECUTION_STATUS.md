@@ -116,6 +116,13 @@ wrong_action_system_report.json`.
   Recommendation standing: flag OFF for shipped languages until the
   wrong-action budget improves (en trade-off: −150 deflections / +5 wrong).
   Suite 145/145.
+- **2026-07-21** — Reconciled a gap between the above recommendation and the
+  shipped config: `content/platform.yaml` still had `semantic_rescue_enabled:
+  true`, contradicting the OFF recommendation. Flipped to `false`, recompiled
+  `content/nlu_schema.json` + localization overlays (`nlu_compiler.
+  content_source assemble`; drift check: in sync). Env kill-switch
+  (`NLU_SEMANTIC_RESCUE=1`) and constructor param remain available to opt
+  back in per-run. Suite 145/145. Commit `7049ff01`.
 - **2026-07-14 (n)** — Danish data-quality pass: 80 texts were trained
   under CONTRADICTORY labels ('slå lyden til' as both mute and unmute);
   181 conflicted rows removed (preserved for linguist review in
