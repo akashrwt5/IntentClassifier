@@ -137,7 +137,7 @@ polarity_guards:
 - blocked_intent: streaming.session.stop
   pattern: \b(start|begin|turn on)\b
   redirect_intent: streaming.session.start
-semantic_rescue_enabled: true
+semantic_rescue_enabled: false
 semantic_threshold: 0.4
 slot_confidence_threshold: 0.6
 uncertain_confirm:
