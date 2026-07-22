@@ -1,1362 +1,1359 @@
 text,intent
-veuillez me montrer un apercu de l'application,help.whats_new.show
-"s'il te plait, montre-moi comment mettre mon aide auditive",help.insert_device.show
-comment puis-je executer une voix intelligente ?,help.intelli_voice.show
-peux-tu changer pour t'entrainer,device.memory.change
-eteint mon aide auditive gauche,device.volume.mute
-"s'il vous plait, aidez-moi avec la programmation a distance",help.remote_programming.show
-"peux-tu, ce rappel est complet",reminders.task.complete
-veuillez passer au programme numero deux,device.memory.change
-comment saurai-je quand l’audiologiste a ajuste l’aide ?,help.remote_programming.show
-pouvez-vous m'aider avec le reglage du bruit blanc sur mon aide auditive,help.tinnitus.show
-comment fonctionnent les notifications d'automne,help.fall_alert.show
-"s'il te plait, je ne me souviens plus ou se trouve mon aide auditive gauche",help.find_my_hearing_aids.show
-que se passe-t-il si la langue que je souhaite traduire n'est pas repertoriee ?,help.translate.show
-pouvez-vous qu'une aide auditive ne soit pas trouvee,help.self_check.show
-fais passer ca,messaging.message.send
-diffuser le son de mon appareil auditif,streaming.session.start
-reactive-moi,device.volume.unmute
-quelles sont les differences entre l'application avancee et l'application de base ?,help.app_settings.show
-calories en travaillant,activity.exercise.query
-aide vocale par ia,help.intelli_voice.show
-pourquoi mon aide auditive est-elle silencieuse d'un cote,help.device_settings.show
-je suis dans la voiture maintenant,device.memory.change
-ai-je atteint mon objectif d'entrainement,activity.exercise.query
-pouvez-vous aborder le changement,sys.oos.fallback
-comment nettoyer mon aide auditive itc ?,help.clean_care.show
-comment puis-je ouvrir le couvercle de la batterie,help.battery.show
-peux-tu me faire un rappel,reminders.task.create
-puis-je entendre mon dernier message ?,messaging.message.listen
-peux-tu me rappeler d'appeler maman a noel,reminders.task.create
-quand pourrais-je intercepter un message texte d’alerte manuelle ?,help.fall_alert.show
-aide au couplage s'il vous plait,help.pairing.show
-ou est le numero de serie de l'aide auditive ?,help.device_settings.show
-comment puis-je contacter mon clinicien pour obtenir de l'aide ?,help.remote_programming.show
-"s'il te plait, je vais te laisser dormir",sys.oos.fallback
-"s'il te plait, allume le volume",device.volume.unmute
-jusqu'ou ai-je couru ?,activity.run.query
-peux-tu passer aux acouphenes,device.memory.change
-ai-je atteint mon objectif de stand,activity.stand.query
-donne-moi un petit coup de pouce a 9 heures,reminders.task.create
-comment utiliser la fonction de transcription ?,help.transcribe.show
-comment puis-je appairer mes aides auditives a mon telephone ?,help.pairing.show
-pouvez-vous definir le parametre sur deux,device.memory.change
-ne me laisse pas oublier d'appeler grand-mere,reminders.task.create
+peux-tu ma douce voiture,sys.oos.fallback
+"s'il vous plait, baissez le volume a droite, aide",device.volume.decrease
+quel est mon decompte pour le mois ?,activity.run.query
+comment supprimer des souvenirs,help.memory_options.show
+veuillez localiser mon aide auditive,help.find_my_hearing_aids.show
+donne-moi des sous-titres en direct maintenant,transcription.session.start
+dois-je mettre l'aide auditive derriere mon oreille ?,help.insert_device.show
+peux-tu commencer a diffuser la television sur mes aides auditives,streaming.session.start
+peux-tu passer au mode personnel,device.memory.change
+comment puis-je regler le volume du bruit des acouphenes sur mon aide auditive ?,help.tinnitus.show
+mon aide auditive doit-elle ressembler a celle de la video ?,help.insert_device.show
+quels modules complementaires sont disponibles,help.accessories.show
+je veux aller me promener,activity.walk.query
+changer le programme de ce lieu,device.memory.change
 ai-je atteint mon objectif d'exercice,activity.exercise.query
-suivre ma recuperation de frequence cardiaque,help.heart_rate_recovery.show
-rappelle-moi le moment venu,reminders.task.create
-par ou commencer a apprendre,help.home.show
-comment puis-je voir ma note de reussite,help.thrive_score.show
-"s'il te plait, montre-moi combien de temps j'ai marche ?",activity.walk.query
-comment puis-je arreter la diffusion a partir du streamer tv ?,help.accessories.show
-comment puis-je restaurer les parametres de mon aide auditive ?,help.hearing_care_anywhere_connect.show
-pouvez-vous m'aider a ajuster le stimulus des acouphenes sur mon aide auditive,help.tinnitus.show
-ajouter un rappel pour ma reunion,reminders.task.create
-pouvez-vous rencontrer le programme,device.memory.change
-pouvez-vous nous aider a coupler des appareils auditifs avec l'application thrive,help.pairing.show
-veuillez changer le programme en un seul,device.memory.change
-comment puis-je regler le volume uniquement sur le cote droit ?,help.volume.show
-aide a augmenter le volume a gauche,device.volume.increase
-expliquer comment le rendre plus fort ou plus doux,help.volume.show
-quand dois-je utiliser le mode masque,help.mask_mode.show
-c'est ecrasant,device.volume.decrease
-"peux-tu rappeler pour 16h15 ? aujourd'hui, rends visite a grand-mere s'il te plait",reminders.task.create
-j'entends a peine la conversation,device.volume.increase
-quel est le controle du volume,help.volume.show
-veuillez passer la memoire a trois,device.memory.change
-veuillez passer la memoire a deux,device.memory.change
-pouvez-vous relier le lecteur a une aide auditive,help.pairing.show
-"c'est trop fort, baisse le volume",device.volume.decrease
-comment puis-je regler l'intensite du bruit blanc dans les aides ?,help.tinnitus.show
-veuillez changer le parametre a trois,device.memory.change
-comment utiliser les commandes vocales,help.voice_assistant.show
-peux-tu appairer mon aide auditive droite,help.pairing.show
-comment regler le volume de la television ?,help.accessories.show
-comment laver mon aide auditive ?,help.clean_care.show
-"s'il vous plait, j'ai besoin d'aide avec mes parametres",help.device_settings.show
-"s'il vous plait, je suis interesse par ma position",sys.oos.fallback
-"peux-tu, je dois en parler a mon audiologiste",help.remote_programming.show
-comment puis-je entretenir mes aides auditives,help.clean_care.show
-regle a 100 % du volume,device.volume.increase
-tuer le son,device.volume.mute
-"s'il te plait, blottis-toi encore dans tes oreilles",sys.oos.fallback
-pouvez-vous prendre des mesures,activity.step.query
-changer ma memoire,device.memory.change
-charger mon profil de conduite,device.memory.change
-peux-tu augmenter le volume de mes aides auditives,device.volume.increase
-etat de charge,device.status.battery
-comment puis-je augmenter les aigus,help.customize.show
-chronometrer mon exercice,activity.exercise.query
-"s'il te plait, rappelle-moi de laver ma voiture",reminders.task.create
-"s'il te plait, je marche et ils n'ont pas travaille",sys.oos.fallback
-aide avec les accessoires,help.accessories.show
-pouvez-vous definir des parametres personnels,device.memory.change
-localiser l'iphone,find.phone.locate
-mes aides auditives sont-elles completement chargees,device.status.battery
-"peux-tu, j'ai egare mon autre aide",help.find_my_hearing_aids.show
-"peux-tu, je ne peux pas mentir",sys.oos.fallback
-s'il vous plait envoyez un message,messaging.message.send
-raccordez le son de la television a mes aides auditives,streaming.session.start
-quelle est la duree de vie de ma batterie ?,device.status.battery
-localiser les appareils auditifs,help.find_my_hearing_aids.show
-"s'il te plait, je veux ecouter ma tele",streaming.session.start
-comment puis-je demander un reglage fin de nouveaux parametres ?,help.remote_programming.show
-laisse-moi entendre le presentateur,streaming.session.start
-quelle est la capitale du japon,sys.oos.fallback
-peux-tu memoriser le numero deux,device.memory.change
-"s'il te plait, passe a la foule",device.memory.change
-enregistrer mon activite d'aerobic,activity.aerobics.query
-"s'il te plait, rappelle-moi tous les jours de lire un livre a 18 heures.",reminders.task.create
-faire un rappel pour recharger mes aides auditives,reminders.task.create
-comment fonctionnent les sous-titres sur mes aides auditives,help.transcribe.show
-je ne me souviens plus ou se trouve mon aide auditive droite,help.find_my_hearing_aids.show
-s'il te plait laisse-moi entendre la tele,streaming.session.start
-veuillez augmenter le volume sur les aides auditives,device.volume.increase
-comment rendre l'aide plus douce ?,help.volume.show
-peux-tu changer la memoire en numero deux,device.memory.change
-"s'il te plait, passe au bureau",device.memory.change
-pouvez-vous que wendy ait appuye deux fois dessus et cela n'a pas fonctionne,sys.oos.fallback
-pousse-moi a m'etirer dans une heure,reminders.task.create
-ou dois-je mettre la batterie,help.battery.show
-previsualiser les fonctionnalites de l'application sans aide,help.demo_mode.show
-quelle est la charge,device.status.battery
-comment puis-je enlever la cire de mes aides auditives,help.clean_care.show
-peux-tu me rappeler de prendre des medicaments demain matin,reminders.task.create
-peux-tu baisser le volume de 50 %,device.volume.decrease
-comment fonctionne la traduction ?,help.translate.show
-quelle est la hauteur du mont everest ?,sys.oos.fallback
-aide au changement de memoire,help.changing_memories.show
-"s'il te plait, au moment ou la khan academy fait silence",sys.oos.fallback
-peux-tu jouer au golf,device.memory.change
-comment changer le nom de mon streamer tv ?,help.accessories.show
-trouver ma bonne aide,help.find_my_hearing_aids.show
-que dois-je porter aujourd'hui,sys.oos.fallback
-partager mon audition avec une autre personne,help.hear_share.show
-peux-tu changer le programme a trois,device.memory.change
-dis-moi quel est mon objectif de pas,activity.step.query
-les gens semblent loin,device.volume.increase
-rendre mes aides auditives plus douces,device.volume.decrease
-mes aides auditives continuent de perdre la liaison bluetooth,help.pairing.show
-peux-tu volumer sur l'aide droite,device.volume.unmute
-j'ai besoin de mon programme silencieux,device.memory.change
-y a-t-il un bouton pour la memoire,help.changing_memories.show
-"s'il te plait, il n'y a vraiment pas",sys.oos.fallback
-combien de pas ai-je fait aujourd'hui ?,activity.step.query
-quels accessoires ai-je ?,help.accessories.show
-c'est trop fort pour moi,device.volume.decrease
-peux-tu passer a la musique,device.memory.change
-"s'il vous plait, une aide auditive n'est pas trouvee",help.self_check.show
-rappelez-moi de recuperer mon ordonnance vendredi a 17h.,reminders.task.create
-rappelle-moi de prendre mes medicaments aujourd'hui dans une minute,reminders.task.create
-quand dois-je modifier mon controle de balance ?,help.wi_c_r_o_s.show
-aider avec le score corporel,help.thrive_score.show
-note ca comme rappel,reminders.task.create
-"s'il vous plait, nouveau rappel sur la forme physique",reminders.task.create
-pouvez-vous associer des appareils auditifs avec mon application thrive,help.pairing.show
-restaurer mon audition maintenant,device.volume.unmute
-telephone manquant,find.phone.locate
-relier le lecteur a l'aide auditive,help.pairing.show
-comment puis-je verifier quels accessoires j'ai couples a mon aide auditive ?,help.accessories.show
-puis-je revenir a mes parametres d'origine ?,help.remote_programming.show
-mes aides auditives peuvent-elles self check,help.self_check.show
-"s'il te plait, je ne trouve pas mon autre aide",help.find_my_hearing_aids.show
-est-ce que ca peut etre moins fort,device.volume.decrease
-"s'il vous plait, aidez-moi a changer les souvenirs de mon aide auditive",help.changing_memories.show
-peux-tu me rappeler de boire de l'eau dans 5 minutes,reminders.task.create
-apprends-moi a utiliser ca,help.home.show
-a quoi sert la fonction acouphenes,help.tinnitus.show
-"s'il vous plait, j'ai recu une tonne de recommandations entierement sans fil",sys.oos.fallback
-aide avec les ajustements sonores des acouphenes dans mes aides auditives,help.tinnitus.show
-veuillez passer le parametre au numero deux,device.memory.change
-est-ce que mes aides auditives mesurent le bpm,help.heart_rate.show
-"s'il te plait, passe a tous les jours",device.memory.change
-pouvez-vous m'aider a ajuster le stimulus des acouphenes dans mes aides auditives,help.tinnitus.show
-veuillez activer le streaming,streaming.session.start
-eteindre le volume,device.volume.mute
-enregistre mes pas lors de cette promenade,activity.walk.query
-comment puis-je augmenter le volume d'une seule aide ?,help.volume.show
-comment puis-je enregistrer mes parametres en ligne,help.hearing_care_anywhere_connect.show
-pouvez-vous rencontrer les parametres,device.memory.change
-mon aide auditive continue de glisser,help.insert_device.show
-ou sont les parametres de l'application,help.app_settings.show
-combien de temps dois-je rester debout,activity.stand.query
-peux-tu programmer un bureau,device.memory.change
-diffuse ceci a mes aides auditives,streaming.session.start
-comment gerer mes rappels,help.reminder.show
-"s'il te plait, change au theatre",device.memory.change
-"peux-tu, tu veux que je dise que je t'aime",sys.oos.fallback
-veuillez changer de cuisine,device.memory.change
-je suis dans une grande salle d'echo maintenant,device.memory.change
-la traduction fonctionne-t-elle dans les deux sens,help.translate.show
-comment puis-je regler le volume du masqueur d'acouphenes sur l'aide auditive ?,help.tinnitus.show
-"s'il vous plait, aidez-moi avec cet assistant",help.voice_assistant.show
-mon appareil auditif a disparu,help.find_my_hearing_aids.show
-puis-je utiliser du savon pour nettoyer mes aides auditives ?,help.clean_care.show
-ai-je besoin de nouvelles piles,device.status.battery
-quand dois-je arreter une alerte manuelle ?,help.fall_alert.show
-"s'il te plait, rappelle-moi de prendre de la vitamine d a 19 heures. tous les jours",reminders.task.create
-comment savoir si les aides auditives sont connectees a mon application thrive ?,help.pairing.show
-"je l'ai fait, je l'ai raye",reminders.task.complete
-comment puis-je appuyer sur mode edge,help.edge_mode.show
-qu'est-ce que le test d'autocontrole ?,help.self_check.show
-comment configurer le streaming automatique ?,help.device_settings.show
-que dois-je faire en premier ici,help.home.show
-"peux-tu wow, c'est un numero intense et intense",sys.oos.fallback
-contacter quelqu'un par sms,messaging.message.send
-comment puis-je regler le volume du masqueur d'acouphenes sur l'aide ?,help.tinnitus.show
-pouvez-vous faire un rappel.,reminders.task.complete
-comment puis-je me debarrasser de la cire dans mes aides auditives,help.clean_care.show
-comment demarrer une demande de soins a distance,help.hearing_care_anywhere_connect.show
-j'ai besoin d'un ensemble de rappels,reminders.task.create
-peux-tu essayer de faire fonctionner mon age auditif,help.self_check.show
-puis-je recevoir des rappels quotidiens,help.reminder.show
-rendre tout plus silencieux,device.volume.decrease
-comment changer mon micro de table ?,help.accessories.show
-pouvez-vous regler tous les jours,device.memory.change
-est-ce que je peux etre proche de mon objectif cycliste ?,activity.cycle.query
-envoyer un message rapide,messaging.message.send
-peux-tu barre de son,sys.oos.fallback
-peux-tu me rappeler la reunion parents/profs de vendredi,reminders.task.create
-comment se synchroniser avec les aides auditives,help.pairing.show
-ou est la fonction de traduction ?,help.translate.show
-c'est trop fort,device.volume.decrease
-"peux-tu he, mark, d'accord.",sys.oos.fallback
-quel est le score du match,sys.oos.fallback
-marquer le rappel comme termine,reminders.task.complete
-peux-tu traduire combien je te dois en espagnol,translation.session.start
-comment personnaliser mon experience auditive,help.customize.show
-veuillez associer les aides sur l'application,help.pairing.show
-peux-tu avoir une memoire de voiture,device.memory.change
-"s'il vous plait, un nouveau rappel pour tous les jours",reminders.task.create
-peux-tu merci pour mon enfant quand j'etais petite avec un grand-pere qui m'a appris le coeur de mon visage,sys.oos.fallback
-comment cette application a-t-elle change ?,help.whats_new.show
-transcrire cette conversation,transcription.session.start
-"s'il te plait, rappelle-moi tous les jours",reminders.task.create
-suis-je proche de mon objectif d'exercice,activity.exercise.query
-pouvez-vous jumeler des aides auditives sur l'application,help.pairing.show
-puis-je acceder a un autre souvenir ?,help.changing_memories.show
-dis-moi quel est mon nombre de pas ?,activity.step.query
-comment configurer cros,help.wi_c_r_o_s.show
-peux-tu traduire pour le russe,translation.session.start
-quel est l'egaliseur,help.customize.show
-commencer a transcrire,transcription.session.start
-"s'il vous plait, coupez le volume de l'aide gauche",device.volume.mute
-veuillez traduire pour le russe,translation.session.start
-peux-tu programme scolaire,device.memory.change
-"peux-tu, j'ai un recepteur de jeu sur pc",sys.oos.fallback
-marquer mon rappel comme termine,reminders.task.complete
-que peut faire l'assistant vocal,help.voice_assistant.show
-quelle est la version du firmware de mes aides auditives ?,help.device_settings.show
-j'ai egare mon autre aide,help.find_my_hearing_aids.show
-"s'il vous plait, aidez-moi avec les ajustements du stimulus des acouphenes sur mon aide auditive",help.tinnitus.show
-"s'il vous plait, montrez-moi le guide d'utilisation de la transcription",help.transcribe.show
-a quoi sert l'execution d'un controle de diagnostic,help.self_check.show
-aide au reglage du bruit blanc,help.tinnitus.show
-ou ai-je mis mon aide auditive gauche ?,help.find_my_hearing_aids.show
-rendre le discours plus clair,device.volume.increase
-combien de pas ai-je fait cette semaine,activity.step.query
-pouvez-vous definir le parametre sur quatre,device.memory.change
-peux-tu me rappeler de me brosser les dents,reminders.task.create
-que signifie le score d’engagement ?,help.thrive_score.show
-"pouvez-vous, dr. il s'agit d'une augmentation de 74 % par rapport a fevrier de l'annee derniere. oui, les equipes cyclistes ne parlent toujours pas de crise.",sys.oos.fallback
-qu'entendrais-je lorsqu'un message texte d'alerte est annule ?,help.fall_alert.show
-comment puis-je synchroniser mes aides auditives,help.pairing.show
-calories brulees ce mois-ci,activity.calories.query
-peux-tu prendre du lipitor,sys.oos.fallback
-telephone android perdu,find.phone.locate
-l'aide ne restera pas dans mon oreille,help.insert_device.show
-jusqu'ou dois-je marcher ?,activity.walk.query
-quelle est la precision de la traduction,help.translate.show
-pluie. l'application moi,sys.oos.fallback
-comment regler le volume ?,help.volume.show
-laisse-moi envoyer un message vocal,messaging.message.send
-peux-tu recuperer l'iphone,find.phone.locate
-comment traduire,help.translate.show
-"s'il vous plait, aidez-nous a appairer les aides",help.pairing.show
-comment inviter une personne avec hearshare ?,help.hear_share.show
-peux-tu d'abord laver la machine a laver,sys.oos.fallback
-"s'il vous plait, augmentez le volume, aide droite",device.volume.increase
-comment puis-je quitter mode edge,help.edge_mode.show
-enregistre cette course pour moi,activity.run.query
-aide au jumelage des aides auditives,help.pairing.show
-pourquoi la recuperation de la frequence cardiaque est-elle importante,help.heart_rate_recovery.show
-augmenter le volume sur les aides auditives,device.volume.increase
-peux-tu entrainer la memoire,device.memory.change
-peux-tu me montrer de l'aide pour la transcription,help.transcribe.show
-la connexion a mes aides auditives a ete interrompue,help.pairing.show
-comment puis-je definir le programme a cet emplacement ?,help.memory_options.show
-l'eau est-elle acceptable pour nettoyer mes aides auditives ?,help.clean_care.show
-quelles sont les options de memoire,help.memory_options.show
-comment lire ce qui a ete transcrit,help.transcribe.show
-aide au suivi de la frequence cardiaque,help.heart_rate.show
-partager le son de mon aide auditive avec quelqu'un,help.hear_share.show
-comment puis-je acceder a l'amelioration de la parole dnn ?,help.intelli_voice.show
-objectif d'etape ?,activity.step.query
-peux-tu le micro,sys.oos.fallback
-desactiver le streaming audio,streaming.session.stop
-mes aides auditives semblent minuscules,help.device_settings.show
-que me dit un self check,help.self_check.show
-mes statistiques d'activite globales,help.health.show
-"s'il vous plait, mon appareil auditif a disparu",help.find_my_hearing_aids.show
-rendre la parole plus forte,device.volume.increase
-peux-tu regler le programme sur le numero deux,device.memory.change
-partager mon actualite avec un contact par sms,messaging.message.send
-peux-tu reactiver les aides,device.volume.unmute
-calories brulees jusqu'a present,activity.calories.query
-comment faire cuire le riz,sys.oos.fallback
-activer le mode streaming,streaming.session.start
-"s'il vous plait, je dois associer mes aides auditives a mon telephone",help.pairing.show
-cingler ma femme,messaging.message.send
-ou est l'ecran d'accueil ?,help.home.show
-je suis sur le point de rejoindre un appel telephonique,device.memory.change
-peux-tu diffuser depuis le micro distant,streaming.session.start
-comment verifier que les aides auditives fonctionnent,help.self_check.show
-"s'il vous plait, diffusez de la musique sur youtube.",sys.oos.fallback
-comment puis-je ameliorer mon score ipro ?,help.thrive_score.show
-passe-moi au restaurant,device.memory.change
-peux-tu eteindre le corps,sys.oos.fallback
-"peux-tu, c'est a toi",sys.oos.fallback
-peux-tu reactiver le volume de mon aide auditive,device.volume.unmute
-puis-je revenir en arriere apres avoir change de mode ?,help.app_settings.show
-peux-tu mettre un rappel,reminders.task.create
-qu'est-ce que intellivoice ?,help.intelli_voice.show
-pouvez-vous m'aider a changer de souvenirs en utilisant mon application,help.changing_memories.show
-qu'est-ce qu'il y a a la tele ce soir,sys.oos.fallback
-quel est mon nombre de pas,activity.step.query
-"s'il vous plait, ajoutez-en un de plus a cela, a quoi cela equivaut-il",sys.oos.fallback
-plus de streaming s'il vous plait,streaming.session.stop
-peux-tu et le pousser vers le bas pour le drame,sys.oos.fallback
-peux-tu me rappeler d'eteindre mon telephone tous les jours a 23 heures.,reminders.task.create
-"peux-tu, il est sur le ventre",sys.oos.fallback
-quoi de neuf dans cette application d'engagement ?,help.whats_new.show
-mode demonstration,help.demo_mode.show
-volume coupe,device.volume.mute
-demarrer mon suivi de cours de cardio,activity.aerobics.query
-merci de me rappeler de recuperer mon ordonnance a 17h. mardi,reminders.task.create
-comment utiliser la fonction d'auto-verification ?,help.self_check.show
-comment enregistrer les reglages effectues par mon audiologiste ?,help.remote_programming.show
-comment puis-je obtenir un meilleur score corporel ?,help.thrive_score.show
-peux-tu ecouter mon message,messaging.message.listen
-"s'il vous plait, ai-je atteint mon objectif de course a pied ?",activity.run.query
-a quoi sert cet ecran,help.home.show
-comment modifier un rappel,help.reminder.show
-pouvez-vous definir un rappel concernant le lavage de la voiture,reminders.task.create
-"pouvez-vous entendre votre demande provinciale, j'attends de voir comment puis-je vous aider",sys.oos.fallback
-y a-t-il un accessoire de streaming tv,help.accessories.show
-montre-moi mes statistiques de cyclisme,activity.cycle.query
-"s'il te plait, fais une pause et reviens",sys.oos.fallback
-dis ca a quelqu'un par sms,messaging.message.send
-ou dois-je aller pour faire des choses,help.home.show
-ou est mon telephone portable,find.phone.locate
-ecoutez-le a nouveau.,messaging.message.listen
-peux-tu traduire en anglais,translation.session.start
-aide-moi a envoyer un message,messaging.message.send
-suis-je proche de mon objectif de pas,activity.step.query
-"peux-tu, j'ai egare mon aide auditive",help.find_my_hearing_aids.show
-pousser le niveau plus haut,device.volume.increase
-"s'il te plait, montre-moi l'aide de l'assistant vocal",help.voice_assistant.show
-quel est l'apercu,help.home.show
-retranscrire cette reunion,transcription.session.start
-montre-moi le guide d'utilisation pour traduire,help.translate.show
-peux-tu jouer a la tele,streaming.session.start
-"s'il te plait, ca te derange a propos de l'ajustement",sys.oos.fallback
-je suis nouveau dans ce domaine,help.home.show
-peux-tu regler la television,device.memory.change
-aide-moi a utiliser hearshare,help.hear_share.show
-montre-moi ma depense calorique,activity.calories.query
-"s'il te plait, souviens-toi que quand ils dechargent le camion, tu es exaspere",sys.oos.fallback
-aide pour la sonnerie constante,help.tinnitus.show
-quel est mon objectif de pas,activity.step.query
-s'il vous plait sizzlers inities par cham appuyez ici pour les informer que vous avez recu cette commande,sys.oos.fallback
-ou sont mes nouveaux parametres ?,help.remote_programming.show
-comment puis-je modifier mes objectifs d'activite,help.health.show
-puis-je changer le nom de l'accessoire ?,help.accessories.show
-desactiver la diffusion du micro a distance,streaming.session.stop
-quel est le numero de serie de mes aides auditives ?,help.device_settings.show
-aide a augmenter le volume a droite,device.volume.increase
-quelle est la hauteur du mont everest,sys.oos.fallback
-combien de batterie me reste-t-il,device.status.battery
-peux-tu envoyer un sms a levitar,sys.oos.fallback
-les aides auditives sont-elles connectees au telephone ?,help.pairing.show
-expliquer comment la frequence cardiaque est mesuree,help.heart_rate.show
-peux-tu commencer a diffuser la television,streaming.session.start
-peux-tu ecouter mon dernier message,messaging.message.listen
-coche ce rappel de la liste,reminders.task.complete
-peux-tu augmenter le volume de mon aide auditive,device.volume.increase
-partager mon audio avec un proche,help.hear_share.show
-pouvez-vous resoudre les problemes de masques faciaux,help.mask_mode.show
-est-ce que je vais passer l'apres-midi ?,device.status.battery
-peux-tu baisser mon appareil auditif gauche,device.volume.decrease
-detecter un telephone,find.phone.locate
-peux-tu me le rappeler le week-end,reminders.task.create
-veuillez passer le parametre a quatre,device.memory.change
-"je ne t'entends pas, mon aide auditive gauche n'apparait pas sur mon",sys.oos.fallback
-activer l'aide auditive droite,device.volume.unmute
-previens-moi le moment venu,reminders.task.create
-"peux-tu, il faisait noir dans le magasin",sys.oos.fallback
-changer la memoire actuelle,device.memory.change
-puis-je utiliser un clip sur le microphone,help.accessories.show
-je veux entendre mon message.,messaging.message.listen
-allume mon aide auditive gauche,device.volume.unmute
-peux-tu cuisiner des cotes de porc sur le barbecue,sys.oos.fallback
-mon aide auditive gauche ne repond pas,help.self_check.show
-"s'il vous plait, je ne trouve pas mon autre aide auditive",help.find_my_hearing_aids.show
-peux-tu definir un rappel pour demain matin,reminders.task.create
-qu'est-ce qui est disponible avec l'application de base ?,help.app_settings.show
-comment puis-je modifier mes parametres automatiques ?,help.device_settings.show
-ai-je assez de batterie pour la journee,device.status.battery
-comment puis-je executer un self check,help.self_check.show
-combien de temps mode edge reste-t-il active,help.edge_mode.show
-je veux creer un nouveau souvenir ?,help.memory_options.show
-quel est mon nombre de pas pour la semaine,activity.step.query
-depuis combien de temps je fais du velo.,activity.cycle.query
-n'oublie pas de me le rappeler,reminders.task.create
-combien de calories a velo,activity.cycle.query
-baisse le un peu,device.volume.decrease
-pouvez-vous definir un rappel pour 8 heures du matin ?,reminders.task.create
-montre-moi les bases,help.home.show
-marquer le dernier rappel comme termine,reminders.task.complete
-quand puis-je annuler un message d'alerte ?,help.fall_alert.show
-"s'il vous plait, suis-je proche de mon objectif cycliste ?",activity.cycle.query
-suivre mon exercice aerobique,activity.aerobics.query
-comment puis-je verifier si les aides auditives sont connectees a l'application thrive ?,help.pairing.show
-peux-tu augmenter le volume,device.volume.unmute
-peux-tu rendre mes aides auditives silencieuses,device.volume.mute
-peux-tu me laisser entendre ma tele,streaming.session.start
-"s'il vous plait, associez les aides sur mon application",help.pairing.show
-qu'y a-t-il de different dans l'engagement ?,help.whats_new.show
-rendre mon environnement plus calme,device.volume.decrease
-"mon aide auditive ne reste pas dedans, elle continue de sortir",help.insert_device.show
-peux-tu eteindre l'alarme,sys.oos.fallback
-comment fonctionne self check ?,help.self_check.show
-qu'y a-t-il sur le tableau de bord de sante,help.health.show
-diffuser le podcast sur mes aides auditives,streaming.session.start
-combien de velo ai-je fait cette semaine ?,activity.cycle.query
-pouvez-vous voir comment il se deplace tout au long.,sys.oos.fallback
-couper le volume,device.volume.decrease
-qu'est-ce que ca fait,help.home.show
-pouvez-vous m'aider a changer de programme d'acouphene,help.tinnitus.show
-ne me laisse pas oublier d'arroser les fleurs a 7 heures du matin,reminders.task.create
-comment puis-je obtenir un meilleur score thrive ?,help.thrive_score.show
-ou puis-je voir mes battements par minute,help.heart_rate.show
-quels assistants vocaux puis-je utiliser,help.voice_assistant.show
-"s'il te plait, rappelle-moi le diner dans 1 minute",reminders.task.create
-"peux-tu et voici mon coeur, il est plus proche de toi",sys.oos.fallback
-ecoutez-le.,messaging.message.listen
-"s'il te plait, c'est trop calme, monte le volume",device.volume.increase
-arreter de diffuser a distance vers mes aides auditives,streaming.session.stop
-ma femme a-t-elle accepte mon invitation hearshare ?,help.hear_share.show
-"s'il te plait, he google, allume les lampes principales",sys.oos.fallback
-a quoi sert l'alerte de chute,help.fall_alert.show
-expliquer le son de soulagement pour les bourdonnements d'oreilles,help.tinnitus.show
-veuillez me montrer les parametres des acouphenes,help.tinnitus.show
-comment gerer mes acouphenes,help.tinnitus.show
-veuillez definir le parametre sur deux,device.memory.change
-que m'ont envoye mes contacts,messaging.message.listen
-qu'y a-t-il sur l'ecran de sante,help.health.show
-expliquer les options du programme,help.memory_options.show
-puis-je ajouter un nouveau souvenir,help.memory_options.show
-merci de rappeler le mode d'emploi,help.reminder.show
-mes aides auditives peuvent-elles utiliser l'amelioration de la parole dnn,help.intelli_voice.show
-puis-je ecouter les reglages effectues par le professionnel ?,help.remote_programming.show
-acheminer l'audio vers mes appareils auditifs,streaming.session.start
-"s'il te plait, change la memoire en deux",device.memory.change
-peux-tu eteindre les prises source,sys.oos.fallback
-peux-tu atteindre un objectif d'aerobic,activity.aerobics.query
-veuillez trouver un telephone android,find.phone.locate
-peux-tu me fixer un rappel,reminders.task.create
-ou est l'egaliseur,help.customize.show
-"s'il vous plait, aidez-moi a changer les souvenirs sur mon telephone",help.changing_memories.show
-"s'il te plait, eteint le corps",sys.oos.fallback
-"pouvez-vous definir un rappel concernant la promenade du chien, repetez-le tous les jours a 9 heures du matin",reminders.task.create
-parlez-moi de la fonctionnalite de rappels,help.reminder.show
-peux-tu remettre le volume a la normale,device.volume.unmute
-emplacement,sys.oos.fallback
-je n'aime pas les reglages actuels de mon aide auditive,help.memory_options.show
-"s'il vous plait, aidez-nous a changer de programme par telephone",help.changing_memories.show
-comment puis-je voir combien de pas j'ai fait aujourd'hui ?,help.health.show
-comment enregistrer les reglages effectues par l'audioprothesiste ?,help.remote_programming.show
-enregistre la course que je viens de faire,activity.run.query
-"s'il vous plait, aidez-moi avec le reglage du volume des acouphenes sur mes aides auditives",help.tinnitus.show
-comprends ce locuteur etranger pour moi,translation.session.start
-mon autre aide a disparu,help.find_my_hearing_aids.show
-"peux-tu, cela ressemblerait a",sys.oos.fallback
-"peux-tu, je ne me souviens pas ou se trouve mon aide auditive",help.find_my_hearing_aids.show
-mes aides auditives ont perdu leur connexion bluetooth,help.pairing.show
-comment puis-je regler le volume de chaque cote,help.volume.show
-commencez a diffuser de l'audio maintenant,streaming.session.start
-plus fort s'il vous plait,device.volume.increase
-"s'il te plait, rends mes aides auditives silencieuses",device.volume.mute
-localiser mon autre aide,help.find_my_hearing_aids.show
-comment dois-je envoyer une alerte manuelle ?,help.fall_alert.show
-verifier la progression de la position debout,activity.stand.query
-tue completement l'audio,device.volume.mute
-comment puis-je augmenter le volume,help.volume.show
-peux-tu telephoner a un ami,sys.oos.fallback
-puis-je charger ma batterie ?,help.battery.show
-delivre le son a mes aides auditives,streaming.session.start
-monte mes aides auditives,device.volume.increase
-quel est mon nombre de velos pour le mois ?,activity.cycle.query
-que puis-je faire ici ?,help.home.show
-expliquer le mode demo,help.demo_mode.show
-puis-je porter mes aides auditives sous la douche,help.clean_care.show
-"s'il te plait, coupe mes aides auditives",device.volume.mute
-pouvez-vous m'aider a ajuster les stimuli sonores,help.tinnitus.show
-veuillez activer l'aide auditive droite,device.volume.unmute
-rendre le son plus haut,device.volume.increase
-l'aide auditive droite ne fonctionne pas,help.self_check.show
-peux-tu diffuser depuis le microphone,streaming.session.start
-enregistrer une promenade,activity.walk.query
-montre-moi un guide de demarrage rapide,help.whats_new.show
-diminuer le volume,device.volume.decrease
-comment puis-je augmenter mon score d'engagement ?,help.thrive_score.show
-terminer mon rappel.,reminders.task.complete
-comment utiliser l'application sans aide ?,help.demo_mode.show
-envoie le son a mes aides auditives,streaming.session.start
-volume coupe aide gauche,device.volume.mute
-arrete de couper le son maintenant,device.volume.unmute
-que faire si les reglages effectues par mon professionnel ne me plaisent pas ?,help.remote_programming.show
-le niveau de bruit est trop eleve,device.volume.decrease
-peux-tu adidas bottes femme,sys.oos.fallback
-"s'il te plait, change pour adorer",device.memory.change
-raye ce rappel,reminders.task.complete
-comment puis-je changer le focus du discours,help.customize.show
-aide-moi a basculer entre les profils,help.changing_memories.show
-pouvez-vous m'aider avec les ajustements sonores des acouphenes dans mon aide auditive,help.tinnitus.show
-rejouer mon message.,messaging.message.listen
-aide pour changer de programme au telephone,help.changing_memories.show
-"s'il te plait, rappelle-moi demain a 9 heures.",reminders.task.create
-peux-tu et je pense que c'est cense fonctionner,sys.oos.fallback
-comment regler les aides auditives avec mode edge ?,help.edge_mode.show
-peux-tu refuser mes aides auditives,device.volume.decrease
-peux-tu perdre ton iphone,find.phone.locate
-comment puis-je regler le volume des acouphenes de mon aide auditive ?,help.tinnitus.show
-comment puis-je obtenir de nouveaux parametres de mon audiologiste,help.hearing_care_anywhere_connect.show
-as-tu vu mes aides auditives,help.find_my_hearing_aids.show
-batterie assez bonne pour la soiree,device.status.battery
-aide mes aides auditives a sonner crepitantes,help.device_settings.show
-peux-tu m'aider en matiere de frequence cardiaque,help.heart_rate.show
-reactiver le volume de mon aide auditive,device.volume.unmute
-avantages de mode edge,help.edge_mode.show
-"s'il te plait, montre-moi mon objectif de pas",activity.step.query
-pourquoi mes aides auditives semblent-elles etranges,help.device_settings.show
-peux-tu passer a la television,device.memory.change
-pouvez-vous entendre le dernier message.,messaging.message.listen
-commencer a courir,activity.run.query
-puis-je m'en sortir aujourd'hui ?,device.status.battery
-le mode masque est-il utile lorsque l'on porte un masque facial,help.mask_mode.show
-enregistrer ma seance d'exercice,activity.exercise.query
-comment fonctionne la teleecoute,help.hearing_care_anywhere_connect.show
-"s'il te plait, rappelle-moi de prendre des medicaments demain matin",reminders.task.create
-des avertissements concernant la batterie ?,device.status.battery
-regler une alarme pour le rendez-vous chez le medecin demain matin,reminders.task.create
-se deconnecter de la television,streaming.session.stop
+comment puis-je changer le volume ?,help.volume.show
+passer au mode interieur confortable,device.memory.change
+comment puis-je commencer a diffuser a partir de mes accessoires ?,help.accessories.show
+montre-moi mon resume de sante hebdomadaire,help.health.show
+envoie-moi un coup de pouce a midi,reminders.task.create
+comment baisser le volume sur une seule aide ?,help.volume.show
+ou puis-je annuler un texte d'alerte manuelle ?,help.fall_alert.show
+pourquoi mes aides auditives ne sont-elles pas synchronisees,help.pairing.show
+lire mes messages non lus,messaging.message.listen
+comment puis-je changer les memoires de l'aide auditive ?,help.changing_memories.show
+comment acceder au solde cros ?,help.wi_c_r_o_s.show
+envoyer un message a un ami,messaging.message.send
+peux-tu passer au restaurant,device.memory.change
 commencer un message,messaging.message.send
-ou est mon aide auditive ?,help.find_my_hearing_aids.show
-comment diminuer le volume des aides auditives ?,help.volume.show
-veuillez definir le programme sur le theatre,device.memory.change
-montre-moi mon historique ?,activity.stand.query
-comment utiliser la transcription,help.transcribe.show
-comment puis-je faire en sorte que le son me convienne,help.customize.show
-le bourdonnement dans mes oreilles est insupportable,help.tinnitus.show
-aide aux ajustements du masque d'acouphenes,help.tinnitus.show
-fixez-moi un rappel s'il vous plait,reminders.task.create
-qu'est-ce que la memoire,help.changing_memories.show
-comment geolocaliser mon programme actuel ?,help.memory_options.show
-rendre les choses plus calmes,device.volume.decrease
-comment augmenter le volume de mes aides auditives,help.volume.show
-comment puis-je regler le volume du masqueur de bruit sur mes aides auditives ?,help.tinnitus.show
-aide avec les ajustements du stimulus des acouphenes dans mon aide auditive,help.tinnitus.show
-envoyer un message vocal,messaging.message.send
-peux-tu changer d'auditorium,device.memory.change
-meilleur iphone,sys.oos.fallback
-pouvez-vous regler automatiquement,device.memory.change
-puis-je associer siri a mes aides auditives,help.voice_assistant.show
-peux-tu en definir un,device.memory.change
-comment fonctionne la fonctionnalite cros balance ?,help.wi_c_r_o_s.show
-regler les aides auditives differemment,device.memory.change
-combien de batterie ai-je ?,device.status.battery
-peux-tu passer le reglage a quatre,device.memory.change
-comment puis-je activer la fonction de voiture automatique,help.device_settings.show
-peux-tu passer a l'exterieur,device.memory.change
-deux personnes peuvent-elles ecouter ensemble,help.hear_share.show
-pouvez-vous rappeler le commercant,reminders.task.create
-quoi de neuf dans l'application thrive ?,help.whats_new.show
-ou est la fonction de balance croisee ?,help.wi_c_r_o_s.show
-je veux activer le bon boost de flux,sys.oos.fallback
-veuillez changer de bureau,device.memory.change
-quel est le volume de mon aide auditive descend automatiquement a zero,help.volume.show
-verification du niveau de puissance,device.status.battery
-veuillez changer pour vous entrainer,device.memory.change
-comment regler le bruit de mes acouphenes dans l'aide auditive ?,help.tinnitus.show
-ou sont mes aides auditives ?,help.find_my_hearing_aids.show
-a quelle frequence ma frequence cardiaque est-elle mesuree,help.heart_rate.show
-resoudre ce probleme de mathematiques,sys.oos.fallback
-guide-moi sur la fonction assistant vocal,help.voice_assistant.show
-pouvez-vous batterie restante,device.status.battery
-comment puis-je passer a une memoire differente sur l'aide ?,help.changing_memories.show
-couper les aides,device.volume.mute
-"peux-tu, je veux entendre mon message.",messaging.message.listen
-demarrer la diffusion audio,streaming.session.start
-donne-moi un coup de coude a ce sujet plus tard,reminders.task.create
-je ne trouve pas ma bonne aide,help.find_my_hearing_aids.show
-comment puis-je envoyer une note a mon fournisseur,help.remote_programming.show
-duree de vie restante de la batterie,device.status.battery
-afficher mon tableau de bord de sante,help.health.show
-faire passer un message,messaging.message.send
-j'ai besoin d'un son plus fort,device.volume.increase
-mon temps de marche est-il ?,activity.walk.query
-a quoi sert intellivoice,help.intelli_voice.show
-comment puis-je regler l'intensite du bruit blanc dans mon aide auditive ?,help.tinnitus.show
-calories aerobic,activity.aerobics.query
-veuillez regler le volume a la normale,device.volume.unmute
-j'ai besoin de moins de volume,device.volume.decrease
-s'il vous plait score du jeu des jumeaux,sys.oos.fallback
-est-ce que mode edge ameliore la clarte de la parole,help.edge_mode.show
-comment configurer l'accessoire tv,help.accessories.show
-"s'il vous plait, aidez-moi avec les changements de volume dans mes aides auditives",help.volume.show
-"s'il te plait, rappelle-moi d'aller chez le medecin",reminders.task.create
-pouvez-vous vous rappeler de courir a 6 heures du matin le 7 decembre,reminders.task.create
-peux-tu te tourner,sys.oos.fallback
-comment geolocaliser un emplacement dans ma memoire ?,help.memory_options.show
-ca a l'air trop fort,device.volume.decrease
-aide-moi a intercepter une alerte de chute,help.fall_alert.show
-je n'entends pas bien le haut-parleur,device.volume.increase
-peux-tu 328 chutes de cedre,sys.oos.fallback
-pas de son du tout s'il vous plait,device.volume.mute
-"s'il te plait, rappelle-moi de renouveler mon ordonnance demain apres-midi",reminders.task.create
-parlez-moi des accessoires disponibles,help.accessories.show
-"je vais me promener, je le piste pour moi",activity.walk.query
-peux-tu adorer le decor,device.memory.change
-comment revenir a l'ecran principal ?,help.home.show
-comment inserer mon aide auditive ?,help.insert_device.show
-comment puis-je regler le volume du masqueur de bruit dans l'aide auditive ?,help.tinnitus.show
-peux-tu passer au bureau,device.memory.change
-quand le mode masque est-il utile,help.mask_mode.show
-expliquer les options de batterie pour mes aides auditives,help.battery.show
-peux-tu m'aider a trouver mes aides auditives,help.find_my_hearing_aids.show
-puis-je renommer mes souvenirs,help.memory_options.show
-comment puis-je regler le volume du volume des acouphenes sur l'aide ?,help.tinnitus.show
-calories debout,activity.stand.query
-descends vers le sud,sys.oos.fallback
-comment puis-je activer le double appui sur mes aides auditives ?,help.device_settings.show
-dans quel sens l'aide va-t-elle dans mon oreille,help.insert_device.show
-aide pour changer les souvenirs de mon aide auditive,help.changing_memories.show
-comment puis-je regler la balance croisee sur le recepteur ?,help.wi_c_r_o_s.show
-comment puis-je augmenter les basses,help.customize.show
-"s'il vous plait, je veux creer un nouveau programme ?",help.memory_options.show
-comment puis-je personnaliser mes aides auditives gauches ?,help.customize.show
-j'ai besoin d'aide pour associer mon aide auditive,help.pairing.show
-comment puis-je regler le volume du masqueur d'acouphenes de mes aides auditives ?,help.tinnitus.show
-envoyer un message a un contact une mise a jour,messaging.message.send
-veuillez regler le parametre sur quatre,device.memory.change
-peux-tu me montrer le guide rapide,help.whats_new.show
-veuillez terminer ce rappel.,reminders.task.complete
-aide-moi,help.home.show
-montre-moi mon objectif d'exercice,activity.exercise.query
-commencer a suivre l'aerobic,activity.aerobics.query
-tester les aides auditives,help.self_check.show
-ou puis-je controler la balance de mon aide auditive ?,help.wi_c_r_o_s.show
-combien de calories ai-je brule en faisant de l'exercice,activity.exercise.query
-reduire le volume de l'aide auditive,device.volume.decrease
-faire de l'aerobic,activity.aerobics.query
-aller courir,activity.run.query
-est-ce que ca peut se traduire en francais,help.translate.show
-"s'il vous plait, les applications que vous connaissez",sys.oos.fallback
-ou iphone,find.phone.locate
-ou est l'aide pour self check,help.self_check.show
-quelles ameliorations sont nouvelles,help.whats_new.show
-s'il te plait trouve mon android,find.phone.locate
-aide avec les changements de volume dans mes aides auditives,help.volume.show
-ecouter mon message audio.,messaging.message.listen
-message a ma famille,messaging.message.send
-cingler mes aides auditives,help.find_my_hearing_aids.show
-je m'installe pour l'heure de la tele,device.memory.change
-ont-ils accepte mon invitation hearshare ?,help.hear_share.show
-laisse-moi entendre le micro a distance,streaming.session.start
-comment puis-je me deplacer entre les parametres,help.changing_memories.show
-prononcer mes messages,messaging.message.listen
-expliquer les options d'accessoires,help.accessories.show
-comment puis-je faire en sorte que mon appareil auditif diffuse du streaming,help.accessories.show
-puis-je voir mon objectif de stand ?,activity.stand.query
-pouvez-vous localiser mon aide auditive droite,help.find_my_hearing_aids.show
-combien de course ai-je fait cette semaine ?,activity.run.query
-comment activer le mode masque ?,help.mask_mode.show
-puis-je ajouter un rappel,reminders.task.create
-diffuser a partir du microphone distant,streaming.session.start
-veuillez associer l'aide gauche,help.pairing.show
-peux-tu me rappeler de renouveler mon ordonnance demain apres-midi,reminders.task.create
-est-ce qu'il attrape une chute,help.fall_alert.show
-"s'il te plait, passe au discours",device.memory.change
-peux-tu y rejouer.,messaging.message.listen
-ne me laisse pas oublier ca,reminders.task.create
-"s'il te plait, amene-moi a l'aide de rappel",help.reminder.show
-suis-je proche de mon objectif calorique,activity.calories.query
-dois-je recharger bientot,device.status.battery
-comment puis-je faire diffuser mon appareil auditif droit,help.accessories.show
-la qualite du son s'est deterioree,help.device_settings.show
-comment puis-je changer les sons des acouphenes,help.tinnitus.show
-comment fonctionne l'alerte chute ?,help.fall_alert.show
-comment puis-je voir combien j'ai fait du velo cette semaine ?,help.health.show
-"peux-tu, je ne me souviens plus ou se trouve mon aide auditive gauche",help.find_my_hearing_aids.show
-combien d'heures de charge reste-t-il,device.status.battery
-suivre ma distance de marche,activity.walk.query
-"s'il te plait, souviens-toi du numero deux",device.memory.change
-comment puis-je envoyer un texte d'alerte manuelle ?,help.fall_alert.show
-a quoi sert le changement de memoire,help.changing_memories.show
-"s'il vous plait, dnn, guide d'utilisation de l'amelioration de la parole",help.intelli_voice.show
-veuillez passer au maitre,device.memory.change
-peux-tu commencer la traduction pour l'allemand,translation.session.start
-peux-tu augmenter le volume,device.volume.increase
-aide a la frequence cardiaque,help.heart_rate.show
-reactiver le son sur les aides auditives,device.volume.unmute
-arrete de transmettre le son a mes oreilles,streaming.session.stop
-j'ai perdu mon autre aide auditive,help.find_my_hearing_aids.show
-commencer la traduction,translation.session.start
-comment puis-je ameliorer mon score corporel ?,help.thrive_score.show
-veuillez changer le programme en numero un,device.memory.change
-puis-je utiliser le telephone pour verifier le volume de mes aides auditives,help.volume.show
-mes aides auditives n'arretent pas de fonctionner,help.device_settings.show
-traduis le discours maintenant,translation.session.start
-comment ajuster mon masque d'acouphenes sur mon aide auditive droite ?,help.tinnitus.show
-est-il temps de charger,device.status.battery
-pourquoi ne puis-je pas obtenir 200 points avec le score thrive ?,help.thrive_score.show
-je vais a la salle de sport pour le suivre,activity.exercise.query
-"arrete le silence, je veux du son",device.volume.unmute
-je ne veux pas oublier ca,reminders.task.create
-comment puis-je obtenir un meilleur score ipro ?,help.thrive_score.show
-expliquer les controles de volume,help.volume.show
-"peux-tu, mon aide auditive droite est a 0%",sys.oos.fallback
-comment changer le volume des accessoires ?,help.accessories.show
-comment supprimer un rappel,help.reminder.show
-comment puis-je changer le programme de l'aide auditive ?,help.changing_memories.show
-mon fils peut-il utiliser hearshare ?,help.hear_share.show
-puis-je affiner les basses et les aigus,help.customize.show
-"s'il vous plait, guide de l'utilisateur de la voix intelligente",help.intelli_voice.show
-peux-tu te localiser soudainement,sys.oos.fallback
-comment fonctionne la traduction dans l'application,help.translate.show
-peux-tu passer la memoire a quatre,device.memory.change
-definissez un rappel s'il vous plait,reminders.task.create
-guidez-moi sur le reglage fin a distance,help.remote_programming.show
-pouvez-vous rendre les aides auditives plus silencieuses,device.volume.decrease
-peux-tu diffuser a distance,streaming.session.start
-qu'est-ce que le mode de base ?,help.app_settings.show
-commencer un sms a mon partenaire,messaging.message.send
-envoyer une note,messaging.message.send
-il faut que ce soit plus doux,device.volume.decrease
-prosperer siri,help.voice_assistant.show
-peux-tu me rappeler de faire mes devoirs le 11 novembre a 19h ?,reminders.task.create
-rien de cette application n'a de sens,help.home.show
-intellivoice aidez-moi s'il vous plait,help.intelli_voice.show
-a quoi sert le mode masque,help.mask_mode.show
-quand puis-je lancer une alerte manuelle ?,help.fall_alert.show
-contacte ma famille pour moi,messaging.message.send
-pouvez-vous rappeler votre vol a 6 heures du matin ?,reminders.task.create
-comment changer les sonneries ?,help.device_settings.show
-aide vocale intelligente,help.intelli_voice.show
-comment puis-je changer de programme sur mon aide auditive ?,help.changing_memories.show
-comment fonctionne la fonction de traduction ?,help.translate.show
-pouvez-vous regler le bruit,device.memory.change
-"s'il te plait, augmente le volume de mon aide auditive",device.volume.increase
-peux-tu ouvrir la traduction en espagnol,translation.session.start
-nouveau rappel s'il vous plait,reminders.task.create
-peux-tu accumuler de la cire,help.clean_care.show
-la tele est difficile a entendre,device.volume.increase
-trouver mon combine,find.phone.locate
-j'ai besoin d'un rappel pour prendre des medicaments,reminders.task.create
-mon aide auditive semble floue,help.device_settings.show
-pouvez-vous rappeler le guide d'utilisation,help.reminder.show
-je veux un pur silence,device.volume.mute
-"s'il vous plait, rappelez-moi de prendre mes medicaments aujourd'hui a 17 heures.",reminders.task.create
-comment attribuer un emplacement a ma memoire ?,help.memory_options.show
-je fais une promenade maintenant,activity.walk.query
-le micro du partenaire diffuse-t-il vers mes aides auditives,help.accessories.show
-"s'il vous plait, mes aides auditives ont disparu",help.find_my_hearing_aids.show
-comment puis-je ameliorer mon score thrive,help.thrive_score.show
-"s'il vous plait, je me dis juste oh, c'est donc la le point important.",sys.oos.fallback
-aidez-moi a corriger mes parametres d'aide,help.device_settings.show
-"s'il vous plait, aidez-moi a ajuster le stimulus des acouphenes sur mon aide auditive",help.tinnitus.show
-"je peux prosperer, mesurer ma frequence cardiaque",help.heart_rate.show
-peux-tu completer le rappel,reminders.task.complete
-pouvez-vous m'aider a transcrire,help.transcribe.show
-comment puis-je verifier quels accessoires j'ai couples a mes aides auditives ?,help.accessories.show
-peux-tu passer la memoire a deux,device.memory.change
-comment puis-je demander a s'epanouir pour faire des choses pour moi,help.voice_assistant.show
-"s'il te plait, je ne trouve pas mes aides auditives",help.find_my_hearing_aids.show
-peux-tu commencer a enregistrer pour moi,transcription.session.start
-veuillez passer au programme numero un,device.memory.change
-comment puis-je changer les souvenirs de mon aide auditive ?,help.changing_memories.show
-comment saurai-je quand mon audioprothesiste a ajuste mon aide auditive ?,help.remote_programming.show
-qu'est-ce qu'un taux de recuperation sain,help.heart_rate_recovery.show
-c'est bas,device.volume.decrease
+comment puis-je augmenter les aigus,help.customize.show
+veuillez modifier les parametres au numero trois,device.memory.change
 j'ai besoin de directions,help.home.show
-peux-tu definir un programme pour l'ecole,device.memory.change
-merci de me rappeler de recuperer mon ordonnance a 17h. jeudi,reminders.task.create
-comment puis-je changer le volume d'un seul cote ?,help.volume.show
-il me manque la moitie de la conversation,device.volume.increase
-voudrais-tu envoyer un message,messaging.message.send
-aide avec la fonction d'amelioration de la parole,help.intelli_voice.show
-peut supprimer une memoire,help.memory_options.show
-pourquoi ne puis-je pas faire passer mes aides auditives sur mon telephone pour passer par mes aides auditives,help.pairing.show
-combien de minutes ai-je couru ?,activity.run.query
-quand dois-je utiliser mode edge,help.edge_mode.show
-montre-moi mon objectif de marche ?,activity.walk.query
-j'ai besoin d'aide pour associer l'aide,help.pairing.show
-ou puis-je trouver les acouphenes dans l'application ?,help.tinnitus.show
-quels sons vais-je entendre dans mes aides auditives si je tombe ?,help.fall_alert.show
-puis-je acceder au cloud ?,help.hearing_care_anywhere_connect.show
-que puis-je demander a assistant thrive ?,help.voice_assistant.show
-"peux-tu, je marche et ils ne travaillent pas",sys.oos.fallback
-comment puis-je voir a quelle vitesse mon coeur recupere,help.heart_rate_recovery.show
-lancer un message,messaging.message.send
-comment fonctionne wicros,help.wi_c_r_o_s.show
-que peut faire cette application pour moi,help.home.show
-comment augmenter le volume de l'aide auditive gauche ?,help.volume.show
-le chargeur ne fonctionne pas,help.battery.show
-ouvrir la transcription,transcription.session.start
-peux-tu passer au mode muet,device.memory.change
-est-ce que mode edge vide la batterie plus rapidement,help.edge_mode.show
-"s'il te plait, programme le numero un",device.memory.change
-qu'est-ce qui est different avec cette application ?,help.whats_new.show
-peux-tu couper mes aides auditives,device.volume.mute
-puis-je attribuer un emplacement a une memoire ?,help.memory_options.show
-comment changer la memoire de l'aide auditive ?,help.changing_memories.show
-mettre fin a la diffusion,streaming.session.stop
-"peux-tu, je n'entends meme pas ca a peine",sys.oos.fallback
-ou puis-je voir mon score de bien-etre,help.thrive_score.show
-comment est calcule le score ipro ?,help.thrive_score.show
-peux-tu me rappeler de faire bouillir de l'eau tous les matins avant 7 heures du matin,reminders.task.create
-"s'il vous plait, les aides auditives transcrivent l'aide",help.transcribe.show
-ou puis-je arreter un texte d'alerte ?,help.fall_alert.show
-depuis combien de temps je fais du velo,activity.cycle.query
-comment puis-je trouver la recuperation de la frequence cardiaque ?,help.heart_rate_recovery.show
-comment configurer le streaming automatique,help.device_settings.show
-donne-moi le texte de cette conversation,transcription.session.start
-a quoi sert la fonction de traduction,help.translate.show
-quel est mon temps d'attente,activity.stand.query
-peux-tu reactiver mes aides auditives,device.volume.unmute
-peux-tu programmer le numero un,device.memory.change
-puis-je connecter un micro externe,help.accessories.show
-comment personnaliser les parametres de mon aide auditive ?,help.customize.show
-peux-tu exercer ton objectif,activity.exercise.query
-presque chaque annee,sys.oos.fallback
-peux-tu jouer au flux tv,streaming.session.start
-regle a 80 % du volume,device.volume.increase
-peux-tu me rappeler de recuperer mon ordonnance cet apres-midi,reminders.task.create
-afficher les informations sur la batterie,device.status.battery
-amplifie le son pour moi,device.volume.increase
-peux-tu ecouter mon message audio.,messaging.message.listen
-comment faire du cafe,sys.oos.fallback
-quoi utiliser pour nettoyer mes aides auditives ?,help.clean_care.show
-"s'il te plait, rappelle-moi demain pour",reminders.task.create
-je dois m'en souvenir,reminders.task.create
-comment saurai-je quand l’audiologiste a ajuste l’aide auditive ?,help.remote_programming.show
-comment augmenter le volume dans l'aide gauche ?,help.volume.show
-comment saurai-je si j'ai recu de nouveaux parametres ?,help.remote_programming.show
-puis-je definir un rappel,reminders.task.create
-"peux-tu, j'avais perdu 17 000 $ plus tot dans la journee",sys.oos.fallback
+c'est bruyant,device.volume.decrease
+peux-tu reactiver le son,device.volume.unmute
+peux-tu tenir le coup,sys.oos.fallback
+pouvez-vous jumeler des aides auditives sur mon application,help.pairing.show
+pouvez-vous definir le parametre sur deux,device.memory.change
+appairer mon aide auditive droite,help.pairing.show
+parlez-moi de la fonctionnalite de rappels,help.reminder.show
+mon bpm s'il te plait,help.heart_rate.show
+"s'il te plait, monte mes aides auditives",device.volume.increase
+comment augmenter le bruit des acouphenes ?,help.tinnitus.show
+objectif de pas,activity.step.query
+c'est terriblement fort,device.volume.decrease
+aide avec la fonction volume,help.volume.show
+comment partager les informations sur mes aides auditives ?,help.hear_share.show
+que puis-je faire ici ?,help.home.show
+peux-tu avoir des appareils auditifs,sys.oos.fallback
+peux-tu telephoner a la memoire,device.memory.change
+peux-tu jouer du micro,streaming.session.start
+pouvez-vous minimiser le volume sonore,device.volume.decrease
+guide d'utilisation de self check,help.self_check.show
+peux-tu entrainer la memoire,device.memory.change
+veuillez definir le parametre sur le numero un,device.memory.change
+veuillez passer le parametre a deux,device.memory.change
+a quel point suis-je proche de mon objectif permanent.,activity.stand.query
+peux-tu marquer le jeu des jumeaux,sys.oos.fallback
+"s'il te plait, rends mes aides auditives silencieuses",device.volume.mute
+veuillez changer le programme a trois,device.memory.change
+il me manque toujours des mots,device.volume.increase
+que puis-je faire avec cette application,help.home.show
+comment regler les aides auditives avec mode edge ?,help.edge_mode.show
+peux-tu changer la memoire en numero trois,device.memory.change
+quand puis-je annuler un message texte d'alerte ?,help.fall_alert.show
+arrete de jouer a la tele avec mes aides auditives,streaming.session.stop
+ecouter le microphone a distance,streaming.session.start
+enregistrer mes exercices d'aerobic,activity.aerobics.query
+veuillez suggerer que si vous avez ete vaccine,sys.oos.fallback
+comment changer les sonneries ?,help.device_settings.show
+j'ai quelque chose dont je dois me souvenir,reminders.task.create
+le son de mon aide auditive n'arrete pas de bugger,help.device_settings.show
+peux-tu memoriser le numero un,device.memory.change
+comment puis-je modifier les parametres de l'assistant intelligent ?,help.app_settings.show
+ou aurait pu aller mon aides auditives,help.find_my_hearing_aids.show
+ramene-moi a mon reglage normal,device.memory.change
+peux-tu passer la memoire a deux,device.memory.change
+parlez-moi du mode demo,help.demo_mode.show
+comment saurai-je quand mon audiologiste a ajuste l’aide auditive ?,help.remote_programming.show
+comment enregistrer le parametre mode edge ?,help.edge_mode.show
+veuillez capter le signal du flux tv,streaming.session.start
+est-il temps de recharger mes aides auditives,device.status.battery
+je n'entends pas tres bien,device.volume.increase
+comment reinitialiser les parametres de mon application,help.app_settings.show
+pouvez-vous dnn guide d'utilisation de l'amelioration de la parole,help.intelli_voice.show
+aide-moi a me souvenir de cette soiree,reminders.task.create
+peux-tu allumer mon aide auditive droite,device.volume.unmute
+"s'il te plait, rappelle-moi de voir le tableau dans 5 minutes",reminders.task.create
+mon appareil auditif a disparu,help.find_my_hearing_aids.show
+je suis coince,help.home.show
+dis-moi quel est mon objectif de pas,activity.step.query
+trouve-moi un hotel,sys.oos.fallback
+puis-je ecouter les reglages effectues par mon audioprothesiste ?,help.remote_programming.show
+regler le probleme de son sur mes aides auditives,help.device_settings.show
+ou est mon aide auditive gauche ?,help.find_my_hearing_aids.show
+peux-tu activer mon aide auditive droite,device.volume.increase
+rappelle-moi le medecin de vendredi,reminders.task.create
+est-ce qu'il detecte une chute et alerte quelqu'un,help.fall_alert.show
+envoie-le,messaging.message.send
+a quoi sert wicros,help.wi_c_r_o_s.show
+comment puis-je restaurer les parametres de mon aide auditive ?,help.hearing_care_anywhere_connect.show
+configurer des rappels,reminders.task.create
+definir un rappel pour chaque jour,reminders.task.create
+pouvez-vous m'aider a ajuster les stimuli sonores,help.tinnitus.show
+donne-moi mon compte de pas,activity.step.query
+il est responsable de l'armurerie,sys.oos.fallback
+pouvez-vous me rappeler de recuperer mon ordonnance a 17h. le dimanche,reminders.task.create
+s'il vous plait laissez-moi l'entendre.,messaging.message.listen
+comment activer le mode masque ?,help.mask_mode.show
+comment desactiver l'augmentation du confort ?,help.device_settings.show
+"peux-tu parfois, c'est bien de prendre un jour de conge",sys.oos.fallback
+comment activer le mode masque pour les masques,help.mask_mode.show
+regle a 100 % du volume,device.volume.increase
+j'ai besoin de conseils,help.home.show
+comment reconnecter mes aides auditives,help.pairing.show
+peux-tu programme de gym,device.memory.change
+"peux-tu, il faisait noir dans le magasin",sys.oos.fallback
+arreter la diffusion de la television,streaming.session.stop
+comment puis-je regler le volume du masqueur d'acouphenes dans les aides auditives ?,help.tinnitus.show
+veuillez changer le parametre a trois,device.memory.change
+veuillez associer les aides sur mon application thrive,help.pairing.show
+ici a ce sujet,sys.oos.fallback
+comment utiliser l'assistant vocal,help.voice_assistant.show
+commencer a enregistrer ma formation,activity.exercise.query
+laisse-moi ecouter avec mes aides auditives,streaming.session.start
+"j'ai egare mon telephone, trouve-le",find.phone.locate
+y a-t-il un accessoire de streaming tv,help.accessories.show
+pouvez-vous qui a la meilleure cuisine chinoise a sioux falls ?,sys.oos.fallback
+quelle est ma frequence cardiaque ?,help.heart_rate.show
+peux-tu volumer sur l'aide gauche,device.volume.unmute
+changer la memoire,device.memory.change
+peux-tu regler la memoire sur trois,device.memory.change
+le professionnel peut-il regler les aides auditives a distance ?,help.remote_programming.show
+comment deconnecter mon aide auditive ?,help.pairing.show
+quel est mon score de reussite quotidien,help.thrive_score.show
+comment puis-je voir ce que mon aide auditive peut faire,help.demo_mode.show
+comment recharger mon aide auditive ric ?,help.battery.show
+comment puis-je prendre soin de mes aides auditives,help.clean_care.show
+"s'il te plait ouais, enleve juste un peu ouais",sys.oos.fallback
+"s'il te plait, rappelle-moi a 13 heures. que je dois manger",reminders.task.create
+comment puis-je contacter mon clinicien pour obtenir de l'aide ?,help.remote_programming.show
+comment creer une memoire personnalisee ?,help.memory_options.show
+veuillez vous connecter a la telecommande,streaming.session.start
+ca me fait exploser les oreilles,device.volume.decrease
+comment traduire,help.translate.show
+depuis combien de temps suis-je debout,activity.stand.query
+quelle est la capitale du japon ?,sys.oos.fallback
+peux-tu commencer a diffuser,streaming.session.start
+pouvez-vous programmer pour les acouphenes,device.memory.change
+comment obtenir plus d’informations sur le score ipro ?,help.thrive_score.show
+peux-tu memoriser de la musique,device.memory.change
+"peux-tu, je ne me souviens plus ou se trouve mon aide auditive gauche",help.find_my_hearing_aids.show
+"peux-tu, je ne me souviens pas ou se trouve mon aide auditive",help.find_my_hearing_aids.show
+aide-moi a utiliser hearshare,help.hear_share.show
+veuillez demarrer le flux a distance,streaming.session.start
+dernier rappel complete.,reminders.task.complete
 "s'il vous plait, j'ai perdu mes appareils auditifs. pouvez-vous m'aider a les trouver ?",help.find_my_hearing_aids.show
-peux-tu me montrer comment mettre mon appareil auditif,help.insert_device.show
-quelle est la precision de la frequence cardiaque,help.heart_rate.show
-peux-tu tester les aides auditives,help.self_check.show
-n'oubliez pas de courir tous les jours a 6 heures du matin.,reminders.task.create
-"s'il vous plait, aidez-moi avec le reglage du bruit blanc",help.tinnitus.show
-veuillez me montrer un apercu de cette application prospere,help.whats_new.show
-comment puis-je verifier si les aides auditives sont connectees a mon application thrive ?,help.pairing.show
-localiser mon aide auditive,help.find_my_hearing_aids.show
-comment puis-je utiliser ma voix pour controler mon epanouissement,help.voice_assistant.show
-pouvez-vous creer un rappel pour prendre vos medicaments aujourd'hui a 20 heures.,reminders.task.create
-quel est le probleme avec mon aide auditive pres de chez moi ?,help.self_check.show
-comment regler mon masqueur de bruit sur les aides auditives ?,help.tinnitus.show
+marquer mon rappel comme termine,reminders.task.complete
+comment fonctionnent les raccords a distance,help.remote_programming.show
+peux-tu regler le numero deux,device.memory.change
+"s'il te plait, mets le numero trois",device.memory.change
+diffuser l'audio directement sur mes aides auditives,streaming.session.start
+peux-tu m'emmener pour un demarrage rapide,help.whats_new.show
+"s'il te plait, elle reste avec mon telephone",sys.oos.fallback
+peux-tu changer de voiture,device.memory.change
+ma recuperation de frequence cardiaque est-elle bonne ?,help.heart_rate_recovery.show
+combien de charge reste-t-il ?,device.status.battery
+mon professionnel peut-il regler mon aide auditive a distance ?,help.remote_programming.show
+"s'il vous plait, corrigez le code rapide de la recherche binaire",sys.oos.fallback
+pouvez-vous regler automatiquement,device.memory.change
+peux-tu definir un programme pour l'ecole,device.memory.change
+suis-je proche de mon objectif cycliste ?,activity.cycle.query
+peux-tu eteindre les prises source,sys.oos.fallback
+pouvez-vous localiser le parcours de golf le plus proche,sys.oos.fallback
+donne-moi un coup de coude dans une heure,reminders.task.create
+baisse le un peu,device.volume.decrease
+je ne supporte pas les bourdonnements dans mes oreilles,help.tinnitus.show
+"peux-tu, ca va etre notre petit mec porteur d'anneaux",sys.oos.fallback
+"s'il te plait, dois-tu d'abord faire",sys.oos.fallback
+retrouver mon telephone,find.phone.locate
+y a-t-il une option de rappel quotidien,help.reminder.show
+traduire l'aide,help.translate.show
+j'ai trop de son,device.volume.decrease
+a quoi sert la voix ai,help.intelli_voice.show
+"s'il te plait, change de pub",device.memory.change
+"s'il vous plait, faites en sorte que mes aides auditives ecoutent le microphone a distance",streaming.session.start
+je dois deconnecter les aides auditives du telephone,help.pairing.show
+la duree de vie de la batterie est de plus en plus courte,help.battery.show
+expliquer comment tester mes appareils auditifs,help.self_check.show
+apple music se connecter,sys.oos.fallback
+calories en travaillant,activity.exercise.query
+connecter un accessoire de micro distant,help.accessories.show
+montre-moi mon nombre de pas ?,activity.step.query
+transmettre le son sans fil,streaming.session.start
+"s'il vous plait, j'ai besoin d'aide pour l'appairage au telephone",help.pairing.show
+aide avec la fonction de sous-titrage,help.transcribe.show
+ajouter au rappel,reminders.task.create
+j'en ai besoin plus calmement,device.volume.decrease
+aide a garder mes aides auditives propres,help.clean_care.show
+pouvez-vous regler l'auditorium,device.memory.change
+options de numerisation,sys.oos.fallback
+envoyer un mot a ma fille,messaging.message.send
+veuillez definir un rappel pour jeudi,reminders.task.create
+comment puis-je verifier quels accessoires j'ai connectes a mon aide auditive ?,help.accessories.show
+comment supprimer mon streamer tv ?,help.accessories.show
+aider a comprendre le changement de programme,help.changing_memories.show
+comment restaurer les parametres de mes aides auditives ?,help.hearing_care_anywhere_connect.show
 buzze-moi quand c'est l'heure,reminders.task.create
-"peux-tu, c'est trop fort, baisse le son",device.volume.decrease
-pouvez-vous m'aider a changer les programmes de mon aide auditive,help.changing_memories.show
-peux-tu ecouter le microphone,streaming.session.start
-veuillez regler le programme sur la parole,device.memory.change
+"s'il vous plait, aidez-moi avec les ajustements sonores des acouphenes dans mes aides auditives",help.tinnitus.show
+dis-moi quel est mon nombre de pas ?,activity.step.query
+veuillez passer la memoire a quatre,device.memory.change
+"peux-tu, je veux me connecter a mon audiologiste",help.remote_programming.show
+aide avec le mode masque,help.mask_mode.show
+expliquer hearshare,help.hear_share.show
+comment saurai-je quand le professionnel a ajuste les aides auditives ?,help.remote_programming.show
+comment puis-je voir combien j'ai marche cette semaine ?,help.health.show
+fixez-moi un rappel s'il vous plait,reminders.task.create
+comment renommer mes accessoires ?,help.accessories.show
+arreter de diffuser,streaming.session.stop
+combien de calories ai-je brule cette semaine,activity.calories.query
+peux-tu me le rappeler tous les jours,reminders.task.create
+ne me laisse pas oublier ca,reminders.task.create
+ce qui a ete ajoute recemment,help.whats_new.show
+suis-je proche de mon objectif d'exercice,activity.exercise.query
+"s'il vous plait, rejouez-le.",messaging.message.listen
+conseils pour nettoyer mes aides auditives,help.clean_care.show
+peux-tu localiser un telephone android,find.phone.locate
+je pars me promener,activity.walk.query
+"s'il te plait, amene-moi a l'aide de rappel",help.reminder.show
+s'il vous plait sizzlers inities par cham appuyez ici pour les informer que vous avez recu cette commande,sys.oos.fallback
+se deconnecter de la telecommande,streaming.session.stop
+comment dois-je demarrer un message d'alerte manuel ?,help.fall_alert.show
+mon audioprothesiste peut-il regler ses aides auditives a distance ?,help.remote_programming.show
+comment nettoyer mes aides auditives ric ?,help.clean_care.show
+comment utiliser l'application sans aide auditive ?,help.demo_mode.show
+aide-moi a trouver mon appareil auditif,help.find_my_hearing_aids.show
+version de l'application,help.app_settings.show
+comment puis-je me debarrasser des mauvaises herbes,sys.oos.fallback
+"s'il vous plait, montrez-moi comment inserer des appareils auditifs dans mes oreilles.",help.insert_device.show
+tout semble trop calme,device.volume.increase
+etat de la batterie,device.status.battery
+je veux un rappel pour ma classe,reminders.task.create
+"s'il vous plait, augmentez le volume de l'aide auditive",device.volume.increase
+combien de course ai-je fait cette semaine ?,activity.run.query
+quand dois-je utiliser le mode masque,help.mask_mode.show
+a quoi sert la fonction d'ecoute partagee,help.hear_share.show
+recevoir un message a ma famille,messaging.message.send
+tout cela me rend confus,help.home.show
+peux-tu definir le numero un,device.memory.change
+comment puis-je augmenter le volume de la bonne aide auditive ?,help.volume.show
+le son retentit a nouveau s'il te plait,device.volume.unmute
+je suis dehors maintenant,device.memory.change
+tout le monde doit dire les choses deux fois pour moi,device.volume.increase
+peux-tu un nouveau rappel pour tous les jours,reminders.task.create
+peux-tu me montrer mon objectif d'exercice,activity.exercise.query
+rendre mes aides auditives plus fortes,device.volume.increase
+comment puis-je activer l'amelioration de la parole,help.intelli_voice.show
+comment puis-je ameliorer mon score d'activite ?,help.thrive_score.show
+rappelle-moi en semaine,reminders.task.create
+guide-moi vers mes donnees de bien-etre,help.health.show
+peux-tu me rappeler d'appeler demain,reminders.task.create
+peux-tu me guider ?,help.home.show
+objectif d'etape ?,activity.step.query
+comment nettoyer mon aide auditive ric ?,help.clean_care.show
+comment savoir quand le professionnel a ajuste l'aide ?,help.remote_programming.show
+mode edge est-il bon pour les restaurants,help.edge_mode.show
+"pouvez-vous entendre votre demande provinciale, j'attends de voir comment puis-je vous aider",sys.oos.fallback
+peux-tu me rappeler d'acheter du pain a 11 heures demain,reminders.task.create
+j'ai mis un rappel pour mes pilules ce soir,reminders.task.create
+peux-tu t'entrainer,device.memory.change
+comment puis-je voir le resume de mon activite,help.health.show
+jouer au festival,sys.oos.fallback
+"s'il te plait, compte les calories aujourd'hui",activity.calories.query
+"s'il vous plait, ecoutez-le.",messaging.message.listen
+aide avec le score ipro,help.thrive_score.show
+peux-tu y rejouer.,messaging.message.listen
+"s'il vous plait, aidez-moi a trouver mes aides auditives",help.find_my_hearing_aids.show
+pouvez-vous rencontrer le programme,device.memory.change
+peux-tu ecouter mon dernier message,messaging.message.listen
+comment puis-je passer automatiquement a une memoire differente pour les appels telephoniques,help.device_settings.show
+expliquer comment fonctionnent les cros et les bicros,help.wi_c_r_o_s.show
+"s'il te plait, allume mon aide auditive gauche",device.volume.unmute
+veuillez passer aux acouphenes,device.memory.change
+comment l'application peut-elle m'aider a trouver mes aides auditives,help.find_my_hearing_aids.show
+comment regler le bruit de mes acouphenes sur l'aide ?,help.tinnitus.show
+je n'aime pas la fonction de double tapotement. comment puis-je l'eteindre ?,help.device_settings.show
+pas de son s'il te plait,device.volume.mute
+peux-tu desactiver mes aides auditives,device.volume.mute
+comment puis-je dissocier le streamer tv ?,help.accessories.show
+combien de pas ai-je fait cette semaine,activity.step.query
+peux-tu me rappeler a 11 heures du matin,reminders.task.create
+demarrer le streaming tele,streaming.session.start
+peux-tu te faire foutre,sys.oos.fallback
+comment saurai-je quand mon audiologiste a ajuste mon aide auditive ?,help.remote_programming.show
+peux-tu ecrire un programme dans switch,sys.oos.fallback
+qu'est-ce que l'assistant virtuel ?,help.voice_assistant.show
+"s'il te plait, rappelle-moi a 11 heures du matin",reminders.task.create
+peux-tu avoir atteint mon objectif d'activite ?,activity.aerobics.query
+peux-tu coupler mes aides auditives au telephone,help.pairing.show
+comment puis-je changer,sys.oos.fallback
+commencer a traduire en espagnol,translation.session.start
+couper le volume de mon aide auditive droite,device.volume.mute
+quelle est la difference entre les cros et les wicros ?,help.wi_c_r_o_s.show
+expliquer le reglage du volume par oreille,help.volume.show
+peux-tu me rappeler de prendre des medicaments demain matin,reminders.task.create
+quel est le probleme avec mon aide auditive droite,help.self_check.show
+peux-tu bouton memoire,help.changing_memories.show
+guide-moi a travers le processus,sys.oos.fallback
+comment lire ce qui a ete transcrit,help.transcribe.show
+comment puis-je reduire le bruit de fond ?,help.customize.show
+etablir une session a distance avec mon fournisseur,help.hearing_care_anywhere_connect.show
+comment revenir a mon volume par defaut ?,help.volume.show
+eteindre mon aide auditive gauche,device.volume.mute
+peux-tu accumuler de la cire,help.clean_care.show
+repondez au son s'il vous plait,device.volume.unmute
+comment partager mes donnees d'activite ?,help.hear_share.show
+ou puis-je trouver la transcription,help.transcribe.show
+suivre mes pas,activity.step.query
+comment puis-je regler le volume du masqueur de bruit sur mes aides auditives ?,help.tinnitus.show
+"c'est trop calme, monte le volume",device.volume.increase
+aide avec les ajustements du bruit des acouphenes dans mes aides auditives,help.tinnitus.show
+"s'il vous plait, une aide auditive n'est pas trouvee",help.self_check.show
+comment puis-je regler le volume du masqueur d'acouphenes dans l'aide ?,help.tinnitus.show
+garde ca pour moi s'il te plait,reminders.task.create
+s'il vous plait merci d'avoir change,sys.oos.fallback
+veuillez associer les aides auditives sur l'application thrive,help.pairing.show
+peux-tu adorer la memoire,device.memory.change
+comment puis-je acceder a mes programmes d’aides auditives ?,help.changing_memories.show
+suivre mes calories,activity.calories.query
+"peux-tu souhaiter que tu sois avec moi, il y a tellement de monde sur leur john's pass que tu ne trouves pas de place de parking",sys.oos.fallback
+comment puis-je obtenir un meilleur score d'activite ?,help.thrive_score.show
+combien de pas aujourd'hui,activity.step.query
+pouvez-vous m'aider a changer de programme d'acouphene,help.tinnitus.show
+ou puis-je trouver les parametres de l'application ?,help.app_settings.show
+je ne me souviens pas ou se trouve mon autre aide,help.find_my_hearing_aids.show
+peux-tu rejouer mon message.,messaging.message.listen
+ecouter le presentateur,streaming.session.start
+plus de volume sur l'aide auditive,device.volume.increase
+qu'y a-t-il dans mode edge ?,help.edge_mode.show
+dis-moi le pourcentage de batterie,device.status.battery
+"s'il vous plait, j'ai besoin d'aide pour associer mon aide auditive au telephone",help.pairing.show
+"s'il te plait, quelqu'un etait cense m'appeler et je ne le fais jamais",sys.oos.fallback
+laisse un ami entendre ce que j'entends,help.hear_share.show
+mettre fin a la diffusion depuis le televiseur,streaming.session.stop
+aide a changer les souvenirs sur mon aide auditive,help.changing_memories.show
+monter le niveau,device.volume.increase
+puis-je comparer les reglages effectues par mon professionnel ?,help.remote_programming.show
+comment geolocaliser un emplacement dans une memoire ?,help.memory_options.show
+combien de batterie ai-je ?,device.status.battery
+rendre les choses plus calmes,device.volume.decrease
+comment utiliser l'application sans aides connectees ?,help.demo_mode.show
+j'ai besoin d'un meilleur programme pour ici,device.memory.change
+peux-tu rechercher android,find.phone.locate
+peux-tu reactiver mes aides auditives,device.volume.unmute
+que signifie le numero de recuperation de la frequence cardiaque ?,help.heart_rate_recovery.show
+qu'est-ce que l'assistant vocal ?,help.voice_assistant.show
 pouvez-vous definir le parametre sur un,device.memory.change
-"s'il vous plait, aidez-moi avec les changements de volume sur mes aides auditives",help.volume.show
-comment puis-je rendre un cote plus fort,help.volume.show
-"s'il te plait, rappelle-moi de verifier mon ordinateur",reminders.task.create
-ouvrez la carte google.,sys.oos.fallback
-j'aurai besoin d'un rappel pour ca,reminders.task.create
-y a-t-il suffisamment de batterie,device.status.battery
-montre-moi mon objectif permanent ?,activity.stand.query
-comment puis-je regler le volume,help.volume.show
-comment puis-je acceder aux parametres de l'assistant intelligent ?,help.app_settings.show
-parametres de l'appareil auditif,sys.oos.fallback
-"s'il te plait, mon volume est trop faible",device.volume.increase
-ajuster l'oreille droite pour un son plus eleve,device.volume.increase
-ca me martele les oreilles,device.volume.decrease
-ou est l'aide pour l'ia vocale,help.intelli_voice.show
-selectionner une autre memoire,device.memory.change
-mon aide auditive n'arrete pas de sortir,help.insert_device.show
-acheminer le son du film vers mes aides auditives,streaming.session.start
-conseils pour prolonger la duree de vie de mes batteries,help.battery.show
-"s'il te plait, change la memoire en numero quatre",device.memory.change
-peux-tu envoyer un message,messaging.message.send
-muet,device.volume.mute
-peux-tu me rappeler un rendez-vous,reminders.task.create
-"s'il vous plait, aidez assistant thrive",help.voice_assistant.show
-pouvez-vous me rappeler de recuperer mon ordonnance a 17h. samedi,reminders.task.create
+pouvez-vous m'aider avec les accessoires,help.accessories.show
+peux-tu allumer mon aide auditive gauche,device.volume.unmute
+comment puis-je regler la balance croisee sur le recepteur ?,help.wi_c_r_o_s.show
+expliquer comment planifier des rappels,help.reminder.show
+quand puis-je envoyer un message texte d'alerte manuelle ?,help.fall_alert.show
+peux-tu faire en sorte que mes aides auditives ecoutent le microphone distant,streaming.session.start
+trouver ou est passe mon telephone,find.phone.locate
+batterie actuelle,device.status.battery
+"s'il vous plait, parlez-moi de la fonction de rappels",help.reminder.show
+comment puis-je augmenter mon score cerebral ?,help.thrive_score.show
+n'oublie pas de me le rappeler,reminders.task.create
+puis-je voir mon objectif de pas,activity.step.query
+combien de calories ai-je brule en faisant du velo,activity.cycle.query
+regler le volume de chaque oreille separement,help.volume.show
+est-ce que je peux etre proche de mon objectif cycliste ?,activity.cycle.query
+veuillez reduire le volume de l'aide auditive,device.volume.decrease
+qu'est-ce que la physique quantique ?,sys.oos.fallback
+transcription ouverte,transcription.session.start
+comment puis-je regler mon masque de bruit avec la bonne aide ?,help.tinnitus.show
+un cadre pour les endroits tres venteux,help.edge_mode.show
+combien de minutes ai-je fait du velo,activity.cycle.query
+commencer une seance d'aerobic,activity.aerobics.query
+peux-tu me guider sur la frequence cardiaque,help.heart_rate.show
+telephone egare,find.phone.locate
+bloque tous les sons,device.volume.mute
+joue qui m'a envoye un message,messaging.message.listen
+"s'il vous plait, aidez-nous a appairer les aides",help.pairing.show
+j'ai besoin d'un peu de calme,device.volume.decrease
+peux-tu me rappeler de boire de l'eau dans 5 minutes,reminders.task.create
+"s'il te plait, je me demande si je l'ai mis ici quelque part",sys.oos.fallback
+comment modifier les parametres automatiques ?,help.device_settings.show
+comment puis-je augmenter le volume de mon aide auditive ?,help.volume.show
+peux-tu me rappeler de prendre des medicaments,reminders.task.create
+commencer mon entrainement cycliste,activity.cycle.query
+baisse mon appareil auditif droit,device.volume.decrease
+comment puis-je envoyer un sms d'alerte manuelle ?,help.fall_alert.show
+informations sur le score d’engagement,help.thrive_score.show
+pouvez-vous m'aider avec l'ecran principal,help.home.show
+que m'ont envoye mes contacts,messaging.message.listen
+comment puis-je me debarrasser de la cire dans mon aide auditive,help.clean_care.show
+enregistrer quelque chose pour une autre personne,messaging.message.send
+quel est le modele de mon aide auditive ?,help.device_settings.show
+expliquer la fonction trouver mes aides auditives,help.find_my_hearing_aids.show
+aide-moi a voir les nouveautes,help.whats_new.show
+amplifier un peu le son,device.volume.increase
+comment reactiver le son ?,help.volume.show
+que dois-je porter aujourd'hui,sys.oos.fallback
+"s'il vous plait, les medias, trouvez-nous partout ou vous obtenez votre podcast",sys.oos.fallback
+expliquer mode edge,help.edge_mode.show
+diffuser le son de mon appareil auditif,streaming.session.start
+"s'il te plait, rappelle-moi le diner dans 1 minute",reminders.task.create
+comment est calcule le score cerebral ?,help.thrive_score.show
+"s'il te plait, passe a l'exterieur",device.memory.change
+peux-tu me rappeler de venir chercher joe dans 30 minutes,reminders.task.create
+comment fonctionne le score ipro ?,help.thrive_score.show
+aide avec un score aimable,help.thrive_score.show
+comment puis-je changer le programme de l'aide auditive ?,help.changing_memories.show
+rappelez-moi s'il vous plait de recharger mon telephone tous les jours a 23h00.,reminders.task.create
+que peut faire l'application,help.home.show
+se connecter a la television,streaming.session.start
+peux-tu me rappeler que j'ai un rendez-vous chez le medecin,reminders.task.create
+a quelle distance suis-je de mon objectif d'aerobic,activity.aerobics.query
+recherche android,find.phone.locate
+quoi de neuf dans l'application engage ?,help.whats_new.show
+qu'est-ce que la fonctionnalite vocale ia,help.intelli_voice.show
+"s'il vous plait, tournez-le pour appuyer sur le bouton des meubles, comme siri.",sys.oos.fallback
+"j'ai gere ca, supprimer le rappel",reminders.task.complete
+partager mon audio pour que les autres puissent l'entendre,help.hear_share.show
+allumer le volume de mon aide auditive,device.volume.unmute
+"s'il vous plait, je ne trouve pas ma bonne aide auditive",help.find_my_hearing_aids.show
+audio sans fil aux aides,streaming.session.start
+comment revenir a l'ecran d'accueil ?,help.home.show
+peux-tu appairer mon aide auditive droite,help.pairing.show
+chronometrer ma course,activity.run.query
+comment regler les basses sur mode edge,help.edge_mode.show
+comment trouver la bonne aide ?,help.find_my_hearing_aids.show
+faire un autre rappel,reminders.task.create
+peux-tu me rappeler de nettoyer mes aides auditives aujourd'hui,reminders.task.create
+montre-moi de l'aide pour traduire,help.translate.show
+"s'il te plait, rappelle-moi d'appeler maman a noel",reminders.task.create
+"s'il te plait, fais-le plus fort",device.volume.increase
+"s'il te plait, eteins mon aide auditive gauche",device.volume.mute
+"peux-tu, he google, allumer les lampes principales",sys.oos.fallback
+comment puis-je laisser quelqu'un m'ecouter,help.hear_share.show
+ai-je assez tenu le coup aujourd'hui,activity.stand.query
+"s'il te plait, coupe le volume de mon aide auditive gauche",device.volume.mute
+comment personnaliser les memoires de mes aides auditives ?,help.memory_options.show
+comment recharger ma batterie ?,help.battery.show
+"s'il te plait, bonne journee",sys.oos.fallback
+rendre le discours plus clair,device.volume.increase
+quel est mon nombre de velos pour le mois ?,activity.cycle.query
+pouvez-vous definir un rappel pour nettoyer les aides auditives aujourd'hui,reminders.task.create
+aides auditives muettes,device.volume.mute
+l'espagnol est-il pris en charge pour la traduction,help.translate.show
+peux-tu desactiver le mode muet,device.volume.unmute
+le son est trop faible,device.volume.increase
+peux-tu exprimer mon aide auditive,help.intelli_voice.show
+a quoi sert la fonction de traduction,help.translate.show
+je fais une promenade maintenant,activity.walk.query
+expliquer comment la recuperation est suivie,help.heart_rate_recovery.show
+le son me submerge,device.volume.decrease
+aides auditives traduire le guide d'utilisation,help.translate.show
+envoyer un message rapide par sms,messaging.message.send
+ou est ma frequence cardiaque,help.heart_rate.show
+quelle distance dois-je parcourir pour atteindre mon objectif ?,activity.cycle.query
+veuillez changer en personnel,device.memory.change
+assurez-vous que je n'oublie pas de prendre mes medicaments,reminders.task.create
+"s'il te plait, je n'arrive pas a mettre mon appareil auditif",help.insert_device.show
+s'il vous plait bottes adidas femme,sys.oos.fallback
+peux-tu me rappeler de boire de l'eau aujourd'hui,reminders.task.create
+peux-tu eteindre mon aide auditive droite,device.volume.mute
+fais-moi rester muet,device.volume.unmute
+"peux-tu, j'ai perdu la memoire pour les restaurants et les reunions",help.memory_options.show
+la tele est trop forte,device.volume.decrease
+peux-tu me rappeler le diner a 15h.,reminders.task.create
+iphone,sys.oos.fallback
+s'il vous plait montrez-moi un apercu de cette application,help.whats_new.show
+aide mes aides auditives a perdre la connexion au telephone,help.pairing.show
+est-il possible de pousser l'aide auditive loin ?,help.insert_device.show
+peux-tu m'aider a envoyer un message,messaging.message.send
+"c'est important, rappelle-moi plus tard",reminders.task.create
+comment reduire le bruit de fond,help.customize.show
+pouvez-vous m'aider a changer les souvenirs avec mon aide auditive,help.changing_memories.show
+envoie l'audio de la television a mes aides auditives,streaming.session.start
+j'ai besoin d'aide pour appairer les aides,help.pairing.show
+"s'il te plait, montre-moi le guide rapide",help.whats_new.show
+veuillez regler le programme sur trois,device.memory.change
+demarrer le flux audio,streaming.session.start
+comment puis-je regler le volume de l'aide ?,help.volume.show
+pouvez-vous vous rappeler de courir a 6 heures du matin le 7 decembre,reminders.task.create
+aide du mode masque,help.mask_mode.show
+comment changer de profil,help.changing_memories.show
+dis-moi l'etat de charge,device.status.battery
+guide-moi sur la voix intelligente,help.intelli_voice.show
+prosperer siri,help.voice_assistant.show
+s'il vous plait laissez-moi entendre le presentateur,streaming.session.start
+quelles sont les options de memoire,help.memory_options.show
+convertir cette langue etrangere en anglais,translation.session.start
+aide pour changer de programme sur mon telephone,help.changing_memories.show
+comment puis-je charger mon aide auditive ?,help.battery.show
+veuillez passer en mode automatique,device.memory.change
+son minimum,device.volume.decrease
+ou est mon androide,find.phone.locate
+montre-moi comment mettre mon appareil auditif,help.insert_device.show
+rappelle-moi de prendre mes pilules a 8 heures,reminders.task.create
+comment regler mon masque d'acouphenes sur mon aide auditive gauche ?,help.tinnitus.show
+peux-tu retourner a un niveau eleve,sys.oos.fallback
+peux-tu connaitre mon temps de marche ?,activity.walk.query
+fais-moi un rappel,reminders.task.create
+utiliser le streaming d'aides auditives,streaming.session.start
+laisse-moi entendre le micro a distance,streaming.session.start
+elle continue de me parler,sys.oos.fallback
+est-ce qu'il reste assez d'energie,device.status.battery
+puis-je nettoyer le pare-cerumen,help.clean_care.show
+envoyer un sms a mon medecin,messaging.message.send
+comment puis-je augmenter le volume des aides auditives ?,help.volume.show
+aidez-moi a corriger mes parametres d'aide,help.device_settings.show
+j'ai besoin qu'on me le rappelle,reminders.task.create
+"mets fin au muet, laisse-moi entendre",device.volume.unmute
+montre-moi mon nombre de pas,activity.step.query
+pouvez-vous m'aider avec les parametres de l'appareil,help.device_settings.show
+peux-tu passer a la parole,device.memory.change
+"peux-tu, j'ai perdu mes appareils auditifs",help.find_my_hearing_aids.show
+je veux enregistrer une course,activity.run.query
+verifier la batterie maintenant,device.status.battery
+quelle est la bonne facon d'inserer mes aides auditives,help.insert_device.show
+comment progresse mon exercice,activity.exercise.query
+mes statistiques d'activite globales,help.health.show
+veuillez definir un rappel pour renouveler l'ordonnance demain,reminders.task.create
+"je suis a court d'energie, n'est-ce pas",device.status.battery
+"s'il te plait, rappelle-moi le diner a 15h23",reminders.task.create
+l'audioprothesiste peut-il regler les aides auditives a distance ?,help.remote_programming.show
+puis-je ajouter un nouveau souvenir ?,help.memory_options.show
+partager mon actualite avec un contact par sms,messaging.message.send
+"s'il te plait, passe au silence",device.memory.change
+combien de temps suis-je reste debout cette semaine,activity.stand.query
+traduction neerlandaise,translation.session.start
+comment puis-je definir mon propre profil sonore,help.customize.show
+comment regler mon masque d'acouphenes sur les aides ?,help.tinnitus.show
+veuillez definir un rappel pendant 5 minutes,reminders.task.create
+aide pour changer de programme sur mes aides auditives,help.changing_memories.show
+je ferais mieux de ne pas oublier ca,reminders.task.create
+mes oreilles ne supportent pas ce martelement,device.volume.decrease
+"peux-tu, j'ai egare mon aide auditive droite",help.find_my_hearing_aids.show
+comment attribuer un emplacement a une memoire ?,help.memory_options.show
+pourquoi ne puis-je pas obtenir 200 points avec le score aimable ?,help.thrive_score.show
+j'ai besoin de contacter quelqu'un rapidement,messaging.message.send
+peux-tu passer a la foule,device.memory.change
+joue ce que les gens m'ont envoye,messaging.message.listen
+peux-tu changer le reglage en numero quatre,device.memory.change
+definir le volume sonore independant par cote,help.volume.show
+je suis dans un restaurant bruyant maintenant,device.memory.change
+couper le flux audio,streaming.session.stop
+peux-tu changer le reglage a trois,device.memory.change
+pouvez-vous batterie restante,device.status.battery
+veuillez passer au programme numero deux,device.memory.change
+quel est le numero de serie de mes aides auditives ?,help.device_settings.show
+"s'il te plait, passe a la voiture",device.memory.change
+peux-tu reecouter.,messaging.message.listen
+montre-moi l'aide de l'assistant vocal,help.voice_assistant.show
+peux-tu diffuser depuis le micro distant,streaming.session.start
+"s'il te plait, je n'entends pas le",sys.oos.fallback
+peux-tu maitriser la memoire,device.memory.change
+"s'il vous plait, excluez les cotes de 30 contre 1",sys.oos.fallback
+verification du niveau de puissance,device.status.battery
+peux-tu rester a la maison,device.memory.change
+aide a verifier si quelque chose ne va pas avec mon aide auditive,help.self_check.show
+comment savoir ou se trouvent mes aides auditives ?,help.find_my_hearing_aids.show
+guide-moi pour partager ce que j'entends,help.hear_share.show
+lire ma boite de reception de messages,messaging.message.listen
+quoi de neuf dans l'application thrive ?,help.whats_new.show
+dis-moi mon niveau de batterie,device.status.battery
+comment puis-je changer de programme sur l'aide auditive ?,help.changing_memories.show
+aide au volume a droite,device.volume.mute
+"peux-tu, je me dis juste oh, c'est donc la le point important.",sys.oos.fallback
+apprends-moi a utiliser ca,help.home.show
+comment coupler mes aides auditives au bluetooth de ma voiture ?,help.pairing.show
+mes aides auditives sont-elles completement chargees,device.status.battery
+peux-tu commencer la traduction pour l'espagnol,translation.session.start
+monte le volume,device.volume.increase
+enregistre la promenade que je fais,activity.walk.query
+peux-tu expliquer ?,help.home.show
+comment puis-je modifier le solde croise sur le recepteur ?,help.wi_c_r_o_s.show
+combien de minutes d'aerobic cette semaine,activity.aerobics.query
+peux-tu sur le volume,device.volume.unmute
+s'il vous plait baissez le niveau de mes aides auditives,device.volume.decrease
+"s'il te plait, he, mark, d'accord.",sys.oos.fallback
+qu'est-ce que mode edge ?,help.edge_mode.show
+comment puis-je utiliser le streamer tv,help.accessories.show
+definir un rappel definir un rappel,reminders.task.create
+veuillez definir un rappel a 14 heures.,reminders.task.create
+"merci de rappeler pour 16h15. aujourd'hui, rends visite a grand-mere s'il te plait",reminders.task.create
+baisser l'audition,device.volume.decrease
+quand puis-je arreter un message d'alerte manuelle ?,help.fall_alert.show
+peux-tu augmenter le volume de mon aide auditive,device.volume.increase
+pouvez-vous intellivoice aider,help.intelli_voice.show
+couper les aides,device.volume.mute
+"s'il te plait, rappelle-moi de laver la voiture",reminders.task.create
+comment utiliser mon aide auditive avec un accessoire,help.accessories.show
+enregistrer ma seance de marche,activity.walk.query
+pouvez-vous organiser une foule,device.memory.change
+associer mes aides auditives a l'application thrive,help.pairing.show
+comment puis-je regler le volume des acouphenes dans l'aide auditive ?,help.tinnitus.show
+comment faire self check,help.self_check.show
+revenir en mode normal,device.memory.change
+comment savoir si mon microphone fonctionne ?,help.self_check.show
+comment utiliser l'etui de chargement,help.battery.show
+ou ai-je mis mes appareils auditifs ?,help.find_my_hearing_aids.show
+comment puis-je voir ma frequence cardiaque,help.heart_rate.show
+j'essaie de faire fonctionner mon age auditif,help.self_check.show
+montre-moi mon historique,activity.stand.query
+aide avec la fonction bourdonnements d'oreilles,help.tinnitus.show
+comment puis-je ameliorer mon audition avec mode edge ?,help.edge_mode.show
+prospere les rappels de support,help.reminder.show
+comment puis-je passer a un autre programme de mon aide auditive ?,help.changing_memories.show
+comment baisser le volume d'un seul cote ?,help.volume.show
+aide a personnaliser mon experience auditive,help.customize.show
+comment le mode masque aide-t-il avec les visages couverts,help.mask_mode.show
+puis-je affiner les basses et les aigus,help.customize.show
+pouvez-vous m'aider a regler le volume des acouphenes sur mes aides auditives,help.tinnitus.show
+"s'il vous plait, il y a un probleme avec mon aide auditive droite",help.self_check.show
+puis-je definir un rappel,reminders.task.create
+veuillez passer le parametre au numero un,device.memory.change
+que puis-je demander a assistant thrive ?,help.voice_assistant.show
+comment saurai-je quand mon audioprothesiste a ajuste mon aide auditive ?,help.remote_programming.show
+comment fonctionne la recuperation de la frequence cardiaque ?,help.heart_rate_recovery.show
+montre-moi mon objectif d'exercice,activity.exercise.query
+"s'il vous plait, ai-je atteint mon objectif d'activite ?",activity.aerobics.query
+comment regler le volume ?,help.volume.show
+comment augmenter le volume de l'aide auditive ?,help.volume.show
+peux-tu etablir un objectif,activity.exercise.query
+peux-tu faire taire mes aides auditives,device.volume.decrease
+quel est mon nombre d'aerobics cette semaine,activity.aerobics.query
+activite de course a pied,activity.run.query
+j'ai besoin d'aide pour coupler les aides auditives a mon telephone,help.pairing.show
+je ne trouve pas mon telephone,find.phone.locate
+pourquoi mon aide auditive gauche n'emet-elle aucun son,help.self_check.show
+puis-je modifier un rappel,help.reminder.show
+peux-tu localiser le telephone,find.phone.locate
+est-ce que la transcription sauvegarde mes conversations ?,help.transcribe.show
+pourquoi mon aide auditive gauche n'est-elle pas connectee,help.pairing.show
+veuillez connecter l'aide auditive droite,help.pairing.show
+j'ai perdu mes aides auditives. pouvez-vous m'aider a les trouver ?,help.find_my_hearing_aids.show
+pouvez-vous regler le telephone,device.memory.change
+laissez un membre de la famille ecouter,help.hear_share.show
+"s'il vous plait, rappelez-moi de faire bouillir de l'eau tous les matins avant 7 heures du matin.",reminders.task.create
+comment puis-je changer les souvenirs ?,help.changing_memories.show
+comment regler le volume de mon aide auditive ?,help.volume.show
+peux-tu me montrer de l'aide pour mes accessoires,help.accessories.show
+comment utiliser mes aides auditives avec un accessoire ?,help.accessories.show
+peux-tu supporter l'objectif,activity.stand.query
+"peux-tu, je ne trouve pas mon aide auditive",help.find_my_hearing_aids.show
+peux-tu avoir atteint mon objectif de course a pied ?,activity.run.query
+afficher le guide d'aide pour ipro,help.thrive_score.show
+"s'il te plait, rappelle-moi le diner dans 1 heure",reminders.task.create
+je dois m'en souvenir,reminders.task.create
+comment geolocaliser un souvenir ?,help.memory_options.show
+peux-tu me rappeler d'aller me coucher dans 5 minutes,reminders.task.create
+comment dois-je envoyer un texte d'alerte manuelle ?,help.fall_alert.show
+pouvez-vous programme d'auditorium,device.memory.change
+me connecter a mon telephone,help.pairing.show
+j'ai besoin d'un coup de pouce demain matin,reminders.task.create
+informer quelqu'un a ce sujet,messaging.message.send
+quelle est ma brulure jusqu'a present,activity.calories.query
+est-il temps de charger,device.status.battery
+comment changer le volume du micro distant ?,help.accessories.show
+comment puis-je modifier mes parametres automatiques ?,help.device_settings.show
+pourquoi l'aide auditive de ma femme ne fonctionne-t-elle pas,help.self_check.show
+que signifie l'alerte envoyee ?,help.fall_alert.show
+comment puis-je voir mon activite physique ?,help.health.show
+j'ai egare mes appareils auditifs,help.find_my_hearing_aids.show
+quand les piles seront-elles epuisees,device.status.battery
+commencer une promenade,activity.walk.query
+peux-tu changer pour t'entrainer,device.memory.change
+quand dois-je commencer un texte d’alerte manuelle ?,help.fall_alert.show
+ai-je un souvenir de restaurant,help.changing_memories.show
+"s'il vous plait, aidez-moi avec l'assistant vocal",help.voice_assistant.show
+"s'il te plait, passe a tous les jours",device.memory.change
+pouvez-vous produit particulier que vous vouliez verifier specifiquement,sys.oos.fallback
+augmente le volume de mes aides auditives,device.volume.increase
+l'application enregistre-t-elle ma frequence cardiaque,help.heart_rate.show
+ou est mon iphone,find.phone.locate
+peux-tu commencer a diffuser la television,streaming.session.start
+ou est le localisateur de mes aides auditives,help.find_my_hearing_aids.show
+envoyer un sms a mon ami,messaging.message.send
+terminer mon dernier rappel,reminders.task.complete
+passer en mode silencieux,device.memory.change
+vais-je entendre ce qui est transcrit ?,help.transcribe.show
+tout semble etouffe,help.device_settings.show
+transformez la parole en texte maintenant,transcription.session.start
+comment fonctionne self check ?,help.self_check.show
+verifier la puissance,device.status.battery
+"s'il vous plait, aidez-moi a ajuster le stimulus des acouphenes dans mes aides auditives",help.tinnitus.show
+commencer mon suivi d'entrainement,activity.exercise.query
+veuillez allumer vos appareils auditifs,device.volume.unmute
+connecte-moi a l'audio de la television,streaming.session.start
+pouvez-vous self check aider,help.self_check.show
+ou puis-je voir ce que quelqu'un dit ?,help.transcribe.show
+comment l'engagement a-t-il change ?,help.whats_new.show
+comment ajouter des accessoires a mon application ?,help.accessories.show
+y a-t-il une fonction de sous-titrage ?,help.transcribe.show
+peux-tu m'aider a changer les souvenirs,help.changing_memories.show
+ou sont sauvegardees mes donnees,help.hearing_care_anywhere_connect.show
+previsualiser les fonctionnalites de l'application sans aide,help.demo_mode.show
+peux-tu rejouer mon message ?,messaging.message.listen
+"s'il vous plait, aidez-moi a ajuster le stimulus des acouphenes sur mon aide auditive",help.tinnitus.show
+peux-tu changer de programme en un seul,device.memory.change
+nouveau rappel,reminders.task.create
+"j'ai fini cette tache, efface le rappel",reminders.task.complete
+mes oreilles ne peuvent pas supporter ce niveau,device.volume.decrease
+peux-tu des chiffres,sys.oos.fallback
+commencer a transcrire,transcription.session.start
+"s'il vous plait, je veux entendre mon message.",messaging.message.listen
+rends-le moins bruyant,device.volume.decrease
+comment ajuster mon masque d'acouphenes sur mon aide auditive droite ?,help.tinnitus.show
+veuillez completer ce rappel.,reminders.task.complete
+quelles sont les fonctionnalites de cette application,help.home.show
+quand dois-je utiliser l’ia vocale ?,help.intelli_voice.show
+"s'il te plait, je ne me souviens plus ou se trouve mon aide auditive gauche",help.find_my_hearing_aids.show
+marquer le dernier rappel comme termine,reminders.task.complete
+comment organiser mes souvenirs,help.memory_options.show
+aide avec les parametres de l'appareil,help.device_settings.show
+comment utiliser une voix intelligente,help.intelli_voice.show
+comment fonctionnent les differents programmes,help.changing_memories.show
+"j'ai termine ce rappel, marque-le",reminders.task.complete
+envoyer une note,messaging.message.send
+le volume semble faible,device.volume.increase
+comment faire du pain,sys.oos.fallback
+pouvez-vous m'aider a associer mes aides auditives,help.pairing.show
+expliquer la personnalisation de mes aides auditives,help.customize.show
+"peux-tu, mon volume est trop faible",device.volume.increase
+detecter un telephone android,find.phone.locate
+voudrais-tu m'envoyer un message,messaging.message.send
+mes aides auditives semblent minuscules,help.device_settings.show
+aide au couplage bluetooth,help.pairing.show
+comprends ce locuteur etranger pour moi,translation.session.start
+s'il vous plait envoyez un message,messaging.message.send
+mon temps de marche est-il ?,activity.walk.query
+le micro du partenaire diffuse-t-il vers mes aides auditives,help.accessories.show
+peux-tu traduire en anglais,translation.session.start
+pourquoi mon aide auditive n'est-elle pas sur mon oreille droite,help.self_check.show
+pouvez-vous suggerer que si vous avez ete vaccine,sys.oos.fallback
+comment puis-je modifier les options de notification sur mes aides auditives ?,help.device_settings.show
+comment puis-je baisser le volume ?,help.volume.show
+ou est la fonction de recuperation de la frequence cardiaque ?,help.heart_rate_recovery.show
+pousser pour parler,messaging.message.send
+a quoi sert la fonction acouphenes,help.tinnitus.show
+comment mettre a jour les preferences de mon application,help.app_settings.show
+peux-tu changer la memoire en numero quatre,device.memory.change
+veuillez me montrer les parametres des acouphenes,help.tinnitus.show
+"peux-tu, je ne trouve pas mon aide auditive gauche",help.find_my_hearing_aids.show
+peux-tu eteindre le corps,sys.oos.fallback
+regler mes aides auditives pour une fete bruyante,device.memory.change
+aide-moi a comprendre les changements de souvenirs,help.changing_memories.show
+comment puis-je coupler mon aide auditive a mon telephone ?,help.pairing.show
+comment est mesuree la recuperation de la frequence cardiaque,help.heart_rate_recovery.show
+attenuez-le,device.volume.decrease
+j'ai besoin d'un coup de main pour y aller,help.home.show
+veuillez changer de telephone,device.memory.change
+peux-tu me rappeler de payer ma facture de carte de credit,reminders.task.create
+y a-t-il une fonction de traduction,help.translate.show
+commencer la transcription en direct,transcription.session.start
+rejouez-le.,messaging.message.listen
+ou est l'amelioration de la parole ?,help.intelli_voice.show
+"s'il vous plait, aidez-moi a appairer mes aides auditives",help.pairing.show
+suivre la course que j'ai terminee,activity.run.query
+est-ce que mode edge aide dans les endroits bruyants,help.edge_mode.show
+enregistrer ma promenade,activity.walk.query
+expliquer la fonctionnalite self check,help.self_check.show
+que fait mon aide auditive quand je tombe ?,help.fall_alert.show
+comment puis-je obtenir une assistance a distance,help.hearing_care_anywhere_connect.show
+comment puis-je modifier les niveaux d'acouphenes,help.tinnitus.show
+"peux-tu jouer, je le porte",sys.oos.fallback
+guide de recuperation de la frequence cardiaque,help.heart_rate_recovery.show
+peux-tu merci pour mon enfant quand j'etais petite avec un grand-pere qui m'a appris le coeur de mon visage,sys.oos.fallback
+comment reactiver le volume ?,help.volume.show
+quel est le menu de l'application,help.home.show
+activer le streaming,streaming.session.start
+quelle taille de batterie mes aides auditives utilisent-elles,help.battery.show
+alexa ne se connecte pas,sys.oos.fallback
+pouvez-vous avoir un souvenir d'acouphenes,device.memory.change
+comment ameliorer la voix avec mode edge,help.edge_mode.show
+revenir a mon reglage standard,device.memory.change
+aide a la configuration de la commande vocale,help.voice_assistant.show
+couper le son des aides auditives,device.volume.mute
+je veux creer un nouveau souvenir ?,help.memory_options.show
+pouvez-vous nous aider a changer de programme a l'aide de l'application,help.changing_memories.show
+traduire les mots de cette personne,translation.session.start
+quelle est une bonne idee cadeau,sys.oos.fallback
+comment puis-je regler le volume du bruit des acouphenes dans mes aides auditives ?,help.tinnitus.show
+comment saurai-je quand mon audiologiste a ajuste les aides ?,help.remote_programming.show
+ne me laisse pas oublier mon rendez-vous,reminders.task.create
+"s'il vous plait, aidez-moi avec les ajustements du bruit blanc pour mon aide auditive",help.tinnitus.show
+comment puis-je arreter un sms d'alerte ?,help.fall_alert.show
+"s'il te plait, ai-je fait du velo pendant une heure ?",activity.cycle.query
+la recuperation indique-t-elle la forme physique,help.heart_rate_recovery.show
+regler les problemes de son sur mes aides auditives,help.device_settings.show
+qu'est-ce que la perte auditive induite par le bruit,help.tinnitus.show
+peux-tu calories debout,activity.stand.query
+laisse le son revenir,device.volume.unmute
+veuillez passer le programme au numero deux,device.memory.change
+comment changer le volume de mon accessoire ?,help.accessories.show
+aide a la personnalisation s'il vous plait,help.customize.show
+ai-je atteint mon objectif d'exercice ?,activity.exercise.query
+pouvez-vous m'aider avec les ajustements du masque d'acouphenes sur mon aide auditive,help.tinnitus.show
+qu'est-ce que assistant thrive,help.voice_assistant.show
+peux-tu augmenter le volume de l'aide gauche,device.volume.increase
+"s'il te plait, rappelle-moi que j'ai un rendez-vous",reminders.task.create
+combien de jus reste-t-il ?,device.status.battery
+pouvez-vous regler le volume a 100 %,device.volume.increase
+qu'est-ce qui est different avec cette application ?,help.whats_new.show
+passer l'appel via mes aides auditives,streaming.session.start
+comment nettoyer mon aide auditive itc ?,help.clean_care.show
+pouvez-vous terminer le rappel.,reminders.task.complete
+je veux un rappel,reminders.task.create
+comment puis-je obtenir un reglage precis a distance,help.remote_programming.show
+aide-moi a transcrire,help.transcribe.show
+mes aides auditives,sys.oos.fallback
+peux-tu localiser ma femme,sys.oos.fallback
+"s'il te plait, enregistre cette conversation",transcription.session.start
+comment inserer mon aide auditive ?,help.insert_device.show
+comment puis-je verifier ma frequence cardiaque ?,help.heart_rate.show
+completer mon rappel.,reminders.task.complete
+guide-moi sur le soulagement des acouphenes,help.tinnitus.show
+les aides auditives traduisent l'aide,help.translate.show
+comment fonctionnent les rappels,help.reminder.show
+j'ai perdu mes aides auditives,help.find_my_hearing_aids.show
+s'il vous plait ecoutez mon message.,messaging.message.listen
+peux-tu me rappeler d'envoyer des cartes de noel chaque annee le 1er decembre a 17h.,reminders.task.create
+peux-tu vouloir avancer ouais je le ferai,sys.oos.fallback
+peux-tu definir des rappels,reminders.task.create
+peux-tu diminuer le volume,device.volume.decrease
+l'eau est-elle acceptable pour nettoyer mes aides auditives ?,help.clean_care.show
+prendre note pour plus tard,reminders.task.create
+choisis un souvenir,device.memory.change
+peux-tu faire du bruit dans un programme,device.memory.change
+que peut faire la fonction de sous-titrage,help.transcribe.show
+"s'il te plait, ou est le courant",sys.oos.fallback
+comment puis-je regler l'intensite du bruit des acouphenes dans les aides auditives ?,help.tinnitus.show
+j'aimerais definir un rappel,reminders.task.create
+quel est l'etat de mes piles,device.status.battery
+combien de temps dois-je rester debout,activity.stand.query
+"s'il vous plait, aidez-moi a transcrire",help.transcribe.show
+expliquer le menu des parametres,help.app_settings.show
+"peux-tu, ca te derange a propos de l'ajustement",sys.oos.fallback
+plus de volume s'il vous plait,device.volume.increase
+aide-moi a mieux entendre,device.volume.increase
+rendre mes aides auditives plus douces,device.volume.decrease
+veuillez rappeler la fete a 12h. vendredi,reminders.task.create
+pouvez-vous programmer un restaurant,device.memory.change
+puis-je mettre la bonne aide auditive derriere mon oreille ?,help.insert_device.show
+pouvez-vous definir un rappel concernant le lavage de la voiture,reminders.task.create
+puis-je changer ma batterie ?,help.battery.show
+"s'il te plait, passe au bruit",device.memory.change
+peux-tu etre a new amsterdam,sys.oos.fallback
+"s'il te plait, eteint mon aide auditive droite",device.volume.mute
+rappelez-moi d'eteindre mon telephone tous les jours a 23 heures.,reminders.task.create
+aide avec les ajustements des stimuli sonores dans mes aides auditives,help.tinnitus.show
+ne me laisse pas oublier de prendre mes medicaments demain matin,reminders.task.create
 rester objectif,activity.stand.query
 calories consommees aujourd'hui,activity.calories.query
-comment le mode masque aide-t-il avec les masques faciaux,help.mask_mode.show
-"s'il vous plait, montrez-moi la transcription du guide d'utilisation",help.transcribe.show
-peux-tu associer l'aide gauche,help.pairing.show
-merci de transcrire cette conversation,transcription.session.start
-comment puis-je passer a une autre memoire sur les aides ?,help.changing_memories.show
-ou est mon iphone,find.phone.locate
-passer au programme pour les restaurants,device.memory.change
-"s'il te plait, baisse le volume de mon aide auditive droite",device.volume.decrease
-dois-je recharger,device.status.battery
-"s'il te plait, change de domicile",device.memory.change
-peux-tu eteindre la tele,sys.oos.fallback
-mon aide auditive est lache dans mon oreille,help.insert_device.show
-"s'il te plait, rappelle-moi jeudi",reminders.task.create
-comment puis-je changer,sys.oos.fallback
-puis-je creer un nouveau programme,help.memory_options.show
-volume plus silencieux,device.volume.decrease
-veuillez synchroniser le bluetooth de la voiture avec l'aide auditive,help.pairing.show
-ajouter au rappel,reminders.task.create
-quand dois-je utiliser le controle de la balance ?,help.wi_c_r_o_s.show
-"peux-tu, je ne trouve pas mon aide auditive gauche",help.find_my_hearing_aids.show
-se connecter au streamer,streaming.session.start
-expliquer le menu des parametres,help.app_settings.show
-tout semble trop faible,device.volume.increase
-combien de temps suis-je reste debout,activity.stand.query
-ou est mon evaluation combinee du corps et du cerveau,help.thrive_score.show
-"est-ce que quelqu'un m'a envoye quelque chose, lis-le",messaging.message.listen
-expliquer comment fonctionnent les sous-titres dans l'application,help.transcribe.show
-"s'il vous plait, rappelez-moi de faire bouillir de l'eau tous les matins avant 7 heures du matin.",reminders.task.create
-comment sauvegarder les donnees dans mon application ?,help.hearing_care_anywhere_connect.show
-"s'il te plait, he, mark, d'accord.",sys.oos.fallback
-montre-moi un apercu d'engagement,help.whats_new.show
-jusqu'ou ai-je marche,activity.walk.query
-comment puis-je changer de programme sur mes aides auditives ?,help.changing_memories.show
-j'ai besoin d'un son plus silencieux,device.volume.decrease
-comment puis-je obtenir l'aide auditive gauche ?,help.self_check.show
-"s'il te plait, rappelle-moi de courir a 14 heures. a halloween",reminders.task.create
-ou est la fonction coeur ?,help.heart_rate.show
-comment puis-je rechercher mes autres aides ?,help.find_my_hearing_aids.show
-reveiller le son,device.volume.unmute
-comment puis-je localiser mon aide auditive appropriee ?,help.find_my_hearing_aids.show
-"s'il vous plait, il les a oublies et vous en avez besoin, faites-moi savoir si j'ai un apres-midi libre, je peux y conduire",sys.oos.fallback
-ou puis-je gerer les options de l'application,help.app_settings.show
-peux-tu me rappeler de laver la voiture,reminders.task.create
-quand est-ce que mode edge s'eteint,help.edge_mode.show
-"s'il vous plait, ecoutez mon message.",messaging.message.listen
-que peut faire l'application,help.home.show
-mon professionnel peut-il regler mon aide auditive a distance ?,help.remote_programming.show
-charger ma configuration normale,device.memory.change
-je suis dehors maintenant,device.memory.change
-"s'il te plait, il faisait noir dans le magasin",sys.oos.fallback
-que peut faire la fonction de sous-titrage,help.transcribe.show
-peux-tu trouver mon aide auditive gauche,help.find_my_hearing_aids.show
-peux-tu calmer la memoire,device.memory.change
-peux-tu en memoriser un,device.memory.change
-comment secher mes aides auditives,help.clean_care.show
-merci de me rappeler de recuperer mon ordonnance a 17h. le lundi,reminders.task.create
-pouvez-vous m'aider avec les ajustements du volume des acouphenes sur mes aides auditives,help.tinnitus.show
-j'ai besoin qu'on me le rappelle,reminders.task.create
-pouvez-vous minimiser le volume sonore,device.volume.decrease
-"s'il te plait, rappelle-moi de boire de l'eau dans 5 minutes",reminders.task.create
-s'il vous plait intellivoice guide de l'utilisateur,help.intelli_voice.show
-comment acceder au cloud ?,help.hearing_care_anywhere_connect.show
-mes aides auditives ont trop d'aigus,help.customize.show
-ou sont sauvegardees mes donnees,help.hearing_care_anywhere_connect.show
-laisse-moi ecouter mes messages,messaging.message.listen
-aide avec les reglages du volume de mes aides auditives,help.volume.show
-pouvez-vous aider a diffuser,help.accessories.show
-"s'il te plait, rappelle-moi de nettoyer les aides auditives aujourd'hui",reminders.task.create
-la tele est allumee mais ce qu'ils disent me manque,device.volume.increase
-que dois-je apprendre en premier,help.home.show
-peux-tu faire du bruit dans un programme,device.memory.change
-suivre ma frequence cardiaque,help.heart_rate.show
+ajouter un masque comme memoire personnalisee,help.memory_options.show
+aide a ajuster les parametres des acouphenes,help.tinnitus.show
+"s'il vous plait, aidez-nous a coupler les aides avec le telephone",help.pairing.show
+"s'il te plait, ca se lisse, c'est force",sys.oos.fallback
+j'ai besoin d'aide pour changer de programme,help.changing_memories.show
+decouvrir le telephone android,find.phone.locate
 pouvez-vous me montrer un apercu de cette application thrive,help.whats_new.show
-ou puis-je lancer un message texte d'alerte manuelle ?,help.fall_alert.show
-mon aide auditive est-elle connectee ?,help.pairing.show
-chercher mon telephone,find.phone.locate
-expliquer les changements de souvenirs,help.changing_memories.show
-ai-je atteint mon objectif d'aerobic,activity.aerobics.query
-peux-tu passer a la parole,device.memory.change
-comment changer le volume de mes aides auditives ?,help.volume.show
-qu'est-ce qui est different avec ipro ?,help.whats_new.show
-comment puis-je associer mon accessoire ?,help.accessories.show
-l'audioprothesiste peut-il regler l'aide a distance ?,help.remote_programming.show
-"peux-tu, j'aimerais diffuser maintenant",streaming.session.start
-ou est l'amelioration de la parole ?,help.intelli_voice.show
-fais taire,device.volume.decrease
-fais sonner mon telephone,find.phone.locate
-ou est traduire,help.translate.show
-aide a la configuration de hearshare,help.hear_share.show
-veuillez detecter le telephone android,find.phone.locate
-je dois planifier un rappel,reminders.task.create
-comment puis-je acceder a la fonction de recuperation de la frequence cardiaque ?,help.heart_rate_recovery.show
-puis-je changer le nom du streamer tv ?,help.accessories.show
-trouver un telephone,find.phone.locate
-calme-toi pour moi,device.volume.decrease
-veuillez completer ce rappel.,reminders.task.complete
-activer la concentration de la parole,device.memory.change
-minimum de son,device.volume.decrease
-comment puis-je acceder aux memoires de mes aides auditives ?,help.changing_memories.show
-"s'il vous plait, je n'entends pas de difference lorsque je change le controle de ma balance",help.wi_c_r_o_s.show
-desactiver la diffusion du microphone a distance,streaming.session.stop
-expliquer l'ecran principal,help.home.show
-l'aide auditive ne fonctionne pas,help.self_check.show
-laisse-moi entendre la tele,streaming.session.start
-comment puis-je ameliorer mon score cerebral ?,help.thrive_score.show
-explique-moi comment changer de profil,help.changing_memories.show
-faire avancer la traduction,translation.session.start
-quelle taille de pile mon aide auditive utilise-t-elle,help.battery.show
-quand utiliser le mode demo,help.demo_mode.show
-verifier mon niveau de charge,device.status.battery
-les voix me semblent lointaines,device.volume.increase
-"s'il vous plait, aidez-nous a changer de programme",help.changing_memories.show
-je dois deconnecter mon aide auditive de mon telephone,help.pairing.show
-encaissement de cheque,sys.oos.fallback
-peux-tu me laisser entendre le presentateur,streaming.session.start
-pouvez-vous avoir un souvenir d'acouphenes,device.memory.change
-peux-tu indiquer la direction du son,sys.oos.fallback
-peux-tu dimanche,sys.oos.fallback
-puis-je tester mes aides auditives pour m’assurer qu’elles fonctionnent correctement ?,help.self_check.show
-activer le mode traduction,translation.session.start
-ou est mon telephone,find.phone.locate
-diffuser depuis le micro distant,streaming.session.start
-comment utiliser streamboost,sys.oos.fallback
-laisse-moi enregistrer quelque chose pour quelqu'un,messaging.message.send
-transcription ouverte,transcription.session.start
-pouvez-vous m'aider avec les changements de volume sur mon aide auditive,help.volume.show
-comment saurai-je quand le professionnel a ajuste l’aide auditive ?,help.remote_programming.show
-comment voir mes objectifs quotidiens en matiere d'aide auditive ?,help.health.show
-"s'il te plait, parfois, c'est bien de prendre un jour de conge",sys.oos.fallback
-veuillez nous aider a appairer les aides auditives sur l'application thrive,help.pairing.show
-combien de pas ai-je fait ce mois-ci,activity.step.query
-a quoi servent tous ces boutons,help.home.show
-veuillez personnaliser les parametres de mon aide auditive,help.customize.show
-commencer a convertir la parole en texte,transcription.session.start
-comment deconnecter mon aide auditive ?,help.pairing.show
-peux-tu me rappeler a 11 heures du matin,reminders.task.create
-comment fonctionnent les mises a jour a distance de mes aides auditives,help.remote_programming.show
-creer un futur rappel,reminders.task.create
-combien de minutes ai-je fait de l'exercice cette semaine,activity.exercise.query
-"s'il vous plait, aidez-moi a trouver mon iphone",find.phone.locate
-expliquer comment fonctionne le mode demo,help.demo_mode.show
-baisser un peu le volume,device.volume.decrease
-peux-tu passer au mode silencieux,device.memory.change
-"s'il vous plait, je dois deconnecter mon aide auditive de mon telephone",help.pairing.show
-baisser le niveau sonore,device.volume.decrease
-aide sur la fonctionnalite des sous-titres,help.transcribe.show
-expliquer comment fonctionne mode edge,help.edge_mode.show
-comment puis-je dissocier mon accessoire ?,help.accessories.show
-comment puis-je regler le volume du masqueur d'acouphenes sur mon aide auditive ?,help.tinnitus.show
-peux-tu ouvrir la traduction,translation.session.start
-"s'il vous plait, baissez le volume a gauche",device.volume.decrease
-pourquoi mes aides auditives ne s'associent-elles pas,help.pairing.show
-nous attendons une mise a jour,sys.oos.fallback
-"s'il vous plait, j'ai besoin d'aide pour associer l'aide",help.pairing.show
-combien de temps dure la batterie,help.battery.show
-suivre ma balade a velo,activity.cycle.query
-soutenez-vous la traduction italienne,help.translate.show
-comment intellivoice,help.intelli_voice.show
-comment appairer mes aides auditives,help.pairing.show
-peux-tu en programmer quatre,device.memory.change
-peux-tu diffuser la television,streaming.session.start
-comment puis-je creer un nouveau programme,help.memory_options.show
-commencer a suivre mon jogging,activity.run.query
-comment puis-je utiliser des souvenirs personnalises ?,help.memory_options.show
-comment reactiver l'aide auditive gauche ?,help.volume.show
-comment puis-je lire mes statistiques de sante,help.health.show
-commencer mon entrainement de course a pied,activity.run.query
-explique-moi la recuperation de la frequence cardiaque,help.heart_rate_recovery.show
-y a-t-il un endroit pour modifier les parametres de mon application ?,help.app_settings.show
-peux-tu regler le programme sur deux,device.memory.change
-peux-tu trouver un telephone,find.phone.locate
-comment puis-je ameliorer mon score d'engagement ?,help.thrive_score.show
-peux-tu exprimer ma voix,help.intelli_voice.show
-coupez le volume s'il vous plait,device.volume.decrease
-veuillez definir un rappel pour tous les jours,reminders.task.create
-comment activer le mode masque pour les masques,help.mask_mode.show
-revenir a mon reglage standard,device.memory.change
-comment baisser le volume,help.volume.show
-comment configurer le streaming audio ?,help.device_settings.show
-comment puis-je desactiver la sensibilite du double tapotement ?,help.device_settings.show
-changement de ton,help.device_settings.show
-enregistrer quelque chose pour une autre personne,messaging.message.send
-donne-moi un coup de coude dans une heure,reminders.task.create
-qu'est-ce que le mode masque,help.mask_mode.show
-montre-moi ou est mon iphone,find.phone.locate
-montre-moi mon objectif de stand,activity.stand.query
-"s'il te plait, j'ai une accumulation de cire",help.clean_care.show
-completer mon rappel.,reminders.task.complete
-comment puis-je arreter de diffuser depuis mes accessoires ?,help.accessories.show
-comment puis-je les synchroniser ensemble,help.pairing.show
-mon fils a-t-il accepte mon invitation hearshare ?,help.hear_share.show
-pourquoi mon aide auditive droite ne fonctionne-t-elle pas,help.self_check.show
-couper completement les aides,device.volume.mute
-peux-tu associer mes aides auditives,help.pairing.show
-"s'il te plait, rappelle-moi a 19 heures. le 11 novembre pour faire ses devoirs",reminders.task.create
-aide a mettre mes appareils auditifs,help.insert_device.show
-peux-tu transcrire de l'aide,help.transcribe.show
-l'audiologiste peut-il regler mes aides auditives a distance ?,help.remote_programming.show
-guide-moi pour changer de profil,help.changing_memories.show
-"s'il vous plait, salut specifications, bonjour, bon coeur de statistiques. je n'ai pas eu cette couverture. mais le carton qui pendait a l'automne.",sys.oos.fallback
-joue le texte que je viens de recevoir,messaging.message.listen
-capturer mon cours d'aerobic,activity.aerobics.query
-demarrer le flux a distance,streaming.session.start
-dis-moi le pourcentage de batterie,device.status.battery
-mes aides auditives sont-elles a court d'energie,device.status.battery
-puis-je faire un rappel,reminders.task.create
-pouvez-vous modifier les parametres a trois,device.memory.change
-"s'il te plait, rappelle-moi a midi",reminders.task.create
-veuillez diminuer l'aide auditive droite,device.volume.decrease
-comment fonctionne le partage audio avec une autre personne,help.hear_share.show
-ou est le numero de serie,help.device_settings.show
-comment puis-je changer mon contact telephonique,help.fall_alert.show
-l'audioprothesiste peut-il regler mes aides auditives a distance ?,help.remote_programming.show
-bloque tous les sons,device.volume.mute
-veuillez associer l'aide appropriee,help.pairing.show
-ou sont mes appareils auditifs,help.find_my_hearing_aids.show
-j'ai mis un rappel pour mes pilules ce soir,reminders.task.create
-comment puis-je obtenir plus d’informations sur le score d’activite ?,help.thrive_score.show
-peux-tu regler la musique,device.memory.change
-comment puis-je regler le volume par oreille,help.volume.show
-demarrer la diffusion a distance,streaming.session.start
-"s'il te plait, c'est a toi",sys.oos.fallback
-je voudrais definir un rappel,reminders.task.create
-le bruit me frappe les oreilles,device.volume.decrease
-"s'il vous plait, j'ai perdu la memoire pour les restaurants et les reunions",help.memory_options.show
-aide pour appairer les aides auditives sur l'application thrive,help.pairing.show
-"s'il vous plait, aidez-moi avec les parametres de l'appareil",help.device_settings.show
-"s'il te plait, je veux ecouter le presentateur",streaming.session.start
-"s'il vous plait, montrez-moi un apercu d'ipro",help.whats_new.show
-est-il possible de pousser l'aide auditive loin ?,help.insert_device.show
-puis-je nettoyer le pare-cerumen,help.clean_care.show
-ma recuperation de frequence cardiaque est-elle mauvaise ?,help.heart_rate_recovery.show
-comment puis-je modifier mes objectifs de pas de mensuels a quotidiens ?,help.health.show
-commence a ecrire le discours,transcription.session.start
-comment calculez-vous le score thrive ?,help.thrive_score.show
-j'ai besoin d'un coup de pouce plus tard a ce sujet,reminders.task.create
-pourquoi ne puis-je pas obtenir 200 points avec le score de bien-etre ?,help.thrive_score.show
-comment puis-je m'assurer que mes aides auditives fonctionnent correctement,help.self_check.show
-quoi de neuf dans mon application ?,help.whats_new.show
-ai-je atteint mon objectif de pas,activity.step.query
-qu'est-ce que le journal de donnees,help.device_settings.show
-"mon combine a disparu, veuillez sonner",find.phone.locate
-"peux-tu parfois, c'est bien de prendre un jour de conge",sys.oos.fallback
-envoyer une note vocale,messaging.message.send
-desactiver le mode sourdine,device.volume.unmute
-envoyer un mot a ma famille,messaging.message.send
-"s'il vous plait, aidez-moi a changer de souvenirs en utilisant mon application thrive",help.changing_memories.show
-utiliser l'application sans aide,help.demo_mode.show
-comment changer le ton de mes aides auditives,help.customize.show
-ne peux-tu pas si fort,device.volume.decrease
-ou puis-je lancer une alerte manuelle ?,help.fall_alert.show
-mode edge est-il bon pour les restaurants,help.edge_mode.show
-pouvez-vous m'aider a appairer les aides auditives au telephone,help.pairing.show
-combien de temps ai-je travaille,activity.exercise.query
-peux-tu me parler de la langue amharique,sys.oos.fallback
-monte le volume,device.volume.increase
-"peux-tu, je ne me souviens pas ou sont mes aides auditives",help.find_my_hearing_aids.show
-"peux-tu salut, je ne le sais pas",sys.oos.fallback
-la fonction de double tapotement est trop sensible. comment regler la sensibilite ?,help.device_settings.show
-"s'il vous plait, aidez-moi en matiere de frequence cardiaque",help.heart_rate.show
-comment baisser le volume des aides auditives ?,help.volume.show
-qu'est-ce que la recuperation de la frequence cardiaque ?,help.heart_rate_recovery.show
-veuillez definir un rappel pour acheter du lait le 11 novembre a 17h.,reminders.task.create
-couper le son diffuse,streaming.session.stop
-quelle est la qualite de la fonction de traduction,help.translate.show
-commencer a suivre mon trajet a velo,activity.cycle.query
-plus de volume,device.volume.increase
-"s'il te plait, rappelle-moi d'appeler jose demain",reminders.task.create
-comment puis-je verifier mon activite globale,help.health.show
-donne-moi ma consommation d'energie,activity.calories.query
-j'ai besoin d'aide pour associer mon aide auditive a mon telephone,help.pairing.show
-comment activer le mode demo ?,help.demo_mode.show
+diminution du volume,device.volume.decrease
+suis-je presque vide ?,device.status.battery
+peux-tu passer au silence,device.memory.change
+pouvez-vous raichu suite de programmation informatique sur la recherche binaire,sys.oos.fallback
+l'aide auditive tombe quand je mache,help.insert_device.show
+je veux laisser un message,messaging.message.send
+ou est mon fils,sys.oos.fallback
 comment puis-je creer une memoire personnalisee,help.memory_options.show
-montrer mon activite de marche,activity.walk.query
-comment puis-je coupler mes aides auditives a mon telephone,help.pairing.show
-changer de programme d'aide auditive,device.memory.change
-pouvez-vous associer des aides auditives sur mon application thrive,help.pairing.show
-rappelle-moi de prendre des medicaments aujourd'hui dans une minute,reminders.task.create
-"s'il te plait, appelle un ami",sys.oos.fallback
-comment puis-je en savoir plus sur le changement de programme,help.changing_memories.show
-s'il te plait augmente le volume,device.volume.increase
-quoi de neuf dans l'application ?,help.whats_new.show
-"s'il te plait, je ne me souviens plus ou se trouvent mes aides auditives",help.find_my_hearing_aids.show
-revenir en mode normal,device.memory.change
-aider a comprendre le taux de recuperation,help.heart_rate_recovery.show
-combien d'etapes avant mon objectif,activity.step.query
-comment puis-je demarrer la diffusion depuis mon micro distant ?,help.accessories.show
-comment puis-je regler le volume du bruit blanc de mon aide auditive ?,help.tinnitus.show
-expliquer la fonction trouver mes aides auditives,help.find_my_hearing_aids.show
-combien de calories aujourd'hui,activity.calories.query
-explique-moi l'application,help.home.show
-comment savoir si mon aide auditive fonctionne ?,help.self_check.show
-ou est la voix ai ?,help.intelli_voice.show
-comment puis-je enregistrer les parametres sur mode edge ?,help.edge_mode.show
-comment puis-je regler le masque d'acouphenes de mon aide auditive ?,help.tinnitus.show
-j'en ai besoin plus doux,device.volume.decrease
-que peut faire mon aide auditive en cas de chute ?,help.fall_alert.show
-comment trouver la bonne aide ?,help.find_my_hearing_aids.show
-"s'il te plait, ecoute la tele",streaming.session.start
-comment stocker les piles de rechange,help.battery.show
-"s'il te plait, retourne a la maison",device.memory.change
-veuillez couper le son des aides auditives,device.volume.mute
-comment puis-je envoyer une note a mon medecin,help.remote_programming.show
-comment puis-je ajouter une autre personne avec hearshare ?,help.hear_share.show
-comment supprimer mon accessoire ?,help.accessories.show
-comment puis-je coupler mon aide auditive a mon telephone ?,help.pairing.show
-pouvez-vous m'aider avec le flux,help.accessories.show
-ou est mon appareil auditif ?,help.find_my_hearing_aids.show
-calories brulees jusqu'a present aujourd'hui,activity.calories.query
-combien ai-je marche ?,activity.walk.query
-peux-tu me montrer comment utiliser le rappel,help.reminder.show
-"s'il vous plait, j'ai perdu mon telephone android",find.phone.locate
-peux-tu programmer de la musique,device.memory.change
-le son retentit a nouveau s'il te plait,device.volume.unmute
-comment puis-je augmenter le volume des aides auditives ?,help.volume.show
-aide a la mise en place d'une ecoute partagee,help.hear_share.show
-"s'il te plait, c'est trop bas, monte le volume",device.volume.increase
-pouvez-vous baisser le volume de votre aide auditive,device.volume.decrease
-comment utiliser le mode masque,help.mask_mode.show
-localiser mes aides auditives,help.find_my_hearing_aids.show
-donnez-moi une alerte a l'heure prevue,reminders.task.create
-mon appareil auditif n'arrete pas de tomber de mon oreille,help.insert_device.show
-qu'y a-t-il dans mode edge ?,help.edge_mode.show
-que signifie le score de bien-etre ?,help.thrive_score.show
-peux-tu regler le numero quatre,device.memory.change
-envoyer un message audio,messaging.message.send
-enregistrer mes exercices d'aerobic,activity.aerobics.query
-guidez-moi pour executer un test d'appareil,help.self_check.show
-comment reinitialiser mes objectifs de sante,help.health.show
-"s'il vous plait, l'alerte de chute ne fonctionne pas",help.fall_alert.show
-je ne comprends pas leur langue traduite,translation.session.start
-envoie un message a mon frere,messaging.message.send
-mes aides auditives ne se connectent pas a l'application,help.pairing.show
-expliquer comment planifier des rappels,help.reminder.show
-"s'il te plait, j'ai un telephone chica si tu peux lui trouver quelque chose de bien",sys.oos.fallback
-appairer mon aide auditive gauche,help.pairing.show
-guide-moi sur le reglage du volume,help.volume.show
-"s'il vous plait, j'ai besoin d'aide pour associer mon aide auditive a mon telephone",help.pairing.show
-ou les transcriptions sont-elles enregistrees,help.transcribe.show
-ne me laisse pas oublier de payer le loyer demain,reminders.task.create
-je pars courir,activity.run.query
-pouvez-vous qui a la meilleure cuisine chinoise a sioux falls ?,sys.oos.fallback
-active le streaming dans mes oreilles,streaming.session.start
-peux-tu ecouter le dernier message,messaging.message.listen
-message a mon mari,messaging.message.send
-je suis confus par tous ces ecrans,help.home.show
-envoyer un message a une personne,messaging.message.send
-"s'il te plait, change la memoire en numero trois",device.memory.change
-rendre les aides auditives plus silencieuses,device.volume.decrease
-"s'il vous plait, associez mes aides auditives a mon telephone",help.pairing.show
-comment puis-je savoir si une alerte manuelle a ete lancee ?,help.fall_alert.show
-comment executer intellivoice,help.intelli_voice.show
-quand dois-je lancer un texte d’alerte manuelle ?,help.fall_alert.show
-peux-tu programmer tranquillement,device.memory.change
-comment quitter le mode demo,help.demo_mode.show
-mets le son de la tele dans mes oreilles,streaming.session.start
-pouvez-vous diminuer le volume de mes aides auditives,device.volume.decrease
-comment fonctionne la mini telecommande,help.accessories.show
-ou est l'assistant virtuel ?,help.voice_assistant.show
-"s'il te plait, rappelle-moi mon rendez-vous chez le medecin",reminders.task.create
-peux-tu rechercher android,find.phone.locate
-peux-tu desactiver les aides,device.volume.mute
-se connecter directement aux aides,streaming.session.start
-enregistre mon trajet pour moi,activity.cycle.query
-quand dois-je utiliser intellivoice,help.intelli_voice.show
-"s'il te plait, allume mon aide auditive gauche",device.volume.unmute
-comment puis-je regler le volume du bruit des acouphenes sur mon aide auditive ?,help.tinnitus.show
-peux-tu les appeler et voir s'ils veulent que j'envoie cet enorme,sys.oos.fallback
-quel pourcentage de mon aide auditive est facture,device.status.battery
-comment puis-je verifier mes aides auditives pour m’assurer qu’elles fonctionnent correctement ?,help.self_check.show
-sauve la course que je viens de terminer,activity.run.query
-debrancher l'audio du televiseur,streaming.session.stop
-quel est le probleme avec mon aide auditive,help.self_check.show
-"s'il vous plait, mettez le volume sur l'aide gauche",device.volume.unmute
-comment saurai-je quand l’audioprothesiste a ajuste mes aides auditives ?,help.remote_programming.show
-completer mon rappel,reminders.task.complete
-je voudrais un rappel,reminders.task.create
-etat de la batterie s'il vous plait,device.status.battery
-s'il vous plait dites-moi quel est mon objectif de stand,activity.stand.query
-quand dois-je commencer un texte d’alerte manuelle ?,help.fall_alert.show
-baisse d'un cran,device.volume.decrease
-je dois me souvenir de quelque chose plus tard,reminders.task.create
-suivre mon entrainement de danse,activity.aerobics.query
-pouvez-vous m'aider a regler le bruit des acouphenes dans mon aide auditive,help.tinnitus.show
-je n'entends pas de difference lorsque je change le controle de ma balance,help.wi_c_r_o_s.show
-son maximum,device.volume.increase
-laisse-moi entendre ma tele,streaming.session.start
-pouvez-vous regler le rappel a 17 heures ?,reminders.task.create
-pouvez-vous definir un rappel pour recuperer votre ordonnance aujourd'hui a 17 heures.,reminders.task.create
-pouvez-vous localiser mon aide auditive,help.find_my_hearing_aids.show
-pouvez-vous localiser mes aides auditives ?,help.find_my_hearing_aids.show
-passer l'appel via mes aides auditives,streaming.session.start
-coupe la connexion tv a mes aides auditives,streaming.session.stop
-pouvez-vous m'aider avec les ajustements du masque d'acouphenes sur mes aides auditives,help.tinnitus.show
-puis-je envoyer un message,messaging.message.send
-veuillez regler le programme sur quatre,device.memory.change
-dis-moi mes calories pour aujourd'hui,activity.calories.query
-peux-tu recevoir,help.wi_c_r_o_s.show
-laisser un message,messaging.message.send
-je vais me promener,activity.walk.query
-comment restaurer les parametres de l'application thrive ?,help.hearing_care_anywhere_connect.show
-comment ajouter des accessoires a mon application ?,help.accessories.show
-veuillez localiser mon autre aide,help.find_my_hearing_aids.show
-envoyer ce que j'entends a une autre personne,help.hear_share.show
-veuillez suggerer que si vous avez ete vaccine,sys.oos.fallback
-comment puis-je creer ma propre memoire pour mes aides auditives ?,help.memory_options.show
-pouvez-vous localiser le parcours de golf le plus proche,sys.oos.fallback
-j'ai besoin d'un coup de pouce demain matin,reminders.task.create
-depuis combien de temps suis-je debout ?,activity.stand.query
+laisse tomber le son dans mon aide auditive,device.volume.decrease
+connecter l'aide appropriee,help.pairing.show
+quelles langues la fonction de traduction propose-t-elle,help.translate.show
+comment puis-je desactiver l'aide ?,help.volume.show
+quel est l'outil trouver mes aides auditives,help.find_my_hearing_aids.show
+"s'il te plait, rappelle-moi de regarder",reminders.task.create
+qu'est-ce que le mode de base ?,help.app_settings.show
+ajuster l'oreille droite pour un son plus eleve,device.volume.increase
+combien de temps suis-je reste debout,activity.stand.query
+comment puis-je augmenter mon score d'engagement ?,help.thrive_score.show
+quoi de neuf?,help.whats_new.show
+je ne veux pas oublier ca,reminders.task.create
+pouvez-vous m'aider pour la tele ici,help.hearing_care_anywhere_connect.show
+veuillez modifier les plaques metalliques tempete de myrtle beach,sys.oos.fallback
+que puis-je demander au assistant thrive ?,help.voice_assistant.show
+commence a marcher,activity.walk.query
+pouvez-vous m'aider a changer de programme,help.changing_memories.show
+baisser le niveau de mes aides auditives,device.volume.decrease
+"peux-tu, mon aide auditive gauche ne repond pas",help.self_check.show
+envoyer un message texte,messaging.message.send
+que montre la fonction de frequence cardiaque,help.heart_rate.show
+pouvez-vous localiser mon autre aide,help.find_my_hearing_aids.show
+peux-tu remettre le volume a la normale,device.volume.unmute
+je ne me souviens pas ou se trouve mon autre aide auditive,help.find_my_hearing_aids.show
 mettre fin au lien tele vers mes aides auditives,streaming.session.stop
-teleentendre,help.hearing_care_anywhere_connect.show
-combien de calories ai-je brule hier,activity.calories.query
-peux-tu en programmer deux,device.memory.change
-s'il vous plait d'abord laver la machine,sys.oos.fallback
-reduire le niveau de bruit,device.volume.decrease
-"s'il vous plait, j'ai besoin d'aide pour l'appairage avec mon telephone",help.pairing.show
-que signifie le score cerebral ?,help.thrive_score.show
-deplace-moi vers le discours en mode bruit,device.memory.change
-s'il te plait et pousse-le vers le bas pour le drame,sys.oos.fallback
-"s'il te plait, baisse le son",device.volume.decrease
-changer la memoire,device.memory.change
-comment puis-je obtenir un meilleur score d’engagement ?,help.thrive_score.show
-tue completement tout le bruit,device.volume.mute
-pourquoi les piles meurent-elles rapidement dans mes aides auditives,help.battery.show
-comment puis-je configurer hearshare ?,help.hear_share.show
-aide au rappel,help.reminder.show
-expliquer comment fonctionne le reglage a distance,help.remote_programming.show
-envoyer un message a ce contact,messaging.message.send
-quand entendrais-je l'alerte envoyee ?,help.fall_alert.show
-par ou commencer un message d'alerte manuelle ?,help.fall_alert.show
-changer de mode d'ecoute,device.memory.change
-ca fait longtemps que je fais du jogging ?,activity.run.query
-quel est le sens de la vie ?,sys.oos.fallback
-comment calcule-t-on le score ipro ?,help.thrive_score.show
-y a-t-il plusieurs langues a traduire,help.translate.show
-"s'il te plait, je veux plus de volume",device.volume.increase
-peux-tu baisser le volume de mes aides auditives,device.volume.decrease
-"peux-tu, je ne peux pas mettre mon appareil auditif",help.insert_device.show
-"peux-tu, j'ai perdu mon autre aide auditive",help.find_my_hearing_aids.show
-"s'il te plait, joue a frank sinatra",sys.oos.fallback
-comment puis-je verifier mon score de bien-etre,help.thrive_score.show
-peux-tu me rappeler le rendez-vous,reminders.task.create
-comment saurai-je quand mon audiologiste a ajuste les aides ?,help.remote_programming.show
-peux-tu ecouter mon dernier enregistrement.,messaging.message.listen
-comment fonctionne l'amelioration de la parole dnn ?,help.intelli_voice.show
-ou puis-je arreter un message texte d'alerte ?,help.fall_alert.show
-comment retrouver des aides auditives perdues,help.find_my_hearing_aids.show
-aide avec le mauvais son de mes aides auditives,help.device_settings.show
-montre-moi le mode demo,help.demo_mode.show
-arreter de diffuser la television,streaming.session.stop
-marquer cette tache terminee,reminders.task.complete
-pouvez-vous m'aider avec les ajustements du masque d'acouphenes sur mon aide auditive,help.tinnitus.show
-"s'il te plait, aide-moi a trouver mon aide auditive",help.find_my_hearing_aids.show
-"peux-tu, j'ai perdu mon appareil auditif",help.find_my_hearing_aids.show
-j'ai besoin de conseils,help.home.show
-"donne-moi tellement, je ne sais pas, c'est un autre probleme",sys.oos.fallback
 comment acceder aux parametres de l'application ?,help.app_settings.show
+comment fonctionne la transcription,help.transcribe.show
+quel mode gere un environnement venteux,help.edge_mode.show
+aide avec le reglage du volume de mon aide auditive,help.volume.show
+montre-moi les fondamentaux,help.home.show
+l'audioprothesiste peut-il regler l'aide a distance ?,help.remote_programming.show
+je commence mon trajet,device.memory.change
+peux-tu passer au programme numero un,device.memory.change
+peux-tu me rappeler d'acheter du lait mardi a 20h.,reminders.task.create
+peux-tu m'aider a trouver mon aide auditive,help.find_my_hearing_aids.show
+peux-tu programmer le numero trois,device.memory.change
+peux-tu passer au travail,device.memory.change
+expliquer l'entretien des aides auditives,help.clean_care.show
+peux-tu me rappeler d'eteindre mon telephone tous les jours a 23 heures.,reminders.task.create
+dis-moi des nouvelles d'aujourd'hui,sys.oos.fallback
+tout semble trop dur,device.volume.decrease
+faire savoir quelque chose a ma famille,messaging.message.send
+"s'il vous plait, envoyez de l'aide par ia",help.intelli_voice.show
+comment fonctionne la teleecoute,help.hearing_care_anywhere_connect.show
+comment puis-je couper le son de l'emetteur cros ?,help.wi_c_r_o_s.show
+comment puis-je sauvegarder les donnees de mon application thrive,help.hearing_care_anywhere_connect.show
+comment puis-je baisser le volume dans une seule aide auditive ?,help.volume.show
+est-ce que la transcription garde mes conversations,help.transcribe.show
+flux d'aide,help.accessories.show
+comment puis-je changer le volume de mon emetteur ou de mon recepteur ?,help.wi_c_r_o_s.show
+je dois demander aux gens de se repeter,device.volume.increase
 que fait cette application,help.home.show
-je ne peux pas l'entendre donc c'est bien,sys.oos.fallback
-peux-tu m'aider a transcrire,help.transcribe.show
+peux-tu passer le programme au numero quatre,device.memory.change
+comment puis-je surveiller ma frequence cardiaque ?,help.heart_rate.show
+quels assistants vocaux puis-je utiliser,help.voice_assistant.show
+quand puis-je intercepter un texte d’alerte de chute ?,help.fall_alert.show
+"s'il vous plait, j'ai besoin d'aide pour associer l'aide",help.pairing.show
+peux-tu decouvrir un telephone android,find.phone.locate
+comment puis-je passer a un autre programme sur l'aide auditive ?,help.changing_memories.show
+"s'il te plait, montre-moi mon objectif d'activite ?",activity.aerobics.query
+veuillez passer a la memoire 1,device.memory.change
+comment fonctionne la fonction de traduction ?,help.translate.show
+comment puis-je dissocier le micro distant ?,help.accessories.show
+comment puis-je obtenir l'aide auditive gauche ?,help.self_check.show
+peux-tu activer le streaming,streaming.session.start
+qu'est-ce que la voix ai ?,help.intelli_voice.show
+baisse mes aides auditives,device.volume.decrease
+comment changer le volume de l'accessoire ?,help.accessories.show
+diffuser ce que j'entends a un membre de ma famille,help.hear_share.show
+trouver mon combine,find.phone.locate
+"je l'ai termine, supprime le rappel",reminders.task.complete
+a quoi sert cet ecran,help.home.show
+montre-moi un guide d'aide pour mes accessoires,help.accessories.show
+localiser le telephone,find.phone.locate
+"s'il te plait, diminue le volume de mes aides auditives",device.volume.decrease
+transmets ceci a quelqu'un,messaging.message.send
+veuillez passer au maitre,device.memory.change
+le rendre moins intense,device.volume.decrease
+comment puis-je passer a la memoire musicale ?,help.changing_memories.show
+comment rendre mon aide auditive plus douce,help.volume.show
+quelle est cette interface,help.home.show
+"s'il te plait, dis-moi combien je te dois en espagnol",translation.session.start
+planifier un rappel,reminders.task.create
+informations sur le score de bien-etre,help.thrive_score.show
+"s'il vous plait, ou est le bouton memoire ?",help.changing_memories.show
+"s'il te plait, tire vendredi",sys.oos.fallback
+de quelle pile ai-je besoin pour mon aide auditive,help.battery.show
+enregistrer cette reunion,transcription.session.start
+quel est le tarif de mes aides auditives,device.status.battery
+pouvez-vous rendre les choses plus faciles a entendre ?,device.volume.increase
+guide-moi dans l'entretien de mes aides auditives,help.clean_care.show
+je dois dissocier mes aides auditives de mon telephone,help.pairing.show
+"peux-tu, il est sur le ventre",sys.oos.fallback
+peux-tu garder une trace de cela pour moi ?,reminders.task.create
+je suis dans une grande salle d'echo maintenant,device.memory.change
+je pourrais oublier ca,reminders.task.create
+fais plaisir aux hommes de l'ombre sur une planete sombre,sys.oos.fallback
+puis-je tester mes aides auditives pour m’assurer qu’elles fonctionnent correctement ?,help.self_check.show
+"papa doit trouver le meme stock maintenant, on pourrait y etre avec une valise dans le garage",sys.oos.fallback
+decouvrir le telephone,find.phone.locate
+faire un nouveau rappel,reminders.task.create
+peux-tu paroles,sys.oos.fallback
+emmene-moi pour un demarrage rapide,help.whats_new.show
+"assistant vocal, aidez-moi s'il vous plait",help.voice_assistant.show
+comment puis-je empecher mon telephone de sonner dans mon,sys.oos.fallback
+sauve la course que je viens de terminer,activity.run.query
+comment regler mon masqueur de bruit sur les aides ?,help.tinnitus.show
+connecte-moi a mon audiologiste,help.remote_programming.show
+je veux que quelqu'un m'ecoute,help.hear_share.show
+comment faire passer mes objectifs de pas d'hebdomadaires a quotidiens ?,help.health.show
+envoie-moi le son de la tele,streaming.session.start
+j'ai egare mes deux aides,help.find_my_hearing_aids.show
+peux-tu tonner un message,sys.oos.fallback
+"peux-tu, je ne sais pas ce que tu fais, il me manque un autre",sys.oos.fallback
+"cela prend 10 minutes, puis nous pouvons le mettre dans le recipient.",sys.oos.fallback
+aide avec le reglage du volume des acouphenes dans mon aide auditive,help.tinnitus.show
+synchroniser l'aide auditive avec la television,help.pairing.show
+mesures prises,activity.step.query
+presente-moi l'application,help.home.show
+voir mes battements par minute en lecture,help.heart_rate.show
+peux-tu passer a la memoire 1,device.memory.change
+comment puis-je personnaliser les reglages de mon aide auditive ?,help.customize.show
+"s'il te plait, change de main, cherie",sys.oos.fallback
+aide pour coupler des appareils auditifs avec l'application thrive,help.pairing.show
+rappel complet,reminders.task.complete
+intellivoice aidez-moi s'il vous plait,help.intelli_voice.show
+l'audiologiste peut-il regler mes aides auditives a distance ?,help.remote_programming.show
+"s'il te plait, passe la memoire au numero un",device.memory.change
+jouer mon dernier enregistrement.,messaging.message.listen
+"s'il te plait, determine ton objectif",activity.exercise.query
+ou puis-je controler la balance de mon aide auditive ?,help.wi_c_r_o_s.show
+peux-tu trouver un telephone android,find.phone.locate
+mode demonstration,help.demo_mode.show
+comment fonctionne le score aimable ?,help.thrive_score.show
+comment puis-je m'ajuster au vent,help.customize.show
+ecouter mon message audio.,messaging.message.listen
+"s'il te plait, rappelle-moi tous les jours de lire un livre a 18 heures.",reminders.task.create
+ou est le controle du volume,help.volume.show
+baisser le son,device.volume.decrease
+passer en mode restaurant,device.memory.change
+comment acceder a la traduction,help.translate.show
+debranchez le microphone a distance,streaming.session.stop
+je n'entends pas bien le haut-parleur,device.volume.increase
+amene-moi au rappel de l'aide,help.reminder.show
+peux-tu ecouter le presentateur,streaming.session.start
+veuillez diminuer l'aide auditive droite,device.volume.decrease
+aide pour transcrire,help.transcribe.show
+pouvez-vous ajouter un masque comme memoire personnalisee,help.memory_options.show
+ou est l'autocontrole ?,help.self_check.show
+comment savoir si une alerte a ete annulee ?,help.fall_alert.show
+comment puis-je demarrer la diffusion depuis mon micro distant ?,help.accessories.show
+comment puis-je ajuster mon masque d'acouphenes dans mes aides auditives ?,help.tinnitus.show
+peux-tu eteindre l'alarme,sys.oos.fallback
+j'en ai besoin plus doux,device.volume.decrease
+etapes pour coupler mes appareils auditifs,help.pairing.show
+"s'il vous plait, des saucisses apres avoir utilise ma position",sys.oos.fallback
+peux-tu connecter l'aide gauche,help.pairing.show
+combien de temps doit durer une batterie,help.battery.show
+depuis combien de temps je fais du velo,activity.cycle.query
+guide-moi sur la fonction assistant vocal,help.voice_assistant.show
+comment desactiver le mode masque,help.mask_mode.show
+appairer mon aide auditive gauche,help.pairing.show
+peux-tu passer a la memoire numero deux,device.memory.change
+"s'il te plait, rappelle-moi d'acheter du pain a 11 heures demain",reminders.task.create
+pouvez-vous associer des aides auditives sur mon application thrive,help.pairing.show
+enregistrer une course,activity.run.query
+expliquer les options de memoire,help.memory_options.show
+controler le volume de chaque aide individuellement,help.volume.show
+comment puis-je voir mes objectifs de velo ?,help.health.show
+est-ce que j'ai couru pendant une heure ?,activity.run.query
+quelle est la qualite de ma recuperation de frequence cardiaque,help.heart_rate_recovery.show
+puis-je revenir en arriere apres avoir change de mode ?,help.app_settings.show
+appliquer une reduction du bruit du vent,device.memory.change
+sonne sur mon telephone pour que je l'entende,find.phone.locate
+comment fonctionne le score d’activite ?,help.thrive_score.show
+aide avec la fonction d'amelioration de la parole,help.intelli_voice.show
+je veux du silence,device.volume.decrease
+ajouter un rappel,reminders.task.create
+desactiver le mode masque,help.mask_mode.show
+veuillez faire fonctionner le programme,device.memory.change
+pourquoi je n'entends aucun son,help.volume.show
+commence a traduire pour moi,translation.session.start
+comment configurer le streaming automatique ?,help.device_settings.show
+reparer le son declinant de mes aides auditives,help.device_settings.show
+faire un message vocal,messaging.message.send
+merci de me rappeler de recuperer mon ordonnance a 17h. mardi,reminders.task.create
+comment le mode masque aide-t-il avec les masques faciaux,help.mask_mode.show
+diffuser depuis un micro accessoire vers mes aides auditives,help.accessories.show
+depuis combien de temps suis-je debout ?,activity.stand.query
+comment puis-je m'approprier le son,help.customize.show
+utiliser un accessoire de micro externe avec mes aides auditives,help.accessories.show
+appairer mes aides auditives avec l'application thrive,help.pairing.show
+comment puis-je enregistrer mes parametres en ligne,help.hearing_care_anywhere_connect.show
+comment self check,help.self_check.show
+faire taire completement les aides,device.volume.mute
+pouvez-vous associer mes aides auditives a l'application thrive,help.pairing.show
+rappelle-moi la veille,reminders.task.create
+quand dois-je utiliser intellivoice,help.intelli_voice.show
+montre-moi transcrire le guide de l'utilisateur,help.transcribe.show
+comment saurai-je quand le professionnel a ajuste l’aide auditive ?,help.remote_programming.show
+comment puis-je passer a une memoire differente sur les aides ?,help.changing_memories.show
+entendez-le alors qu’ils doivent partir.,sys.oos.fallback
+pouvez-vous ecouter le dernier message audio.,messaging.message.listen
+peux-tu avoir atteint mon objectif d'aerobic ?,activity.aerobics.query
+"s'il te plait, les vents d'ouest le font exploser",sys.oos.fallback
+vais-je passer la journee,device.status.battery
+est-ce que je vais passer l'apres-midi ?,device.status.battery
+pouvez-vous definir un rappel pour le 25 novembre,reminders.task.create
+ajuster le mode pour le trafic,device.memory.change
+j'en ai besoin de plus calme,device.volume.decrease
+comment partager mes informations avec ma femme ?,help.hear_share.show
+comment configurer les notifications par e-mail ?,help.device_settings.show
+quand puis-je envoyer une alerte manuelle ?,help.fall_alert.show
+qu'est-ce que le reglage a distance,help.remote_programming.show
+volume coupe,device.volume.mute
+les aides auditives sont-elles connectees au telephone ?,help.pairing.show
+"s'il vous plait, mon aide auditive gauche a disparu",help.find_my_hearing_aids.show
+peux-tu me rappeler de m'entrainer demain matin a 6 heures,reminders.task.create
+pouvez-vous m'aider avec les ajustements du bruit blanc,help.tinnitus.show
+peux-tu passer le reglage au numero un,device.memory.change
+comment puis-je regler le volume sur la bonne aide ?,help.volume.show
+peux-tu diffuser a distance,streaming.session.start
+se deconnecter de la television,streaming.session.stop
+peux-tu me rappeler de recuperer mon ordonnance dimanche a 17h.,reminders.task.create
+tout semble trop fort,device.volume.decrease
+puis-je attribuer un emplacement a ma memoire ?,help.memory_options.show
+j'ai besoin d'aide pour l'appairage,help.pairing.show
+traduire leur discours en anglais,translation.session.start
+pouvez-vous voir comment il se deplace tout au long.,sys.oos.fallback
+ce qui a ete mis a jour recemment,help.whats_new.show
+comment executer intellivoice,help.intelli_voice.show
+comment laver mon aide auditive ?,help.clean_care.show
+explique-moi la recuperation de la frequence cardiaque,help.heart_rate_recovery.show
+aide au bilan de sante,help.health.show
+pouvez-vous me rappeler de recuperer mon ordonnance a 17h. mardi,reminders.task.create
+comment puis-je verifier mon score de bien-etre,help.thrive_score.show
+pouvez-vous definir un rappel pour prendre des medicaments a 13 heures ?,reminders.task.create
+comment puis-je obtenir un meilleur score corporel ?,help.thrive_score.show
+pourquoi une seule de mes aides auditives fonctionne-t-elle,help.self_check.show
+quelles sont les nouvelles fonctionnalites de l'aide auditive,help.whats_new.show
+combien de pas ai-je fait aujourd'hui ?,activity.step.query
+pourquoi mon aides auditives bourdonne,help.device_settings.show
+ou est mon telephone ios,find.phone.locate
+"s'il vous plait, je suis interesse par ma position",sys.oos.fallback
+je dois avertir quelqu'un,messaging.message.send
+allumer les appareils auditifs,device.volume.unmute
+envoie un message a mon mari,messaging.message.send
+puis-je passer a un autre programme ?,help.changing_memories.show
+comment desactiver le double appui sur mon aide auditive ?,help.device_settings.show
+comment personnaliser l'aide ?,help.customize.show
+refuse mon aide auditive droite,device.volume.decrease
+pouvez-vous localiser mon aide auditive droite,help.find_my_hearing_aids.show
+aide-moi a intercepter une alerte de chute,help.fall_alert.show
+aide pour appairer mes aides auditives,help.pairing.show
+commencer a suivre mon exercice,activity.exercise.query
+"s'il te plait, je ne peux pas mentir",sys.oos.fallback
+peux-tu augmenter le volume,device.volume.increase
+comment puis-je utiliser trouver mes aides auditives,help.find_my_hearing_aids.show
+"s'il te plait, salsa a ma gauche",sys.oos.fallback
+comment configurer les notifications sociales ?,help.device_settings.show
+guide de frequence cardiaque,help.heart_rate.show
+comment puis-je augmenter le volume d'une seule aide ?,help.volume.show
+comment puis-je utiliser mes aides auditives,help.home.show
+peux-tu me rappeler a 13 heures. que je dois manger,reminders.task.create
+peux-tu jouer a la tele,streaming.session.start
+montre-moi l'aide a la traduction,help.translate.show
+capturer ma seance de velo,activity.cycle.query
+"s'il te plait, augmente le volume de mes aides auditives",device.volume.increase
+peux-tu ne pas me laisser oublier d'aller chercher du lait aujourd'hui,reminders.task.create
+comment puis-je voir mes objectifs de sante ?,help.health.show
+"s'il te plait, calories brulees aujourd'hui",activity.calories.query
+aides a l'appairage sur mon application,help.pairing.show
+comment acceder au mode demo ?,help.demo_mode.show
+comment geolocaliser mon programme actuel ?,help.memory_options.show
+enregistre la marche que je viens de terminer,activity.walk.query
+pouvez-vous synchroniser le bluetooth de la voiture avec une aide auditive,help.pairing.show
+veuillez regler le parametre sur trois,device.memory.change
+comment puis-je verifier si les aides auditives sont connectees a l'application thrive ?,help.pairing.show
+"s'il te plait, ouvre-le",sys.oos.fallback
+comment puis-je passer a une memoire differente sur l'aide ?,help.changing_memories.show
+rendre mes aides auditives plus bruyantes,device.volume.increase
+quoi de neuf dans mon application engage ?,help.whats_new.show
+"peux-tu, je ne me souviens pas ou se trouve mon autre aide",help.find_my_hearing_aids.show
+je viens de m'asseoir dans un cafe bruyant,device.memory.change
+qu'est-ce que la recuperation de la frequence cardiaque ?,help.heart_rate_recovery.show
+etapes de calories,activity.step.query
+expliquer le microphone a distance,help.accessories.show
+comment gerer mes acouphenes,help.tinnitus.show
+afficher le dernier emplacement connu de mes aides auditives,help.find_my_hearing_aids.show
+afficher les calories brulees cette semaine,activity.calories.query
+"s'il vous plait, aidez-moi avec l'ecran d'accueil",help.home.show
+je n'entends pas avec mon aide auditive droite,help.self_check.show
+commencer a convertir la parole en texte,transcription.session.start
+quand puis-je intercepter un message texte d’alerte de chute ?,help.fall_alert.show
+aide a l'ajustement du stimulus sonore dans mon aide auditive,help.tinnitus.show
+"s'il vous plait, baissez le volume a gauche",device.volume.decrease
+comment dois-je envoyer une alerte manuelle ?,help.fall_alert.show
+"peux-tu, j'ai perdu mon aide auditive. pouvez-vous m'aider a le trouver ?",help.find_my_hearing_aids.show
+peux-tu me laisser entendre le microphone,streaming.session.start
+comment puis-je passer a un autre programme sur les aides auditives ?,help.changing_memories.show
+peux-tu memoriser le numero deux,device.memory.change
+pas de son du tout s'il vous plait,device.volume.mute
+comment puis-je demander un nouveau parametre ?,help.remote_programming.show
+prendre rendez-vous a distance,help.hearing_care_anywhere_connect.show
+montre-moi de l'aide pour mes accessoires,help.accessories.show
+peux-tu connecter la bonne aide,help.pairing.show
+comment puis-je demarrer le streaming depuis mon accessoire ?,help.accessories.show
+"s'il te plait, j'ai perdu mes appareils auditifs",help.find_my_hearing_aids.show
+quel est mon objectif calorique,activity.calories.query
+combien ai-je marche ?,activity.walk.query
+et si je n'aime pas les ajustements effectues par l'audiologiste ?,help.remote_programming.show
+peux-tu decouvrir l'iphone,find.phone.locate
+peux-tu passer la memoire au numero trois,device.memory.change
+s'il te plait commence a traduire en francais,translation.session.start
+veuillez me montrer un apercu de l'application,help.whats_new.show
+comment puis-je laisser une autre personne entendre avec moi,help.hear_share.show
+"s'il te plait, augmente le volume de mon aide auditive droite",device.volume.increase
+le son est percant,device.volume.decrease
+le mode masque est-il utile lorsque l'on porte un masque facial,help.mask_mode.show
+"s'il vous plait, mon appareil auditif a disparu",help.find_my_hearing_aids.show
+fais-moi un rappel plus tard dans la journee,reminders.task.create
+dois-je mettre l'aide auditive gauche derriere mon oreille ?,help.insert_device.show
+expliquer quand mode edge aide,help.edge_mode.show
+comment puis-je obtenir un meilleur score d’engagement ?,help.thrive_score.show
+s'installer dans un restaurant tres frequente,device.memory.change
+j'ai besoin d'ecrire un message a quelqu'un,messaging.message.send
+combien de minutes ai-je fait de l'aerobic ?,activity.aerobics.query
+fais-moi tester mes aides auditives,help.self_check.show
+comment puis-je voir combien de pas j'ai fait aujourd'hui ?,help.health.show
+quels sons vais-je entendre dans mon aide auditive si je tombe ?,help.fall_alert.show
+s'il te plait wow c'est un numero intense et intense,sys.oos.fallback
+pouvez-vous faire le dernier rappel.,reminders.task.complete
+"s'il vous plait, je dois deconnecter mes aides auditives de mon telephone",help.pairing.show
+puis-je definir des rappels dans mes aides auditives,help.reminder.show
+s'il te plait trouve ma chanson,sys.oos.fallback
+comment puis-je les synchroniser ensemble,help.pairing.show
+comment rendre l'aide plus douce ?,help.volume.show
+peux-tu associer mes aides auditives,help.pairing.show
+quelles langues sont prises en charge pour la traduction,help.translate.show
+rappelle-moi a,reminders.task.create
+aller courir,activity.run.query
+"s'il te plait, j'ai un telephone chica si tu peux lui trouver quelque chose de bien",sys.oos.fallback
+peux-tu te connecter a distance,streaming.session.start
+envoie-en un,messaging.message.send
+puis-je laisser un mot a quelqu'un ?,messaging.message.send
+a quoi sert chaque bouton,help.home.show
+pourrais-tu rediger un message,messaging.message.send
+passer au programme fait pour les foules,device.memory.change
+calme-toi pour moi,device.volume.decrease
+ou puis-je appairer mes aides auditives dans l'application ?,help.pairing.show
+qu'est-ce que je peux entendre quand je suis tombe ?,help.fall_alert.show
+"s'il vous plait, aidez-moi a ameliorer la parole",help.intelli_voice.show
+comment savoir si un message texte d'alerte est envoye ?,help.fall_alert.show
+pouvez-vous modifier les parametres a trois,device.memory.change
+quel est l'interet du mode demo,help.demo_mode.show
+"s'il te plait, laisse-moi entendre ma tele",streaming.session.start
+tout est beaucoup trop fort,device.volume.decrease
+pouvez-vous m'aider avec le streamer tv,help.accessories.show
+traduction ouverte,translation.session.start
+peux-tu me rappeler vendredi,reminders.task.create
+decouvrir l'iphone,find.phone.locate
+tuer l'audio,device.volume.mute
+peux-tu diffuser sur,streaming.session.start
+enregistre mon trajet pour moi,activity.cycle.query
+aide vocale par ia,help.intelli_voice.show
+"s'il vous plait, reactivez mes aides auditives",device.volume.unmute
+"s'il vous plait, aidez-moi avec les ajustements du masque d'acouphenes sur mon aide auditive",help.tinnitus.show
+il y a un ! sur mon aide auditive droite,sys.oos.fallback
+combien de vie reste-t-il a la batterie,device.status.battery
+"s'il vous plait, mon aide auditive gauche ne repond pas",help.self_check.show
+"s'il vous plait, ai-je atteint mon objectif de jogging ?",activity.run.query
+terminer la session de streaming,streaming.session.stop
+s'il vous plait self check guide de l'utilisateur,help.self_check.show
+remettre le volume,device.volume.unmute
+comment saurai-je si j'ai recu de nouveaux parametres ?,help.remote_programming.show
+peux-tu arreter l'enregistrement,transcription.session.start
+peux-tu me rappeler de recuperer mon ordonnance mercredi a 17h.,reminders.task.create
+dois-je les recharger ?,device.status.battery
+peux-tu avoir atteint mon objectif de stand,activity.stand.query
+quand dois-je arreter une alerte sms ?,help.fall_alert.show
+peux-tu adoucir un peu les choses ?,device.volume.decrease
+acheminer l'audio de la television vers mes aides auditives,streaming.session.start
+ai-je atteint mon objectif d'aerobic ?,activity.aerobics.query
+comment utiliser le soulagement des acouphenes,help.tinnitus.show
+a quoi sert ce controle d'equilibre ?,help.wi_c_r_o_s.show
+je n'entends presque rien,device.volume.increase
+"ils ne parlent pas anglais, aide-moi a les comprendre",translation.session.start
+peux-tu me rappeler que j'ai un rendez-vous,reminders.task.create
+rappel de configuration,reminders.task.create
+ou ai-je mis mon aide auditive ?,help.find_my_hearing_aids.show
+comment changer mes objectifs de sante ?,help.health.show
+arreter d'envoyer du son a mes aides auditives,streaming.session.stop
+couper l'audio diffuse a mes aides auditives,streaming.session.stop
+comment puis-je regler le masque de bruit de mon aide auditive droite ?,help.tinnitus.show
+envoyer un sms a un contact avec mes actualites,messaging.message.send
+peux-tu bruiter la memoire,device.memory.change
+afficher mon historique de calories,activity.calories.query
+que fait le cros,help.wi_c_r_o_s.show
+envoie un message a mon frere,messaging.message.send
+combien de temps dois-je marcher ?,activity.walk.query
+comment puis-je sauvegarder les donnees de mon aide auditive ?,help.hearing_care_anywhere_connect.show
+comment utiliser mes aides auditives avec un accessoire,help.accessories.show
+"peux-tu, je ne trouve pas mon autre aide auditive",help.find_my_hearing_aids.show
+partager mon audition avec une autre personne,help.hear_share.show
+"donne-moi tellement, je ne sais pas, c'est un autre probleme",sys.oos.fallback
+comment attribuer un emplacement a ma memoire ?,help.memory_options.show
+peux-tu me mettre en colere avec de la biere du verger,sys.oos.fallback
+je pourrais utiliser un rappel plus tard,reminders.task.create
+temps de repos s'il vous plait,activity.stand.query
+eteindre la television en streaming,streaming.session.stop
+montre-moi le texte de ce que les gens disent,transcription.session.start
+quelle est ma depense calorique hebdomadaire,activity.calories.query
+utiliser une configuration d'ecoute differente,device.memory.change
+"s'il te plait, localise ma femme",sys.oos.fallback
+peux-tu baisser le son,device.volume.decrease
+"s'il vous plait, j'ai besoin d'aide pour coupler mon aide auditive au telephone",help.pairing.show
+comment puis-je ameliorer mon score d'engagement ?,help.thrive_score.show
+veuillez regler le programme sur deux,device.memory.change
+"peux-tu, c'est trop fort, baisse le son",device.volume.decrease
+je suis dans une cafeteria bruyante maintenant,device.memory.change
+comment est calcule le score corporel ?,help.thrive_score.show
+couper tout le son,device.volume.mute
+aide-moi a basculer entre les profils,help.changing_memories.show
+comment partager mes donnees auditives ?,help.hear_share.show
+peut prosperer definir un rappel,help.reminder.show
+l'audioprothesiste peut-il regler l'aide auditive a distance ?,help.remote_programming.show
+je veux envoyer un message a quelqu'un,messaging.message.send
+quels sons vais-je entendre dans mes aides auditives si je tombe ?,help.fall_alert.show
+comment puis-je lancer un message texte d'alerte manuelle ?,help.fall_alert.show
+peux-tu passer en mode automatique,device.memory.change
+combien de calories ai-je brule en faisant du jogging,activity.run.query
+descendez ici dans la question d'alice,sys.oos.fallback
+aide avec le score d'activite,help.thrive_score.show
+expliquer la traduction en temps reel,help.translate.show
+pousser le niveau plus haut,device.volume.increase
+baisser le gain,device.volume.decrease
+mon appareil auditif ne s'installe pas correctement,help.insert_device.show
+ou est mon aide auditive ?,help.find_my_hearing_aids.show
+veuillez eteindre le moteur,sys.oos.fallback
+aider avec le score cerebral,help.thrive_score.show
+rappelle-moi de prendre des medicaments aujourd'hui dans une minute,reminders.task.create
+comment puis-je accepter mes nouveaux parametres ?,help.remote_programming.show
+joue le texte que je viens de recevoir,messaging.message.listen
+s'il vous plait intellivoice guide de l'utilisateur,help.intelli_voice.show
+comment savoir si un message texte d'alerte est recu ?,help.fall_alert.show
+"s'il te plait, trouve mes aides auditives",help.find_my_hearing_aids.show
+comment configurer le streaming automatique,help.device_settings.show
+comment utiliser l'application sans aide ?,help.demo_mode.show
+comment nouer une cravate,sys.oos.fallback
+rappel complet.,reminders.task.complete
+"s'il vous plait, aidez-moi a regler le volume des acouphenes sur mes aides auditives.",help.tinnitus.show
+guide-moi vers le chercheur d'aide,help.find_my_hearing_aids.show
+j'ai pose mes aides auditives et je les ai perdues,help.find_my_hearing_aids.show
+comment inserer mon aide auditive droite ?,help.insert_device.show
+"s'il te plait, retourne a un niveau eleve",sys.oos.fallback
+comment puis-je ajuster les notifications dans l'application,help.app_settings.show
+a quoi servent tous ces boutons,help.home.show
+"tu ne peux pas le garder, ok, rappelle-moi ta gentillesse",sys.oos.fallback
+comment transcrire,help.transcribe.show
+aide au reglage du volume des acouphenes dans mon aide auditive,help.tinnitus.show
+audio via des appareils auditifs,streaming.session.start
+ou est mon telephone android,find.phone.locate
+utiliser mes parametres de conduite,device.memory.change
+y a-t-il assez de puissance,device.status.battery
+comment localiser mon autre aide auditive ?,help.find_my_hearing_aids.show
+"s'il vous plait, j'ai un recepteur de jeu sur pc",sys.oos.fallback
+comment augmenter le volume de l'aide auditive gauche ?,help.volume.show
+puis-je surcharger mon aide auditive,help.battery.show
+comment utiliser la fonction vocale intelligente ?,help.intelli_voice.show
+quelle est la precision de la lecture de la frequence cardiaque,help.heart_rate.show
+"cette tache est terminee, marquez-la comme terminee",reminders.task.complete
+utiliser l'application sans aide,help.demo_mode.show
+pouvez-vous maximiser le volume,device.volume.increase
+veuillez regler le volume a la normale,device.volume.unmute
+mes aides auditives se coupent par intermittence,help.device_settings.show
+aide avec les changements de volume sur mon aide auditive,help.volume.show
+ecouter la tele avec mes aides auditives,streaming.session.start
+informations sur le score aimable,help.thrive_score.show
+"s'il te plait, demarre le flux tv",streaming.session.start
+comment faire sonner mon telephone dans mes aides auditives,help.pairing.show
+j'ai egare mon aide auditive droite,help.find_my_hearing_aids.show
+reactiver le son sur les aides auditives,device.volume.unmute
+montre-moi le guide d'utilisation de traduction,help.translate.show
+"s'il te plait, va en enfer",sys.oos.fallback
+veuillez trouver clairement le nom du produit des aides auditives,help.device_settings.show
+que fait le self check,help.self_check.show
