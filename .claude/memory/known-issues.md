@@ -46,6 +46,34 @@ _None open. Recently fixed:_
 
 ## Quality gaps
 
+- **STRUCTURAL (2026-07-22): help-question & out-of-scope utterances fire
+  confident state-changing ACTIONS.** After the en/fr/de/da data-quality
+  passes, ~63% of the remaining system-level wrong actions (25 of 40 sampled)
+  share ONE shape: the user asks *how to use* a feature, or says something
+  out of scope, and the classifier confidently (0.87–0.999) fires the paired
+  ACTION instead of the read-only `help.*` sibling. Examples: FR "comment
+  utiliser la transcription ?" → `transcription.session.start` (0.9); EN
+  "translate user guide" → `translation.session.start` (0.9); FR "iphone" →
+  `find.phone.locate` (0.999). This is the safety-relevant residue: a user
+  asking for HELP gets an ACTION (e.g. asking how transcription works starts
+  recording them). Because it fires at HIGH confidence, the existing
+  uncertainty-confirmation gate (<0.80) does NOT catch it. It is NOT a
+  per-language data-noise issue — it is present in every language and stems
+  from `help.X.show` and `X.session.start` sharing the dominant content word
+  (transcrire/translate/etc.). Candidate fix: a "help-marker guard" analogous
+  to the polarity guards — when an utterance carries strong interrogative/
+  help markers (how/comment/où/guide/est-ce que/…) AND the prediction is a
+  state-changing action that has a paired `help.*` sibling, redirect to the
+  help intent (read-only, safe). This is an ENGINE BEHAVIOR CHANGE → needs
+  owner sign-off before building (repo rule). Tracked as the next
+  wrong-action lever; the confidence-cluster data work (de/da/fr) is done.
+- **RESOLVED (2026-07-22): fr contradictory volume labels.** 13 French texts
+  trained under conflicting intents (mute vs unmute vs decrease); resolved by
+  majority + French semantics, 21 rows removed to
+  datasets/fr_label_conflicts_review.csv. English data audited same pass:
+  clean (0 dupes, 0 conflicts).
+
+
 - **RESOLVED (2026-07-14): de macro-F1 dip.** Root cause was the TF-IDF
   recipe, not the migration: min_df=2 discarded once-occurring German
   compounds, starving small help.* classes. min_df=1 lifts EVERY language
