@@ -73,8 +73,8 @@
 | ND-5 | ✅ **RESOLVED 2026-07-14 — implemented.** `scripts/unknown_log.py`: counters by default (`data/unknown_counters.csv`), raw text only behind `NLU_COLLECT_RAW_UNKNOWN`; `predict.py` wired through it + its placeholder GenAI URL removed. Tests added. Open sub-item: retention window for consented raw text (legal). | — |
 | ND-6 | ✅ **RESOLVED 2026-07-14 — keep placeholders.** Owner decision: `@intentclassifier/*` placeholders stay until the GitHub org/teams exist; rules inert but documented. | — |
 | ND-7 | ⏸ **DEFERRED (owner decision 2026-07-14).** iOS parity CI stays skipped until `INTENTCLASSIFIER_PAT` is provisioned. A#4 remains open with owner. | A#4 |
-| ND-8 | **Signing keys / KMS / trust root** decisions for bundle signing (Ed25519, rotation runbook). | Compiler stages 11–15, Phase 3 |
-| ND-9 | **GenAI consent flow + legal review** for assist.cloud capability. | Phase 3 |
+| ND-8 | **Signing keys / KMS / trust root** decisions for bundle signing (Ed25519, rotation runbook). Context + options + recommendation written up in `docs/Review-F5/open-decisions-brief.md`. Owner deferred (2026-07-22) — revisit later. | Compiler stages 11–15, Phase 3 |
+| ND-9 | **GenAI consent flow + legal review** for assist.cloud capability. Context + options + recommendation in `docs/Review-F5/open-decisions-brief.md`. Owner deferred (2026-07-22) — revisit later. | Phase 3 |
 
 ## Newly discovered backlog
 
@@ -174,7 +174,7 @@ wrong_action_system_report.json`.
 
 | ID | Question | Blocking |
 |---|---|---|
-| ND-12 | **Phase-3 infrastructure choices:** where do remote config + bundle registry + telemetry ingestion live (existing app backend? new service? vendor)? Determines the staged-rollout/tripwire implementation and the dashboards. | Phase 3 completion |
+| ND-12 | **Phase-3 infrastructure choices:** where do remote config + bundle registry + telemetry ingestion live (existing app backend? new service? vendor)? Determines the staged-rollout/tripwire implementation and the dashboards. Context + options + recommendation in `docs/Review-F5/open-decisions-brief.md`. Owner deferred (2026-07-22) — revisit later. | Phase 3 completion |
 | ND-13 | **5 German intents ship with ZERO real German training data** (`streaming.session.stop`, `help.demo_mode.show`, `help.thrive_score.show`, `help.translate.show`, `messaging.message.send`) — discovered during the 2026-07-21 untranslated-placeholder cleanup; every existing example for these was an untranslated English row, so none could be removed without zeroing the intent. Needs professional/native German authoring (or a vetted MT pass reviewed by a German speaker) — not something this loop can safely generate itself. | German language quality |
 
 - **2026-07-14 (k)** — Capability repartition executed: content/capabilities/
