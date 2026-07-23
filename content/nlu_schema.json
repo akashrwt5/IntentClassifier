@@ -551,6 +551,22 @@
       "redirect_intent": "streaming.session.start"
     }
   ],
+  "help_marker_guard": {
+    "markers": "(how\\s+(to|do\\s+i|does|can\\s+i|is|would\\s+i)\\b)|(\\bguide\\b)|(\\bexplain\\b)|(\\btutorial\\b)|(what\\s+(is|are|does)\\b)|(where\\s+(can|do)\\s+i\\s+(see|find|view))|(is\\s+there\\s+a\\s+way)|(help\\s+(with|me\\s+understand|for|understanding))|(how\\s+to\\s+use)",
+    "pairs": {
+      "device.memory.change": "help.memory_options.show",
+      "device.volume.decrease": "help.volume.show",
+      "device.volume.increase": "help.volume.show",
+      "device.volume.mute": "help.volume.show",
+      "device.volume.unmute": "help.volume.show",
+      "reminders.task.complete": "help.reminder.show",
+      "reminders.task.create": "help.reminder.show",
+      "streaming.session.start": "help.accessories.show",
+      "streaming.session.stop": "help.accessories.show",
+      "transcription.session.start": "help.transcribe.show",
+      "translation.session.start": "help.translate.show"
+    }
+  },
   "uncertain_confirm": {
     "below_confidence": 0.8,
     "cancel_message": "Okay, I won't.",

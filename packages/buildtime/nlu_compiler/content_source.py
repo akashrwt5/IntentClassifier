@@ -39,7 +39,7 @@ LANGS = ("fr", "de", "da")
 PLATFORM_KEYS = ("version", "confidence_threshold", "slot_confidence_threshold",
                  "semantic_threshold", "semantic_rescue_enabled",
                  "keyword_triggers", "affirmative", "negative",
-                 "polarity_guards", "uncertain_confirm")
+                 "polarity_guards", "help_marker_guard", "uncertain_confirm")
 
 
 def _yaml():
@@ -130,7 +130,8 @@ def assemble(write: bool = True) -> dict:
         if key in schema:
             ordered[key] = schema[key]
     ordered["intents"] = intents
-    for key in ("affirmative", "negative", "polarity_guards", "uncertain_confirm"):
+    for key in ("affirmative", "negative", "polarity_guards",
+                "help_marker_guard", "uncertain_confirm"):
         if key in schema:
             ordered[key] = schema[key]
 

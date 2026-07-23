@@ -46,7 +46,7 @@ _None open. Recently fixed:_
 
 ## Quality gaps
 
-- **STRUCTURAL (2026-07-22): help-question & out-of-scope utterances fire
+- **ADDRESSED by ND-14 (2026-07-22): help-question utterances firing
   confident state-changing ACTIONS.** After the en/fr/de/da data-quality
   passes, ~63% of the remaining system-level wrong actions (25 of 40 sampled)
   share ONE shape: the user asks *how to use* a feature, or says something
@@ -60,13 +60,19 @@ _None open. Recently fixed:_
   uncertainty-confirmation gate (<0.80) does NOT catch it. It is NOT a
   per-language data-noise issue — it is present in every language and stems
   from `help.X.show` and `X.session.start` sharing the dominant content word
-  (transcrire/translate/etc.). Candidate fix: a "help-marker guard" analogous
+  (transcrire/translate/etc.). SHIPPED FIX (ND-14): a "help-marker guard" analogous
   to the polarity guards — when an utterance carries strong interrogative/
   help markers (how/comment/où/guide/est-ce que/…) AND the prediction is a
   state-changing action that has a paired `help.*` sibling, redirect to the
-  help intent (read-only, safe). This is an ENGINE BEHAVIOR CHANGE → needs
-  owner sign-off before building (repo rule). Tracked as the next
-  wrong-action lever; the confidence-cluster data work (de/da/fr) is done.
+  help intent (read-only, safe). Owner-approved and BUILT (2026-07-22): schema `help_marker_guard`
+  (11 action->help pairs, language-neutral) + per-language `markers` regex
+  via overlay; applied after polarity guards in `_handle_new_intent` and in
+  the semantic-rescue path. Empirically tuned on the holdouts (44 misfires
+  fixed, 0 correct commands diverted — German markers tightened because
+  'Hörhilfe'=hearing aid collides with bare 'hilfe'). System wrong actions:
+  en 23->16, fr 21->16, da 13->11, de held at 14 (bounded by ND-13
+  English-only German data, not the guard). Shipped-lang total 58->46.
+  5 tests in tests/test_help_marker_guard.py.
 - **RESOLVED (2026-07-22): fr contradictory volume labels.** 13 French texts
   trained under conflicting intents (mute vs unmute vs decrease); resolved by
   majority + French semantics, 21 rows removed to

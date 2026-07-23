@@ -109,6 +109,16 @@ class NLUEngine:
             (re.compile(g["pattern"], re.IGNORECASE), g["blocked_intent"], g["redirect_intent"])
             for g in self.schema.get("polarity_guards", [])
         ]
+        # ND-14: help-marker guard — a high-precision safety rule that stops a
+        # confident STATE-CHANGING action from firing when the user is clearly
+        # ASKING how to use a feature ("how do I use transcription?" must show
+        # help, never start recording). Redirects the action to its read-only
+        # help.* sibling. Read-only queries (activity/battery) are deliberately
+        # NOT paired — "how many steps" is a legitimate query, not a help ask.
+        hmg = self.schema.get("help_marker_guard", {})
+        self._help_pairs = dict(hmg.get("pairs", {}))
+        _markers = hmg.get("markers", "")
+        self._help_markers = re.compile(_markers, re.IGNORECASE) if _markers else None
         # ND-11(a): uncertainty-confirmation gate — flagged fire-and-forget
         # intents below this confidence get an ask-first turn instead of firing.
         uc = self.schema.get("uncertain_confirm", {})
@@ -232,6 +242,14 @@ class NLUEngine:
             merged["polarity_guards"] = overlay["polarity_guards"]
         if "uncertain_confirm" in overlay:
             merged.setdefault("uncertain_confirm", {}).update(overlay["uncertain_confirm"])
+
+        # ND-14: help-marker guard. The action->help PAIRS are language-neutral
+        # (same intent taxonomy), but the MARKERS regex is language-specific, so
+        # the overlay replaces only the markers and keeps the shared pairs.
+        if "help_marker_guard" in overlay:
+            hmg = dict(merged.get("help_marker_guard", {}))
+            hmg.update(overlay["help_marker_guard"])
+            merged["help_marker_guard"] = hmg
 
         # Merge yes/no sets
         if "affirmative" in overlay:
@@ -671,6 +689,24 @@ class NLUEngine:
             return hits[0]
         return intent
 
+    def _apply_help_guard(self, text: str, intent: str) -> str:
+        """ND-14: if the model predicts a state-changing ACTION but the utterance
+        carries explicit help/question markers ("how do I…", "guide", "comment…"),
+        redirect to the action's read-only ``help.*`` sibling. Safety rule: asking
+        HOW to use a feature must never TRIGGER it. Fires only for actions that
+        have a paired help intent (queries are excluded on purpose) and only when
+        the paired help intent actually exists in this bundle."""
+        if not self._help_markers or intent not in self._help_pairs:
+            return intent
+        if not self._help_markers.search(text.lower()):
+            return intent
+        sibling = self._help_pairs[intent]
+        if sibling not in self.intents:
+            return intent
+        logger.info("nlu.help_guard", extra={"nlu": {
+            "blocked": intent, "redirected": sibling}})
+        return sibling
+
     def _handle_uncertain_confirmation(self, session, text, now=0.0):
         """ND-11(a): resolve the ask-first turn for a held-back action."""
         pending = session.pending_confirm
@@ -697,6 +733,7 @@ class NLUEngine:
         session.decrement_contexts()
         intent, conf = self.classifier.classify(text)
         intent = self._apply_polarity_guards(text, intent)
+        intent = self._apply_help_guard(text, intent)
 
         cfg = self.intents.get(intent)
 
@@ -730,6 +767,7 @@ class NLUEngine:
                         accept_threshold = self.AGREEMENT_THRESHOLD
                     if sem_conf >= accept_threshold:
                         sem_intent = self._apply_polarity_guards(text, sem_intent)
+                        sem_intent = self._apply_help_guard(text, sem_intent)
                         sem_cfg = self.intents.get(sem_intent)
                         if sem_cfg is not None:
                             result = self._fulfill_intent(session, sem_intent, sem_conf, sem_cfg, text, now)

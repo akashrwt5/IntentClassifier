@@ -26,6 +26,9 @@
     "bitte"
   ],
   "confidence_threshold": 0.7,
+  "help_marker_guard": {
+    "markers": "(wie\\s+(kann|funktioniert|benutze|stelle|[aä]ndere|richte|verwende|aktiviere))|(anleitung)|(\\berkl[aä]r)|(hilfe\\s+(zu|beim|für))|(was\\s+(ist|sind|macht|bedeutet)\\b)|(wozu)|(zeig.*anleitung)"
+  },
   "negative": [
     "no",
     "cancel",

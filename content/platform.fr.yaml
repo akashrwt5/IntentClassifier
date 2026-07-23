@@ -23,6 +23,8 @@ affirmative:
 - fais-le
 - s'il te plaît
 confidence_threshold: 0.7
+help_marker_guard:
+  markers: (comment)|(\bguide\b)|(est-ce\s+que)|(montre[z]?-moi.*(aide|guide))|(aide\s+(pour|à\s+comprendre))|(tutoriel)|(o[uù]\s+puis-je)|(\bexpliqu)|(à\s+quoi\s+sert)
 negative:
 - 'no'
 - non

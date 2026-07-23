@@ -102,6 +102,23 @@ wrong_action_system_report.json`.
 
 ## Iteration log
 
+- **2026-07-22 — ND-14 help-marker guard (owner-approved behavior change).**
+  Root-caused the dominant remaining wrong-action pattern (help-question
+  utterances firing confident state-changing actions — e.g. "how do I use
+  transcription?" → *starts recording* at 0.9; the confidence gate can't
+  catch it because it fires HIGH). Built a high-precision guard mirroring the
+  polarity guards: schema `help_marker_guard` with 11 language-neutral
+  action→help pairs + a per-language `markers` regex (overlay-scoped).
+  When the prediction is a state-changing action WITH a paired `help.*`
+  sibling AND the utterance carries help/question markers, redirect to the
+  read-only help intent. Read-only queries (activity/battery) deliberately
+  NOT paired so "how many steps" stays a query. Empirically tuned on the
+  holdouts before wiring: **44 misfires fixed, 0 correct commands diverted**
+  (German markers tightened — 'Hörhilfe' = hearing aid collides with bare
+  'hilfe'). System wrong actions **58→46** (en 23→16, fr 21→16, da 13→11;
+  de held at 14, bounded by ND-13's English-only German data, not the guard).
+  Suite 150/150 (+5 guard tests). Also this session: fr contradictory-label
+  cleanup + en data audit (clean).
 - **2026-07-14 (o)** — Owner-delegated recommendations executed: (1) ND-11b
   — confirm gate extended to ALL state-changing fire-and-forget actions
   (msg send, reminder complete, translation/transcription start, find-phone;

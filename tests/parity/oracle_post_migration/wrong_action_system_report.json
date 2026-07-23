@@ -3,36 +3,34 @@
   "per_language": {
     "en": {
       "turns": 1461,
-      "wrong_actions": 23,
-      "confirm_gated_wrong": 29,
-      "fulfilled": 1034,
-      "prompted": 59,
-      "fallback": 270,
-      "confirmed": 98,
+      "wrong_actions": 16,
+      "confirm_gated_wrong": 16,
+      "fulfilled": 1047,
+      "prompted": 58,
+      "fallback": 271,
+      "confirmed": 85,
       "per_domain": {
-        "device": 11,
+        "device": 8,
         "activity": 3,
-        "transcription": 4,
-        "translation": 4,
-        "streaming": 1
+        "translation": 2,
+        "streaming": 1,
+        "transcription": 2
       }
     },
     "fr": {
-      "turns": 1361,
-      "wrong_actions": 18,
-      "confirm_gated_wrong": 12,
-      "fulfilled": 862,
-      "prompted": 68,
-      "fallback": 375,
-      "confirmed": 56,
+      "turns": 1358,
+      "wrong_actions": 16,
+      "confirm_gated_wrong": 11,
+      "fulfilled": 836,
+      "prompted": 64,
+      "fallback": 414,
+      "confirmed": 44,
       "per_domain": {
-        "transcription": 5,
-        "device": 6,
-        "messaging": 1,
-        "activity": 2,
+        "device": 8,
+        "activity": 3,
         "find": 1,
-        "translation": 1,
-        "streaming": 2
+        "streaming": 3,
+        "messaging": 1
       }
     },
     "de": {
@@ -52,16 +50,16 @@
     },
     "da": {
       "turns": 1258,
-      "wrong_actions": 13,
-      "confirm_gated_wrong": 8,
+      "wrong_actions": 11,
+      "confirm_gated_wrong": 7,
       "fulfilled": 738,
       "prompted": 76,
-      "fallback": 395,
-      "confirmed": 49,
+      "fallback": 396,
+      "confirmed": 48,
       "per_domain": {
         "device": 5,
-        "translation": 3,
         "streaming": 3,
+        "translation": 1,
         "messaging": 2
       }
     }
@@ -104,13 +102,6 @@
     },
     {
       "lang": "en",
-      "text": "can you help for transcribe",
-      "truth": "help.transcribe.show",
-      "fired": "transcription.session.start",
-      "confidence": 0.9
-    },
-    {
-      "lang": "en",
       "text": "turn mute off",
       "truth": "device.volume.unmute",
       "fired": "device.volume.mute",
@@ -125,87 +116,94 @@
     },
     {
       "lang": "en",
-      "text": "translate user guide",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
-      "confidence": 0.9
-    },
-    {
-      "lang": "en",
       "text": "lower how loud it is",
       "truth": "device.volume.decrease",
       "fired": "device.volume.increase",
       "confidence": 0.902
     },
     {
-      "lang": "fr",
-      "text": "comment utiliser la fonction de transcription ?",
-      "truth": "help.transcribe.show",
-      "fired": "transcription.session.start",
-      "confidence": 0.9
+      "lang": "en",
+      "text": "do i need to remove the battery at night",
+      "truth": "help.battery.show",
+      "fired": "device.status.battery",
+      "confidence": 0.932
     },
     {
-      "lang": "fr",
-      "text": "s'il te plait, au moment ou la khan academy fait silence",
+      "lang": "en",
+      "text": "it's less the fucking thing altogether",
       "truth": "sys.oos.fallback",
-      "fired": "device.volume.mute",
-      "confidence": 0.9
+      "fired": "device.volume.decrease",
+      "confidence": 0.944
     },
     {
       "lang": "fr",
-      "text": "s'il vous plait, montrez-moi le guide d'utilisation de la transcription",
-      "truth": "help.transcribe.show",
-      "fired": "transcription.session.start",
-      "confidence": 0.9
+      "text": "la duree de vie de la batterie est de plus en plus courte",
+      "truth": "help.battery.show",
+      "fired": "device.status.battery",
+      "confidence": 0.873
     },
     {
       "lang": "fr",
-      "text": "peux-tu me montrer de l'aide pour la transcription",
-      "truth": "help.transcribe.show",
-      "fired": "transcription.session.start",
-      "confidence": 0.9
+      "text": "commencer mon entrainement cycliste",
+      "truth": "activity.cycle.query",
+      "fired": "activity.exercise.query",
+      "confidence": 0.923
     },
     {
       "lang": "fr",
-      "text": "peux-tu envoyer un sms a levitar",
-      "truth": "sys.oos.fallback",
-      "fired": "messaging.message.send",
-      "confidence": 0.972
-    },
-    {
-      "lang": "fr",
-      "text": "peux-tu augmenter le volume",
-      "truth": "device.volume.unmute",
-      "fired": "device.volume.increase",
-      "confidence": 0.993
-    },
-    {
-      "lang": "fr",
-      "text": "couper le volume",
-      "truth": "device.volume.decrease",
-      "fired": "device.volume.mute",
-      "confidence": 0.926
-    },
-    {
-      "lang": "fr",
-      "text": "comment puis-je voir combien de pas j'ai fait aujourd'hui ?",
-      "truth": "help.health.show",
-      "fired": "activity.step.query",
-      "confidence": 0.729
-    },
-    {
-      "lang": "fr",
-      "text": "comment utiliser la transcription",
-      "truth": "help.transcribe.show",
-      "fired": "transcription.session.start",
-      "confidence": 0.9
-    },
-    {
-      "lang": "fr",
-      "text": "meilleur iphone",
+      "text": "iphone",
       "truth": "sys.oos.fallback",
       "fired": "find.phone.locate",
-      "confidence": 0.807
+      "confidence": 0.999
+    },
+    {
+      "lang": "fr",
+      "text": "s'il te plait, passe au silence",
+      "truth": "device.memory.change",
+      "fired": "device.volume.mute",
+      "confidence": 0.9
+    },
+    {
+      "lang": "fr",
+      "text": "peux-tu faire taire mes aides auditives",
+      "truth": "device.volume.decrease",
+      "fired": "device.volume.mute",
+      "confidence": 0.956
+    },
+    {
+      "lang": "fr",
+      "text": "le micro du partenaire diffuse-t-il vers mes aides auditives",
+      "truth": "help.accessories.show",
+      "fired": "streaming.session.start",
+      "confidence": 0.979
+    },
+    {
+      "lang": "fr",
+      "text": "quelle taille de batterie mes aides auditives utilisent-elles",
+      "truth": "help.battery.show",
+      "fired": "device.status.battery",
+      "confidence": 0.879
+    },
+    {
+      "lang": "fr",
+      "text": "peux-tu passer au silence",
+      "truth": "device.memory.change",
+      "fired": "device.volume.mute",
+      "confidence": 0.9
+    },
+    {
+      "lang": "fr",
+      "text": "tout semble trop dur",
+      "truth": "device.volume.decrease",
+      "fired": "device.volume.increase",
+      "confidence": 0.916
+    },
+    {
+      "lang": "fr",
+      "text": "peux-tu tonner un message",
+      "truth": "sys.oos.fallback",
+      "fired": "messaging.message.send",
+      "confidence": 0.99
     },
     {
       "lang": "de",
@@ -293,13 +291,6 @@
     },
     {
       "lang": "da",
-      "text": "hvordan bruger jeg translate",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
-      "confidence": 0.9
-    },
-    {
-      "lang": "da",
       "text": "kan du stille en diagnose pa mine horeapparater",
       "truth": "help.self_check.show",
       "fired": "device.volume.mute",
@@ -311,13 +302,6 @@
       "truth": "sys.oos.fallback",
       "fired": "device.memory.change",
       "confidence": 1.0
-    },
-    {
-      "lang": "da",
-      "text": "oversaet brugervejledning",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
-      "confidence": 0.86
     },
     {
       "lang": "da",
@@ -346,10 +330,24 @@
       "truth": "help.translate.show",
       "fired": "translation.session.start",
       "confidence": 0.9
+    },
+    {
+      "lang": "da",
+      "text": "returnere lyden til mine hjaelpemidler",
+      "truth": "device.volume.unmute",
+      "fired": "streaming.session.start",
+      "confidence": 0.904
+    },
+    {
+      "lang": "da",
+      "text": "sende en besked til nogen",
+      "truth": "help.home.show",
+      "fired": "messaging.message.send",
+      "confidence": 1.0
     }
   ],
-  "wrong_actions_shipped_langs": 55,
+  "wrong_actions_shipped_langs": 46,
   "budget": 5,
   "budget_met": false,
-  "mitigations": "guards + confirm gate (all state-changing actions, <0.80) + confirm-floor + recipe fix + da label-conflict clean + de/da untranslated-placeholder clean"
+  "mitigations": "guards (polarity + help-marker ND-14) + confirm gate (all state-changing, <0.80) + confirm-floor + recipe fix + da/fr label-conflict clean + de/da untranslated-placeholder clean"
 }
