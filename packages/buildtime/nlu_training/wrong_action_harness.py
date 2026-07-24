@@ -47,6 +47,31 @@ def is_actionable(label: str) -> bool:
     return bool(label) and not label.startswith(("help.", "sys."))
 
 
+# Read-only intents report information but change NO device or app state (they
+# read a value back to the user), so a wrong one is a query-ACCURACY miss, not a
+# safety event. The medical wrong-ACTION budget governs state changes — firing
+# the wrong irreversible/stateful command — so read-only misses are tracked
+# separately (``wrong_queries``) and NOT charged to the budget. Identified by
+# the ``.query`` suffix of the domain.object.action taxonomy, plus an explicit
+# allow-list for read-only status intents that do not end in ``.query``.
+READ_ONLY_SUFFIXES = ("query",)
+READ_ONLY_INTENTS = frozenset({"device.status.battery"})
+
+
+def is_read_only(label: str) -> bool:
+    if not label:
+        return False
+    if label in READ_ONLY_INTENTS:
+        return True
+    return label.rsplit(".", 1)[-1] in READ_ONLY_SUFFIXES
+
+
+def is_state_changing(label: str) -> bool:
+    """A wrong prediction here is a SAFETY event (the budget governs these):
+    an actionable intent that also changes device/app state."""
+    return is_actionable(label) and not is_read_only(label)
+
+
 def replay_language(lang: str, semantic: bool) -> dict:
     import csv
 
@@ -55,8 +80,9 @@ def replay_language(lang: str, semantic: bool) -> dict:
 
     engine = NLUEngine(model_name=lang, language=lang, semantic_enabled=semantic)
 
-    counts = {"turns": 0, "wrong_actions": 0, "confirm_gated_wrong": 0,
-              "fulfilled": 0, "prompted": 0, "fallback": 0, "confirmed": 0}
+    counts = {"turns": 0, "wrong_actions": 0, "wrong_queries": 0,
+              "confirm_gated_wrong": 0, "fulfilled": 0, "prompted": 0,
+              "fallback": 0, "confirmed": 0}
     per_domain: dict[str, int] = {}
     examples: list[dict] = []
 
@@ -72,17 +98,22 @@ def replay_language(lang: str, semantic: bool) -> dict:
             intent = r.intent or ""
             if rtype == "FULFILL":
                 counts["fulfilled"] += 1
-                if is_actionable(intent) and intent != truth:
-                    counts["wrong_actions"] += 1
-                    domain = intent.split(".")[0]
-                    per_domain[domain] = per_domain.get(domain, 0) + 1
-                    if len(examples) < 10:
-                        examples.append({"lang": lang, "text": text,
-                                         "truth": truth, "fired": intent,
-                                         "confidence": round(r.confidence or 0, 3)})
+                if intent != truth and is_actionable(intent):
+                    if is_read_only(intent):
+                        # Wrong read-only query: an accuracy miss, not a safety
+                        # event — tracked, but NOT charged to the wrong-action budget.
+                        counts["wrong_queries"] += 1
+                    else:
+                        counts["wrong_actions"] += 1
+                        domain = intent.split(".")[0]
+                        per_domain[domain] = per_domain.get(domain, 0) + 1
+                        if len(examples) < 10:
+                            examples.append({"lang": lang, "text": text,
+                                             "truth": truth, "fired": intent,
+                                             "confidence": round(r.confidence or 0, 3)})
             elif rtype == "CONFIRM":
                 counts["confirmed"] += 1
-                if is_actionable(intent) and intent != truth:
+                if is_state_changing(intent) and intent != truth:
                     counts["confirm_gated_wrong"] += 1
             elif rtype == "PROMPT":
                 counts["prompted"] += 1
@@ -107,7 +138,8 @@ def main(argv=None) -> int:
         report["examples"].extend(c.pop("examples"))
         report["per_language"][lang] = c
         print(f"  {lang}: turns={c['turns']} fired={c['fulfilled']} "
-              f"WRONG={c['wrong_actions']} confirm-gated-wrong={c['confirm_gated_wrong']} "
+              f"WRONG-ACTION={c['wrong_actions']} (wrong-query={c['wrong_queries']}, "
+              f"not budget-charged) confirm-gated-wrong={c['confirm_gated_wrong']} "
               f"prompted={c['prompted']} fallback={c['fallback']} "
               f"per-domain={c['per_domain']}")
 

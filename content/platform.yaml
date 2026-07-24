@@ -118,25 +118,22 @@ negative:
 - do not
 - never mind
 - nevermind
-polarity_guards:
-- blocked_intent: device.volume.unmute
-  pattern: \bmute\b(?!\s+off)
-  redirect_intent: device.volume.mute
-- blocked_intent: device.volume.mute
-  pattern: \bunmute\b|\bun-mute\b|\bmute\s+off\b|\boff\s+mute\b|\bturn\s+(the\s+)?mute\s+off\b
-  redirect_intent: device.volume.unmute
-- blocked_intent: device.volume.increase
-  pattern: \b(quiet(er)?|lower|softer|decrease|reduce|down)\b
-  redirect_intent: device.volume.decrease
-- blocked_intent: device.volume.decrease
-  pattern: \b(loud(er)?|higher|increase|raise|up)\b
-  redirect_intent: device.volume.increase
-- blocked_intent: streaming.session.start
-  pattern: \b(stop|end|quit|finish|turn off)\b
-  redirect_intent: streaming.session.stop
-- blocked_intent: streaming.session.stop
-  pattern: \b(start|begin|turn on)\b
-  redirect_intent: streaming.session.start
+# English guard policy (owner directive, 2026-07-24), each decided on holdout
+# evidence — a rule stays ONLY where it corrects a genuine MODEL error, never
+# where it overrides a correct prediction:
+#   * polarity_guards: REMOVED. The model resolves volume/mute polarity itself;
+#     replaying the 1,461-utterance holdout with these OFF was as good or better
+#     (3 vs 4 wrong state-changing actions). The rules only ever flipped CORRECT
+#     answers ("cancel the mute" -> mute, "less loud" -> increase).
+#   * help_marker_guard: KEPT. Here the model is genuinely wrong — it fires
+#     state-changing actions on help questions ("translate user guide" ->
+#     translation.session.start = starts recording). Removing it raised wrong
+#     actions 4 -> 13 (10 of them help-questions firing actions). The guard only
+#     fires where the model is provably wrong, so it does not override a correct
+#     output. Retire it once the model learns help-vs-action from training data.
+# The confidence threshold and confirmation gate also remain: they decide WHETHER
+# to act, never altering the predicted label.
+polarity_guards: []
 help_marker_guard:
   markers: (how\s+(to|do\s+i|does|can\s+i|is|would\s+i)\b)|(\bguide\b)|(\bexplain\b)|(\btutorial\b)|(what\s+(is|are|does)\b)|(where\s+(can|do)\s+i\s+(see|find|view))|(is\s+there\s+a\s+way)|(help\s+(with|me\s+understand|for|understanding))|(how\s+to\s+use)|(\w+\s+help\b)|(does\s+\w+\s+(keep|save|store|record|work))|(can\s+the\s+app)
   pairs:

@@ -676,13 +676,30 @@ class NLUEngine:
     def _apply_polarity_guards(self, text: str, intent: str) -> str:
         """ND-11(b): redirect a prediction contradicted by explicit polarity
         words. Fires only when EXACTLY ONE guard matches the predicted intent
-        (two matching guards = ambiguous utterance — leave the prediction and
-        let thresholds/confirmation handle it)."""
+        AND the utterance does NOT also carry the opposite cue.
+
+        The guard must never override a prediction the utterance itself supports.
+        A phrase like "lower how LOUD it is" contains both a decrease cue
+        ("lower") and an increase cue ("loud"); the model already resolves this
+        correctly, so a guard that fired on "loud" alone would FLIP the correct
+        answer to the wrong one. Whenever a mirror rule (redirect -> intent)
+        also matches the text, the polarity signal is contradictory and the
+        guard abstains, trusting the model."""
         if not self._polarity_guards:
             return intent
         low = text.lower()
-        hits = [redirect for rx, blocked, redirect in self._polarity_guards
-                if blocked == intent and rx.search(low)]
+        hits = []
+        for rx, blocked, redirect in self._polarity_guards:
+            if blocked != intent or not rx.search(low):
+                continue
+            # Contradiction check: does a mirror rule redirect BACK to `intent`,
+            # i.e. is the opposite polarity cue also present? If so, abstain.
+            opposite_present = any(
+                b2 == redirect and r2 == intent and rx2.search(low)
+                for rx2, b2, r2 in self._polarity_guards
+            )
+            if not opposite_present:
+                hits.append(redirect)
         if len(hits) == 1 and hits[0] in self.intents:
             logger.info("nlu.polarity_guard", extra={"nlu": {
                 "blocked": intent, "redirected": hits[0]}})

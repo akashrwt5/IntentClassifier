@@ -519,38 +519,7 @@
     "never mind",
     "nevermind"
   ],
-  "polarity_guards": [
-    {
-      "blocked_intent": "device.volume.unmute",
-      "pattern": "\\bmute\\b(?!\\s+off)",
-      "redirect_intent": "device.volume.mute"
-    },
-    {
-      "blocked_intent": "device.volume.mute",
-      "pattern": "\\bunmute\\b|\\bun-mute\\b|\\bmute\\s+off\\b|\\boff\\s+mute\\b|\\bturn\\s+(the\\s+)?mute\\s+off\\b",
-      "redirect_intent": "device.volume.unmute"
-    },
-    {
-      "blocked_intent": "device.volume.increase",
-      "pattern": "\\b(quiet(er)?|lower|softer|decrease|reduce|down)\\b",
-      "redirect_intent": "device.volume.decrease"
-    },
-    {
-      "blocked_intent": "device.volume.decrease",
-      "pattern": "\\b(loud(er)?|higher|increase|raise|up)\\b",
-      "redirect_intent": "device.volume.increase"
-    },
-    {
-      "blocked_intent": "streaming.session.start",
-      "pattern": "\\b(stop|end|quit|finish|turn off)\\b",
-      "redirect_intent": "streaming.session.stop"
-    },
-    {
-      "blocked_intent": "streaming.session.stop",
-      "pattern": "\\b(start|begin|turn on)\\b",
-      "redirect_intent": "streaming.session.start"
-    }
-  ],
+  "polarity_guards": [],
   "help_marker_guard": {
     "markers": "(how\\s+(to|do\\s+i|does|can\\s+i|is|would\\s+i)\\b)|(\\bguide\\b)|(\\bexplain\\b)|(\\btutorial\\b)|(what\\s+(is|are|does)\\b)|(where\\s+(can|do)\\s+i\\s+(see|find|view))|(is\\s+there\\s+a\\s+way)|(help\\s+(with|me\\s+understand|for|understanding))|(how\\s+to\\s+use)|(\\w+\\s+help\\b)|(does\\s+\\w+\\s+(keep|save|store|record|work))|(can\\s+the\\s+app)",
     "pairs": {
