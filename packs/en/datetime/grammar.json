@@ -1,0 +1,73 @@
+{
+  "_note": "English datetime grammar vocabulary, evicted from entities.py (Plan §4). Schema mirrors the generic lexicon interpreter used for fr/de/da, plus 12h/am-pm extras, so English can later unify onto that one interpreter. LIVE today: `weekdays` and `word_numbers` are injected into the extractor; the remaining tables are authored data for the next eviction step.",
+  "grammar": {
+    "time_format": "12h",
+    "ampm_heuristic": true
+  },
+  "weekdays": {
+    "Monday": ["monday"],
+    "Tuesday": ["tuesday"],
+    "Wednesday": ["wednesday"],
+    "Thursday": ["thursday"],
+    "Friday": ["friday"],
+    "Saturday": ["saturday"],
+    "Sunday": ["sunday"]
+  },
+  "word_numbers": {
+    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+    "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+    "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14,
+    "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
+    "nineteen": 19, "twenty": 20, "thirty": 30, "forty": 40, "fifty": 50
+  },
+  "day_anchors": {
+    "today": ["today"],
+    "tonight": ["tonight"],
+    "tomorrow": ["tomorrow"],
+    "day_after_tomorrow": ["day after tomorrow"],
+    "next_week": ["next week"],
+    "yesterday": ["yesterday"]
+  },
+  "time_of_day": {
+    "morning":   {"names": ["morning"],   "hour": 8},
+    "afternoon": {"names": ["afternoon"], "hour": 14},
+    "evening":   {"names": ["evening"],   "hour": 18},
+    "night":     {"names": ["night"],     "hour": 21},
+    "noon":      {"names": ["noon"],      "hour": 12},
+    "midnight":  {"names": ["midnight"],  "hour": 0}
+  },
+  "am_pm": {
+    "am": ["am", "a m", "a.m"],
+    "pm": ["pm", "p m", "p.m"]
+  },
+  "relative_markers": {
+    "in": ["in"],
+    "for": ["for"],
+    "at": ["at"]
+  },
+  "relative_units": {
+    "minute": ["minute", "minutes", "min", "mins"],
+    "hour": ["hour", "hours", "hr", "hrs"],
+    "day": ["day", "days"],
+    "week": ["week", "weeks"]
+  },
+  "articles": ["an", "a"],
+  "quantifiers": {
+    "few": {"phrases": ["a few"], "n": 3},
+    "couple": {"phrases": ["a couple of", "a couple"], "n": 2}
+  },
+  "clock_idioms": {
+    "half_past": ["half past"],
+    "quarter_past": ["quarter past"],
+    "quarter_to": ["quarter to"],
+    "past": ["past"],
+    "to": ["to"],
+    "half_an_hour": ["half an hour"]
+  },
+  "strip": {
+    "at_by": ["at", "by"],
+    "connectors": ["at", "on", "by", "this", "next"],
+    "recurrence": ["every", "each"],
+    "the": ["the"]
+  }
+}

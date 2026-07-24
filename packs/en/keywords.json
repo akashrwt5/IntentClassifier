@@ -1,0 +1,154 @@
+{
+  "_note": "Authoritative EN keyword pre-filter rules, evicted verbatim from data/nlu_schema.json keyword_triggers (Plan §4). Compiled by the engine's generic keyword matcher.",
+  "keyword_triggers": [
+    {
+      "intent": "Cmd.TranslationStart",
+      "regex": "\\btranslat(e|es|ing|ion)\\b",
+      "not_regex": "\\b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\\b"
+    },
+    {
+      "intent": "Cmd.TranscribeStart",
+      "regex": "\\btranscri(be|bing|ption)\\b",
+      "not_regex": "\\b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeMute",
+      "exact": [
+        "mute",
+        "silence"
+      ]
+    },
+    {
+      "intent": "Cmd.VolumeMute",
+      "regex": "\\b(silence|hush|shush)\\b",
+      "not_regex": "\\b(what|how|tell me|ask|explain|mean)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeUnmute",
+      "exact": [
+        "unmute"
+      ]
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "exact": [
+        "push to talk",
+        "ptt"
+      ]
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "regex": "\\bsend\\b.{0,30}\\bmessage\\b",
+      "not_regex": "^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\\s+send|send\\s+it|send\\s+now)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(increase|raise|turn up)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(up|higher|louder)\\b|\\bturn it up\\b|\\bturn up\\b|\\bvolume up\\b|\\bamplify\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(too|so|very|really)\\s+(quiet|low|soft|faint)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(sounds?|volume|audio|its?|everything|speech|voices?)\\b.{0,12}\\b(quiet|low|soft|faint|dull|unclear)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(miss|missing|can.?t (catch|hear))\\b.{0,20}\\b(words?|speech|conversations?|voices?)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\bsound(s)? like whispers?\\b|\\bwhispers?\\b.{0,20}\\b(voices?|sounds?|them|talking)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\bnothing\\b.{0,20}\\bcoming through\\b|\\b(slipping|passing)\\b.{0,15}\\bpast me\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(asking|ask)\\b.{0,20}\\brepeat (themselves|himself|herself|yourself)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(sound|seems?|feels?)\\b.{0,15}\\b(so |too )?(far away|distant)\\b|\\bfar away\\b.{0,20}\\b(talk|speak|when)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeIncrease",
+      "regex": "\\b(crank|jack|pump)\\b.{0,10}\\b(it|the|sound|volume|up|higher)\\b|\\b(boost|amp)\\b.{0,10}\\b(it|the|sound|volume)\\b",
+      "not_regex": "\\b(down|reduce|lower)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeDecrease",
+      "regex": "\\b(decrease|lower|reduce|turn down)\\b.{0,15}\\bvolume\\b|\\bvolume\\b.{0,10}\\b(down|lower|quieter)\\b|\\bturn it down\\b|\\bturn down\\b|\\bvolume down\\b"
+    },
+    {
+      "intent": "Cmd.FindMyPhone",
+      "exact": [
+        "find my phone",
+        "where is my phone",
+        "locate my phone",
+        "find phone"
+      ]
+    },
+    {
+      "intent": "reminders.add",
+      "regex": "\\b(set|create|add|make)\\b.{0,20}\\breminder\\b"
+    },
+    {
+      "intent": "reminders.add",
+      "regex": "\\bnudge me\\b|\\bslip my mind\\b|\\bjot this down\\b|\\bnote this down\\b|\\bdon'?t (let me )?forget\\b"
+    },
+    {
+      "intent": "reminders.add",
+      "regex": "\\b(rappelle[\\s-]?moi|r[eé]gler\\s+une\\s+alarme|mettre?\\s+une\\s+alarme|fixer?\\s+une\\s+alarme|cr[eé]er?\\s+un\\s+rappel|d[eé]finir?\\s+un\\s+rappel|mettre?\\s+un\\s+rappel|poser\\s+un\\s+rappel|ajouter\\s+un\\s+rappel|planifier\\s+un\\s+rappel|configurer\\s+un\\s+rappel)\\b"
+    },
+    {
+      "intent": "Cmd.VolumeDecrease",
+      "regex": "\\b(too|way|so|very|really)\\s+(hot|loud|bright|much)\\b|\\bcoming in (way )?too (hot|loud)\\b|\\btake the edge off\\b"
+    },
+    {
+      "intent": "Cmd.VolumeDecrease",
+      "regex": "\\b(dim|soften|dampen|quieten)\\b.{0,15}\\b(audio|sound|volume|it)\\b",
+      "not_regex": "\\b(increase|raise|louder|up)\\b"
+    },
+    {
+      "intent": "Help_DeviceSettings",
+      "regex": "\\b(everything|audio|sounds?)\\b.{0,15}\\b(muffled|distorted|garbled|warped)\\b"
+    },
+    {
+      "intent": "Cmd.BatteryLevel",
+      "regex": "\\b(power|battery)\\s+(reading|level|status|left|remaining)\\b|\\b(die|dying|run out|running out)\\b.{0,20}\\b(on me|battery|charge|power)\\b|\\bhow (much|long).{0,20}\\b(battery|charge|power|life)\\b"
+    },
+    {
+      "intent": "Help_FindMyHearingAids",
+      "regex": "\\bping\\b.{0,15}\\b(hearing aids?|aids?|devices?)\\b|\\b(locate|find|where).{0,20}\\b(hearing aids?|aids?|devices?)\\b|\\bcannot? (find|locate).{0,20}\\b(device|aid)\\b"
+    },
+    {
+      "intent": "Cmd.SendMessage",
+      "regex": "\\bget word to\\b|\\bping\\b.{0,20}\\b(my )?(daughter|son|wife|husband|brother|sister|mom|dad|mother|father|friend|family|partner)\\b"
+    },
+    {
+      "intent": "Cmd.StreamingStart",
+      "regex": "\\bpatch\\b.{0,15}\\b(sound|audio)\\b.{0,10}\\bthrough\\b|\\bstream\\b.{0,15}\\b(from|phone|tv|device)\\b",
+      "not_regex": "\\b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another person|someone)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\\b.{0,10}\\bmode\\b",
+      "not_regex": "\\b(what is|tell me about|help with|explain|how does|what does|about)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(load|restore|apply|use)\\b.{0,20}\\b(my )?(usual|default|normal|saved|last|previous)\\b.{0,15}\\b(config|configuration|setting|program|profile|memory)\\b"
+    },
+    {
+      "intent": "Cmd.MemoryChange",
+      "regex": "\\b(swap|switch|change|flip)\\b.{0,15}\\b(to the |to my )?(program|memory|setting|mode|profile)\\b.{0,20}\\bfor\\b"
+    },
+    {
+      "intent": "Help_Home",
+      "regex": "\\bwhat features\\b|\\bfeatures (are )?available\\b|\\bpoint me in the right direction\\b|\\bhow does (this|it|everything) work\\b"
+    }
+  ]
+}

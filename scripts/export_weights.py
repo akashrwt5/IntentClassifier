@@ -1,74 +1,75 @@
 #!/usr/bin/env python3
-"""Train on the full Dialogflow-imported dataset and export weights for Swift."""
+"""
+Export the Swift/CoreML weights from the SAME fitted pipeline that train.py
+produced (models/intent_pipeline.pkl).
 
-import pandas as pd
-import numpy as np
+WHY: previously this script re-TRAINED its own TF-IDF+LR (different data, min_df,
+even upper-cased labels), so the iOS weights and the Android ONNX were two
+DIFFERENT models — a silent cross-platform drift. Deriving both from the one
+pipeline guarantees they are the same model: same vocab, idf, coef, intercept,
+labels, and TF-IDF config. Run `python scripts/train.py` first.
+
+Usage:
+    python scripts/export_weights.py [--pipeline models/intent_pipeline.pkl] [--out PATH]
+"""
+import argparse
 import json
 from pathlib import Path
-from sklearn.pipeline import Pipeline
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
+
+import joblib
 
 BASE_DIR = Path(__file__).parent.parent
-DATA_PATH = BASE_DIR / "data" / "01_source_base_training_data.csv"
-WEIGHTS_PATH = BASE_DIR / "models" / "intent_classifier_weights.json"
-BASE_DIR.joinpath("models").mkdir(exist_ok=True)
+PIPELINE_PATH = BASE_DIR / "models" / "intent_pipeline.pkl"
+DEFAULT_OUT = BASE_DIR / "models" / "intent_classifier_weights.json"
 
-data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
-data.columns = [c.strip().lower() for c in data.columns]
-data["text"] = data["text"].astype(str).str.lower().str.strip()
-data["intent"] = data["intent"].astype(str).str.upper().str.strip()
-data = data.dropna().drop_duplicates(subset=["text", "intent"])
 
-print(f"Total samples: {len(data)}")
-print(f"Intents: {sorted(data['intent'].unique())}")
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--pipeline", default=str(PIPELINE_PATH))
+    ap.add_argument("--out", default=str(DEFAULT_OUT))
+    args = ap.parse_args()
 
-MAX_PER_INTENT = 500
-data = (
-    pd.concat([
-        g.sample(min(len(g), MAX_PER_INTENT), random_state=42)
-        for _, g in data.groupby("intent")
-    ])
-    .sample(frac=1, random_state=42)
-    .reset_index(drop=True)
-)
-print(f"\nSamples per intent (capped at {MAX_PER_INTENT}):")
-print(data["intent"].value_counts().to_string())
+    pipe = joblib.load(args.pipeline)
+    tfidf = pipe.named_steps["tfidf"]
+    clf = pipe.named_steps["clf"]
 
-X, y = data["text"], data["intent"]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    # Preserve calibration/config metadata already present in a prior weights file.
+    out = Path(args.out)
+    prev = {}
+    if out.exists():
+        try:
+            prev = json.loads(out.read_text(encoding="utf-8"))
+        except Exception:
+            prev = {}
 
-pipeline = Pipeline([
-    ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=1, sublinear_tf=True)),
-    ("clf", LogisticRegression(max_iter=3000, class_weight="balanced", C=15.0))
-])
+    weights = {
+        "labels": [str(c) for c in clf.classes_.tolist()],
+        "vocab": {k: int(v) for k, v in tfidf.vocabulary_.items()},
+        "idf": [round(float(x), 6) for x in tfidf.idf_.tolist()],
+        "coef": [[round(float(x), 6) for x in row] for row in clf.coef_.tolist()],
+        "intercept": [round(float(x), 6) for x in clf.intercept_.tolist()],
+        # TF-IDF config so the Swift side / parity reference featurize identically.
+        "ngram_range": list(tfidf.ngram_range),
+        "sublinear_tf": bool(tfidf.sublinear_tf),
+        "normalize": tfidf.norm or "l2",
+        # calibration + app config (carried over, defaulted if absent).
+        "temperature": float(prev.get("temperature", 1.0)),
+        "conf_threshold": float(prev.get("conf_threshold", 0.70)),
+        "conf_gap_threshold": float(prev.get("conf_gap_threshold", 0.20)),
+        "genai_base_url": prev.get("genai_base_url", "https://genai.yourcompany.com/chat?query="),
+    }
 
-pipeline.fit(X_train, y_train)
-y_pred = pipeline.predict(X_test)
-print(f"\nTest accuracy: {np.mean(y_pred == y_test):.3f}")
-print(classification_report(y_test, y_pred))
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with open(out, "w") as f:
+        json.dump(weights, f, separators=(",", ":"))
 
-# Retrain on all data then export
-pipeline.fit(X, y)
-tfidf = pipeline.named_steps["tfidf"]
-clf   = pipeline.named_steps["clf"]
+    print(f"✅ Exported {out} FROM {args.pipeline}")
+    print(f"   labels={len(weights['labels'])}  vocab={len(weights['vocab'])}  "
+          f"ngram={weights['ngram_range']}  sublinear={weights['sublinear_tf']}  "
+          f"norm={weights['normalize']}")
+    print(f"   first labels: {weights['labels'][:3]}")
+    return 0
 
-weights = {
-    "labels": clf.classes_.tolist(),
-    "vocab": {k: int(v) for k, v in tfidf.vocabulary_.items()},
-    "idf": [round(x, 6) for x in tfidf.idf_.tolist()],
-    "coef": [[round(x, 6) for x in row] for row in clf.coef_.tolist()],
-    "intercept": [round(x, 6) for x in clf.intercept_.tolist()],
-    "conf_threshold": 0.70,
-    "conf_gap_threshold": 0.20,
-    "genai_base_url": "https://genai.yourcompany.com/chat?query="
-}
 
-with open(WEIGHTS_PATH, "w") as f:
-    json.dump(weights, f, separators=(',', ':'))
-
-print(f"\n✅ Exported to {WEIGHTS_PATH} ({WEIGHTS_PATH.stat().st_size/1024:.1f} KB)")
-print(f"✅ Labels: {weights['labels']}")
-print(f"✅ Vocab size: {len(weights['vocab'])}")
+if __name__ == "__main__":
+    raise SystemExit(main())

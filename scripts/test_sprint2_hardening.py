@@ -20,7 +20,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from nlu import NLUEngine  # noqa: E402
 
-engine = NLUEngine()
+engine = NLUEngine()                       # default: semantic stage OFF (plugin, opt-in)
+engine_semantic = NLUEngine(enable_semantic=True)  # explicitly enabled, for stage-load tests
 _counter = {"n": 0}
 
 
@@ -35,18 +36,25 @@ def test_semantic_threshold_comes_from_schema():
     expected = engine.schema.get("semantic_threshold")
     assert expected is not None, "schema is missing semantic_threshold"
     assert engine.semantic_threshold == expected
-    # And it is the value the semantic stage was actually built with.
-    if engine.semantic is not None:
-        assert engine.semantic.threshold == expected
+    # And it is the value the semantic stage was actually built with (checked on
+    # the enabled engine, since the semantic stage is OFF in the default engine).
+    if engine_semantic.semantic is not None:
+        assert engine_semantic.semantic.threshold == expected
 
 
 # ===================== Item 12: warm-up didn't break load ====================
 
-def test_semantic_stage_loaded():
-    # If artifacts are present the stage must be live (warm-up must not have
-    # thrown and disabled it).
+def test_semantic_disabled_by_default():
+    # The semantic stage is an opt-in plugin: a bare NLUEngine() must NOT load it.
+    assert engine.semantic is None
+    assert engine.semantic_enabled is False
+
+
+def test_semantic_stage_loaded_when_enabled():
+    # With the stage explicitly enabled and artifacts present, it must be live
+    # (warm-up must not have thrown and disabled it).
     if (Path(__file__).parent.parent / "models" / "semantic_head.npz").exists():
-        assert engine.semantic is not None
+        assert engine_semantic.semantic is not None
 
 
 # ===================== Item 13: idiom polarity ==============================

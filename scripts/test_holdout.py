@@ -73,7 +73,7 @@ def main():
     n_rows = len(pd.read_csv(HOLDOUT_PATH))
     print(f"\n{BOLD}Held-out Benchmark — {n_rows} never-trained paraphrases "
           f"[v{_args.version}: {HOLDOUT_PATH.name}]{RESET}\n")
-    engine = NLUEngine()
+    engine = NLUEngine(enable_semantic=True)  # holdout exercises the full pipeline incl. semantic (off by default)
     df = pd.read_csv(HOLDOUT_PATH)
 
     rows = []

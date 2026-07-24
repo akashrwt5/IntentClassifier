@@ -132,7 +132,7 @@ def run_suite(engine: NLUEngine, cases, label: str, expect_rescue: bool = None):
 def main():
     print(f"\n{BOLD}Semantic Fallback — Phase 3 Threshold Tuning{RESET}")
 
-    engine = NLUEngine()
+    engine = NLUEngine(enable_semantic=True)  # this suite exercises the semantic stage (off by default)
 
     if engine.semantic is None:
         print(f"\n{RED}ERROR: SemanticFallback not loaded.{RESET}")
