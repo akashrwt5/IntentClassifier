@@ -522,12 +522,12 @@
   "polarity_guards": [
     {
       "blocked_intent": "device.volume.unmute",
-      "pattern": "\\bmute\\b",
+      "pattern": "\\bmute\\b(?!\\s+off)",
       "redirect_intent": "device.volume.mute"
     },
     {
       "blocked_intent": "device.volume.mute",
-      "pattern": "\\bunmute\\b|\\bun-mute\\b",
+      "pattern": "\\bunmute\\b|\\bun-mute\\b|\\bmute\\s+off\\b|\\boff\\s+mute\\b|\\bturn\\s+(the\\s+)?mute\\s+off\\b",
       "redirect_intent": "device.volume.unmute"
     },
     {
@@ -552,7 +552,7 @@
     }
   ],
   "help_marker_guard": {
-    "markers": "(how\\s+(to|do\\s+i|does|can\\s+i|is|would\\s+i)\\b)|(\\bguide\\b)|(\\bexplain\\b)|(\\btutorial\\b)|(what\\s+(is|are|does)\\b)|(where\\s+(can|do)\\s+i\\s+(see|find|view))|(is\\s+there\\s+a\\s+way)|(help\\s+(with|me\\s+understand|for|understanding))|(how\\s+to\\s+use)",
+    "markers": "(how\\s+(to|do\\s+i|does|can\\s+i|is|would\\s+i)\\b)|(\\bguide\\b)|(\\bexplain\\b)|(\\btutorial\\b)|(what\\s+(is|are|does)\\b)|(where\\s+(can|do)\\s+i\\s+(see|find|view))|(is\\s+there\\s+a\\s+way)|(help\\s+(with|me\\s+understand|for|understanding))|(how\\s+to\\s+use)|(\\w+\\s+help\\b)|(does\\s+\\w+\\s+(keep|save|store|record|work))|(can\\s+the\\s+app)",
     "pairs": {
       "device.memory.change": "help.memory_options.show",
       "device.volume.decrease": "help.volume.show",

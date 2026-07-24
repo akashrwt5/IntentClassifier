@@ -3,18 +3,16 @@
   "per_language": {
     "en": {
       "turns": 1461,
-      "wrong_actions": 16,
-      "confirm_gated_wrong": 16,
+      "wrong_actions": 11,
+      "confirm_gated_wrong": 15,
       "fulfilled": 1047,
       "prompted": 58,
       "fallback": 271,
       "confirmed": 85,
       "per_domain": {
-        "device": 8,
+        "device": 7,
         "activity": 3,
-        "translation": 2,
-        "streaming": 1,
-        "transcription": 2
+        "streaming": 1
       }
     },
     "fr": {
@@ -102,13 +100,6 @@
     },
     {
       "lang": "en",
-      "text": "turn mute off",
-      "truth": "device.volume.unmute",
-      "fired": "device.volume.mute",
-      "confidence": 0.975
-    },
-    {
-      "lang": "en",
       "text": "shut off the streamed sound",
       "truth": "streaming.session.stop",
       "fired": "device.volume.mute",
@@ -134,6 +125,13 @@
       "truth": "sys.oos.fallback",
       "fired": "device.volume.decrease",
       "confidence": 0.944
+    },
+    {
+      "lang": "en",
+      "text": "stream from an accessory mic to my aids",
+      "truth": "help.accessories.show",
+      "fired": "streaming.session.start",
+      "confidence": 0.9
     },
     {
       "lang": "fr",
@@ -346,8 +344,8 @@
       "confidence": 1.0
     }
   ],
-  "wrong_actions_shipped_langs": 46,
+  "wrong_actions_shipped_langs": 41,
   "budget": 5,
   "budget_met": false,
-  "mitigations": "guards (polarity + help-marker ND-14) + confirm gate (all state-changing, <0.80) + confirm-floor + recipe fix + da/fr label-conflict clean + de/da untranslated-placeholder clean"
+  "mitigations": "guards (polarity + help-marker ND-14 + en marker/mute-off gaps closed) + confirm gate + confirm-floor + recipe fix + da/fr conflict clean + de/da placeholder clean"
 }
