@@ -168,11 +168,13 @@ class IntentClassifier:
                     return rule["intent"], KEYWORD_CONFIDENCE["exact"]
             elif kind == "regex":
                 m = rule["pattern"].search(t)
-                if m and not _is_negated_at(t, m.start(), self._negations):
-                    if rule["not_pattern"] is None or not rule["not_pattern"].search(t):
-                        tier = "regex" if rule["not_pattern"] is None else "regex_guarded"
-                        self.last_keyword_tier = tier
-                        return rule["intent"], KEYWORD_CONFIDENCE[tier]
+                if (m
+                        and not _is_negated_at(t, m.start(), self._negations)
+                        and (rule["not_pattern"] is None
+                             or not rule["not_pattern"].search(t))):
+                    tier = "regex" if rule["not_pattern"] is None else "regex_guarded"
+                    self.last_keyword_tier = tier
+                    return rule["intent"], KEYWORD_CONFIDENCE[tier]
         return None, 0.0
 
     def _format(self, text: str):

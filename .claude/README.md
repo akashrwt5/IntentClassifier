@@ -14,6 +14,12 @@ task needs, minimizing token usage.
   its relevant memory. See the table in `../CLAUDE.md`.
 - `commands/` — slash commands: `/sync-memory`, `/train-eval`, `/export-mobile`,
   `/add-language`, `/review-change`, `/execute-plan`.
+- `hooks/session-start.sh` + `settings.json` — prepares a fresh **cloud**
+  container (locale, deps, `PYTHONPATH`) so tests and ruff just run. Exits
+  immediately outside Claude Code on the web; local machines and GitHub CI
+  already have what they need. See the comment block in the script for why the
+  locale step exists — without it onnxruntime fails in a way that looks like a
+  corrupt model.
 
 ## Principle
 
