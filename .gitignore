@@ -23,3 +23,10 @@ __MACOSX/
 
 # Build output (pack assembly)
 dist/
+
+# Test/coverage artifacts
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.ruff_cache/
