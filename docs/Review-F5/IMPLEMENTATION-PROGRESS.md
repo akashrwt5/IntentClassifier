@@ -105,6 +105,35 @@ code.
 
 ## Log
 
+- **2026-07-24 (l)** — **`--inspect` mode + Swift conformance gate; found stale
+  local CoreML.** Added `verify_coreml_parity.py --inspect` (parses the raw
+  `.mlpackage` protobuf — works on Linux, no macOS libs) to print format + feature
+  dim. Ran it on the checked-in `models/IntentClassifier.mlpackage`: **format
+  neuralNetworkClassifier (NON-ANE), 1340 features vs the production model's 5433
+  → a different, stale model.** Wired `scripts/test_ios_conformance.py --model
+  production` (the Swift `swift_tokens` device path vs ONNX, top-1 + fire/fallback
+  parity) into both `train-and-gate.yml` and `release-pack.yml` right after
+  `export_weights.py`. **Verified locally:** with the unified weights, conformance
+  is **30/30, 0 threshold disagreements** — the third featurizer (sklearn / ONNX /
+  Swift) now agrees. All 4 workflows valid; models/ restored.
+
+- **2026-07-24 (k)** — **CoreML↔ONNX parity gate + generated-models folder.**
+  Investigating "do we compare CoreML vs ONNX?" surfaced a real bug: the ONNX
+  (`train.py`) and the CoreML weights (`export_weights.py`) were **two different
+  fits** (different data, `min_df`, even upper-cased labels) — silent iOS/Android
+  drift. Fixed `export_weights.py` to derive weights from the SAME
+  `intent_pipeline.pkl` the ONNX comes from (labels, vocab, idf, coef, ngram,
+  sublinear all consistent). Added `scripts/ci/verify_coreml_parity.py`: Tier-A
+  (ANE shape; CoreML linear weights == pipeline clf within FP16; ONNX top-1 ==
+  pipeline over the holdout, small skl2onnx budget) + Tier-B (real Core ML runtime
+  top-1 agreement, macOS). **Verified in-sandbox:** the ONNX↔pipeline top-1 gate
+  passes (1/100 disagreement, budget 2; median logit dev 0.0000). Wired the gate
+  into `release-pack.yml` (macOS `coreml-export` job, blocks the release on
+  divergence) and routed all generated models into a dedicated **`dist/models/`**
+  folder. `intent_pipeline.pkl` now travels between jobs so the gate can featurize
+  faithfully. All 4 workflows valid YAML; models/ restored after the dry-run
+  retrain.
+
 - **2026-07-24 (j)** — **iOS CoreML/ANE wired into the release pipeline.**
   Identified the ANE-eligible exporter: `multilingual/export_coreml_multilingual.py`
   (mlprogram, `ComputeUnit.ALL`, FP16, fixed `(1,V)` shape → produces

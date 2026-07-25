@@ -35,7 +35,7 @@ def main() -> int:
     ap.add_argument("--lang", default="en")
     ap.add_argument("--weights", default=str(ROOT / "models" / "intent_classifier_weights.json"),
                     help="production weights JSON (from scripts/export_weights.py)")
-    ap.add_argument("--out", default=str(ROOT / "dist" / "model.mlpackage"))
+    ap.add_argument("--out", default=str(ROOT / "dist" / "models" / "model.mlpackage"))
     args = ap.parse_args()
 
     weights = Path(args.weights)

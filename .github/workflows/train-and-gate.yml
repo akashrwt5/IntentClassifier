@@ -42,6 +42,12 @@ jobs:
       - name: Train the intent model
         run: python scripts/train.py
 
+      - name: Export weights from the SAME pipeline as the ONNX
+        run: python scripts/export_weights.py
+
+      - name: iOS/Swift <-> ONNX conformance gate (device featurizer parity)
+        run: python scripts/test_ios_conformance.py --model production
+
       - name: Refresh the pack with the freshly trained model
         run: |
           cp models/intent_model.onnx            packs/en/intent_model/model.onnx
