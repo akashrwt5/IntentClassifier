@@ -78,6 +78,37 @@ Related, already fixed but worth knowing (ADR-011): the ONNX and the CoreML
 weights used to be two independent fits, silently drifting iOS from Android.
 Keep `export_weights.py` deriving from `models/intent_pipeline.pkl`.
 
+## The holdout score is non-deterministic when semantic is ON
+
+Repeated identical runs of `scripts/test_holdout.py` return **320–323 / 341**
+(93.8–94.7%). With `--no-semantic` it is rock stable at **280/341** across every
+run. Wrong-action is **6 in both configurations, every time** — the variance is
+only ever a case flipping between "correct" and "safe GenAI fallback", never
+into a wrong action. So it is an accuracy-reporting problem, not a safety one.
+
+Ruled out by direct measurement:
+- **Not the model.** `SemanticFallback._embed()` on the same text 5× gives
+  max pairwise difference **0.0**, and `classify()` returns an identical
+  confidence to 16 digits.
+- **Not ONNX threading.** Forcing `OMP_NUM_THREADS=1` still varies.
+- **Not engine construction.** A single engine instance varies between two
+  passes over the same corpus.
+- **Not the preceding turn.** The utterance in isolation, and after four
+  different predecessors, gives an identical result every time.
+
+Still suspect: **wall-clock state in `SessionStore`**. Contexts expire at
+`context_ttl_seconds` 90 and sessions at 600 (`context.py` uses `time.time()`),
+while a full pass takes tens of seconds — so how far the clock has advanced can
+change routing for turns that open a context. Consistent with the evidence:
+giving each utterance its own session id instead of reusing `"holdout"` with a
+reset reduced the variance (4 → 2 differing cases) but did **not** remove it.
+
+Practical impact: the gate floor is `min_total` 258, and the worst observed run
+is 320, so it will not flake — but do not report a holdout number to 0.1% or
+treat a ±3 movement as a real change. Re-run before concluding anything.
+A fix would be injecting a fixed clock into `SessionStore` for benchmark runs
+(the constructor already takes one — `clock: Callable[[], float] = time.time`).
+
 ## Danish is the weakest language
 
 `da` macro-F1 **0.7448**, ECE **0.0352** (vs `en` 0.9018 / 0.0184) —

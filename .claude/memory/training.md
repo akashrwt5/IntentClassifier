@@ -95,7 +95,22 @@ python scripts/train.py \
 ```
 
 `test_holdout.py` takes `-v {1,2}` (default 2), `--strict` (exit 1 below budget —
-this is the gate), `--verbose`, and `--json FILE`.
+this is the gate), `--verbose`, `--json FILE`, and `--no-semantic`.
+
+### What the semantic stage is worth (measured 2026-07-25, v2 holdout, 341 rows)
+
+| Config | Correct | Accuracy | Wrong-action | Safe GenAI fallbacks |
+|---|---|---|---|---|
+| Semantic **ON** | 320–323 | 93.8–94.7% | **6** | 12–15 |
+| Semantic **OFF** (ships) | 280 | 82.1% | **6** | 55 |
+
+Semantic is worth **~+12.6 points** and converts ~43 GenAI hand-offs into
+direct answers, at **no wrong-action cost** — the safety-critical number is 6 in
+both. That is a strong argument for revisiting the off-by-default posture
+(ADR-007), weighed against its memory/latency cost on device.
+
+The ON range is not measurement sloppiness — the score is genuinely
+non-deterministic run to run. See `known-issues.md`.
 
 A dry-run retrain overwrites `models/` — restore it if you were only testing the
 pipeline.

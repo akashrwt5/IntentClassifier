@@ -42,6 +42,10 @@ _parser.add_argument("--version", "-v", type=int, choices=[1, 2], default=2,
 _parser.add_argument("--verbose",  action="store_true")
 _parser.add_argument("--strict",   action="store_true")
 _parser.add_argument("--json",     metavar="FILE")
+_parser.add_argument("--no-semantic", action="store_true",
+                     help="Run WITHOUT the semantic rescue stage (keyword + TF-IDF "
+                          "only) — the shipped default configuration. Use it against "
+                          "a normal run to measure what the semantic stage actually buys.")
 _args = _parser.parse_args()
 
 _BASE = Path(__file__).parent.parent
@@ -70,10 +74,15 @@ def main():
     strict    = _args.strict
     json_path = _args.json
 
+    semantic_on = not _args.no_semantic
+
     n_rows = len(pd.read_csv(HOLDOUT_PATH))
     print(f"\n{BOLD}Held-out Benchmark — {n_rows} never-trained paraphrases "
-          f"[v{_args.version}: {HOLDOUT_PATH.name}]{RESET}\n")
-    engine = NLUEngine(enable_semantic=True)  # holdout exercises the full pipeline incl. semantic (off by default)
+          f"[v{_args.version}: {HOLDOUT_PATH.name}]{RESET}")
+    print(f"{BOLD}Semantic rescue: {'ON' if semantic_on else 'OFF (shipped default)'}{RESET}\n")
+    # Default ON: the holdout exercises the full pipeline. --no-semantic measures
+    # the configuration that actually ships (see decisions.md ADR-007).
+    engine = NLUEngine(enable_semantic=semantic_on)
     df = pd.read_csv(HOLDOUT_PATH)
 
     rows = []
