@@ -124,16 +124,38 @@ ls datasets/*.csv data/*.csv 2>/dev/null | head
 ```
 
 - **`dvc pull` succeeds and the training CSVs are present → Track A and Track B
-  are both open.** Do all remaining work.
-- **`dvc pull` fails, or the remote is still the local path
-  (`.dvc/config` → `url = ../../dvc-store`) → only Track A is open.** Do all
-  remaining Track A work, then record in `ENGLISH-PRODUCTION-STATUS.md` that
-  Track B is blocked on the shared DVC remote (owner action: provision S3/GCS +
-  repo secret) and end the run cleanly. **This is a normal outcome, not a
-  failure.** Do not attempt to work around it by committing datasets, by
-  synthesising training data, or by relaxing a gate.
+  are both open at full authority.** Do all remaining work. Numbers produced in
+  this state are authoritative — this is the only state in which baseline-v2 may
+  be recorded as final.
 
-Track A is deliberately the larger track and does not need a single row of data.
+- **`dvc pull` fails → fall back to the English bootstrap corpus:**
+  ```
+  python scripts/ci/bootstrap_en_data.py
+  ```
+  This materialises `datasets/` from the tracked, provenance-stamped English
+  snapshot in `data/bootstrap/en/` (the reference-branch master, migrated to the
+  57-label space; see its README). **Track A and the English half of Track B are
+  both open in this state.** fr/de/da stay blocked — their masters are not
+  recoverable from git.
+
+  Everything you produce in this state is **PROVISIONAL**. Label it so, in the
+  commit message and in `ENGLISH-PRODUCTION-STATUS.md`. Specifically:
+  - B1/B2/B3/B4 may be built, run and tested against the bootstrap corpus — the
+    machinery is what matters and it is fully exercisable.
+  - **Do NOT record baseline-v2 as final** from bootstrap data, and do not
+    publish its metrics as the honest English baseline. Write them as
+    `baseline-v2-provisional` and say what they were measured on.
+  - **Do NOT ship a calibration fitted on bootstrap data** to the runtime (B3).
+    Fit it, test it, prove the ECE improvement, leave the runtime wiring behind
+    the real fit.
+
+The script never overwrites authoritative data — once `dvc pull` works it
+detects real content and no-ops, so leaving this call in the run is safe
+permanently.
+
+Record in `ENGLISH-PRODUCTION-STATUS.md` which of the three states the run was
+in, so every metric in the file is traceable to the data behind it. Never
+synthesise training data, and never relax a gate to compensate for the snapshot.
 
 ---
 
@@ -153,7 +175,12 @@ Track A is deliberately the larger track and does not need a single row of data.
    `spec/bundle/3.0`. One container, one manifest, one signing story.
 5. **Never unify the device and server temperatures.** They calibrate different
    featurisers. Keep them separate and documented as separate.
-6. **Never commit datasets to git.** DVC stays the mechanism.
+6. **Never commit new datasets to git.** DVC stays the mechanism for
+   authoritative data. The one sanctioned exception already exists and is
+   closed: `data/bootstrap/en/`, a provenance-stamped English snapshot recovered
+   from the reference branch to unblock work while the shared remote is
+   missing. Do not extend it, do not add languages to it, and do not commit
+   anything that arrives via `dvc pull`.
 7. **Never weaken, skip, or `xfail` a gate to get green.** If a gate is wrong,
    say so in STATUS and stop.
 8. **Never touch `main` or `feature/*`.** No Rust / Phase 2 work (owner directive

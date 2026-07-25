@@ -1,0 +1,53 @@
+{
+  "_note": "Provisional English bootstrap corpus. NOT the authoritative dataset \u2014 see README.md. Regenerate with `python scripts/ci/bootstrap_en_data.py --build`.",
+  "source_branch": "origin/claude/claude-setup-architecture-ebqobs-Temperaturescaling-fixes",
+  "source_commit": "0089b894f2afd91b57f9d6c53d142b24eccd066c",
+  "migration_map": "docs/Review-F5/capability-map.json",
+  "migrated_at": "2026-07-25T21:40:17Z",
+  "dropped_labels": [
+    "Cmd.SendMessage - no",
+    "Cmd.SendMessage - yes"
+  ],
+  "files": {
+    "04_GENERATED_MASTER_training_data.csv": {
+      "source_sha256": "8d41839d67e0424cf92d53281cd78524e40c199878a592feae96a08425a1e867",
+      "sha256": "f9b9827e0a255abe3b60c16f3e8a0f79bf51264a4c9ba2be51628ff4660c9fd6",
+      "rows_in": 9986,
+      "rows_out": 9826,
+      "rows_held_back": 160,
+      "label_column": "intent"
+    },
+    "semantic_holdout_2.csv": {
+      "source_sha256": "868d4f3564e3bccc3afb42d9836a52c93a04d8182c2547c7b949de8bd25582c6",
+      "sha256": "02dcc6365b61166029999e00004dfb28c9b4b39d642d7633b564abd683613757",
+      "rows_in": 341,
+      "rows_out": 331,
+      "rows_held_back": 10,
+      "label_column": "expected_intent"
+    },
+    "semantic_holdout_100.csv": {
+      "source_sha256": "f753122686bb4fb7e1894e44b22c974378ce6cde7290a4b2170a0fcf457a0b47",
+      "sha256": "ac3afe63a2da09e7096a31a5766ea8cc952eebdb6a1c7465bf065a1576e382b0",
+      "rows_in": 100,
+      "rows_out": 100,
+      "rows_held_back": 0,
+      "label_column": "expected_intent"
+    },
+    "semantic_oos.csv": {
+      "source_sha256": "6d5560af5700b54c9c59b6b6c91180de86db56584f654c813b8f4a946ea751c7",
+      "sha256": "9f3aa999ce21dc7bef2a320db8e48c6beb46c239633ff5633c9b24b7c57df651",
+      "rows_in": 156,
+      "rows_out": 156,
+      "rows_held_back": 0,
+      "label_column": "intent"
+    },
+    "confirmation_fixtures.csv": {
+      "sha256": "240eca01a35f18b786df30a2b60b735e2530af2f959b1dea3781545e5f7c84b5",
+      "rows_out": 170,
+      "origin": "dialogue-act rows dropped by the ND-3 migration, from all source files; retained for confirmation-flow regression use"
+    }
+  },
+  "labels_produced": 57,
+  "labels_shipped": 57,
+  "labels_shipped_without_data": []
+}
