@@ -21,6 +21,17 @@ Cycle (resumable)", hourly at :31, fresh session per firing, push notification o
 noteworthy completion. To pause or stop it: `update_trigger` with
 `enabled: false`, or the routines UI.
 
+> **Keep the trigger prompt in sync with this file.** The trigger carries its own
+> copy of the bootstrap instructions, and it has gone stale once already — when
+> the bootstrap corpus landed, the live prompt still told fired sessions that
+> Track B was blocked whenever `dvc pull` failed, which would have skipped work
+> that was in fact open. The prompt is deliberately **thin**: it defers to this
+> charter for the data gate, the checklists and the gates, and restates only what
+> a cold session needs before it can read this file. **Whenever you change the
+> §Data gate, the STOP rules, or the terminal-state protocol, update the trigger
+> prompt in the same change** — and prefer deleting duplication there over
+> re-syncing it.
+
 - **Repository:** this repo
 - **Trigger:** Schedule → hourly. Hourly (not nightly) is deliberate: when a run
   is cut short by usage limits, the next firing after the limit resets picks up
@@ -507,7 +518,16 @@ parse) accepts the workflow. The first *real* run belongs to B6.
 
 ---
 
-## TRACK B — needs datasets (opens when `dvc pull` succeeds)
+## TRACK B — needs datasets
+
+Opens in two grades, per the §Data gate:
+- **`dvc pull` succeeded** → fully open, results **authoritative**.
+- **bootstrap snapshot only** → the English steps are open, results
+  **PROVISIONAL**: build, run and test the machinery, but do not record
+  baseline-v2 as final (B1) and do not wire a bootstrap-fitted calibration into
+  the runtime (B3). fr/de/da are closed in this grade.
+
+Label every artifact and commit with the grade it was produced under.
 
 ### B0 — Make the gates actually run in CI
 
@@ -698,9 +718,10 @@ Update `docs/Review-F5/ENGLISH-PRODUCTION-STATUS.md` with:
   gate output that justifies each state;
 - the exact blocker and who owns it;
 - honest metric snapshots — never the leakage-inflated numbers;
-- the open owner queue: shared DVC remote (Track B precondition), ND-8 production
-  signing, the B1 unconditional-confirm policy decision, and authorisation to
-  begin French.
+- **which data-gate state the run was in**, so every metric in the file is
+  traceable to the data behind it, and every provisional number is marked;
+- the open owner queue: shared DVC remote, ND-8 production signing, the B1
+  unconditional-confirm policy decision, and authorisation to begin French.
 
 Then commit, push, and end the run.
 
@@ -710,7 +731,7 @@ Then commit, push, and end the run.
 
 | # | Decision | Blocks |
 |---|---|---|
-| 1 | Provision a shared DVC remote (S3/GCS) + repo secret | All of Track B |
+| 1 | Provision a shared DVC remote (S3/GCS) + repo secret | fr/de/da entirely; promoting any English Track-B result from PROVISIONAL to authoritative (baseline-v2, the runtime calibration in B3, the B6 release gate) |
 | 2 | ND-8 — production signing keys / KMS | Promoting releases past `channel: dev` |
 | 3 | B1 — unconditional confirmation on high-cost state-changing intents | Closing the wrong-action budget |
 | 4 | Authorise the French pack trial after a green run | P3 / the neutrality proof |
