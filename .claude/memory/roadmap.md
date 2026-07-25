@@ -38,13 +38,15 @@ unprompted:
 
 ## Open / carried work
 
-- **The 8 tracked pre-existing test failures** — each is a real bug held behind
-  a `--deselect` line in `pr.yml`. See `known-issues.md`; remove a line when its
-  bug is fixed so the case starts gating again.
-- **Second language pack.** The architecture's whole claim is that adding a
-  language is authoring `packs/<lang>/` with no engine edits. Only `en` exists
-  as a real pack (plus the hostile `zz` test fixture) — the claim is unproven at
-  production scale until a second real pack ships.
+- **2 tracked test failures remain** (was 8; six fixed 2026-07-25). Both are
+  French clock idioms that need `packs/fr/` — not engine bugs. See
+  `known-issues.md`.
+- **Second language pack — now the critical path.** The architecture's whole
+  claim is that adding a language is authoring `packs/<lang>/` plus training
+  data, with no engine edits. Only `en` exists as a real pack (plus the hostile
+  `zz` fixture), and the two remaining test failures are exactly what that gap
+  costs. CI now enforces the contract from the engine side (no language
+  branches, no embedded vocabulary), so the next real proof is a second pack.
 - **Danish quality.** `da` is the weakest language (macro-F1 0.7448, ECE 0.0352
   vs `en` 0.9018 / 0.0184) and is below the 0.80 accuracy gate posture.
 - **macOS-only verification.** Tier-B Core ML runtime parity, live ANE

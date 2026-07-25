@@ -1,9 +1,55 @@
 {
   "_note": "Authoritative EN language behavior tables, evicted from engine.py (Plan §4). The engine's generic logic consumes these; values here are exact copies of the previous in-engine constants so behavior is preserved.",
-  "affirmative": ["yes", "yeah", "yep", "yup", "sure", "ok", "okay", "send", "send it", "confirm", "correct", "do it", "go ahead", "please do", "affirmative"],
-  "negative": ["no", "nope", "nah", "cancel", "don't", "dont", "stop", "negative", "no thanks", "do not", "never mind", "nevermind"],
-  "uncertainty": ["not sure", "maybe", "dunno", "don't know", "dont know", "i don't know", "no idea", "unsure"],
-  "no_idioms": ["no worries", "no problem", "no doubt", "no biggie", "no probs", "no sweat", "not a problem"],
+  "affirmative": [
+    "yes",
+    "yeah",
+    "yep",
+    "yup",
+    "sure",
+    "ok",
+    "okay",
+    "send",
+    "send it",
+    "confirm",
+    "correct",
+    "do it",
+    "go ahead",
+    "please do",
+    "affirmative"
+  ],
+  "negative": [
+    "no",
+    "nope",
+    "nah",
+    "cancel",
+    "don't",
+    "dont",
+    "stop",
+    "negative",
+    "no thanks",
+    "do not",
+    "never mind",
+    "nevermind"
+  ],
+  "uncertainty": [
+    "not sure",
+    "maybe",
+    "dunno",
+    "don't know",
+    "dont know",
+    "i don't know",
+    "no idea",
+    "unsure"
+  ],
+  "no_idioms": [
+    "no worries",
+    "no problem",
+    "no doubt",
+    "no biggie",
+    "no probs",
+    "no sweat",
+    "not a problem"
+  ],
   "carriers": [
     "^\\s*please\\s+",
     "^\\s*(?:do\\s*n[o']?t|don't|dont)\\s+let\\s+me\\s+forget\\b\\s*(?:to|about)?\\s*",
@@ -12,5 +58,25 @@
     "^\\s*make\\s+sure\\s+(?:i|to)\\b\\s*",
     "^\\s*i\\s+(?:need|have|want)\\s+to\\b\\s*"
   ],
-  "leading_connectors": ["for", "about", "of", "on", "to", "that", "regarding", "with"]
+  "leading_connectors": [
+    "for",
+    "about",
+    "of",
+    "on",
+    "to",
+    "that",
+    "regarding",
+    "with"
+  ],
+  "negations": [
+    "not",
+    "don't",
+    "dont",
+    "do not",
+    "never",
+    "without",
+    "no need to",
+    "stop",
+    "cancel"
+  ]
 }

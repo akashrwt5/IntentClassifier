@@ -44,15 +44,26 @@ jobs:
       - name: Language-Pack + neutrality tests
         run: pytest tests/test_neutrality.py -q
 
+      # Medical-context speech: the raw utterance must never reach a result or
+      # a log unless explicitly opted in.
+      - name: Privacy invariants
+        run: pytest tests/test_privacy.py -q
+
       # Datetime parity: English golden corpus (default + pack-fed) — the
       # guardrail for the date parser.
       - name: Datetime English parity
         run: pytest tests/test_datetime_parity_en.py -q
 
-      # Full regression suite, EXCLUDING the pre-existing failures documented in
-      # docs/Review-F5/TO-REMOVE.md. Remove a --deselect line when its bug is
-      # fixed so the case starts gating again. Any NEW failure fails the PR.
-      - name: Regression suite (excl. tracked pre-existing failures)
+      # Full regression suite. The 6 English pre-existing failures documented in
+      # docs/Review-F5/TO-REMOVE.md are FIXED and now gate normally.
+      #
+      # The 2 remaining exclusions are French clock idioms ("et demie" = half
+      # past, "moins le quart" = quarter to). They are not engine bugs: English
+      # gets these from packs/en/datetime/grammar.json and French has no pack
+      # yet, so the vocabulary was never authored. They start gating the moment
+      # packs/fr/ exists — no engine change required.
+      # Remove a --deselect line when its pack lands. Any NEW failure fails the PR.
+      - name: Regression suite (excl. French clock idioms — needs packs/fr/)
         run: |
           pytest -q \
             scripts/test_sprint1_hardening.py \
@@ -61,11 +72,5 @@ jobs:
             scripts/test_nlu.py \
             scripts/test_datetime_entities.py \
             tests/test_datetime_parity.py \
-            --deselect "scripts/test_sprint1_hardening.py::test_keyword_negation_suppresses_contains_hit" \
-            --deselect "scripts/test_sprint1_hardening.py::test_keyword_positive_contains_still_fires" \
-            --deselect "scripts/test_sprint3_hardening.py::test_bare_contains_does_not_interrupt_slot_flow" \
-            --deselect "scripts/test_sprint3_hardening.py::test_holdout_gate_fails_when_floor_impossible" \
-            --deselect "scripts/test_nlu.py::test_reminder_step_by_step" \
-            --deselect "scripts/test_nlu.py::test_reminder_one_shot" \
             --deselect "tests/test_datetime_parity.py::test_datetime_parity[fr-dix heures et demie-today-10:30]" \
             --deselect "tests/test_datetime_parity.py::test_datetime_parity[fr-huit heures moins le quart-today-07:45]"

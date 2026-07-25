@@ -56,11 +56,16 @@ KEYWORD_CONFIDENCE = {
     "regex": 0.75,           # bare regex, the broadest pattern
 }
 
-# Negation cues that flip the meaning of a `contains` substring hit. "I don't
-# want to translate this" should not fire Cmd.TranslationStart. We only guard
-# `contains` rules; `exact`/`regex` authors express negation explicitly.
-_NEGATIONS = ("not", "don't", "dont", "do not", "never", "without",
-              "no need to", "stop", "cancel")
+# Negation cues that flip the meaning of a keyword hit: "I don't want to
+# translate this" must not fire Cmd.TranslationStart.
+#
+# LANGUAGE-NEUTRALITY: this table is DATA, not logic. It is the fallback for the
+# no-pack path only; a Language Pack overrides it via `lexicons.json:negations`,
+# so adding a language never means editing this file. The parsing *semantics*
+# (a cue in the short window before the hit suppresses it) stay in code and are
+# language-independent.
+_DEFAULT_NEGATIONS = ("not", "don't", "dont", "do not", "never", "without",
+                      "no need to", "stop", "cancel")
 
 
 def _compile_keyword_rules(schema: dict) -> list:
@@ -89,16 +94,19 @@ def _compile_keyword_rules(schema: dict) -> list:
     return rules
 
 
-def _is_negated(text: str, term: str) -> bool:
-    """True if `term` appears negated in `text` (a negation cue precedes it)."""
-    idx = text.find(term)
+def _is_negated_at(text: str, idx: int, negations) -> bool:
+    """True if a negation cue immediately precedes position `idx` in `text`."""
     if idx < 0:
         return False
-    prefix = text[:idx]
-    # Look only at the short window before the term so an unrelated earlier
+    # Look only at the short window before the hit so an unrelated earlier
     # "not" doesn't suppress a genuine later command.
-    window = prefix[-30:]
-    return any(neg in window for neg in _NEGATIONS)
+    window = text[:idx][-30:]
+    return any(neg in window for neg in negations)
+
+
+def _is_negated(text: str, term: str, negations=_DEFAULT_NEGATIONS) -> bool:
+    """True if `term` appears negated in `text` (a negation cue precedes it)."""
+    return _is_negated_at(text, text.find(term), negations)
 
 
 class IntentClassifier:
@@ -107,7 +115,8 @@ class IntentClassifier:
                  labels_path:  Path = LABELS_PATH,
                  schema_path:  Path = SCHEMA_PATH,
                  weights_path: Path = WEIGHTS_PATH,
-                 keyword_source: dict | None = None):
+                 keyword_source: dict | None = None,
+                 negations: list | None = None):
         if not model_path.exists():
             raise FileNotFoundError(
                 f"Model not found: {model_path}. Run `python scripts/train.py` first."
@@ -118,6 +127,9 @@ class IntentClassifier:
         # language-specific and lives in the pack), else from the schema (legacy).
         # Identical compiled form either way, so behavior is preserved.
         self._kw_rules = _compile_keyword_rules(keyword_source or self._schema)
+        # Negation cues come from the pack's lexicon when supplied; the built-in
+        # table is only the no-pack fallback (see _DEFAULT_NEGATIONS).
+        self._negations = tuple(negations) if negations else _DEFAULT_NEGATIONS
         self.session = ort.InferenceSession(str(model_path))
         self.inp = self.session.get_inputs()[0]
         self.input_name = self.inp.name
@@ -132,7 +144,14 @@ class IntentClassifier:
         """
         Return (intent, confidence) if a declarative keyword rule fires, else
         (None, 0.0). Confidence is calibrated by match type (see
-        KEYWORD_CONFIDENCE); `contains` hits are suppressed when negated.
+        KEYWORD_CONFIDENCE).
+
+        `contains` AND `regex` hits are both suppressed when negated. Regex
+        rules used to rely on each author spelling negation into `not_regex`,
+        which silently lost the guard whenever a rule migrated from `contains`
+        to `regex` — that is how "i don't want to translate anything" came to
+        fire Cmd.TranslationStart. `exact` rules are full-string matches, so a
+        negation cue cannot precede the term within the same rule.
         """
         t = text.lower().strip()
         self.last_keyword_tier = None
@@ -140,7 +159,7 @@ class IntentClassifier:
             kind = rule.get("type")
             if kind == "contains":
                 hit = next((term for term in rule["terms"] if term in t), None)
-                if hit and not _is_negated(t, hit):
+                if hit and not _is_negated(t, hit, self._negations):
                     self.last_keyword_tier = "contains"
                     return rule["intent"], KEYWORD_CONFIDENCE["contains"]
             elif kind == "exact":
@@ -148,7 +167,8 @@ class IntentClassifier:
                     self.last_keyword_tier = "exact"
                     return rule["intent"], KEYWORD_CONFIDENCE["exact"]
             elif kind == "regex":
-                if rule["pattern"].search(t):
+                m = rule["pattern"].search(t)
+                if m and not _is_negated_at(t, m.start(), self._negations):
                     if rule["not_pattern"] is None or not rule["not_pattern"].search(t):
                         tier = "regex" if rule["not_pattern"] is None else "regex_guarded"
                         self.last_keyword_tier = tier

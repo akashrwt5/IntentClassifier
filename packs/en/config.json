@@ -1,14 +1,20 @@
 {
-  "confidence_threshold": 0.70,
-  "slot_confidence_threshold": 0.60,
+  "confidence_threshold": 0.7,
+  "slot_confidence_threshold": 0.6,
   "semantic_enabled": false,
   "semantic_threshold": 0.55,
-  "stages": ["keyword", "intent_model"],
+  "stages": [
+    "keyword",
+    "intent_model"
+  ],
   "policy": {
     "interrupt_threshold": 0.75,
-    "agreement_threshold": 0.50,
+    "agreement_threshold": 0.5,
     "max_slot_attempts": 3,
     "context_ttl_seconds": 90,
-    "session_ttl_seconds": 600
+    "session_ttl_seconds": 600,
+    "non_interrupting_actions": [
+      "help."
+    ]
   }
 }

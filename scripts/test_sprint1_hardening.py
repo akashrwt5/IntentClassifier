@@ -87,10 +87,13 @@ def test_keyword_negation_suppresses_contains_hit():
 
 
 def test_keyword_positive_contains_still_fires():
+    # The translate rule is a guarded regex (it carries a `not_regex` of
+    # help-question markers), so a positive hit is priced at the
+    # `regex_guarded` tier — not `contains`, which is what it used to be.
     clf = IntentClassifier()
     intent, conf = clf._keyword_match("please translate this menu")
     assert intent == "Cmd.TranslationStart"
-    assert conf == KEYWORD_CONFIDENCE["contains"]
+    assert conf == KEYWORD_CONFIDENCE["regex_guarded"]
 
 
 # ======================= Item 3: time-based expiry ==========================

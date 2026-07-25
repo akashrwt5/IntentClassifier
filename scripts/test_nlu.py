@@ -53,7 +53,11 @@ def test_reminder_step_by_step():
     assert rs[0].type == "PROMPT"
     assert rs[1].type == "PROMPT" and "when" in rs[1].message.lower()
     assert rs[2].type == "FULFILL"
-    assert rs[2].parameters["name"] == "Take Medication"
+    # Open free-text slots store what the user ACTUALLY said, not a canonical
+    # title-cased English match from the synonym table — otherwise "prendre des
+    # médicaments" would come back as "Take Medication" in a French session.
+    # Presenting it (title-casing, truncation) is the app layer's job.
+    assert rs[2].parameters["name"] == "take medication"
     assert _local_hm(rs[2].parameters["date-time"]) == (17, 0)
     assert rs[2].action == "reminders.add"
 
@@ -61,7 +65,8 @@ def test_reminder_step_by_step():
 def test_reminder_one_shot():
     r = run(["remind me to drink water in 10 minutes"])
     assert r.type == "FULFILL"
-    assert r.parameters["name"] == "Drink Water"
+    # See test_reminder_step_by_step: free-text slots keep the user's own words.
+    assert r.parameters["name"] == "drink water"
     assert "date-time" in r.parameters
 
 

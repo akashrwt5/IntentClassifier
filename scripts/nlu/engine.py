@@ -70,6 +70,15 @@ class NLUEngine:
     # are more moderate so 0.85 was unreachable for genuine switch-intent signals.
     INTERRUPT_THRESHOLD = 0.75
 
+    # Action-ID prefixes that may never abandon an in-progress slot flow, however
+    # confident the classifier is. A help/informational turn ("ask about the
+    # translate feature") answers a question — it is not a topic switch, and
+    # losing a half-built reminder to one is a real user-facing failure.
+    # Declared per pack (`config.json: policy.non_interrupting_actions`); the
+    # class default is empty so the no-pack path is unchanged. Action IDs are
+    # stable identifiers, not display text, so this stays language-neutral.
+    NON_INTERRUPTING_ACTIONS: tuple = ()
+
     # A user who cannot complete a slot after this many tries is routed out of
     # the flow instead of being trapped in an unanswerable prompt loop.
     MAX_SLOT_ATTEMPTS = 3
@@ -166,6 +175,8 @@ class NLUEngine:
             self.AGREEMENT_THRESHOLD = float(policy["agreement_threshold"])
         if "max_slot_attempts" in policy:
             self.MAX_SLOT_ATTEMPTS = int(policy["max_slot_attempts"])
+        if "non_interrupting_actions" in policy:
+            self.NON_INTERRUPTING_ACTIONS = tuple(policy["non_interrupting_actions"])
 
     @staticmethod
     def _build_leading_connector(lex: dict):
@@ -217,12 +228,14 @@ class NLUEngine:
         if model_name is None or model_name == "production":
             mp = self.pack.model_paths
             kw = self.pack.resources.get("keyword_matcher")
+            lex = self.pack.resources.get("lexicon", {}) or {}
             return IntentClassifier(
                 model_path=mp["intent_model"],
                 labels_path=mp["intent_labels"],
                 schema_path=self.pack.root / "schema.json",
                 weights_path=mp.get("intent_weights", WEIGHTS_PATH_DEFAULT),
                 keyword_source=kw,
+                negations=lex.get("negations"),
             )
 
         # Multilingual models are in multilingual/models/<name>/
@@ -391,6 +404,12 @@ class NLUEngine:
         # may interrupt.
         weak_keyword = (self.classifier.last_stage == "keyword"
                         and self.classifier.last_keyword_tier == "contains")
+        # An informational/help turn is a question, not a topic switch, and must
+        # never abandon the flow — no matter how confident the classifier is.
+        # (TF-IDF scores "ask about the translate feature" at ~0.99, so this
+        # cannot be expressed as a threshold.)
+        if not self._may_interrupt(new_intent):
+            weak_keyword = True
         if (new_intent != intent_name
                 and new_intent != "Default Fallback Intent"
                 and new_conf >= self.INTERRUPT_THRESHOLD
@@ -666,6 +685,15 @@ class NLUEngine:
         t = self.entities.strip_datetime(t)
         t = self._leading_connector.sub("", t).strip(" .,")
         return t or None
+
+    def _may_interrupt(self, intent_name: str) -> bool:
+        """False when `intent_name`'s action is declared non-interrupting by the
+        pack. Matched on the action ID (a stable identifier), never on the intent
+        name or any display text, so a new language inherits this for free."""
+        if not self.NON_INTERRUPTING_ACTIONS:
+            return True
+        action = (self.intents.get(intent_name) or {}).get("action", "")
+        return not action.startswith(tuple(self.NON_INTERRUPTING_ACTIONS))
 
     @staticmethod
     def _slot_def(cfg, name):

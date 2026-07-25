@@ -102,9 +102,12 @@ def test_holdout_gate_passes_at_default_floor():
 
 
 def test_holdout_gate_fails_when_floor_impossible():
-    # Proves the gate is real, not a no-op.
+    # Proves the gate is real, not a no-op. The floor must exceed the corpus
+    # size to be unreachable: the holdout has grown well past the 99 this test
+    # originally used, so 99 became trivially passable and the test stopped
+    # proving anything.
     import os
-    env = dict(os.environ, MIN_HOLDOUT_TOTAL="99")
+    env = dict(os.environ, MIN_HOLDOUT_TOTAL="999999")
     r = subprocess.run(
         [sys.executable, str(BASE / "test_holdout.py"), "--strict"],
         capture_output=True, text=True, env=env)

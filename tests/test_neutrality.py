@@ -67,3 +67,67 @@ def test_engine_has_no_language_branches():
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     assert mod.main() == 0, "engine contains language-specific branches"
+
+
+def _clone_en_pack(tmp_path, lang="zz", **patches):
+    """Copy packs/en to a temp pack, relabel it, and apply JSON patches:
+    patches={"lexicons.json": {...}} is merged into that file."""
+    dst = tmp_path / lang
+    shutil.copytree(_ROOT / "packs" / "en", dst)
+    manifest = json.loads((dst / "pack.json").read_text())
+    manifest["language"] = lang
+    manifest["pack_id"] = f"{lang}@test"
+    (dst / "pack.json").write_text(json.dumps(manifest))
+    for fname, patch in patches.items():
+        p = dst / fname
+        data = json.loads(p.read_text())
+        data.update(patch)
+        p.write_text(json.dumps(data))
+    return dst
+
+
+# --------------------------- pack-driven negation ---------------------------
+# A negation cue list hardcoded in the engine silently makes negation a no-op
+# for every non-English pack. These lock it to the pack.
+
+def test_negation_suppresses_a_keyword_hit():
+    clf = NLUEngine().classifier
+    assert clf._keyword_match("please translate this menu")[0] == "Cmd.TranslationStart"
+    # Same rule, negated → must not fire.
+    assert clf._keyword_match("i don't want to translate anything")[0] is None
+
+
+def test_negation_cues_come_from_the_pack(tmp_path):
+    """A pack that declares its OWN negation cues is honoured, and the English
+    cues do not leak in. This is what makes adding a language pack-only."""
+    zz = _clone_en_pack(tmp_path, "zz",
+                        **{"lexicons.json": {"negations": ["nixnix"]}})
+    clf = NLUEngine(pack=str(zz)).classifier
+    assert clf._negations == ("nixnix",)
+    # The pack's own cue suppresses.
+    assert clf._keyword_match("nixnix translate this")[0] is None
+    # An English cue is NOT a negation for this pack, so the rule still fires.
+    assert clf._keyword_match("i don't want to translate anything")[0] == "Cmd.TranslationStart"
+
+
+# ------------------- pack-driven non-interrupting actions -------------------
+
+def test_help_turn_does_not_abandon_a_slot_flow():
+    eng = NLUEngine()
+    eng.reset("nz1")
+    eng.handle("nz1", "set a reminder")
+    r = eng.handle("nz1", "ask about the translate feature")
+    assert r.interrupted_intent is None, r.interrupted_intent
+
+
+def test_non_interrupting_actions_come_from_the_pack(tmp_path):
+    """Dropping the declaration restores interrupting behaviour — proving the
+    guard is pack data, not a rule baked into the engine."""
+    zz = _clone_en_pack(tmp_path, "zz",
+                        **{"config.json": {"policy": {"non_interrupting_actions": []}}})
+    eng = NLUEngine(pack=str(zz))
+    assert eng.NON_INTERRUPTING_ACTIONS == ()
+    eng.reset("nz2")
+    eng.handle("nz2", "set a reminder")
+    r = eng.handle("nz2", "ask about the translate feature")
+    assert r.interrupted_intent is not None

@@ -94,6 +94,41 @@ a SHA-256 manifest, git-SHA lineage, and the embedded report card, carrying both
 the ONNX (Android) and the ANE `.mlpackage` (iOS). Tighten the thresholds over
 time; **never loosen them silently.**
 
+## ADR-014 — Negation is pack data and guards regex rules too
+**Status:** Accepted (2026-07-25, fixes a shipped wrong-action bug). **What:**
+keyword negation cues move from a hardcoded `_NEGATIONS` tuple in
+`classifier.py` into `packs/<lang>/lexicons.json:negations`, and the guard now
+suppresses **`regex`** hits as well as `contains` hits. **Why:** two failures in
+one. Regex rules were expected to spell negation into each rule's `not_regex`,
+so the guard was silently lost when the translate rule migrated `contains` →
+`regex` — "i don't want to translate anything" started translation on a
+medical-context device. And because the cue list was English and lived in the
+engine, negation was a **no-op for every non-English pack**, which breaks the
+rule that adding a language touches only the pack. `exact` rules are unaffected
+(a full-string match cannot have a cue before the term). Measured: no accuracy
+change on the holdout (322/341, 6 wrong-action, unchanged).
+
+## ADR-015 — Informational actions may never interrupt a slot flow
+**Status:** Accepted (2026-07-25). **What:** `config.json`
+`policy.non_interrupting_actions` lists action-ID prefixes (`["help."]` for
+English) that cannot abandon an in-progress slot-filling flow. **Why:** "ask
+about the translate feature" mid-reminder classifies as `Help_Translate` at
+**0.991**, so no interrupt threshold can distinguish it from a real topic
+switch — losing a half-built reminder to a question is a user-facing failure.
+Matching on the action ID rather than the intent name or display text keeps it
+language-neutral, and an empty list restores the old behaviour. Trade-off: the
+help turn is consumed by the flow rather than answered; answering it while
+holding the flow is a larger dialogue change, deliberately not attempted here.
+
+## ADR-016 — Open free-text slots store the user's words, never a canonical match
+**Status:** Accepted (pre-existing behaviour, ratified here). **What:** an open
+entity slot (e.g. `@remind`) stores what the user actually said; the synonym
+table is used for **recognition only, not storage**. **Why:** canonicalising
+turns "prendre des médicaments" into "Take Medication" in a French session. The
+engine returns content, not presentation — title-casing or truncating a reminder
+title is the app layer's job. **Consequence:** two long-standing tests asserting
+`"Take Medication"` were wrong and were corrected, not the code.
+
 ## ADR-013 — MCP transport: the code graph stays local; web uses Context7 only
 **Status:** Accepted. **Why:** the code-graph server (CodeGraphContext, `cgc`)
 runs as a **local stdio** process and indexes this **proprietary** codebase.

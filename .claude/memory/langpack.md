@@ -56,13 +56,36 @@ packs/en/
 `slot_confidence_threshold` 0.60, `semantic_enabled` **false**,
 `semantic_threshold` 0.55, `stages` `["keyword","intent_model"]`,
 `interrupt_threshold` 0.75, `agreement_threshold` 0.50, `max_slot_attempts` 3,
-`context_ttl_seconds` 90, `session_ttl_seconds` 600.
+`context_ttl_seconds` 90, `session_ttl_seconds` 600,
+`non_interrupting_actions` `["help."]`.
+
+`non_interrupting_actions` lists **action-ID prefixes** that may never abandon
+an in-progress slot flow, however confident the classifier is (a help question
+scores ~0.99, so this cannot be a threshold). Matched on the action ID — a
+stable identifier, never display text — so a new pack inherits it for free.
+
+`lexicons.json` keys: `affirmative`, `negative`, `uncertainty`, `no_idioms`,
+`carriers`, `leading_connectors`, `negations`. `negations` feeds the keyword
+negation guard for **both** `contains` and `regex` rules.
 
 ## Neutrality rules (CI-enforced — do not break)
+
+**The contract: adding a language = authoring `packs/<lang>/` + training data.
+Nothing else.** If a task makes you edit `scripts/nlu/` to support a language,
+the gap belongs in the pack.
 
 1. **Zero `if language ==` / `!=` in `scripts/nlu/`.** `grep` must return no
    code matches. Guard: `scripts/ci/check_language_neutral.py` (ignores
    comments; verified against decoy comment lines).
+1b. **No hardcoded match vocabulary in `scripts/nlu/`.** Same guard, second
+   check. A module-level collection of natural-language phrases must be named
+   `_DEFAULT_*` — the convention for a fallback table a pack overrides
+   (`_DEFAULT_DT_GRAMMAR`, `_DEFAULT_NEGATIONS`). Canonical role keys are fine
+   (`_WD_ORDER` "Monday", `_ANCHOR_OFFSET` "day_after_tomorrow", tier names) —
+   those are stable identifiers a pack maps its own words onto, not text matched
+   against speech. This check exists because `_NEGATIONS`, an English-only tuple
+   in `classifier.py`, made negation suppression a silent no-op for every
+   non-English pack and check 1 could not see it.
 2. **Zero English datetime words in regex literals.** Day anchors, periods,
    weekdays, word-numbers, am/pm (incl. dotted `a.m`), clock idioms (half past /
    quarter to / N past M / N to M), relative markers/units/quantifiers, and the

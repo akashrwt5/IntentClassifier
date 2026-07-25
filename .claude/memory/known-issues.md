@@ -5,30 +5,49 @@
 > entry out when it's fixed. Re-derived from this branch; the
 > `feature/production-work` issue tracker does not apply.
 
-## The 8 tracked pre-existing test failures
+## Tracked test failures — 2 remaining (was 8)
 
-`pytest` fails on 8 cases that **predate** the Language Pack work (verified
-failing on the pristine engine before any of it). CI runs the suite with these
-`--deselect`ed — the authoritative list is in `.github/workflows/pr.yml`;
-rationale in `docs/Review-F5/TO-REMOVE.md`.
+Six were fixed (see below); their `--deselect` lines are gone and they gate
+normally. **Only the two French clock idioms remain deselected** in
+`.github/workflows/pr.yml`:
 
-| Test | Area |
+| Test | Why it still fails |
 |---|---|
-| `test_sprint1_hardening.py::test_keyword_negation_suppresses_contains_hit` | keyword negation |
-| `test_sprint1_hardening.py::test_keyword_positive_contains_still_fires` | keyword negation |
-| `test_sprint3_hardening.py::test_bare_contains_does_not_interrupt_slot_flow` | slot-flow interruption |
-| `test_sprint3_hardening.py::test_holdout_gate_fails_when_floor_impossible` | holdout gate |
-| `test_nlu.py::test_reminder_step_by_step` | reminder slot flow |
-| `test_nlu.py::test_reminder_one_shot` | reminder slot flow |
-| `test_datetime_parity.py::…[fr-dix heures et demie-today-10:30]` | French relative time |
-| `test_datetime_parity.py::…[fr-huit heures moins le quart-today-07:45]` | French relative time |
+| `test_datetime_parity.py::…[fr-dix heures et demie-today-10:30]` | `et demie` (half past) → 10:00 |
+| `test_datetime_parity.py::…[fr-huit heures moins le quart-today-07:45]` | `moins le quart` (quarter to) → 08:00 |
+
+**These are not engine bugs.** English gets clock idioms from
+`packs/en/datetime/grammar.json`; French has no pack, so the vocabulary was
+never authored. They start passing the moment `packs/fr/` exists — no engine
+change. Treat them as the concrete cost of the second-pack gap in `roadmap.md`,
+not as a parser defect.
 
 Rules:
 - **Any new failure is a real regression** — the deselect list is exhaustive.
-- **Never weaken an assertion to make one pass.** Fix the bug, then delete its
+- **Never weaken an assertion to make one pass.** Fix the cause, then delete the
   `--deselect` line so the case starts gating again.
-- Three underlying bugs: French relative-time parsing (`et demie`,
-  `moins le quart`), keyword negation, and the holdout gate.
+
+### What the six fixes were (2026-07-25)
+
+Three real bugs and three stale expectations. Worth knowing because the stale
+ones encoded behaviour that is now deliberately different:
+
+- **Negation was a no-op for regex rules** (real, wrong-action). "i don't want
+  to translate anything" fired `Cmd.TranslationStart`. The guard only covered
+  `contains` rules, so it was silently lost when a rule migrated to `regex`.
+  Now applied to regex hits too, with cues from the pack — ADR-014.
+- **A help question abandoned an active slot flow** (real). "ask about the
+  translate feature" scores ~0.99 on TF-IDF, so no threshold could fix it;
+  actions listed in `policy.non_interrupting_actions` can no longer interrupt.
+- **The holdout gate's "impossible" floor became reachable** (real, and it made
+  the test vacuous). It used `MIN_HOLDOUT_TOTAL=99` while the corpus grew to 341
+  cases; now 999999.
+- **Keyword tier expectation** (stale): the translate rule is `regex_guarded`
+  (0.90), not `contains` (0.85).
+- **Reminder title-casing ×2** (stale, and re-adding it would be a regression):
+  open free-text slots deliberately store what the user said, not a canonical
+  English synonym — otherwise "prendre des médicaments" comes back as "Take
+  Medication" in a French session. Casing for display is the app layer's job.
 
 ## Deferred deprecations — do NOT remove yet
 
