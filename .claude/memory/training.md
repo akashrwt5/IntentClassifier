@@ -56,25 +56,42 @@ low-confidence classifier turns. **The stage ships off by default** — see
 
 ## Calibration (temperature scaling)
 
+Confidence is `softmax(logits / T)`. **T is rank-preserving** — it cannot change
+which intent wins, only how confident the engine is. But that confidence drives
+**five** gates (fire-vs-GenAI, slot acceptance, interrupt, agreement, semantic
+rescue), so changing T re-tunes all of them at once. Never change it in isolation.
+
+**Temperature belongs to a `(model, featurizer)` pair — not to a language.**
+English has three featurizers and each needs its own T:
+
+| Artifact | Fit by | Featurizer |
+|---|---|---|
+| `packs/en/intent_model/calibration.json` | `scripts/fit_calibration.py` | server/ONNX, full vocab |
+| `models/intent_classifier_weights.json` | `scripts/export_ios_weights.py` | iOS, 1,370-term pruned |
+| `*.mlpackage` metadata | CoreML export | CoreML |
+
+They are **expected to differ**. Do not unify them.
+
 ```bash
-python scripts/calibrate_languages.py
+python scripts/fit_calibration.py            # report only
+python scripts/fit_calibration.py --write    # writes the pack artifact
 ```
 
-Fits **per-language temperature** (rank-preserving) and writes to
-`config/calibration.json`: `temperature`, `conf_threshold`, `conf_gap_threshold`,
-`macro_f1_holdout`, `ece`. Rationale + history: `decisions.md` ADR-003/004.
+Fits out-of-fold (k-fold, each row scored by a model that never saw it), so no
+data is sacrificed and nothing leaks. Excludes any row appearing in an evaluation
+set and records full provenance (method, n, featurizer, source SHA-256).
 
-Currently committed (holdout):
+Current English fit: **T = 0.648339**, ECE **0.0084** (vs 0.1160 uncalibrated).
 
-| Lang | T | conf_threshold | macro-F1 | ECE |
-|---|---|---|---|---|
-| en | 0.6214 | 0.60 | 0.9018 | 0.0184 |
-| fr | 0.6699 | 0.60 | 0.8438 | 0.0223 |
-| de | 0.6777 | 0.60 | 0.8318 | 0.0168 |
-| da | 0.8156 | 0.60 | 0.7448 | 0.0352 |
+> **The runtime does not read the pack artifact yet.** `IntentClassifier` still
+> takes T from `weights.json` (0.796286 — a *device* temperature applied to
+> *server* logits, ECE 0.0817 on the paraphrase holdout). Wiring the pack
+> artifact up is a separate gated change; see `known-issues.md`.
 
-`config/calibration.json` is the source of truth — read it rather than trusting
-this table if they ever disagree.
+`config/calibration.json` is **deprecated** — nothing reads it, and its values
+were fit on a set that is 99.6% training data. Retained only because the
+fr/de/da measurements exist nowhere else. `scripts/calibrate_languages.py` is
+kept until those languages are re-fit with `fit_calibration.py`.
 
 ## Release gate
 

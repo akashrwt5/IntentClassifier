@@ -109,6 +109,40 @@ treat a ±3 movement as a real change. Re-run before concluding anything.
 A fix would be injecting a fixed clock into `SessionStore` for benchmark runs
 (the constructor already takes one — `clock: Callable[[], float] = time.time`).
 
+## The runtime temperature is fit on the wrong featurizer
+
+`IntentClassifier` reads T from `packs/en/intent_model/weights.json` = **0.796286**
+— a temperature fit on the **iOS pruned featurizer** (1,370 terms) but applied to
+**full-vocab ONNX** logits. Measured ECE on the paraphrase holdout: **0.0817**.
+
+A correct out-of-fold fit for the server featurizer is **0.648339** (ECE 0.0084),
+and it now lives in `packs/en/intent_model/calibration.json`. The pack loader
+already resolves it as `model_paths["intent_calibration"]` — **nothing consumes
+it yet**.
+
+Wiring it up is deliberately *not* done, because confidence feeds five gates and
+lowering T raises them all. Measured on the holdout, turns crossing
+`interrupt_threshold` (0.75) go **265 → ~300**, which would partially undo the
+`non_interrupting_actions` fix. Do it as one change with the whole policy block
+re-tuned and the wrong-action count as the gate.
+
+## `train.py`'s leakage guard misses punctuation-only duplicates
+
+`scripts/train.py` compares **raw** strings against a lower/stripped holdout, so
+it reports "0 leaks" while 3 rows differing only by a trailing `?` are in both:
+
+```
+train : 'how does fall alert work?'          eval : 'how does fall alert work'
+train : 'what is the cros balance control?'  eval : 'what is the cros balance control'
+train : 'how is the thrive score calculated?' eval : 'how is the thrive score calculated'
+```
+
+So the model trains on 3 holdout rows and every score is optimistic by ~0.9%.
+`scripts/fit_calibration.py` normalises (case + punctuation) and excludes them
+from calibration, but **the model still sees them**. Fix at source in
+`01_source_base_training_data.csv`, then tighten `train.py`'s guard to match —
+note tightening it first will fail the build until the rows are removed.
+
 ## Danish is the weakest language
 
 `da` macro-F1 **0.7448**, ECE **0.0352** (vs `en` 0.9018 / 0.0184) —

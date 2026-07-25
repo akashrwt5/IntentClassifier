@@ -1,4 +1,10 @@
 {
+  "_deprecated": {
+    "status": "NOT RUNTIME CONFIG \u2014 advisory report only. Nothing reads this file.",
+    "why": "The values were fit by scripts/calibrate_languages.py on multilingual/test/en_holdout.csv, of which 99.6% also appears in the training data. A temperature fit on memorised data measures confidence on phrases the model already knows, so these numbers (incl. the reported ECE) are optimistic and must not be shipped.",
+    "authoritative_source": "packs/<lang>/intent_model/calibration.json, fit out-of-fold by scripts/fit_calibration.py. The iOS/device temperature is fit separately in scripts/export_ios_weights.py against pruned device logits.",
+    "retained_because": "the fr/de/da measurements exist nowhere else. Retained for reference only; delete once those languages are re-fit."
+  },
   "en": {
     "temperature": 0.621397,
     "conf_threshold": 0.6,

@@ -16,6 +16,19 @@ Steps:
         its tuned threshold.
 
 Output: config/calibration.json
+
+DEPRECATED for English. Two problems, both recorded in the output file's
+`_deprecated` block:
+
+  1. Nothing reads config/calibration.json. It is a report, not runtime config —
+     the engine takes its temperature from the Language Pack.
+  2. It fits `T` on multilingual/test/en_holdout.csv, which is 99.6% training
+     data. Post-hoc calibration fit on memorised data is invalid.
+
+Use `scripts/fit_calibration.py` instead: it fits out-of-fold on the server/ONNX
+featurizer, excludes evaluation-set overlap, and writes the pack artifact
+(packs/<lang>/intent_model/calibration.json). This script is kept only until
+fr/de/da are re-fit the same way.
   { "en": {"temperature": ..., "conf_threshold": ..., "conf_gap_threshold": ...},
     "fr": {...}, "de": {...}, "da": {...} }
 

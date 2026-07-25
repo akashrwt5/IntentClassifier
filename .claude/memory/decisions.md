@@ -129,6 +129,24 @@ engine returns content, not presentation — title-casing or truncating a remind
 title is the app layer's job. **Consequence:** two long-standing tests asserting
 `"Take Medication"` were wrong and were corrected, not the code.
 
+## ADR-017 — Calibration belongs to a (model, featurizer) pair, fit out-of-fold
+**Status:** Accepted (2026-07-25). **What:** each model artifact carries its own
+temperature, co-located with it and fit on the logits it actually calibrates:
+`packs/<lang>/intent_model/calibration.json` (server/ONNX),
+`intent_classifier_weights.json` (iOS pruned), `.mlpackage` metadata (CoreML).
+Fitting is out-of-fold via `scripts/fit_calibration.py`, with a normalised
+leakage guard and recorded provenance. **Why:** temperature was stored as a
+property of a *language* (`config/calibration.json`, keyed en/fr/de/da), but
+English has three featurizers with different logit scales. That mismatch let a
+device-fit T=0.796 calibrate server logits (ECE 0.0817 vs 0.0084 for a correct
+fit), let a second value drift into a file nothing reads, and left the pack's
+declared calibration slot an unfilled T=1.0 stub. Fitting on training data
+compounded it — the old set was 99.6% memorised. **Consequences:** the three
+temperatures are expected to differ and must not be unified; `export_weights.py`
+copying `prev["temperature"]` forward is a bug to remove; parity harnesses should
+check calibrated *confidence*, not just top-1, since top-1 parity passes today
+while confidence diverges.
+
 ## ADR-013 — MCP transport: the code graph stays local; web uses Context7 only
 **Status:** Accepted. **Why:** the code-graph server (CodeGraphContext, `cgc`)
 runs as a **local stdio** process and indexes this **proprietary** codebase.

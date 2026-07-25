@@ -1,5 +1,18 @@
 {
-  "_note": "SKELETON — temperature-scaling calibration produced by training. To be ingested from the trainer output during the automated build (Plan §5).",
-  "temperature": 1.0,
-  "ece": null
+  "_note": "Confidence calibration for the SERVER/ONNX featurizer: softmax(logits / temperature). Fit out-of-fold on data the model did not memorise, and guarded against evaluation-set leakage. The iOS/device temperature is fit separately in scripts/export_ios_weights.py against pruned device logits \u2014 the two are expected to differ and must not be unified.",
+  "temperature": 0.648339,
+  "ece": 0.0084,
+  "ece_uncalibrated": 0.116,
+  "provenance": {
+    "method": "out-of-fold NLL minimisation (bounded scalar)",
+    "folds": 5,
+    "seed": 0,
+    "n_samples": 7459,
+    "n_intents": 59,
+    "featurizer": "TfidfVectorizer({'ngram_range': (1, 2), 'min_df': 2, 'sublinear_tf': True}) + LogisticRegression({'max_iter': 3000, 'class_weight': 'balanced', 'C': 15.0})",
+    "source": "data/04_GENERATED_MASTER_training_data.csv",
+    "source_sha256": "8d41839d67e0424cf92d53281cd78524e40c199878a592feae96a08425a1e867",
+    "fitted_at": "2026-07-25T15:27:08Z",
+    "fitted_by": "scripts/fit_calibration.py"
+  }
 }
