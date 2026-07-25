@@ -236,6 +236,10 @@ class NLUEngine:
                 weights_path=mp.get("intent_weights", WEIGHTS_PATH_DEFAULT),
                 keyword_source=kw,
                 negations=lex.get("negations"),
+                # Server/ONNX calibration, fit against the logits this path
+                # actually scores. Falls back to the iOS weights when a pack
+                # predates the artifact — see classifier._load_temperature.
+                calibration_path=mp.get("intent_calibration"),
             )
 
         # Multilingual models are in multilingual/models/<name>/

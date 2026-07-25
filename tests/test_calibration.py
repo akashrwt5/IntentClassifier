@@ -114,6 +114,49 @@ def test_temperature_cannot_change_the_predicted_intent():
         assert ((logits / T).argmax(axis=1) == base).all(), f"argmax changed at T={T}"
 
 
+# ------------------------ threshold source-of-truth ------------------------
+
+def test_pack_thresholds_do_not_diverge_between_schema_and_config():
+    """The engine reads confidence_threshold from schema.json; config.json also
+    declares it and that copy is IGNORED. Editing the obvious file and seeing no
+    effect is exactly how two conflicting temperatures came to coexist, so the
+    mirrored values must stay in lockstep."""
+    schema = json.loads((_ROOT / "packs" / "en" / "schema.json").read_text(encoding="utf-8"))
+    config = json.loads((_ROOT / "packs" / "en" / "config.json").read_text(encoding="utf-8"))
+    for key in ("confidence_threshold", "slot_confidence_threshold", "semantic_threshold"):
+        if key in schema and key in config:
+            assert schema[key] == config[key], (
+                f"{key} differs: schema.json={schema[key]} (used) vs "
+                f"config.json={config[key]} (ignored)"
+            )
+
+
+def test_runtime_uses_the_pack_calibration_temperature():
+    """The engine must take T from the pack's calibration artifact, not from the
+    iOS weights (whose T calibrates a different, pruned featurizer)."""
+    sys.path.insert(0, str(_ROOT / "scripts"))
+    from nlu.engine import NLUEngine
+    expected = json.loads(PACK_CALIB.read_text(encoding="utf-8"))["temperature"]
+    assert NLUEngine().classifier.temperature == pytest.approx(expected), (
+        "engine is not using the pack calibration temperature"
+    )
+
+
+def test_temperature_falls_back_when_calibration_artifact_is_absent(tmp_path):
+    """A pack predating the calibration artifact must still load, using the iOS
+    weights temperature rather than silently dropping to plain softmax."""
+    sys.path.insert(0, str(_ROOT / "scripts"))
+    from nlu.classifier import _load_temperature
+    weights = tmp_path / "weights.json"
+    weights.write_text(json.dumps({"temperature": 0.5}), encoding="utf-8")
+    assert _load_temperature(weights, None) == 0.5
+    assert _load_temperature(weights, tmp_path / "missing.json") == 0.5
+    # the unfitted skeleton value must not win over real weights
+    stub = tmp_path / "stub.json"
+    stub.write_text(json.dumps({"temperature": 1.0}), encoding="utf-8")
+    assert _load_temperature(weights, stub) == 0.5
+
+
 @pytest.mark.parametrize("T", [0.648339])
 def test_fitted_temperature_beats_uncalibrated(T):
     """Sanity: the recorded fit must actually improve calibration over T=1.0."""

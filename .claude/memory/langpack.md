@@ -52,12 +52,19 @@ packs/en/
   semantic/              # minilm-l6-v2.onnx, minilm-vocab.txt, semantic_head.npz
 ```
 
-`config.json` policy knobs: `confidence_threshold` 0.70,
-`slot_confidence_threshold` 0.60, `semantic_enabled` **false**,
-`semantic_threshold` 0.55, `stages` `["keyword","intent_model"]`,
-`interrupt_threshold` 0.75, `agreement_threshold` 0.50, `max_slot_attempts` 3,
-`context_ttl_seconds` 90, `session_ttl_seconds` 600,
+Policy knobs: `confidence_threshold` **0.75**, `slot_confidence_threshold` 0.60,
+`semantic_enabled` **false**, `semantic_threshold` **0.40**, `stages`
+`["keyword","intent_model"]`, `interrupt_threshold` 0.75, `agreement_threshold`
+0.50, `max_slot_attempts` 3, `context_ttl_seconds` 90, `session_ttl_seconds` 600,
 `non_interrupting_actions` `["help."]`.
+
+> **Which file wins:** the engine reads `confidence_threshold`,
+> `slot_confidence_threshold` and `semantic_threshold` from **`schema.json`**.
+> `config.json` mirrors them for readability and those copies are **ignored** —
+> editing them has no effect. `tests/test_calibration.py` fails if the two
+> diverge, because they silently had: `semantic_threshold` was 0.55 in
+> `config.json` while the engine used **0.40** from `schema.json`. The policy
+> block (`interrupt_threshold` etc.) *is* read from `config.json`.
 
 `non_interrupting_actions` lists **action-ID prefixes** that may never abandon
 an in-progress slot flow, however confident the classifier is (a help question

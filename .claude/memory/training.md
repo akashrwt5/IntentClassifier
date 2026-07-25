@@ -83,10 +83,23 @@ set and records full provenance (method, n, featurizer, source SHA-256).
 
 Current English fit: **T = 0.648339**, ECE **0.0084** (vs 0.1160 uncalibrated).
 
-> **The runtime does not read the pack artifact yet.** `IntentClassifier` still
-> takes T from `weights.json` (0.796286 — a *device* temperature applied to
-> *server* logits, ECE 0.0817 on the paraphrase holdout). Wiring the pack
-> artifact up is a separate gated change; see `known-issues.md`.
+**The runtime uses it.** `IntentClassifier` resolves T as: pack
+`intent_model/calibration.json` → `weights.json` → 1.0. A `temperature` of 1.0 in
+the calibration artifact is treated as unset (that was the un-fitted skeleton
+value). Older packs without the artifact still work via the weights fallback.
+
+Operating point after recalibration (`confidence_threshold` raised 0.70 → **0.75**
+to match the corrected scale):
+
+| | Before | After |
+|---|---|---|
+| Delivered (holdout, semantic off) | 280/341 (82.1%) | **292/341 (85.6%)** |
+| Wrong-action | 5 | **5** |
+| OOS misfires | 0 | **0** |
+
+At the old 0.70 gate the new T delivers 295 but lets one OOS utterance
+("play chess with me") fire a command. 0.75 keeps that at zero for the cost of
+3 answers — the right trade on a medical device.
 
 `config/calibration.json` is **deprecated** — nothing reads it, and its values
 were fit on a set that is 99.6% training data. Retained only because the

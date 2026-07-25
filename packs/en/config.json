@@ -1,8 +1,8 @@
 {
-  "confidence_threshold": 0.7,
+  "confidence_threshold": 0.75,
   "slot_confidence_threshold": 0.6,
   "semantic_enabled": false,
-  "semantic_threshold": 0.55,
+  "semantic_threshold": 0.4,
   "stages": [
     "keyword",
     "intent_model"
@@ -16,5 +16,6 @@
     "non_interrupting_actions": [
       "help."
     ]
-  }
+  },
+  "_note": "confidence_threshold / slot_confidence_threshold / semantic_threshold are READ FROM schema.json by the engine; the copies here are mirrored for readability and MUST match (tests/test_calibration.py enforces it). semantic_threshold was 0.55 here while schema.json — the value actually used — said 0.40; mirrored to 0.40 to match runtime. Confirm 0.40 was intended before relying on it (engine.DEFAULT_SEMANTIC_THRESHOLD is 0.55)."
 }

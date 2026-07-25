@@ -28,19 +28,47 @@ def _stable_softmax(logits: np.ndarray) -> np.ndarray:
     return e / np.sum(e)
 
 
-def _load_temperature(weights_path: Path) -> float:
-    """Read the calibration temperature `T` exported alongside the model.
+def _read_temperature(path) -> float | None:
+    """Return the "temperature" declared in a JSON artifact, or None."""
+    if not path:
+        return None
+    try:
+        meta = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (FileNotFoundError, OSError, ValueError, TypeError):
+        return None
+    value = meta.get("temperature")
+    try:
+        return float(value) if value is not None else None
+    except (ValueError, TypeError):
+        return None
+
+
+def _load_temperature(weights_path: Path, calibration_path=None) -> float:
+    """Resolve the calibration temperature `T` for THIS featurizer.
 
     The ONNX graph emits raw decision-function logits; confidence is calibrated
-    post-hoc by single-parameter temperature scaling: softmax(logits / T). A
-    missing file or missing "temperature" key means T = 1.0 (plain softmax), so
-    older artifacts stay backward compatible.
+    post-hoc by single-parameter temperature scaling: softmax(logits / T).
+
+    Precedence — calibration artifact, then weights, then identity:
+
+      1. `calibration_path` — the pack's `intent_model/calibration.json`, fit
+         out-of-fold against the SERVER/ONNX featurizer by
+         scripts/fit_calibration.py. This is the value that matches the logits
+         this class actually scores.
+      2. `weights_path` — the iOS export. Its `T` is fit on the PRUNED device
+         featurizer, so it calibrates different logits; kept only as a fallback
+         for packs predating the calibration artifact.
+      3. `1.0` — plain softmax, for artifacts declaring neither.
+
+    A `temperature` of 1.0 in the calibration artifact is treated as unset: that
+    is the value the un-fitted skeleton shipped with, and honouring it would
+    silently disable calibration.
     """
-    try:
-        meta = json.loads(Path(weights_path).read_text(encoding="utf-8"))
-        return float(meta.get("temperature", 1.0))
-    except (FileNotFoundError, ValueError, TypeError):
-        return 1.0
+    from_calib = _read_temperature(calibration_path)
+    if from_calib is not None and from_calib != 1.0:
+        return from_calib
+    from_weights = _read_temperature(weights_path)
+    return from_weights if from_weights is not None else 1.0
 
 
 # Honest, match-type-calibrated confidences for keyword hits. A keyword match
@@ -116,7 +144,8 @@ class IntentClassifier:
                  schema_path:  Path = SCHEMA_PATH,
                  weights_path: Path = WEIGHTS_PATH,
                  keyword_source: dict | None = None,
-                 negations: list | None = None):
+                 negations: list | None = None,
+                 calibration_path: Path | None = None):
         if not model_path.exists():
             raise FileNotFoundError(
                 f"Model not found: {model_path}. Run `python scripts/train.py` first."
@@ -136,7 +165,7 @@ class IntentClassifier:
         self.labels = joblib.load(str(labels_path))
         # Calibration temperature for softmax(logits / T). Sourced from the
         # exported weights JSON; defaults to 1.0 (plain softmax) when absent.
-        self.temperature = _load_temperature(weights_path)
+        self.temperature = _load_temperature(weights_path, calibration_path)
         self.last_stage = None         # "keyword" | "tfidf" — set on each classify()
         self.last_keyword_tier = None  # "exact"|"contains"|"regex"|"regex_guarded"|None
 

@@ -109,22 +109,22 @@ treat a ±3 movement as a real change. Re-run before concluding anything.
 A fix would be injecting a fixed clock into `SessionStore` for benchmark runs
 (the constructor already takes one — `clock: Callable[[], float] = time.time`).
 
-## The runtime temperature is fit on the wrong featurizer
+## Threshold values live in schema.json; config.json's copies are ignored
 
-`IntentClassifier` reads T from `packs/en/intent_model/weights.json` = **0.796286**
-— a temperature fit on the **iOS pruned featurizer** (1,370 terms) but applied to
-**full-vocab ONNX** logits. Measured ECE on the paraphrase holdout: **0.0817**.
+The engine reads `confidence_threshold`, `slot_confidence_threshold` and
+`semantic_threshold` from **`packs/<lang>/schema.json`**. `config.json` also
+declares them and **those copies do nothing** — editing the obvious file has no
+effect.
 
-A correct out-of-fold fit for the server featurizer is **0.648339** (ECE 0.0084),
-and it now lives in `packs/en/intent_model/calibration.json`. The pack loader
-already resolves it as `model_paths["intent_calibration"]` — **nothing consumes
-it yet**.
+This had already bitten: `semantic_threshold` was **0.55** in `config.json` (and
+in `engine.DEFAULT_SEMANTIC_THRESHOLD`, and in the docs) while the engine used
+**0.40** from `schema.json`. Semantic rescue fires at a materially lower bar than
+anyone believed. `config.json` is now mirrored to 0.40 to match runtime, and
+`tests/test_calibration.py` fails if they diverge again — **but nobody has
+confirmed 0.40 was intended.** Verify before relying on it.
 
-Wiring it up is deliberately *not* done, because confidence feeds five gates and
-lowering T raises them all. Measured on the holdout, turns crossing
-`interrupt_threshold` (0.75) go **265 → ~300**, which would partially undo the
-`non_interrupting_actions` fix. Do it as one change with the whole policy block
-re-tuned and the wrong-action count as the gate.
+The policy block (`interrupt_threshold`, `agreement_threshold`,
+`max_slot_attempts`, `non_interrupting_actions`) *is* read from `config.json`.
 
 ## `train.py`'s leakage guard misses punctuation-only duplicates
 
