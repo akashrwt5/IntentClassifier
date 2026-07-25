@@ -42,6 +42,15 @@ _parser.add_argument("--version", "-v", type=int, choices=[1, 2], default=2,
 _parser.add_argument("--verbose",  action="store_true")
 _parser.add_argument("--strict",   action="store_true")
 _parser.add_argument("--json",     metavar="FILE")
+# Semantic (Stage-3 / MiniLM) is a plugin that is OFF by default in production.
+# Toggle it to compare the production-default path (--no-semantic) against the
+# full pipeline (--semantic). Default here mirrors production: OFF.
+_sem = _parser.add_mutually_exclusive_group()
+_sem.add_argument("--semantic",    dest="semantic", action="store_true",
+                  help="Enable the semantic rescue layer (Stage-3 / MiniLM)")
+_sem.add_argument("--no-semantic", dest="semantic", action="store_false",
+                  help="Disable the semantic layer — the production default")
+_parser.set_defaults(semantic=False)
 _args = _parser.parse_args()
 
 _BASE = Path(__file__).parent.parent
@@ -71,9 +80,10 @@ def main():
     json_path = _args.json
 
     n_rows = len(pd.read_csv(HOLDOUT_PATH))
+    _sem_label = "ON" if _args.semantic else "OFF (production default)"
     print(f"\n{BOLD}Held-out Benchmark — {n_rows} never-trained paraphrases "
-          f"[v{_args.version}: {HOLDOUT_PATH.name}]{RESET}\n")
-    engine = NLUEngine(enable_semantic=True)  # holdout exercises the full pipeline incl. semantic (off by default)
+          f"[v{_args.version}: {HOLDOUT_PATH.name}]  semantic={_sem_label}{RESET}\n")
+    engine = NLUEngine(enable_semantic=_args.semantic)
     df = pd.read_csv(HOLDOUT_PATH)
 
     rows = []

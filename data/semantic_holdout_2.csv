@@ -1,5 +1,5 @@
 utterance,expected_intent,difficulty
-the television is blaring and i still miss the words,Cmd.VolumeIncrease,HARD
+the television is blaring and i still miss the words,Help_Customize,HARD
 people seem so far away when they talk,Cmd.VolumeIncrease,HARD
 i keep asking everyone to repeat themselves,Cmd.VolumeIncrease,HARD
 conversations are slipping past me,Cmd.VolumeIncrease,HARD
@@ -13,7 +13,7 @@ my ears are getting hammered,Cmd.VolumeDecrease,HARD
 this place is deafening,Cmd.VolumeDecrease,HARD
 soften the audio for me,Cmd.VolumeDecrease,HARD
 everything is coming in way too hot,Cmd.VolumeDecrease,HARD
-the noise is unbearable right now,Cmd.VolumeDecrease,HARD
+the noise is unbearable right now,Help_EdgeMode,HARD
 take the edge off the sound,Cmd.VolumeDecrease,HARD
 bring it down several notches,Cmd.VolumeDecrease,HARD
 the loudness is giving me a headache,Cmd.VolumeDecrease,HARD
@@ -98,7 +98,7 @@ play chess with me,Default Fallback Intent,HARD
 what's the fastest car in the world,Default Fallback Intent,HARD
 give me lottery numbers,Default Fallback Intent,HARD
 when is the next full moon,Default Fallback Intent,HARD
-kill the noise completely,Cmd.VolumeMute,HARD
+kill the noise completely,Help_EdgeMode,HARD
 i need dead silence right now,Cmd.VolumeMute,HARD
 mute everything for me,Cmd.VolumeMute,EASY
 not a peep please,Cmd.VolumeMute,HARD
@@ -281,7 +281,7 @@ notification settings for the app,Help_AppSettings,HARD
 how do i tweak the equalizer,Help_Customize,HARD
 customize my hearing aid sound,Help_Customize,EASY
 i want less bass in my left aid,Help_Customize,HARD
-reduce the background noise level,Help_Customize,HARD
+reduce the background noise level,Help_EdgeMode,HARD
 personalise my listening experience,Help_Customize,HARD
 where is the transcription feature,Help_Transcribe,HARD
 transcribe feature help,Help_Transcribe,EASY
