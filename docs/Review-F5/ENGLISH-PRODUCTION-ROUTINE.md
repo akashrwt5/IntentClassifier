@@ -16,8 +16,15 @@ document is the rationale; this one is the executable plan.
 
 ## Routine settings
 
+**Provisioned 2026-07-25 as `trig_018ygxy3X9EgNX48wtquNeky`** — "English Production
+Cycle (resumable)", hourly at :31, fresh session per firing, push notification on
+noteworthy completion. To pause or stop it: `update_trigger` with
+`enabled: false`, or the routines UI.
+
 - **Repository:** this repo
-- **Trigger:** Schedule → nightly (hourly also fine; the routine is a no-op when green)
+- **Trigger:** Schedule → hourly. Hourly (not nightly) is deliberate: when a run
+  is cut short by usage limits, the next firing after the limit resets picks up
+  from the last commit, so recovery is ~an hour rather than ~a day.
 - **Permissions:** leave **Allow unrestricted branch pushes OFF.** The work branch
   is `claude/`-prefixed, so the routine is structurally unable to touch `main` or
   any `feature/*` branch.
@@ -640,6 +647,15 @@ make build-bundle && make verify-bundle
 
 Plus: a published `pack-en-v*.nlu` Release (B6), and an honest baseline-v2 with
 the wrong-action number recorded and handed to the owner.
+
+**On reaching green, write the terminal marker.** Rewrite
+`ENGLISH-PRODUCTION-STATUS.md` so its **first line is exactly `STATUS: COMPLETE`**,
+followed by the final honest metrics, the gate output proving green, and the
+still-open owner items. Every subsequent firing checks that line first and exits
+immediately, so post-completion runs cost almost nothing. Then attempt to disable
+`trig_018ygxy3X9EgNX48wtquNeky` via `update_trigger` (`enabled: false`) — the MCP
+tool may not be present in a fired session, which is expected; if it is absent,
+say so plainly in the final message so the owner can disable it manually.
 
 **Green does not mean shippable.** B1 (wrong-action budget) and ND-8 (production
 signing) remain open by design — this routine's job is to make them *decidable on
