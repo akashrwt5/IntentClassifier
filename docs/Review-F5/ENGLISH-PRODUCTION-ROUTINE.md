@@ -90,8 +90,19 @@ number than a pretty unverifiable one.
 4. The reference branch
    `claude/claude-setup-architecture-ebqobs-Temperaturescaling-fixes` is a
    **design donor, never a merge source** (it predates the restructure, the
-   57-label migration and the safety guards). Read it with `git show`; port ideas
-   re-expressed against this tree.
+   57-label migration and the safety guards, and self-declares 8 failing tests).
+
+   "Never a merge source" bans `git merge`/`git cherry-pick` of that tree. It
+   does **not** mean re-deriving work that already exists there. Where an
+   artifact is self-contained and its correctness is checkable against a gate on
+   *this* branch — grammar tables, the calibration fitter, the neutrality guard,
+   test files, the release workflow — **copy it with `git show` and reconcile**,
+   rather than rewriting it from scratch. Re-deriving is slower and loses the
+   edge cases the ref already found.
+
+   The rule for every port: **copy → reconcile against this tree's divergences →
+   verify against a gate that runs here.** Never copy on the strength of the ref's
+   own claims about itself; several of its status notes are stale.
 
 ---
 
@@ -186,6 +197,11 @@ A7; doing it afterwards would enshrine whatever the refactor broke.
   (morning/afternoon/evening/tonight), bare days with no time, word-numbers, and
   the no-match cases that must return `None`. Aim for ≥120 cases; enumerate from
   the source, do not invent from memory.
+- **Cross-check coverage against the reference branch's grammar tables**
+  (`git show <ref>:packs/en/datetime/grammar.json`). Every vocabulary entry there
+  — `day_anchors`, `time_of_day`, `am_pm`, `relative_units`, `quantifiers`,
+  `clock_idioms`, `strip` — needs at least one case in the corpus. Those tables
+  are what A7.1 ports, so an entry with no golden case is an unguarded change.
 - Add `tests/test_datetime_parity_en.py` asserting
   `(iso, time_explicit, explicit_day)` for every case. Model it on the reference
   branch's version (`git show <ref>:tests/test_datetime_parity_en.py`) but load
@@ -318,13 +334,57 @@ expected components and `semantic_available == False`.
 The largest item. **A refactor, not a behaviour change** — every gate below must
 hold byte-identical. Do it in the sub-order given; commit each sub-step.
 
-- **A7.1 — Datetime grammar.** Move the inline English regex vocabulary out of
-  `entities.py::extract_datetime` into a pack grammar table: day anchors, named
-  periods, weekdays, word-numbers, am/pm markers, clock idioms (`half past`,
-  `quarter to`, `N past M`, `N to M`), relative markers/units/quantifiers, and
-  the topic-strip function words. The engine keeps a **generic interpreter**;
-  the words become data. Leave a consolidated `_DEFAULT_DT_GRAMMAR` fallback so
-  the no-pack path still works — as a `_DEFAULT_*` table, which the guard allows.
+- **A7.1 — Datetime grammar. PORT THIS FROM THE REFERENCE BRANCH; DO NOT
+  RE-DERIVE IT.** The reference branch already did this eviction and did it
+  well. Re-typing the vocabulary from scratch would be slower *and* less
+  accurate — the hard part is not listing English words, it is preserving the
+  original parser's match priority, and that work exists.
+
+  **Port all four pieces** (`git show <ref>:<path>`):
+  | Piece | Path on the ref branch |
+  |---|---|
+  | The grammar data | `packs/en/datetime/grammar.json` |
+  | The fallback table | `scripts/nlu/entities.py` → `_DEFAULT_DT_GRAMMAR` |
+  | The table compiler | `scripts/nlu/entities.py` → `_build_en_dt_tables()` |
+  | The strip-pattern builder | `scripts/nlu/entities.py` → `_en_strip_patterns()` |
+
+  The grammar table and `_DEFAULT_DT_GRAMMAR` share one schema, which is exactly
+  the `_DEFAULT_*`-fallback-overridden-by-pack shape this step needs. Keep the
+  ref's priority-preserving details — notably the anchor match order
+  (`day_after_tomorrow` before `tomorrow`, so the shared substring cannot
+  mis-fire) and the strip order (`(at|by) N` before the bare connector, so no
+  orphan digit is left behind).
+
+  Also port the ref's **data-driven path selection**: if a datetime lexicon
+  exists for the language, use the lexicon parser; otherwise fall through to the
+  table-driven parser. English ships no lexicon, so it takes the table path
+  *without any language literal*. That is what removes `entities.py:70`.
+
+  **What you must NOT trust, and must verify:**
+  1. **The `_note` inside `grammar.json` is stale.** It claims only `weekdays`
+     and `word_numbers` are wired; the ref's code wires considerably more. Read
+     the ref's `entities.py`, not the note. Rewrite the note when you port it.
+  2. **The two `entities.py` files have diverged** — ref 911 lines, current 795,
+     ~354 differing lines. The ref predates the restructure. Reconcile, do not
+     overwrite: keep this branch's path constants (`BASE_DIR = parents[3]`,
+     `content/` + `content/localization/`), and **preserve this branch's
+     lexicon-path fixes that the ref lacks** — in particular the spaced
+     clock-hour handling (`_lex_clock_hour`, matching `18 h` / `18 heures`),
+     which is a live fr/de fix. Porting the ref's file wholesale would silently
+     revert it.
+  3. **The ref self-declares 8 pre-existing test failures.** Assume nothing about
+     its green-ness.
+
+  **Coverage check before you commit:** every English literal still present in
+  the current parser must either appear in the ported table or be a deliberate,
+  stated omission. Grep the pre-refactor `extract_datetime` for string literals
+  and reconcile the list against the table.
+
+  **A note on scope:** the ref left English on its *own* table-driven path,
+  separate from the generic lexicon interpreter — two interpreters, both
+  data-driven. That is the correct stopping point for this step. Unifying
+  English onto the single lexicon interpreter is where behaviour is most likely
+  to move, so it is a **separate later sub-step**, not part of A7.1.
 - **A7.2 — Carrier phrases.** `NLUEngine._CARRIER` (`engine.py:916`) becomes a
   pack table. Note the current code *prepends* language carriers to the English
   list — after this step there is no English list to prepend to.
