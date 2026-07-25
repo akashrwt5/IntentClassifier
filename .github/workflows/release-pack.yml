@@ -1,0 +1,151 @@
+name: release-pack
+
+# The ONLY producer of production artifacts. On merge to main (or manual
+# dispatch): retrain + accuracy-gate (Linux), export the ANE CoreML variant for
+# iOS (macOS), then assemble a versioned .nlu carrying BOTH the ONNX (Android)
+# and CoreML (iOS) models and publish it as a GitHub Release — the production
+# model registry (IMPLEMENTATION-PLAN §5a). Clients fetch from Releases only.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "semver, e.g. 1.0.0 (blank -> 1.0.<run_number>)"
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - "packs/**"
+      - "content/**"
+      - "scripts/train*.py"
+
+permissions:
+  contents: write  # required to create a GitHub Release
+
+jobs:
+  # 1) Train + accuracy gate + export weights (Linux). Publishes the model
+  #    artifacts both downstream jobs need.
+  train-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install scikit-learn
+      - name: Train the intent model
+        run: python scripts/train.py
+      - name: Export weights (from the same pipeline as the ONNX)
+        run: python scripts/export_weights.py
+      - name: iOS/Swift <-> ONNX conformance gate (device featurizer parity)
+        run: python scripts/test_ios_conformance.py --model production
+      - name: Accuracy gate (MUST pass to release)
+        run: python scripts/ci/evaluate_gate.py --out dist/report_card.json
+      - name: Upload model artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts
+          path: |
+            models/intent_model.onnx
+            models/intent_labels.pkl
+            models/intent_pipeline.pkl
+            models/intent_classifier_weights.json
+            dist/report_card.json
+
+  # 2) Export the ANE-eligible CoreML intent model (macOS ONLY — coremltools +
+  #    Core ML runtime need macOS). Uses the SAME production weights.
+  coreml-export:
+    needs: train-gate
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+      - name: Install export + parity deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt        # onnxruntime, scikit-learn, joblib, numpy
+          pip install coremltools torch
+      - name: Download model artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: model-artifacts
+          path: dl
+      - name: Stage the trained model (ONNX + pipeline + weights)
+        run: |
+          mkdir -p models
+          cp dl/models/intent_model.onnx             models/intent_model.onnx
+          cp dl/models/intent_pipeline.pkl           models/intent_pipeline.pkl
+          cp dl/models/intent_classifier_weights.json models/intent_classifier_weights.json
+      - name: Export the ANE CoreML model -> dist/models/
+        run: python scripts/ci/export_coreml_intent.py --lang en --out dist/models/model.mlpackage
+      - name: CoreML <-> ONNX parity GATE (Tier-A + Tier-B on the real runtime)
+        run: |
+          python scripts/ci/verify_coreml_parity.py \
+            --pipeline models/intent_pipeline.pkl \
+            --onnx models/intent_model.onnx \
+            --coreml dist/models/model.mlpackage \
+            --holdout data/semantic_holdout_100.csv \
+            --runtime --out dist/coreml_parity.json
+      - name: Upload CoreML model + parity report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coreml-model
+          path: |
+            dist/models/model.mlpackage
+            dist/coreml_parity.json
+
+  # 3) Assemble the versioned pack (ONNX + CoreML) and publish the Release.
+  release:
+    needs: [train-gate, coreml-export]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Download model artifacts (ONNX + report card)
+        uses: actions/download-artifact@v4
+        with: { name: model-artifacts, path: dl }
+      - name: Download CoreML model + parity report
+        uses: actions/download-artifact@v4
+        with: { name: coreml-model, path: cml }
+      - name: Refresh the pack with the freshly trained ONNX model + report card
+        run: |
+          cp dl/models/intent_model.onnx              packs/en/intent_model/model.onnx
+          cp dl/models/intent_labels.pkl              packs/en/intent_model/labels.pkl
+          cp dl/models/intent_classifier_weights.json packs/en/intent_model/weights.json
+          mkdir -p dist
+          cp dl/dist/report_card.json                 dist/report_card.json
+      - name: Resolve version
+        id: ver
+        run: |
+          V="${{ github.event.inputs.version }}"
+          if [ -z "$V" ]; then V="1.0.${{ github.run_number }}"; fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+      - name: Assemble the versioned Language Pack (ONNX + CoreML)
+        run: |
+          python scripts/ci/assemble_pack.py \
+            --version "${{ steps.ver.outputs.version }}" \
+            --report dist/report_card.json \
+            --coreml cml/models/model.mlpackage \
+            --out dist
+      - name: Publish GitHub Release (production model registry)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: pack-en-v${{ steps.ver.outputs.version }}
+          name: "Language Pack en v${{ steps.ver.outputs.version }}"
+          body_path: dist/report_card.json
+          files: |
+            dist/pack-en-v${{ steps.ver.outputs.version }}.nlu
+            dist/report_card.json
+            cml/coreml_parity.json

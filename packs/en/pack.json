@@ -1,0 +1,38 @@
+{
+  "pack_id": "en@0.1.0-skeleton",
+  "language": "en",
+  "format_version": "1.0",
+  "content_version": 1,
+  "engine_compat": {
+    "min_runtime_contract": "1.0",
+    "max_runtime_contract": "1.x"
+  },
+  "components": [
+    "normalizer",
+    "tokenizer",
+    "keyword_matcher",
+    "intent_model",
+    "entity_extractor",
+    "lexicon",
+    "workflow",
+    "semantic"
+  ],
+  "models": {
+    "intent": {
+      "artifact": "intent_model/model.onnx",
+      "labels": "intent_model/labels.pkl",
+      "weights": "intent_model/weights.json",
+      "calibration": "intent_model/calibration.json"
+    },
+    "semantic": {
+      "encoder": "semantic/minilm-l6-v2.onnx",
+      "head": "semantic/semantic_head.npz",
+      "vocab": "semantic/minilm-vocab.txt"
+    }
+  },
+  "semantic": {
+    "declared": true
+  },
+  "channel": "dev",
+  "created_at": "2026-07-24T00:00:00Z"
+}

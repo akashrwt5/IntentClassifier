@@ -106,14 +106,18 @@ class IntentClassifier:
                  model_path:   Path = MODEL_PATH,
                  labels_path:  Path = LABELS_PATH,
                  schema_path:  Path = SCHEMA_PATH,
-                 weights_path: Path = WEIGHTS_PATH):
+                 weights_path: Path = WEIGHTS_PATH,
+                 keyword_source: dict | None = None):
         if not model_path.exists():
             raise FileNotFoundError(
                 f"Model not found: {model_path}. Run `python scripts/train.py` first."
             )
         verify_manifest(BASE_DIR)
         self._schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
-        self._kw_rules = _compile_keyword_rules(self._schema)
+        # Keyword rules: from the Language Pack when supplied (the rule table is
+        # language-specific and lives in the pack), else from the schema (legacy).
+        # Identical compiled form either way, so behavior is preserved.
+        self._kw_rules = _compile_keyword_rules(keyword_source or self._schema)
         self.session = ort.InferenceSession(str(model_path))
         self.inp = self.session.get_inputs()[0]
         self.input_name = self.inp.name

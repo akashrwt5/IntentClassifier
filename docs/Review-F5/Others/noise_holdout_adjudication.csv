@@ -1,0 +1,13 @@
+utterance,original_label,final_label,flag,notes
+adjust for this loud room,Cmd.MemoryChange,Cmd.MemoryChange,ok,names an environment/preset -> action
+this environment needs a different setup,Cmd.MemoryChange,Cmd.MemoryChange,ok,names environment -> action
+this place is deafening,Cmd.VolumeDecrease,Cmd.VolumeDecrease,ok,intensity symptom -> volume down
+the noise is unbearable right now,Cmd.VolumeDecrease,Help_EdgeMode,REVIEW,"urgent symptom -> mapped to a Help/info intent; alt Help_Customize; EdgeMode has 0 symptom training rows"
+the loudness is giving me a headache,Cmd.VolumeDecrease,Cmd.VolumeDecrease,ok,loudness=intensity -> volume down
+the television is blaring and i still miss the words,Cmd.VolumeIncrease,Help_Customize,REVIEW,"intelligibility problem; was VolumeIncrease; now a Help/info intent"
+add some more loudness please,Cmd.VolumeIncrease,Cmd.VolumeIncrease,ok,direct command
+kill the noise completely,Cmd.VolumeMute,Help_EdgeMode,REVIEW,"imperative command mapped to a Help/info intent; overlaps VolumeMute"
+reduce the background noise level,Help_Customize,Help_EdgeMode,REVIEW,"imperative -> Help/info; EdgeMode needs symptom training rows"
+too much wind noise outside,Help_EdgeMode,Help_EdgeMode,ok,wind = EdgeMode canonical use
+reduce wind interference with edge mode,Help_EdgeMode,Help_EdgeMode,ok,names 'edge mode' explicitly
+help with adjusting loudness,Help_Volume,Help_Volume,ok,'help with' = question -> Help

@@ -1,0 +1,545 @@
+{
+  "_note": "English datetime GOLDEN corpus \u2014 captured from the pristine extractor at fixed NOW. Regression oracle for datetime eviction. Do not edit by hand; regenerate only when intentionally changing behavior.",
+  "now_iso": "2026-06-14T14:30:00+00:00",
+  "cases": [
+    {
+      "utterance": "in 10 minutes",
+      "iso": "2026-06-14T14:40+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in 5 min",
+      "iso": "2026-06-14T14:35+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "remind me in 30 minutes",
+      "iso": "2026-06-14T15:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in an hour",
+      "iso": "2026-06-14T15:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in a minute",
+      "iso": "2026-06-14T14:31+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in half an hour",
+      "iso": "2026-06-14T15:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in a few minutes",
+      "iso": "2026-06-14T14:33+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in a couple of hours",
+      "iso": "2026-06-14T16:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in 2 days",
+      "iso": "2026-06-16T14:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in 1 week",
+      "iso": "2026-06-21T14:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in 3 hours",
+      "iso": "2026-06-14T17:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "for 20 minutes",
+      "iso": "2026-06-14T14:50+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "for 2 hours",
+      "iso": "2026-06-14T16:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "tomorrow",
+      "iso": "2026-06-15T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": false,
+      "explicit_day": true
+    },
+    {
+      "utterance": "today",
+      "iso": "2026-06-14T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": false,
+      "explicit_day": true
+    },
+    {
+      "utterance": "tonight",
+      "iso": "2026-06-14T18:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "day after tomorrow",
+      "iso": "2026-06-16T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": false,
+      "explicit_day": true
+    },
+    {
+      "utterance": "next week",
+      "iso": "2026-06-21T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": false,
+      "explicit_day": true
+    },
+    {
+      "utterance": "monday",
+      "iso": "2026-06-15T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": false,
+      "explicit_day": true
+    },
+    {
+      "utterance": "on friday",
+      "iso": "2026-06-19T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": false,
+      "explicit_day": true
+    },
+    {
+      "utterance": "this sunday",
+      "iso": "2026-06-21T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": false,
+      "explicit_day": true
+    },
+    {
+      "utterance": "wednesday",
+      "iso": "2026-06-17T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": false,
+      "explicit_day": true
+    },
+    {
+      "utterance": "at 9am",
+      "iso": "2026-06-15T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "9 am",
+      "iso": "2026-06-15T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 9pm",
+      "iso": "2026-06-14T21:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "9:30pm",
+      "iso": "2026-06-14T21:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 7:15am",
+      "iso": "2026-06-15T07:15+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 12am",
+      "iso": "2026-06-15T00:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 12pm",
+      "iso": "2026-06-15T12:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 15:00",
+      "iso": "2026-06-14T15:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "15:30",
+      "iso": "2026-06-14T15:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "0:30",
+      "iso": "2026-06-15T00:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 6",
+      "iso": "2026-06-14T18:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 3",
+      "iso": "2026-06-14T15:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 9",
+      "iso": "2026-06-14T21:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 11",
+      "iso": "2026-06-14T23:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 8",
+      "iso": "2026-06-14T20:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at noon",
+      "iso": "2026-06-15T12:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at midnight",
+      "iso": "2026-06-15T00:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in the morning",
+      "iso": "2026-06-15T08:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in the afternoon",
+      "iso": "2026-06-15T14:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in the evening",
+      "iso": "2026-06-14T18:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at night",
+      "iso": "2026-06-14T21:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "9 in the morning",
+      "iso": "2026-06-15T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "3 in the afternoon",
+      "iso": "2026-06-14T15:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "9 tonight",
+      "iso": "2026-06-14T21:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "8 in the evening",
+      "iso": "2026-06-14T20:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "half past 9",
+      "iso": "2026-06-14T21:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "quarter past 8",
+      "iso": "2026-06-14T20:15+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "quarter to 3",
+      "iso": "2026-06-14T14:45+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "20 past 9",
+      "iso": "2026-06-14T21:20+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "10 to 3",
+      "iso": "2026-06-14T14:50+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "half past 12",
+      "iso": "2026-06-15T12:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "tomorrow at 9am",
+      "iso": "2026-06-15T09:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "tomorrow at 3pm",
+      "iso": "2026-06-15T15:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "tomorrow morning",
+      "iso": "2026-06-15T08:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "monday at 3pm",
+      "iso": "2026-06-15T15:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "today at 5",
+      "iso": "2026-06-14T17:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "tonight at 8",
+      "iso": "2026-06-14T20:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "friday at noon",
+      "iso": "2026-06-19T12:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "tomorrow at half past 7",
+      "iso": "2026-06-15T07:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "next week at 10am",
+      "iso": "2026-06-21T10:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": true
+    },
+    {
+      "utterance": "nine pm",
+      "iso": "2026-06-14T21:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "nine thirty",
+      "iso": "2026-06-14T21:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at nine",
+      "iso": "2026-06-14T21:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "remind me at eight",
+      "iso": "2026-06-14T20:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "9 30",
+      "iso": "2026-06-14T21:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "at 9 30",
+      "iso": "2026-06-14T21:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "15h30",
+      "iso": "2026-06-14T15:30+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "9h",
+      "iso": "2026-06-14T21:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "9",
+      "iso": "2026-06-14T21:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "11",
+      "iso": "2026-06-14T23:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "yesterday",
+      "iso": null,
+      "conf": 0.0,
+      "time_explicit": false,
+      "explicit_day": false
+    },
+    {
+      "utterance": "yesterday at 5",
+      "iso": null,
+      "conf": 0.0,
+      "time_explicit": false,
+      "explicit_day": false
+    },
+    {
+      "utterance": "take medication",
+      "iso": null,
+      "conf": 0.0,
+      "time_explicit": false,
+      "explicit_day": false
+    },
+    {
+      "utterance": "call mom",
+      "iso": null,
+      "conf": 0.0,
+      "time_explicit": false,
+      "explicit_day": false
+    },
+    {
+      "utterance": "buy milk",
+      "iso": null,
+      "conf": 0.0,
+      "time_explicit": false,
+      "explicit_day": false
+    }
+  ]
+}

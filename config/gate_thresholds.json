@@ -1,0 +1,8 @@
+{
+  "_note": "Accuracy gate thresholds for the automated build (train-and-gate.yml). A model that trains but does not clear these is BLOCKED, not shipped. Tighten over time; never loosen silently.",
+  "holdout": "data/semantic_holdout_100.csv",
+  "enable_semantic": true,
+  "min_accuracy": 0.80,
+  "min_macro_f1": 0.60,
+  "max_wrong_action": 15
+}

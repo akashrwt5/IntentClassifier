@@ -31,6 +31,57 @@ _WD_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
 _MONTH_ORDER = ["January", "February", "March", "April", "May", "June", "July",
                 "August", "September", "October", "November", "December"]
 
+# Consolidated English datetime VOCABULARY (day anchors + periods). Previously
+# these words were scattered as literals through ~10 regexes in the parser; they
+# are now a single data table, and the engine overrides it with the Language
+# Pack's datetime grammar. The parsing *semantics* (offsets, hours) stay in code
+# because they are language-neutral; only the words live here / in the pack.
+_DEFAULT_DT_GRAMMAR = {
+    "day_anchors": {
+        "day_after_tomorrow": ["day after tomorrow"],
+        "tomorrow": ["tomorrow"],
+        "today": ["today"],
+        "tonight": ["tonight"],
+        "next_week": ["next week"],
+        "yesterday": ["yesterday"],
+    },
+    "time_of_day": {
+        "morning":   {"names": ["morning"],   "hour": 8},
+        "afternoon": {"names": ["afternoon"], "hour": 14},
+        "evening":   {"names": ["evening"],   "hour": 18},
+        "night":     {"names": ["night"],     "hour": 21},
+        "noon":      {"names": ["noon"],      "hour": 12},
+        "midnight":  {"names": ["midnight"],  "hour": 0},
+    },
+    "relative_markers": {"in": ["in"], "for": ["for"], "at": ["at"]},
+    "relative_units": {
+        "minute": ["minutes", "minute", "mins", "min"],
+        "hour":   ["hours", "hour", "hrs", "hr"],
+        "day":    ["days", "day"],
+        "week":   ["weeks", "week"],
+    },
+    "articles": ["an", "a"],
+    "quantifiers": {"few": {"phrases": ["a few"], "n": 3},
+                    "couple": {"phrases": ["a couple of", "a couple"], "n": 2}},
+    "clock_idioms": {
+        "half_past": ["half past"], "quarter_past": ["quarter past"],
+        "quarter_to": ["quarter to"], "past": ["past"], "to": ["to"],
+        "half_an_hour": ["half an hour"],
+    },
+    "am_pm": {"am": ["am", "a m", "a.m"], "pm": ["pm", "p m", "p.m"]},
+    # Function words used only to strip date/time fragments out of a reminder
+    # topic (cosmetic — never affects the resolved time).
+    "strip": {
+        "at_by": ["at", "by"],
+        "connectors": ["at", "on", "by", "this", "next"],
+        "recurrence": ["every", "each"],
+        "the": ["the"],
+    },
+}
+# Language-neutral day offsets keyed by anchor role (not by any language word).
+_ANCHOR_OFFSET = {"today": 0, "tonight": 0, "tomorrow": 1,
+                  "day_after_tomorrow": 2, "next_week": 7}
+
 
 def _levenshtein(a: str, b: str) -> int:
     if a == b: return 0
@@ -47,8 +98,11 @@ def _levenshtein(a: str, b: str) -> int:
 
 class EntityExtractor:
     def __init__(self, entities_path: Path = ENTITIES_PATH, *, weekdays=None, word_nums=None,
-                 language: str = "en", lexicon_path: Path = None):
+                 language: str = "en", lexicon_path: Path = None, dt_grammar: dict = None):
         self.entities = json.loads(Path(entities_path).read_text(encoding="utf-8"))
+        # English datetime vocabulary: from the pack when supplied, else the
+        # consolidated built-in default. Semantics (offsets/hours) are neutral.
+        self._build_en_dt_tables(dt_grammar or _DEFAULT_DT_GRAMMAR)
         self._lookup = {}
         for name, cfg in self.entities.items():
             if cfg.get("type") == "enum":
@@ -63,19 +117,102 @@ class EntityExtractor:
         if word_nums is not None:
             self._WORD_NUMS = word_nums
 
-        # Lexicon-driven datetime parsing for non-English languages. When absent
-        # (English, or a missing/undecodable file) self._lex stays None and
-        # extract_datetime falls through to the byte-identical English path.
+        # Lexicon-driven datetime parsing. Data-driven, NOT language-string-driven:
+        # if a datetime lexicon file exists for this language it is used; otherwise
+        # (e.g. English, which ships no lexicon) self._lex stays None and the
+        # table-driven English-style parser is used (selection is data-driven).
         self._lex = None
-        if language and language != "en":
-            if lexicon_path is None:
-                lexicon_path = LOCALIZATION_DIR / f"nlu_lexicon.{language}.json"
+        if lexicon_path is None and language:
+            candidate = LOCALIZATION_DIR / f"nlu_lexicon.{language}.json"
+            lexicon_path = candidate if candidate.exists() else None
+        if lexicon_path is not None:
             try:
                 self._lex = json.loads(Path(lexicon_path).read_text(encoding="utf-8"))
             except Exception:
                 self._lex = None
         if self._lex is not None:
             self._build_lex_tables(self._lex)
+
+    def _build_en_dt_tables(self, g: dict):
+        """Compile the English day-anchor and period matchers from a grammar
+        table (pack or default). The if/elif priority and offsets/hours of the
+        original parser are preserved exactly; only the words come from data."""
+        anchors = g.get("day_anchors", {})
+        # Anchor match order preserves the original priority (day-after-tomorrow
+        # before tomorrow so the shared substring never mis-fires).
+        order = ["day_after_tomorrow", "tomorrow", "today", "tonight", "next_week"]
+        self._anchor_specs = [
+            (re.compile(rf"\b{re.escape(p)}\b"), key)
+            for key in order for p in anchors.get(key, [])
+        ]
+        self._yesterday_res = [re.compile(rf"\b{re.escape(p)}\b")
+                               for p in anchors.get("yesterday", [])]
+        tod = g.get("time_of_day", {})
+        # Period detection order matches the original: morning, afternoon,
+        # evening, night, then tonight→evening, then noon, midnight.
+        seq = []
+        for name in ("morning", "afternoon", "evening", "night"):
+            for p in tod.get(name, {}).get("names", []):
+                seq.append((re.compile(rf"\b{re.escape(p)}\b"), name))
+        for p in anchors.get("tonight", []):
+            seq.append((re.compile(rf"\b{re.escape(p)}\b"), "evening"))
+        for name in ("noon", "midnight"):
+            for p in tod.get(name, {}).get("names", []):
+                seq.append((re.compile(rf"\b{re.escape(p)}\b"), name))
+        self._period_specs = seq
+        self._named_hour = {name: spec["hour"] for name, spec in tod.items()}
+
+        # ---- clock notation vocabulary (relative markers, units, idioms, am/pm) ----
+        def _alt(words):
+            # longest-first so multi-word phrases win over their prefixes
+            return "|".join(re.escape(w) for w in sorted(words, key=len, reverse=True))
+
+        rel = g.get("relative_markers", {})
+        self._alt_in = _alt(rel.get("in", []))
+        self._alt_for = _alt(rel.get("for", []))
+        self._alt_at = _alt(rel.get("at", []))
+        self._alt_in_for = _alt(rel.get("in", []) + rel.get("for", []))
+
+        units = g.get("relative_units", {})
+        self._unit_canon = {w.lower(): canon for canon, arr in units.items() for w in arr}
+        self._alt_unit = _alt(list(self._unit_canon))
+        # "a few/couple of" originally applied to minute/hour only — preserve that.
+        self._alt_unit_mh = _alt(units.get("minute", []) + units.get("hour", []))
+
+        self._alt_article = _alt(g.get("articles", []))
+        quant = g.get("quantifiers", {})
+        self._quant_specs = [(_alt(spec.get("phrases", [])), spec.get("n", 1))
+                             for spec in quant.values()]
+
+        idi = g.get("clock_idioms", {})
+        self._alt_half_past = _alt(idi.get("half_past", []))
+        self._alt_quarter_past = _alt(idi.get("quarter_past", []))
+        self._alt_quarter_to = _alt(idi.get("quarter_to", []))
+        self._alt_past = _alt(idi.get("past", []))
+        self._alt_to = _alt(idi.get("to", []))
+        self._alt_half_an_hour = _alt(idi.get("half_an_hour", []))
+
+        ap = g.get("am_pm", {})
+        self._am_forms = {w.lower() for w in ap.get("am", [])}
+        self._pm_forms = {w.lower() for w in ap.get("pm", [])}
+        self._alt_ampm = _alt(list(self._am_forms) + list(self._pm_forms))
+
+        # ---- topic-strip vocabulary (function words; cosmetic only) ----
+        strip = g.get("strip", {})
+        self._alt_strip_atby = _alt(strip.get("at_by", []))
+        self._alt_strip_conn = _alt(strip.get("connectors", []))
+        self._alt_strip_recur = _alt(strip.get("recurrence", []))
+        self._alt_strip_the = _alt(strip.get("the", []))
+        self._alt_strip_anchor = _alt(
+            anchors.get("tomorrow", []) + anchors.get("today", []) + anchors.get("tonight", []))
+        self._alt_strip_periods = _alt(
+            [p for name, spec in tod.items() if name != "midnight" for p in spec.get("names", [])])
+        self._strip_patterns_cache = None
+
+    _UNIT_DELTA = {"minute": "minutes", "hour": "hours", "day": "days", "week": "weeks"}
+
+    def _rel_delta(self, canon: str, n: int) -> timedelta:
+        return timedelta(**{self._UNIT_DELTA[canon]: n})
 
     # ----- Lexicon-driven datetime: reverse-lookup tables (built once) -----
 
@@ -478,8 +615,8 @@ class EntityExtractor:
         elif now.tzinfo is None:
             now = now.astimezone()
 
-        # Non-English: drive the whole parse from the language lexicon. The
-        # English path below is left byte-identical for language == "en".
+        # When a datetime lexicon was loaded, drive the whole parse from it.
+        # Otherwise use the table-driven English-style parser below.
         if self._lex is not None:
             res = self._extract_datetime_lex(text, now)
             if res is None:
@@ -489,61 +626,43 @@ class EntityExtractor:
 
         t = text.lower().strip()
 
-        # --- 1. Relative durations: "in 10 minutes", "in an hour", "in a few minutes" ---
-        # Digit form
-        m = re.search(r"\bin\s+(\d+)\s*(minute|min|hour|hr|day|week)s?\b", t)
+        # --- 1. Relative durations (markers/units/quantifiers all from the grammar) ---
+        # "in N <unit>" / "for N <unit>"
+        m = re.search(rf"\b(?:{self._alt_in_for})\s+(\d+)\s*({self._alt_unit})\b", t)
         if m:
-            n, unit = int(m.group(1)), m.group(2)
-            delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
-                     "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n),
-                     "day":    timedelta(days=n),     "week": timedelta(weeks=n)}[unit]
-            return self._to_utc_iso(now + delta), m.group(), 1.0, True, False
-        # "for N units" — treated as relative duration, same semantics as "in N units"
-        m = re.search(r"\bfor\s+(\d+)\s*(minute|min|hour|hr|day|week)s?\b", t)
+            n = int(m.group(1)); canon = self._unit_canon[m.group(2).lower()]
+            return self._to_utc_iso(now + self._rel_delta(canon, n)), m.group(), 1.0, True, False
+        # "in a/an <unit>"  (n = 1)
+        m = re.search(rf"\b(?:{self._alt_in})\s+(?:{self._alt_article})\s+({self._alt_unit})\b", t)
         if m:
-            n, unit = int(m.group(1)), m.group(2)
-            delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
-                     "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n),
-                     "day":    timedelta(days=n),     "week": timedelta(weeks=n)}[unit]
-            return self._to_utc_iso(now + delta), m.group(), 1.0, True, False
-        # "in an hour / in a minute"
-        m = re.search(r"\bin\s+an?\s+(minute|min|hour|hr|day|week)s?\b", t)
-        if m:
-            unit = m.group(1)
-            delta = {"minute": timedelta(minutes=1), "min": timedelta(minutes=1),
-                     "hour":   timedelta(hours=1),   "hr":  timedelta(hours=1),
-                     "day":    timedelta(days=1),     "week": timedelta(weeks=1)}[unit]
-            return self._to_utc_iso(now + delta), m.group(), 1.0, True, False
-        # "in a few / a couple of minutes/hours"
-        m = re.search(r"\bin\s+(?:a\s+few|a\s+couple\s+(?:of\s+)?)\s*(minute|min|hour|hr)s?\b", t)
-        if m:
-            unit = m.group(1)
-            n = 3 if "few" in m.group() else 2
-            delta = {"minute": timedelta(minutes=n), "min": timedelta(minutes=n),
-                     "hour":   timedelta(hours=n),   "hr":  timedelta(hours=n)}[unit]
-            return self._to_utc_iso(now + delta), m.group(), 1.0, True, False
+            canon = self._unit_canon[m.group(1).lower()]
+            return self._to_utc_iso(now + self._rel_delta(canon, 1)), m.group(), 1.0, True, False
+        # "in a few / a couple of <unit>"  (quantifier count; minute/hour only)
+        for qalt, qn in self._quant_specs:
+            m = re.search(rf"\b(?:{self._alt_in})\s+(?:{qalt})\s*({self._alt_unit_mh})\b", t)
+            if m:
+                canon = self._unit_canon[m.group(1).lower()]
+                return self._to_utc_iso(now + self._rel_delta(canon, qn)), m.group(), 1.0, True, False
         # "in half an hour"
-        if re.search(r"\bin\s+half\s+an?\s+hour\b", t):
+        if self._alt_half_an_hour and re.search(rf"\b(?:{self._alt_in})\s+(?:{self._alt_half_an_hour})\b", t):
             return self._to_utc_iso(now + timedelta(minutes=30)), "in half an hour", 1.0, True, False
 
-        # --- 2. Explicit past-date rejection ---
-        if re.search(r"\byesterday\b", t):
+        # --- 2. Explicit past-date rejection --- (yesterday words from grammar)
+        if any(rex.search(t) for rex in self._yesterday_res):
             return None, None, 0.0, False, False
 
         # --- 3. Normalise word numbers so "nine pm" → "9 pm", "nine thirty" → "9 30" ---
         t = self._normalise_word_numbers(t)
 
-        # --- 4. Day anchor (day-after-tomorrow must be checked before tomorrow) ---
+        # --- 4. Day anchor (matchers + offsets from the grammar table; the
+        # match order preserves day-after-tomorrow before tomorrow) ---
         base_day = now
         explicit_day = False
-        if re.search(r"\bday\s+after\s+tomorrow\b", t):
-            base_day = now + timedelta(days=2); explicit_day = True
-        elif re.search(r"\btomorrow\b", t):
-            base_day = now + timedelta(days=1); explicit_day = True
-        elif re.search(r"\btoday\b", t) or re.search(r"\btonight\b", t):
-            base_day = now; explicit_day = True
-        elif re.search(r"\bnext\s+week\b", t):
-            base_day = now + timedelta(weeks=1); explicit_day = True
+        for rex, key in self._anchor_specs:
+            if rex.search(t):
+                base_day = now + timedelta(days=_ANCHOR_OFFSET.get(key, 0))
+                explicit_day = True
+                break
         else:
             for i, wd in enumerate(self._WEEKDAYS):
                 if re.search(rf"\b{wd}\b", t):
@@ -552,65 +671,60 @@ class EntityExtractor:
                     explicit_day = True
                     break
 
-        # --- 4. Period hint from context words ---
+        # --- 4. Period hint from context words (matchers from the grammar) ---
         period = None
-        if re.search(r"\bmorning\b", t):       period = "morning"
-        elif re.search(r"\bafternoon\b", t):   period = "afternoon"
-        elif re.search(r"\bevening\b", t):     period = "evening"
-        elif re.search(r"\bnight\b", t):       period = "night"
-        elif re.search(r"\btonight\b", t):     period = "evening"
-        elif re.search(r"\bnoon\b", t):        period = "noon"
-        elif re.search(r"\bmidnight\b", t):    period = "midnight"
+        for rex, name in self._period_specs:
+            if rex.search(t):
+                period = name
+                break
 
-        # --- 5. Named-only time (no digit) ---
+        # --- 5. Named-only time (no digit); hours from the grammar table ---
         named_hour = {
-            "morning": 8, "afternoon": 14, "evening": 18,
-            "night": 21, "tonight": 21, "noon": 12, "midnight": 0,
+            **self._named_hour,
         }
 
         # --- 6. Explicit time extraction ---
         hour = minute = None; span = None
 
-        # "half past N" / "N thirty" → e.g. half past 9 = 9:30
-        m = re.search(r"\bhalf\s+past\s+(\d{1,2})\b", t)
-        if m:
-            hour, minute = int(m.group(1)), 30; span = m.group()
-        # "quarter past N"
-        if hour is None:
-            m = re.search(r"\bquarter\s+past\s+(\d{1,2})\b", t)
+        # Clock idioms (phrases from the grammar: half past / quarter past / quarter to)
+        if self._alt_half_past:
+            m = re.search(rf"\b(?:{self._alt_half_past})\s+(\d{{1,2}})\b", t)
+            if m:
+                hour, minute = int(m.group(1)), 30; span = m.group()
+        if hour is None and self._alt_quarter_past:
+            m = re.search(rf"\b(?:{self._alt_quarter_past})\s+(\d{{1,2}})\b", t)
             if m:
                 hour, minute = int(m.group(1)), 15; span = m.group()
-        # "quarter to N"  (N must be a valid clock hour)
-        if hour is None:
-            m = re.search(r"\bquarter\s+to\s+(\d{1,2})\b", t)
+        if hour is None and self._alt_quarter_to:
+            m = re.search(rf"\b(?:{self._alt_quarter_to})\s+(\d{{1,2}})\b", t)
             if m:
                 h = int(m.group(1))
                 if 1 <= h <= 12:
                     hour, minute = (h - 1) if h > 1 else 12, 45; span = m.group()
         # "N past M" (e.g. "20 past 9") — minutes 1-59, hour a valid clock hour
-        if hour is None:
-            m = re.search(r"\b(\d{1,2})\s+past\s+(\d{1,2})\b", t)
+        if hour is None and self._alt_past:
+            m = re.search(rf"\b(\d{{1,2}})\s+(?:{self._alt_past})\s+(\d{{1,2}})\b", t)
             if m:
                 mm, hh = int(m.group(1)), int(m.group(2))
                 if 0 <= mm <= 59 and 1 <= hh <= 12:
                     minute, hour = mm, hh; span = m.group()
         # "N to M" (e.g. "10 to 3" = 2:50) — minutes-to 1-59, hour a valid clock hour
-        if hour is None:
-            m = re.search(r"\b(\d{1,2})\s+to\s+(\d{1,2})\b", t)
+        if hour is None and self._alt_to:
+            m = re.search(rf"\b(\d{{1,2}})\s+(?:{self._alt_to})\s+(\d{{1,2}})\b", t)
             if m:
                 mins_to, h = int(m.group(1)), int(m.group(2))
                 if 1 <= mins_to <= 59 and 1 <= h <= 12:
                     hour = (h - 1) if h > 1 else 12
                     minute = 60 - mins_to; span = m.group()
 
-        # Standard "9am", "9 am", "9:30pm"
+        # Standard "9am", "9 am", "9:30pm" — am/pm markers from the grammar
         explicit_ampm = False
-        if hour is None:
-            tm = re.search(r"\b(\d{1,2})(?::(\d{2}))?\s*([ap])\.?\s*m\.?\b", t)
+        if hour is None and self._alt_ampm:
+            tm = re.search(rf"\b(\d{{1,2}})(?::(\d{{2}}))?\s*({self._alt_ampm})\b", t)
             if tm:
                 raw_h = int(tm.group(1))
-                period_char = tm.group(3)
-                hour = raw_h % 12 + (12 if period_char == "p" else 0)
+                is_pm = tm.group(3).lower() in self._pm_forms
+                hour = raw_h % 12 + (12 if is_pm else 0)
                 minute = int(tm.group(2) or 0)
                 span = tm.group()
                 explicit_ampm = True  # hour is already 0-23; skip _pick_future_hour
@@ -636,15 +750,15 @@ class EntityExtractor:
                 hour, minute = int(m.group(1)), int(m.group(2))
                 span = m.group()
 
-        # "at N" or bare number as entire input — no am/pm
-        if hour is None:
+        # "at N" or bare number as entire input — "at" marker from the grammar
+        if hour is None and self._alt_at:
             # "at N M" — hour and space-separated minutes e.g. "at 9 30"
-            m = re.search(r"\bat\s+(\d{1,2})\s+(\d{2})\b", t)
+            m = re.search(rf"\b(?:{self._alt_at})\s+(\d{{1,2}})\s+(\d{{2}})\b", t)
             if m:
                 hour, minute = int(m.group(1)), int(m.group(2)); span = m.group()
         if hour is None:
             # "at N" anywhere in text
-            m = re.search(r"\bat\s+(\d{1,2})\b", t)
+            m = re.search(rf"\b(?:{self._alt_at})\s+(\d{{1,2}})\b", t) if self._alt_at else None
             if m is None:
                 # Bare number is the whole input (slot answer like "9" or "11")
                 m = re.match(r"^(\d{1,2})\s*$", t)
@@ -724,28 +838,34 @@ class EntityExtractor:
     def is_open(self, entity: str) -> bool:
         return bool(self.entities.get(entity, {}).get("open"))
 
-    _TIME_PATTERNS = [
-        r"\bin\s+\d+\s*(?:minute|min|hour|hr|day|week)s?\b",
-        r"\bfor\s+\d+\s*(?:minute|min|hour|hr|day|week)s?\b",
-        r"\b\d{1,2}(?::\d{2})?\s*[ap]\.?\s*m\.?\b",
-        r"\b\d{1,2}:\d{2}\b",
-        # "at 5" / "by 7" — remove the connector AND the orphaned bare number
-        # together, before the bare-connector strip below leaves the digit behind.
-        r"\b(?:at|by)\s+\d{1,2}(?::\d{2})?\b",
-        r"\b(?:tomorrow|today|tonight)\b",
-        r"\b(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)s?\b",
-        r"\b(?:every|each)\s+\w+\b",
-        # consume "in the morning" as a phrase so no "in the" fragment dangles
-        r"\b(?:in\s+the\s+)?(?:morning|afternoon|evening|night|noon)\b",
-        r"\b(?:at|on|by|this|next)\b",
-    ]
+    def _en_strip_patterns(self):
+        """Build the English topic-strip patterns from the grammar tables +
+        weekdays (compiled once). Mirrors the previous hardcoded _TIME_PATTERNS
+        order exactly — in particular '(at|by) N' is stripped before the bare
+        connector so no orphan digit is left behind."""
+        if self._strip_patterns_cache is not None:
+            return self._strip_patterns_cache
+        wd_alt = "|".join(re.escape(w) for w in self._WEEKDAYS)
+        pats = [
+            rf"\b(?:{self._alt_in_for})\s+\d+\s*(?:{self._alt_unit})\b",
+            rf"\b\d{{1,2}}(?::\d{{2}})?\s*(?:{self._alt_ampm})\b",
+            r"\b\d{1,2}:\d{2}\b",
+            rf"\b(?:{self._alt_strip_atby})\s+\d{{1,2}}(?::\d{{2}})?\b",
+            rf"\b(?:{self._alt_strip_anchor})\b",
+            rf"\b(?:{wd_alt})s?\b",
+            rf"\b(?:{self._alt_strip_recur})\s+\w+\b",
+            rf"\b(?:{self._alt_in}\s+{self._alt_strip_the}\s+)?(?:{self._alt_strip_periods})\b",
+            rf"\b(?:{self._alt_strip_conn})\b",
+        ]
+        self._strip_patterns_cache = [re.compile(p, re.I) for p in pats]
+        return self._strip_patterns_cache
 
     def strip_datetime(self, text: str) -> str:
         if self._lex is not None:
             return self._strip_datetime_lex(text)
         t = text
-        for p in self._TIME_PATTERNS:
-            t = re.sub(p, " ", t, flags=re.I)
+        for p in self._en_strip_patterns():
+            t = p.sub(" ", t)
         return re.sub(r"\s+", " ", t).strip(" .,")
 
     def _strip_datetime_lex(self, text: str) -> str:

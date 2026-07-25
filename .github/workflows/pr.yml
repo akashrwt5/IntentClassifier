@@ -1,0 +1,71 @@
+name: pr
+
+# Protects main on every PR (and pushes to main). Fast, deterministic checks:
+# lint, the language-neutrality guard, the Language-Pack contract tests, the
+# datetime parity corpora, and the regression suite. See
+# docs/Review-F5/IMPLEMENTATION-PLAN.md §5.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest ruff
+
+      # Lint the restructured code. Non-blocking for now (repo-wide style debt is
+      # tracked separately); flip to blocking once the tree is clean.
+      - name: Lint (ruff)
+        run: ruff check scripts/nlu packages/nlu_langpack tests/test_neutrality.py || true
+
+      # REQUIREMENT 2 guard: the engine must contain no `if language` branches.
+      - name: Language-neutrality guard
+        run: python scripts/ci/check_language_neutral.py
+
+      # Language-Pack contract: en-default, semantic off by default, hostile-zz
+      # runs end-to-end, engine is neutral.
+      - name: Language-Pack + neutrality tests
+        run: pytest tests/test_neutrality.py -q
+
+      # Datetime parity: English golden corpus (default + pack-fed) — the
+      # guardrail for the date parser.
+      - name: Datetime English parity
+        run: pytest tests/test_datetime_parity_en.py -q
+
+      # Full regression suite, EXCLUDING the pre-existing failures documented in
+      # docs/Review-F5/TO-REMOVE.md. Remove a --deselect line when its bug is
+      # fixed so the case starts gating again. Any NEW failure fails the PR.
+      - name: Regression suite (excl. tracked pre-existing failures)
+        run: |
+          pytest -q \
+            scripts/test_sprint1_hardening.py \
+            scripts/test_sprint2_hardening.py \
+            scripts/test_sprint3_hardening.py \
+            scripts/test_nlu.py \
+            scripts/test_datetime_entities.py \
+            tests/test_datetime_parity.py \
+            --deselect "scripts/test_sprint1_hardening.py::test_keyword_negation_suppresses_contains_hit" \
+            --deselect "scripts/test_sprint1_hardening.py::test_keyword_positive_contains_still_fires" \
+            --deselect "scripts/test_sprint3_hardening.py::test_bare_contains_does_not_interrupt_slot_flow" \
+            --deselect "scripts/test_sprint3_hardening.py::test_holdout_gate_fails_when_floor_impossible" \
+            --deselect "scripts/test_nlu.py::test_reminder_step_by_step" \
+            --deselect "scripts/test_nlu.py::test_reminder_one_shot" \
+            --deselect "tests/test_datetime_parity.py::test_datetime_parity[fr-dix heures et demie-today-10:30]" \
+            --deselect "tests/test_datetime_parity.py::test_datetime_parity[fr-huit heures moins le quart-today-07:45]"

@@ -30,6 +30,8 @@ BASE_DIR = Path(__file__).parent.parent.parent
 SCHEMA_PATH = BASE_DIR / "data" / "nlu_schema.json"
 LABELS_JSON_PATH = BASE_DIR / "models" / "intent_labels.json"
 LOC_DIR = BASE_DIR / "data" / "localization"
+# Fallback temperature-weights path used only if a pack omits its own weights.
+WEIGHTS_PATH_DEFAULT = BASE_DIR / "models" / "intent_classifier_weights.json"
 
 # Fallback default for the semantic-rescue threshold when the schema omits it.
 # The schema's "semantic_threshold" is the single source of truth; this is only
@@ -80,131 +82,148 @@ class NLUEngine:
     AGREEMENT_THRESHOLD = 0.50
 
     def __init__(self, schema_path: Path = SCHEMA_PATH, model_name: str | None = None,
-                 language: str = "en"):
-        self.language = language
-        self.schema = self._load_schema(schema_path, language)
-        self.intents = self.schema["intents"]
+                 language: str = "en", pack=None, enable_semantic: bool | None = None):
+        # The engine is a language-agnostic execution framework: it runs ENTIRELY
+        # from a Language Pack and contains no language-specific rules. With no
+        # explicit `pack`, it loads packs/<language> (default "en") — so a bare
+        # NLUEngine() is English by default. `pack` may be a LanguagePack, a path
+        # to a pack directory, or None (→ the default pack for `language`).
+        if pack is None:
+            pack = BASE_DIR / "packs" / (language or "en")
+        self.pack = self._load_pack(pack, enable_semantic)
+        self.language = self.pack.language
+
+        # Everything is sourced from the pack. The pack's compiled workflow schema
+        # supplies intents + thresholds; lexicons/keywords/datetime/policy are the
+        # pack's language tables. No English (or any language) is embedded here.
+        self.schema = self.pack.resources.get("workflow") or {}
+        self.intents = self.schema.get("intents", {})
         self.threshold = self.schema.get("confidence_threshold", 0.70)
-        self.affirmative = set(self.schema.get("affirmative", []))
-        self.negative = set(self.schema.get("negative", []))
+
+        lex = self.pack.resources.get("lexicon", {})
+        self.affirmative = set(lex.get("affirmative", []))
+        self.negative = set(lex.get("negative", []))
+        self._uncertain = tuple(lex.get("uncertainty", ()))
+        self._no_idioms = tuple(lex.get("no_idioms", ()))
+        self._leading_connector = self._build_leading_connector(lex)
+        self._carrier = list(lex.get("carriers", []))
+
         # GenAI base URL is configuration, not a result field. The raw user
-        # utterance is NEVER embedded into an NLUResult (it would otherwise be
-        # captured by any caller that logs the result). The app layer, which
-        # already holds the text, constructs the navigation URL itself.
+        # utterance is NEVER embedded into an NLUResult.
         self.genai_url = (self.schema.get("genai_url")
                           or os.environ.get("NLU_GENAI_URL")
                           or DEFAULT_GENAI_URL)
-        # Opt-in raw-utterance logging. Off by default so medical-context
-        # speech is never written to logs in production; enable in dev only.
+        # Opt-in raw-utterance logging. Off by default so medical-context speech
+        # is never written to logs in production; enable in dev only.
         self._log_utterances = os.environ.get("NLU_LOG_UTTERANCES", "").lower() in ("1", "true", "yes")
-        # Single source of truth for the semantic-rescue gate: the schema. The
-        # same value constructs SemanticFallback AND gates its result in the
-        # engine, so the two can never drift.
         self.semantic_threshold = self.schema.get("semantic_threshold", DEFAULT_SEMANTIC_THRESHOLD)
+        # Policy constants come from the pack config (shadow the class defaults).
+        self._apply_policy(self.pack)
         self.classifier = self._load_classifier(model_name)
-        self.entities = self._load_entities(language)
-        self._carrier = self._build_carrier_patterns(language)
+        self.entities = self._load_entities()
         self.sessions = SessionStore()
-        if self.language in ("en", "", "multilingual"):
-            self.semantic = self._load_semantic(self.semantic_threshold)
-        else:
-            self.semantic = self._load_multilingual_semantic(self.semantic_threshold)
+
+        # Stage 3 semantic rescue: loaded ONLY when the pack declares AND enables
+        # it (off by default — the plugin design). Otherwise degrade to
+        # keyword + TF-IDF + GenAI.
+        self.semantic = (self._load_semantic(self.semantic_threshold)
+                         if self.pack.semantic_available else None)
+        self.semantic_enabled = bool(self.pack.semantic_available)
         self._assert_label_schema_parity()
 
-    @staticmethod
-    def _load_schema(schema_path: Path, language: str) -> dict:
-        """Load canonical schema then deep-merge the language overlay (if any).
-
-        Overlay keys applied: intents[].fulfillment, intents[].slots[].prompt,
-        affirmative, negative, followup prompts. Structural keys (entity, required,
-        action) always come from the canonical schema. Missing overlay → English.
-        """
-        import copy
-        schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
-        if language in ("en", ""):
-            return schema
-
-        overlay_path = LOC_DIR / f"nlu_schema.{language}.json"
-        if not overlay_path.exists():
-            logger.warning("nlu.schema.overlay_missing lang=%s", language)
-            return schema
-
-        try:
-            overlay = json.loads(overlay_path.read_text(encoding="utf-8"))
-        except Exception:
-            logger.error("nlu.schema.overlay_decode_error lang=%s", language)
-            return schema
-
-        merged = copy.deepcopy(schema)
-
-        # Merge per-intent fulfillment + slot prompts
-        for intent_name, ov_intent in overlay.get("intents", {}).items():
-            if intent_name not in merged["intents"]:
-                continue
-            if "fulfillment" in ov_intent:
-                merged["intents"][intent_name]["fulfillment"] = ov_intent["fulfillment"]
-            ov_slots = {s["name"]: s for s in ov_intent.get("slots", []) if "name" in s}
-            for slot in merged["intents"][intent_name].get("slots", []):
-                if slot.get("name") in ov_slots and "prompt" in ov_slots[slot["name"]]:
-                    slot["prompt"] = ov_slots[slot["name"]]["prompt"]
-
-        # Merge followup prompts
-        for key in ("followup",):
-            if key in overlay and key in merged:
-                for subkey, val in overlay[key].items():
-                    if isinstance(val, dict):
-                        merged[key].setdefault(subkey, {}).update(val)
-                    else:
-                        merged[key][subkey] = val
-
-        # Merge yes/no sets
-        if "affirmative" in overlay:
-            merged["affirmative"] = overlay["affirmative"]
-        if "negative" in overlay:
-            merged["negative"] = overlay["negative"]
-
-        return merged
+    # ------------------------------------------------------------------ #
+    # Language Pack integration
+    # ------------------------------------------------------------------ #
 
     @staticmethod
-    def _build_carrier_patterns(language: str) -> list:
-        """English carrier patterns plus any from the language lexicon.
+    def _load_pack(pack, enable_semantic):
+        """Resolve `pack` to a LanguagePack or None.
 
-        The lexicon's carrier_phrases are regex strings (same format as _CARRIER).
-        They are prepended so language-specific patterns are tried first.
+        Accepts a LanguagePack instance (returned as-is), a path to a pack
+        directory (loaded via nlu_langpack, honoring `enable_semantic`), or None.
         """
-        base = list(NLUEngine._CARRIER)
-        if language in ("en", "", "multilingual"):
-            return base
-        lex_path = LOC_DIR / f"nlu_lexicon.{language}.json"
-        if not lex_path.exists():
-            return base
-        try:
-            lex = json.loads(lex_path.read_text(encoding="utf-8"))
-            lang_carriers = lex.get("carrier_phrases", [])
-            return lang_carriers + base
-        except Exception:
-            return base
+        if pack is None:
+            return None
+        if isinstance(pack, (str, Path)):
+            import sys
+            pkg_dir = BASE_DIR / "packages"
+            if str(pkg_dir) not in sys.path:
+                sys.path.insert(0, str(pkg_dir))
+            from nlu_langpack import load_pack  # type: ignore
+            return load_pack(pack, enable_semantic=enable_semantic)
+        return pack  # assume a LanguagePack instance
+
+    def _apply_policy(self, pack):
+        """Override policy constants from the pack config when present. Instance
+        attributes shadow the class-level defaults, so the no-pack path is
+        unchanged."""
+        if not pack:
+            return
+        policy = (pack.config or {}).get("policy", {})
+        if "interrupt_threshold" in policy:
+            self.INTERRUPT_THRESHOLD = float(policy["interrupt_threshold"])
+        if "agreement_threshold" in policy:
+            self.AGREEMENT_THRESHOLD = float(policy["agreement_threshold"])
+        if "max_slot_attempts" in policy:
+            self.MAX_SLOT_ATTEMPTS = int(policy["max_slot_attempts"])
 
     @staticmethod
-    def _load_entities(language: str) -> EntityExtractor:
-        """Build an EntityExtractor for the given language.
+    def _build_leading_connector(lex: dict):
+        """Compile the leading-connector strip regex from the pack table. When a
+        pack declares no connectors the result is a never-matching pattern, so no
+        language assumption is baked into the engine."""
+        connectors = (lex or {}).get("leading_connectors")
+        if connectors:
+            alt = "|".join(re.escape(c) for c in connectors)
+            return re.compile(rf"^(?:{alt})\s+", re.I)
+        return re.compile(r"(?!)")  # matches nothing
 
-        Non-English: loads nlu_entities.<lang>.json and passes the language so
-        the lexicon-driven datetime parser is activated. Falls back to English
-        if the file is absent.
+    def _load_entities(self) -> EntityExtractor:
+        """Build the EntityExtractor from the pack.
+
+        The pack supplies the enum-entity table and the datetime grammar
+        (weekdays + word-numbers injected through the extractor's seams). No
+        language branch — the pack's language determines everything.
         """
-        if language in ("en", "", "multilingual"):
-            return EntityExtractor()
-        entities_path = LOC_DIR / f"nlu_entities.{language}.json"
-        if not entities_path.exists():
-            logger.warning("nlu.entities.missing lang=%s — falling back to English", language)
-            return EntityExtractor()
-        return EntityExtractor(entities_path=entities_path, language=language)
+        weekdays, word_nums = self._pack_datetime_tokens()
+        entities_path = self.pack.root / "entities" / "enums.json"
+        dt_grammar = self.pack.resources.get("datetime")
+        return EntityExtractor(entities_path=entities_path, weekdays=weekdays,
+                               word_nums=word_nums, language=self.pack.language,
+                               dt_grammar=dt_grammar)
+
+    _WD_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    def _pack_datetime_tokens(self):
+        """Extract (weekdays_list, word_nums_dict) from the pack datetime grammar,
+        or (None, None) when no pack — in which case the extractor uses its
+        built-in English defaults (byte-for-byte unchanged)."""
+        dt = (self.pack.resources.get("datetime") if self.pack else None) or {}
+        if not dt:
+            return None, None
+        weekdays = None
+        wd = dt.get("weekdays")
+        if wd:
+            weekdays = [(wd.get(name) or [name.lower()])[0].lower() for name in self._WD_ORDER]
+        word_nums = None
+        wn = dt.get("word_numbers")
+        if wn:
+            word_nums = {str(k): int(v) for k, v in wn.items()}
+        return weekdays, word_nums
 
     def _load_classifier(self, model_name: str | None = None) -> IntentClassifier:
-        """Load the appropriate TF-IDF model: production (default) or multilingual (en/fr/de/da)."""
+        """Load the intent classifier from the pack (default) or an explicit
+        multilingual model bundle by name (legacy, model_name-driven)."""
         if model_name is None or model_name == "production":
-            return IntentClassifier()
+            mp = self.pack.model_paths
+            kw = self.pack.resources.get("keyword_matcher")
+            return IntentClassifier(
+                model_path=mp["intent_model"],
+                labels_path=mp["intent_labels"],
+                schema_path=self.pack.root / "schema.json",
+                weights_path=mp.get("intent_weights", WEIGHTS_PATH_DEFAULT),
+                keyword_source=kw,
+            )
 
         # Multilingual models are in multilingual/models/<name>/
         multilingual_model = BASE_DIR / "multilingual" / "models" / model_name
@@ -241,36 +260,6 @@ class NLUEngine:
         except Exception as e:
             logger.error("nlu.semantic.load_failed",
                          extra={"nlu": {"reason": type(e).__name__}})
-            return None
-
-    def _load_multilingual_semantic(self, threshold: float):
-        """Construct the multilingual semantic stage for fr/de/da languages.
-
-        Uses MultilingualSemanticFallback from multilingual.SemanticSupport.semantic.
-        Returns None when any artifact is missing so the engine degrades gracefully
-        to TF-IDF-only without crashing. Missing artifacts are expected until
-        download_models.py and train_multilingual_semantic_head.py have been run.
-        """
-        try:
-            from multilingual.SemanticSupport.semantic import MultilingualSemanticFallback
-            return MultilingualSemanticFallback(threshold=threshold)
-        except FileNotFoundError as e:
-            logger.warning(
-                "nlu.multilingual_semantic.unavailable lang=%s reason=artifacts_missing: %s",
-                self.language, e,
-            )
-            return None
-        except MemoryError:
-            logger.error(
-                "nlu.multilingual_semantic.oom lang=%s reason=out_of_memory",
-                self.language,
-            )
-            return None
-        except Exception as e:
-            logger.error(
-                "nlu.multilingual_semantic.load_failed lang=%s reason=%s",
-                self.language, type(e).__name__,
-            )
             return None
 
     def _assert_label_schema_parity(self):
@@ -373,22 +362,14 @@ class NLUEngine:
                          action=branch["action"], message=branch.get("fulfillment", ""),
                          confidence=1.0, complete=True)
 
-    _UNCERTAIN = ("not sure", "maybe", "dunno", "don't know", "dont know",
-                  "i don't know", "no idea", "unsure")
-
-    # Idioms where "no" is part of an affirmative/neutral phrase, not a refusal.
-    # "yes, no worries" is agreement; the bare "no" must not flip it to cancel.
-    _NO_IDIOMS = ("no worries", "no problem", "no doubt", "no biggie",
-                  "no probs", "no sweat", "not a problem")
-
     def _yes_no(self, text: str):
         t = text.lower().strip()
-        if any(p in t for p in self._UNCERTAIN):
+        if any(p in t for p in self._uncertain):
             return None
         # Neutralise affirmative idioms containing "no" before polarity scan so
         # they don't register as negatives.
         scan = t
-        for idiom in self._NO_IDIOMS:
+        for idiom in self._no_idioms:
             scan = scan.replace(idiom, " ")
         neg = any(re.search(rf"\b{re.escape(p)}\b", scan) for p in self.negative)
         pos = any(re.search(rf"\b{re.escape(p)}\b", scan) for p in self.affirmative)
@@ -668,15 +649,6 @@ class NLUEngine:
         session.partial_datetime = day_start.isoformat()
         return None, False
 
-    _CARRIER = [
-        r"^\s*please\s+",
-        r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*",
-        r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*",
-        r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about|for\s+(?!\d))?\s*",
-        r"^\s*make\s+sure\s+(?:i|to)\b\s*",
-        r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
-    ]
-
     def _fill_open_topics(self, cfg, text, slots: dict):
         for slot in cfg["slots"]:
             if slot["name"] in slots or not slot.get("required"):
@@ -687,18 +659,12 @@ class NLUEngine:
             if topic:
                 slots[slot["name"]] = topic
 
-    # Connectors that dangle at the START of a derived topic once the carrier
-    # phrase and the time expression have been stripped, e.g. "remind me at 9pm
-    # for dinner" → "for dinner" → "dinner".
-    _LEADING_CONNECTOR = re.compile(
-        r"^(?:for|about|of|on|to|that|regarding|with)\s+", re.I)
-
     def _derive_topic(self, text: str):
         t = text.strip()
         for pat in self._carrier:
             t = re.sub(pat, "", t, count=1, flags=re.I)
         t = self.entities.strip_datetime(t)
-        t = self._LEADING_CONNECTOR.sub("", t).strip(" .,")
+        t = self._leading_connector.sub("", t).strip(" .,")
         return t or None
 
     @staticmethod
