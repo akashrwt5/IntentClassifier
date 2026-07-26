@@ -31,6 +31,21 @@ assemble_pack = importlib.util.module_from_spec(_assemble)
 _assemble.loader.exec_module(assemble_pack)
 
 
+def _workflow_without_comments() -> str:
+    """Workflow text with COMMENT LINES removed, quoted strings left intact.
+
+    The workflow documents the dead paths and schema errors it fixed, so a naive
+    substring scan flags its own explanation. Splitting each line on `#` is the
+    wrong fix: `echo "### Data grade..."` writes a markdown heading, and cutting
+    at that `#` silently deleted the rest of the line — which made a test assert
+    the absence of something that was there. Only whole-line comments are
+    dropped.
+    """
+    return "\n".join(
+        line for line in _WORKFLOW.read_text(encoding="utf-8").splitlines()
+        if not line.lstrip().startswith("#"))
+
+
 def _build(tmp_path, **kw):
     rc = assemble_pack.assemble(_MINIMAL, kw.pop("version", "1.2.3"), tmp_path, **kw)
     assert rc == 0, "assemble_pack failed"
@@ -235,10 +250,7 @@ def test_workflow_ships_calibration_and_uses_per_language_paths(workflow):
     exporter.
     """
     text = _WORKFLOW.read_text(encoding="utf-8")
-    # Comments are stripped first: the workflow DOCUMENTS these dead paths so the
-    # next reader knows why they went away, and a naive substring scan would flag
-    # that explanation as the defect it describes.
-    live = "\n".join(line.split("#", 1)[0] for line in text.splitlines())
+    live = _workflow_without_comments()
     for stale in ("dl/models/intent_model.onnx",
                   "dl/models/intent_labels.pkl",
                   "dl/models/intent_classifier_weights.json"):
@@ -249,3 +261,66 @@ def test_workflow_ships_calibration_and_uses_per_language_paths(workflow):
         "T must be refit for the model trained in this run, not inherited")
     # The exporter has no --out flag; passing one aborts the step.
     assert "export_coreml --out" not in text
+
+
+# --------------------------------------------------------------------------- #
+# Bundle-schema limits the release job hit at stage 1
+# --------------------------------------------------------------------------- #
+
+def test_coreml_is_refused_rather_than_packaged_invalidly(tmp_path):
+    """A second model format is not expressible in spec/bundle/3.0.
+
+    `models` is a closed set of STAGES (intent/embedder/semantic_head) and
+    `modelLangMap` allows exactly one artifact per language, so writing
+    `models.coreml.<lang>` fails stage-1 validation, and the files inside a
+    `.mlpackage` DIRECTORY have no schema mapping either. A release run reached
+    the compiler and died on all three at once. Refusing loudly at the CLI beats
+    building a bundle the validator will reject three steps later.
+    """
+    fake = tmp_path / "IntentClassifier.mlpackage"
+    (fake / "Data").mkdir(parents=True)
+    (fake / "Manifest.json").write_text("{}", encoding="utf-8")
+    rc = assemble_pack.assemble(_MINIMAL, "1.2.3", tmp_path / "out", coreml=fake)
+    assert rc != 0, "assemble_pack packaged CoreML into a bundle the spec forbids"
+
+
+def test_models_schema_really_forbids_a_coreml_stage():
+    """Guards the reason the test above exists.
+
+    If the spec later gains a way to carry two formats, this fails and the
+    refusal should be revisited rather than left in place forever.
+    """
+    schema = json.loads((_ROOT / "spec" / "bundle" / "3.0" / "bundle.schema.json")
+                        .read_text(encoding="utf-8"))
+    models = schema["properties"]["models"]
+    assert models["additionalProperties"] is False
+    assert "coreml" not in models["properties"], (
+        "spec/bundle/3.0 now allows a coreml stage — revisit assemble_pack's "
+        "refusal and the release workflow instead of keeping the workaround")
+    lang_map = schema["$defs"]["modelLangMap"]["patternProperties"]["^([a-z]{2}|shared)$"]
+    assert lang_map["additionalProperties"] is False
+
+
+def test_report_card_is_not_decorated_with_extra_keys(workflow):
+    """report_card.schema.json is additionalProperties:false over six keys.
+
+    The workflow used to inject `data_grade` into it, which passed the accuracy
+    gate and then failed stage-1 validation in the release job — three steps
+    later, in a different job. The grade now goes to the run summary.
+    """
+    allowed = set(json.loads(
+        (_ROOT / "spec" / "bundle" / "3.0" / "report_card.schema.json")
+        .read_text(encoding="utf-8"))["properties"])
+    assert "data_grade" not in allowed
+    live = _workflow_without_comments()
+    assert 'd["data_grade"]' not in live, (
+        "the workflow writes data_grade into report_card.json again — the bundle "
+        "schema rejects it")
+    assert "GITHUB_STEP_SUMMARY" in live, "the data grade must still be reported"
+
+
+def test_release_job_does_not_pass_coreml_to_the_packer(workflow):
+    live = _workflow_without_comments()
+    assert "--coreml" not in live, (
+        "the release job passes --coreml again; assemble_pack refuses it and the "
+        "bundle would fail stage-1 validation")

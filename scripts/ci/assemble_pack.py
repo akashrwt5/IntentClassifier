@@ -142,23 +142,34 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         refreshed.append(f"models/intent/{lang}/calibration.json")
 
+    # CoreML is deliberately NOT packaged into the signed bundle. Two reasons,
+    # both blocking:
+    #
+    # 1. spec/bundle/3.0 cannot express it. `models` is a closed set of STAGES
+    #    (intent / embedder / semantic_head) and `modelLangMap` allows exactly one
+    #    artifact per language, so a pack carries ONE intent-model format. Writing
+    #    models.coreml.<lang> fails stage-1 validation ("Additional properties are
+    #    not allowed ('coreml' was unexpected)"), and the files inside a
+    #    .mlpackage DIRECTORY have no schema mapping either ("UNMAPPED_FILE
+    #    models/coreml/en/IntentClassifier.mlpackage/Manifest.json"). `format`
+    #    already lists "mlmodelc-ref", so the spec anticipates CoreML as a FORMAT
+    #    of the intent stage — supporting both at once is a spec change (ADR-005),
+    #    not something to force past the validator.
+    #
+    # 2. Even if it validated, the .mlpackage currently produced by
+    #    nlu_export.export_coreml is derived from the repo-committed DEVICE
+    #    weights, not from the ONNX model in this pack (see release-pack.yml).
+    #    Shipping both inside one signed artifact would assert they correspond
+    #    when they do not — worse than omitting it.
+    #
+    # The .mlpackage is still published as a workflow artifact for iOS to consume.
     if coreml is not None:
-        if not coreml.exists():
-            return _fail(f"CoreML artifact not found: {coreml}")
-        dest = staged / "models" / "coreml" / lang / coreml.name
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        if coreml.is_dir():           # .mlpackage is a directory
-            shutil.copytree(coreml, dest, dirs_exist_ok=True)
-        else:
-            shutil.copy(coreml, dest)
-        # Declare it so a consumer can find it without guessing a path. iOS
-        # takes CoreML, Android takes the ONNX; one pack carries both.
-        manifest.setdefault("models", {}).setdefault("coreml", {})[lang] = {
-            "artifact": f"models/coreml/{lang}/{coreml.name}",
-            "format": "mlpackage",
-            "model_version": f"{lang}-{version}",
-        }
-        refreshed.append(f"models/coreml/{lang}/{coreml.name}")
+        return _fail(
+            "--coreml cannot be packaged: spec/bundle/3.0 allows one intent-model "
+            "artifact per language (models.<stage>.<lang>), so a second format is "
+            "not expressible, and the current .mlpackage derives from stale device "
+            "weights rather than this pack's ONNX. Publish it as a separate "
+            "artifact instead.")
 
     if report is not None:
         if not report.exists():

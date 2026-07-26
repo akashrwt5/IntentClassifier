@@ -111,15 +111,18 @@ jobs:
         env:
           PYTHONPATH: packages/buildtime
 
-      - name: Record the data grade in the report card
+      # The data grade is reported to the run summary, NOT written into
+      # meta/report_card.json: report_card.schema.json is additionalProperties
+      # false over six keys, so injecting `data_grade` made the bundle fail
+      # stage-1 validation ("Additional properties are not allowed
+      # ('data_grade' was unexpected)") — and only in the release job, three
+      # steps after the value was set. `training` and lineage are closed too, so
+      # there is no schema-legal slot for it inside the bundle.
+      - name: Report the data grade
         run: |
-          python - <<'PY'
-          import json, os, pathlib
-          p = pathlib.Path("dist/report_card.json")
-          d = json.loads(p.read_text()) if p.exists() else {}
-          d["data_grade"] = os.environ.get("data_grade", "unknown")
-          p.write_text(json.dumps(d, indent=2))
-          PY
+          echo "data_grade=$data_grade" >> "$GITHUB_OUTPUT"
+          echo "### Data grade: \`$data_grade\`" >> "$GITHUB_STEP_SUMMARY"
+        id: grade
 
       - uses: actions/upload-artifact@v4
         with:
@@ -243,9 +246,12 @@ jobs:
           # so a false test would exit non-zero and fail the step — which is
           # exactly the default path here (no key_id, no CoreML runner).
           if [ -n "$KEY_ID" ]; then ARGS+=(--key-id "$KEY_ID"); fi
-          if [ -d cml/IntentClassifier.mlpackage ]; then
-            ARGS+=(--coreml cml/IntentClassifier.mlpackage)
-          fi
+          # NOT passing --coreml on purpose: spec/bundle/3.0 allows one
+          # intent-model artifact per language, so a second format is not
+          # expressible, and this .mlpackage derives from the repo-committed
+          # device weights rather than the ONNX trained above. It ships as a
+          # standalone workflow artifact instead. assemble_pack refuses the flag
+          # so this cannot be reintroduced by accident.
           python scripts/ci/assemble_pack.py "${ARGS[@]}"
 
       # Verify what will actually be published, not what we assume we built.
