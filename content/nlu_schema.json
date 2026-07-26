@@ -203,6 +203,7 @@
         "slot": "MemoryName",
         "source": "prev_memory"
       },
+      "confirm_prompt": "Just to be sure — switch your hearing aid program?",
       "fulfillment": "Memory changed.",
       "slots": [
         {
@@ -415,6 +416,7 @@
     },
     "messaging.message.listen": {
       "action": "message.listen",
+      "confirm_prompt": "Just to be sure — play your message out loud?",
       "fulfillment": "Playing your message.",
       "slots": []
     },
@@ -436,6 +438,7 @@
         "pattern": "\\bremind me again\\b|\\bsame reminder\\b|\\bsame (one|thing)\\b|\\banother (one|reminder)\\b|\\brepeat (it|that|the reminder)\\b|\\bonce more\\b",
         "source": "last_fulfilled"
       },
+      "confirm_prompt": "Just to be sure — create that reminder?",
       "fulfillment": "Reminder created.",
       "slots": [
         {
@@ -537,17 +540,20 @@
     }
   },
   "uncertain_confirm": {
-    "below_confidence": 0.8,
+    "below_confidence": 0.9,
     "cancel_message": "Okay, I won't.",
     "confirm_floor": 0.55,
     "intents": [
+      "device.memory.change",
       "device.volume.decrease",
       "device.volume.increase",
       "device.volume.mute",
       "device.volume.unmute",
       "find.phone.locate",
+      "messaging.message.listen",
       "messaging.message.send",
       "reminders.task.complete",
+      "reminders.task.create",
       "streaming.session.start",
       "streaming.session.stop",
       "transcription.session.start",

@@ -152,17 +152,20 @@ semantic_rescue_enabled: false
 semantic_threshold: 0.4
 slot_confidence_threshold: 0.6
 uncertain_confirm:
-  below_confidence: 0.8
+  below_confidence: 0.9
   cancel_message: Okay, I won't.
   confirm_floor: 0.55
   intents:
+  - device.memory.change
   - device.volume.decrease
   - device.volume.increase
   - device.volume.mute
   - device.volume.unmute
   - find.phone.locate
+  - messaging.message.listen
   - messaging.message.send
   - reminders.task.complete
+  - reminders.task.create
   - streaming.session.start
   - streaming.session.stop
   - transcription.session.start

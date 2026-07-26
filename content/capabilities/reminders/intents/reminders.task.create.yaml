@@ -3,6 +3,7 @@ back_reference:
   pattern: \bremind me again\b|\bsame reminder\b|\bsame (one|thing)\b|\banother (one|reminder)\b|\brepeat
     (it|that|the reminder)\b|\bonce more\b
   source: last_fulfilled
+confirm_prompt: Just to be sure — create that reminder?
 fulfillment: Reminder created.
 intent: reminders.task.create
 slots:

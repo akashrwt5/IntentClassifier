@@ -105,6 +105,7 @@
       "fulfillment": "Démarrage de l'activité marche."
     },
     "device.memory.change": {
+      "confirm_prompt": "Pour confirmer — changer de programme auditif ?",
       "fulfillment": "Programme changé.",
       "slots": [
         {
@@ -236,6 +237,7 @@
       "fulfillment": "Voici de l'aide sur WiCROS."
     },
     "messaging.message.listen": {
+      "confirm_prompt": "Pour confirmer — lire votre message à voix haute ?",
       "fulfillment": "Lecture de ton message."
     },
     "messaging.message.send": {
@@ -247,6 +249,7 @@
       "fulfillment": "Rappel marqué comme terminé."
     },
     "reminders.task.create": {
+      "confirm_prompt": "Pour confirmer — créer ce rappel ?",
       "fulfillment": "Rappel créé.",
       "slots": [
         {

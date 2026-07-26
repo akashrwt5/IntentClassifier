@@ -2,6 +2,7 @@ reminders.task.complete:
   confirm_prompt: Zur Sicherheit — Ihre Erinnerung als erledigt markieren?
   fulfillment: Erinnerung als erledigt markiert.
 reminders.task.create:
+  confirm_prompt: Zur Sicherheit — diese Erinnerung erstellen?
   fulfillment: Erinnerung erstellt.
   slots:
   - name: recurrence

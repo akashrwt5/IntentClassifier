@@ -4,6 +4,7 @@ back_reference:
     before\b|\bthe way it was\b
   slot: MemoryName
   source: prev_memory
+confirm_prompt: Just to be sure — switch your hearing aid program?
 fulfillment: Memory changed.
 intent: device.memory.change
 slots:
