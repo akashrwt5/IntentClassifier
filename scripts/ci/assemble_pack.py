@@ -103,6 +103,28 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         shutil.copy(artifact, intent_dir / dest)
         refreshed.append(f"models/intent/{lang}/{dest}")
 
+    # The manifest's model_version otherwise stays whatever the SOURCE bundle
+    # said — the published pack-en-v1.0.0 declared "golden-en-1", the golden
+    # fixture's placeholder, so a consumer could not tell which model it held.
+    if model is not None:
+        entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
+        entry["model_version"] = f"{lang}-{version}"
+
+    # labels.json is DERIVED from labels.pkl, never carried over from the source
+    # bundle. The golden `minimal` tree ships a 2-entry placeholder
+    # (["audio.volume.mute", "audio.volume.set"] — still in the superseded
+    # `audio.*` naming), and because only labels.pkl was refreshed, a published
+    # pack declared 2 labels beside a 57-class ONNX graph. iOS reads labels.json
+    # to map output indices, so every prediction would have been mislabelled.
+    # Deriving it here makes the two physically incapable of disagreeing.
+    if labels is not None:
+        import joblib
+        names = [str(x) for x in joblib.load(str(labels))]
+        intent_dir.mkdir(parents=True, exist_ok=True)
+        (intent_dir / "labels.json").write_text(
+            json.dumps(names, indent=2) + "\n", encoding="utf-8")
+        refreshed.append(f"models/intent/{lang}/labels.json")
+
     # calibration.json travels WITH the model on purpose. Confidence is
     # softmax(logits / T), so a pack shipped without its T falls back to T = 1.0
     # (plain softmax) and mis-tunes the fire threshold, the confirm band and slot
@@ -195,6 +217,21 @@ def assemble(src: Path, version: str, out_dir: Path, *,
                           env={**__import__("os").environ, **env})
     if proc.returncode != 0:
         print(proc.stdout, proc.stderr, file=sys.stderr)
+        # Stage 8 compares labels.json against the intent set compiled from the
+        # source bundle's capabilities. A mismatch here is almost never a labels
+        # problem — it means the SOURCE BUNDLE is not this product's content, and
+        # the dump is 57 names long, so say what it means.
+        if "LABEL_INTENT_MISMATCH" in (proc.stdout + proc.stderr):
+            print(
+                "\nHINT: the trained model's label space does not match the intent "
+                "set compiled from --src. If --src is spec/examples/3.0/minimal or "
+                "full, that is expected: those are GOLDEN TEST FIXTURES (1-2 "
+                "capabilities, 2 intents), not this product's content, which has "
+                "12 capabilities and 57 intents under content/capabilities/. "
+                "Building a real pack needs a content->bundle compiler "
+                "(content/capabilities/ -> spec/bundle/3.0 tree); none exists yet. "
+                "Until it does, a pack assembled from a fixture proves the "
+                "pipeline, not the product.", file=sys.stderr)
         return _fail("nlu_compiler.build failed")
 
     print(f"language     : {lang}")

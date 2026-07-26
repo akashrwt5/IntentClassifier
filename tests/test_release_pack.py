@@ -324,3 +324,48 @@ def test_release_job_does_not_pass_coreml_to_the_packer(workflow):
     assert "--coreml" not in live, (
         "the release job passes --coreml again; assemble_pack refuses it and the "
         "bundle would fail stage-1 validation")
+
+
+# --------------------------------------------------------------------------- #
+# labels.json must describe the model that ships beside it
+# --------------------------------------------------------------------------- #
+
+_TRAINED_LABELS = _ROOT / "models" / "intent" / "en" / "labels.pkl"
+
+
+@pytest.mark.skipif(not _TRAINED_LABELS.exists(), reason="no trained labels")
+def test_labels_json_is_derived_from_the_pickle_not_inherited(tmp_path):
+    """The published pack-en-v1.0.0 shipped a 57-class ONNX beside a 2-entry
+    labels.json — the golden fixture's placeholder
+    (["audio.volume.mute", "audio.volume.set"], still in the superseded `audio.*`
+    naming), because only labels.pkl was refreshed. iOS reads labels.json to map
+    output indices, so every prediction would have been mislabelled.
+
+    Assembly now DERIVES labels.json from labels.pkl. Against a golden fixture
+    that means stage 8 rejects the pack (the fixture declares 2 intents, the model
+    has 57) — which is the correct outcome: the mismatch is real and must fail
+    loudly instead of shipping. That rejection is what this asserts.
+    """
+    out = tmp_path / "out"
+    rc = assemble_pack.assemble(_MINIMAL, "1.0.0", out, labels=_TRAINED_LABELS)
+    assert rc != 0, (
+        "assembly succeeded with a 57-label model against a 2-intent source "
+        "bundle — labels.json is being inherited from the fixture again")
+    assert not list(out.glob("*.nlu")), "a mismatched pack must not be produced"
+
+
+def test_the_golden_fixtures_are_not_this_products_content():
+    """Pins WHY a real release needs a content->bundle compiler.
+
+    `SRC_BUNDLE` in release-pack.yml is spec/examples/3.0/minimal, a test fixture
+    with one capability. The product has 12 capabilities and 57 intents under
+    content/. A pack built from the fixture proves the PIPELINE, not the product.
+    If someone wires a real content bundle, this test should fail and be replaced.
+    """
+    schema = json.loads((_ROOT / "content" / "nlu_schema.json").read_text(encoding="utf-8"))
+    fixture_caps = list((_MINIMAL / "capabilities").glob("*/capability.json"))
+    content_caps = [d for d in (_ROOT / "content" / "capabilities").iterdir() if d.is_dir()]
+    assert len(schema["intents"]) == 57
+    assert len(fixture_caps) < len(content_caps), (
+        "the golden fixture now has as many capabilities as content/ — if a real "
+        "content->bundle source exists, point SRC_BUNDLE at it and drop this test")
