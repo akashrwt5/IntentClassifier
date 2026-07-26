@@ -21,6 +21,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 FORBIDDEN = {
     "packages/runtime/nlu_engine": ("nlu_compiler", "nlu_training", "nlu_export"),
     "packages/buildtime/nlu_compiler": ("nlu_engine",),
+    # nlu_langpack is the CONTRACT both sides depend on, so it must depend on
+    # neither. If it imported the engine, the engine could not import it back
+    # without a cycle, and the boundary would stop being a boundary.
+    "packages/runtime/nlu_langpack": (
+        "nlu_engine", "nlu_compiler", "nlu_training", "nlu_export"),
 }
 
 
