@@ -1,9 +1,9 @@
-STATUS: IN PROGRESS — Track A, steps A1–A7 complete
+STATUS: IN PROGRESS — Track A COMPLETE (A1–A10); Track B blocked on the DVC remote
 
 # English Production Cycle — Status
 
 - **Run date:** 2026-07-26
-- **Branch:** `claude/nlu-production-readiness-dqyl38` @ `56011f3b`
+- **Branch:** `claude/nlu-production-readiness-dqyl38` @ `7b85e3f4`
 - **Driven from:** an interactive session, not the scheduled Routine (see
   *Blockers*). Charter: `docs/Review-F5/ENGLISH-PRODUCTION-ROUTINE.md`.
 
@@ -31,9 +31,12 @@ here depends on the data grade.
 | **A4** Language-aware negation suppression | ✅ | 21 negation tests; allowlist 6 → 5; ruff clean |
 | **A5** Normalised leakage matching + declared deps | ✅ | 14 leakage tests; bundle build/lifecycle/spec 27 passed with no import errors; suite 208 → 262 passed as declared deps unlocked previously-erroring tests |
 | **A6** Language Pack contract on `spec/bundle/3.0` | ✅ | 27 contract + boundary tests; loads the real golden bundles; contract imports nothing heavy |
-| **A7** Evict English behaviour into pack tables | ✅ | Golden 130 + 27 strip cases; fr/de/da parity 25 unchanged; conversation/conformance fixtures unchanged; **neutrality allowlist 6 → 0**; full suite 313 passed / 26 skipped |
+| **A7** Evict English behaviour into pack tables | ✅ | Golden 130 + 27 strip cases; fr/de/da parity 25 unchanged; **neutrality allowlist 6 → 0** |
+| **A8** Hostile-language proof | ✅ | 8 tests; a made-up `zz` runs the full pipeline with no engine edit; static scan mutation-verified both directions |
+| **A9** Neutrality guard blocking in CI | ✅ | Blocking step in `ci.yml`, before pytest |
+| **A10** `release-pack.yml` (dev-signed, channel-gated) | ✅ | 13 tests; assemble → sign → verify → load proven end to end; key id + channel are workflow inputs |
 
-Suite at end of run: **313 passed, 26 skipped, 0 failed.** The 26 skips are all
+Suite at end of run: **348 passed, 58 skipped, 0 failed.** The 26 skips are all
 model-dependent (`trained artifacts not present`) — expected in the bootstrap
 grade, and the subject of charter step B0. The count rose from 208/30 because
 A5's declared dependencies let previously-erroring bundle tests actually run.
@@ -94,19 +97,22 @@ what *proves* that rather than asserting it.
 | 4 | B1 unconditional-confirm policy decision | owner | closing the wrong-action budget |
 | 5 | Authorisation for the French pack trial | owner | P3 / the neutrality proof |
 
-## Next
+## Next — Track A is done; everything left needs an owner
 
-- **A8 — hostile-pack test.** Copy the English bundle to a fake `zz`, relabel,
-  and assert the full pipeline runs end to end with no engine edit. This is the
-  only test that *proves* the neutrality claim. Groundwork is already visible:
-  `zz` today resolves to the default carriers, no localization and no overlay,
-  with no engine change required.
-- **A9 — make the guard blocking in CI.** The allowlist is already empty, so
-  this is wiring `check_language_neutral.py` and `test_neutrality.py` into
-  `ci.yml` as a required step.
-- **A10 — `release-pack.yml`**, dev-signed and channel-gated.
+**Track A (A1–A10) is complete.** Nothing further in it can be done without one
+of the blockers below.
 
-One interim rule left behind by A7, to retire when the engine becomes pack-fed:
-semantic-artifact selection infers the encoder+head pair from localization-file
-presence. The pack manifest already carries `models.semantic_head.<lang>.artifact`,
-so wiring the engine to `nlu_langpack` removes the inference entirely.
+Remaining engineering, all gated:
+
+- **Track B** (honest holdout, OOF calibration, runtime temperature, wrong-action
+  re-measure) — needs the shared DVC remote to produce anything authoritative.
+  The machinery can be built against the bootstrap corpus first; the numbers
+  cannot be published as a baseline.
+- **Wire the engine to `nlu_langpack`.** A6 built the loader and A7 made the
+  engine neutral, but the engine still reads loose files — `grep -rn load_pack
+  packages/runtime/nlu_engine/` returns nothing. This is the join that makes a
+  pack actually load at runtime, and it retires the one interim rule A7 left
+  behind: semantic-artifact selection currently infers the encoder+head pair
+  from localization-file presence, where the pack manifest already states it
+  outright (`models.semantic_head.<lang>.artifact`).
+- **P3 French trial** — the acceptance test for all of the above. Owner-gated.
