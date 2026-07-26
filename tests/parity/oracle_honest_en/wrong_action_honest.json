@@ -3,28 +3,21 @@
   "per_language": {
     "en": {
       "turns": 1470,
-      "wrong_actions": 5,
+      "wrong_actions": 4,
       "wrong_queries": 2,
       "confirm_gated_wrong": 14,
       "fulfilled": 1040,
       "prompted": 85,
-      "fallback": 266,
-      "confirmed": 79,
+      "fallback": 265,
+      "confirmed": 80,
       "per_domain": {
-        "messaging": 2,
         "find": 2,
-        "streaming": 1
+        "streaming": 1,
+        "messaging": 1
       }
     }
   },
   "examples": [
-    {
-      "lang": "en",
-      "text": "can you read last text message",
-      "truth": "sys.oos.fallback",
-      "fired": "messaging.message.listen",
-      "confidence": 0.974
-    },
     {
       "lang": "en",
       "text": "can you phone phone phone phone phone",
@@ -37,7 +30,7 @@
       "text": "can you stream, youtube music.",
       "truth": "sys.oos.fallback",
       "fired": "streaming.session.start",
-      "confidence": 0.977
+      "confidence": 0.976
     },
     {
       "lang": "en",
@@ -51,17 +44,17 @@
       "text": "play festival",
       "truth": "sys.oos.fallback",
       "fired": "messaging.message.listen",
-      "confidence": 0.983
+      "confidence": 0.985
     }
   ],
   "provenance": {
     "en": {
       "holdout": "datasets/en/holdout_honest.csv",
-      "holdout_sha256": "85b48df9a345b83f13fed9402ac6e8227b8aef48907e9ea93127af36942973cf",
-      "temperature": 0.657336
+      "holdout_sha256": "c1e3ee7067ce89c5f49330703ff1c1ccc01d666b291172e78cdf0794d61026a1",
+      "temperature": 0.653484
     }
   },
-  "wrong_actions_shipped_langs": 5,
+  "wrong_actions_shipped_langs": 4,
   "budget": 5,
   "budget_met": true
 }

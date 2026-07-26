@@ -1,5 +1,5 @@
 {
-  "_note": "FROZEN honest holdout (charter B1). Disjoint from train.csv by normalised text. Never train on it; never tune against it beyond reporting. Changing either file invalidates every number measured here \u2014 the hashes below make that visible.",
+  "_note": "FROZEN honest holdout (charter B1). Disjoint from train.csv by normalised text. Never train on it; never tune against it beyond reporting. Changing either file invalidates every number measured here — the hashes below make that visible.",
   "language": "en",
   "created_at": "2026-07-26T08:06:51Z",
   "method": "stratified by intent, grouped by normalised text",
@@ -15,8 +15,52 @@
   },
   "intents_kept_wholly_in_train": [],
   "sha256": {
-    "train.csv": "c971568c753964d11165ced32d86c949338a5b1070ac3dab849bfaf196be674f",
-    "holdout_honest.csv": "85b48df9a345b83f13fed9402ac6e8227b8aef48907e9ea93127af36942973cf"
+    "train.csv": "eed41449b7f2d14f013f94562af4e80f010d06d6fea3c083b7547cdbfa25c246",
+    "holdout_honest.csv": "c1e3ee7067ce89c5f49330703ff1c1ccc01d666b291172e78cdf0794d61026a1"
   },
-  "supersedes": "multilingual/test/en_holdout.csv \u2014 1460/1461 rows appeared verbatim in training data (Review-F5 blocker B9)"
+  "supersedes": "multilingual/test/en_holdout.csv — 1460/1461 rows appeared verbatim in training data (Review-F5 blocker B9)",
+  "amendments": [
+    {
+      "at": "2026-07-26T12:40:30Z",
+      "by": "scripts/ci/fix_oos_mislabels.py",
+      "what": "Relabelled utterances wrongly marked sys.oos.fallback where an in-scope sibling made the label a contradiction. This is a label correction, NOT a re-split — the train/holdout partition is unchanged, so the sets remain disjoint.",
+      "rows": [
+        {
+          "file": "train.csv",
+          "text": "read last text message",
+          "from": "sys.oos.fallback",
+          "to": "messaging.message.listen",
+          "why": "in-scope siblings: 'read my new texts aloud', 'read my unread messages'"
+        },
+        {
+          "file": "train.csv",
+          "text": "where do i find the mute button",
+          "from": "sys.oos.fallback",
+          "to": "help.volume.show",
+          "why": "in-scope siblings: 'where do i change loudness', 'how do i mute the sound?'"
+        },
+        {
+          "file": "train.csv",
+          "text": "please read last text message",
+          "from": "sys.oos.fallback",
+          "to": "messaging.message.listen",
+          "why": "in-scope siblings: 'read my new texts aloud', 'read my unread messages'"
+        },
+        {
+          "file": "train.csv",
+          "text": "translate hello to french",
+          "from": "sys.oos.fallback",
+          "to": "translation.session.start",
+          "why": "in-scope sibling: 'translate how much do i owe you to spanish'"
+        },
+        {
+          "file": "holdout_honest.csv",
+          "text": "can you read last text message",
+          "from": "sys.oos.fallback",
+          "to": "messaging.message.listen",
+          "why": "in-scope siblings: 'read my new texts aloud', 'read my unread messages'"
+        }
+      ]
+    }
+  ]
 }
