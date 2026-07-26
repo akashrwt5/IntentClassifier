@@ -25,6 +25,7 @@ from typing import Optional
 from .classifier import IntentClassifier
 from .entities import EntityExtractor
 from .context import SessionStore
+from .model_paths import resolve_model_set
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 SCHEMA_PATH = BASE_DIR / "content" / "nlu_schema.json"
@@ -104,8 +105,16 @@ class NLUEngine:
     AGREEMENT_THRESHOLD = 0.50
 
     def __init__(self, schema_path: Path = SCHEMA_PATH, model_name: str | None = None,
-                 language: str = "en", semantic_enabled: bool | None = None):
-        self.language = language
+                 language: str = "en", semantic_enabled: bool | None = None,
+                 pack=None):
+        # `pack` is the Language Pack seam (nlu_langpack.LanguagePack). When one
+        # is supplied its manifest is authoritative for model artifacts and
+        # nothing is inferred from the filesystem. When it is None the engine
+        # falls back to the per-language build tree — the state today, since no
+        # content->bundle compiler exists yet. Accepting it here is what makes
+        # the eventual switch a caller change rather than an engine change.
+        self.pack = pack
+        self.language = (getattr(pack, "language", None) or language)
         self.schema = self._load_schema(schema_path, language)
         self.intents = self.schema["intents"]
         self.threshold = self.schema.get("confidence_threshold", 0.70)
@@ -381,24 +390,36 @@ class NLUEngine:
         return EntityExtractor(entities_path=entities_path, language=language)
 
     def _load_classifier(self, model_name: str | None = None) -> IntentClassifier:
-        """Load the appropriate TF-IDF model: production (default) or multilingual (en/fr/de/da)."""
+        """Load this language's intent model.
+
+        Resolution is delegated to `model_paths.resolve_model_set`, the single
+        place that knows where artifacts live: a Language Pack first (its
+        manifest names them outright), then the per-language build tree
+        `models/intent/<lang>/`, then the legacy flat tree for one transition.
+
+        `model_name` overrides which LANGUAGE's model to load — it used to name
+        a directory under the retired `multilingual/models/` tree, which only
+        the combined-multilingual trainer wrote. There is no combined model any
+        more: each Language Pack carries its own.
+        """
         cues = self._load_negation_cues(self.language)
-        if model_name is None or model_name == "production":
-            return IntentClassifier(negation_cues=cues)
+        # No literal default here: the language already defaulted at the
+        # constructor's signature, which is configuration. Re-defaulting inside
+        # the logic would be the engine deciding a language, which is coupling.
+        language = model_name if model_name and model_name != "production" else self.language
+        models = resolve_model_set(language, pack=self.pack)
+        logger.debug("nlu.model.resolved lang=%s source=%s path=%s",
+                     language, models.source, models.model)
 
-        # Multilingual models are in multilingual/models/<name>/
-        multilingual_model = BASE_DIR / "multilingual" / "models" / model_name
-        onnx_file = next(multilingual_model.glob("*_intent_model.onnx"), None)
-        labels_file = next(multilingual_model.glob("*_intent_labels.pkl"), None)
-
-        if not onnx_file or not labels_file:
-            raise FileNotFoundError(
-                f"Multilingual model '{model_name}' not found under {multilingual_model}. "
-                f"Available: en, fr, de, da, multilingual (run: python multilingual/train_multilingual.py --all)"
-            )
-
-        return IntentClassifier(model_path=onnx_file, labels_path=labels_file,
-                                schema_path=SCHEMA_PATH, negation_cues=cues)
+        kwargs = {"model_path": models.model, "labels_path": models.labels,
+                  "schema_path": SCHEMA_PATH, "negation_cues": cues}
+        # Calibration travels with the (model, featurizer) pair. When the
+        # per-language artifact exists it wins; otherwise the classifier keeps
+        # its legacy default. Fitting the value correctly is charter B2/B3 —
+        # this is the plumbing, not the fix.
+        if models.weights is not None:
+            kwargs["weights_path"] = models.weights
+        return IntentClassifier(**kwargs)
 
     @staticmethod
     def _load_semantic(threshold: float):

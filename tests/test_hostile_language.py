@@ -42,6 +42,7 @@ _MINIMAL = _ROOT / "spec" / "examples" / "3.0" / "minimal"
 engine_mod = importlib.import_module("nlu_engine.engine")
 entities_mod = importlib.import_module("nlu_engine.entities")
 lp = importlib.import_module("nlu_langpack")
+model_paths_mod = importlib.import_module("nlu_engine.model_paths")
 
 pytestmark = pytest.mark.filterwarnings("ignore")
 
@@ -64,6 +65,22 @@ def zz_localization(tmp_path, monkeypatch):
         src = _LOC / f"{kind}.fr.json"
         if src.exists():
             shutil.copy(src, loc / f"{kind}.zz.json")
+
+    # A language needs a MODEL as well as tables. Point the resolver at a `zz`
+    # build directory carrying English's artifacts — the weights are irrelevant
+    # here, what is under test is that the engine wires an unknown language up
+    # from data alone.
+    #
+    # This is not incidental scaffolding. Before the resolver refused
+    # cross-language fallback, these tests passed WITHOUT a zz model because the
+    # engine silently served English — so they were green for the wrong reason
+    # and would not have caught a language wired to the wrong model.
+    models_root = tmp_path / "models"
+    (models_root / "intent" / "zz").mkdir(parents=True)
+    for name in ("model.onnx", "labels.pkl"):
+        shutil.copy(_ROOT / "models" / "intent" / "en" / name,
+                    models_root / "intent" / "zz" / name)
+    monkeypatch.setattr(model_paths_mod, "MODELS_DIR", models_root)
     # Point BOTH modules at the temporary directory. entities.py keeps its own
     # constant, so patching only the engine's would leave the datetime lexicon
     # resolving against the real content/ tree.
@@ -118,6 +135,12 @@ def test_a_language_with_no_files_falls_back_cleanly(tmp_path, monkeypatch):
     empty.mkdir()
     monkeypatch.setattr(engine_mod, "LOC_DIR", empty)
     monkeypatch.setattr(entities_mod, "LOCALIZATION_DIR", empty)
+    models_root = tmp_path / "models"
+    (models_root / "intent" / "qq").mkdir(parents=True)
+    for name in ("model.onnx", "labels.pkl"):
+        shutil.copy(_ROOT / "models" / "intent" / "en" / name,
+                    models_root / "intent" / "qq" / name)
+    monkeypatch.setattr(model_paths_mod, "MODELS_DIR", models_root)
 
     eng = engine_mod.NLUEngine(language="qq")
     assert eng.language == "qq"

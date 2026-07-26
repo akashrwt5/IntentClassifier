@@ -23,17 +23,36 @@ sys.path.insert(0, str(REPO_ROOT / "packages" / "buildtime"))
 sys.path.insert(0, str(REPO_ROOT / "packages" / "runtime"))
 
 FIXTURE_DIR = REPO_ROOT / "tests" / "parity" / "engine_conformance"
-MODEL = REPO_ROOT / "multilingual" / "models" / "en" / "en_intent_model.onnx"
+MODEL = REPO_ROOT / "models" / "intent" / "en" / "model.onnx"
 
 
 @pytest.mark.skipif(not MODEL.exists(), reason="trained artifacts not present")
 def test_conversation_fixtures_match_live_engine():
+    """Committed conversation traces must match the live engine.
+
+    SKIPPED while any fixture language lacks a model. The fixtures were recorded
+    when fr/de/da models lived in the retired `multilingual/models/` tree; those
+    languages now have no model until their datasets are supplied and trained
+    (owner decision: each Language Pack brings its own data). The generator
+    builds an engine per language up front, so it cannot produce a partial
+    replay — filtering after the fact is too late.
+
+    This is deliberately a SKIP, not a narrowed assertion: silently comparing
+    only English would look like full parity coverage while three languages went
+    unchecked. It re-arms by itself once datasets/<lang>/ is trained.
+    """
     from nlu_training.generate_conformance_fixtures import conversations_fixture
+    from nlu_engine.model_paths import available_languages
 
     committed = json.loads((FIXTURE_DIR / "conversations.json").read_text())
-    live = conversations_fixture()
-    assert live == committed["scripts"], (
-        "engine behavior changed — regenerate conformance fixtures and "
+    needed = {v.get("lang") for v in committed["scripts"].values() if v.get("lang")}
+    missing = sorted(needed - set(available_languages()))
+    if missing:
+        pytest.skip(f"fixtures cover {sorted(needed)}; no model for {missing}. "
+                    f"Train with: python -m nlu_training.train --lang <lang>")
+
+    assert conversations_fixture() == committed["scripts"], (
+        "engine behavior changed — regenerate the conformance fixtures and "
         "review the diff (python -m nlu_training.generate_conformance_fixtures)")
 
 

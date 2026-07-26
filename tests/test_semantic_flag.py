@@ -16,7 +16,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "packages" / "runtime"))
 
-MODEL = REPO_ROOT / "multilingual" / "models" / "en" / "en_intent_model.onnx"
+MODEL = REPO_ROOT / "models" / "intent" / "en" / "model.onnx"
 
 pytestmark = pytest.mark.skipif(not MODEL.exists(),
                                 reason="trained artifacts not present")

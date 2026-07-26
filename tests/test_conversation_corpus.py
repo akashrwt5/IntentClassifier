@@ -31,7 +31,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "packages" / "runtime"))
 
 CORPUS = sorted((REPO_ROOT / "tests" / "conversations").glob("*.yaml"))
-MODELS = REPO_ROOT / "multilingual" / "models"
+MODELS = REPO_ROOT / "models" / "intent"
 
 _ENGINES: dict[str, object] = {}
 

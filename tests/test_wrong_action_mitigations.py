@@ -15,7 +15,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "packages" / "runtime"))
 
-MODEL = REPO_ROOT / "multilingual" / "models" / "en" / "en_intent_model.onnx"
+MODEL = REPO_ROOT / "models" / "intent" / "en" / "model.onnx"
 
 
 @pytest.fixture(scope="module")
@@ -39,10 +39,27 @@ def test_polarity_guard_mute_never_fires_unmute(engine):
     assert r.type in ("FULFILL", "CONFIRM")
 
 
-def test_polarity_guard_quiet_never_fires_increase(engine):
+def test_quiet_request_is_at_least_gated(engine):
+    """A "quieter" request must never SILENTLY raise the volume.
+
+    This test used to assert the polarity guard redirected the intent. Those
+    guards were deliberately RETIRED (see content/platform.yaml): replaying the
+    1,461-utterance holdout with them OFF was as good or better — 3 vs 4 wrong
+    state-changing actions — because the rules mostly flipped answers that were
+    already correct.
+
+    So the intent can still come back wrong here; what must hold is that the
+    surviving mitigation catches it. The uncertainty-confirmation gate turns a
+    borderline volume change into an ask-first turn, so the user is asked rather
+    than having their hearing aid turned up on them. Closing the residual
+    wrong-action budget is charter B1, not this guard.
+    """
     engine.reset("pg2")
     r = engine.handle("pg2", "i need it more quiet")
-    assert r.intent != "device.volume.increase", (r.intent, r.type)
+    if r.intent == "device.volume.increase":
+        assert r.type == "CONFIRM", (
+            f"a 'quieter' request resolved to volume.increase and would have "
+            f"fired without asking ({r.type}, {r.confidence:.2f})")
 
 
 def test_uncertain_confirm_ask_then_yes_fires(engine, monkeypatch):

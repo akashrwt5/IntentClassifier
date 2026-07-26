@@ -32,8 +32,11 @@ from pathlib import Path
 import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-MODELS_DIR = REPO_ROOT / "multilingual" / "models"
-HOLDOUT_DIR = REPO_ROOT / "multilingual" / "test"
+# Per-language layout (see datasets/README.md). The legacy
+# multilingual/models/<lang>/ tree was written only by the retired
+# combined-multilingual trainer and no longer exists.
+MODELS_DIR = REPO_ROOT / "models" / "intent"
+DATASETS_DIR = REPO_ROOT / "datasets"
 CALIBRATION = REPO_ROOT / "config" / "calibration.json"
 
 # The trained OOS / fallback class in the CURRENT label space. After the
@@ -82,10 +85,12 @@ def evaluate_language(lang: str, calibration: dict) -> dict:
     import pandas as pd
     from sklearn.metrics import f1_score, recall_score
 
-    pipeline = joblib.load(MODELS_DIR / lang / f"{lang}_intent_pipeline.pkl")
-    holdout = pd.read_csv(HOLDOUT_DIR / f"{lang}_holdout.csv")
-    texts = _normalize(holdout["text"].astype(str).tolist())
-    y_true = holdout["intent"].to_numpy()
+    pipeline = joblib.load(MODELS_DIR / lang / "pipeline.pkl")
+    holdout = pd.read_csv(DATASETS_DIR / lang / "holdout_leakage_guard.csv")
+    _text_col = next(c for c in ("text", "utterance") if c in holdout.columns)
+    _label_col = next(c for c in ("intent", "expected_intent") if c in holdout.columns)
+    texts = _normalize(holdout[_text_col].astype(str).tolist())
+    y_true = holdout[_label_col].to_numpy()
 
     logits = pipeline.decision_function(texts)
     temperature = calibration[lang]["temperature"]

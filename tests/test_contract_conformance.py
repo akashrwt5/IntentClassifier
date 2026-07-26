@@ -17,7 +17,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "packages" / "runtime"))
 
-MODEL = REPO_ROOT / "multilingual" / "models" / "en" / "en_intent_model.onnx"
+MODEL = REPO_ROOT / "models" / "intent" / "en" / "model.onnx"
 
 from nlu_engine.context import Session  # noqa: E402  (no heavy deps)
 
@@ -151,7 +151,7 @@ def test_inference_backend_is_injectable(engine):
     from nlu_engine.classifier import IntentClassifier
 
     clf = IntentClassifier(
-        labels_path=REPO_ROOT / "multilingual" / "models" / "en" / "en_intent_labels.pkl",
+        labels_path=REPO_ROOT / "models" / "intent" / "en" / "labels.pkl",
         backend=CannedBackend(engine.classifier.labels))
     intent, conf = clf.classify("zzz nonsense that matches no keyword rule zzz")
     assert intent == "device.status.battery" and conf > 0.9

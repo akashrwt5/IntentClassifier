@@ -34,13 +34,17 @@ from collections import defaultdict
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-MODELS_DIR  = BASE_DIR / "multilingual" / "models"
+MODELS_DIR  = BASE_DIR / "models" / "intent"
 TEST_DIR    = BASE_DIR / "multilingual" / "test"
 CONFIG_DIR  = BASE_DIR / "config"
 OUTPUT_FILE = CONFIG_DIR / "calibration.json"
 TEXT_NORM   = BASE_DIR / "multilingual" / "text_norm.py"
 
-LANGUAGES = ["en", "fr", "de", "da"]
+# Discovered, not hardcoded: a language is calibrated because it has a built
+# model, never because this list was edited.
+LANGUAGES = sorted(d.name for d in (MODELS_DIR).iterdir()
+                   if d.is_dir() and (d / "weights.json").exists()) \
+    if MODELS_DIR.is_dir() else []
 THRESHOLD_SWEEP = [round(0.30 + 0.05 * i, 2) for i in range(13)]  # 0.30 … 0.90
 PARITY_GAP_PP   = 5.0   # maximum allowed pp gap vs English macro-F1
 
@@ -163,7 +167,7 @@ def _compute_ece(rows, labels, n_bins=15):
 # Main
 # ---------------------------------------------------------------------------
 def load_weights(lang):
-    path = MODELS_DIR / lang / f"{lang}_intent_classifier_weights.json"
+    path = MODELS_DIR / lang / "weights.json"
     return json.loads(path.read_text(encoding="utf-8"))
 
 
