@@ -1,0 +1,74 @@
+{
+  "_note": "Charter B5 attribution. Four replays of the SAME engine build, varying only the holdout and the runtime temperature, to separate 'the holdout is now honest' from 'the temperature is now correct'. Temperature was overridden IN MEMORY only; no artifact on disk was modified. Measurement only — no threshold, guard or policy was changed in this step.",
+  "measured_at": "2026-07-26",
+  "language": "en",
+  "semantic_enabled": false,
+  "engine_build": "post-B1 retrain, post-B3 calibration, 57-label taxonomy",
+  "budget": 5,
+  "conditions": {
+    "honest_holdout_shipped_T": {
+      "holdout": "datasets/en/holdout_honest.csv",
+      "temperature": 0.657336,
+      "rows": 1470,
+      "wrong_actions": 11,
+      "wrong_queries": 2,
+      "confirm_gated_wrong": 8,
+      "is_the_headline": true,
+      "comment": "The honest number. This is what the engine as shipped would do on data it has not memorised."
+    },
+    "honest_holdout_old_device_T": {
+      "holdout": "datasets/en/holdout_honest.csv",
+      "temperature": 0.796,
+      "rows": 1470,
+      "wrong_actions": 5,
+      "wrong_queries": 2,
+      "confirm_gated_wrong": 12,
+      "comment": "Counterfactual. Same data, pre-B3 temperature. FEWER wrong actions and MORE confirm-gated ones: the miscalibration was accidentally acting as a safety margin."
+    },
+    "leaked_holdout_old_device_T": {
+      "holdout": "multilingual/test/en_holdout.csv",
+      "temperature": 0.796,
+      "rows": 1461,
+      "wrong_actions": 4,
+      "wrong_queries": 2,
+      "confirm_gated_wrong": 4,
+      "comment": "The old measurement conditions, but with the CURRENT model. Not comparable to the historical 11 — the model has since been retrained on de-leaked data and the label space migrated 59 -> 57."
+    }
+  },
+  "historical_reference": {
+    "value": 11,
+    "source": "docs/Review-F5/production-readiness-review.md (en 11, fr 16, de 14 = 41)",
+    "conditions": "leaked holdout, pre-B1 model, T=0.796",
+    "comment": "Numerically equal to today's honest number by coincidence. The two are not the same measurement and must not be presented as a trend."
+  },
+  "wrong_action_taxonomy": {
+    "out_of_scope_rejection_failures": 10,
+    "in_scope_intent_confusions": 1,
+    "comment": "10 of 11 have truth == sys.oos.fallback. The budget is being consumed almost entirely by failure to ABSTAIN, not by confusing one command for another."
+  },
+  "per_domain": {
+    "device": 3,
+    "messaging": 4,
+    "find": 2,
+    "streaming": 2
+  },
+  "confidence_distribution_of_failures": {
+    "above_0.95": 5,
+    "0.80_to_0.95": 5,
+    "0.70_to_0.80": 1,
+    "comment": "The residue is HIGH-confidence. A threshold raise cannot clear it without destroying recall: 5 of 11 fire above 0.95, and one at 1.000."
+  },
+  "all_failures": [
+    {"conf": 0.863, "truth": "sys.oos.fallback", "fired": "device.volume.mute", "text": "turn off toshiba"},
+    {"conf": 0.841, "truth": "sys.oos.fallback", "fired": "messaging.message.send", "text": "please got to getting a text message at boston"},
+    {"conf": 0.974, "truth": "sys.oos.fallback", "fired": "messaging.message.listen", "text": "can you read last text message"},
+    {"conf": 0.999, "truth": "sys.oos.fallback", "fired": "find.phone.locate", "text": "can you phone phone phone phone phone"},
+    {"conf": 0.874, "truth": "sys.oos.fallback", "fired": "streaming.session.start", "text": "please stream, youtube music."},
+    {"conf": 0.977, "truth": "sys.oos.fallback", "fired": "streaming.session.start", "text": "can you stream, youtube music."},
+    {"conf": 0.826, "truth": "sys.oos.fallback", "fired": "device.volume.decrease", "text": "please my ears sweat"},
+    {"conf": 0.722, "truth": "sys.oos.fallback", "fired": "messaging.message.listen", "text": "hear it as they got to go."},
+    {"conf": 1.0, "truth": "sys.oos.fallback", "fired": "find.phone.locate", "text": "iphone"},
+    {"conf": 0.983, "truth": "sys.oos.fallback", "fired": "messaging.message.listen", "text": "play festival"},
+    {"conf": 0.826, "truth": "device.memory.change", "fired": "device.volume.increase", "text": "set me up for conversation"}
+  ]
+}

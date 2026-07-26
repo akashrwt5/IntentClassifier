@@ -21,9 +21,19 @@ NLU_SEMANTIC_RESCUE / schema semantic_rescue_enabled). The harness passes
 --semantic straight through; default off for the deterministic core
 measurement.
 
+The holdout it replays is the FROZEN honest holdout at
+``datasets/<lang>/holdout_honest.csv`` (charter B1). The previous source,
+``multilingual/test/<lang>_holdout.csv``, had 1460 of 1461 rows present verbatim
+in the training data (Review-F5 blocker B9), so every wrong-action count
+measured against it was a memorisation replay: the engine had seen the exact
+strings, so its confidence — and therefore every gate this harness exercises —
+was not the confidence it will show in the field. There is deliberately NO
+fallback to that file; a missing honest holdout is an error, not a reason to
+quietly measure the wrong thing.
+
 Usage:
     PYTHONPATH=packages/buildtime:packages/runtime \\
-        python -m nlu_training.wrong_action_harness [--langs en fr de da] \\
+        python -m nlu_training.wrong_action_harness [--langs en] \\
         [--semantic] [--out wrong_action_report.json]
 """
 
@@ -36,11 +46,15 @@ import warnings
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-HOLDOUT_DIR = REPO / "multilingual" / "test"
 
 FALLBACK_LABEL = "sys.oos.fallback"
 WRONG_ACTION_BUDGET = 5
 GATE_WAIVERS = {"da"}
+
+
+def holdout_path(lang: str) -> Path:
+    """The frozen honest holdout for `lang` (charter B1)."""
+    return REPO / "datasets" / lang / "holdout_honest.csv"
 
 
 def is_actionable(label: str) -> bool:
@@ -78,6 +92,15 @@ def replay_language(lang: str, semantic: bool) -> dict:
     sys.path.insert(0, str(REPO / "packages" / "runtime"))
     from nlu_engine import NLUEngine
 
+    path = holdout_path(lang)
+    if not path.exists():
+        raise SystemExit(
+            f"no honest holdout for {lang!r}: {path.relative_to(REPO)}\n"
+            f"  Build one with: python scripts/ci/build_honest_holdout.py --lang {lang}\n"
+            f"  This harness deliberately does NOT fall back to "
+            f"multilingual/test/{lang}_holdout.csv — that set is 99.9% training "
+            f"data (Review-F5 blocker B9) and any number from it is meaningless.")
+
     engine = NLUEngine(model_name=lang, language=lang, semantic_enabled=semantic)
 
     counts = {"turns": 0, "wrong_actions": 0, "wrong_queries": 0,
@@ -86,7 +109,7 @@ def replay_language(lang: str, semantic: bool) -> dict:
     per_domain: dict[str, int] = {}
     examples: list[dict] = []
 
-    with open(HOLDOUT_DIR / f"{lang}_holdout.csv", newline="", encoding="utf-8") as f:
+    with open(path, newline="", encoding="utf-8-sig") as f:
         for i, row in enumerate(csv.DictReader(f)):
             text, truth = row["text"], row["intent"]
             session = f"harness-{lang}-{i}"
@@ -126,14 +149,33 @@ def replay_language(lang: str, semantic: bool) -> dict:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--langs", nargs="+", default=["en", "fr", "de", "da"])
+    # English only by default: it is the only language with a frozen honest
+    # holdout and a retrained model. fr/de/da still have to be rebuilt on the
+    # per-language layout before a number from them means anything.
+    ap.add_argument("--langs", nargs="+", default=["en"])
     ap.add_argument("--semantic", action="store_true",
                     help="enable semantic rescue (only after regenerating artifacts)")
     ap.add_argument("--out", type=Path, default=Path("wrong_action_report.json"))
     args = ap.parse_args(argv)
 
-    report = {"semantic_enabled": args.semantic, "per_language": {}, "examples": []}
+    # Provenance: a wrong-action count is only interpretable alongside the
+    # holdout it was measured on and the temperature that drove every gate.
+    # The previous number (41) carried neither, so it survived a leaked holdout
+    # and a mis-fit temperature without anyone being able to tell.
+    import hashlib
+
+    report = {"semantic_enabled": args.semantic, "per_language": {},
+              "examples": [], "provenance": {}}
     for lang in args.langs:
+        hp = holdout_path(lang)
+        calib = REPO / "models" / "intent" / lang / "calibration.json"
+        report["provenance"][lang] = {
+            "holdout": str(hp.relative_to(REPO)) if hp.exists() else None,
+            "holdout_sha256": hashlib.sha256(hp.read_bytes()).hexdigest()
+            if hp.exists() else None,
+            "temperature": json.loads(calib.read_text(encoding="utf-8"))["temperature"]
+            if calib.exists() else None,
+        }
         c = replay_language(lang, args.semantic)
         report["examples"].extend(c.pop("examples"))
         report["per_language"][lang] = c

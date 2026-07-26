@@ -1,0 +1,103 @@
+{
+  "semantic_enabled": false,
+  "per_language": {
+    "en": {
+      "turns": 1470,
+      "wrong_actions": 11,
+      "wrong_queries": 2,
+      "confirm_gated_wrong": 8,
+      "fulfilled": 1061,
+      "prompted": 85,
+      "fallback": 266,
+      "confirmed": 58,
+      "per_domain": {
+        "device": 3,
+        "messaging": 4,
+        "find": 2,
+        "streaming": 2
+      }
+    }
+  },
+  "examples": [
+    {
+      "lang": "en",
+      "text": "turn off toshiba",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.mute",
+      "confidence": 0.863
+    },
+    {
+      "lang": "en",
+      "text": "please got to getting a text message at boston",
+      "truth": "sys.oos.fallback",
+      "fired": "messaging.message.send",
+      "confidence": 0.841
+    },
+    {
+      "lang": "en",
+      "text": "can you read last text message",
+      "truth": "sys.oos.fallback",
+      "fired": "messaging.message.listen",
+      "confidence": 0.974
+    },
+    {
+      "lang": "en",
+      "text": "can you phone phone phone phone phone",
+      "truth": "sys.oos.fallback",
+      "fired": "find.phone.locate",
+      "confidence": 0.999
+    },
+    {
+      "lang": "en",
+      "text": "please stream, youtube music.",
+      "truth": "sys.oos.fallback",
+      "fired": "streaming.session.start",
+      "confidence": 0.874
+    },
+    {
+      "lang": "en",
+      "text": "can you stream, youtube music.",
+      "truth": "sys.oos.fallback",
+      "fired": "streaming.session.start",
+      "confidence": 0.977
+    },
+    {
+      "lang": "en",
+      "text": "please my ears sweat",
+      "truth": "sys.oos.fallback",
+      "fired": "device.volume.decrease",
+      "confidence": 0.826
+    },
+    {
+      "lang": "en",
+      "text": "hear it as they got to go.",
+      "truth": "sys.oos.fallback",
+      "fired": "messaging.message.listen",
+      "confidence": 0.722
+    },
+    {
+      "lang": "en",
+      "text": "iphone",
+      "truth": "sys.oos.fallback",
+      "fired": "find.phone.locate",
+      "confidence": 1.0
+    },
+    {
+      "lang": "en",
+      "text": "play festival",
+      "truth": "sys.oos.fallback",
+      "fired": "messaging.message.listen",
+      "confidence": 0.983
+    }
+  ],
+  "provenance": {
+    "en": {
+      "holdout": "datasets/en/holdout_honest.csv",
+      "holdout_sha256": "85b48df9a345b83f13fed9402ac6e8227b8aef48907e9ea93127af36942973cf",
+      "temperature": 0.657336
+    }
+  },
+  "wrong_actions_shipped_langs": 11,
+  "budget": 5,
+  "budget_met": false
+}
