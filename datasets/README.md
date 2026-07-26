@@ -31,6 +31,46 @@ and `a6cbb81c`'s `datasets/` tree is **29 files totalling 7,072,263 bytes** —
 byte-for-byte what DVC was pointing at. DVC never captured a state newer than
 the one git already held, so nothing was lost in the migration.
 
+## Layout — one directory per language
+
+```
+datasets/<lang>/
+    train.csv                  REQUIRED   columns: text,intent
+    holdout_leakage_guard.csv  evaluation set train.py checks train.csv against
+    holdout_paraphrase.csv     hard paraphrases (need the semantic stage)
+    oos.csv, oos_2.csv         out-of-scope utterances
+    benchmark_250.csv          scored benchmark
+    sources/                   inputs that generate train.csv
+```
+
+**Adding a language is adding a directory.** Drop in `datasets/fr/train.csv`
+and run `python -m nlu_training.train --lang fr`. No script learns the language
+name; `train.py` resolves `datasets/<lang>/` and tells you what is available if
+the directory is missing.
+
+There is no combined "multilingual" model. Each Language Pack carries its own
+model, so training is per language by construction.
+
+### Why the data is not in the pack
+
+A `.nlu` bundle is a RUNTIME artifact that ships to a hearing aid. Training data
+is BUILD-TIME input. The bundle spec already draws this line: `bundle.json`'s
+`training` block carries **`dataset_hashes`** — the sha256 of the data that
+produced the model, never the data itself. So the pack stays small and carries
+no user utterances, while lineage from model back to corpus is still provable.
+
+Trained output goes to `models/intent/<lang>/`, mirroring the in-bundle path so
+`assemble_pack.py` copies it across without renaming. Those artifacts are
+gitignored; the pack is how they travel.
+
+### `_archive/`
+
+Retired by owner decision (2026-07-26): the combined-multilingual corpora
+(`multilingual/`), the Dialogflow exports (`dialogflowData/`) and the
+pre-migration Danish/French masters. English trains from `en/train.csv`; other
+languages will supply their own data. Archived rather than deleted — this data
+was recovered from near-loss, so it gets a grace period before removal.
+
 ## Rules
 
 - **Training and evaluation data belongs here** and is committed.

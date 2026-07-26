@@ -1,0 +1,165 @@
+utterance,expected_intent,difficulty
+mute the audio,device.volume.mute,easy
+silence please,device.volume.mute,hard
+turn off the sound,device.volume.mute,hard
+increase the volume,device.volume.increase,easy
+make it louder,device.volume.increase,hard
+turn it up,device.volume.increase,hard
+turn it down,device.volume.decrease,easy
+decrease volume,device.volume.decrease,hard
+make it quieter,device.volume.decrease,hard
+change to restaurant memory,device.memory.change,easy
+switch to work profile,device.memory.change,hard
+set memory to fitness,device.memory.change,hard
+remind me tomorrow at 9am to call chris,reminders.task.create,easy
+set a reminder for next monday,reminders.task.create,hard
+create an alarm for 6am,reminders.task.create,hard
+start running,activity.run.query,easy
+log a jog,activity.run.query,hard
+begin a run,activity.run.query,hard
+start a walk,activity.walk.query,easy
+begin walking,activity.walk.query,hard
+log a walk session,activity.walk.query,hard
+record steps,activity.step.query,easy
+log my steps,activity.step.query,hard
+track steps for the day,activity.step.query,hard
+start cycling,activity.cycle.query,easy
+begin a bike ride,activity.cycle.query,hard
+log cycling,activity.cycle.query,hard
+find my phone,find.phone.locate,easy
+where is my phone,find.phone.locate,hard
+locate my device,find.phone.locate,hard
+send a message to mom,messaging.message.send,easy
+text dad hello,messaging.message.send,hard
+listen to my messages,messaging.message.listen,easy
+read my messages,messaging.message.listen,hard
+play my texts,messaging.message.listen,hard
+start streaming music,streaming.session.start,easy
+play some songs,streaming.session.start,hard
+begin streaming,streaming.session.start,hard
+stop streaming,streaming.session.stop,easy
+stop the music,streaming.session.stop,hard
+pause streaming,streaming.session.stop,hard
+get my battery level,device.status.battery,easy
+how much battery do i have,device.status.battery,hard
+check battery percentage,device.status.battery,hard
+start transcription,transcription.session.start,easy
+begin transcribing,transcription.session.start,hard
+enable speech to text,transcription.session.start,hard
+start translation,translation.session.start,easy
+begin translating,translation.session.start,hard
+enable translation mode,translation.session.start,hard
+my ears are ringing,help.tinnitus.show,hard
+i hear ringing in my ears,help.tinnitus.show,hard
+constant buzzing sound,help.tinnitus.show,hard
+how do i pair my device,help.pairing.show,easy
+help me set up pairing,help.pairing.show,hard
+device won't connect,help.pairing.show,hard
+how do i insert my device,help.insert_device.show,easy
+where does the device go,help.insert_device.show,hard
+help me place it correctly,help.insert_device.show,hard
+how do i clean my device,help.clean_care.show,easy
+device cleaning tips,help.clean_care.show,hard
+how to maintain the device,help.clean_care.show,hard
+device is cutting out,help.device_settings.show,easy
+everything sounds muffled,help.device_settings.show,hard
+audio quality is bad,help.device_settings.show,hard
+how do i customize settings,help.customize.show,easy
+change device preferences,help.customize.show,hard
+modify my settings,help.customize.show,hard
+what are demo mode features,help.demo_mode.show,easy
+how does demo mode work,help.demo_mode.show,hard
+enable demo functionality,help.demo_mode.show,hard
+what memories can i create,help.changing_memories.show,easy
+how many memory profiles exist,help.changing_memories.show,hard
+list all available memories,help.changing_memories.show,hard
+how do i change memory options,help.memory_options.show,easy
+modify my memory settings,help.memory_options.show,hard
+memory customization help,help.memory_options.show,hard
+check my heart rate,help.heart_rate.show,easy
+what is my current heart rate,help.heart_rate.show,hard
+monitor my heartbeat,help.heart_rate.show,hard
+what is my heart rate recovery,help.heart_rate_recovery.show,easy
+check heart recovery stats,help.heart_rate_recovery.show,hard
+view my heart recovery,help.heart_rate_recovery.show,hard
+what is my thrive score,help.thrive_score.show,easy
+check my wellbeing score,help.thrive_score.show,hard
+view my overall health score,help.thrive_score.show,hard
+help with volume settings,help.volume.show,easy
+how to adjust volume controls,help.volume.show,hard
+volume optimization tips,help.volume.show,hard
+what is intelligent voice,help.intelli_voice.show,easy
+how does voice recognition work,help.intelli_voice.show,hard
+enable smart voice features,help.intelli_voice.show,hard
+what is mask mode,help.mask_mode.show,easy
+enable mask mode function,help.mask_mode.show,hard
+how to use mask mode,help.mask_mode.show,hard
+what is edge mode,help.edge_mode.show,easy
+enable edge mode feature,help.edge_mode.show,hard
+how to activate edge mode,help.edge_mode.show,hard
+find my hearing aids,help.find_my_hearing_aids.show,easy
+where are my devices,help.find_my_hearing_aids.show,hard
+locate my hearing aids,help.find_my_hearing_aids.show,hard
+what's new in the app,help.whats_new.show,easy
+show me new features,help.whats_new.show,hard
+what features were added,help.whats_new.show,hard
+battery not charging,help.battery.show,hard
+device battery problems,help.battery.show,hard
+need to replace battery,help.battery.show,hard
+help with app settings,help.app_settings.show,easy
+app configuration guide,help.app_settings.show,hard
+modify app preferences,help.app_settings.show,hard
+what are the accessories,help.accessories.show,easy
+compatible device accessories,help.accessories.show,hard
+what can i attach to device,help.accessories.show,hard
+what about transcription features,help.transcribe.show,easy
+how to use transcribe,help.transcribe.show,hard
+transcription quality tips,help.transcribe.show,hard
+translation feature help,help.translate.show,easy
+how translation works,help.translate.show,hard
+enable translation feature,help.translate.show,hard
+voice assistant features,help.voice_assistant.show,easy
+how voice assistant helps,help.voice_assistant.show,hard
+activate voice assistant,help.voice_assistant.show,hard
+hearing care anywhere connect,help.hearing_care_anywhere_connect.show,easy
+remote hearing care options,help.hearing_care_anywhere_connect.show,hard
+connect with audiologist,help.hearing_care_anywhere_connect.show,hard
+remote programming help,help.remote_programming.show,easy
+how to adjust settings remotely,help.remote_programming.show,hard
+remote tuning instructions,help.remote_programming.show,hard
+self check feature,help.self_check.show,easy
+run a device self check,help.self_check.show,hard
+self diagnostic help,help.self_check.show,hard
+device health check,help.health.show,hard
+health monitoring features,help.health.show,hard
+hear share functionality,help.hear_share.show,easy
+how to share audio,help.hear_share.show,hard
+use hear share feature,help.hear_share.show,hard
+where is the home button,help.home.show,easy
+what is the home screen,help.home.show,hard
+navigate to home,help.home.show,hard
+fall alert information,help.fall_alert.show,easy
+how fall alert works,help.fall_alert.show,hard
+enable fall detection,help.fall_alert.show,hard
+wi-cross explained,help.wi_c_r_o_s.show,easy
+what is wi-cross,help.wi_c_r_o_s.show,hard
+enable wi-cross feature,help.wi_c_r_o_s.show,hard
+reminder about appointments,help.reminder.show,easy
+set a reminder for later,help.reminder.show,hard
+mark reminder as complete,help.reminder.show,hard
+complete my reminder,reminders.task.complete,easy
+mark task as finished,reminders.task.complete,hard
+finish a pending reminder,reminders.task.complete,hard
+what are aerobic activities,activity.aerobics.query,hard
+track aerobic exercise,activity.aerobics.query,hard
+log aerobics session,activity.aerobics.query,hard
+track calories burned,activity.calories.query,hard
+log my calorie burn,activity.calories.query,hard
+monitor calories,activity.calories.query,hard
+workout exercise tracking,activity.exercise.query,hard
+log my exercise session,activity.exercise.query,hard
+track this exercise,activity.exercise.query,hard
+stand activity tracking,activity.stand.query,hard
+log standing time,activity.stand.query,hard
+track standing sessions,activity.stand.query,hard
+Default Fallback Intent,sys.oos.fallback,easy

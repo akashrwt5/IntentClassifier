@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """
-Train intent classification model and export to ONNX.
+Train a per-language intent model and export it to ONNX.
+
+One language per run. There is no combined "multilingual" model: each Language
+Pack carries its own model, so training is per language by construction.
 
 Usage:
-    python scripts/train.py              # default: version 3 (enhanced data)
-    python scripts/train.py --version 1  # original files
-    python scripts/train.py --version 2  # corrected _2 files
-    python scripts/train.py --version 3  # enhanced: _2 + corrections (default)
-    python scripts/train.py -v 1
+    python -m nlu_training.train              # English (default)
+    python -m nlu_training.train --lang fr    # French, once datasets/fr/ exists
 
-Reads:  data/intent_data_new[_2][_enhanced].csv
-Writes: models/intent_model.onnx, models/intent_labels.pkl
+Reads:  datasets/<lang>/train.csv               (build-time input, never ships)
+Writes: models/intent/<lang>/model.onnx         (mirrors the in-bundle layout,
+        models/intent/<lang>/labels.pkl          so assemble_pack copies it
+        models/intent/<lang>/labels.json         straight into the pack)
 """
 
 import argparse
@@ -31,34 +33,46 @@ from nlu_training.leakage import find_leaks, leak_report
 
 # ---------- Args ----------
 _parser = argparse.ArgumentParser(description="Train TF-IDF intent model")
-_parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
-                     help="Data version: 1=original files, 2=corrected _2 files, "
-                          "3=enhanced (_2 + 02_source_manual_corrections.csv, default)")
+_parser.add_argument("--lang", "-l", default="en",
+                     help="language to train (default: en). Reads "
+                          "datasets/<lang>/train.csv — adding a language means "
+                          "adding that directory, not editing this script.")
 _args = _parser.parse_args()
 
 # ---------- Paths ----------
+# Per-language layout: datasets/<lang>/. Training data is BUILD-TIME input and
+# never ships — the pack records only its sha256 in bundle.json's `training`
+# block. Adding a language is adding datasets/<lang>/train.csv; this script does
+# not learn about it (see datasets/README.md).
 BASE_DIR = Path(__file__).resolve().parents[3]
-if _args.version == 1:
-    DATA_PATH    = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
-    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_100.csv"
-elif _args.version == 2:
-    DATA_PATH    = BASE_DIR / "datasets" / "01_source_base_training_data.csv"
-    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
-else:
-    # v3: corrected _2 data augmented with hand-written conversational
-    # paraphrases (02_source_manual_corrections.csv). Holdout stays the v2 set so
-    # the leakage guard below proves the corrections never copy a test phrase.
-    DATA_PATH    = BASE_DIR / "datasets" / "04_GENERATED_MASTER_training_data.csv"
-    HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
+LANG = _args.lang
+DATA_DIR     = BASE_DIR / "datasets" / LANG
+DATA_PATH    = DATA_DIR / "train.csv"
+HOLDOUT_PATH = DATA_DIR / "holdout_leakage_guard.csv"
 
-print(f"Data version: {_args.version}  |  {DATA_PATH.name}  |  holdout: {HOLDOUT_PATH.name}")
-MODELS_DIR = BASE_DIR / "models"
-MODELS_DIR.mkdir(exist_ok=True)
+if not DATA_PATH.exists():
+    available = sorted(p.name for p in (BASE_DIR / "datasets").iterdir()
+                       if p.is_dir() and not p.name.startswith("_")
+                       and (p / "train.csv").exists())
+    raise SystemExit(
+        f"No training data for {LANG!r}: {DATA_PATH} not found.\n"
+        f"Languages with data: {available or '(none)'}\n"
+        f"To add one, create datasets/{LANG}/train.csv (text,intent). "
+        f"See datasets/README.md.")
 
-ONNX_PATH = MODELS_DIR / "intent_model.onnx"
-LABELS_PATH = MODELS_DIR / "intent_labels.pkl"
-LABELS_JSON_PATH = MODELS_DIR / "intent_labels.json"
-PIPELINE_PATH = MODELS_DIR / "intent_pipeline.pkl"
+print(f"Language: {LANG}  |  {DATA_PATH.relative_to(BASE_DIR)}  |  "
+      f"holdout: {HOLDOUT_PATH.name}")
+
+# Output mirrors the IN-BUNDLE layout (models/intent/<lang>/...) so
+# assemble_pack copies the tree straight into the pack with no renaming. Model
+# artifacts stay OUT of git; the pack is how they travel.
+MODELS_DIR = BASE_DIR / "models" / "intent" / LANG
+MODELS_DIR.mkdir(parents=True, exist_ok=True)
+
+ONNX_PATH = MODELS_DIR / "model.onnx"
+LABELS_PATH = MODELS_DIR / "labels.pkl"
+LABELS_JSON_PATH = MODELS_DIR / "labels.json"
+PIPELINE_PATH = MODELS_DIR / "pipeline.pkl"
 
 # Accuracy regression gate. Gates on the TF-IDF model's TEST-SPLIT accuracy
 # (held-back examples from the same distribution) — the standard generalization
