@@ -27,6 +27,8 @@ from sklearn.metrics import classification_report, confusion_matrix
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import StringTensorType
 
+from nlu_training.leakage import find_leaks, leak_report
+
 # ---------- Args ----------
 _parser = argparse.ArgumentParser(description="Train TF-IDF intent model")
 _parser.add_argument("--version", "-v", type=int, choices=[1, 2, 3], default=3,
@@ -94,15 +96,19 @@ if HOLDOUT_PATH.exists():
     if _text_col is None:
         _text_col = holdout_raw.columns[0]
         print(f"  [holdout] no standard text column found, using first column: '{_text_col}'")
-    holdout_texts = set(holdout_raw[_text_col].astype(str).str.lower().str.strip())
-    leaked = set(data["text"]) & holdout_texts
+    holdout_texts = holdout_raw[_text_col].astype(str).tolist()
+    # NORMALISED comparison (case, punctuation, spacing). A raw-string compare
+    # missed any pair differing only by a trailing '?' — which is how a
+    # 99.9%-leaked English holdout passed this guard for so long (Review-F5
+    # blocker B9). One shared definition lives in leakage.py so train.py, the
+    # calibration fitter and holdout construction cannot drift apart.
+    leaked = find_leaks(data["text"], holdout_texts)
     if leaked:
         raise RuntimeError(
-            f"Holdout leakage detected — {len(leaked)} utterance(s) appear in both "
-            f"training data and the permanent holdout set. Remove them from "
-            f"01_source_base_training_data.csv before retraining:\n  {sorted(leaked)[:5]}"
+            leak_report(leaked, len(holdout_texts), source="permanent holdout")
+            + f"\nRemove them from {DATA_PATH.name} before retraining."
         )
-    print(f"\nHoldout guard: 0 leaks detected ({len(holdout_texts)} holdout utterances checked).")
+    print(f"\n{leak_report([], len(holdout_texts), source='permanent holdout')}")
 
 # ---------- 1c. Cap over-represented intents (deterministic keep-last) ----------
 MAX_PER_INTENT = 500
