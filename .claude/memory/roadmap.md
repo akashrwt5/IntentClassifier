@@ -31,7 +31,7 @@ live status + Needs-decision queue in `docs/Review-F5/EXECUTION_STATUS.md`.
 - **Phase 1 (platform foundations):** IN PROGRESS. Done: spec/bundle/3.0
   (16 JSON Schemas, portable-regex spec + corpus, golden bundles minimal+full,
   conformance tests). Next: shared validator library (compiler stages 1–10),
-  capability repartition, nlu_training package, DVC/MLflow. packages/
+  capability repartition, nlu_training package, MLflow (DVC removed 2026-07-26 — datasets are committed; see datasets/README.md). packages/
   restructure awaits move-plan approval (ND-2); label-space cleanup awaits
   its plan (ND-3).
 - **Phase 2 (Rust core): REMOVED by owner directive (ADR-011) — Python + native iOS/Android only; revisit solely on explicit owner request. Phases 3–5:** blocked on Phase-1 close-out / ongoing by design.

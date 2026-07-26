@@ -21,6 +21,14 @@ Cycle (resumable)", hourly at :31, fresh session per firing, push notification o
 noteworthy completion. To pause or stop it: `update_trigger` with
 `enabled: false`, or the routines UI.
 
+> ⚠️ **THE TRIGGER PROMPT IS CURRENTLY STALE — re-sync it BEFORE re-enabling.**
+> The Routine is disabled (it cannot push; see the status doc's blocker table),
+> so its stored prompt was deliberately left un-updated when DVC was removed on
+> 2026-07-26. It still describes the old `dvc pull` data gate. Syncing a
+> disabled trigger is busywork; forgetting to sync it before re-enabling is a
+> live bug. Re-read the §Data gate and the STOP rules below and rewrite the
+> prompt from them as the first step of re-enabling.
+>
 > **Keep the trigger prompt in sync with this file.** The trigger carries its own
 > copy of the bootstrap instructions, and it has gone stale once already — when
 > the bootstrap corpus landed, the live prompt still told fired sessions that
@@ -40,7 +48,7 @@ noteworthy completion. To pause or stop it: `update_trigger` with
   is `claude/`-prefixed, so the routine is structurally unable to touch `main` or
   any `feature/*` branch.
 - **Environment:** Default. Trusted network access is required for PyPI
-  (scikit-learn / scipy / onnx / onnxruntime) and for the DVC remote.
+  (scikit-learn / scipy / onnx / onnxruntime). Datasets are in the repo.
 - **Model:** the most capable available.
 - **Work branch (fixed, never change):** `claude/nlu-production-readiness-dqyl38`.
   It already carries the round-2 review. Reuse this exact name every run or
@@ -126,49 +134,34 @@ number than a pretty unverifiable one.
 
 ## Data gate — which track is open this run
 
-The datasets are DVC-managed. A fresh clone has none, which blocks all
-model/calibration work. Decide the track at the top of every run:
+`datasets/` is committed to the repo (DVC was removed 2026-07-26 — see
+`datasets/README.md`), so a checkout normally already has the data. Two states:
 
 ```
-dvc status -r <remote> 2>/dev/null && dvc pull 2>&1 | tail -5
-ls datasets/*.csv data/*.csv 2>/dev/null | head
+ls datasets/*.csv | wc -l
 ```
 
-- **`dvc pull` succeeds and the training CSVs are present → Track A and Track B
-  are both open at full authority.** Do all remaining work. Numbers produced in
-  this state are authoritative — this is the only state in which baseline-v2 may
-  be recorded as final.
+- **The full datasets are present → everything is open, results are
+  AUTHORITATIVE.** This is the only state in which baseline-v2 may be recorded
+  as final and a fitted calibration may be wired to the runtime.
 
-- **`dvc pull` fails → fall back to the English bootstrap corpus:**
-  ```
-  python scripts/ci/bootstrap_en_data.py
-  ```
-  This materialises `datasets/` from the tracked, provenance-stamped English
-  snapshot in `data/bootstrap/en/` (the reference-branch master, migrated to the
-  57-label space; see its README). **Track A and the English half of Track B are
-  both open in this state.** fr/de/da stay blocked — their masters are not
-  recoverable from git.
+- **Only the English bootstrap snapshot is present** (5 CSVs, i.e. the real
+  multilingual data has not been committed yet) → run
+  `python scripts/ci/bootstrap_en_data.py`. Track A and the English half of
+  Track B are open, and everything produced is **PROVISIONAL**:
+  - B1/B2/B3/B4 may be built, run and tested — the machinery is what matters;
+  - **do NOT record baseline-v2 as final**; write `baseline-v2-provisional` and
+    name the data it came from;
+  - **do NOT wire a bootstrap-fitted calibration into the runtime** (B3);
+  - fr/de/da stay closed — their data is not in the snapshot.
 
-  Everything you produce in this state is **PROVISIONAL**. Label it so, in the
-  commit message and in `ENGLISH-PRODUCTION-STATUS.md`. Specifically:
-  - B1/B2/B3/B4 may be built, run and tested against the bootstrap corpus — the
-    machinery is what matters and it is fully exercisable.
-  - **Do NOT record baseline-v2 as final** from bootstrap data, and do not
-    publish its metrics as the honest English baseline. Write them as
-    `baseline-v2-provisional` and say what they were measured on.
-  - **Do NOT ship a calibration fitted on bootstrap data** to the runtime (B3).
-    Fit it, test it, prove the ECE improvement, leave the runtime wiring behind
-    the real fit.
-
-The script never overwrites authoritative data — once `dvc pull` works it
-detects real content and no-ops, so leaving this call in the run is safe
+The script never overwrites authoritative data: once the real datasets are
+committed it detects them and no-ops, so leaving the call in place is safe
 permanently.
 
-Record in `ENGLISH-PRODUCTION-STATUS.md` which of the three states the run was
-in, so every metric in the file is traceable to the data behind it. Never
-synthesise training data, and never relax a gate to compensate for the snapshot.
-
----
+Record which state the run was in, so every metric is traceable to the data
+behind it. Never synthesise training data, and never relax a gate to compensate
+for the snapshot.
 
 ## STOP rules — never do these without explicit owner sign-off
 
@@ -186,12 +179,14 @@ synthesise training data, and never relax a gate to compensate for the snapshot.
    `spec/bundle/3.0`. One container, one manifest, one signing story.
 5. **Never unify the device and server temperatures.** They calibrate different
    featurisers. Keep them separate and documented as separate.
-6. **Never commit new datasets to git.** DVC stays the mechanism for
-   authoritative data. The one sanctioned exception already exists and is
-   closed: `data/bootstrap/en/`, a provenance-stamped English snapshot recovered
-   from the reference branch to unblock work while the shared remote is
-   missing. Do not extend it, do not add languages to it, and do not commit
-   anything that arrives via `dvc pull`.
+6. **Datasets belong in `datasets/`, committed to git.** DVC was removed on
+   2026-07-26 — owner decision: no third-party tooling for 6.7 MB of CSV that a
+   local-only remote made unreachable from every machine but one. Do not
+   reintroduce a data-version tool without owner sign-off. MODEL artifacts still
+   stay OUT of git (`*.onnx`, `*.pkl` remain ignored, regenerated by `make
+   train`). `data/bootstrap/en/` is the English-only fallback snapshot: do not
+   extend it, do not add languages to it, and delete it once the authoritative
+   datasets are committed.
 7. **Never weaken, skip, or `xfail` a gate to get green.** If a gate is wrong,
    say so in STATUS and stop.
 8. **Never touch `main` or `feature/*`.** No Rust / Phase 2 work (owner directive
@@ -491,7 +486,7 @@ Port the reference branch's 3-job pipeline
 (`git show <ref>:.github/workflows/release-pack.yml`), retargeted to this tree.
 
 **Do:**
-- **Job 1 (Linux):** `dvc pull` → train → export weights → **accuracy gate**
+- **Job 1 (Linux):** train → export weights → **accuracy gate**
   against baseline-v2 → upload artifacts + `report_card.json`.
 - **Job 2 (macOS):** CoreML/ANE export from the same weights → **parity gate**
   (Tier-A numeric + Tier-B runtime) → upload `.mlpackage` + `coreml_parity.json`.
@@ -521,7 +516,7 @@ parse) accepts the workflow. The first *real* run belongs to B6.
 ## TRACK B — needs datasets
 
 Opens in two grades, per the §Data gate:
-- **`dvc pull` succeeded** → fully open, results **authoritative**.
+- **Full datasets committed** → fully open, results **authoritative**.
 - **bootstrap snapshot only** → the English steps are open, results
   **PROVISIONAL**: build, run and test the machinery, but do not record
   baseline-v2 as final (B1) and do not wire a bootstrap-fitted calibration into
@@ -531,17 +526,17 @@ Label every artifact and commit with the grade it was produced under.
 
 ### B0 — Make the gates actually run in CI
 
-**Do:** add `dvc pull` to `.github/workflows/ci.yml`. Model-dependent tests must
-**fail, not skip**, in the job that is supposed to enforce them — introduce an
+**Do:** model-dependent tests must **fail, not skip**, in the job that is
+supposed to enforce them — introduce an
 explicit `NLU_REQUIRE_ARTIFACTS=1` mode that turns the skip guards into errors,
 and set it in CI. Round 1 measured 60 model-dependent tests silently skipping;
 green CI currently means those gates did not run.
 
-**Acceptance gate:** with the remote reachable, CI reports **0 skipped**
+**Acceptance gate:** with the datasets committed, CI reports **0 skipped**
 model-dependent tests; with `NLU_REQUIRE_ARTIFACTS=1` and artifacts absent, those
 tests **fail**.
 
-**Commit:** `ci: dvc pull + fail-not-skip for model-dependent gates`
+**Commit:** `ci: fail-not-skip for model-dependent gates`
 
 ---
 
@@ -549,7 +544,7 @@ tests **fail**.
 
 **Do:** partition English **by utterance** into train / holdout. Verify **zero**
 normalised overlap (case, whitespace, punctuation) — reuse A5's normaliser.
-Freeze the holdout, DVC-track it, record its sha256. Re-measure English
+Freeze the holdout, commit it, record its sha256. Re-measure English
 macro-F1 / accuracy / ECE and write **baseline-v2** to
 `tests/parity/oracle_honest_en/`.
 
@@ -720,7 +715,7 @@ Update `docs/Review-F5/ENGLISH-PRODUCTION-STATUS.md` with:
 - honest metric snapshots — never the leakage-inflated numbers;
 - **which data-gate state the run was in**, so every metric in the file is
   traceable to the data behind it, and every provisional number is marked;
-- the open owner queue: shared DVC remote, ND-8 production signing, the B1
+- the open owner queue: committing the full datasets, ND-8 production signing, the B1
   unconditional-confirm policy decision, and authorisation to begin French.
 
 Then commit, push, and end the run.
@@ -731,7 +726,7 @@ Then commit, push, and end the run.
 
 | # | Decision | Blocks |
 |---|---|---|
-| 1 | Provision a shared DVC remote (S3/GCS) + repo secret | fr/de/da entirely; promoting any English Track-B result from PROVISIONAL to authoritative (baseline-v2, the runtime calibration in B3, the B6 release gate) |
+| 1 | Commit the full `datasets/` tree from the machine that holds it (see `datasets/README.md`) | fr/de/da entirely; promoting any English Track-B result from PROVISIONAL to authoritative (baseline-v2, the runtime calibration in B3, the B6 release gate) |
 | 2 | ND-8 — production signing keys / KMS | Promoting releases past `channel: dev` |
 | 3 | B1 — unconditional confirmation on high-cost state-changing intents | Closing the wrong-action budget |
 | 4 | Authorise the French pack trial after a green run | P3 / the neutrality proof |

@@ -4,16 +4,19 @@ Bootstrap the English training corpus into `datasets/` without DVC.
 
 WHY THIS EXISTS
 ---------------
-The real datasets are DVC-managed and the configured remote is a LOCAL path
-(`.dvc/config` -> `url = ../../dvc-store`), which exists only on the owner's
-machine. Any other environment — CI, a fresh clone, a scheduled routine — gets
-no training data at all, so every model, calibration and safety gate silently
-skips (Review-F5 blocker B2).
+Historically the datasets were DVC-managed against a LOCAL filesystem remote
+that existed only on one machine, so CI, a fresh clone and every scheduled run
+got no training data and all model-dependent gates silently skipped (Review-F5
+blocker B2).
 
-This script unblocks the *English* work in the meantime. It materialises
-`datasets/` from a tracked, provenance-stamped snapshot under
-`data/bootstrap/en/`, so English training / calibration / evaluation can run in
-any clone. It is a STOPGAP, not a replacement for DVC.
+DVC was removed on 2026-07-26 and `datasets/` is now committed directly — see
+`datasets/README.md`. This script remains as the fallback for the window before
+the full multilingual data lands in git, and as a way to reproduce the English
+corpus exactly. It materialises `datasets/` from a tracked, provenance-stamped
+snapshot under `data/bootstrap/en/`.
+
+It is ENGLISH ONLY and PROVISIONAL. Once the real datasets are committed it
+becomes a no-op (see `_real_data_present`) and `data/bootstrap/` can be deleted.
 
 WHAT THE SNAPSHOT IS, AND WHAT IT IS NOT
 ----------------------------------------
@@ -35,11 +38,10 @@ requires the real datasets. See `data/bootstrap/en/README.md`.
 
 SAFETY
 ------
-The script REFUSES to overwrite real data. If `datasets/` already holds a
-training master (i.e. `dvc pull` succeeded), it no-ops and exits 0. Silently
-replacing real data with a stale snapshot is exactly the class of error
-Review-F5 is fixing, so it fails safe by default; `--force` is required to
-override and says so loudly.
+The script REFUSES to overwrite real data. Once the authoritative datasets are
+committed it no-ops and exits 0. Silently replacing real data with a stale
+English-only snapshot is exactly the class of error Review-F5 exists to fix, so
+it fails safe by default; `--force` is required to override and says so loudly.
 
 USAGE
     python scripts/ci/bootstrap_en_data.py            # materialise datasets/
@@ -219,10 +221,25 @@ def build() -> int:
 # --------------------------------------------------------------------------- #
 
 def _real_data_present() -> bool:
-    """True when datasets/ already holds a master that did NOT come from here."""
+    """True when datasets/ holds real data rather than this snapshot.
+
+    Two independent signals, either of which means "leave it alone":
+
+      1. the committed master differs from the snapshot's recorded hash, i.e.
+         somebody put the authoritative file there;
+      2. the directory contains more CSVs than the snapshot ships, i.e. the
+         multilingual data has been committed alongside it.
+
+    The second check exists because the snapshot's English master could in
+    principle be byte-identical to the committed one while the rest of the real
+    data sits beside it — hash equality alone would then wrongly report "no real
+    data" and overwrite the neighbours.
+    """
     target = DATASETS / MASTER
     if not target.exists():
         return False
+    if len(list(DATASETS.glob("*.csv"))) > len(SOURCES) + 1:  # + confirmation fixtures
+        return True
     prov_path = BOOTSTRAP / PROVENANCE
     if not prov_path.exists():
         return True
@@ -249,9 +266,9 @@ def materialise(check_only: bool, force: bool) -> int:
             return 1
 
     if _real_data_present() and not force:
-        print("Real datasets/ content is present (dvc pull succeeded, or the master "
-              "was replaced). Leaving it untouched — the bootstrap snapshot is a "
-              "stale stopgap and must never overwrite authoritative data.")
+        print("Real datasets/ content is present. Leaving it untouched — the "
+              "bootstrap snapshot is an English-only stopgap and must never "
+              "overwrite authoritative data.")
         return 0
 
     if check_only:

@@ -1,4 +1,4 @@
-STATUS: IN PROGRESS — Track A COMPLETE (A1–A10); Track B blocked on the DVC remote
+STATUS: IN PROGRESS — Track A COMPLETE (A1–A10); Track B awaiting the full datasets in git
 
 # English Production Cycle — Status
 
@@ -9,14 +9,18 @@ STATUS: IN PROGRESS — Track A COMPLETE (A1–A10); Track B blocked on the DVC 
 
 ## Data-gate state — **BOOTSTRAP (PROVISIONAL)**
 
-`dvc` is not installed and the remote is still the local path
-`../../dvc-store`, so `dvc pull` is unavailable.
-`python scripts/ci/bootstrap_en_data.py` materialised the tracked English
-snapshot (5 files, source commit `0089b894`).
+**DVC was removed on 2026-07-26** (owner decision: no third-party tooling for
+6.7 MB of CSV that a local-only remote made unreachable from every machine but
+one). `datasets/` is now tracked in git — see `datasets/README.md`.
+
+The authoritative 29-file tree has **not been committed yet**: those bytes exist
+only on the owner's machine, so this checkout has just the English bootstrap
+snapshot (`python scripts/ci/bootstrap_en_data.py`, 5 files, source commit
+`0089b894`).
 
 **Every metric below is therefore PROVISIONAL.** No authoritative baseline may
 be recorded, and no bootstrap-fitted calibration may be wired to the runtime,
-until a shared DVC remote exists. fr/de/da model work stays closed.
+until the full datasets are committed. fr/de/da model work stays closed.
 
 No model metrics were produced this run — A1–A4 are all structural, so nothing
 here depends on the data grade.
@@ -92,7 +96,7 @@ what *proves* that rather than asserting it.
 | # | Blocker | Owner | Blocks |
 |---|---|---|---|
 | 1 | **Scheduled Routine cannot push.** Fired sessions get `403 Not authorized` on `receive-pack` while `upload-pack` works. This session pushes fine, so it is a per-session credential difference, not a repo setting. The trigger's stored config names an auto-generated branch (`claude/bold-bardeen`), suggesting the write grant is scoped to that rather than to the charter's fixed work branch. `trig_018ygxy3X9EgNX48wtquNeky` is **disabled** to stop hourly wasted runs. | owner / env config | unattended execution only — the work itself proceeds interactively |
-| 2 | Shared DVC remote (S3/GCS) + repo secret | owner | fr/de/da entirely; promoting any English result from PROVISIONAL to authoritative |
+| 2 | **Commit the full `datasets/` tree** (29 files, 6.7 MB) from the machine that holds it — `git add datasets/ && git commit && git push`. DVC is gone and the path is un-ignored, so this is now a plain commit. | owner | fr/de/da entirely; promoting any English result from PROVISIONAL to authoritative |
 | 3 | ND-8 production signing keys / KMS | owner | promoting releases past `channel: dev` |
 | 4 | B1 unconditional-confirm policy decision | owner | closing the wrong-action budget |
 | 5 | Authorisation for the French pack trial | owner | P3 / the neutrality proof |
@@ -105,7 +109,8 @@ of the blockers below.
 Remaining engineering, all gated:
 
 - **Track B** (honest holdout, OOF calibration, runtime temperature, wrong-action
-  re-measure) — needs the shared DVC remote to produce anything authoritative.
+  re-measure) — needs the full datasets committed to produce anything
+  authoritative.
   The machinery can be built against the bootstrap corpus first; the numbers
   cannot be published as a baseline.
 - **Wire the engine to `nlu_langpack`.** A6 built the loader and A7 made the

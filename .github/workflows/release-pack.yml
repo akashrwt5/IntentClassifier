@@ -70,15 +70,17 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq locales
           sudo locale-gen en_US.UTF-8
 
-      # Datasets are DVC-managed. `dvc pull` needs a shared remote, which is
-      # still an owner action; until then the bootstrap snapshot keeps the
-      # pipeline exercisable and every metric it produces is PROVISIONAL.
-      - name: Fetch datasets (DVC, with bootstrap fallback)
+      # Datasets are committed to the repo, so a checkout already has them.
+      # The bootstrap snapshot is only a fallback for the window before the real
+      # multilingual data was committed; it covers English only and everything
+      # measured from it is PROVISIONAL.
+      - name: Resolve the dataset grade
         run: |
-          if command -v dvc >/dev/null && dvc pull 2>/dev/null; then
+          if [ -f datasets/04_GENERATED_MASTER_training_data.csv ] \
+             && [ "$(find datasets -name '*.csv' | wc -l)" -gt 6 ]; then
             echo "data_grade=authoritative" >> "$GITHUB_ENV"
           else
-            echo "::warning::No shared DVC remote — using the PROVISIONAL English bootstrap corpus."
+            echo "::warning::Full datasets not committed yet — falling back to the PROVISIONAL English bootstrap corpus."
             python scripts/ci/bootstrap_en_data.py
             echo "data_grade=provisional" >> "$GITHUB_ENV"
           fi
