@@ -195,6 +195,24 @@ _add("carrier",
      "remind me to call mum at 6pm")
 
 
+# Topic-strip corpus. `strip_datetime` removes date/time fragments so what
+# remains is the reminder topic. It is cosmetic — it never changes a resolved
+# time — but it had NO test coverage at all before A7, which is how a whole
+# function came to be refactored unguarded.
+STRIP_CORPUS: list[str] = [
+    "remind me to call mum at 6pm", "call the doctor tomorrow",
+    "take pills every day", "remind me at 9pm for dinner", "buy milk on monday",
+    "dentist at 9:30", "water plants each morning", "meeting in the morning",
+    "call dad tonight", "pick up parcel by 5", "gym this evening",
+    "standup next monday at 9 am", "review notes in 10 minutes", "yoga at noon",
+    "pay rent on the 1st", "text sarah tomorrow morning", "walk dog at 7:15 am",
+    "laundry today", "book flight for 2 hours", "check oven in 5 min",
+    "nothing to strip here", "remind me", "call mum at 6 p.m. tomorrow",
+    "stretch every each morning", "midnight snack", "call at 12:00 midnight",
+    "every tuesday standup",
+]
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true", help="report, write nothing")
@@ -278,6 +296,8 @@ def main(argv=None) -> int:
         "branches": branches,
         "case_count": len(cases),
         "known_gaps": [{"utterance": u, "why": w} for u, w in KNOWN_GAPS],
+        "strip_cases": [{"text": t, "topic": ex.strip_datetime(t)}
+                        for t in STRIP_CORPUS],
         "cases": cases,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)

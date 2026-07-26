@@ -75,6 +75,21 @@ def test_corpus_is_dateparser_independent():
     assert not offenders, f"cases resolved via the dateparser fallback: {offenders}"
 
 
+@pytest.mark.parametrize("case", _GOLDEN.get("strip_cases", []),
+                         ids=[c["text"] for c in _GOLDEN.get("strip_cases", [])])
+def test_en_strip_datetime_golden(case):
+    """`strip_datetime` removes date/time fragments, leaving the reminder topic.
+
+    It is cosmetic — never changes a resolved time — but it had NO coverage at
+    all before A7, which is how the whole function came to be refactored
+    unguarded. These expectations were verified equal to the pre-refactor
+    implementation (git HEAD before the eviction) across all 27 cases before
+    being captured, so the corpus pins the ORIGINAL behaviour, not the new
+    implementation's opinion of it.
+    """
+    assert _EXTRACTOR.strip_datetime(case["text"]) == case["topic"]
+
+
 def test_known_gaps_are_still_gaps():
     """Recorded defects must stay broken until deliberately fixed.
 
