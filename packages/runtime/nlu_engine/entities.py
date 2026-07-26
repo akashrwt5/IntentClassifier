@@ -108,10 +108,25 @@ def _levenshtein(a: str, b: str) -> int:
     return prev[-1]
 
 
+# Function words are never TYPO candidates for an enum value. Fuzzy matching is
+# for content-word misspellings ("restraunt" -> "restaurant"); a correctly
+# spelled grammatical word must not resolve to a similarly-shaped enum name.
+# This is what let "the" resolve to the memory "three" (edit distance 2) and
+# silently fill a slot from an off-topic sentence. The set is a conservative,
+# language-general default; a language pack may override it via the `stopwords`
+# constructor argument (fed from the lexicon), same pattern as weekdays/word_nums.
+_DEFAULT_FUZZY_STOPWORDS = frozenset({
+    "the", "a", "an", "of", "to", "in", "on", "at", "is", "it", "as", "by",
+    "be", "or", "and", "for", "with", "who", "what", "when", "where", "why",
+    "how", "my", "me", "you", "your", "i", "we", "he", "she", "they", "this",
+    "that", "these", "those", "please", "can", "could", "would", "do", "does",
+})
+
+
 class EntityExtractor:
     def __init__(self, entities_path: Path = ENTITIES_PATH, *, weekdays=None, word_nums=None,
                  language: str = "en", lexicon_path: Path = None,
-                 dt_grammar: dict = None):
+                 dt_grammar: dict = None, stopwords=None):
         self.entities = json.loads(Path(entities_path).read_text(encoding="utf-8"))
         # English-path datetime vocabulary: pack table if supplied, else the
         # _DEFAULT_ fallback. Compiled once into matchers/alternations.
@@ -129,6 +144,8 @@ class EntityExtractor:
             self._WEEKDAYS = weekdays
         if word_nums is not None:
             self._WORD_NUMS = word_nums
+        self._fuzzy_stopwords = (frozenset(w.lower() for w in stopwords)
+                                 if stopwords is not None else _DEFAULT_FUZZY_STOPWORDS)
 
         # Lexicon-driven datetime parsing. Data-driven, NOT language-string
         # driven: if a datetime lexicon exists for this language it is used;
@@ -327,7 +344,13 @@ class EntityExtractor:
                 conf = 1.0 if syn == table[syn].lower() else 0.95
                 return table[syn], syn, conf
         if fuzzy and self.entities.get(entity, {}).get("fuzzy"):
-            tokens = re.findall(r"[a-z0-9]+", t)
+            # Function words are excluded as typo candidates: "the" is not a
+            # misspelling of the memory "three", it is a different word that
+            # merely happens to be 2 edits away. Without this, an off-topic
+            # sentence ("who is the prime minister of india") fuzzy-matched an
+            # enum value via a stopword and silently filled the slot.
+            tokens = [tok for tok in re.findall(r"[a-z0-9]+", t)
+                      if tok not in self._fuzzy_stopwords]
             best, best_span, best_d, best_len = None, None, 99, 1
             for syn, canon in table.items():
                 if " " in syn or len(syn) < self._FUZZY_MIN_LEN:
@@ -867,9 +890,15 @@ class EntityExtractor:
 
         # --- 8. Dateparser fallback (stripped to avoid month/day misparse) ---
         if _HAS_DATEPARSER:
-            # Only pass to dateparser if text looks like a time/date expression,
-            # not a bare word that would be misread as a month or day number.
-            if not re.match(r"^\d{1,2}$", t):  # bare number already handled above
+            # Only reach dateparser when the text carries a DIGIT. Every
+            # word-based temporal form (tomorrow, next friday, this morning,
+            # half past…) is already resolved by the grammar above, so a
+            # word-only string arriving here is not a date — it is dateparser
+            # bait: "no" parses as November, "may"/"march"/"wed" as month/day.
+            # A legitimate absolute date that the grammar does not own is
+            # numeric ("june 5", "the 25th", "12/25"); it has a digit. The bare
+            # 1-2 digit case is handled earlier, so exclude it here.
+            if re.search(r"\d", t) and not re.fullmatch(r"\d{1,2}", t):
                 dt = dateparser.parse(
                     t,
                     settings={

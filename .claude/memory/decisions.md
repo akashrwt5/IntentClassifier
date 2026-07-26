@@ -85,6 +85,36 @@ golden bundles, parity CSVs, conformance tests) rather than by a shared
 binary. No Rust code exists in the repo; none is planned.
 
 
+## ADR-012 — Slot filling must never fabricate a value from a non-answer
+**Status:** Accepted (2026-07-26). **What:** while a slot is being awaited, the
+recogniser produces a value only when the input is genuinely a valid value for
+that slot's type; a turn that is not an answer is routed, never coerced. Three
+concrete rules: (1) enum fuzzy matching excludes function words — "the" is not a
+typo of the memory "three", so an off-topic sentence can no longer fill a slot
+via a stopword (`entities.py extract_enum`, `_DEFAULT_FUZZY_STOPWORDS`); (2) the
+permissive `dateparser` fallback fires only on text carrying a digit — every
+word-based temporal form is already owned by the grammar, so "no" can no longer
+be read as November (`entities.py extract_datetime`, section 8); (3) a
+slot-filling turn is interpreted in fixed precedence — valid strict answer →
+genuine high-confidence interruption → pure cancellation ("no"/"cancel", via
+`_is_cancel`) → otherwise a no-match that re-prompts and, after
+`MAX_SLOT_ATTEMPTS`, falls back (`engine.py _handle_slot_filling`).
+**Why:** two production wrong-actions ("who is the prime minister of india" ->
+memory=three; "no" -> a reminder for a date never given) shared one cause — a
+lenient matcher inventing a value for a turn that was not an answer. A
+confidence threshold cannot separate these (a genuine typo scored 0.70, the
+"the"->"three" collision 0.60), so the fix is structural, not a threshold.
+**Consequences:** cancellation cues are content-owned (`schema cancel_cues`,
+English default in `engine.py`); a word that is itself a real command ("stop" ->
+`streaming.session.stop`) interrupts rather than cancels, because interruption
+has precedence over the meta layer. Regression fixtures:
+`tests/test_slot_value_validation.py` (recogniser level) and
+`tests/test_slot_filling_no_answer.py` (engine level). Follow-ups considered but
+not taken here: phonetic (metaphone) matching in place of Levenshtein for a
+voice/ASR domain; the grammar owning absolute numeric dates so `dateparser` can
+be retired; progressive re-prompts on repeated no-match.
+
+
 ## Related memory
 
 Training/calibration -> `training.md` · Mobile -> `mobile.md` · Roadmap ->

@@ -7,6 +7,23 @@
 
 _None open. Recently fixed:_
 
+- **FIXED (ADR-012, 2026-07-26) — off-topic reply during slot filling changed
+  the memory.** Asked "What is the name of the memory?", a non-answer like
+  "who is the prime minister of india" set `memory=three`: the stopword "the"
+  fuzzy-matched the memory "three" (edit distance 2, 0.60) on the lenient
+  storage path. Fix: `entities.py extract_enum` excludes function words as typo
+  candidates (`_DEFAULT_FUZZY_STOPWORDS`). Genuine typos still resolve
+  ("restraunt"->Restaurant, 0.70); valid answers that are also commands still
+  answer ("mute"->Mute). Fixture: `tests/test_slot_value_validation.py`.
+- **FIXED (ADR-012, 2026-07-26) — "no" to a reminder-time prompt created a
+  bogus reminder.** "When should I remind you?" -> "no" was handed to the
+  `dateparser` fallback, which read it as the month November, so a reminder was
+  created for a date the user never gave. Fix: (a) the fallback fires only on
+  digit-bearing text (`entities.py extract_datetime`); (b) a pure refusal now
+  cancels the flow ("Okay, I won't.") via `_is_cancel`
+  (`engine.py _handle_slot_filling`). Fixture:
+  `tests/test_slot_filling_no_answer.py`.
+
 - **FIXED — French decimal-hour idioms dropped their minutes.** `et demie` /
   `et quart` / `moins le quart` were lost when a "N heures" clock hour was
   present (e.g. `"huit heures moins le quart"` -> 08:00 instead of 07:45).

@@ -27,10 +27,17 @@ python apps/cli/nlu_cli_multilingual.py
 `NLUResult` (intent, slots, confidence, `interrupted_intent`). Per-turn order:
 
 1. **Confirmation** — resolve an active yes/no context first.
-2. **Slot-filling** — fill the pending slot; a high-confidence topic switch
-   (>= schema `interrupt_threshold`) interrupts the flow and records the new
-   intent. An utterance that is a valid value for the slot being awaited is
-   treated as the ANSWER and never interrupts, whatever it classifies as.
+2. **Slot-filling** — an awaited turn is read in fixed precedence and NEVER
+   fabricates a value from a non-answer (ADR-012): (a) a valid strict value for
+   the awaited slot is the ANSWER and never interrupts, whatever it classifies
+   as; (b) else a high-confidence topic switch (>= schema `interrupt_threshold`)
+   interrupts and records the new intent; (c) else a pure cancellation
+   ("no"/"cancel", `_is_cancel`, cues from `schema cancel_cues`) abandons the
+   flow; (d) else it is a no-match — re-prompt, and after `MAX_SLOT_ATTEMPTS`
+   fall back. Recogniser guards behind this: enum fuzzy matching excludes
+   function words (so "the" can't resolve to the memory "three"), and the
+   `dateparser` fallback fires only on digit-bearing text (so "no" isn't read
+   as November).
 3. **Classify** — ONNX classify -> confidence gate -> **semantic rescue** if
    low-confidence -> entity/datetime extraction -> slot prompts.
 

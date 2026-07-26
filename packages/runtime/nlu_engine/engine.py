@@ -136,6 +136,13 @@ class NLUEngine:
             "interrupt_threshold", self.DEFAULT_INTERRUPT_THRESHOLD)
         self.affirmative = set(self.schema.get("affirmative", []))
         self.negative = set(self.schema.get("negative", []))
+        # Explicit cancellation cues, honoured while a slot-filling flow is
+        # active. Content-owned so a language pack overrides them; the default
+        # covers English. A bare refusal (schema `negative`, e.g. "no") is also
+        # treated as a cancel by _is_cancel — see there.
+        self._cancel_cues = tuple(self.schema.get("cancel_cues", (
+            "cancel", "stop", "never mind", "nevermind",
+            "forget it", "forget about it", "quit", "abort")))
         # GenAI base URL is configuration, not a result field. The raw user
         # utterance is NEVER embedded into an NLUResult (it would otherwise be
         # captured by any caller that logs the result). The app layer, which
@@ -669,6 +676,22 @@ class NLUEngine:
         if neg and pos:     return False
         return None
 
+    def _is_cancel(self, text: str) -> bool:
+        """True if `text` is a PURE cancellation of the active slot-filling flow.
+
+        Two forms count: an explicit cue ("cancel", "never mind", "stop"), or a
+        bare refusal ("no", "nope") with no other salient content. The purity
+        guard matters — "no, tomorrow at 5" is a CORRECTION that carries a real
+        value, not a cancel; it must fall through to normal extraction. So a
+        refusal only cancels when the turn is essentially just the refusal
+        (<= 2 tokens). Explicit cue words cancel regardless of length because
+        "cancel the reminder" has no other interpretation while a flow is open.
+        """
+        t = text.lower().strip()
+        if any(re.search(rf"\b{re.escape(c)}\b", t) for c in self._cancel_cues):
+            return True
+        return self._yes_no(t) is False and len(t.split()) <= 2
+
     def _answers_awaited_slot(self, session, cfg, text: str) -> bool:
         """True if `text` is a valid value for the slot we are waiting on.
 
@@ -730,6 +753,19 @@ class NLUEngine:
             result = self._handle_new_intent(session, text, now)
             result.interrupted_intent = abandoned
             return result
+
+        # Meta-command: a pure cancellation/refusal ABANDONS the flow instead of
+        # being mined for a slot value. Without this an open free-text slot
+        # stores "no" as the reminder name, and a typed slot drags the user
+        # through MAX_SLOT_ATTEMPTS dead reprompts. Guarded by `not answers_prompt`
+        # so a refusal word that is itself a valid enum value stays an answer,
+        # and by _is_cancel's purity check so "no, tomorrow at 5" (a correction
+        # carrying a value) falls through to extraction below.
+        if self._is_cancel(text) and not answers_prompt:
+            session.reset_slot_filling()
+            return NLUResult(type="FULFILL", intent="sys.slot.cancelled",
+                             action=None, message=self._confirm_cancel_msg,
+                             confidence=1.0, complete=True)
 
         awaiting = session.awaiting_slot
         if awaiting:
