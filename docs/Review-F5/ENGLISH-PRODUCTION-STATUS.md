@@ -1,9 +1,9 @@
-STATUS: IN PROGRESS — Track A, steps A1–A6 complete
+STATUS: IN PROGRESS — Track A, steps A1–A7 complete
 
 # English Production Cycle — Status
 
 - **Run date:** 2026-07-26
-- **Branch:** `claude/nlu-production-readiness-dqyl38` @ `a0fc9ec1`
+- **Branch:** `claude/nlu-production-readiness-dqyl38` @ `56011f3b`
 - **Driven from:** an interactive session, not the scheduled Routine (see
   *Blockers*). Charter: `docs/Review-F5/ENGLISH-PRODUCTION-ROUTINE.md`.
 
@@ -30,15 +30,18 @@ here depends on the data grade.
 | **A3** Language-neutrality guard (ratchet) | ✅ | Guard exits 0 with the allowlist; mutation-verified both directions; `test_neutrality` passed |
 | **A4** Language-aware negation suppression | ✅ | 21 negation tests; allowlist 6 → 5; ruff clean |
 | **A5** Normalised leakage matching + declared deps | ✅ | 14 leakage tests; bundle build/lifecycle/spec 27 passed with no import errors; suite 208 → 262 passed as declared deps unlocked previously-erroring tests |
-| **A6** Language Pack contract on `spec/bundle/3.0` | ✅ | 27 contract + boundary tests; loads the real golden bundles; contract imports nothing heavy; full suite 286 passed / 26 skipped |
+| **A6** Language Pack contract on `spec/bundle/3.0` | ✅ | 27 contract + boundary tests; loads the real golden bundles; contract imports nothing heavy |
+| **A7** Evict English behaviour into pack tables | ✅ | Golden 130 + 27 strip cases; fr/de/da parity 25 unchanged; conversation/conformance fixtures unchanged; **neutrality allowlist 6 → 0**; full suite 313 passed / 26 skipped |
 
-Suite at end of run: **286 passed, 26 skipped, 0 failed.** The 26 skips are all
+Suite at end of run: **313 passed, 26 skipped, 0 failed.** The 26 skips are all
 model-dependent (`trained artifacts not present`) — expected in the bootstrap
 grade, and the subject of charter step B0. The count rose from 208/30 because
 A5's declared dependencies let previously-erroring bundle tests actually run.
 
-Neutrality ratchet: **5 remaining**, all in `engine.py`/`entities.py`, all
-scheduled for removal by A7.
+Neutrality ratchet: **CLOSED at 0** (6 → 5 at A4 → 0 at A7). Review-F5 blocker
+**B10 is closed** — the engine has no language branches and no embedded match
+vocabulary. Adding a language is now shipping files, not editing code. A8 is
+what *proves* that rather than asserting it.
 
 ## Findings this run
 
@@ -64,7 +67,20 @@ scheduled for removal by A7.
    substring matching meant `"another translate"` contained `"not"` and was
    silently suppressed. Now word-boundary matched.
 
-4. **The A3 guard flagged prose.** The ported implementation split on `#`,
+4. **The reference branch's grammar table silently dropped a variant.** The
+   original regex was `half\s+an?\s+hour`, so `"in half a hour"` — ungrammatical
+   but common ASR output — resolved. The ref's `half_an_hour` list contained
+   only `"half an hour"`. Caught by the golden corpus during the port, not by
+   review. This is the clearest evidence that porting the ref's tables needed a
+   parity net rather than trust.
+
+5. **`strip_datetime` had zero test coverage**, so a whole function was about to
+   be refactored unguarded. Before trusting the new implementation it was
+   diffed against the pre-refactor version from git across 27 topic-strip cases
+   — zero differences — and only then captured. The corpus pins the original
+   behaviour, not the new implementation's opinion of it.
+
+6. **The A3 guard flagged prose.** The ported implementation split on `#`,
    leaving docstrings live, so a comment *describing* the forbidden pattern
    tripped it. Now tokenised — comments and string literals are blanked.
 
@@ -78,23 +94,19 @@ scheduled for removal by A7.
 | 4 | B1 unconditional-confirm policy decision | owner | closing the wrong-action budget |
 | 5 | Authorisation for the French pack trial | owner | P3 / the neutrality proof |
 
-## Next — A7, the datetime eviction
+## Next
 
-The largest remaining step, and the one the A1 golden corpus exists to guard.
-Research done, not yet started:
+- **A8 — hostile-pack test.** Copy the English bundle to a fake `zz`, relabel,
+  and assert the full pipeline runs end to end with no engine edit. This is the
+  only test that *proves* the neutrality claim. Groundwork is already visible:
+  `zz` today resolves to the default carriers, no localization and no overlay,
+  with no engine change required.
+- **A9 — make the guard blocking in CI.** The allowlist is already empty, so
+  this is wiring `check_language_neutral.py` and `test_neutrality.py` into
+  `ci.yml` as a required step.
+- **A10 — `release-pack.yml`**, dev-signed and channel-gated.
 
-- **Port, do not re-derive** (charter A7.1): `packs/en/datetime/grammar.json`,
-  `_DEFAULT_DT_GRAMMAR`, `_build_en_dt_tables()` and `_en_strip_patterns()` from
-  the reference branch.
-- **Reconcile, do not overwrite.** The two `entities.py` files have diverged —
-  ref 911 lines, current 795, ~354 differing. Keep this branch's restructure
-  paths and its `_lex_clock_hour` spaced-hour fix (`18 h` / `18 heures`), which
-  the reference lacks; a wholesale copy would silently revert it.
-- **Do not trust the ref's self-description.** `grammar.json`'s own `_note`
-  claims only `weekdays` and `word_numbers` are wired, while its code wires
-  considerably more.
-- **Gate every sub-step** on the A1 golden (130 cases), fr/de/da parity (25),
-  the conversation/conformance fixtures, and a strictly shrinking allowlist.
-
-Then **A8** (hostile-pack test — the actual proof a new language needs no engine
-edit), **A9** (guard blocking, allowlist empty), **A10** (`release-pack.yml`).
+One interim rule left behind by A7, to retire when the engine becomes pack-fed:
+semantic-artifact selection infers the encoder+head pair from localization-file
+presence. The pack manifest already carries `models.semantic_head.<lang>.artifact`,
+so wiring the engine to `nlu_langpack` removes the inference entirely.
