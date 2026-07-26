@@ -419,6 +419,8 @@ class NLUEngine:
         # this is the plumbing, not the fix.
         if models.weights is not None:
             kwargs["weights_path"] = models.weights
+        if models.calibration is not None:
+            kwargs["calibration_path"] = models.calibration
         return IntentClassifier(**kwargs)
 
     @staticmethod

@@ -28,19 +28,34 @@ def _stable_softmax(logits: np.ndarray) -> np.ndarray:
     return e / np.sum(e)
 
 
-def _load_temperature(weights_path: Path) -> float:
-    """Read the calibration temperature `T` exported alongside the model.
+def _load_temperature(weights_path: Path,
+                      calibration_path: Path | None = None) -> float:
+    """The calibration temperature `T` for softmax(logits / T).
 
-    The ONNX graph emits raw decision-function logits; confidence is calibrated
-    post-hoc by single-parameter temperature scaling: softmax(logits / T). A
-    missing file or missing "temperature" key means T = 1.0 (plain softmax), so
-    older artifacts stay backward compatible.
+    PRECEDENCE — `calibration.json` beats `weights.json`, and the order is the
+    whole point (Review-F5 blocker B8).
+
+    `calibration.json` is written by `nlu_training.fit_calibration`: fit
+    OUT-OF-FOLD on the same featurizer the shipped ONNX uses, with evaluation
+    sets excluded, and carrying provenance. `weights.json` carries the iOS
+    DEVICE temperature, fit against a pruned 1370-term vocabulary. Applying that
+    device value to full-vocab server logits is what B8 is: it shipped as
+    T=0.796 where the correct server value is 0.657, and no test could see it
+    because temperature is rank-preserving — it changes only confidence, never
+    which intent wins.
+
+    A missing file means T = 1.0 (plain softmax), so older artifacts still load.
     """
-    try:
-        meta = json.loads(Path(weights_path).read_text(encoding="utf-8"))
-        return float(meta.get("temperature", 1.0))
-    except (FileNotFoundError, ValueError, TypeError):
-        return 1.0
+    for path in (calibration_path, weights_path):
+        if path is None:
+            continue
+        try:
+            meta = json.loads(Path(path).read_text(encoding="utf-8"))
+        except (FileNotFoundError, ValueError, TypeError):
+            continue
+        if "temperature" in meta:
+            return float(meta["temperature"])
+    return 1.0
 
 
 # Honest, match-type-calibrated confidences for keyword hits. A keyword match
@@ -140,7 +155,8 @@ class IntentClassifier:
                  schema_path:  Path = SCHEMA_PATH,
                  weights_path: Path = WEIGHTS_PATH,
                  backend=None,
-                 negation_cues=None):
+                 negation_cues=None,
+                 calibration_path: Path | None = None):
         if backend is None and not model_path.exists():
             raise FileNotFoundError(
                 f"Model not found: {model_path}. Run `python scripts/train.py` first."
@@ -157,7 +173,7 @@ class IntentClassifier:
         self.backend = backend
         # Calibration temperature for softmax(logits / T). Sourced from the
         # exported weights JSON; defaults to 1.0 (plain softmax) when absent.
-        self.temperature = _load_temperature(weights_path)
+        self.temperature = _load_temperature(weights_path, calibration_path)
         # Language-specific negation cues, supplied by the caller from the
         # pack/lexicon. None => the English fallback table.
         self.negation_cues = tuple(negation_cues) if negation_cues else _DEFAULT_NEGATIONS

@@ -6,13 +6,13 @@
   "metrics": {
     "accuracy": 0.9007,
     "macro_f1": 0.8872,
-    "ece_15bin": 0.0441
+    "ece_15bin": 0.0315
   },
   "conditions": {
     "language": "en",
     "semantic_stage": false,
-    "temperature": 0.796286,
-    "temperature_provenance": "UNFITTED \u2014 inherited from the stale device export (Review-F5 blocker B8). Charter B2 replaces it.",
+    "temperature": 0.657336,
+    "temperature_provenance": "FITTED out-of-fold by nlu_training.fit_calibration (charter B2); provenance in models/intent/en/calibration.json. Replaces the stale device value 0.796286 that blocker B8 identified.",
     "rows": 1470,
     "intents": 57
   },
@@ -27,5 +27,13 @@
   "sha256": {
     "train.csv": "c971568c753964d11165ced32d86c949338a5b1070ac3dab849bfaf196be674f",
     "holdout_honest.csv": "85b48df9a345b83f13fed9402ac6e8227b8aef48907e9ea93127af36942973cf"
+  },
+  "calibration_fix": {
+    "before_T": 0.796286,
+    "before_ece": 0.0441,
+    "after_T": 0.657336,
+    "after_ece": 0.0315,
+    "accuracy_unchanged": 0.9007,
+    "note": "T is rank-preserving, so accuracy is identical to 4dp by construction \u2014 only the confidence scale moved. ECE on the honest holdout improved 1.4x. On the out-of-fold fitting distribution the improvement is 11.8x (0.1170 -> 0.0099); the holdout figure is the honest out-of-sample one and is the one to quote."
   }
 }
