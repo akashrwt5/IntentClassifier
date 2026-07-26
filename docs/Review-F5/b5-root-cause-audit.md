@@ -108,7 +108,26 @@ safety event — not a UX blemish.
 This is where the residue lives. It is a **representation ceiling**, not a
 threshold-tuning problem.
 
-## 4. A live regression that B9 caused and nobody has connected
+## 4. A regression that B9 caused and nobody has connected
+
+> **CORRECTED 2026-07-26 by `b9-decision-sweep.md`.** Two claims in this section
+> did not survive re-derivation on the honest holdout:
+>
+> - **"The removal rests on void evidence" → the evidence base was indeed void,
+>   but the decision was right anyway.** Restoring the six rules costs **+3
+>   wrong actions and −3 correct fulfils**; applied directly they fix 1 case and
+>   break 5 (`"take the mute off"` → mute, `"make it less loud"` → increase).
+>   The bare `\bmute\b` pattern cannot distinguish `"turn mute on"` from
+>   `"take the mute off"`. Do **not** restore them.
+> - **"Live regression" overstates it.** `"turn mute on"` scores 0.537, below
+>   the 0.70 fire threshold, so the engine deflects rather than misfires. The
+>   mis-prediction is real; the safety consequence is not.
+>
+> What holds: the *evidence base* for the directive was invalid and had to be
+> re-derived, which is the point of §8 item 1. The sweep also found the one
+> decision that is genuinely wrong — `semantic_rescue_enabled: false`. Read
+> `b9-decision-sweep.md` for the re-derived numbers.
+
 
 `content/platform.yaml` records an owner directive of 2026-07-24:
 
@@ -203,9 +222,12 @@ Ordered by evidence strength, not by cost:
    is the known one. This is a sweep, not a guess — grep for the 1,461 figure
    and re-derive each on the honest holdout. *No new policy; restoring the
    evidence base for existing policy.*
-2. **Restore `polarity_guards`** — the model provably cannot do polarity (§3),
-   and the evidence for removing them is void (§4). Re-measure on the honest
-   holdout. **Policy — owner call, but the original decision rests on nothing.**
+2. ~~**Restore `polarity_guards`**~~ — **withdrawn.** Re-derived in
+   `b9-decision-sweep.md`: restoring them costs +3 wrong actions and −3 correct
+   fulfils, because the bare lexical patterns break `"take the mute off"` and
+   `"make it less loud"`. The decision to remove them holds. Replaced by: *if*
+   the mute mis-prediction is judged worth a rule, design one that handles the
+   `off|remove|cancel` construction and validate it against those 6 cases.
 3. **Fix the mislabelled holdout rows** (§2). Requires care: the holdout is
    frozen, so correcting labels changes every number measured against it. Do it
    once, deliberately, with the manifest hash updated and the change recorded.
@@ -216,11 +238,18 @@ Ordered by evidence strength, not by cost:
 6. **Then** the OOS pool (audited), then gates, then re-measure. These are still
    worth doing — they are simply not first, and they should be fitted against a
    confidence signal that has stopped lying.
-7. **Re-open the semantic path.** `semantic_rescue_enabled: false`, yet
-   `models/semantic_head.{json,npz}` exist. Order, paraphrase and polarity are
-   exactly what an embedding representation fixes and TF-IDF never will. Worth
-   knowing why it is off before building a binary OOS head to solve a subset of
-   the same problem.
+7. **Re-open the semantic path — now the highest-value open item.** Measured in
+   `b9-decision-sweep.md`: enabling it gives **+50 correct fulfils and 100 fewer
+   deflections at +0 wrong actions**, against a recorded trade-off of "+5 wrong"
+   that does not reproduce. **But the semantic head predates B1 by one day and
+   therefore trained on what is now the holdout**, so that figure is an upper
+   bound, not a measurement. Retrain the head on post-B1 `train.csv` with
+   provenance, then re-measure.
+8. **Extend the B4 provenance contract to every model artifact.**
+   `semantic_head.json` carries `embedder`, `labels`, `weights`, `bias` and
+   nothing else — its leakage had to be inferred from a file mtime. Only
+   `calibration.json` is traceable, because it is the one artifact B8 forced us
+   to fix.
 
 **What I would not do now:** raise the fire threshold, add OOS data unaudited,
 or fit gate parameters — until items 1–4 land, all four are tuning against a

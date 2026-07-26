@@ -1,0 +1,559 @@
+{
+  "_note": "Guard decisions re-derived on the honest holdout after Review-F5 blocker B9 invalidated the evidence base. Measurement only — no policy file was modified.",
+  "holdout": "datasets/en/holdout_honest.csv",
+  "turns": 1470,
+  "configs": {
+    "baseline (as shipped)": {
+      "turns": 1470,
+      "wrong_actions": 11,
+      "wrong_queries": 2,
+      "confirm_gated_wrong": 8,
+      "fulfilled": 1061,
+      "correct_fulfilled": 1026,
+      "prompted": 85,
+      "fallback": 266,
+      "failures": [
+        {
+          "text": "turn off toshiba",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.mute",
+          "conf": 0.863
+        },
+        {
+          "text": "please got to getting a text message at boston",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.send",
+          "conf": 0.841
+        },
+        {
+          "text": "can you read last text message",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.974
+        },
+        {
+          "text": "can you phone phone phone phone phone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 0.999
+        },
+        {
+          "text": "please stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.874
+        },
+        {
+          "text": "can you stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.977
+        },
+        {
+          "text": "please my ears sweat",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.decrease",
+          "conf": 0.826
+        },
+        {
+          "text": "hear it as they got to go.",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.722
+        },
+        {
+          "text": "iphone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 1.0
+        },
+        {
+          "text": "play festival",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.983
+        },
+        {
+          "text": "set me up for conversation",
+          "truth": "device.memory.change",
+          "fired": "device.volume.increase",
+          "conf": 0.826
+        }
+      ]
+    },
+    "+ polarity guards restored": {
+      "turns": 1470,
+      "wrong_actions": 14,
+      "wrong_queries": 2,
+      "confirm_gated_wrong": 10,
+      "fulfilled": 1061,
+      "correct_fulfilled": 1023,
+      "prompted": 85,
+      "fallback": 266,
+      "failures": [
+        {
+          "text": "turn off toshiba",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.mute",
+          "conf": 0.863
+        },
+        {
+          "text": "please got to getting a text message at boston",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.send",
+          "conf": 0.841
+        },
+        {
+          "text": "can you read last text message",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.974
+        },
+        {
+          "text": "can you phone phone phone phone phone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 0.999
+        },
+        {
+          "text": "please stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.874
+        },
+        {
+          "text": "can you stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.977
+        },
+        {
+          "text": "please my ears sweat",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.decrease",
+          "conf": 0.826
+        },
+        {
+          "text": "hear it as they got to go.",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.722
+        },
+        {
+          "text": "iphone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 1.0
+        },
+        {
+          "text": "play festival",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.983
+        },
+        {
+          "text": "set me up for conversation",
+          "truth": "device.memory.change",
+          "fired": "device.volume.increase",
+          "conf": 0.826
+        },
+        {
+          "text": "take my aids off mute",
+          "truth": "device.volume.unmute",
+          "fired": "device.volume.mute",
+          "conf": 0.868
+        },
+        {
+          "text": "take the mute off",
+          "truth": "device.volume.unmute",
+          "fired": "device.volume.mute",
+          "conf": 0.998
+        },
+        {
+          "text": "make it less loud",
+          "truth": "device.volume.decrease",
+          "fired": "device.volume.increase",
+          "conf": 0.995
+        }
+      ]
+    },
+    "- help_marker_guard": {
+      "turns": 1470,
+      "wrong_actions": 18,
+      "wrong_queries": 2,
+      "confirm_gated_wrong": 11,
+      "fulfilled": 1057,
+      "correct_fulfilled": 1016,
+      "prompted": 86,
+      "fallback": 266,
+      "failures": [
+        {
+          "text": "hearing aids transcribe help",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "turn off toshiba",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.mute",
+          "conf": 0.863
+        },
+        {
+          "text": "can you show me transcribe user guide",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "please hearing aids transcribe help",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "please show me help for transcribe",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "can you show me help for transcribe",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "please got to getting a text message at boston",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.send",
+          "conf": 0.841
+        },
+        {
+          "text": "can you read last text message",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.974
+        },
+        {
+          "text": "can you phone phone phone phone phone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 0.999
+        },
+        {
+          "text": "please stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.874
+        },
+        {
+          "text": "can you stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.977
+        },
+        {
+          "text": "please my ears sweat",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.decrease",
+          "conf": 0.826
+        },
+        {
+          "text": "hearing aids translate guide",
+          "truth": "help.translate.show",
+          "fired": "translation.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "show me the translate help",
+          "truth": "help.translate.show",
+          "fired": "translation.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "hear it as they got to go.",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.722
+        }
+      ]
+    },
+    "+ semantic rescue": {
+      "turns": 1470,
+      "wrong_actions": 11,
+      "wrong_queries": 3,
+      "confirm_gated_wrong": 22,
+      "fulfilled": 1133,
+      "correct_fulfilled": 1076,
+      "prompted": 90,
+      "fallback": 166,
+      "failures": [
+        {
+          "text": "turn off toshiba",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.mute",
+          "conf": 0.863
+        },
+        {
+          "text": "please got to getting a text message at boston",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.send",
+          "conf": 0.841
+        },
+        {
+          "text": "can you read last text message",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.974
+        },
+        {
+          "text": "can you phone phone phone phone phone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 0.999
+        },
+        {
+          "text": "please stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.874
+        },
+        {
+          "text": "can you stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.977
+        },
+        {
+          "text": "please my ears sweat",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.decrease",
+          "conf": 0.826
+        },
+        {
+          "text": "hear it as they got to go.",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.722
+        },
+        {
+          "text": "iphone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 1.0
+        },
+        {
+          "text": "play festival",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.983
+        },
+        {
+          "text": "set me up for conversation",
+          "truth": "device.memory.change",
+          "fired": "device.volume.increase",
+          "conf": 0.826
+        }
+      ]
+    },
+    "+ polarity + semantic": {
+      "turns": 1470,
+      "wrong_actions": 14,
+      "wrong_queries": 3,
+      "confirm_gated_wrong": 23,
+      "fulfilled": 1134,
+      "correct_fulfilled": 1073,
+      "prompted": 90,
+      "fallback": 165,
+      "failures": [
+        {
+          "text": "turn off toshiba",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.mute",
+          "conf": 0.863
+        },
+        {
+          "text": "please got to getting a text message at boston",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.send",
+          "conf": 0.841
+        },
+        {
+          "text": "can you read last text message",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.974
+        },
+        {
+          "text": "can you phone phone phone phone phone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 0.999
+        },
+        {
+          "text": "please stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.874
+        },
+        {
+          "text": "can you stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.977
+        },
+        {
+          "text": "please my ears sweat",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.decrease",
+          "conf": 0.826
+        },
+        {
+          "text": "hear it as they got to go.",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.722
+        },
+        {
+          "text": "iphone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 1.0
+        },
+        {
+          "text": "play festival",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.983
+        },
+        {
+          "text": "set me up for conversation",
+          "truth": "device.memory.change",
+          "fired": "device.volume.increase",
+          "conf": 0.826
+        },
+        {
+          "text": "take my aids off mute",
+          "truth": "device.volume.unmute",
+          "fired": "device.volume.mute",
+          "conf": 0.868
+        },
+        {
+          "text": "take the mute off",
+          "truth": "device.volume.unmute",
+          "fired": "device.volume.mute",
+          "conf": 0.998
+        },
+        {
+          "text": "make it less loud",
+          "truth": "device.volume.decrease",
+          "fired": "device.volume.increase",
+          "conf": 0.995
+        }
+      ]
+    },
+    "+ polarity, - help_marker": {
+      "turns": 1470,
+      "wrong_actions": 21,
+      "wrong_queries": 2,
+      "confirm_gated_wrong": 13,
+      "fulfilled": 1057,
+      "correct_fulfilled": 1013,
+      "prompted": 86,
+      "fallback": 266,
+      "failures": [
+        {
+          "text": "hearing aids transcribe help",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "turn off toshiba",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.mute",
+          "conf": 0.863
+        },
+        {
+          "text": "can you show me transcribe user guide",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "please hearing aids transcribe help",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "please show me help for transcribe",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "can you show me help for transcribe",
+          "truth": "help.transcribe.show",
+          "fired": "transcription.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "please got to getting a text message at boston",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.send",
+          "conf": 0.841
+        },
+        {
+          "text": "can you read last text message",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.974
+        },
+        {
+          "text": "can you phone phone phone phone phone",
+          "truth": "sys.oos.fallback",
+          "fired": "find.phone.locate",
+          "conf": 0.999
+        },
+        {
+          "text": "please stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.874
+        },
+        {
+          "text": "can you stream, youtube music.",
+          "truth": "sys.oos.fallback",
+          "fired": "streaming.session.start",
+          "conf": 0.977
+        },
+        {
+          "text": "please my ears sweat",
+          "truth": "sys.oos.fallback",
+          "fired": "device.volume.decrease",
+          "conf": 0.826
+        },
+        {
+          "text": "hearing aids translate guide",
+          "truth": "help.translate.show",
+          "fired": "translation.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "show me the translate help",
+          "truth": "help.translate.show",
+          "fired": "translation.session.start",
+          "conf": 0.9
+        },
+        {
+          "text": "hear it as they got to go.",
+          "truth": "sys.oos.fallback",
+          "fired": "messaging.message.listen",
+          "conf": 0.722
+        }
+      ]
+    }
+  }
+}
