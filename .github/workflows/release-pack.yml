@@ -76,8 +76,8 @@ jobs:
       # measured from it is PROVISIONAL.
       - name: Resolve the dataset grade
         run: |
-          if [ -f datasets/04_GENERATED_MASTER_training_data.csv ] \
-             && [ "$(find datasets -name '*.csv' | wc -l)" -gt 6 ]; then
+          LANG_ARG="${{ github.event.inputs.language }}"
+          if [ -f "datasets/${LANG_ARG:-en}/train.csv" ]; then
             echo "data_grade=authoritative" >> "$GITHUB_ENV"
           else
             echo "::warning::Full datasets not committed yet — falling back to the PROVISIONAL English bootstrap corpus."
@@ -86,7 +86,7 @@ jobs:
           fi
 
       - name: Train the intent model
-        run: python -m nlu_training.train
+        run: python -m nlu_training.train --lang "${{ github.event.inputs.language || 'en' }}"
         env:
           PYTHONPATH: packages/buildtime
 
@@ -111,9 +111,9 @@ jobs:
         with:
           name: model-artifacts
           path: |
-            models/intent_model.onnx
-            models/intent_labels.pkl
-            models/intent_classifier_weights.json
+            models/intent/${{ github.event.inputs.language || 'en' }}/model.onnx
+            models/intent/${{ github.event.inputs.language || 'en' }}/labels.pkl
+            models/intent/${{ github.event.inputs.language || 'en' }}/weights.json
             dist/report_card.json
 
   # 2) CoreML/ANE export on macOS — coremltools and the Core ML runtime need it.
@@ -137,7 +137,7 @@ jobs:
       - name: Stage the trained model
         run: |
           mkdir -p models
-          cp dl/models/intent_model.onnx              models/intent_model.onnx
+          cp dl/models/intent_model.onnx              models/intent/${{ github.event.inputs.language || 'en' }}/model.onnx
           cp dl/models/intent_classifier_weights.json models/intent_classifier_weights.json
       - name: Export the CoreML model
         run: |

@@ -1,0 +1,22 @@
+{
+  "_note": "FROZEN honest holdout (charter B1). Disjoint from train.csv by normalised text. Never train on it; never tune against it beyond reporting. Changing either file invalidates every number measured here \u2014 the hashes below make that visible.",
+  "language": "en",
+  "created_at": "2026-07-26T08:06:51Z",
+  "method": "stratified by intent, grouped by normalised text",
+  "seed": 42,
+  "holdout_fraction_requested": 0.15,
+  "rows": {
+    "train": 8353,
+    "holdout": 1470
+  },
+  "intents": {
+    "train": 57,
+    "holdout": 57
+  },
+  "intents_kept_wholly_in_train": [],
+  "sha256": {
+    "train.csv": "c971568c753964d11165ced32d86c949338a5b1070ac3dab849bfaf196be674f",
+    "holdout_honest.csv": "85b48df9a345b83f13fed9402ac6e8227b8aef48907e9ea93127af36942973cf"
+  },
+  "supersedes": "multilingual/test/en_holdout.csv \u2014 1460/1461 rows appeared verbatim in training data (Review-F5 blocker B9)"
+}
