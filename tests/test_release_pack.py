@@ -165,3 +165,87 @@ def test_workflow_verifies_before_publishing(workflow):
     verify = next(i for i, n in enumerate(names) if "Verify" in n)
     publish = next(i for i, n in enumerate(names) if "Publish" in n)
     assert verify < publish, "verification must precede publication"
+
+
+# --------------------------------------------------------------------------- #
+# Calibration must travel with the model
+# --------------------------------------------------------------------------- #
+
+_FITTED_CALIB = _ROOT / "models" / "intent" / "en" / "calibration.json"
+
+
+@pytest.mark.skipif(not _FITTED_CALIB.exists(), reason="no fitted calibration")
+def test_calibration_is_translated_into_the_bundle_contract(tmp_path):
+    """The build artifact and the in-bundle artifact are different shapes.
+
+    `nlu_training.fit_calibration` writes a rich record (fit provenance, excluded
+    eval sets, fitter identity). The bundle form
+    (spec/bundle/3.0/calibration.schema.json) is the lean on-device contract:
+    `additionalProperties: false` and `conf_threshold` required. Copying the build
+    file in raw fails stage-1 validation, so assemble_pack translates it — this
+    test is what stops someone "simplifying" that back into a copy.
+    """
+    nlu = _build(tmp_path, calibration=_FITTED_CALIB)
+    packed = json.loads(zipfile.ZipFile(nlu).read("models/intent/en/calibration.json"))
+    fitted = json.loads(_FITTED_CALIB.read_text(encoding="utf-8"))
+
+    assert packed["temperature"] == fitted["temperature"], (
+        "the pack must carry the temperature actually fitted for this model")
+    assert packed["method"] == "temperature_scaling"
+    # The fire threshold ships alongside: a runtime holding one without the other
+    # cannot reproduce a confidence gate.
+    schema = json.loads((_ROOT / "content" / "nlu_schema.json").read_text(encoding="utf-8"))
+    assert packed["conf_threshold"] == schema["confidence_threshold"]
+    # `fitted_on` is the leakage audit — it is what makes a stale T detectable.
+    assert packed["fitted_on"] == fitted["provenance"]["source_sha256"]
+    assert set(packed) <= {"temperature", "conf_threshold", "method",
+                           "ece_raw", "ece_calibrated", "fitted_on"}, (
+        "extra keys break the bundle schema's additionalProperties: false")
+
+
+@pytest.mark.skipif(not _FITTED_CALIB.exists(), reason="no fitted calibration")
+def test_a_pack_without_calibration_would_run_uncalibrated(tmp_path):
+    """Guard against silently shipping a pack with no temperature.
+
+    A consumer that finds no calibration.json falls back to T = 1.0 (plain
+    softmax), which mis-tunes the fire threshold, the confirm band and slot
+    acceptance at once — blocker B8 in a new place. The minimal golden bundle
+    ships its own placeholder, so what this asserts is that passing --calibration
+    REPLACES it rather than leaving the placeholder in place.
+    """
+    placeholder = json.loads(
+        (_MINIMAL / "models" / "intent" / "en" / "calibration.json")
+        .read_text(encoding="utf-8"))
+    fitted = json.loads(_FITTED_CALIB.read_text(encoding="utf-8"))
+    assert placeholder["temperature"] != fitted["temperature"], (
+        "fixture drifted: the golden placeholder now equals the fitted value, so "
+        "this test can no longer tell them apart")
+    nlu = _build(tmp_path, calibration=_FITTED_CALIB)
+    packed = json.loads(zipfile.ZipFile(nlu).read("models/intent/en/calibration.json"))
+    assert packed["temperature"] == fitted["temperature"]
+
+
+def test_workflow_ships_calibration_and_uses_per_language_paths(workflow):
+    """The paths the relayout retired must not come back.
+
+    `dl/models/intent_model.onnx`, `dl/models/intent_labels.pkl` and
+    `dl/models/intent_classifier_weights.json` were flat legacy locations. After
+    the per-language relayout they cannot exist, so assemble_pack aborted on
+    "artifact not found" and the CoreML staging step failed before it reached the
+    exporter.
+    """
+    text = _WORKFLOW.read_text(encoding="utf-8")
+    # Comments are stripped first: the workflow DOCUMENTS these dead paths so the
+    # next reader knows why they went away, and a naive substring scan would flag
+    # that explanation as the defect it describes.
+    live = "\n".join(line.split("#", 1)[0] for line in text.splitlines())
+    for stale in ("dl/models/intent_model.onnx",
+                  "dl/models/intent_labels.pkl",
+                  "dl/models/intent_classifier_weights.json"):
+        assert stale not in live, f"stale pre-relayout path still referenced: {stale}"
+    assert "--calibration" in text, (
+        "the release must package the fitted temperature with the model")
+    assert "fit_calibration" in text, (
+        "T must be refit for the model trained in this run, not inherited")
+    # The exporter has no --out flag; passing one aborts the step.
+    assert "export_coreml --out" not in text

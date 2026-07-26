@@ -58,6 +58,7 @@ def assemble(src: Path, version: str, out_dir: Path, *,
              model: Path | None = None,
              labels: Path | None = None,
              weights: Path | None = None,
+             calibration: Path | None = None,
              coreml: Path | None = None,
              report: Path | None = None,
              key_id: str | None = None,
@@ -101,6 +102,45 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         intent_dir.mkdir(parents=True, exist_ok=True)
         shutil.copy(artifact, intent_dir / dest)
         refreshed.append(f"models/intent/{lang}/{dest}")
+
+    # calibration.json travels WITH the model on purpose. Confidence is
+    # softmax(logits / T), so a pack shipped without its T falls back to T = 1.0
+    # (plain softmax) and mis-tunes the fire threshold, the confirm band and slot
+    # acceptance all at once — blocker B8 in a new place.
+    #
+    # It is TRANSLATED, not copied. The build artifact written by
+    # nlu_training.fit_calibration is deliberately richer (full fit provenance,
+    # excluded eval sets, fitter identity); the bundle form is the lean on-device
+    # contract in spec/bundle/3.0/calibration.schema.json, which forbids
+    # additional properties and requires conf_threshold. Copying the build file
+    # in raw fails stage-1 validation.
+    if calibration is not None:
+        if not calibration.exists():
+            return _fail(f"artifact not found: {calibration}")
+        fitted = json.loads(calibration.read_text(encoding="utf-8"))
+        schema_path = REPO / "content" / "nlu_schema.json"
+        conf_threshold = json.loads(
+            schema_path.read_text(encoding="utf-8")).get("confidence_threshold", 0.70)
+        payload = {
+            "temperature": fitted["temperature"],
+            # The fire threshold ships with the temperature it is expressed in:
+            # a runtime that has one without the other cannot reproduce a gate.
+            "conf_threshold": conf_threshold,
+            "method": "temperature_scaling",
+        }
+        if "ece_uncalibrated" in fitted:
+            payload["ece_raw"] = fitted["ece_uncalibrated"]
+        if "ece" in fitted:
+            payload["ece_calibrated"] = fitted["ece"]
+        # `fitted_on` exists for the leakage audit — it is the hash of the data
+        # the temperature was fit on, which is what makes a stale T detectable.
+        src_hash = (fitted.get("provenance") or {}).get("source_sha256")
+        if isinstance(src_hash, str) and len(src_hash) == 64:
+            payload["fitted_on"] = src_hash
+        intent_dir.mkdir(parents=True, exist_ok=True)
+        (intent_dir / "calibration.json").write_text(
+            json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        refreshed.append(f"models/intent/{lang}/calibration.json")
 
     if coreml is not None:
         if not coreml.exists():
@@ -168,6 +208,9 @@ def main(argv=None) -> int:
     ap.add_argument("--model", type=Path, default=None, help="trained intent ONNX")
     ap.add_argument("--labels", type=Path, default=None)
     ap.add_argument("--weights", type=Path, default=None)
+    ap.add_argument("--calibration", type=Path, default=None,
+                    help="fitted calibration.json — the temperature MUST ship "
+                         "with the model it calibrates")
     ap.add_argument("--coreml", type=Path, default=None, help=".mlpackage for iOS")
     ap.add_argument("--report", type=Path, default=None, help="report_card.json")
     ap.add_argument("--key-id", default=None,
@@ -176,7 +219,8 @@ def main(argv=None) -> int:
                     choices=["dev", "beta", "production"])
     a = ap.parse_args(argv)
     return assemble(a.src, a.version, a.out, language=a.language, model=a.model,
-                    labels=a.labels, weights=a.weights, coreml=a.coreml,
+                    labels=a.labels, weights=a.weights,
+                    calibration=a.calibration, coreml=a.coreml,
                     report=a.report, key_id=a.key_id, channel=a.channel)
 
 
