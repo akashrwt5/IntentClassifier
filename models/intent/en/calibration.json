@@ -1,24 +1,24 @@
 {
   "_note": "Confidence calibration for the SERVER/ONNX featurizer: softmax(logits / temperature). Fit OUT-OF-FOLD on data the model has not memorised, with evaluation sets excluded. The iOS/device temperature is fit separately against pruned device logits \u2014 the two calibrate different featurizers and must NOT be unified (Review-F5 blocker B8).",
-  "temperature": 0.653484,
-  "ece": 0.0106,
-  "ece_uncalibrated": 0.1192,
+  "temperature": 0.653712,
+  "ece": 0.0119,
+  "ece_uncalibrated": 0.1206,
   "provenance": {
     "method": "out-of-fold NLL minimisation (bounded scalar)",
     "folds": 5,
     "seed": 0,
-    "n_samples": 6437,
+    "n_samples": 6406,
     "n_intents": 57,
     "featurizer": "TfidfVectorizer({'ngram_range': (1, 2), 'min_df': 2, 'sublinear_tf': True}) + LogisticRegression({'max_iter': 3000, 'class_weight': 'balanced', 'C': 15.0})",
     "max_per_intent": 500,
     "source": "datasets/en/train.csv",
-    "source_sha256": "eed41449b7f2d14f013f94562af4e80f010d06d6fea3c083b7547cdbfa25c246",
+    "source_sha256": "95060d4ed540ae1fb3592350deec8fe6124b0b36833a2e47d3227bb09338f8dd",
     "eval_sets_excluded": [
       "datasets/en/holdout_honest.csv",
       "datasets/en/holdout_leakage_guard.csv",
       "datasets/en/holdout_paraphrase.csv"
     ],
-    "fitted_at": "2026-07-26T12:41:48Z",
+    "fitted_at": "2026-07-26T17:47:09Z",
     "fitted_by": "nlu_training.fit_calibration"
   }
 }

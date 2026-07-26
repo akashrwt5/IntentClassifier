@@ -106,6 +106,12 @@ _add("rel.quantifier",
      "in a couple minutes", "in a couple of hours", "in a few min")
 # §1 half an hour
 _add("rel.half_hour", "in half an hour", "in half a hour")
+# Word-number durations: §1 is retried after the §3 normaliser so these resolve
+# in the grammar. They were KNOWN_GAPS until that ordering was fixed; before it,
+# they fell through to the dateparser fallback and resolved against wall-clock
+# time, so the answer depended on whether an optional package was installed.
+_add("rel.wordnum", "in five minutes", "in twenty minutes", "in ten minutes",
+     "in two hours")
 
 # §2 explicit past rejection — returns before §8, so deterministic
 _add("reject.yesterday", "yesterday", "remind me yesterday", "yesterday at 9am")
@@ -122,16 +128,11 @@ _add("wordnum",
 # changing them is a behaviour change that needs its own step and sign-off.
 # --------------------------------------------------------------------------- #
 KNOWN_GAPS: list[tuple[str, str]] = [
-    ("in five minutes",
-     "word-number RELATIVE DURATIONS are unsupported: §1 matches only `\\d+`, and "
-     "it runs BEFORE the §3 word-number normaliser, so 'five' never becomes '5'. "
-     "`_normalise_word_numbers('in five minutes')` does return 'in 5 minutes', and "
-     "'in 5 minutes' parses correctly — only the ordering is wrong. Word-number "
-     "CLOCK times ('nine pm') work because §6 runs after the normaliser. "
-     "Environment-dependent to boot: with `dateparser` installed the §8 fallback "
-     "likely absorbs these, so the feature appears to work in a dev environment "
-     "and silently fails in a lean container."),
-    ("in twenty minutes", "same root cause as 'in five minutes'"),
+    # (empty) — the word-number DURATION gap recorded here was fixed: §1 is now
+    # retried after the §3 normaliser, so "in five minutes" resolves in the
+    # deterministic grammar instead of falling through to the dateparser
+    # fallback, and the §8 fallback anchors on the injected `now` via
+    # RELATIVE_BASE. Both cases moved into the corpus below as `rel.wordnum`.
 ]
 
 # §4 day anchors (priority: day-after-tomorrow before tomorrow)

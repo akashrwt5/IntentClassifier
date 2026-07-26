@@ -248,6 +248,36 @@ class EntityExtractor:
     def _rel_delta(self, canon: str, n: int) -> timedelta:
         return timedelta(**{self._UNIT_DELTA[canon]: n})
 
+    def _match_relative_duration(self, t: str, now):
+        """Resolve "in/for N <unit>" forms, or None if the text carries none.
+
+        Extracted so `extract_datetime` can try it BOTH before and after word-number
+        normalisation: the patterns need a digit, so a spelled-out duration only
+        becomes matchable once "five" has become "5".
+        """
+        # "in N <unit>" / "for N <unit>"
+        m = re.search(rf"\b(?:{self._alt_in_for})\s+(\d+)\s*({self._alt_unit})\b", t)
+        if m:
+            n = int(m.group(1)); canon = self._unit_canon[m.group(2).lower()]
+            return self._to_utc_iso(now + self._rel_delta(canon, n)), m.group(), 1.0, True, False
+        # "in a/an <unit>"  (n = 1)
+        m = re.search(rf"\b(?:{self._alt_in})\s+(?:{self._alt_article})\s+({self._alt_unit})\b", t)
+        if m:
+            canon = self._unit_canon[m.group(1).lower()]
+            return self._to_utc_iso(now + self._rel_delta(canon, 1)), m.group(), 1.0, True, False
+        # "in a few / a couple of <unit>" (quantifier count; minute/hour only,
+        # preserving the original parser's scope)
+        for qalt, qn in self._quant_specs:
+            m = re.search(rf"\b(?:{self._alt_in})\s+(?:{qalt})\s*({self._alt_unit_mh})\b", t)
+            if m:
+                canon = self._unit_canon[m.group(1).lower()]
+                return self._to_utc_iso(now + self._rel_delta(canon, qn)), m.group(), 1.0, True, False
+        # "in half an hour"
+        if self._alt_half_an_hour and re.search(
+                rf"\b(?:{self._alt_in})\s+(?:{self._alt_half_an_hour})\b", t):
+            return self._to_utc_iso(now + timedelta(minutes=30)), "in half an hour", 1.0, True, False
+        return None
+
     # ----- Lexicon-driven datetime: reverse-lookup tables (built once) -----
 
     def _en_strip_patterns(self):
@@ -695,27 +725,9 @@ class EntityExtractor:
         t = text.lower().strip()
 
         # --- 1. Relative durations (markers/units/quantifiers from the grammar) ---
-        # "in N <unit>" / "for N <unit>"
-        m = re.search(rf"\b(?:{self._alt_in_for})\s+(\d+)\s*({self._alt_unit})\b", t)
-        if m:
-            n = int(m.group(1)); canon = self._unit_canon[m.group(2).lower()]
-            return self._to_utc_iso(now + self._rel_delta(canon, n)), m.group(), 1.0, True, False
-        # "in a/an <unit>"  (n = 1)
-        m = re.search(rf"\b(?:{self._alt_in})\s+(?:{self._alt_article})\s+({self._alt_unit})\b", t)
-        if m:
-            canon = self._unit_canon[m.group(1).lower()]
-            return self._to_utc_iso(now + self._rel_delta(canon, 1)), m.group(), 1.0, True, False
-        # "in a few / a couple of <unit>" (quantifier count; minute/hour only,
-        # preserving the original parser's scope)
-        for qalt, qn in self._quant_specs:
-            m = re.search(rf"\b(?:{self._alt_in})\s+(?:{qalt})\s*({self._alt_unit_mh})\b", t)
-            if m:
-                canon = self._unit_canon[m.group(1).lower()]
-                return self._to_utc_iso(now + self._rel_delta(canon, qn)), m.group(), 1.0, True, False
-        # "in half an hour"
-        if self._alt_half_an_hour and re.search(
-                rf"\b(?:{self._alt_in})\s+(?:{self._alt_half_an_hour})\b", t):
-            return self._to_utc_iso(now + timedelta(minutes=30)), "in half an hour", 1.0, True, False
+        hit = self._match_relative_duration(t, now)
+        if hit is not None:
+            return hit
 
         # --- 2. Explicit past-date rejection (words from the grammar) ---
         if any(rex.search(t) for rex in self._yesterday_res):
@@ -723,6 +735,19 @@ class EntityExtractor:
 
         # --- 3. Normalise word numbers so "nine pm" -> "9 pm", "nine thirty" -> "9 30" ---
         t = self._normalise_word_numbers(t)
+
+        # Re-try the duration grammar on the normalised form. Step 1 requires a
+        # DIGIT, so a spelled-out duration ("in five minutes") missed it, fell
+        # through every branch, and landed in the dateparser fallback at step 8 —
+        # which resolved it against WALL-CLOCK time, ignoring the `now` the caller
+        # injected. That made the result non-deterministic and dependent on
+        # whether the optional `dateparser` package happens to be installed, so
+        # the same utterance answered differently in CI, on a dev box, and on iOS
+        # (which has no dateparser at all). Matching it here keeps it in the
+        # deterministic, Swift-portable grammar.
+        hit = self._match_relative_duration(t, now)
+        if hit is not None:
+            return hit
 
         # --- 4. Day anchor (matchers + offsets from the grammar; match order
         # preserves day-after-tomorrow before tomorrow so the shared substring
@@ -899,11 +924,19 @@ class EntityExtractor:
             # numeric ("june 5", "the 25th", "12/25"); it has a digit. The bare
             # 1-2 digit case is handled earlier, so exclude it here.
             if re.search(r"\d", t) and not re.fullmatch(r"\d{1,2}", t):
+                # RELATIVE_BASE anchors dateparser to the `now` the CALLER
+                # injected. Without it dateparser silently uses wall-clock time,
+                # so any relative form reaching this branch resolved differently
+                # on every invocation and ignored an injected `now` entirely —
+                # which is why the golden-corpus capture script refuses cases
+                # that reach here. Deterministic tests are only possible if the
+                # whole path honours one clock.
                 dt = dateparser.parse(
                     t,
                     settings={
                         "PREFER_DATES_FROM": "future",
                         "PARSERS": ["absolute-time", "relative-time"],
+                        "RELATIVE_BASE": now.replace(tzinfo=None),
                     },
                 )
                 if dt:

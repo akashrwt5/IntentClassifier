@@ -35,7 +35,7 @@ FITTED = _ROOT / "models" / "intent" / "en" / "slot_thresholds.json"
 
 # From `python -m nlu_training.fit_slot_thresholds --lang en --write`.
 EXPECTED_SLOT = 0.5
-EXPECTED_INTERRUPT = 0.67
+EXPECTED_INTERRUPT = 0.68
 
 
 # ---------------------------- configuration --------------------------------

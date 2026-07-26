@@ -5,11 +5,11 @@
       "turns": 1470,
       "wrong_actions": 4,
       "wrong_queries": 2,
-      "confirm_gated_wrong": 15,
-      "fulfilled": 1031,
-      "prompted": 85,
-      "fallback": 261,
-      "confirmed": 93,
+      "confirm_gated_wrong": 16,
+      "fulfilled": 1005,
+      "prompted": 88,
+      "fallback": 257,
+      "confirmed": 120,
       "per_domain": {
         "find": 2,
         "streaming": 1,
@@ -30,7 +30,7 @@
       "text": "can you stream, youtube music.",
       "truth": "sys.oos.fallback",
       "fired": "streaming.session.start",
-      "confidence": 0.976
+      "confidence": 0.973
     },
     {
       "lang": "en",
@@ -44,14 +44,14 @@
       "text": "play festival",
       "truth": "sys.oos.fallback",
       "fired": "messaging.message.listen",
-      "confidence": 0.985
+      "confidence": 0.983
     }
   ],
   "provenance": {
     "en": {
       "holdout": "datasets/en/holdout_honest.csv",
       "holdout_sha256": "c1e3ee7067ce89c5f49330703ff1c1ccc01d666b291172e78cdf0794d61026a1",
-      "temperature": 0.653484
+      "temperature": 0.653712
     }
   },
   "wrong_actions_shipped_langs": 4,

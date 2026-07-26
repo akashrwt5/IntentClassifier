@@ -33,11 +33,11 @@ UC = SCHEMA["uncertain_confirm"]
 GATED = set(UC["intents"])
 LANGS = ("fr", "de", "da")
 
-# Fit out-of-fold on datasets/en/train.csv at T=0.657336 by
+# Fit out-of-fold on datasets/en/train.csv at T=0.653712 by
 # `python -m nlu_training.fit_confirm_gate --lang en --max-friction 0.15`:
-# catches 80.7% of wrong state-changing predictions for 14.1% friction on
+# catches 80.2% of wrong state-changing predictions for 14.4% friction on
 # correct ones. Change it there, not here.
-EXPECTED_BELOW = 0.9
+EXPECTED_BELOW = 0.91
 WRONG_ACTION_BUDGET = 5
 
 
@@ -115,7 +115,7 @@ def test_a_slot_flow_completing_on_entry_still_hits_the_gate():
     `_advance_slots` returned FULFILL directly when the classifying utterance
     already carried every required slot, bypassing the gate in `_fulfill_intent`.
     "can you to us number one hits" classified as device.memory.change at 0.529 —
-    far under the 0.90 band, and device.memory.change IS gated — but "one" filled
+    far under the confirm band, and device.memory.change IS gated — but "one" filled
     the memory slot and the program changed silently. It reported confidence 1.0
     (slot-fill certainty, not the intent's), which is what hid it.
     """

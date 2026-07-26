@@ -8,7 +8,14 @@ pandas>=2.0,<3.0
 scikit-learn>=1.3,<2.0
 scipy>=1.10,<2.0        # bounded scalar minimization for temperature-scaling fit
 joblib>=1.3,<2.0
-onnxruntime>=1.16,<2.0
+# onnxruntime dropped CPython 3.10 wheels after 1.23.2: 1.24+ publishes only
+# cp311-cp314. Its `Requires-Python` metadata still admits 3.10, so a universal
+# lock resolves 1.24.x for the <3.11 branch by metadata and then cannot install
+# on an actual 3.10 runner ("no wheels with a matching Python implementation
+# tag"). The bound has to be expressed here, per Python version, or `make lock`
+# regenerates the broken pin every time.
+onnxruntime>=1.16,<1.24 ; python_version < "3.11"
+onnxruntime>=1.16,<2.0 ; python_version >= "3.11"
 skl2onnx>=1.16,<2.0
 numpy>=1.24,<3.0
 

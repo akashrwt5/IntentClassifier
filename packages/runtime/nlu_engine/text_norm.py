@@ -34,10 +34,20 @@ keyword stage matches raw text. This mirrors the accent-folding rationale in
 """
 
 import re
+from functools import lru_cache
 
-# Explicit contraction expansions. Longest/most specific first is not required —
-# the regex is anchored on word boundaries and each key is matched whole.
-_CONTRACTIONS = {
+# Explicit contraction expansions. Order here does not matter: the alternation is
+# built longest-first by `_contraction_re` and anchored on word boundaries, so a
+# key that prefixes another cannot shadow it.
+#
+# ENGLISH FALLBACK ONLY. Contractions are language-specific — fr "j'ai"/"n'est",
+# da "det's" — and expanding them needs that language's own table, so a pack
+# supplies its own via `normalize_text(text, contractions=...)`. The `_DEFAULT_`
+# prefix is the neutrality guard's convention for an overridable DATA table
+# (see scripts/ci/check_language_neutral.py check 2): without it this would be
+# English match vocabulary embedded in the engine, which is what made negation
+# suppression a silent no-op for three languages before A4.
+_DEFAULT_CONTRACTIONS = {
     "won't": "will not", "can't": "cannot", "ain't": "is not",
     "don't": "do not", "doesn't": "does not", "didn't": "did not",
     "isn't": "is not", "aren't": "are not", "wasn't": "was not",
@@ -58,16 +68,28 @@ _CONTRACTIONS = {
     "they'd": "they would",
 }
 
-# Match either ASCII (') or Unicode right single quote (’) inside keys.
-_CONTRACTION_RE = re.compile(
-    r"\b(" + "|".join(re.escape(k) for k in _CONTRACTIONS) + r")\b")
 _APOSTROPHES = ("’", "ʼ", "`")
 _SPACE_RE = re.compile(r"\s+")
 
 
-def normalize_text(text: str) -> str:
+@lru_cache(maxsize=8)
+def _contraction_re(keys: tuple[str, ...]) -> "re.Pattern":
+    """Compiled alternation for one contraction table, built once per table.
+
+    Cached on the key tuple rather than module-level so a pack's table costs the
+    same as the default one. Longest-first so a key that prefixes another cannot
+    shadow it.
+    """
+    ordered = sorted(keys, key=len, reverse=True)
+    return re.compile(r"\b(" + "|".join(re.escape(k) for k in ordered) + r")\b")
+
+
+def normalize_text(text: str, contractions: dict | None = None) -> str:
     """lowercase -> unify apostrophes -> expand contractions -> drop residual
     apostrophes -> collapse whitespace.
+
+    `contractions` comes from the pack/lexicon for the language being processed;
+    None uses the English fallback table, so existing callers behave as before.
 
     Examples:
         "what's up"        -> "what is up"
@@ -75,10 +97,12 @@ def normalize_text(text: str) -> str:
         "mom's reminder"   -> "moms reminder"
         "turn up the volume" -> "turn up the volume"   (unchanged)
     """
+    table = contractions if contractions is not None else _DEFAULT_CONTRACTIONS
     t = str(text).lower().strip()
     for ap in _APOSTROPHES:
         t = t.replace(ap, "'")
-    t = _CONTRACTION_RE.sub(lambda m: _CONTRACTIONS[m.group(1)], t)
+    if table:
+        t = _contraction_re(tuple(table)).sub(lambda m: table[m.group(1)], t)
     t = t.replace("'", "")            # residual possessives / o'clock -> oclock
     return _SPACE_RE.sub(" ", t).strip()
 

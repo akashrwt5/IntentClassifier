@@ -2,7 +2,7 @@
   "version": 2,
   "confidence_threshold": 0.7,
   "slot_confidence_threshold": 0.5,
-  "interrupt_threshold": 0.67,
+  "interrupt_threshold": 0.68,
   "semantic_threshold": 0.4,
   "semantic_rescue_enabled": false,
   "keyword_triggers": [
@@ -541,7 +541,7 @@
     }
   },
   "uncertain_confirm": {
-    "below_confidence": 0.9,
+    "below_confidence": 0.91,
     "cancel_message": "Okay, I won't.",
     "confirm_floor": 0.55,
     "intents": [

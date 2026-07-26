@@ -68,6 +68,13 @@ from sklearn.pipeline import Pipeline
 
 from nlu_training.leakage import normalize_text
 
+# The FEATURISATION normaliser the trainer applies (contraction expansion +
+# apostrophe folding), imported under a distinct name because
+# `nlu_training.leakage.normalize_text` is a DIFFERENT function used for
+# set-comparison during leakage checks. Confusing the two silently changes what
+# is being fitted.
+from nlu_engine.text_norm import normalize_text as featurize_text
+
 BASE_DIR = Path(__file__).resolve().parents[3]
 T_BOUNDS = (0.05, 10.0)
 DEFAULT_FOLDS = 5
@@ -168,7 +175,11 @@ def fit(lang: str, folds: int, write: bool) -> int:
         return 1
 
     df = pd.read_csv(data_path, encoding="utf-8-sig").dropna(subset=["text", "intent"])
-    df["text"] = df["text"].astype(str).str.lower().str.strip()
+    # MUST mirror train.py, which applies text_norm.normalize_text before
+    # fitting and before the ONNX export. Lower+strip alone leaves
+    # apostrophes in, so the fitted values would describe a featurizer the
+    # shipped model does not use — blocker B8 in a new place.
+    df["text"] = df["text"].astype(str).map(featurize_text)
     df["intent"] = df["intent"].astype(str).str.strip()
     df = df.drop_duplicates(subset=["text", "intent"])
     df = df.groupby("intent").tail(MAX_PER_INTENT).reset_index(drop=True)

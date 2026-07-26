@@ -5,7 +5,7 @@
   "source": "packages/runtime/nlu_engine/entities.py::extract_datetime",
   "reference_grammar_crosscheck": "git show origin/claude/claude-setup-architecture-ebqobs-Temperaturescaling-fixes:packs/en/datetime/grammar.json",
   "now_iso": "2026-06-14T14:30:00+00:00",
-  "dateparser_present_at_capture": false,
+  "dateparser_present_at_capture": true,
   "branches": [
     "ampm",
     "anchor",
@@ -31,23 +31,15 @@
     "rel.for",
     "rel.half_hour",
     "rel.quantifier",
+    "rel.wordnum",
     "rollforward",
     "space_hm",
     "weekday",
     "weekday.with_time",
     "wordnum"
   ],
-  "case_count": 130,
-  "known_gaps": [
-    {
-      "utterance": "in five minutes",
-      "why": "word-number RELATIVE DURATIONS are unsupported: \u00a71 matches only `\\d+`, and it runs BEFORE the \u00a73 word-number normaliser, so 'five' never becomes '5'. `_normalise_word_numbers('in five minutes')` does return 'in 5 minutes', and 'in 5 minutes' parses correctly \u2014 only the ordering is wrong. Word-number CLOCK times ('nine pm') work because \u00a76 runs after the normaliser. Environment-dependent to boot: with `dateparser` installed the \u00a78 fallback likely absorbs these, so the feature appears to work in a dev environment and silently fails in a lean container."
-    },
-    {
-      "utterance": "in twenty minutes",
-      "why": "same root cause as 'in five minutes'"
-    }
-  ],
+  "case_count": 134,
+  "known_gaps": [],
   "strip_cases": [
     {
       "text": "remind me to call mum at 6pm",
@@ -411,6 +403,38 @@
       "utterance": "in half a hour",
       "branch": "rel.half_hour",
       "iso": "2026-06-14T15:00+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in five minutes",
+      "branch": "rel.wordnum",
+      "iso": "2026-06-14T14:35+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in twenty minutes",
+      "branch": "rel.wordnum",
+      "iso": "2026-06-14T14:50+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in ten minutes",
+      "branch": "rel.wordnum",
+      "iso": "2026-06-14T14:40+00:00",
+      "conf": 1.0,
+      "time_explicit": true,
+      "explicit_day": false
+    },
+    {
+      "utterance": "in two hours",
+      "branch": "rel.wordnum",
+      "iso": "2026-06-14T16:30+00:00",
       "conf": 1.0,
       "time_explicit": true,
       "explicit_day": false

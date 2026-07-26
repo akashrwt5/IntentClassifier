@@ -148,12 +148,12 @@ help_marker_guard:
     streaming.session.stop: help.accessories.show
     transcription.session.start: help.transcribe.show
     translation.session.start: help.translate.show
-interrupt_threshold: 0.67
+interrupt_threshold: 0.68
 semantic_rescue_enabled: false
 semantic_threshold: 0.4
 slot_confidence_threshold: 0.5
 uncertain_confirm:
-  below_confidence: 0.9
+  below_confidence: 0.91
   cancel_message: Okay, I won't.
   confirm_floor: 0.55
   intents:
