@@ -34,11 +34,8 @@ from nlu_training.leakage import find_leaks, leak_report
 # Shared surface-form normaliser (contraction expansion + apostrophe removal).
 # MUST be the same function the runtime applies, or the exported ONNX and the
 # in-memory model diverge on apostrophe inputs. It lives in the runtime package
-# because inference ships it; training imports it so both agree.
-import sys as _sys
-_RUNTIME = Path(__file__).resolve().parents[2] / "runtime"
-if str(_RUNTIME) not in _sys.path:
-    _sys.path.insert(0, str(_RUNTIME))
+# because inference ships it; training imports it so both agree. The path
+# bootstrap that makes this importable lives once in nlu_training/__init__.py.
 from nlu_engine.text_norm import normalize_text
 
 # ---------- Args ----------
