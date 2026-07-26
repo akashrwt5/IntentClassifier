@@ -31,6 +31,16 @@ from skl2onnx.common.data_types import StringTensorType
 
 from nlu_training.leakage import find_leaks, leak_report
 
+# Shared surface-form normaliser (contraction expansion + apostrophe removal).
+# MUST be the same function the runtime applies, or the exported ONNX and the
+# in-memory model diverge on apostrophe inputs. It lives in the runtime package
+# because inference ships it; training imports it so both agree.
+import sys as _sys
+_RUNTIME = Path(__file__).resolve().parents[2] / "runtime"
+if str(_RUNTIME) not in _sys.path:
+    _sys.path.insert(0, str(_RUNTIME))
+from nlu_engine.text_norm import normalize_text
+
 # ---------- Args ----------
 _parser = argparse.ArgumentParser(description="Train TF-IDF intent model")
 _parser.add_argument("--lang", "-l", default="en",
@@ -91,7 +101,7 @@ MIN_TEST_ACCURACY = float(_os.environ.get("MIN_TEST_ACCURACY", "0.85"))
 data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
 
 data.columns = [c.strip().lower() for c in data.columns]
-data["text"] = data["text"].astype(str).str.lower().str.strip()
+data["text"] = data["text"].astype(str).map(normalize_text)  # lower+strip+contractions
 data["intent"] = data["intent"].astype(str).str.strip()   # preserve exact Dialogflow casing
 data = data.dropna()
 data = data.drop_duplicates(subset=["text", "intent"])
@@ -110,7 +120,7 @@ if HOLDOUT_PATH.exists():
     if _text_col is None:
         _text_col = holdout_raw.columns[0]
         print(f"  [holdout] no standard text column found, using first column: '{_text_col}'")
-    holdout_texts = holdout_raw[_text_col].astype(str).tolist()
+    holdout_texts = holdout_raw[_text_col].astype(str).map(normalize_text).tolist()
     # NORMALISED comparison (case, punctuation, spacing). A raw-string compare
     # missed any pair differing only by a trailing '?' — which is how a
     # 99.9%-leaked English holdout passed this guard for so long (Review-F5
@@ -202,7 +212,7 @@ if HOLDOUT_PATH.exists():
     hdf.columns = [c.strip().lower() for c in hdf.columns]
     _htext = next((c for c in hdf.columns if c in ("text", "utterance", "query", "sentence", "phrase")), hdf.columns[0])
     _hint  = next((c for c in hdf.columns if c in ("intent", "label", "class")), hdf.columns[1])
-    hdf[_htext] = hdf[_htext].astype(str).str.lower().str.strip()
+    hdf[_htext] = hdf[_htext].astype(str).map(normalize_text)  # same norm as train
     hdf = hdf.dropna(subset=[_htext, _hint])
     _holdout = (hdf, _htext, _hint)
     h_pred = pipeline.predict(hdf[_htext])

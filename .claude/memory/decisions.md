@@ -115,6 +115,31 @@ voice/ASR domain; the grammar owning absolute numeric dates so `dateparser` can
 be retired; progressive re-prompts on repeated no-match.
 
 
+## ADR-013 — Apostrophe/tokenizer parity: one surface-form normaliser for train + inference
+**Status:** Accepted (2026-07-26). **What:** the English TF-IDF path now applies
+a shared `normalize_text` (`packages/runtime/nlu_engine/text_norm.py`) at BOTH
+training (`nlu_training/train.py`, before fit + ONNX export) and inference
+(`nlu_engine.classifier`, TF-IDF/ONNX path only — the keyword stage still matches
+raw text). It expands English contractions ("what's" -> "what is") and strips
+residual apostrophes ("mom's" -> "moms"). **Why:** skl2onnx's ONNX tokenizer does
+not replicate sklearn's `\b\w\w+\b` behaviour around the apostrophe, so the
+exported `model.onnx` and the in-memory `pipeline.pkl` gave DIFFERENT predictions
+for any apostrophe input — e.g. "what's up" was `sys.oos.fallback` in the pkl but
+`device.volume.increase` in ONNX. Folding the apostrophe out before the vectorizer
+makes both tokenisers see an identical surface form, restoring numeric parity.
+This mirrors the accent-folding fix already shipped for the multilingual models
+(`multilingual/text_norm.py`); the two normalisers should be consolidated.
+**Consequences:** (1) verified — ONNX and pkl now agree on all apostrophe inputs;
+"what's up"/"can you help me" -> OOS; "what's my battery" -> battery. (2) The
+normalisation exposed a genuine hidden holdout leak ("i'm lost in this app" vs the
+trained "i am lost in this app"); removed from train per the never-touch-holdout
+rule. (3) FOLLOW-UP REQUIRED for on-device parity: the iOS/CoreML exporters
+(`nlu_export/export_weights.py`, `export_ios_weights.py`) and the Swift runtime
+must apply the SAME normalisation, or iOS will reintroduce the divergence. (4)
+Related pre-existing divergence to revisit: server ONNX uses `min_df=2` while the
+multilingual and iOS-export recipes use `min_df=1`.
+
+
 ## Related memory
 
 Training/calibration -> `training.md` · Mobile -> `mobile.md` · Roadmap ->

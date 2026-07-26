@@ -70,7 +70,7 @@ precommit: ## Run all pre-commit hooks on all files
 # ---------------------------------------------------------------------------
 .PHONY: train
 train: ## Train the English TF-IDF intent model and export ONNX (version 3 data)
-	$(PYTHON) packages/buildtime/nlu_training/train.py
+	PYTHONPATH=packages/buildtime $(PYTHON) packages/buildtime/nlu_training/train.py
 
 .PHONY: train-multilingual
 train-multilingual: ## Train the multilingual intent model

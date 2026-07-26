@@ -6675,22 +6675,22 @@ use the audio streamer,streaming.session.start
 connect streaming audio,streaming.session.start
 i'm not sure what to do,help.home.show
 can you guide me?,help.home.show
-i need some assistance,help.home.show
+i need some assistance,sys.oos.fallback
 what are my options?,help.home.show
 what are my options,help.home.show
 show me how this works,help.home.show
 i'm stuck,help.home.show
 can you walk me through it?,sys.oos.fallback
 i need some guidance,help.home.show
-help me understand this,help.home.show
+help me understand this,sys.oos.fallback
 what can i do here?,help.home.show
 show me available commands,help.home.show
 how does this work?,help.home.show
-assist me,help.home.show
+assist me,sys.oos.fallback
 i'm confused,help.home.show
 teach me how to use this,help.home.show
 i need support,help.home.show
-give me some help,help.home.show
+give me some help,sys.oos.fallback
 walk me through the process,sys.oos.fallback
 show me the basics,help.home.show
 help me get started,help.home.show
@@ -6702,7 +6702,6 @@ how tall is mount everest,sys.oos.fallback
 who won the ipl?,sys.oos.fallback
 what's the stock price of apple?,sys.oos.fallback
 how old is tom cruise?,sys.oos.fallback
-translate hello to french,translation.session.start
 what's the capital of japan?,sys.oos.fallback
 what's the capital of japan,sys.oos.fallback
 write a poem,sys.oos.fallback
@@ -6766,7 +6765,6 @@ let someone know i am running late,messaging.message.send
 put the tv sound in my ears,streaming.session.start
 send the movie audio to my hearing aids,streaming.session.start
 patch the tv audio through to my aids,streaming.session.start
-i am lost in this app,help.home.show
 i do not know how to use this app,help.home.show
 i could use a hand with this app,help.home.show
 none of this app makes sense,help.home.show
@@ -8352,3 +8350,82 @@ set a reminder so i don't forget,reminders.task.create
 route the tv audio into my aids,streaming.session.start
 play the audio directly in my ears,streaming.session.start
 stream the broadcast to my devices,streaming.session.start
+hello,sys.oos.fallback
+hi,sys.oos.fallback
+hey,sys.oos.fallback
+hey there,sys.oos.fallback
+hello there,sys.oos.fallback
+hi there,sys.oos.fallback
+heya,sys.oos.fallback
+howdy,sys.oos.fallback
+hiya,sys.oos.fallback
+well hello,sys.oos.fallback
+hello hello,sys.oos.fallback
+good morning,sys.oos.fallback
+good afternoon,sys.oos.fallback
+good evening,sys.oos.fallback
+good day,sys.oos.fallback
+morning,sys.oos.fallback
+greetings,sys.oos.fallback
+yo,sys.oos.fallback
+hey you,sys.oos.fallback
+hello again,sys.oos.fallback
+how are you,sys.oos.fallback
+how are you doing,sys.oos.fallback
+how are you today,sys.oos.fallback
+how's it going,sys.oos.fallback
+how is it going,sys.oos.fallback
+how are things,sys.oos.fallback
+how do you do,sys.oos.fallback
+what's up,sys.oos.fallback
+sup,sys.oos.fallback
+how's your day going,sys.oos.fallback
+how have you been,sys.oos.fallback
+hope you are well,sys.oos.fallback
+hope you're doing well,sys.oos.fallback
+how's everything,sys.oos.fallback
+nice to meet you,sys.oos.fallback
+good to see you,sys.oos.fallback
+long time no see,sys.oos.fallback
+what's new,sys.oos.fallback
+how's life,sys.oos.fallback
+bye,sys.oos.fallback
+goodbye,sys.oos.fallback
+bye bye,sys.oos.fallback
+see you,sys.oos.fallback
+see you later,sys.oos.fallback
+talk to you later,sys.oos.fallback
+take care,sys.oos.fallback
+good night,sys.oos.fallback
+goodnight,sys.oos.fallback
+catch you later,sys.oos.fallback
+have a good one,sys.oos.fallback
+thanks,sys.oos.fallback
+thank you,sys.oos.fallback
+thanks a lot,sys.oos.fallback
+thank you so much,sys.oos.fallback
+thanks so much,sys.oos.fallback
+cheers,sys.oos.fallback
+much appreciated,sys.oos.fallback
+appreciate it,sys.oos.fallback
+how's the weather treating you,sys.oos.fallback
+just saying hi,sys.oos.fallback
+wanted to say hello,sys.oos.fallback
+how are you feeling today,sys.oos.fallback
+it's nice talking to you,sys.oos.fallback
+can you help me,sys.oos.fallback
+could you help me,sys.oos.fallback
+can you help,sys.oos.fallback
+help me please,sys.oos.fallback
+please help me,sys.oos.fallback
+i need help,sys.oos.fallback
+can you assist me,sys.oos.fallback
+i could use some help,sys.oos.fallback
+what is up,sys.oos.fallback
+what's up with you,sys.oos.fallback
+what's up today,sys.oos.fallback
+what's up man,sys.oos.fallback
+what's going on,sys.oos.fallback
+what's happening,sys.oos.fallback
+wassup,sys.oos.fallback
+what's good,sys.oos.fallback

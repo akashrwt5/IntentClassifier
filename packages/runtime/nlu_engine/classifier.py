@@ -13,6 +13,7 @@ import joblib
 from pathlib import Path
 
 from .manifest import verify_manifest
+from .text_norm import normalize_text
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 MODEL_PATH   = BASE_DIR / "models" / "intent_model.onnx"
@@ -214,7 +215,11 @@ class IntentClassifier:
             return kw_intent, kw_conf
 
         self.last_stage = "tfidf"
-        scores = self.backend.tfidf_logits(text)
+        # Normalise the surface form (expand contractions, drop apostrophes) so
+        # the ONNX tokenizer sees exactly what sklearn saw at fit time. Applied
+        # to the TF-IDF path ONLY — the keyword stage above matches raw text.
+        # MUST stay identical to the normalisation in nlu_training/train.py.
+        scores = self.backend.tfidf_logits(normalize_text(text))
         if isinstance(scores, dict):  # zipmap-style graph output
             scores = np.array([scores[l] for l in self.labels], dtype=float)
 

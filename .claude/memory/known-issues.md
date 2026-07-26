@@ -7,6 +7,25 @@
 
 _None open. Recently fixed:_
 
+- **FIXED (ADR-013, 2026-07-26) — apostrophe inputs mis-classified on-device
+  (train/ONNX tokenizer divergence).** skl2onnx tokenises the apostrophe unlike
+  sklearn, so "what's up" was OOS in `pipeline.pkl` but `device.volume.increase`
+  in the shipped ONNX. Fix: shared `normalize_text` (contraction expansion +
+  apostrophe strip) applied at train and inference. ONNX==pkl verified on
+  apostrophe inputs. **Open:** iOS/CoreML exporters + Swift runtime must apply the
+  same normalisation for on-device parity (see ADR-013).
+- **FIXED (2026-07-26) — greetings/chitchat fired real intents.** "hello" ->
+  translation ("start translation?"), driven by one contaminated row
+  (`translate hello to french`, removed) + no bare-greeting OOS data. Added ~60
+  chitchat/greeting rows as `sys.oos.fallback` and relabelled vague context-free
+  help ("assist me", "can you help me" family) from `help.home.show` to OOS
+  (screen/onboarding-specific help kept). Retrained; greetings + "can you help
+  me" now OOS, legit help.home intact.
+- **KNOWN (env) — `test_datetime_parity_en::test_known_gaps_are_still_gaps` fails
+  when `dateparser` is installed** ("in five minutes" resolves via word-number
+  normalisation). The golden `known_gaps` were captured without the optional
+  `dateparser` dep though it is declared in requirements. Pre-existing; recapture
+  the golden or gate the dep. Not caused by the 2026-07-26 changes.
 - **FIXED (ADR-012, 2026-07-26) — off-topic reply during slot filling changed
   the memory.** Asked "What is the name of the memory?", a non-answer like
   "who is the prime minister of india" set `memory=three`: the stopword "the"
