@@ -52,6 +52,12 @@ multilingual/models/**
 
 # Local bundle build output (ADR-005 Part 13)
 bundles/
+# Leftover DVC state on machines that used it before 2026-07-26. `.dvc/cache/`
+# holds a full content-addressed copy of every dataset, so without this a
+# `git add -A` after pulling the DVC removal would commit the whole cache as a
+# duplicate of datasets/. Keep it ignored; it is also your local backup.
+.dvc/
+
 # datasets/ is TRACKED IN GIT (was DVC-managed until 2026-07-26).
 # ~6.7 MB of CSV across 29 files — small enough that git handles it directly,
 # and DVC's local-path remote meant no other machine could ever fetch it.
