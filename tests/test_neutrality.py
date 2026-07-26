@@ -1,14 +1,13 @@
 """
 Language-neutrality guard, run as a test so it fails PRs locally too.
 
-The engine must contain no language-specific branches and no hardcoded
-natural-language match vocabulary — language behaviour belongs in a Language
-Pack. The engine is not there yet (Review-F5 blocker B10), so the guard carries
-a `KNOWN_OFFENDERS` ratchet that can only shrink. See
-`scripts/ci/check_language_neutral.py`.
+The engine contains no language-specific branches and no hardcoded
+natural-language match vocabulary — language behaviour lives in data tables a
+Language Pack overrides. The `KNOWN_OFFENDERS` ratchet reached zero at A7
+(Review-F5 blocker B10 closed). See `scripts/ci/check_language_neutral.py`.
 
-The hostile-pack test that proves a new language needs zero engine edits arrives
-with charter step A8, once the pack contract (A6) and the eviction (A7) land.
+The hostile-pack test that PROVES a new language needs zero engine edits — as
+opposed to asserting it — arrives with charter step A8.
 """
 
 import importlib.util
@@ -49,16 +48,16 @@ def test_allowlist_matches_reality_exactly():
     assert not (allowed - found), f"stale allowlist entries: {dict(allowed - found)}"
 
 
-def test_allowlist_only_shrinks():
-    """A tripwire on the ratchet itself.
+def test_allowlist_is_empty_and_stays_empty():
+    """The ratchet is closed.
 
-    The guard landed at A3 with 6: four `if language` branches in engine.py, one
-    in entities.py, and the English-only `_NEGATIONS` table in classifier.py.
-    A4 removed `_NEGATIONS`, leaving 5. A7 drives the rest to zero, at which
-    point A9 makes the guard blocking in CI. This number must never go up.
+    It landed at A3 with 6 (four `if language` branches in engine.py, one in
+    entities.py, the English-only `_NEGATIONS` table in classifier.py), dropped
+    to 5 at A4, and reached 0 at A7. Any non-zero value now means language
+    coupling was re-introduced and allowlisted instead of moved into the pack.
     """
     mod = _load_guard()
-    assert sum(mod.KNOWN_OFFENDERS.values()) <= 5, (
-        "KNOWN_OFFENDERS grew — new language coupling must be moved into the "
-        "Language Pack, never allowlisted"
+    assert mod.KNOWN_OFFENDERS == {}, (
+        f"language coupling was re-allowlisted: {dict(mod.KNOWN_OFFENDERS)}. "
+        f"It belongs in the Language Pack as data."
     )

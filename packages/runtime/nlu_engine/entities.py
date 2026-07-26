@@ -130,13 +130,17 @@ class EntityExtractor:
         if word_nums is not None:
             self._WORD_NUMS = word_nums
 
-        # Lexicon-driven datetime parsing for non-English languages. When absent
-        # (English, or a missing/undecodable file) self._lex stays None and
-        # extract_datetime falls through to the byte-identical English path.
+        # Lexicon-driven datetime parsing. Data-driven, NOT language-string
+        # driven: if a datetime lexicon exists for this language it is used;
+        # otherwise (English, which ships none, or a missing/undecodable file)
+        # self._lex stays None and extract_datetime uses the table-driven path
+        # fed by _DEFAULT_DT_GRAMMAR. Absence is the signal, so a new language
+        # is a file rather than a branch.
         self._lex = None
-        if language and language != "en":
-            if lexicon_path is None:
-                lexicon_path = LOCALIZATION_DIR / f"nlu_lexicon.{language}.json"
+        if lexicon_path is None and language:
+            candidate = LOCALIZATION_DIR / f"nlu_lexicon.{language}.json"
+            lexicon_path = candidate if candidate.exists() else None
+        if lexicon_path is not None:
             try:
                 self._lex = json.loads(Path(lexicon_path).read_text(encoding="utf-8"))
             except Exception:

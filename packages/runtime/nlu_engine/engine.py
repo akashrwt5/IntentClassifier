@@ -42,6 +42,28 @@ DEFAULT_SEMANTIC_THRESHOLD = 0.55
 # risk RK1: user utterances must never be sent to an unregistered domain).
 DEFAULT_GENAI_URL = "https://genai.yourcompany.com/chat?query="
 
+# English carrier phrases — the FALLBACK table used when a pack/lexicon supplies
+# none. A carrier is the polite wrapper around a command ("remind me to ...")
+# that must be stripped before the remainder becomes a slot topic.
+#
+# `_DEFAULT_` is the neutrality guard's convention for an overridable DATA table:
+# a language's own carriers come from its lexicon and are tried FIRST, with
+# these as the tail. English ships no lexicon file, so it uses these alone.
+_DEFAULT_CARRIERS = [
+    r"^\s*please\s+",
+    r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*",
+    r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*",
+    r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about|for\s+(?!\d))?\s*",
+    r"^\s*make\s+sure\s+(?:i|to)\b\s*",
+    r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
+]
+
+# Connectors that dangle at the START of a derived topic once the carrier and
+# the time expression have been stripped: "remind me at 9pm for dinner" ->
+# "for dinner" -> "dinner". Overridable per language, same convention.
+_DEFAULT_LEADING_CONNECTORS = ["for", "about", "of", "on", "to", "that",
+                               "regarding", "with"]
+
 logger = logging.getLogger("nlu.engine")
 
 
@@ -131,6 +153,7 @@ class NLUEngine:
         self.classifier = self._load_classifier(model_name)
         self.entities = self._load_entities(language)
         self._carrier = self._build_carrier_patterns(language)
+        self._leading_connector = self._build_leading_connector(language)
         self.sessions = SessionStore()
         self._availability: dict = {}  # runtime-contract-v1 §5 snapshot
         # Semantic rescue: ONE plug-and-play flag. Resolution order:
@@ -143,10 +166,18 @@ class NLUEngine:
         self.semantic_enabled = self._resolve_semantic_flag(semantic_enabled)
         if not self.semantic_enabled:
             self.semantic = None
-        elif self.language in ("en", "", "multilingual"):
-            self.semantic = self._load_semantic(self.semantic_threshold)
-        else:
+        elif self._has_localization(self.language):
+            # A language that ships a localization lexicon uses the
+            # multilingual encoder + head; one that does not (English) uses the
+            # English-only pair. Same file-presence signal as every other loader
+            # here, so adding a language stays a matter of shipping files.
+            #
+            # INTERIM RULE. Once the engine is pack-fed, the pack manifest names
+            # its own semantic artifact (models.semantic_head.<lang>.artifact)
+            # and this inference disappears entirely — see nlu_langpack.
             self.semantic = self._load_multilingual_semantic(self.semantic_threshold)
+        else:
+            self.semantic = self._load_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
 
     def _resolve_semantic_flag(self, param: bool | None) -> bool:
@@ -194,12 +225,15 @@ class NLUEngine:
         """
         import copy
         schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
-        if language in ("en", ""):
+        # Data-driven, not language-string-driven: a language with an overlay
+        # file gets it merged; one without (English, which ships none) uses the
+        # canonical schema. No `if language == "en"` needed — absence IS the
+        # signal, so a new language is a file, not a branch.
+        if not language:
             return schema
-
         overlay_path = LOC_DIR / f"nlu_schema.{language}.json"
         if not overlay_path.exists():
-            logger.warning("nlu.schema.overlay_missing lang=%s", language)
+            logger.debug("nlu.schema.no_overlay lang=%s (using canonical schema)", language)
             return schema
 
         try:
@@ -282,14 +316,42 @@ class NLUEngine:
         return tuple(cues) if cues else None
 
     @staticmethod
-    def _build_carrier_patterns(language: str) -> list:
-        """English carrier patterns plus any from the language lexicon.
+    def _has_localization(language: str) -> bool:
+        """True when this language ships a localization lexicon.
 
-        The lexicon's carrier_phrases are regex strings (same format as _CARRIER).
-        They are prepended so language-specific patterns are tried first.
+        The single data-driven signal this engine uses to tell "a language with
+        its own tables" from "the built-in defaults". English ships none, so it
+        takes the default path by absence rather than by name.
         """
-        base = list(NLUEngine._CARRIER)
-        if language in ("en", "", "multilingual"):
+        return bool(language) and (LOC_DIR / f"nlu_lexicon.{language}.json").exists()
+
+    @staticmethod
+    def _build_leading_connector(language: str):
+        """Compile the leading-connector stripper from the lexicon, else defaults."""
+        words = list(_DEFAULT_LEADING_CONNECTORS)
+        lex_path = LOC_DIR / f"nlu_lexicon.{language}.json" if language else None
+        if lex_path is not None and lex_path.exists():
+            try:
+                override = json.loads(lex_path.read_text(encoding="utf-8")).get(
+                    "leading_connectors")
+                if override:
+                    words = list(override)
+            except Exception:
+                logger.warning("nlu.lexicon.connectors_unreadable lang=%s", language)
+        alt = "|".join(re.escape(w) for w in sorted(words, key=len, reverse=True))
+        return re.compile(rf"^(?:{alt})\s+", re.I)
+
+    @staticmethod
+    def _build_carrier_patterns(language: str) -> list:
+        """Carrier patterns: the language's own first, then the defaults.
+
+        The lexicon's carrier_phrases are regex strings in the same format as
+        `_DEFAULT_CARRIERS`, prepended so language-specific patterns win. A
+        language with no lexicon file (English) simply gets the defaults —
+        selection is by file presence, never by a language literal.
+        """
+        base = list(_DEFAULT_CARRIERS)
+        if not language:
             return base
         lex_path = LOC_DIR / f"nlu_lexicon.{language}.json"
         if not lex_path.exists():
@@ -305,15 +367,16 @@ class NLUEngine:
     def _load_entities(language: str) -> EntityExtractor:
         """Build an EntityExtractor for the given language.
 
-        Non-English: loads nlu_entities.<lang>.json and passes the language so
-        the lexicon-driven datetime parser is activated. Falls back to English
-        if the file is absent.
+        A language with an entities file gets it, plus the lexicon-driven
+        datetime parser. One without (English) gets the canonical entities and
+        the table-driven parser fed by `_DEFAULT_DT_GRAMMAR`. Presence of the
+        file is the switch; there is no language literal.
         """
-        if language in ("en", "", "multilingual"):
+        if not language:
             return EntityExtractor()
         entities_path = LOC_DIR / f"nlu_entities.{language}.json"
         if not entities_path.exists():
-            logger.warning("nlu.entities.missing lang=%s — falling back to English", language)
+            logger.debug("nlu.entities.no_overlay lang=%s (using canonical entities)", language)
             return EntityExtractor()
         return EntityExtractor(entities_path=entities_path, language=language)
 
@@ -937,15 +1000,6 @@ class NLUEngine:
         session.partial_datetime = day_start.isoformat()
         return None, False
 
-    _CARRIER = [
-        r"^\s*please\s+",
-        r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*",
-        r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*",
-        r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about|for\s+(?!\d))?\s*",
-        r"^\s*make\s+sure\s+(?:i|to)\b\s*",
-        r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
-    ]
-
     def _fill_open_topics(self, cfg, text, slots: dict):
         for slot in cfg["slots"]:
             if slot["name"] in slots or not slot.get("required"):
@@ -956,18 +1010,12 @@ class NLUEngine:
             if topic:
                 slots[slot["name"]] = topic
 
-    # Connectors that dangle at the START of a derived topic once the carrier
-    # phrase and the time expression have been stripped, e.g. "remind me at 9pm
-    # for dinner" → "for dinner" → "dinner".
-    _LEADING_CONNECTOR = re.compile(
-        r"^(?:for|about|of|on|to|that|regarding|with)\s+", re.I)
-
     def _derive_topic(self, text: str):
         t = text.strip()
         for pat in self._carrier:
             t = re.sub(pat, "", t, count=1, flags=re.I)
         t = self.entities.strip_datetime(t)
-        t = self._LEADING_CONNECTOR.sub("", t).strip(" .,")
+        t = self._leading_connector.sub("", t).strip(" .,")
         return t or None
 
     @staticmethod

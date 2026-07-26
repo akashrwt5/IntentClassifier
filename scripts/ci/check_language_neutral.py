@@ -31,19 +31,20 @@ TWO CHECKS
    — silently made negation suppression a no-op for every non-English language,
    and check 1 could not see it.
 
-THE ALLOWLIST IS A RATCHET
---------------------------
-The engine is not neutral yet (Review-F5 blocker B10), so landing this guard
-"clean" would mean landing it as a no-op. Instead `KNOWN_OFFENDERS` records
-exactly today's violations, and the guard fails on:
+THE ALLOWLIST IS A CLOSED RATCHET
+---------------------------------
+`KNOWN_OFFENDERS` is now EMPTY: the engine is language-neutral as of A7.
+
+The list existed because the engine was not neutral when this guard landed
+(Review-F5 blocker B10) — shipping it "clean" then would have meant shipping a
+no-op. It recorded the violations of the day and failed in both directions:
 
   - any violation NOT on the list  -> new coupling, rejected immediately;
   - any list entry that no longer matches -> you fixed something, so shrink the
     list in the same change.
 
-Both directions are enforced so the list can only ever move toward empty and
-cannot silently drift. Charter step A9 flips this guard blocking in CI once
-`KNOWN_OFFENDERS` is empty.
+Enforcing both is what drove it 6 -> 5 -> 0 without ever silently drifting.
+Keep it empty: new language behaviour belongs in the Language Pack as data.
 
 USAGE
     python scripts/ci/check_language_neutral.py
@@ -61,21 +62,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 ENGINE_DIR = ROOT / "packages" / "runtime" / "nlu_engine"
 
-# Today's violations, keyed by (file, exact source line) -> count.
-# Keyed on the CODE TEXT rather than a line number so ordinary edits elsewhere
-# in the file do not invalidate the list. Two identical branches in the same
-# file are distinguished by the count.
-#
-# Every entry here is scheduled for removal by charter steps A4 (_NEGATIONS) and
-# A7 (the language branches). Shrink this list; never grow it.
+# Violations keyed by (file, exact source line) -> count. Keyed on the CODE TEXT
+# rather than a line number so unrelated edits do not invalidate an entry.
 KNOWN_OFFENDERS: dict[tuple[str, str], int] = {
-    ("engine.py", 'elif self.language in ("en", "", "multilingual"):'): 1,
-    ("engine.py", 'if language in ("en", ""):'): 1,
-    ("engine.py", 'if language in ("en", "", "multilingual"):'): 2,
-    ("entities.py", 'if language and language != "en":'): 1,
-    # ("classifier.py", "_NEGATIONS"): 1,  -- FIXED by A4: renamed to
-    #   _DEFAULT_NEGATIONS (an overridable data table) and the cues are now
-    #   supplied per language from the lexicon.
+    # EMPTY — A7 evicted the last language branch (2026-07-26).
+    #
+    # History: this list started at 6 when the guard landed at A3 — four
+    # `if language` branches in engine.py, one in entities.py, and the
+    # English-only `_NEGATIONS` table in classifier.py. A4 removed _NEGATIONS,
+    # A7 removed the rest by replacing every language literal with a
+    # file-presence check.
+    #
+    # It must STAY empty. New language coupling belongs in the Language Pack as
+    # data, never here — the guard is blocking in CI from A9 onward.
 }
 
 _PATTERNS = [
