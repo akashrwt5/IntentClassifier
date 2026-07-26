@@ -1,9 +1,9 @@
-STATUS: IN PROGRESS — Track A, steps A1–A4 complete
+STATUS: IN PROGRESS — Track A, steps A1–A6 complete
 
 # English Production Cycle — Status
 
 - **Run date:** 2026-07-26
-- **Branch:** `claude/nlu-production-readiness-dqyl38` @ `59e7c32f`
+- **Branch:** `claude/nlu-production-readiness-dqyl38` @ `a0fc9ec1`
 - **Driven from:** an interactive session, not the scheduled Routine (see
   *Blockers*). Charter: `docs/Review-F5/ENGLISH-PRODUCTION-ROUTINE.md`.
 
@@ -28,11 +28,14 @@ here depends on the data grade.
 | **A1** English datetime golden corpus | ✅ | 130 cases / 29 branches; `pytest tests/test_datetime_parity_en.py` 133 passed; `entities.py` untouched |
 | **A2** Correct the calibration-chain docs | ✅ | No memory file claims the runtime reads `config/calibration.json`; banner present; `test_smoke` 3 passed |
 | **A3** Language-neutrality guard (ratchet) | ✅ | Guard exits 0 with the allowlist; mutation-verified both directions; `test_neutrality` passed |
-| **A4** Language-aware negation suppression | ✅ | 21 negation tests; allowlist 6 → 5; full suite 208 passed / 30 skipped; ruff clean |
+| **A4** Language-aware negation suppression | ✅ | 21 negation tests; allowlist 6 → 5; ruff clean |
+| **A5** Normalised leakage matching + declared deps | ✅ | 14 leakage tests; bundle build/lifecycle/spec 27 passed with no import errors; suite 208 → 262 passed as declared deps unlocked previously-erroring tests |
+| **A6** Language Pack contract on `spec/bundle/3.0` | ✅ | 27 contract + boundary tests; loads the real golden bundles; contract imports nothing heavy; full suite 286 passed / 26 skipped |
 
-Suite at end of run: **208 passed, 30 skipped, 0 failed.** The 30 skips are all
+Suite at end of run: **286 passed, 26 skipped, 0 failed.** The 26 skips are all
 model-dependent (`trained artifacts not present`) — expected in the bootstrap
-grade, and the subject of charter step B0.
+grade, and the subject of charter step B0. The count rose from 208/30 because
+A5's declared dependencies let previously-erroring bundle tests actually run.
 
 Neutrality ratchet: **5 remaining**, all in `engine.py`/`entities.py`, all
 scheduled for removal by A7.
@@ -75,10 +78,23 @@ scheduled for removal by A7.
 | 4 | B1 unconditional-confirm policy decision | owner | closing the wrong-action budget |
 | 5 | Authorisation for the French pack trial | owner | P3 / the neutrality proof |
 
-## Next
+## Next — A7, the datetime eviction
 
-**A5** — normalised leakage matching in `train.py` + lock the compiler/signing
-deps (`referencing`, `cryptography`, `jsonschema>=4.18`). Then **A6** (pack
-contract), **A7** (the datetime eviction, ported from the reference branch per
-the charter), **A8** (hostile-pack test), **A9** (guard blocking), **A10**
-(`release-pack.yml`).
+The largest remaining step, and the one the A1 golden corpus exists to guard.
+Research done, not yet started:
+
+- **Port, do not re-derive** (charter A7.1): `packs/en/datetime/grammar.json`,
+  `_DEFAULT_DT_GRAMMAR`, `_build_en_dt_tables()` and `_en_strip_patterns()` from
+  the reference branch.
+- **Reconcile, do not overwrite.** The two `entities.py` files have diverged —
+  ref 911 lines, current 795, ~354 differing. Keep this branch's restructure
+  paths and its `_lex_clock_hour` spaced-hour fix (`18 h` / `18 heures`), which
+  the reference lacks; a wholesale copy would silently revert it.
+- **Do not trust the ref's self-description.** `grammar.json`'s own `_note`
+  claims only `weekdays` and `word_numbers` are wired, while its code wires
+  considerably more.
+- **Gate every sub-step** on the A1 golden (130 cases), fr/de/da parity (25),
+  the conversation/conformance fixtures, and a strictly shrinking allowlist.
+
+Then **A8** (hostile-pack test — the actual proof a new language needs no engine
+edit), **A9** (guard blocking, allowlist empty), **A10** (`release-pack.yml`).
