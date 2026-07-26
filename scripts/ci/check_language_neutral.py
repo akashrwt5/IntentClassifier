@@ -51,8 +51,10 @@ USAGE
 from __future__ import annotations
 
 import ast
+import io
 import re
 import sys
+import tokenize
 from collections import Counter
 from pathlib import Path
 
@@ -71,7 +73,9 @@ KNOWN_OFFENDERS: dict[tuple[str, str], int] = {
     ("engine.py", 'if language in ("en", ""):'): 1,
     ("engine.py", 'if language in ("en", "", "multilingual"):'): 2,
     ("entities.py", 'if language and language != "en":'): 1,
-    ("classifier.py", "_NEGATIONS"): 1,
+    # ("classifier.py", "_NEGATIONS"): 1,  -- FIXED by A4: renamed to
+    #   _DEFAULT_NEGATIONS (an overridable data table) and the cues are now
+    #   supplied per language from the lexicon.
 }
 
 _PATTERNS = [
@@ -80,10 +84,36 @@ _PATTERNS = [
 ]
 
 
-def _strip_comment(line: str) -> str:
-    """Drop everything after the first '#'. Good enough for a guard: the engine
-    never puts '#' inside a string on a line that also compares `language`."""
-    return line.split("#", 1)[0]
+def _code_lines(path: Path) -> dict[int, str]:
+    """Executable source only: comments and string literals blanked out.
+
+    Prose must not trip the guard. A docstring that *describes* the forbidden
+    pattern — "deliberately no `if language == "en"` here" — is documentation,
+    not coupling, and flagging it would push authors into rewording their
+    comments instead of fixing code.
+
+    Tokenising is what makes this correct. The reference implementation split on
+    '#', which left docstrings live and would flag exactly that sentence.
+    """
+    src = path.read_text(encoding="utf-8")
+    lines = {i: line for i, line in enumerate(src.splitlines(), 1)}
+    try:
+        toks = list(tokenize.generate_tokens(io.StringIO(src).readline))
+    except (tokenize.TokenError, IndentationError, SyntaxError):
+        return lines  # unparseable: fall back to raw text rather than skip the file
+
+    for tok in toks:
+        if tok.type not in (tokenize.COMMENT, tokenize.STRING):
+            continue
+        (r0, c0), (r1, c1) = tok.start, tok.end
+        for row in range(r0, r1 + 1):
+            line = lines.get(row)
+            if line is None:
+                continue
+            start = c0 if row == r0 else 0
+            end = c1 if row == r1 else len(line)
+            lines[row] = line[:start] + " " * (end - start) + line[end:]
+    return lines
 
 
 def _is_match_vocabulary(s: str) -> bool:
@@ -95,9 +125,11 @@ def _is_match_vocabulary(s: str) -> bool:
 def _branch_offenders(path: Path) -> list[tuple[str, str]]:
     """(file, source line) for each language-branch violation."""
     out = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if any(p.search(_strip_comment(line)) for p in _PATTERNS):
-            out.append((path.name, line.strip()))
+    raw = {i: ln for i, ln in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)}
+    for row, code in sorted(_code_lines(path).items()):
+        if any(p.search(code) for p in _PATTERNS):
+            # Report the ORIGINAL line so the message is readable.
+            out.append((path.name, raw[row].strip()))
     return out
 
 

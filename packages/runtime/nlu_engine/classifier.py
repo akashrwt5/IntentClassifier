@@ -7,6 +7,7 @@ plus a schema-driven keyword pre-filter (no intent names hardcoded here).
 
 import json
 import re
+from functools import lru_cache
 import numpy as np
 import joblib
 from pathlib import Path
@@ -56,10 +57,22 @@ KEYWORD_CONFIDENCE = {
 }
 
 # Negation cues that flip the meaning of a `contains` substring hit. "I don't
-# want to translate this" should not fire Cmd.TranslationStart. We only guard
-# `contains` rules; `exact`/`regex` authors express negation explicitly.
-_NEGATIONS = ("not", "don't", "dont", "do not", "never", "without",
-              "no need to", "stop", "cancel")
+# want to translate this" should not fire translation.session.start. We only
+# guard `contains` rules; `exact`/`regex` authors express negation explicitly.
+#
+# ENGLISH FALLBACK ONLY. A pack/lexicon supplies its own cues via
+# `IntentClassifier(negation_cues=...)`; this table is what a caller that
+# provides none gets. The `_DEFAULT_` prefix is the language-neutrality guard's
+# convention for an overridable data table (see
+# scripts/ci/check_language_neutral.py).
+#
+# Previously named `_NEGATIONS` and consulted unconditionally, which made
+# negation suppression English-only for every language. Note this path is
+# currently DEAD in the shipped configuration — the schema declares 28 `regex`
+# and 4 `exact` triggers and zero `contains` rules — so the defect is latent
+# rather than live. It becomes live the moment a `contains` rule is authored.
+_DEFAULT_NEGATIONS = ("not", "don't", "dont", "do not", "never", "without",
+                      "no need to", "stop", "cancel")
 
 
 def _compile_keyword_rules(schema: dict) -> list:
@@ -88,16 +101,36 @@ def _compile_keyword_rules(schema: dict) -> list:
     return rules
 
 
-def _is_negated(text: str, term: str) -> bool:
-    """True if `term` appears negated in `text` (a negation cue precedes it)."""
+def _is_negated(text: str, term: str, cues=_DEFAULT_NEGATIONS) -> bool:
+    """True if `term` appears negated in `text` (a negation cue precedes it).
+
+    `cues` is language-specific and comes from the pack/lexicon; it defaults to
+    the English table so a caller that supplies none behaves as before.
+
+    Cues are matched on WORD BOUNDARIES, not as bare substrings. Short cues are
+    the norm outside English — fr "ne", da "ikke", de "kein" — and a substring
+    test would fire them inside unrelated words (de "ne" inside "ohne"/"eine",
+    en "not" inside "nothing"/"another"), suppressing legitimate commands. The
+    boundary is Unicode-aware so accented cues ("arrête", "n'") match correctly.
+    """
     idx = text.find(term)
     if idx < 0:
         return False
-    prefix = text[:idx]
     # Look only at the short window before the term so an unrelated earlier
-    # "not" doesn't suppress a genuine later command.
-    window = prefix[-30:]
-    return any(neg in window for neg in _NEGATIONS)
+    # negation doesn't suppress a genuine later command.
+    window = text[:idx][-30:]
+    return any(re.search(_negation_pattern(cue), window) for cue in cues)
+
+
+@lru_cache(maxsize=256)
+def _negation_pattern(cue: str) -> "re.Pattern":
+    """Word-boundary matcher for one cue, compiled once.
+
+    `\\b` is unreliable next to apostrophes and accented characters, so the
+    boundary is expressed as explicit lookarounds over the word-character set
+    this engine treats as letters.
+    """
+    return re.compile(rf"(?<![0-9A-Za-zÀ-ÿ]){re.escape(cue)}(?![0-9A-Za-zÀ-ÿ])")
 
 
 class IntentClassifier:
@@ -106,7 +139,8 @@ class IntentClassifier:
                  labels_path:  Path = LABELS_PATH,
                  schema_path:  Path = SCHEMA_PATH,
                  weights_path: Path = WEIGHTS_PATH,
-                 backend=None):
+                 backend=None,
+                 negation_cues=None):
         if backend is None and not model_path.exists():
             raise FileNotFoundError(
                 f"Model not found: {model_path}. Run `python scripts/train.py` first."
@@ -124,6 +158,9 @@ class IntentClassifier:
         # Calibration temperature for softmax(logits / T). Sourced from the
         # exported weights JSON; defaults to 1.0 (plain softmax) when absent.
         self.temperature = _load_temperature(weights_path)
+        # Language-specific negation cues, supplied by the caller from the
+        # pack/lexicon. None => the English fallback table.
+        self.negation_cues = tuple(negation_cues) if negation_cues else _DEFAULT_NEGATIONS
         self.last_stage = None         # "keyword" | "tfidf" — set on each classify()
         self.last_keyword_tier = None  # "exact"|"contains"|"regex"|"regex_guarded"|None
 
@@ -139,7 +176,7 @@ class IntentClassifier:
             kind = rule.get("type")
             if kind == "contains":
                 hit = next((term for term in rule["terms"] if term in t), None)
-                if hit and not _is_negated(t, hit):
+                if hit and not _is_negated(t, hit, self.negation_cues):
                     self.last_keyword_tier = "contains"
                     return rule["intent"], KEYWORD_CONFIDENCE["contains"]
             elif kind == "exact":

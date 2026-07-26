@@ -52,13 +52,13 @@ def test_allowlist_matches_reality_exactly():
 def test_allowlist_only_shrinks():
     """A tripwire on the ratchet itself.
 
-    6 is the count recorded when the guard landed (A3): four `if language`
-    branches in engine.py, one in entities.py, and the English-only `_NEGATIONS`
-    table in classifier.py. A4 and A7 drive it to zero, at which point A9 makes
-    the guard blocking in CI. This number must never go up.
+    The guard landed at A3 with 6: four `if language` branches in engine.py, one
+    in entities.py, and the English-only `_NEGATIONS` table in classifier.py.
+    A4 removed `_NEGATIONS`, leaving 5. A7 drives the rest to zero, at which
+    point A9 makes the guard blocking in CI. This number must never go up.
     """
     mod = _load_guard()
-    assert sum(mod.KNOWN_OFFENDERS.values()) <= 6, (
+    assert sum(mod.KNOWN_OFFENDERS.values()) <= 5, (
         "KNOWN_OFFENDERS grew — new language coupling must be moved into the "
         "Language Pack, never allowlisted"
     )

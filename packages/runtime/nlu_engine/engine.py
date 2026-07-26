@@ -260,6 +260,28 @@ class NLUEngine:
         return merged
 
     @staticmethod
+    def _load_negation_cues(language: str):
+        """Per-language negation cues for the classifier's `contains` guard.
+
+        Data-driven, NOT language-string-driven: if a lexicon exists for this
+        language its `negation_cues` are used, otherwise None lets the
+        classifier fall back to its `_DEFAULT_NEGATIONS` table. There is
+        deliberately no `if language == "en"` here — English simply ships no
+        lexicon, so it takes the fallback by absence rather than by branch.
+        """
+        if not language:
+            return None
+        lex_path = LOC_DIR / f"nlu_lexicon.{language}.json"
+        if not lex_path.exists():
+            return None
+        try:
+            cues = json.loads(lex_path.read_text(encoding="utf-8")).get("negation_cues")
+        except Exception:
+            logger.warning("nlu.lexicon.negation_cues_unreadable lang=%s", language)
+            return None
+        return tuple(cues) if cues else None
+
+    @staticmethod
     def _build_carrier_patterns(language: str) -> list:
         """English carrier patterns plus any from the language lexicon.
 
@@ -297,8 +319,9 @@ class NLUEngine:
 
     def _load_classifier(self, model_name: str | None = None) -> IntentClassifier:
         """Load the appropriate TF-IDF model: production (default) or multilingual (en/fr/de/da)."""
+        cues = self._load_negation_cues(self.language)
         if model_name is None or model_name == "production":
-            return IntentClassifier()
+            return IntentClassifier(negation_cues=cues)
 
         # Multilingual models are in multilingual/models/<name>/
         multilingual_model = BASE_DIR / "multilingual" / "models" / model_name
@@ -311,7 +334,8 @@ class NLUEngine:
                 f"Available: en, fr, de, da, multilingual (run: python multilingual/train_multilingual.py --all)"
             )
 
-        return IntentClassifier(model_path=onnx_file, labels_path=labels_file, schema_path=SCHEMA_PATH)
+        return IntentClassifier(model_path=onnx_file, labels_path=labels_file,
+                                schema_path=SCHEMA_PATH, negation_cues=cues)
 
     @staticmethod
     def _load_semantic(threshold: float):
