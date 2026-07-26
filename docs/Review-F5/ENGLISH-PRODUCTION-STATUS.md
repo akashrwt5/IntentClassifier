@@ -87,7 +87,41 @@ what *proves* that rather than asserting it.
    — zero differences — and only then captured. The corpus pins the original
    behaviour, not the new implementation's opinion of it.
 
-6. **The A3 guard flagged prose.** The ported implementation split on `#`,
+6. **`multilingual/models/<lang>/` is a legacy layout the pack architecture
+   cannot produce — and the engine still depends on it.** Owner observation,
+   confirmed: there is no "train multilingual" step in the target design. Each
+   Language Pack carries its own model at `models/intent/<lang>/model.onnx`
+   inside the bundle; a combined multilingual model has no place in it.
+
+   Yet three supposedly-current modules still resolve models from the legacy
+   tree, and only `multilingual/train_multilingual.py` writes it:
+
+   - `packages/runtime/nlu_engine/engine.py:390` (`_load_classifier`)
+   - `packages/buildtime/nlu_training/calibrate_languages.py:37`
+   - `packages/buildtime/nlu_training/evaluate.py:35`
+
+   This is not a neutrality violation — the guard is right that no language
+   literal remains — but it is the same class of problem one layer down: a
+   hardcoded per-language model path that the pack is meant to own.
+
+   Consequence for the 58 skipped tests: they gate on
+   `multilingual/models/en/en_intent_model.onnx`, so they can only ever run by
+   invoking the legacy trainer. Running it to "clear the skips" would deepen a
+   dependency we are removing. The right fix is to retarget model resolution at
+   the pack — the "wire the engine to nlu_langpack" item already on the list —
+   and repoint these tests at pack-produced artifacts.
+
+7. **Three recovered files still carry the OLD 59-label space**, all 59 of their
+   labels absent from the shipped 57-intent schema: `semantic_holdout_2.csv`,
+   `semantic_holdout_expansion_template.csv` and
+   `multilingual/pending/pva_intent_{danish,german}.csv`. The training masters
+   are correctly migrated (57/57). `semantic_holdout_2.csv` is the one that
+   matters — `train.py` uses it as the leakage-guard holdout, so it is being
+   compared against labels that no longer exist. Needs migrating through
+   `capability-map.json` (the same map the bootstrap used) or explicitly
+   retiring.
+
+8. **The A3 guard flagged prose.** The ported implementation split on `#`,
    leaving docstrings live, so a comment *describing* the forbidden pattern
    tripped it. Now tokenised — comments and string literals are blanked.
 
