@@ -8,11 +8,18 @@ nothing here: its configured remote was a *local filesystem path*
 (`../../dvc-store`) that existed only on one machine, so CI, a fresh clone and
 every scheduled run got no data at all and every model-dependent gate silently
 skipped (Review-F5 blocker B2). A tool that no other machine can read is worse
-than no tool.
+than no tool — and in the end the local cache turned out to be empty too, so it
+was protecting nothing.
 
-## Provenance of the pre-git snapshot
+## How these files were recovered
 
-The final DVC pointer, kept so the migration is auditable:
+The DVC cache was gone (`.dvc/cache` absent; `dvc status` reported
+`not in cache: datasets`) and the local store was unreachable. The data was
+recovered from **git history** instead — commit `a6cbb81c` ("migrate label space
+to domain.object.action"), the last state in which `datasets/` was tracked
+before commit `9f4e5481` handed it to DVC.
+
+The recovery is provably exact. `datasets.dvc` recorded:
 
 ```
 md5:    23a40044be29147b5de26753d90214af.dir
@@ -20,68 +27,34 @@ size:   7072263 bytes
 nfiles: 29
 ```
 
-If you ever need to prove the committed tree matches what DVC tracked, that is
-the hash to reconcile against.
-
-## CURRENT STATE — the authoritative data is not here yet
-
-This directory currently holds **only the two docs you are reading** plus, if you
-have run the bootstrap, five English CSVs generated from
-`data/bootstrap/en/`. Those generated files are **deliberately untracked**: they
-are a provisional English-only snapshot and committing them would put a
-duplicate of `data/bootstrap/en/` into git under names that the real data also
-uses.
-
-**Owner action — commit the real tree** from the machine that has it (the old
-DVC cache, ~29 files / 6.7 MB):
-
-```bash
-# 1. clear the provisional files so they cannot be mistaken for real data
-rm -f datasets/*.csv
-
-# 2. copy the authoritative files in (from your DVC cache / working copy)
-cp -r <your-datasets>/* datasets/
-
-# 3. sanity-check before committing
-ls datasets/*.csv | wc -l        # expect ~25+, not 5
-python scripts/ci/bootstrap_en_data.py   # must now say "Real datasets/ content is present"
-
-# 4. commit
-git add datasets/ && git commit -m "data: commit the authoritative datasets (DVC removed)"
-```
-
-Step 3 is the one that matters: the bootstrap script refuses to touch real data,
-so if it still offers to materialise the snapshot, the real files are not there.
-
-Once that lands, `data/bootstrap/` can be deleted and every model-dependent test
-stops skipping.
+and `a6cbb81c`'s `datasets/` tree is **29 files totalling 7,072,263 bytes** —
+byte-for-byte what DVC was pointing at. DVC never captured a state newer than
+the one git already held, so nothing was lost in the migration.
 
 ## Rules
 
 - **Training and evaluation data belongs here** and is committed.
 - **Model artifacts do not.** `models/*.onnx`, `*.pkl` and friends stay
   gitignored and are regenerated (`make train`).
+- `data/bootstrap/en/` is a provisional English-only snapshot kept from the
+  window when this directory was empty. It is now redundant and can be deleted.
 - Keep an eye on churn: a full regeneration that rewrites all 29 files each time
   will grow history. If that starts to hurt, the answer is fewer regenerated
   commits, not a return to an unreachable remote.
 
 ---
 
-# datasets/ — DVC-tracked training, holdout, and OOS data
+# datasets/ — training, holdout, and OOS data (ND-2 M3)
 
-**Tracked by DVC** (2026-07-14): git holds only the `datasets.dvc` pointer;
-the data lives in the DVC cache and the local remote.
+Moved 1:1 from `data/*.csv` and `multilingual/data/` (now
+`datasets/multilingual/`). Lineage/pipeline notes: `DATA_PIPELINE.md`.
 
-- Remote: `../dvc-store` relative to the repo (a directory next to the
-  checkout — created on first `dvc push`). Migrate to cloud later with
-  `dvc remote modify`.
-- After cloning / pulling pointer changes: `dvc pull`
-- After editing data: `dvc add datasets && git add datasets.dvc && dvc push`
-- **Run `dvc push` on your machine now** to seed `../dvc-store` — until
-  then the only blob copies are your working tree + `.dvc/cache` (+ full
-  git history from before the DVC migration, as a backstop).
+- Training CSVs feed `packages/buildtime/nlu_training/` trainers.
+- Holdout fixtures used by the parity oracle live in `multilingual/test/`
+  (they are test fixtures, deliberately not moved).
+- `data/` now holds only runtime logs (`unknown_data.csv`,
+  `unknown_counters.csv`) per docs/privacy-unknown-data.md.
 
-Layout notes (from the ND-2 M3 move): training CSVs feed
-`packages/buildtime/nlu_training/`; multilingual per-language sets live in
-`multilingual/`; holdout fixtures stay in `multilingual/test/` (test
-fixtures, deliberately git-tracked, they gate CI). Lineage: `DATA_PIPELINE.md`.
+**DVC status:** wiring pending — requires the dvc toolchain + a remote
+decision (where dataset blobs live). Tracked in EXECUTION_STATUS as the
+remaining M3 sub-item; the directory layout is already DVC-shaped.

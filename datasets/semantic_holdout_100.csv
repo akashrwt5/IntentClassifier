@@ -1,101 +1,101 @@
 utterance,expected_intent,difficulty
-the television is blaring and i still miss the words,device.volume.increase,HARD
-people seem so far away when they talk,device.volume.increase,HARD
-i keep asking everyone to repeat themselves,device.volume.increase,HARD
-conversations are slipping past me,device.volume.increase,HARD
-could you amplify things a touch,device.volume.increase,HARD
-the world sounds dull today,device.volume.increase,HARD
-my grandkids sound like whispers,device.volume.increase,HARD
-add some more loudness please,device.volume.increase,HARD
-nothing is coming through clearly,device.volume.increase,HARD
-push the sound higher,device.volume.increase,HARD
-my ears are getting hammered,device.volume.decrease,HARD
-this place is deafening,device.volume.decrease,HARD
-soften the audio for me,device.volume.decrease,HARD
-everything is coming in way too hot,device.volume.decrease,HARD
-the noise is unbearable right now,device.volume.decrease,HARD
-take the edge off the sound,device.volume.decrease,HARD
-bring it down several notches,device.volume.decrease,HARD
-the loudness is giving me a headache,device.volume.decrease,HARD
-calm the audio down,device.volume.decrease,HARD
-less sound please,device.volume.decrease,HARD
-i just sat down at a busy cafe,device.memory.change,HARD
-adjust for this loud room,device.memory.change,HARD
-give me the setting for crowds,device.memory.change,HARD
-flip to my quiet home program,device.memory.change,HARD
-i'm heading outside for a walk now,device.memory.change,HARD
-this environment needs a different setup,device.memory.change,HARD
-swap to the program for meetings,device.memory.change,HARD
-put my aids in party mode,device.memory.change,HARD
-the current program isn't right for here,device.memory.change,HARD
-load my usual configuration,device.memory.change,HARD
-do my aids have enough power for tonight,device.status.battery,HARD
-when will these die on me,device.status.battery,HARD
-give me a power reading,device.status.battery,HARD
-should i plug them in soon,device.status.battery,HARD
-how full are the batteries,device.status.battery,HARD
-is the charge holding up,device.status.battery,HARD
-tell me how much runtime is left,device.status.battery,HARD
-are we good on power,device.status.battery,HARD
-i'm worried the batteries might quit,device.status.battery,HARD
-what's the power situation,device.status.battery,HARD
-my hearing aids have vanished,help.find_my_hearing_aids.show,HARD
-i think i left my aids somewhere,help.find_my_hearing_aids.show,HARD
-no idea where my devices went,help.find_my_hearing_aids.show,HARD
-help me hunt down my hearing aids,help.find_my_hearing_aids.show,HARD
-one of my aids is missing,help.find_my_hearing_aids.show,HARD
-show me the last place my aids were,help.find_my_hearing_aids.show,HARD
-my right hearing aid disappeared,help.find_my_hearing_aids.show,HARD
-i cannot locate either device,help.find_my_hearing_aids.show,HARD
-they fell out somewhere help me search,help.find_my_hearing_aids.show,HARD
-ping my hearing aids for me,help.find_my_hearing_aids.show,HARD
-nudge me about this in an hour,reminders.task.create,HARD
-i'll forget this unless you save it,reminders.task.create,HARD
-flag this for me tonight,reminders.task.create,HARD
-set something so i remember my pills,reminders.task.create,HARD
-poke me about this tomorrow,reminders.task.create,HARD
-jot this down so i don't lose it,reminders.task.create,HARD
-i have an appointment i can't miss,reminders.task.create,HARD
-make sure this doesn't slip my mind,reminders.task.create,HARD
-put a reminder on for the morning,reminders.task.create,HARD
-alert me when it's time,reminders.task.create,HARD
-get word to my daughter,messaging.message.send,HARD
-i want to drop someone a line,messaging.message.send,HARD
-shoot a message to my friend,messaging.message.send,HARD
-let my son know something,messaging.message.send,HARD
-i'd like to message somebody,messaging.message.send,HARD
-deliver a note to my wife,messaging.message.send,HARD
-help me write to someone,messaging.message.send,HARD
-ping my brother with an update,messaging.message.send,HARD
-i have news to share with a contact,messaging.message.send,HARD
-send word that i'm running late,messaging.message.send,HARD
-put the tv sound straight into my ears,streaming.session.start,HARD
-beam the audio to my aids,streaming.session.start,HARD
-i want the show playing in my hearing aids,streaming.session.start,HARD
-feed the television into my devices,streaming.session.start,HARD
-patch the sound through to me,streaming.session.start,HARD
-begin streaming to my ears,streaming.session.start,HARD
-hook the tv audio up to my aids,streaming.session.start,HARD
-push the movie sound to my hearing aids,streaming.session.start,HARD
-let the music play inside my aids,streaming.session.start,HARD
-turn on direct tv listening,streaming.session.start,HARD
-i'm lost in this app,help.home.show,HARD
-where do i even begin,help.home.show,HARD
-explain what this thing can do,help.home.show,HARD
-i could use a hand figuring this out,help.home.show,HARD
-none of this makes sense to me,help.home.show,HARD
-point me in the right direction,help.home.show,HARD
-what features are available,help.home.show,HARD
-give me a quick tour,help.home.show,HARD
-i don't understand how to use this,help.home.show,HARD
-list the things you can help with,help.home.show,HARD
-who painted the mona lisa,sys.oos.fallback,HARD
-what time is it in tokyo,sys.oos.fallback,HARD
-sing me a song,sys.oos.fallback,HARD
-how far is the moon,sys.oos.fallback,HARD
-what should i cook for dinner,sys.oos.fallback,HARD
-tell me about the roman empire,sys.oos.fallback,HARD
-play chess with me,sys.oos.fallback,HARD
-what's the fastest car in the world,sys.oos.fallback,HARD
-give me lottery numbers,sys.oos.fallback,HARD
-when is the next full moon,sys.oos.fallback,HARD
+the television is blaring and i still miss the words,Cmd.VolumeIncrease,HARD
+people seem so far away when they talk,Cmd.VolumeIncrease,HARD
+i keep asking everyone to repeat themselves,Cmd.VolumeIncrease,HARD
+conversations are slipping past me,Cmd.VolumeIncrease,HARD
+could you amplify things a touch,Cmd.VolumeIncrease,HARD
+the world sounds dull today,Cmd.VolumeIncrease,HARD
+my grandkids sound like whispers,Cmd.VolumeIncrease,HARD
+add some more loudness please,Cmd.VolumeIncrease,HARD
+nothing is coming through clearly,Cmd.VolumeIncrease,HARD
+push the sound higher,Cmd.VolumeIncrease,HARD
+my ears are getting hammered,Cmd.VolumeDecrease,HARD
+this place is deafening,Cmd.VolumeDecrease,HARD
+soften the audio for me,Cmd.VolumeDecrease,HARD
+everything is coming in way too hot,Cmd.VolumeDecrease,HARD
+the noise is unbearable right now,Cmd.VolumeDecrease,HARD
+take the edge off the sound,Cmd.VolumeDecrease,HARD
+bring it down several notches,Cmd.VolumeDecrease,HARD
+the loudness is giving me a headache,Cmd.VolumeDecrease,HARD
+calm the audio down,Cmd.VolumeDecrease,HARD
+less sound please,Cmd.VolumeDecrease,HARD
+i just sat down at a busy cafe,Cmd.MemoryChange,HARD
+adjust for this loud room,Cmd.MemoryChange,HARD
+give me the setting for crowds,Cmd.MemoryChange,HARD
+flip to my quiet home program,Cmd.MemoryChange,HARD
+i'm heading outside for a walk now,Cmd.MemoryChange,HARD
+this environment needs a different setup,Cmd.MemoryChange,HARD
+swap to the program for meetings,Cmd.MemoryChange,HARD
+put my aids in party mode,Cmd.MemoryChange,HARD
+the current program isn't right for here,Cmd.MemoryChange,HARD
+load my usual configuration,Cmd.MemoryChange,HARD
+do my aids have enough power for tonight,Cmd.BatteryLevel,HARD
+when will these die on me,Cmd.BatteryLevel,HARD
+give me a power reading,Cmd.BatteryLevel,HARD
+should i plug them in soon,Cmd.BatteryLevel,HARD
+how full are the batteries,Cmd.BatteryLevel,HARD
+is the charge holding up,Cmd.BatteryLevel,HARD
+tell me how much runtime is left,Cmd.BatteryLevel,HARD
+are we good on power,Cmd.BatteryLevel,HARD
+i'm worried the batteries might quit,Cmd.BatteryLevel,HARD
+what's the power situation,Cmd.BatteryLevel,HARD
+my hearing aids have vanished,Help_FindMyHearingAids,HARD
+i think i left my aids somewhere,Help_FindMyHearingAids,HARD
+no idea where my devices went,Help_FindMyHearingAids,HARD
+help me hunt down my hearing aids,Help_FindMyHearingAids,HARD
+one of my aids is missing,Help_FindMyHearingAids,HARD
+show me the last place my aids were,Help_FindMyHearingAids,HARD
+my right hearing aid disappeared,Help_FindMyHearingAids,HARD
+i cannot locate either device,Help_FindMyHearingAids,HARD
+they fell out somewhere help me search,Help_FindMyHearingAids,HARD
+ping my hearing aids for me,Help_FindMyHearingAids,HARD
+nudge me about this in an hour,reminders.add,HARD
+i'll forget this unless you save it,reminders.add,HARD
+flag this for me tonight,reminders.add,HARD
+set something so i remember my pills,reminders.add,HARD
+poke me about this tomorrow,reminders.add,HARD
+jot this down so i don't lose it,reminders.add,HARD
+i have an appointment i can't miss,reminders.add,HARD
+make sure this doesn't slip my mind,reminders.add,HARD
+put a reminder on for the morning,reminders.add,HARD
+alert me when it's time,reminders.add,HARD
+get word to my daughter,Cmd.SendMessage,HARD
+i want to drop someone a line,Cmd.SendMessage,HARD
+shoot a message to my friend,Cmd.SendMessage,HARD
+let my son know something,Cmd.SendMessage,HARD
+i'd like to message somebody,Cmd.SendMessage,HARD
+deliver a note to my wife,Cmd.SendMessage,HARD
+help me write to someone,Cmd.SendMessage,HARD
+ping my brother with an update,Cmd.SendMessage,HARD
+i have news to share with a contact,Cmd.SendMessage,HARD
+send word that i'm running late,Cmd.SendMessage,HARD
+put the tv sound straight into my ears,Cmd.StreamingStart,HARD
+beam the audio to my aids,Cmd.StreamingStart,HARD
+i want the show playing in my hearing aids,Cmd.StreamingStart,HARD
+feed the television into my devices,Cmd.StreamingStart,HARD
+patch the sound through to me,Cmd.StreamingStart,HARD
+begin streaming to my ears,Cmd.StreamingStart,HARD
+hook the tv audio up to my aids,Cmd.StreamingStart,HARD
+push the movie sound to my hearing aids,Cmd.StreamingStart,HARD
+let the music play inside my aids,Cmd.StreamingStart,HARD
+turn on direct tv listening,Cmd.StreamingStart,HARD
+i'm lost in this app,Help_Home,HARD
+where do i even begin,Help_Home,HARD
+explain what this thing can do,Help_Home,HARD
+i could use a hand figuring this out,Help_Home,HARD
+none of this makes sense to me,Help_Home,HARD
+point me in the right direction,Help_Home,HARD
+what features are available,Help_Home,HARD
+give me a quick tour,Help_Home,HARD
+i don't understand how to use this,Help_Home,HARD
+list the things you can help with,Help_Home,HARD
+who painted the mona lisa,Default Fallback Intent,HARD
+what time is it in tokyo,Default Fallback Intent,HARD
+sing me a song,Default Fallback Intent,HARD
+how far is the moon,Default Fallback Intent,HARD
+what should i cook for dinner,Default Fallback Intent,HARD
+tell me about the roman empire,Default Fallback Intent,HARD
+play chess with me,Default Fallback Intent,HARD
+what's the fastest car in the world,Default Fallback Intent,HARD
+give me lottery numbers,Default Fallback Intent,HARD
+when is the next full moon,Default Fallback Intent,HARD
