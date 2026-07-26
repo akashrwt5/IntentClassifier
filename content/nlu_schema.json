@@ -1,7 +1,8 @@
 {
   "version": 2,
   "confidence_threshold": 0.7,
-  "slot_confidence_threshold": 0.6,
+  "slot_confidence_threshold": 0.5,
+  "interrupt_threshold": 0.67,
   "semantic_threshold": 0.4,
   "semantic_rescue_enabled": false,
   "keyword_triggers": [

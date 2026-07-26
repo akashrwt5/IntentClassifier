@@ -108,6 +108,40 @@ _MODEL = _ROOT / "models" / "intent" / "en" / "model.onnx"
 _HOLDOUT = _ROOT / "datasets" / "en" / "holdout_honest.csv"
 
 
+@pytest.mark.skipif(not _MODEL.exists(), reason="trained English model absent")
+def test_a_slot_flow_completing_on_entry_still_hits_the_gate():
+    """A gated intent must not escape the gate by filling all its slots at once.
+
+    `_advance_slots` returned FULFILL directly when the classifying utterance
+    already carried every required slot, bypassing the gate in `_fulfill_intent`.
+    "can you to us number one hits" classified as device.memory.change at 0.529 —
+    far under the 0.90 band, and device.memory.change IS gated — but "one" filled
+    the memory slot and the program changed silently. It reported confidence 1.0
+    (slot-fill certainty, not the intent's), which is what hid it.
+    """
+    pytest.importorskip("onnxruntime")
+    from nlu_engine import NLUEngine
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        eng = NLUEngine(model_name="en", language="en", semantic_enabled=False)
+        intent, conf = eng.classifier.classify("can you to us number one hits")
+        assert intent == "device.memory.change" and conf < UC["below_confidence"], (
+            "fixture drifted: this utterance no longer produces a low-confidence "
+            "prediction of a gated slot-bearing intent")
+        r = eng.handle("gate-escape", "can you to us number one hits")
+        assert r.type == "CONFIRM", (
+            f"low-confidence gated intent completed as {r.type} without asking")
+
+        # Saying yes must carry the slots collected before the gate held it.
+        done = eng.handle("gate-escape", "yes")
+        assert done.type == "FULFILL" and done.parameters, (
+            "confirmed slot-bearing intent fired with no slot values")
+
+        # A confident one-shot slot command must NOT be gated.
+        r2 = eng.handle("gate-ok", "switch to restaurant")
+        assert r2.type == "FULFILL" and r2.parameters.get("MemoryName") == "Restaurant"
+
+
 @pytest.mark.skipif(not (_MODEL.exists() and _HOLDOUT.exists()),
                     reason="trained English artifacts or honest holdout absent")
 def test_wrong_action_budget_is_met_on_the_honest_holdout():

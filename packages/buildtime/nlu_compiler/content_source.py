@@ -37,6 +37,7 @@ LANGS = ("fr", "de", "da")
 
 # Top-level schema keys owned by the platform (not any capability).
 PLATFORM_KEYS = ("version", "confidence_threshold", "slot_confidence_threshold",
+                 "interrupt_threshold",
                  "semantic_threshold", "semantic_rescue_enabled",
                  "keyword_triggers", "affirmative", "negative",
                  "polarity_guards", "help_marker_guard", "uncertain_confirm")
@@ -126,6 +127,7 @@ def assemble(write: bool = True) -> dict:
     # original position with intents where the current schema puts them.
     ordered = {}
     for key in ("version", "confidence_threshold", "slot_confidence_threshold",
+                "interrupt_threshold",
                 "semantic_threshold", "semantic_rescue_enabled", "keyword_triggers"):
         if key in schema:
             ordered[key] = schema[key]
@@ -134,6 +136,15 @@ def assemble(write: bool = True) -> dict:
                 "help_marker_guard", "uncertain_confirm"):
         if key in schema:
             ordered[key] = schema[key]
+    # The layout above is a second, hand-maintained list of the same keys, so it
+    # can silently drop a platform key that PLATFORM_KEYS accepts — which is
+    # exactly what happened to `interrupt_threshold`: platform.yaml carried it,
+    # PLATFORM_KEYS allowed it, and it never reached the compiled schema, so the
+    # engine kept using its fallback. Fail loudly instead.
+    dropped = sorted(set(schema) - set(ordered))
+    assert not dropped, (
+        f"platform key(s) {dropped} accepted by PLATFORM_KEYS but missing from "
+        f"the compiled layout above — add them, or they are silently discarded")
 
     overlays = {}
     for lang in LANGS:

@@ -43,7 +43,7 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
 
 1. **Confirmation** — if a yes/no follow-up context is active, resolve it first.
 2. **Slot-filling** — if mid-collection, fill the pending slot; a high-confidence
-   topic switch (>= `INTERRUPT_THRESHOLD`) abandons the flow and sets
+   topic switch (>= schema `interrupt_threshold`) abandons the flow and sets
    `NLUResult.interrupted_intent`.
 3. **Classify** — fresh turn: ONNX classify -> confidence gate -> optional
    semantic rescue -> entity/datetime extraction -> slot prompts.

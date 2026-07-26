@@ -28,7 +28,9 @@ python apps/cli/nlu_cli_multilingual.py
 
 1. **Confirmation** — resolve an active yes/no context first.
 2. **Slot-filling** — fill the pending slot; a high-confidence topic switch
-   (>= `INTERRUPT_THRESHOLD`) interrupts the flow and records the new intent.
+   (>= schema `interrupt_threshold`) interrupts the flow and records the new
+   intent. An utterance that is a valid value for the slot being awaited is
+   treated as the ANSWER and never interrupts, whatever it classifies as.
 3. **Classify** — ONNX classify -> confidence gate -> **semantic rescue** if
    low-confidence -> entity/datetime extraction -> slot prompts.
 

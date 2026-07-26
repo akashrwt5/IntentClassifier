@@ -1,0 +1,34 @@
+{
+  "_note": "Slot-flow confidence thresholds, fitted. slot_confidence_threshold is fit OUT-OF-FOLD over train.csv; interrupt_threshold is fit against enum slot-answer surface forms (the negatives) versus out-of-fold genuine commands (the positives). Neither is tuned on holdout_honest.csv.",
+  "slot_confidence_threshold": 0.5,
+  "interrupt_threshold": 0.67,
+  "provenance": {
+    "method": "out-of-fold NLL-calibrated confidence sweep",
+    "folds": 5,
+    "temperature": 0.653484,
+    "slot_confidence": {
+      "objective": "midpoint of the range with recall >= 95%, irrelevant asks <= 0.50% of turns, and value <= confidence_threshold (a slot intent must never need MORE confidence than a fire-and-forget one)",
+      "admissible_range": [
+        0.3,
+        0.7
+      ],
+      "correct_kept": 949,
+      "correct_total": 965,
+      "irrelevant_admitted": 12,
+      "irrelevant_total": 22
+    },
+    "interrupt": {
+      "objective": "zero STATE-CHANGING slot-answer leaks (hard), admit >= 95% of genuine commands, then the highest such bar (fewest flows destroyed)",
+      "negatives": "OPEN free-text entity surface forms in content/nlu_entities.json, absent from train.csv, that classify as a different non-OOS intent. Closed enum slots are protected by precedence instead (NLUEngine._answers_awaited_slot), not by this bar.",
+      "n_negatives": 3,
+      "leaking": 2,
+      "leaking_are_read_only": true,
+      "n_positives": 2787,
+      "admitted": 2649,
+      "supersedes": "hardcoded NLUEngine.INTERRUPT_THRESHOLD = 0.75, justified as 'lowered from 0.85 after isotonic calibration' \u2014 the pipeline uses temperature scaling, so that scale no longer exists"
+    },
+    "source": "datasets/en/train.csv",
+    "fitted_at": "2026-07-26T13:01:51Z",
+    "fitted_by": "nlu_training.fit_slot_thresholds"
+  }
+}

@@ -6,10 +6,12 @@ Per user turn priority order:
   2. SLOT FILLING — mid-collection intent (with interruption detection)
   3. CLASSIFY     — fresh turn
 
-Intent interruption: if the user switches topic mid slot-filling with
-high confidence (>= INTERRUPT_THRESHOLD), the pending flow is abandoned
-and the new intent is handled immediately. The NLUResult carries
-interrupted_intent so the app can optionally notify the user.
+Intent interruption: if the user switches topic mid slot-filling with high
+confidence (>= schema `interrupt_threshold`), the pending flow is abandoned and
+the new intent is handled immediately. The NLUResult carries interrupted_intent
+so the app can optionally notify the user. An utterance that is a valid value
+for the slot currently being awaited is the ANSWER to the live question and
+never interrupts, however confidently it classifies as something else.
 """
 
 import json
@@ -87,15 +89,27 @@ class NLUResult:
 
 
 class NLUEngine:
-    # Interruption requires stronger signal than the base 0.70 threshold to avoid
-    # abandoning a slot flow on an ambiguous utterance like "take medication".
-    # Lowered from 0.85 → 0.75 after isotonic calibration: calibrated probabilities
-    # are more moderate so 0.85 was unreachable for genuine switch-intent signals.
-    INTERRUPT_THRESHOLD = 0.75
+    # Fallback interruption bar for a schema that omits `interrupt_threshold`.
+    # The live value is CONTENT-OWNED (content/platform.yaml, per-language via
+    # overlay) and fitted by `nlu_training.fit_slot_thresholds`; read it from
+    # `self.interrupt_threshold`, not from here.
+    #
+    # It used to be this constant, hardcoded at 0.75 and justified as "lowered
+    # from 0.85 after isotonic calibration". The pipeline calibrates by
+    # temperature scaling now, so that justification referred to a confidence
+    # scale that no longer exists — and being a class constant, no language pack
+    # could override it.
+    DEFAULT_INTERRUPT_THRESHOLD = 0.75
 
     # A user who cannot complete a slot after this many tries is routed out of
     # the flow instead of being trapped in an unanswerable prompt loop.
     MAX_SLOT_ATTEMPTS = 3
+
+    # How well an utterance must match a value of the slot being awaited before
+    # it counts as the ANSWER and is allowed to suppress a topic switch (see
+    # _answers_awaited_slot). Genuine answers match at 0.95-1.0 on the strict
+    # path; anything looser is noise that would trap the user in the flow.
+    SLOT_ANSWER_MATCH_FLOOR = 0.9
 
     # Relaxed semantic-rescue floor used ONLY when the TF-IDF stage and the
     # MiniLM head independently agree on the same real intent (see the agreement
@@ -118,6 +132,8 @@ class NLUEngine:
         self.schema = self._load_schema(schema_path, language)
         self.intents = self.schema["intents"]
         self.threshold = self.schema.get("confidence_threshold", 0.70)
+        self.interrupt_threshold = self.schema.get(
+            "interrupt_threshold", self.DEFAULT_INTERRUPT_THRESHOLD)
         self.affirmative = set(self.schema.get("affirmative", []))
         self.negative = set(self.schema.get("negative", []))
         # GenAI base URL is configuration, not a result field. The raw user
@@ -653,6 +669,35 @@ class NLUEngine:
         if neg and pos:     return False
         return None
 
+    def _answers_awaited_slot(self, session, cfg, text: str) -> bool:
+        """True if `text` is a valid value for the slot we are waiting on.
+
+        Only CLOSED enum entities are consulted. For an OPEN free-text entity
+        (e.g. @remind) every utterance is a valid value, so this test would make
+        interruption impossible for the whole flow — there the confidence bar
+        remains the only signal. `sys.date-time` is likewise left to the bar:
+        resolving it here would have to run the parser twice.
+
+        MATCHING IS STRICT — `fuzzy=False` and a high match floor. Extraction for
+        STORAGE can afford to be lenient, because the user is already answering
+        the question. This decision is the opposite: it SUPPRESSES a topic switch,
+        so a loose match traps the user in the flow. With fuzzy matching on, the
+        `memory` entity resolves "turn up the volume" to the memory "three" (via
+        "the", 0.6 confidence), which silently blocked a genuine switch. Real
+        answers score 0.95-1.0 and survive the strict path.
+        """
+        awaiting = session.awaiting_slot
+        if not awaiting:
+            return False
+        slot = self._slot_def(cfg, awaiting)
+        if not slot:
+            return False
+        entity = slot.get("entity", "")
+        if entity.startswith("sys.") or self.entities.is_open(entity):
+            return False
+        value, _, conf = self.entities.extract(entity, text, fuzzy=False)
+        return value is not None and conf >= self.SLOT_ANSWER_MATCH_FLOOR
+
     def _handle_slot_filling(self, session, text, now=0.0):
         intent_name = session.pending_intent
         cfg = self.intents[intent_name]
@@ -666,10 +711,19 @@ class NLUEngine:
         # may interrupt.
         weak_keyword = (self.classifier.last_stage == "keyword"
                         and self.classifier.last_keyword_tier == "contains")
+        # An answer to the question we just asked is NOT a topic switch, however
+        # confidently it classifies as something else. Several memory names are
+        # also commands — "mute", "quiet", "telephone" — so asking "What is the
+        # name of the memory?" and hearing "mute" used to MUTE the device at 0.98
+        # instead of switching to the Mute memory. No threshold can fix that:
+        # "tinnitus" and "mask" classify at 1.000. Answering the live question
+        # has to take precedence over re-classification.
+        answers_prompt = self._answers_awaited_slot(session, cfg, text)
         if (new_intent != intent_name
                 and new_intent != "sys.oos.fallback"
-                and new_conf >= self.INTERRUPT_THRESHOLD
+                and new_conf >= self.interrupt_threshold
                 and not weak_keyword
+                and not answers_prompt
                 and self.intents.get(new_intent) is not None):
             abandoned = intent_name
             session.reset_slot_filling()
@@ -718,7 +772,24 @@ class NLUEngine:
 
         return self._advance_slots(session, intent_name, cfg)
 
-    def _advance_slots(self, session, intent_name, cfg):
+    def _advance_slots(self, session, intent_name, cfg, entry_conf=None):
+        """Prompt for the next missing required slot, or fulfil when none remain.
+
+        `entry_conf` is the classifier confidence of the turn that STARTED the
+        flow, and is passed only from that turn. Continuation turns leave it
+        None: by then the user has answered a prompt, so the flow is established
+        and re-confirming it would be pure friction.
+
+        It matters because a slot-bearing intent can complete on the very turn
+        that classified it, when the utterance already carries every required
+        slot. That path returned FULFILL directly and never reached the
+        uncertainty-confirmation gate in _fulfill_intent, so a gated intent could
+        fire without asking: "can you to us number one hits" classified as
+        device.memory.change at 0.529 — far below the 0.90 confirm band, and
+        device.memory.change IS in the gate — yet "one" filled the memory slot
+        and the memory changed silently. Being reported as confidence 1.0 (the
+        slot-fill certainty, not the intent's) is what hid it.
+        """
         for slot in cfg["slots"]:
             if slot["required"] and slot["name"] not in session.pending_slots:
                 session.pending_intent = intent_name
@@ -727,6 +798,20 @@ class NLUEngine:
                                  parameters=dict(session.pending_slots),
                                  message=slot["prompt"], confidence=1.0)
         params = dict(session.pending_slots)
+        # Same gate as _fulfill_intent, applied to the flow that never prompted.
+        if (entry_conf is not None
+                and intent_name in self._confirm_intents
+                and entry_conf < self._confirm_below):
+            session.reset_slot_filling()
+            session.pending_confirm = {"intent": intent_name,
+                                       "action": cfg.get("action"),
+                                       "fulfillment": cfg.get("fulfillment", ""),
+                                       "parameters": params}
+            return NLUResult(type="CONFIRM", intent=intent_name,
+                             action=cfg.get("action"), parameters=params,
+                             message=cfg.get("confirm_prompt",
+                                             self._confirm_generic_prompt),
+                             confidence=entry_conf)
         session.reset_slot_filling()
         session.record_fulfillment(intent_name, params)
         return NLUResult(type="FULFILL", intent=intent_name, action=cfg.get("action"),
@@ -840,11 +925,16 @@ class NLUEngine:
         polarity = self._yes_no(text)
         if polarity is True:
             session.pending_confirm = None
+            # Carry the slots collected before the gate held the action back;
+            # a held slot-bearing intent otherwise fires with no slot values
+            # ("yes" to "switch your hearing aid program?" would change memory
+            # to nothing).
+            params = dict(pending.get("parameters") or {})
             result = NLUResult(type="FULFILL", intent=pending["intent"],
-                               action=pending["action"],
+                               action=pending["action"], parameters=params,
                                message=pending.get("fulfillment", ""),
                                confidence=1.0, complete=True)
-            session.record_fulfillment(pending["intent"], {})
+            session.record_fulfillment(pending["intent"], params)
             return result
         if polarity is False:
             session.pending_confirm = None
@@ -941,7 +1031,9 @@ class NLUEngine:
             session.pending_intent = intent
             session.pending_slots = slots
             session.awaiting_slot = None
-            return self._advance_slots(session, intent, cfg)
+            # Fresh classification — pass the confidence so a flow that completes
+            # on this very turn is still subject to the confirmation gate.
+            return self._advance_slots(session, intent, cfg, entry_conf=conf)
         blocked = self._availability_block(intent)
         if blocked is not None:
             return blocked
