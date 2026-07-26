@@ -279,12 +279,24 @@ def run_calibration(report_only=False, verbose=False):
         print("\n  Gaps are data-quality issues, not calibration issues. Per plan §P3-4,")
         print("  calibration.json is written with the best available thresholds.")
 
-    # Write output
+    # Write output. File-level metadata (underscore-prefixed keys, e.g. the
+    # `_deprecated` banner recording that nothing at runtime reads this file) is
+    # carried forward — a plain dump would silently delete it and the warning
+    # would have to be rediscovered the hard way.
     if not report_only:
         CONFIG_DIR.mkdir(exist_ok=True)
+        preserved = {}
+        if OUTPUT_FILE.exists():
+            try:
+                existing = json.loads(OUTPUT_FILE.read_text(encoding="utf-8"))
+                preserved = {k: v for k, v in existing.items() if k.startswith("_")}
+            except (ValueError, OSError):
+                pass  # unreadable/corrupt: write fresh rather than fail the run
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            json.dump(results, f, indent=2)
+            json.dump({**preserved, **results}, f, indent=2)
         print(f"\nWrote {OUTPUT_FILE}")
+        if preserved:
+            print(f"  (carried forward file metadata: {sorted(preserved)})")
 
     return True   # calibration succeeds even when data-quality gaps remain
 

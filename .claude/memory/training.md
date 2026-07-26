@@ -53,9 +53,20 @@ Fits **per-language temperature** (rank-preserving) and writes to
 `config/calibration.json`: `temperature`, `conf_threshold`, `conf_gap_threshold`,
 `macro_f1_holdout`, `ece`. Rationale + history: `decisions.md`.
 
-Current shipped values (holdout): en T≈0.62 F1≈0.90 ECE≈0.018 · fr T≈0.67
-F1≈0.84 · de T≈0.68 F1≈0.83 · da T≈0.82 F1≈0.74. `config/calibration.json` is
-the source of truth.
+Recorded values (en T≈0.62 F1≈0.90 ECE≈0.018 · fr T≈0.67 F1≈0.84 · de T≈0.68
+F1≈0.83 · da T≈0.82 F1≈0.74) are **advisory only, and not what ships**:
+
+- **Nothing at runtime reads `config/calibration.json`.** The engine takes `T`
+  from `models/intent_classifier_weights.json` (the device export, T=0.796286)
+  for every language. See `inference.md` and Review-F5 blocker **B8**.
+- **The English figures were measured on a leaked set.** 1460 of 1461 rows in
+  `multilingual/test/en_holdout.csv` appear verbatim in the English training
+  master, so en F1/accuracy/ECE measure memorisation, not generalisation
+  (blocker **B9**). fr/de/da overlap is untested, not known-clean.
+
+Treat these as historical record. The authoritative replacements come from
+charter steps B1 (honest holdout) and B2 (out-of-fold temperature fitting with
+provenance) in `docs/Review-F5/ENGLISH-PRODUCTION-ROUTINE.md`.
 
 ## Full retrain loop
 

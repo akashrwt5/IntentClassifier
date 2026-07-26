@@ -31,7 +31,8 @@ User speaks -> Platform STT (offline) -> Text -> NLU engine -> Intent (+ slots)
   - CLI entry points: `apps/cli/nlu_cli.py`, `apps/cli/nlu_cli_multilingual.py`.
 - **Multilingual** — `multilingual/`: `train_multilingual.py`,
   `predict_multilingual.py`, `text_norm.py`, per-language temperature-scaling
-  calibration -> `config/calibration.json`.
+  calibration -> `config/calibration.json` (**advisory only — no runtime reads
+  it; see `inference.md` and Review-F5 blocker B8**).
 - **Semantic support** — MiniLM embeddings via ONNX; heads trained by
   `scripts/train_semantic_head*.py`; multilingual variants under
   `packages/buildtime/nlu_training/semantic_multilingual/` and `multilingual/SemanticSupport/`.

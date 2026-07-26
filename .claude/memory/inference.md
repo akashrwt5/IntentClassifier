@@ -34,8 +34,22 @@ python apps/cli/nlu_cli_multilingual.py
 
 ## Confidence + calibration
 
-- Per-language `temperature`/`conf_threshold` come from `config/calibration.json`;
-  the device applies `softmax(logits / T)`.
+- The engine applies `softmax(logits / T)`.
+- **`T` does NOT come from `config/calibration.json`** — nothing in
+  `packages/runtime/nlu_engine/` reads that file. `classifier.py::_load_temperature`
+  reads `temperature` out of the weights JSON, defaulting to
+  `models/intent_classifier_weights.json`. That artifact is the **iOS/device**
+  export (1370-term pruned vocab, 59-label pre-migration), so the engine
+  currently calibrates full-vocab ONNX logits with a device-featuriser `T` of
+  0.796286. `config/calibration.json` (en 0.6055) is read only by
+  `nlu_training/evaluate.py`, so the report card and the runtime disagree.
+- `engine.py:314` builds the multilingual classifier without `weights_path`, so
+  **fr/de/da inherit the same English device `T`** rather than their fitted
+  values. Per-language temperature scaling is computed and reported but has no
+  runtime effect.
+- This is Review-F5 blocker **B8**; the fix is charter steps B2/B3
+  (`docs/Review-F5/ENGLISH-PRODUCTION-ROUTINE.md`). Do not describe the chain as
+  working until those land.
 - Semantic rescue threshold: `nlu_schema.json` key `semantic_threshold`
   (fallback `DEFAULT_SEMANTIC_THRESHOLD = 0.55`).
 
@@ -49,7 +63,9 @@ intents the TF-IDF model misses. Multilingual variant under
 ## Key config/data at runtime
 
 `content/nlu_schema.json`, `content/nlu_entities.json`, `content/localization/`,
-`config/calibration.json`, `models/intent_labels.json`.
+`models/intent_labels.json`, `models/intent_classifier_weights.json` (the
+runtime's `temperature` source — see the calibration note above).
+`config/calibration.json` is **not** a runtime input.
 
 ## Related memory
 

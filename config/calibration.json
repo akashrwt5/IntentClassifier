@@ -1,4 +1,12 @@
 {
+  "_deprecated": {
+    "status": "ADVISORY REPORT ONLY — NOT runtime config. Nothing in packages/runtime/nlu_engine/ reads this file.",
+    "what_actually_ships": "The engine reads `temperature` from models/intent_classifier_weights.json via classifier.py::_load_temperature. That artifact is the iOS/DEVICE export (1370-term pruned vocab, 59-label pre-migration) with T=0.796286, applied to full-vocab ONNX logits. engine.py:314 omits weights_path, so fr/de/da inherit that same English device T instead of their values below.",
+    "why_the_values_below_are_not_trustworthy": "They were fit by calibrate_languages.py on multilingual/test/<lang>_holdout.csv. For English that set is 99.9% training data (1460 of 1461 rows appear verbatim in the training master), so a temperature fit on it measures confidence on phrases the model memorised — the reported ECE is optimistic. fr/de/da overlap has not been measured.",
+    "authoritative_source": "Pending — charter steps B1 (honest holdout) and B2 (out-of-fold fitting with recorded provenance) in docs/Review-F5/ENGLISH-PRODUCTION-ROUTINE.md. The iOS/device temperature is fit separately in nlu_export/export_ios_weights.py against pruned device logits; the two calibrate different featurisers and must NOT be unified.",
+    "retained_because": "the fr/de/da measurements exist nowhere else. Reference only; delete once those languages are re-fit.",
+    "tracking": "Review-F5 blockers B8 + B9 — docs/Review-F5/production-readiness-review-round2.md"
+  },
   "en": {
     "temperature": 0.6055,
     "conf_threshold": 0.4,

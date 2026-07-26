@@ -32,7 +32,12 @@ def test_key_project_files_exist():
 def test_calibration_config_is_valid():
     cfg = json.loads((REPO_ROOT / "config" / "calibration.json").read_text())
     assert set(["en", "fr", "de", "da"]).issubset(cfg.keys())
+    # Underscore-prefixed keys are file-level metadata (e.g. the `_deprecated`
+    # banner recording that this file is advisory only and unread at runtime),
+    # not language entries.
     for lang, entry in cfg.items():
+        if lang.startswith("_"):
+            continue
         assert isinstance(entry["temperature"], (int, float)), lang
         assert entry["temperature"] > 0, lang
         assert 0.0 <= entry["conf_threshold"] <= 1.0, lang
