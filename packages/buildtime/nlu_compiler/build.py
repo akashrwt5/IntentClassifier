@@ -74,7 +74,7 @@ def load_dev_key():
     return key
 
 
-def build_bundle(src: Path, out: Path, skip_validation: bool = False) -> dict:
+def build_bundle(src: Path, out: Path, skip_validation: bool = False, *, key_id: str = DEV_KEY_ID, channel: str | None = None) -> dict:
     """Stages 11 + 13 + 14 + 15. Returns a build report."""
     src = Path(src)
     if not skip_validation:
@@ -108,7 +108,13 @@ def build_bundle(src: Path, out: Path, skip_validation: bool = False) -> dict:
     sha_table = ("\n".join(lines) + "\n").encode("utf-8")
 
     manifest["checksums_root"] = hashlib.sha256(sha_table).hexdigest()
-    manifest["signature_info"] = {"scheme": "ed25519-v1", "key_id": DEV_KEY_ID}
+    # Key id and channel are PARAMETERS, not constants. The ND-8 cutover to
+    # production signing must be a settings change in the release workflow, not
+    # a code change here — so the workflow passes them in and this module never
+    # needs to learn about KMS. Defaults keep the dev-key behaviour.
+    if channel:
+        manifest["channel"] = channel
+    manifest["signature_info"] = {"scheme": "ed25519-v1", "key_id": key_id}
     manifest_bytes = canonical_json(manifest) + b"\n"
     entries["bundle.json"] = manifest_bytes
     entries["integrity/manifest.sha256"] = sha_table
@@ -131,7 +137,8 @@ def build_bundle(src: Path, out: Path, skip_validation: bool = False) -> dict:
     return {"bundle_id": manifest["bundle_id"], "files": len(entries),
             "bytes": out.stat().st_size,
             "checksums_root": manifest["checksums_root"],
-            "key_id": DEV_KEY_ID, "out": str(out)}
+            "key_id": key_id, "channel": manifest.get("channel"),
+            "out": str(out)}
 
 
 def codegen_action_constants(src: Path, out_dir: Path) -> list[str]:
@@ -165,10 +172,16 @@ def main(argv=None) -> int:
     ap.add_argument("src", type=Path, help="validated unpacked bundle directory")
     ap.add_argument("--out", type=Path, default=None)
     ap.add_argument("--codegen-dir", type=Path, default=None)
+    ap.add_argument("--key-id", default=DEV_KEY_ID,
+                    help="signing key id recorded in the manifest "
+                         f"(default: {DEV_KEY_ID}; production keys arrive with ND-8)")
+    ap.add_argument("--channel", default=None, choices=[None, "dev", "beta", "production"],
+                    help="override the manifest channel; production runtimes "
+                         "refuse dev-signed artifacts, which is the intended gate")
     args = ap.parse_args(argv)
 
     out = args.out or (REPO / "bundles" / f"{args.src.name}.nlu")
-    report = build_bundle(args.src, out)
+    report = build_bundle(args.src, out, key_id=args.key_id, channel=args.channel)
     print(json.dumps(report, indent=2))
     codegen = codegen_action_constants(args.src, args.codegen_dir
                                        or out.parent / f"{args.src.name}-codegen")

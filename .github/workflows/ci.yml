@@ -43,7 +43,7 @@ jobs:
           # as infrastructure noise instead of a missing dependency. Keep this
           # list in sync with pyproject [project.optional-dependencies].dev.
           pip install ruff black darker mypy pytest pytest-cov \
-            "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0"
+            "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0" "pyyaml>=6.0"
 
       # Enforced gate — the repo already passes this lean rule set.
       - name: Ruff (lint)
@@ -69,6 +69,14 @@ jobs:
       - name: MyPy (type check, non-blocking)
         continue-on-error: true
         run: mypy packages/runtime/nlu_engine packages/buildtime multilingual/*.py
+
+      # BLOCKING (charter A9). The engine must contain no language-specific
+      # branches and no hardcoded natural-language match vocabulary: language
+      # behaviour lives in data tables a Language Pack overrides. The guard's
+      # allowlist reached zero at A7, so this can fail the build rather than
+      # merely report. New coupling belongs in the pack, never in an allowlist.
+      - name: Language neutrality (blocking)
+        run: python scripts/ci/check_language_neutral.py
 
       - name: Pytest
         run: pytest -ra

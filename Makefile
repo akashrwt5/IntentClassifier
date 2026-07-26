@@ -21,7 +21,7 @@ lock: ## Regenerate requirements.lock from requirements.txt (needs uv)
 .PHONY: install-dev
 install-dev: install ## Install runtime + developer tooling (ruff, black, mypy, pytest, pre-commit)
 	$(PIP) install ruff black darker mypy pytest pytest-cov pre-commit \
-	  "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0"
+	  "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0" "pyyaml>=6.0"
 	pre-commit install
 
 # ---------------------------------------------------------------------------

@@ -50,6 +50,7 @@ dev = [
     "jsonschema>=4.18",
     "referencing>=0.30",
     "cryptography>=42.0",   # Ed25519 bundle signing/verification
+    "pyyaml>=6.0",          # content/*.yaml + workflow assertions in tests
 ]
 # Extras only needed for the mobile-export / CoreML pipelines (macOS/CI).
 export = [

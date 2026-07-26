@@ -1,0 +1,221 @@
+name: release-pack
+
+# The only producer of release artifacts: a versioned, signed single-language
+# `.nlu` published as a GitHub Release — the model registry clients fetch from.
+#
+# SIGNING IS DEV-KEY AND CHANNEL-GATED ON PURPOSE (charter A10). Production keys
+# are owner decision ND-8 and do not exist yet, and production runtimes
+# correctly REFUSE dev-signed artifacts — that refusal is the safety gate, not a
+# problem to work around. The point of shipping the pipeline now is to exercise
+# it end to end before the keys arrive, so the ND-8 cutover is a change to the
+# inputs below (`key_id`, `channel`) and NOT a change to this file.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "semver, e.g. 1.0.0 (blank -> 1.0.<run_number>)"
+        required: false
+        default: ""
+      language:
+        description: "language to release"
+        required: false
+        default: "en"
+      channel:
+        description: "dev | beta | production (production needs ND-8 keys)"
+        required: false
+        default: "dev"
+      key_id:
+        description: "signing key id (blank -> the compiler's dev key)"
+        required: false
+        default: ""
+  push:
+    # Deliberately NOT `main`. Releasing from the default branch is an owner
+    # decision that belongs with ND-8, not something this pipeline should start
+    # doing on its own.
+    branches: [claude/nlu-production-readiness-dqyl38]
+    paths:
+      - "content/**"
+      - "spec/bundle/**"
+      - "spec/examples/**"
+      - "packages/buildtime/nlu_training/**"
+      - "packages/buildtime/nlu_compiler/**"
+      - "scripts/ci/assemble_pack.py"
+
+permissions:
+  contents: write # required to create a GitHub Release
+
+env:
+  SRC_BUNDLE: spec/examples/3.0/minimal
+
+jobs:
+  # 1) Train + gate on Linux. Publishes the artifacts both later jobs consume.
+  train-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+          pip install "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0"
+
+      # The ONNX StringNormalizer op refuses to initialise without this locale.
+      - name: Provide the en_US.UTF-8 locale
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq locales
+          sudo locale-gen en_US.UTF-8
+
+      # Datasets are DVC-managed. `dvc pull` needs a shared remote, which is
+      # still an owner action; until then the bootstrap snapshot keeps the
+      # pipeline exercisable and every metric it produces is PROVISIONAL.
+      - name: Fetch datasets (DVC, with bootstrap fallback)
+        run: |
+          if command -v dvc >/dev/null && dvc pull 2>/dev/null; then
+            echo "data_grade=authoritative" >> "$GITHUB_ENV"
+          else
+            echo "::warning::No shared DVC remote — using the PROVISIONAL English bootstrap corpus."
+            python scripts/ci/bootstrap_en_data.py
+            echo "data_grade=provisional" >> "$GITHUB_ENV"
+          fi
+
+      - name: Train the intent model
+        run: python -m nlu_training.train
+        env:
+          PYTHONPATH: packages/buildtime
+
+      - name: Accuracy gate (must pass to release)
+        run: |
+          mkdir -p dist
+          python -m nlu_training.evaluate --out dist/report_card.json
+        env:
+          PYTHONPATH: packages/buildtime
+
+      - name: Record the data grade in the report card
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path("dist/report_card.json")
+          d = json.loads(p.read_text()) if p.exists() else {}
+          d["data_grade"] = os.environ.get("data_grade", "unknown")
+          p.write_text(json.dumps(d, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts
+          path: |
+            models/intent_model.onnx
+            models/intent_labels.pkl
+            models/intent_classifier_weights.json
+            dist/report_card.json
+
+  # 2) CoreML/ANE export on macOS — coremltools and the Core ML runtime need it.
+  #    Non-blocking for now: the export path is owner-gated (ND-7 PAT) and the
+  #    release must not be held hostage to a runner this repo cannot yet gate on.
+  coreml-export:
+    needs: train-gate
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+      - name: Install export + parity deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+          pip install coremltools torch
+      - uses: actions/download-artifact@v4
+        with: { name: model-artifacts, path: dl }
+      - name: Stage the trained model
+        run: |
+          mkdir -p models
+          cp dl/models/intent_model.onnx              models/intent_model.onnx
+          cp dl/models/intent_classifier_weights.json models/intent_classifier_weights.json
+      - name: Export the CoreML model
+        run: |
+          mkdir -p dist/models
+          python -m nlu_export.export_coreml --out dist/models/model.mlpackage
+        env:
+          PYTHONPATH: packages/buildtime
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coreml-model
+          path: dist/models/model.mlpackage
+
+  # 3) Assemble the versioned pack and publish the Release.
+  release:
+    needs: [train-gate, coreml-export]
+    if: always() && needs.train-gate.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+          pip install "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0"
+
+      - uses: actions/download-artifact@v4
+        with: { name: model-artifacts, path: dl }
+      - name: Download the CoreML model (optional)
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: { name: coreml-model, path: cml/model.mlpackage }
+
+      - name: Resolve version
+        id: ver
+        run: |
+          V="${{ github.event.inputs.version }}"
+          if [ -z "$V" ]; then V="1.0.${{ github.run_number }}"; fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Assemble the signed single-language pack
+        run: |
+          LANG_ARG="${{ github.event.inputs.language }}"
+          CHANNEL="${{ github.event.inputs.channel }}"
+          KEY_ID="${{ github.event.inputs.key_id }}"
+          ARGS=(--src "$SRC_BUNDLE"
+                --version "${{ steps.ver.outputs.version }}"
+                --language "${LANG_ARG:-en}"
+                --channel "${CHANNEL:-dev}"
+                --out dist
+                --model dl/models/intent_model.onnx
+                --labels dl/models/intent_labels.pkl
+                --weights dl/models/intent_classifier_weights.json
+                --report dl/dist/report_card.json)
+          # if-blocks, not `[ ... ] && ...`: GitHub runs `run:` under `bash -e`,
+          # so a false test would exit non-zero and fail the step — which is
+          # exactly the default path here (no key_id, no CoreML runner).
+          if [ -n "$KEY_ID" ]; then ARGS+=(--key-id "$KEY_ID"); fi
+          if [ -d cml/model.mlpackage ]; then ARGS+=(--coreml cml/model.mlpackage); fi
+          python scripts/ci/assemble_pack.py "${ARGS[@]}"
+
+      # Verify what will actually be published, not what we assume we built.
+      - name: Verify the signed pack
+        run: |
+          PYTHONPATH=packages/buildtime python -m nlu_compiler.verify \
+            dist/pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}.nlu
+
+      - name: Publish GitHub Release (the model registry)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}
+          name: "Language Pack ${{ github.event.inputs.language || 'en' }} v${{ steps.ver.outputs.version }}"
+          body: |
+            Single-language `.nlu` (spec/bundle/3.0), channel
+            `${{ github.event.inputs.channel || 'dev' }}`.
+
+            **Dev-signed.** Production runtimes refuse dev-signed artifacts by
+            design; production keys are owner decision ND-8.
+          files: |
+            dist/pack-*.nlu
+            dl/dist/report_card.json
