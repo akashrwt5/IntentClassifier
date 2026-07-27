@@ -288,6 +288,14 @@ jobs:
             cd cml && zip -r ../dist/coreml-models-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}.zip .
           fi
 
+      - name: Bundle ONNX models
+        run: |
+          LANG_ARG="${{ github.event.inputs.language }}"
+          L="${LANG_ARG:-en}"
+          if [ -d "models/intent/$L" ]; then
+            zip -r dist/onnx-models-$L-v${{ steps.ver.outputs.version }}.zip models/intent/$L/
+          fi
+
       - name: Publish GitHub Release (the model registry)
         uses: softprops/action-gh-release@v2
         with:
@@ -303,3 +311,4 @@ jobs:
             dist/pack-*.nlu
             dl/dist/report_card.json
             dist/coreml-models-*.zip
+            dist/onnx-models-*.zip
