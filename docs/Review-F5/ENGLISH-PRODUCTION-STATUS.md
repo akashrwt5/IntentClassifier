@@ -1,4 +1,4 @@
-STATUS: IN PROGRESS — Track A COMPLETE (A1–A10); Track B COMPLETE through B5; B5 result is OVER BUDGET and awaits an owner policy decision
+STATUS: IN PROGRESS — Track A COMPLETE; Track B COMPLETE (B1–B6). B6 published a real English pack; wrong-action budget MET (4/1470). Open: ND-8 production keys, CoreML parity, spec gaps for full language self-description
 
 # English Production Cycle — Status
 
@@ -131,6 +131,59 @@ what *proves* that rather than asserting it.
 8. **The A3 guard flagged prose.** The ported implementation split on `#`,
    leaving docstrings live, so a comment *describing* the forbidden pattern
    tripped it. Now tokenised — comments and string literals are blanked.
+
+## B6 — first release run: DONE, and what it took
+
+**`pack-en-v2.0.0` is published, downloads, and verifies.**
+
+    VERIFIED: pack-en-v2.0.0 format=3.0 channel=dev key=dev-key-golden
+
+Confirmed against the artifact fetched from GitHub, not the local build: 89 files,
+12 capabilities, 57 intents in `plan_facts`, `labels.json` 57 entries, cascade
+`output.dim` 57, thresholds `{confidence 0.70, interrupt 0.68, semantic 0.40}`,
+confirmation policy 14 `when_ambiguous` + 43 `never`, `model_version en-2.0.0`,
+and `calibration.fitted_on` matching the live `train.csv` sha256 byte for byte.
+It loads through `nlu_langpack.load_pack`.
+
+### The pack is now the product, not a fixture
+
+Earlier releases (`v1.0.0`, `v1.0.15`) were built from
+`spec/examples/3.0/minimal` — a golden TEST FIXTURE with one capability and two
+intents. They validated only because `labels.json` still carried the fixture's
+two labels beside our 57-class model. **Those two releases are pipeline evidence,
+not product, and should be deleted so nothing consumes them.**
+`nlu_compiler.content_bundle` now compiles the real `content/` tree.
+
+### Five CI-only defects found getting here
+
+Each was invisible locally and surfaced further down the pipeline than its cause:
+
+| defect | where it appeared |
+|---|---|
+| `requirements.lock` unresolvable on 3.10 (onnxruntime dropped cp310 wheels) | install step |
+| fitters imported the runtime package; CI sets `PYTHONPATH=packages/buildtime` only | after training succeeded |
+| CoreML unpackageable — `models` is a closed stage set, `.mlpackage` holds unmapped `.json` | release job, stage 1 |
+| `data_grade` injected into a schema-closed report card | release job, three steps from where it was set |
+| `pyyaml` declared only as a dev extra | release job, after training |
+
+Each now has a guard that runs under CI's real constraints: lock-installed 3.10
+AND 3.11 suites, subprocess import checks with a scrubbed `PYTHONPATH`, and an
+AST scan asserting third-party imports are locked.
+
+### Still open
+
+- **ND-8 production keys.** The pack is dev-signed; production runtimes refuse
+  dev artifacts by design. Cutover is a workflow input, not a code change.
+- **CoreML parity.** `export_weights` still reads a pre-migration dataset path
+  and upper-cases labels, so the `.mlpackage` does not correspond to the ONNX in
+  the pack. It ships as a separate artifact. Fix that first, then per-platform
+  packs via `format: "mlmodelc-ref"` — which needs no spec change.
+- **The format cannot fully describe a language yet.** `lexicons.schema.json` has
+  no field for the datetime grammar or contractions — the two largest tables A7
+  evicted from the engine — and one English carrier uses lookahead, which the
+  portable regex subset forbids. The engine is language-neutral; the bundle
+  format has not caught up. This is the real blocker for "add a language by
+  shipping files", and it is a spec change (ADR-005).
 
 ## B5 — the honest wrong-action number, and what it means
 
