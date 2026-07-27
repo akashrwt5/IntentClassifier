@@ -81,12 +81,11 @@ jobs:
       - name: Resolve the dataset grade
         run: |
           LANG_ARG="${{ github.event.inputs.language }}"
-          if [ -f "datasets/${LANG_ARG:-en}/train.csv" ]; then
+          if [ -f "language_packs/${LANG_ARG:-en}/train.csv" ]; then
             echo "data_grade=authoritative" >> "$GITHUB_ENV"
           else
-            echo "::warning::Full datasets not committed yet — falling back to the PROVISIONAL English bootstrap corpus."
-            python scripts/ci/bootstrap_en_data.py
-            echo "data_grade=provisional" >> "$GITHUB_ENV"
+            echo "::error::No training data found in language_packs/${LANG_ARG:-en}/train.csv. Aborting."
+            exit 1
           fi
 
       - name: Train the intent model
@@ -149,12 +148,11 @@ jobs:
   #    KNOWN LIMITATION, and the reason this is not yet a parity GATE on the
   #    trained model: `nlu_export.export_coreml` reads the repo-committed DEVICE
   #    artifact `models/intent_classifier_weights.json`, which is produced by
-  #    `nlu_export.export_weights` — a pre-migration script that still reads
-  #    `datasets/01_source_base_training_data.csv` (a path the per-language
+  #    `language_packs/<lang>/train.csv` (a path the per-language
   #    relayout removed) and upper-cases intent labels. So the .mlpackage this
   #    job emits is derived from committed weights, NOT from the model trained in
   #    job 1. It is published as an iOS convenience artifact only. Retargeting
-  #    export_weights at datasets/<lang>/train.csv is what turns this into a real
+  #    export_weights at language_packs/<lang>/train.csv is what turns this into a real
   #    parity gate; until then do not read a green tick here as proof that the
   #    CoreML model matches the ONNX one.
   coreml-export:
