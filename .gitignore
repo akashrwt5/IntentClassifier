@@ -71,3 +71,13 @@ bundles/
 
 # MLflow local file backend (roadmap §16)
 mlruns/
+
+# Local CI artifact staging (release-pack.yml downloads artifacts into dl/)
+dl/
+
+# Local virtualenvs beyond .venv*/venv/env/ (e.g. a hand-made test-venv/)
+test-venv/
+*-venv/
+
+# Local scratch pipeline runners (never committed; regenerate as needed)
+run_pipeline*.sh
