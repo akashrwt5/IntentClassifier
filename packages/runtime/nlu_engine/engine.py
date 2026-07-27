@@ -485,7 +485,7 @@ class NLUEngine:
         download_models.py and train_multilingual_semantic_head.py have been run.
         """
         try:
-            from multilingual.SemanticSupport.semantic import MultilingualSemanticFallback
+            from legacy_research.SemanticSupport.semantic import MultilingualSemanticFallback
             return MultilingualSemanticFallback(threshold=threshold)
         except FileNotFoundError as e:
             logger.warning(
