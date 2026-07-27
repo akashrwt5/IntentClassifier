@@ -25,8 +25,8 @@ Usage:
     python scripts/export_ios_weights.py
     python scripts/export_ios_weights.py --top-per-class 25 --out models/intent_classifier_weights.json
 
-Reads:  models/intent_pipeline.pkl  (saved by train.py)
-        models/intent_labels.pkl
+Reads:  models/intent/en/pipeline.pkl  (saved by train.py)
+        models/intent/en/labels.pkl
 Writes: models/intent_classifier_weights.json
 """
 
@@ -37,9 +37,9 @@ import joblib
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-PIPELINE_PATH = BASE_DIR / "models" / "intent_pipeline.pkl"
-LABELS_PATH   = BASE_DIR / "models" / "intent_labels.pkl"
-DATA_PATH     = BASE_DIR / "data"   / "01_source_base_training_data.csv"
+PIPELINE_PATH = None
+LABELS_PATH   = None
+DATA_PATH     = None
 
 CONF_THRESHOLD     = 0.70
 CONF_GAP_THRESHOLD = 0.20
@@ -269,8 +269,15 @@ def export(out_path: Path, top_per_class: int):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--out", default=str(BASE_DIR / "models" / "intent_classifier_weights.json"))
+    parser.add_argument("--lang", default="en", help="Language code (e.g., en)")
+    parser.add_argument("--out", help="Output path (default: models/intent/{lang}/intent_classifier_weights.json)")
     parser.add_argument("--top-per-class", type=int, default=30,
                         help="Top N features per class by |coef| to keep (default: 30)")
     args = parser.parse_args()
-    export(Path(args.out), args.top_per_class)
+    
+    PIPELINE_PATH = BASE_DIR / "models" / "intent" / args.lang / "pipeline.pkl"
+    LABELS_PATH   = BASE_DIR / "models" / "intent" / args.lang / "labels.pkl"
+    DATA_PATH     = BASE_DIR / "language_packs" / args.lang / "train.csv"
+    
+    out_path = Path(args.out) if args.out else BASE_DIR / "models" / "intent" / args.lang / "intent_classifier_weights.json"
+    export(out_path, args.top_per_class)

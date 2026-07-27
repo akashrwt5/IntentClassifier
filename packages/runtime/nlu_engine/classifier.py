@@ -16,10 +16,7 @@ from .manifest import verify_manifest
 from .text_norm import normalize_text
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-MODEL_PATH   = BASE_DIR / "models" / "intent_model.onnx"
-LABELS_PATH  = BASE_DIR / "models" / "intent_labels.pkl"
-SCHEMA_PATH  = BASE_DIR / "content" / "nlu_schema.json"
-WEIGHTS_PATH = BASE_DIR / "models" / "intent_classifier_weights.json"
+# Dynamic paths provided by engine.py at runtime
 
 
 def _stable_softmax(logits: np.ndarray) -> np.ndarray:
@@ -151,10 +148,10 @@ def _negation_pattern(cue: str) -> "re.Pattern":
 
 class IntentClassifier:
     def __init__(self,
-                 model_path:   Path = MODEL_PATH,
-                 labels_path:  Path = LABELS_PATH,
-                 schema_path:  Path = SCHEMA_PATH,
-                 weights_path: Path = WEIGHTS_PATH,
+                 model_path:   Path | None = None,
+                 labels_path:  Path | None = None,
+                 weights_path: Path | None = None,
+                 schema_path:  Path | None = None,
                  backend=None,
                  negation_cues=None,
                  calibration_path: Path | None = None):
@@ -165,7 +162,7 @@ class IntentClassifier:
         verify_manifest(BASE_DIR)
         self._schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
         self._kw_rules = _compile_keyword_rules(self._schema)
-        self.labels = joblib.load(str(labels_path))
+        self.labels = json.loads(labels_path.read_text(encoding="utf-8")) if labels_path.suffix == ".json" else joblib.load(str(labels_path))
         # Inference-inversion seam (runtime-contract-v1 §2): the classifier
         # never owns an ML runtime — the host injects one (ORT by default).
         if backend is None:

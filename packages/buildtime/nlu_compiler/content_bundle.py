@@ -455,12 +455,19 @@ def compile_models(lang: str, model_dir: Path, out: Path) -> tuple[int, list[str
     _write(dst / "labels.json", labels)
 
     copied = [f"models/intent/{lang}/labels.json"]
-    for name in ("model.onnx", "labels.pkl"):
+    for name in ("model.onnx", "labels.pkl", "intent_classifier_weights.json"):
         src = model_dir / name
+        if not src.exists() and name == "intent_classifier_weights.json":
+            continue
         if not src.exists():
             raise SystemExit(f"missing trained artifact: {src}")
         shutil.copy(src, dst / name)
         copied.append(f"models/intent/{lang}/{name}")
+
+    mlpkg = model_dir / "IntentClassifier.mlpackage"
+    if mlpkg.exists():
+        shutil.copytree(mlpkg, dst / "IntentClassifier.mlpackage", dirs_exist_ok=True)
+        copied.append(f"models/intent/{lang}/IntentClassifier.mlpackage")
 
     # calibration.json is translated into the lean on-device contract by
     # scripts/ci/assemble_pack.py; emit the fitted temperature in that shape here

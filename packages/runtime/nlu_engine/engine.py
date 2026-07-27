@@ -30,9 +30,7 @@ from .context import SessionStore
 from .model_paths import resolve_model_set
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-SCHEMA_PATH = BASE_DIR / "content" / "nlu_schema.json"
-LABELS_JSON_PATH = BASE_DIR / "models" / "intent_labels.json"
-LOC_DIR = BASE_DIR / "content" / "localization"
+# Paths are dynamic based on language pack
 
 # Fallback default for the semantic-rescue threshold when the schema omits it.
 # The schema's "semantic_threshold" is the single source of truth; this is only
@@ -118,7 +116,7 @@ class NLUEngine:
     # enough that a flat (genuinely-ambiguous) distribution is rejected.
     AGREEMENT_THRESHOLD = 0.50
 
-    def __init__(self, schema_path: Path = SCHEMA_PATH, model_name: str | None = None,
+    def __init__(self, schema_path: Path | None = None, model_name: str | None = None,
                  language: str = "en", semantic_enabled: bool | None = None,
                  pack=None):
         # `pack` is the Language Pack seam (nlu_langpack.LanguagePack). When one
@@ -248,7 +246,7 @@ class NLUEngine:
         return configured
 
     @staticmethod
-    def _load_schema(schema_path: Path, language: str) -> dict:
+    def _load_schema(schema_path: Path | None, language: str) -> dict:
         """Load canonical schema then deep-merge the language overlay (if any).
 
         Overlay keys applied: intents[].fulfillment, intents[].slots[].prompt,
@@ -256,6 +254,7 @@ class NLUEngine:
         action) always come from the canonical schema. Missing overlay → English.
         """
         import copy
+        if not schema_path: schema_path = BASE_DIR / "language_packs" / language / "nlu_schema.json"
         schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
         # Data-driven, not language-string-driven: a language with an overlay
         # file gets it merged; one without (English, which ships none) uses the
@@ -263,7 +262,7 @@ class NLUEngine:
         # signal, so a new language is a file, not a branch.
         if not language:
             return schema
-        overlay_path = LOC_DIR / f"nlu_schema.{language}.json"
+        overlay_path = BASE_DIR / "language_packs" / language / "extras" / f"nlu_schema.{language}.json"
         if not overlay_path.exists():
             logger.debug("nlu.schema.no_overlay lang=%s (using canonical schema)", language)
             return schema
@@ -337,7 +336,7 @@ class NLUEngine:
         """
         if not language:
             return None
-        lex_path = LOC_DIR / f"nlu_lexicon.{language}.json"
+        lex_path = BASE_DIR / "language_packs" / language / "nlu_lexicon.json"
         if not lex_path.exists():
             return None
         try:
@@ -355,13 +354,13 @@ class NLUEngine:
         its own tables" from "the built-in defaults". English ships none, so it
         takes the default path by absence rather than by name.
         """
-        return bool(language) and (LOC_DIR / f"nlu_lexicon.{language}.json").exists()
+        return bool(language) and (BASE_DIR / "language_packs" / language / "nlu_lexicon.json").exists()
 
     @staticmethod
     def _build_leading_connector(language: str):
         """Compile the leading-connector stripper from the lexicon, else defaults."""
         words = list(_DEFAULT_LEADING_CONNECTORS)
-        lex_path = LOC_DIR / f"nlu_lexicon.{language}.json" if language else None
+        lex_path = BASE_DIR / "language_packs" / language / "nlu_lexicon.json" if language else None
         if lex_path is not None and lex_path.exists():
             try:
                 override = json.loads(lex_path.read_text(encoding="utf-8")).get(
@@ -385,7 +384,7 @@ class NLUEngine:
         base = list(_DEFAULT_CARRIERS)
         if not language:
             return base
-        lex_path = LOC_DIR / f"nlu_lexicon.{language}.json"
+        lex_path = BASE_DIR / "language_packs" / language / "nlu_lexicon.json"
         if not lex_path.exists():
             return base
         try:
@@ -406,7 +405,7 @@ class NLUEngine:
         """
         if not language:
             return EntityExtractor()
-        entities_path = LOC_DIR / f"nlu_entities.{language}.json"
+        entities_path = BASE_DIR / "language_packs" / language / "nlu_entities.json"
         if not entities_path.exists():
             logger.debug("nlu.entities.no_overlay lang=%s (using canonical entities)", language)
             return EntityExtractor()
@@ -435,7 +434,7 @@ class NLUEngine:
                      language, models.source, models.model)
 
         kwargs = {"model_path": models.model, "labels_path": models.labels,
-                  "schema_path": SCHEMA_PATH, "negation_cues": cues}
+                  "schema_path": (BASE_DIR / "language_packs" / self.language / "nlu_schema.json"), "negation_cues": cues}
         # Calibration travels with the (model, featurizer) pair. When the
         # per-language artifact exists it wins; otherwise the classifier keeps
         # its legacy default. Fitting the value correctly is charter B2/B3 —
@@ -502,10 +501,9 @@ class NLUEngine:
 
     def _assert_label_schema_parity(self):
         """Fail loudly at startup if trained labels and schema intents diverge."""
-        labels_path = LABELS_JSON_PATH
-        if not labels_path.exists():
+        if not getattr(self, "labels", None):
             return  # model not yet trained; skip during development
-        labels = set(json.loads(labels_path.read_text(encoding="utf-8")))
+        labels = set(self.labels)
         schema_intents = set(self.intents.keys())
         only_in_model = labels - schema_intents
         only_in_schema = schema_intents - labels

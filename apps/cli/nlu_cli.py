@@ -12,6 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages" / "runtime"))
 from nlu_engine import NLUEngine  # noqa: E402
+from nlu_langpack import load_pack  # noqa: E402
 
 SESSION = "cli-user"
 
@@ -52,7 +53,16 @@ def render(r, engine, text):
 def main():
     print("=== On-device NLU (Dialogflow replacement) ===")
     print("    Type 'exit' to quit, 'reset' to clear the conversation.\n")
-    engine = NLUEngine()
+    try:
+        pack = load_pack("dist/bundle-en")
+        engine = NLUEngine(pack=pack)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"Failed to load language pack from dist/bundle-en: {e}")
+        print("Run './build_language.sh en' first.")
+        return
+        
     while True:
         try:
             text = input("you ▸ ").strip()

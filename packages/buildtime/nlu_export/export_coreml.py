@@ -168,10 +168,11 @@ def inspect_minilm_onnx(ort):
 # Stage 2 — IntentClassifier.mlpackage
 # ──────────────────────────────────────────────────────────────────────────────
 
-def export_intent_classifier(ct):
+def export_intent_classifier(ct, lang: str):
     """Build IntentClassifier.mlpackage from intent_classifier_weights.json."""
-    src = MODELS_DIR / "intent_classifier_weights.json"
-    dst = MODELS_DIR / "IntentClassifier.mlpackage"
+    base_dir = MODELS_DIR / "intent" / lang
+    src = base_dir / "intent_classifier_weights.json"
+    dst = base_dir / "IntentClassifier.mlpackage"
 
     if not src.exists():
         print(f"\nSKIP Stage 2: {src} not found")
@@ -611,6 +612,7 @@ def main():
         description="Export NLU models to CoreML for iOS",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    parser.add_argument("--lang", default="en", help="Language code (e.g., en)")
     parser.add_argument("--inspect-only", action="store_true",
                         help="Only print ONNX model specs, skip all conversions")
     parser.add_argument("--skip-minilm", action="store_true",
@@ -637,7 +639,7 @@ def main():
         print("\n--inspect-only: done.")
         return
 
-    export_intent_classifier(ct)
+    export_intent_classifier(ct, args.lang)
     export_semantic_head(ct)
 
     if args.skip_minilm:
@@ -651,10 +653,10 @@ def main():
 
     print(f"\n{'='*60}")
     print("  Copy these files to STT/STT/STT/Resources/ in the iOS repo:")
-    print("    models/IntentClassifier.mlpackage     (required for Stage 2)")
+    print(f"    models/intent/{args.lang}/IntentClassifier.mlpackage     (required for Stage 2)")
     print("    models/SemanticHead.mlpackage          (required for Stage 3)")
     print("    models/MiniLMEmbedder.mlpackage        (required for Stage 3)")
-    print("    models/intent_classifier_weights.json  (Swift fallback for Stage 2)")
+    print(f"    models/intent/{args.lang}/intent_classifier_weights.json  (Swift fallback for Stage 2)")
     print("    models/semantic_head.json              (Swift fallback for Stage 3)")
     print("    models/minilm-vocab.txt                (Swift BERT tokeniser)")
     print(f"{'='*60}")
