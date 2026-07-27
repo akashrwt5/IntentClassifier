@@ -284,8 +284,8 @@ jobs:
 
       - name: Bundle CoreML models
         run: |
-          if [ -d "cml/models" ]; then
-            cd cml && zip -r ../dist/coreml-models-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}.zip models/
+          if [ -d "cml" ]; then
+            cd cml && zip -r ../dist/coreml-models-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}.zip .
           fi
 
       - name: Publish GitHub Release (the model registry)
