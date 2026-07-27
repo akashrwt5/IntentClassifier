@@ -140,6 +140,29 @@ Related pre-existing divergence to revisit: server ONNX uses `min_df=2` while th
 multilingual and iOS-export recipes use `min_df=1`.
 
 
+## ADR-014 — CoreML ships INSIDE the signed .nlu (Fat Bundle), as `coreml_artifact`
+**Status:** Accepted (2026-07-27). **What:** the release pack carries the CoreML
+`.mlpackage` inside the signed bundle rather than as a loose side artifact. It is
+written as `models.intent.<lang>.coreml_artifact` — a schema-legal sibling of the
+ONNX `artifact` on the intent entry — NOT as a new `models.coreml` STAGE. The
+`.mlpackage` directory is copied into the staging tree by
+`scripts/ci/assemble_pack.py --coreml`, so its files are checksummed and signed
+with the rest of the pack; `release-pack.yml` passes `--coreml` when the
+(macOS, `continue-on-error`) export job produced one. **Why:** `bundle.schema.json`
+already declares the `coreml_artifact` property and the validator maps `.mlpackage`
+files, so a Fat Bundle assembles and verifies today; distributing the iOS model in
+the same signed unit as the ONNX avoids a second unsigned channel. This supersedes
+the earlier stance (assemble_pack *refused* `--coreml`). **Consequences:** (1)
+`models` stays the closed set (intent/embedder/semantic_head);
+`test_models_schema_really_forbids_a_coreml_stage` still guards that CoreML never
+becomes its own stage. (2) `test_release_pack.py` was updated to the new contract
+(`test_coreml_is_packaged_into_the_bundle`, `test_release_job_passes_coreml_to_the_packer`).
+(3) OPEN CAVEAT: the `.mlpackage` `nlu_export.export_coreml` currently emits derives
+from the repo-committed DEVICE weights, not the ONNX trained in the same run — so the
+bundled CoreML model is an iOS convenience artifact, NOT proof of ONNX↔CoreML parity.
+Retargeting the exporter is the follow-up that turns this into a real parity gate.
+
+
 ## Related memory
 
 Training/calibration -> `training.md` · Mobile -> `mobile.md` · Roadmap ->

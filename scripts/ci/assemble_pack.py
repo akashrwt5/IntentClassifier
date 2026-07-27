@@ -164,28 +164,20 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         refreshed.append(f"models/intent/{lang}/calibration.json")
 
-    # CoreML is deliberately NOT packaged into the signed bundle. Two reasons,
-    # both blocking:
+    # CoreML rides INSIDE the signed bundle (the "Fat Bundle"). It is expressed
+    # as models.intent.<lang>.coreml_artifact — a schema-legal SIBLING of the
+    # ONNX `artifact`, NOT a second model stage. `models` stays the closed set
+    # (intent / embedder / semantic_head), so this does not reopen the
+    # models.coreml.<lang> path the schema rejects; it fills the `coreml_artifact`
+    # slot the bundle schema already declares. The .mlpackage DIRECTORY is copied
+    # into the staging tree here, so its files are checksummed and signed with the
+    # rest of the pack rather than shipped as a loose side artifact.
     #
-    # 1. spec/bundle/3.0 cannot express it. `models` is a closed set of STAGES
-    #    (intent / embedder / semantic_head) and `modelLangMap` allows exactly one
-    #    artifact per language, so a pack carries ONE intent-model format. Writing
-    #    models.coreml.<lang> fails stage-1 validation ("Additional properties are
-    #    not allowed ('coreml' was unexpected)"), and the files inside a
-    #    .mlpackage DIRECTORY have no schema mapping either ("UNMAPPED_FILE
-    #    models/coreml/en/IntentClassifier.mlpackage/Manifest.json"). `format`
-    #    already lists "mlmodelc-ref", so the spec anticipates CoreML as a FORMAT
-    #    of the intent stage — supporting both at once is a spec change (ADR-005),
-    #    not something to force past the validator.
-    #
-    # 2. Even if it validated, the .mlpackage currently produced by
-    #    nlu_export.export_coreml is derived from the repo-committed DEVICE
-    #    weights, not from the ONNX model in this pack (see release-pack.yml).
-    #    Shipping both inside one signed artifact would assert they correspond
-    #    when they do not — worse than omitting it.
-    #
-    # The .mlpackage is now natively supported inside the .nlu bundle.
-    # It is injected into the staging tree here before repackaging.
+    # CAVEAT (see release-pack.yml): the .mlpackage that nlu_export.export_coreml
+    # currently emits is derived from the repo-committed DEVICE weights, not from
+    # the ONNX trained in this run. Until the exporter is retargeted, treat the
+    # bundled CoreML model as an iOS convenience artifact, not proof of parity
+    # with the ONNX graph beside it.
     if coreml is not None:
         if not coreml.exists():
             return _fail(f"coreml artifact not found: {coreml}")

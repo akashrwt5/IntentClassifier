@@ -267,28 +267,42 @@ def test_workflow_ships_calibration_and_uses_per_language_paths(workflow):
 # Bundle-schema limits the release job hit at stage 1
 # --------------------------------------------------------------------------- #
 
-def test_coreml_is_refused_rather_than_packaged_invalidly(tmp_path):
-    """A second model format is not expressible in spec/bundle/3.0.
+def test_coreml_is_packaged_into_the_bundle(tmp_path):
+    """The CoreML .mlpackage travels INSIDE the signed bundle (Fat Bundle).
 
-    `models` is a closed set of STAGES (intent/embedder/semantic_head) and
-    `modelLangMap` allows exactly one artifact per language, so writing
-    `models.coreml.<lang>` fails stage-1 validation, and the files inside a
-    `.mlpackage` DIRECTORY have no schema mapping either. A release run reached
-    the compiler and died on all three at once. Refusing loudly at the CLI beats
-    building a bundle the validator will reject three steps later.
+    It is carried as `models.intent.<lang>.coreml_artifact` — a schema-legal
+    sibling of the ONNX `artifact`, not a second model STAGE
+    (`test_models_schema_really_forbids_a_coreml_stage` still guards that). The
+    `.mlpackage` DIRECTORY is copied into the staging tree and its files are
+    checksummed and signed like any other, so `--coreml` must SUCCEED and the
+    resulting pack must verify.
     """
     fake = tmp_path / "IntentClassifier.mlpackage"
-    (fake / "Data").mkdir(parents=True)
+    (fake / "Data" / "com.apple.CoreML").mkdir(parents=True)
     (fake / "Manifest.json").write_text("{}", encoding="utf-8")
-    rc = assemble_pack.assemble(_MINIMAL, "1.2.3", tmp_path / "out", coreml=fake)
-    assert rc != 0, "assemble_pack packaged CoreML into a bundle the spec forbids"
+    (fake / "Data" / "com.apple.CoreML" / "model.mlmodel").write_bytes(b"\x00" * 64)
+
+    out = tmp_path / "out"
+    rc = assemble_pack.assemble(_MINIMAL, "1.2.3", out, coreml=fake)
+    assert rc == 0, "assemble_pack refused a CoreML artifact the Fat Bundle ships"
+
+    nlu = out / "pack-en-v1.2.3.nlu"
+    manifest = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))
+    entry = manifest["models"]["intent"]["en"]
+    assert entry["coreml_artifact"] == "models/intent/en/IntentClassifier.mlpackage"
+    names = zipfile.ZipFile(nlu).namelist()
+    assert "models/intent/en/IntentClassifier.mlpackage/Manifest.json" in names, (
+        "the .mlpackage files were not packaged into the signed bundle")
 
 
 def test_models_schema_really_forbids_a_coreml_stage():
-    """Guards the reason the test above exists.
+    """CoreML rides on the intent entry, never as its own stage.
 
-    If the spec later gains a way to carry two formats, this fails and the
-    refusal should be revisited rather than left in place forever.
+    The Fat Bundle carries CoreML as `models.intent.<lang>.coreml_artifact`, a
+    sibling of the ONNX `artifact`. It must NOT become a separate `models.coreml`
+    STAGE: `models` is a closed set (intent/embedder/semantic_head). If the spec
+    ever adds such a stage this fails, so the packaging path is revisited rather
+    than silently carrying two competing conventions.
     """
     schema = json.loads((_ROOT / "spec" / "bundle" / "3.0" / "bundle.schema.json")
                         .read_text(encoding="utf-8"))
@@ -319,11 +333,17 @@ def test_report_card_is_not_decorated_with_extra_keys(workflow):
     assert "GITHUB_STEP_SUMMARY" in live, "the data grade must still be reported"
 
 
-def test_release_job_does_not_pass_coreml_to_the_packer(workflow):
+def test_release_job_passes_coreml_to_the_packer(workflow):
+    """The Fat Bundle release injects the CoreML .mlpackage into the pack.
+
+    assemble_pack writes it as models.intent.<lang>.coreml_artifact and signs the
+    files, so the release job must pass `--coreml` when a CoreML artifact was
+    produced by the (macOS, continue-on-error) export job.
+    """
     live = _workflow_without_comments()
-    assert "--coreml" not in live, (
-        "the release job passes --coreml again; assemble_pack refuses it and the "
-        "bundle would fail stage-1 validation")
+    assert "--coreml" in live, (
+        "the release job no longer passes --coreml; the CoreML model would not be "
+        "packaged into the signed bundle")
 
 
 # --------------------------------------------------------------------------- #

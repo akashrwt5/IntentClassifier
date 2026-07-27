@@ -264,15 +264,18 @@ jobs:
                 --version "${{ steps.ver.outputs.version }}"
                 --language "$L"
                 --channel "${CHANNEL:-dev}"
+                --calibration "dl/models/intent/$L/calibration.json"
                 --out dist
                 --report dl/dist/report_card.json)
           if [ -n "$KEY_ID" ]; then ARGS+=(--key-id "$KEY_ID"); fi
-          
-          # Inject CoreML model via assemble_pack if it wasn't picked up
+
+          # Inject the CoreML .mlpackage into the signed bundle (Fat Bundle).
+          # assemble_pack writes it as models.intent.<lang>.coreml_artifact — a
+          # schema-legal sibling of the ONNX artifact, NOT a second model stage.
           if [ -d "cml/intent/$L/IntentClassifier.mlpackage" ]; then
             ARGS+=(--coreml "cml/intent/$L/IntentClassifier.mlpackage")
           fi
-          
+
           python scripts/ci/assemble_pack.py "${ARGS[@]}"
 
       # Verify what will actually be published, not what we assume we built.

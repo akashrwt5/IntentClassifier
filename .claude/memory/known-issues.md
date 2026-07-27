@@ -214,6 +214,12 @@ _None open. Recently fixed:_
   `make format-all` is the deliberate one-time full-repo Black pass if ever wanted.
 - Tier-B CoreML runtime + ANE checks are **macOS-only**; the Linux CI auto-skips
   them. iOS XCTest parity needs an `INTENTCLASSIFIER_PAT` secret in the STT repo.
+- **Fat Bundle CoreML is not yet a parity gate (ADR-014).** The release pack embeds
+  the `.mlpackage` as `models.intent.<lang>.coreml_artifact`, but the model
+  `nlu_export.export_coreml` emits derives from the repo-committed DEVICE weights,
+  not the ONNX trained in the same run — so a green release does NOT prove the
+  bundled CoreML matches the ONNX. Retarget the exporter at the trained model to
+  make it a real parity gate.
 
 ## Gotchas
 
