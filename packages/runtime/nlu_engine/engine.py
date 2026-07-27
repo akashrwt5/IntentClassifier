@@ -202,17 +202,11 @@ class NLUEngine:
         self.semantic_enabled = self._resolve_semantic_flag(semantic_enabled)
         if not self.semantic_enabled:
             self.semantic = None
-        elif self._has_localization(self.language):
-            # A language that ships a localization lexicon uses the
-            # multilingual encoder + head; one that does not (English) uses the
-            # English-only pair. Same file-presence signal as every other loader
-            # here, so adding a language stays a matter of shipping files.
-            #
-            # INTERIM RULE. Once the engine is pack-fed, the pack manifest names
-            # its own semantic artifact (models.semantic_head.<lang>.artifact)
-            # and this inference disappears entirely — see nlu_langpack.
-            self.semantic = self._load_multilingual_semantic(self.semantic_threshold)
         else:
+            # INTERIM: The global semantic head is English-only.
+            # Once fully pack-fed, the pack manifest will name its own semantic
+            # artifact (e.g. models.semantic_head.<lang>.artifact) and this
+            # hardcoded path inference will disappear — see nlu_langpack.
             self.semantic = self._load_semantic(self.semantic_threshold)
         self._assert_label_schema_parity()
 
@@ -474,36 +468,6 @@ class NLUEngine:
         except Exception as e:
             logger.error("nlu.semantic.load_failed",
                          extra={"nlu": {"reason": type(e).__name__}})
-            return None
-
-    def _load_multilingual_semantic(self, threshold: float):
-        """Construct the multilingual semantic stage for fr/de/da languages.
-
-        Uses MultilingualSemanticFallback from multilingual.SemanticSupport.semantic.
-        Returns None when any artifact is missing so the engine degrades gracefully
-        to TF-IDF-only without crashing. Missing artifacts are expected until
-        download_models.py and train_multilingual_semantic_head.py have been run.
-        """
-        try:
-            from legacy_research.SemanticSupport.semantic import MultilingualSemanticFallback
-            return MultilingualSemanticFallback(threshold=threshold)
-        except FileNotFoundError as e:
-            logger.warning(
-                "nlu.multilingual_semantic.unavailable lang=%s reason=artifacts_missing: %s",
-                self.language, e,
-            )
-            return None
-        except MemoryError:
-            logger.error(
-                "nlu.multilingual_semantic.oom lang=%s reason=out_of_memory",
-                self.language,
-            )
-            return None
-        except Exception as e:
-            logger.error(
-                "nlu.multilingual_semantic.load_failed lang=%s reason=%s",
-                self.language, type(e).__name__,
-            )
             return None
 
     def _assert_label_schema_parity(self):
