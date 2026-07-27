@@ -46,7 +46,11 @@ permissions:
   contents: write # required to create a GitHub Release
 
 env:
-  SRC_BUNDLE: spec/examples/3.0/minimal
+  # The COMPILED content tree, produced by nlu_compiler.content_bundle in the
+  # release job. It used to be spec/examples/3.0/minimal — a golden TEST FIXTURE
+  # with one capability and two intents — so every pack published before the
+  # compiler existed carried the fixture's content with our model dropped in.
+  SRC_BUNDLE: dist/bundle-en
 
 jobs:
   # 1) Train + gate on Linux. Publishes the artifacts both later jobs consume.
@@ -222,6 +226,25 @@ jobs:
           if [ -z "$V" ]; then V="1.0.${{ github.run_number }}"; fi
           echo "version=$V" >> "$GITHUB_OUTPUT"
 
+      # content/ (12 capabilities, 57 intents) -> a spec/bundle/3.0 tree. This is
+      # what makes the pack describe THIS product rather than a fixture.
+      - name: Compile the content bundle
+        run: |
+          LANG_ARG="${{ github.event.inputs.language }}"
+          L="${LANG_ARG:-en}"
+          mkdir -p "models/intent/$L"
+          cp "dl/models/intent/$L/model.onnx"       "models/intent/$L/model.onnx"
+          cp "dl/models/intent/$L/labels.pkl"       "models/intent/$L/labels.pkl"
+          cp "dl/models/intent/$L/calibration.json" "models/intent/$L/calibration.json"
+          python -m nlu_compiler.content_bundle \
+            --lang "$L" --out "dist/bundle-$L" \
+            --report dl/dist/report_card.json \
+            --version "${{ steps.ver.outputs.version }}" \
+            --channel "${{ github.event.inputs.channel || 'dev' }}" \
+            --report-gaps
+        env:
+          PYTHONPATH: packages/buildtime:packages/runtime
+
       - name: Assemble the signed single-language pack
         run: |
           LANG_ARG="${{ github.event.inputs.language }}"
@@ -233,14 +256,13 @@ jobs:
           # this used to read were retired by the relayout, so assemble_pack would
           # have aborted on "artifact not found". --weights is dropped: the device
           # weights are a separate legacy artifact, not a per-language output.
-          ARGS=(--src "$SRC_BUNDLE"
+          # No --model/--labels/--calibration: content_bundle already placed them
+          # in the compiled tree, in the shapes the bundle schemas require.
+          ARGS=(--src "dist/bundle-$L"
                 --version "${{ steps.ver.outputs.version }}"
                 --language "$L"
                 --channel "${CHANNEL:-dev}"
                 --out dist
-                --model "dl/models/intent/$L/model.onnx"
-                --labels "dl/models/intent/$L/labels.pkl"
-                --calibration "dl/models/intent/$L/calibration.json"
                 --report dl/dist/report_card.json)
           # if-blocks, not `[ ... ] && ...`: GitHub runs `run:` under `bash -e`,
           # so a false test would exit non-zero and fail the step — which is

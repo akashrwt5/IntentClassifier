@@ -15,6 +15,21 @@ affirmative:
 - please do
 - affirmative
 confidence_threshold: 0.7
+help_marker_guard:
+  markers: (how\s+(to|do\s+i|does|can\s+i|is|would\s+i)\b)|(\bguide\b)|(\bexplain\b)|(\btutorial\b)|(what\s+(is|are|does)\b)|(where\s+(can|do)\s+i\s+(see|find|view))|(is\s+there\s+a\s+way)|(help\s+(with|me\s+understand|for|understanding))|(how\s+to\s+use)|(\w+\s+help\b)|(does\s+\w+\s+(keep|save|store|record|work))|(can\s+the\s+app)
+  pairs:
+    device.memory.change: help.memory_options.show
+    device.volume.decrease: help.volume.show
+    device.volume.increase: help.volume.show
+    device.volume.mute: help.volume.show
+    device.volume.unmute: help.volume.show
+    reminders.task.complete: help.reminder.show
+    reminders.task.create: help.reminder.show
+    streaming.session.start: help.accessories.show
+    streaming.session.stop: help.accessories.show
+    transcription.session.start: help.transcribe.show
+    translation.session.start: help.translate.show
+interrupt_threshold: 0.68
 keyword_triggers:
 - intent: translation.session.start
   not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is
@@ -105,6 +120,33 @@ keyword_triggers:
 - intent: help.home.show
   regex: \bwhat features\b|\bfeatures (are )?available\b|\bpoint me in the right direction\b|\bhow does
     (this|it|everything) work\b
+lexicon:
+  carriers:
+  - ^\s*please\s+
+  - ^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*
+  - ^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*
+  - ^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about|for\s+(?!\d))?\s*
+  - ^\s*make\s+sure\s+(?:i|to)\b\s*
+  - ^\s*i\s+(?:need|have|want)\s+to\b\s*
+  leading_connectors:
+  - for
+  - about
+  - of
+  - 'on'
+  - to
+  - that
+  - regarding
+  - with
+  negation_cues:
+  - not
+  - don't
+  - dont
+  - do not
+  - never
+  - without
+  - no need to
+  - stop
+  - cancel
 negative:
 - 'no'
 - nope
@@ -118,37 +160,7 @@ negative:
 - do not
 - never mind
 - nevermind
-# English guard policy (owner directive, 2026-07-24), each decided on holdout
-# evidence — a rule stays ONLY where it corrects a genuine MODEL error, never
-# where it overrides a correct prediction:
-#   * polarity_guards: REMOVED. The model resolves volume/mute polarity itself;
-#     replaying the 1,461-utterance holdout with these OFF was as good or better
-#     (3 vs 4 wrong state-changing actions). The rules only ever flipped CORRECT
-#     answers ("cancel the mute" -> mute, "less loud" -> increase).
-#   * help_marker_guard: KEPT. Here the model is genuinely wrong — it fires
-#     state-changing actions on help questions ("translate user guide" ->
-#     translation.session.start = starts recording). Removing it raised wrong
-#     actions 4 -> 13 (10 of them help-questions firing actions). The guard only
-#     fires where the model is provably wrong, so it does not override a correct
-#     output. Retire it once the model learns help-vs-action from training data.
-# The confidence threshold and confirmation gate also remain: they decide WHETHER
-# to act, never altering the predicted label.
 polarity_guards: []
-help_marker_guard:
-  markers: (how\s+(to|do\s+i|does|can\s+i|is|would\s+i)\b)|(\bguide\b)|(\bexplain\b)|(\btutorial\b)|(what\s+(is|are|does)\b)|(where\s+(can|do)\s+i\s+(see|find|view))|(is\s+there\s+a\s+way)|(help\s+(with|me\s+understand|for|understanding))|(how\s+to\s+use)|(\w+\s+help\b)|(does\s+\w+\s+(keep|save|store|record|work))|(can\s+the\s+app)
-  pairs:
-    device.memory.change: help.memory_options.show
-    device.volume.decrease: help.volume.show
-    device.volume.increase: help.volume.show
-    device.volume.mute: help.volume.show
-    device.volume.unmute: help.volume.show
-    reminders.task.complete: help.reminder.show
-    reminders.task.create: help.reminder.show
-    streaming.session.start: help.accessories.show
-    streaming.session.stop: help.accessories.show
-    transcription.session.start: help.transcribe.show
-    translation.session.start: help.translate.show
-interrupt_threshold: 0.68
 semantic_rescue_enabled: false
 semantic_threshold: 0.4
 slot_confidence_threshold: 0.5

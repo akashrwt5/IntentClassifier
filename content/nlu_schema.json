@@ -523,6 +523,37 @@
     "never mind",
     "nevermind"
   ],
+  "lexicon": {
+    "carriers": [
+      "^\\s*please\\s+",
+      "^\\s*(?:do\\s*n[o']?t|don't|dont)\\s+let\\s+me\\s+forget\\b\\s*(?:to|about)?\\s*",
+      "^\\s*(?:remind|tell|alert|notify)\\s+me\\b\\s*(?:to|that|about|of)?\\s*",
+      "^\\s*set(?:\\s+up)?\\s+(?:an?\\s+)?(?:reminder|alarm)\\b\\s*(?:to|about|for\\s+(?!\\d))?\\s*",
+      "^\\s*make\\s+sure\\s+(?:i|to)\\b\\s*",
+      "^\\s*i\\s+(?:need|have|want)\\s+to\\b\\s*"
+    ],
+    "leading_connectors": [
+      "for",
+      "about",
+      "of",
+      "on",
+      "to",
+      "that",
+      "regarding",
+      "with"
+    ],
+    "negation_cues": [
+      "not",
+      "don't",
+      "dont",
+      "do not",
+      "never",
+      "without",
+      "no need to",
+      "stop",
+      "cancel"
+    ]
+  },
   "polarity_guards": [],
   "help_marker_guard": {
     "markers": "(how\\s+(to|do\\s+i|does|can\\s+i|is|would\\s+i)\\b)|(\\bguide\\b)|(\\bexplain\\b)|(\\btutorial\\b)|(what\\s+(is|are|does)\\b)|(where\\s+(can|do)\\s+i\\s+(see|find|view))|(is\\s+there\\s+a\\s+way)|(help\\s+(with|me\\s+understand|for|understanding))|(how\\s+to\\s+use)|(\\w+\\s+help\\b)|(does\\s+\\w+\\s+(keep|save|store|record|work))|(can\\s+the\\s+app)",

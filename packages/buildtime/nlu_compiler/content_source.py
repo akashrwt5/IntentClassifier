@@ -39,7 +39,7 @@ LANGS = ("fr", "de", "da")
 PLATFORM_KEYS = ("version", "confidence_threshold", "slot_confidence_threshold",
                  "interrupt_threshold",
                  "semantic_threshold", "semantic_rescue_enabled",
-                 "keyword_triggers", "affirmative", "negative",
+                 "keyword_triggers", "affirmative", "negative", "lexicon",
                  "polarity_guards", "help_marker_guard", "uncertain_confirm")
 
 
@@ -132,7 +132,7 @@ def assemble(write: bool = True) -> dict:
         if key in schema:
             ordered[key] = schema[key]
     ordered["intents"] = intents
-    for key in ("affirmative", "negative", "polarity_guards",
+    for key in ("affirmative", "negative", "lexicon", "polarity_guards",
                 "help_marker_guard", "uncertain_confirm"):
         if key in schema:
             ordered[key] = schema[key]
