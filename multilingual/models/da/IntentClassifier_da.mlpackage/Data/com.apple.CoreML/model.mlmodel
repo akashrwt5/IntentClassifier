@@ -1,139 +1,0 @@
-–
-ñ
-tfidf_vectoryL2-normalised sublinear TF-IDF feature vector, length 3839 ‚Äî compute in Swift; CoreML runs the dense linear layer only.*	
-ˇ†ÄRv
-logits`Raw pre-softmax logits, length 59. Confidence = softmax(logits / temperature) computed in Swift.
-*
-;êÄ¢ª
-tTF-IDF + Logistic Regression intent classifier (logits only; calibrate Swift-side with softmax(logits / T=0.815632))¢≈	
-class_labels¥	["Cmd.ActivityAerobics", "Cmd.ActivityCalories", "Cmd.ActivityCycle", "Cmd.ActivityExercise", "Cmd.ActivityRun", "Cmd.ActivityStand", "Cmd.ActivityStep", "Cmd.ActivityWalk", "Cmd.BatteryLevel", "Cmd.FindMyPhone", "Cmd.ListenMessage", "Cmd.MemoryChange", "Cmd.SendMessage", "Cmd.SendMessage - no", "Cmd.SendMessage - yes", "Cmd.StreamingStart", "Cmd.StreamingStop", "Cmd.TranscribeStart", "Cmd.TranslationStart", "Cmd.VolumeDecrease", "Cmd.VolumeIncrease", "Cmd.VolumeMute", "Cmd.VolumeUnmute", "Default Fallback Intent", "Help_Accessories", "Help_AppSettings", "Help_Battery", "Help_ChangingMemories", "Help_CleanCare", "Help_Customize", "Help_DemoMode", "Help_DeviceSettings", "Help_EdgeMode", "Help_FallAlert", "Help_FindMyHearingAids", "Help_Health", "Help_HearShare", "Help_HearingCareAnywhereConnect", "Help_HeartRate", "Help_HeartRateRecovery", "Help_Home", "Help_InsertDevice", "Help_IntelliVoice", "Help_MaskMode", "Help_MemoryOptions", "Help_Pairing", "Help_Reminder", "Help_RemoteProgramming", "Help_SelfCheck", "Help_ThriveScore", "Help_Tinnitus", "Help_Transcribe", "Help_Translate", "Help_VoiceAssistant", "Help_Volume", "Help_WhatsNew", "Help_WiCROS", "reminders.add", "reminders.complete"]¢+
-$com.github.apple.coremltools.version9.0¢
-temperature0.815632¢‚
-device_contractŒRead the 'logits' output and compute softmax(logits / temperature) in Swift; gate on that probability. Do NOT add an external softmax that bakes T=1. A missing 'temperature' key means T=1.0 (plain softmax).¢
-sublinear_tfTrue¢:
-,com.github.apple.coremltools.conversion_date
-2026-06-25¢
-	normalizel2¢3
-#com.github.apple.coremltools.sourcetorch==2.7.0¢
-conf_gap_threshold0.2¢
-num_classes59¢:
-+com.github.apple.coremltools.source_dialectTorchScript¢
-conf_threshold0.7¢
-ngram_range[1, 2]¢
-
-vocab_size3839≤õÆ
-main•
-#
-tfidf_vector
-
-
-ˇCoreML6Ù
-CoreML6Ëlogits|
-const$
-tfidf_vector_to_fp16_dtype_0
-*
-val
-
-
-"
-fp16*2
-name*
-"
- "
-tfidf_vector_to_fp16_dtype_0ñ
-const%
-weight_to_fp16
-
-
-;
-ˇ*@
-val9
-
-
-;
-ˇ*"
-@model_path/weights/weight.bin@*$
-name
-
-"
-weight_to_fp16Ü
-const
-bias_to_fp16
-
-
-
-;*;
-val4
-
-
-
-;*$
-@model_path/weights/weight.bin¿‘*"
-name
-
-"
-bias_to_fp16ì
-cast)
-dtype 
-
-tfidf_vector_to_fp16_dtype_0
-x
-
-tfidf_vector+
-tfidf_vector_to_fp16
-
-
-
-ˇ*
-name
-
-
-"
-cast_1ß
-linear
-bias
-
-bias_to_fp16
-weight
-
-weight_to_fp16
-x
-
-tfidf_vector_to_fp16
-logits
-
-
-
-;*(
-name 
-
-"
-linear_0_cast_fp16"Â
-	buildInfo◊"
-
-
-ƒ"¡
-6
-!
-
-"
-coremltools-version
-	
-"
-9.0
-@
-)
-!
-"
-coremltools-component-torch
-
-	"
-2.7.0
-E
-(
- 
-"
-coremltools-source-dialect
-
-"
-TorchScript

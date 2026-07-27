@@ -152,6 +152,7 @@ def test_inference_backend_is_injectable(engine):
 
     clf = IntentClassifier(
         labels_path=REPO_ROOT / "models" / "intent" / "en" / "labels.pkl",
+        schema_path=REPO_ROOT / "language_packs" / "en" / "nlu_schema.json",
         backend=CannedBackend(engine.classifier.labels))
     intent, conf = clf.classify("zzz nonsense that matches no keyword rule zzz")
     assert intent == "device.status.battery" and conf > 0.9

@@ -54,7 +54,7 @@ def test_forbidden_cross_package_imports():
 
 def test_content_and_spec_hold_no_python():
     stray = [p.relative_to(REPO_ROOT).as_posix()
-             for d in ("content", "spec")
+             for d in ("content", "spec", "language_packs")
              for p in (REPO_ROOT / d).rglob("*.py")]
     assert not stray, f"facts, not code — no .py belongs here: {stray}"
 

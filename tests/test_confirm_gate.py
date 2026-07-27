@@ -28,7 +28,7 @@ for p in ("packages/buildtime", "packages/runtime"):
     if str(_ROOT / p) not in sys.path:
         sys.path.insert(0, str(_ROOT / p))
 
-SCHEMA = json.loads((_ROOT / "content" / "nlu_schema.json").read_text(encoding="utf-8"))
+SCHEMA = json.loads((_ROOT / "language_packs" / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
 UC = SCHEMA["uncertain_confirm"]
 GATED = set(UC["intents"])
 LANGS = ("fr", "de", "da")
@@ -78,7 +78,7 @@ def test_every_gated_intent_has_an_english_prompt():
 
 @pytest.mark.parametrize("lang", LANGS)
 def test_every_gated_intent_has_a_localized_prompt(lang):
-    path = _ROOT / "content" / "localization" / f"nlu_schema.{lang}.json"
+    path = _ROOT / "language_packs" / lang / "nlu_schema.json"
     if not path.exists():
         pytest.skip(f"no localization for {lang}")
     loc = json.loads(path.read_text(encoding="utf-8")).get("intents", {})
@@ -105,7 +105,7 @@ def test_band_sits_above_the_fire_threshold():
 # ------------------------- the budget, end to end ---------------------------
 
 _MODEL = _ROOT / "models" / "intent" / "en" / "model.onnx"
-_HOLDOUT = _ROOT / "datasets" / "en" / "holdout_honest.csv"
+_HOLDOUT = _ROOT / "language_packs" / "en" / "holdout_honest.csv"
 
 
 @pytest.mark.skipif(not _MODEL.exists(), reason="trained English model absent")

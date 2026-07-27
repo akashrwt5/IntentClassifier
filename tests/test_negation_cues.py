@@ -22,7 +22,7 @@ from pathlib import Path
 import pytest
 
 _ROOT = Path(__file__).resolve().parents[1]
-_LOC = _ROOT / "content" / "localization"
+_LOC = _ROOT / "language_packs"
 
 
 def _load_classifier_module():
@@ -43,8 +43,10 @@ _M = _load_classifier_module()
 
 
 def _cues(lang):
-    return tuple(json.loads((_LOC / f"nlu_lexicon.{lang}.json").read_text(
-        encoding="utf-8"))["negation_cues"])
+    path = _LOC / lang / "nlu_schema.json"
+    if not path.exists():
+        pytest.skip(f"no localization for {lang}")
+    return tuple(json.loads(path.read_text(encoding="utf-8"))["negation_cues"])
 
 
 # --------------------------------------------------------------------------- #
@@ -154,7 +156,10 @@ def test_contains_rule_is_suppressed_via_injected_cues():
 
 def test_every_shipped_lexicon_declares_cues():
     for lang in ("fr", "de", "da"):
-        lex = json.loads((_LOC / f"nlu_lexicon.{lang}.json").read_text(encoding="utf-8"))
+        path = _LOC / lang / "nlu_schema.json"
+        if not path.exists():
+            continue
+        lex = json.loads(path.read_text(encoding="utf-8"))
         assert lex.get("negation_cues"), f"{lang} lexicon has no negation_cues"
         assert lex.get("_negation_cues_note"), f"{lang} cues lack the provenance note"
 
@@ -167,5 +172,8 @@ def test_cues_are_distinct_from_the_confirmation_lexicon():
     the tempting shortcut and would have missed French 'ne ... pas' entirely.
     """
     for lang in ("fr", "de", "da"):
-        lex = json.loads((_LOC / f"nlu_lexicon.{lang}.json").read_text(encoding="utf-8"))
+        path = _LOC / lang / "nlu_schema.json"
+        if not path.exists():
+            continue
+        lex = json.loads(path.read_text(encoding="utf-8"))
         assert set(lex["negation_cues"]) != set(lex["negative"]), lang

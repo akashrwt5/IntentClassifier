@@ -514,13 +514,17 @@ def quantize_minilm_int8(ct):
 # Validation
 # ──────────────────────────────────────────────────────────────────────────────
 
-def validate_all(ct, seq_len=DEFAULT_SEQ_LEN):
+def validate_all(ct, lang: str, seq_len=DEFAULT_SEQ_LEN):
     print(f"\n{'─'*60}")
     print(f"  Validation")
     print(f"{'─'*60}")
 
     for name in ["IntentClassifier", "SemanticHead", "MiniLMEmbedder", "MiniLMEmbedder_int8"]:
-        path = MODELS_DIR / f"{name}.mlpackage"
+        if name == "IntentClassifier":
+            path = MODELS_DIR / "intent" / lang / f"{name}.mlpackage"
+        else:
+            path = MODELS_DIR / f"{name}.mlpackage"
+            
         if not path.exists():
             print(f"  {name}: not found (skipped)")
             continue
@@ -531,8 +535,8 @@ def validate_all(ct, seq_len=DEFAULT_SEQ_LEN):
         except Exception as e:
             print(f"  {name}: load error — {e}")
 
-    ic  = MODELS_DIR / "IntentClassifier.mlpackage"
-    wts = MODELS_DIR / "intent_classifier_weights.json"
+    ic  = MODELS_DIR / "intent" / lang / "IntentClassifier.mlpackage"
+    wts = MODELS_DIR / "intent" / lang / "intent_classifier_weights.json"
     if ic.exists() and wts.exists():
         print()
         print("  IntentClassifier test inference (dummy one-hot vector):")
@@ -649,7 +653,7 @@ def main():
         if args.quantize:
             quantize_minilm_int8(ct)
 
-    validate_all(ct, args.seq_len)
+    validate_all(ct, args.lang, args.seq_len)
 
     print(f"\n{'='*60}")
     print("  Copy these files to STT/STT/STT/Resources/ in the iOS repo:")

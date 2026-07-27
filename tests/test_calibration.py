@@ -88,7 +88,7 @@ def test_fitter_excludes_the_evaluation_sets():
     fc = importlib.import_module("nlu_training.fit_calibration")
     import pandas as pd
 
-    data = pd.read_csv(_ROOT / "datasets" / "en" / "train.csv",
+    data = pd.read_csv(_ROOT / "language_packs" / "en" / "train.csv",
                        encoding="utf-8-sig").dropna(subset=["text", "intent"])
     keep, _leaked, checked = fc.eval_leakage_mask(data["text"].astype(str).values, "en")
     assert checked > 0, "no evaluation utterances were checked — the guard is inert"
@@ -100,7 +100,7 @@ def test_fitter_would_catch_a_planted_leak():
     fc = importlib.import_module("nlu_training.fit_calibration")
     import csv
 
-    holdout = _ROOT / "datasets" / "en" / "holdout_honest.csv"
+    holdout = _ROOT / "language_packs" / "en" / "holdout_honest.csv"
     first = next(csv.DictReader(holdout.open(encoding="utf-8-sig")))["text"]
     keep, leaked, _ = fc.eval_leakage_mask([first, "an utterance that is not held out"], "en")
     assert not keep[0], "a verbatim holdout row was not detected as a leak"

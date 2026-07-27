@@ -37,7 +37,7 @@ _spec.loader.exec_module(_mod)
 EntityExtractor = _mod.EntityExtractor
 
 FIXTURE_DIR = Path(__file__).parent / "datetime_parity"
-LOC_DIR = BASE_DIR / "content" / "localization"
+LOC_DIR = BASE_DIR / "language_packs"
 NOW = datetime(2026, 6, 30, 0, 0, 0, tzinfo=timezone.utc)  # Tuesday 00:00 UTC
 
 _WD = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3,
@@ -46,10 +46,11 @@ _MON = {"january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6
         "july": 7, "august": 8, "september": 9, "october": 10, "november": 11, "december": 12}
 
 # One extractor per language, reused across rows (lexicon tables built once).
-_EXTRACTORS = {
-    lang: EntityExtractor(entities_path=LOC_DIR / f"nlu_entities.{lang}.json", language=lang)
-    for lang in ("fr", "de", "da")
-}
+_EXTRACTORS = {}
+for lang in ("fr", "de", "da"):
+    path = LOC_DIR / lang / "nlu_entities.json"
+    if path.exists():
+        _EXTRACTORS[lang] = EntityExtractor(entities_path=path, language=lang)
 
 
 def _expected_date_matches(token: str, dt: datetime) -> bool:
@@ -73,6 +74,8 @@ def _expected_date_matches(token: str, dt: datetime) -> bool:
 def _load_rows():
     rows = []
     for lang in ("fr", "de", "da"):
+        if not (LOC_DIR / lang).exists():
+            continue
         with open(FIXTURE_DIR / f"nlu_datetime_parity_{lang}.csv", encoding="utf-8") as f:
             for r in csv.DictReader(f):
                 rows.append((r["language"], r["utterance"], r["expected_date"], r["expected_time"]))

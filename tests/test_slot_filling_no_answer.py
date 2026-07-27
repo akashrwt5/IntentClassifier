@@ -30,7 +30,7 @@ for _p in ("packages/buildtime", "packages/runtime"):
         sys.path.insert(0, str(_ROOT / _p))
 
 _MODEL = _ROOT / "models" / "intent" / "en" / "model.onnx"
-_SCHEMA = json.loads((_ROOT / "content" / "nlu_schema.json").read_text(encoding="utf-8"))
+_SCHEMA = json.loads((_ROOT / "language_packs" / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
 _CANCEL_MSG = _SCHEMA.get("uncertain_confirm", {}).get("cancel_message", "Okay, I won't.")
 
 

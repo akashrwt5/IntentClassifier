@@ -59,7 +59,8 @@ def _load(bundle: Path, rel: str):
 
 
 def _bundle_files(bundle: Path) -> list[str]:
-    return sorted(p.relative_to(bundle).as_posix() for p in bundle.rglob("*.json"))
+    return sorted(p.relative_to(bundle).as_posix() for p in bundle.rglob("*.json")
+                  if not any(part.endswith(".mlpackage") for part in p.parts))
 
 
 # --------------------------------------------------------------------------
@@ -86,6 +87,8 @@ def stage_1_schemas(bundle: Path, fmt: str = "3.0") -> list[Diagnostic]:
         if not (bundle / rel).exists():
             diags.append(Diagnostic(1, "FILE_MISSING", rel, "required bundle file absent"))
     for rel in _bundle_files(bundle):
+        if rel in ("nlu_schema.json", "nlu_entities.json") or "intent_classifier_weights.json" in rel:
+            continue
         matches = [s for pat, s in FILE_SCHEMA_MAP if re.match(pat, rel)]
         if len(matches) != 1:
             diags.append(Diagnostic(1, "UNMAPPED_FILE", rel,

@@ -46,15 +46,15 @@ dist/
 
 # Misc archives (regenerated)
 *.zip
-multilingual/SemanticSupport/models/*.onnx
+legacy_research/SemanticSupport/models/*.onnx
 
 # Regenerable multilingual model artifacts (untracked 2026-07-14, ND-10):
 # rebuild with `make train-multilingual`. Danish (da/) stays TRACKED as the
 # exception — it currently fails the 0.80 accuracy gate and cannot be
 # regenerated from a clean checkout (known-issues.md).
-multilingual/models/**
-!multilingual/models/da/
-!multilingual/models/da/**
+legacy_research/models/**
+!legacy_research/models/da/
+!legacy_research/models/da/**
 
 # Local bundle build output (ADR-005 Part 13)
 bundles/

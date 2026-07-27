@@ -43,6 +43,20 @@
     "negation_cues": {
       "type": "array", "uniqueItems": true,
       "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" }
+    },
+    "datetime_grammar": {
+      "type": "object",
+      "description": "Date/time grammar rules for the language."
+    },
+    "contractions": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Contraction mapping for surface-form normalization."
+    },
+    "leading_connectors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Leading connector words to drop during parsing."
     }
   }
 }

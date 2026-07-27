@@ -23,7 +23,7 @@ for p in ("packages/buildtime", "packages/runtime"):
     if str(_ROOT / p) not in sys.path:
         sys.path.insert(0, str(_ROOT / p))
 
-SCHEMA = json.loads((_ROOT / "content" / "nlu_schema.json").read_text(encoding="utf-8"))
+SCHEMA = json.loads((_ROOT / "language_packs" / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
 MODEL_DIR = _ROOT / "models" / "intent" / "en"
 _HAVE_MODEL = (MODEL_DIR / "model.onnx").exists() and (MODEL_DIR / "labels.pkl").exists()
 

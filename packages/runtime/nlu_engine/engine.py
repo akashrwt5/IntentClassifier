@@ -118,7 +118,7 @@ class NLUEngine:
 
     def __init__(self, schema_path: Path | None = None, model_name: str | None = None,
                  language: str = "en", semantic_enabled: bool | None = None,
-                 pack=None):
+                 pack=None, backend=None):
         # `pack` is the Language Pack seam (nlu_langpack.LanguagePack). When one
         # is supplied its manifest is authoritative for model artifacts and
         # nothing is inferred from the filesystem. When it is None the engine
@@ -126,8 +126,14 @@ class NLUEngine:
         # content->bundle compiler exists yet. Accepting it here is what makes
         # the eventual switch a caller change rather than an engine change.
         self.pack = pack
+        self.backend = backend
         self.language = (getattr(pack, "language", None) or language)
-        self.schema = self._load_schema(schema_path, language)
+        if not schema_path: 
+            schema_path = BASE_DIR / "language_packs" / self.language / "nlu_schema.json"
+            if not schema_path.exists():
+                schema_path = BASE_DIR / "language_packs" / "en" / "nlu_schema.json"
+        self._schema_path = schema_path
+        self.schema = self._load_schema(schema_path, self.language)
         self.intents = self.schema["intents"]
         self.threshold = self.schema.get("confidence_threshold", 0.70)
         self.interrupt_threshold = self.schema.get(
@@ -246,7 +252,7 @@ class NLUEngine:
         return configured
 
     @staticmethod
-    def _load_schema(schema_path: Path | None, language: str) -> dict:
+    def _load_schema(schema_path: Path, language: str) -> dict:
         """Load canonical schema then deep-merge the language overlay (if any).
 
         Overlay keys applied: intents[].fulfillment, intents[].slots[].prompt,
@@ -254,7 +260,6 @@ class NLUEngine:
         action) always come from the canonical schema. Missing overlay → English.
         """
         import copy
-        if not schema_path: schema_path = BASE_DIR / "language_packs" / language / "nlu_schema.json"
         schema = json.loads(Path(schema_path).read_text(encoding="utf-8"))
         # Data-driven, not language-string-driven: a language with an overlay
         # file gets it merged; one without (English, which ships none) uses the
@@ -434,7 +439,9 @@ class NLUEngine:
                      language, models.source, models.model)
 
         kwargs = {"model_path": models.model, "labels_path": models.labels,
-                  "schema_path": (BASE_DIR / "language_packs" / self.language / "nlu_schema.json"), "negation_cues": cues}
+                  "schema_path": self._schema_path, "negation_cues": cues}
+        if getattr(self, "backend", None):
+            kwargs["backend"] = self.backend
         # Calibration travels with the (model, featurizer) pair. When the
         # per-language artifact exists it wins; otherwise the classifier keeps
         # its legacy default. Fitting the value correctly is charter B2/B3 —
@@ -714,7 +721,7 @@ class NLUEngine:
         if not slot:
             return False
         entity = slot.get("entity", "")
-        if entity.startswith("sys.") or self.entities.is_open(entity):
+        if self.entities.is_open(entity):
             return False
         value, _, conf = self.entities.extract(entity, text, fuzzy=False)
         return value is not None and conf >= self.SLOT_ANSWER_MATCH_FLOOR

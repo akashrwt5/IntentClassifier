@@ -57,10 +57,15 @@ def is_actionable(label: str) -> bool:
 GATE_WAIVERS = {"da"}
 
 
-def _normalize(texts):
-    sys.path.insert(0, str(REPO_ROOT / "multilingual"))
-    from text_norm import normalize_text
-    return [normalize_text(t) for t in texts]
+def _normalize(texts, language: str):
+    from nlu_engine.text_norm import normalize_text
+    import json
+    from pathlib import Path
+    contractions_path = Path("language_packs") / language / "contractions.json"
+    conts = {}
+    if contractions_path.exists():
+        conts = json.loads(contractions_path.read_text(encoding="utf-8")).get("contractions", {})
+    return [normalize_text(t, contractions=conts) for t in texts]
 
 
 def _softmax(z: np.ndarray) -> np.ndarray:
@@ -89,7 +94,7 @@ def evaluate_language(lang: str, calibration: dict) -> dict:
     holdout = pd.read_csv(DATASETS_DIR / lang / "holdout_honest.csv")
     _text_col = next(c for c in ("text", "utterance") if c in holdout.columns)
     _label_col = next(c for c in ("intent", "expected_intent") if c in holdout.columns)
-    texts = _normalize(holdout[_text_col].astype(str).tolist())
+    texts = _normalize(holdout[_text_col].astype(str).tolist(), language=lang)
     y_true = holdout[_label_col].to_numpy()
 
     logits = pipeline.decision_function(texts)

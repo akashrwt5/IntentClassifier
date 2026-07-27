@@ -26,19 +26,19 @@ CONTENT = REPO_ROOT / "content"
 
 def test_source_tree_matches_compiled_schema():
     built = assemble(write=False)
-    current = json.loads((CONTENT / "nlu_schema.json").read_text())
+    current = json.loads((REPO_ROOT / "language_packs" / "en" / "nlu_schema.json").read_text())
     assert built["schema"] == current, (
         "content/capabilities/ and nlu_schema.json disagree — run "
         "`python -m nlu_compiler.content_source assemble` and commit both")
     for lang in LANGS:
         tracked = json.loads(
-            (CONTENT / "localization" / f"nlu_schema.{lang}.json").read_text())
+            (REPO_ROOT / "language_packs" / lang / "nlu_schema.json").read_text())
         assert built["overlays"][lang] == tracked, f"{lang} overlay drift"
 
 
 def test_every_intent_has_exactly_one_owner():
     owner = intent_to_capability()
-    schema = json.loads((CONTENT / "nlu_schema.json").read_text())
+    schema = json.loads((REPO_ROOT / "language_packs" / "en" / "nlu_schema.json").read_text())
     assert set(schema["intents"]) == set(owner), "intent set ≠ capability map"
 
 

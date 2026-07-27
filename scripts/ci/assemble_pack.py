@@ -140,7 +140,7 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         if not calibration.exists():
             return _fail(f"artifact not found: {calibration}")
         fitted = json.loads(calibration.read_text(encoding="utf-8"))
-        schema_path = REPO / "content" / "nlu_schema.json"
+        schema_path = REPO / "language_packs" / lang / "nlu_schema.json"
         conf_threshold = json.loads(
             schema_path.read_text(encoding="utf-8")).get("confidence_threshold", 0.70)
         payload = {

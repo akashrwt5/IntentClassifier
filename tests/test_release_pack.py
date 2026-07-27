@@ -209,7 +209,7 @@ def test_calibration_is_translated_into_the_bundle_contract(tmp_path):
     assert packed["method"] == "temperature_scaling"
     # The fire threshold ships alongside: a runtime holding one without the other
     # cannot reproduce a confidence gate.
-    schema = json.loads((_ROOT / "content" / "nlu_schema.json").read_text(encoding="utf-8"))
+    schema = json.loads((_ROOT / "language_packs" / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
     assert packed["conf_threshold"] == schema["confidence_threshold"]
     # `fitted_on` is the leakage audit — it is what makes a stale T detectable.
     assert packed["fitted_on"] == fitted["provenance"]["source_sha256"]
@@ -362,7 +362,7 @@ def test_the_golden_fixtures_are_not_this_products_content():
     content/. A pack built from the fixture proves the PIPELINE, not the product.
     If someone wires a real content bundle, this test should fail and be replaced.
     """
-    schema = json.loads((_ROOT / "content" / "nlu_schema.json").read_text(encoding="utf-8"))
+    schema = json.loads((_ROOT / "language_packs" / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
     fixture_caps = list((_MINIMAL / "capabilities").glob("*/capability.json"))
     content_caps = [d for d in (_ROOT / "content" / "capabilities").iterdir() if d.is_dir()]
     assert len(schema["intents"]) == 57

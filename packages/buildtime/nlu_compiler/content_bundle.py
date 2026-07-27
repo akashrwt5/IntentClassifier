@@ -335,18 +335,23 @@ def compile_lexicon(lang: str, schema: dict, out: Path) -> list[str]:
         "negative": sorted(schema.get("negative", [])),
         "negation_cues": sorted(lexicon.get("negation_cues", [])),
         "carriers": carriers,
+        "leading_connectors": sorted(lexicon.get("leading_connectors", [])),
     }
+
+    # Load language-specific data tables directly from the language pack, rather
+    # than relying on engine fallback defaults.
+    lang_dir = REPO / "language_packs" / lang
+    
+    dt_path = lang_dir / "datetime.json"
+    if dt_path.exists():
+        lex["datetime_grammar"] = json.loads(dt_path.read_text(encoding="utf-8"))
+        
+    contractions_path = lang_dir / "contractions.json"
+    if contractions_path.exists():
+        lex["contractions"] = json.loads(contractions_path.read_text(encoding="utf-8"))
+
     _write(out / "lexicons" / f"{lang}.json", lex)
 
-    # The format simply has no field for these two, and they are the largest
-    # tables the engine needs per language.
-    gaps.append("lexicons.schema.json has no field for the DATETIME GRAMMAR "
-                "(_DEFAULT_DT_GRAMMAR) — a pack cannot carry date/time vocabulary")
-    gaps.append("lexicons.schema.json has no field for CONTRACTIONS "
-                "(_DEFAULT_CONTRACTIONS) — needed for train/inference parity")
-    gaps.append("lexicons.schema.json has no field for LEADING CONNECTORS; "
-                f"{len(lexicon.get('leading_connectors', []))} are in content but "
-                "cannot ship")
     return gaps
 
 
@@ -576,6 +581,11 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
                      f"capability: {missing[:6]}")
 
     compile_entities(lang, out)
+    
+    # Expose schema and entities at the bundle root (ADR-005)
+    shutil.copy(REPO / "language_packs" / lang / "nlu_schema.json", out / "nlu_schema.json")
+    shutil.copy(REPO / "language_packs" / lang / "nlu_entities.json", out / "nlu_entities.json")
+
     gaps = compile_keywords(lang, schema, out)
     gaps += compile_lexicon(lang, schema, out)
     compile_policies(schema, out)

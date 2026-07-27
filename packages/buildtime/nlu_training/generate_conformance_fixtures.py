@@ -84,10 +84,12 @@ def conversations_fixture() -> dict:
 def datetime_clock_grid_fixture() -> list[dict]:
     from nlu_engine.entities import EntityExtractor
 
-    loc = REPO / "content" / "localization"
-    extractors = {lang: EntityExtractor(entities_path=loc / f"nlu_entities.{lang}.json",
-                                        language=lang)
-                  for lang in ("fr", "de", "da")}
+    loc = REPO / "language_packs"
+    extractors = {}
+    for lang in ("fr", "de", "da"):
+        path = loc / lang / "nlu_entities.json"
+        if path.exists():
+            extractors[lang] = EntityExtractor(entities_path=path, language=lang)
     rows = []
     for lang, ex in extractors.items():
         with open(DT_FIXTURES / f"nlu_datetime_parity_{lang}.csv",

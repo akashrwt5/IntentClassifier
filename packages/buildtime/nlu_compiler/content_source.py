@@ -31,9 +31,9 @@ REPO = Path(__file__).resolve().parents[3]
 CONTENT = REPO / "content"
 CAP_DIR = CONTENT / "capabilities"
 CAP_MAP = REPO / "docs" / "Review-F5" / "capability-map.json"
-SCHEMA = CONTENT / "nlu_schema.json"
-LOC = CONTENT / "localization"
-LANGS = ("fr", "de", "da")
+SCHEMA = REPO / "language_packs" / "en" / "nlu_schema.json"
+LOC = REPO / "language_packs"
+LANGS = tuple(p.name for p in LOC.iterdir() if p.is_dir() and p.name != "en")
 
 # Top-level schema keys owned by the platform (not any capability).
 PLATFORM_KEYS = ("version", "confidence_threshold", "slot_confidence_threshold",
@@ -106,7 +106,7 @@ def assemble(write: bool = True) -> dict:
     ``write`` (the compiled files stay git-tracked — the engine and iOS load
     them directly; the drift test keeps them honest).
     """
-    platform = _load(CONTENT / "platform.yaml")
+    platform = _load(LOC / "en" / "platform.yaml")
     schema: dict = {k: platform[k] for k in PLATFORM_KEYS if k in platform}
     intents: dict = {}
     overlay_intents: dict[str, dict] = {lang: {} for lang in LANGS}
@@ -148,7 +148,7 @@ def assemble(write: bool = True) -> dict:
 
     overlays = {}
     for lang in LANGS:
-        plat = _load(CONTENT / f"platform.{lang}.yaml")
+        plat = _load(LOC / lang / "platform.yaml")
         overlay = {}
         if "_meta" in plat:
             overlay["_meta"] = plat["_meta"]

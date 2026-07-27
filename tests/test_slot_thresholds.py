@@ -30,7 +30,7 @@ for p in ("packages/buildtime", "packages/runtime"):
     if str(_ROOT / p) not in sys.path:
         sys.path.insert(0, str(_ROOT / p))
 
-SCHEMA = json.loads((_ROOT / "content" / "nlu_schema.json").read_text(encoding="utf-8"))
+SCHEMA = json.loads((_ROOT / "language_packs" / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
 FITTED = _ROOT / "models" / "intent" / "en" / "slot_thresholds.json"
 
 # From `python -m nlu_training.fit_slot_thresholds --lang en --write`.
@@ -90,7 +90,7 @@ def test_compiler_cannot_silently_drop_a_platform_key():
     from nlu_compiler.content_source import PLATFORM_KEYS, assemble
     out = assemble(write=False)["schema"]
     import yaml
-    platform = yaml.safe_load((_ROOT / "content" / "platform.yaml")
+    platform = yaml.safe_load((_ROOT / "language_packs" / "en" / "platform.yaml")
                               .read_text(encoding="utf-8"))
     for key in PLATFORM_KEYS:
         if key in platform:
