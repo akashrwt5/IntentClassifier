@@ -48,7 +48,11 @@ live status + Needs-decision queue in `docs/Review-F5/EXECUTION_STATUS.md`.
   MiniLM-L6-v2), student architectures, distillation data/recipe, then reuse the
   existing export toolchain. Plan: `docs/on-device-memory-optimization-plan.md`.
 - Static embeddings (Model2Vec) as a "dark horse" size/latency win.
-- TFLite artifact path for Android parity with CoreML.
+- TFLite Android RUNTIME: the artifact path shipped (ADR-015 — fp32/int8 head
+  in the Fat Bundle). The remaining counterpart is the on-device Android TF-IDF
+  (vocab+idf + the ADR-013 surface-form normaliser) that produces the float
+  vector the head consumes; without it the .tflite cannot run. See
+  `known-issues.md`. (iOS already does this for the CoreML head.)
 - Optional `src/` package reorg (make code importable) — pending approval.
 - Tighten lint/type gates family-by-family; one-time Black format pass.
 

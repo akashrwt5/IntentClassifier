@@ -168,15 +168,25 @@ def inspect_minilm_onnx(ort):
 # Stage 2 — IntentClassifier.mlpackage
 # ──────────────────────────────────────────────────────────────────────────────
 
-def export_intent_classifier(ct, lang: str):
-    """Build IntentClassifier.mlpackage from intent_classifier_weights.json."""
+def export_intent_classifier(ct, lang: str,
+                             src_name: str = "intent_classifier_weights.json",
+                             dst_name: str = "IntentClassifier.mlpackage"):
+    """Build a CoreML intent head from a weights JSON.
+
+    The head dimension is set entirely by the weights JSON's vocab. The default
+    `intent_classifier_weights.json` is the top-per-class PRUNED vocab (small,
+    on-device default); pass `intent_classifier_weights_full.json` /
+    `IntentClassifier_full.mlpackage` to also build the FULL-vocab head that
+    matches the ONNX / TFLite artifacts feature-for-feature. Both derive from the
+    same trained pipeline (see export_ios_weights.py --top-per-class).
+    """
     base_dir = MODELS_DIR / "intent" / lang
-    src = base_dir / "intent_classifier_weights.json"
-    dst = base_dir / "IntentClassifier.mlpackage"
+    src = base_dir / src_name
+    dst = base_dir / dst_name
 
     if not src.exists():
-        print(f"\nSKIP Stage 2: {src} not found")
-        print("  Run: python scripts/export_ios_weights.py")
+        print(f"\nSKIP Stage 2 ({dst_name}): {src} not found")
+        print("  Run: python -m nlu_export.export_ios_weights")
         return
 
     print(f"\n{'─'*60}")
@@ -644,6 +654,15 @@ def main():
         return
 
     export_intent_classifier(ct, args.lang)
+    # Full-vocab variant, built only when its weights JSON was produced
+    # (export_ios_weights --top-per-class 0). Ships alongside the pruned head so
+    # consumers can choose small (pruned) or ONNX/TFLite-parity (full).
+    if (MODELS_DIR / "intent" / args.lang / "intent_classifier_weights_full.json").exists():
+        export_intent_classifier(
+            ct, args.lang,
+            src_name="intent_classifier_weights_full.json",
+            dst_name="IntentClassifier_full.mlpackage",
+        )
     export_semantic_head(ct)
 
     if args.skip_minilm:

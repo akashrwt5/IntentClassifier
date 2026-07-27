@@ -84,7 +84,16 @@ def _load_or_train_pipeline():
 
 
 def _select_features(coef_matrix: np.ndarray, top_per_class: int) -> np.ndarray:
-    """Return sorted array of feature indices: union of top-N per class by |coef|."""
+    """Return sorted array of feature indices: union of top-N per class by |coef|.
+
+    `top_per_class <= 0` (or >= n_features) means NO pruning — keep the full
+    vocabulary, so the exported head matches the trained pipeline (and the ONNX /
+    TFLite artifacts) feature-for-feature. This is how the full-vocab CoreML
+    variant is produced.
+    """
+    n_features = coef_matrix.shape[1]
+    if top_per_class <= 0 or top_per_class >= n_features:
+        return np.arange(n_features, dtype=int)
     selected = set()
     for row in coef_matrix:
         top_idx = np.argpartition(np.abs(row), -top_per_class)[-top_per_class:]
@@ -262,9 +271,11 @@ def export(out_path: Path, top_per_class: int):
         json.dump(payload, f, separators=(",", ":"))
 
     size_kb = out_path.stat().st_size / 1024
+    full = len(tfidf.vocabulary_)
+    prov = (f"FULL vocab (no pruning)" if len(new_vocab) == full
+            else f"pruned from {full} using top {top_per_class}/class")
     print(f"✅ Exported {len(labels)} intents, vocab={len(new_vocab)} "
-          f"(pruned from {len(tfidf.vocabulary_)} using top {top_per_class}/class), "
-          f"coef={len(coef)}x{len(coef[0])} → {out_path} ({size_kb:.1f} KB)")
+          f"({prov}), coef={len(coef)}x{len(coef[0])} → {out_path} ({size_kb:.1f} KB)")
 
 
 if __name__ == "__main__":

@@ -163,6 +163,61 @@ bundled CoreML model is an iOS convenience artifact, NOT proof of ONNX↔CoreML 
 Retargeting the exporter is the follow-up that turns this into a real parity gate.
 
 
+## ADR-015 — TFLite is the linear HEAD, exported from the fitted model (not from ONNX)
+**Status:** Accepted (2026-07-27). **What:** the TFLite intent artifact is the
+classifier HEAD only — float TF-IDF vector in, logits out — a single Dense layer
+seeded directly from the fitted sklearn `LogisticRegression` (`coef_`/`intercept_`
+in `pipeline.pkl`). `nlu_export/export_tflite.py` emits `model.tflite` (fp32) and
+`model_int8.tflite` (dynamic-range int8) beside `model.onnx`; both ride in the
+signed `.nlu` as `models.intent.<lang>.tflite_artifact` / `tflite_int8_artifact`
+(the ADR-014 Fat Bundle mechanism). **Why:** the shipping ONNX graph is string-in
+and built from ONNX-ML ops (`StringNormalizer`/`Tokenizer`/`TfIdfVectorizer`/
+`LinearClassifier`) with no TFLite equivalents, so the full pipeline is not
+representable in TFLite — and transcoding a downstream artifact is exactly what
+introduces drift. The on-device contract already splits vectorisation from
+classification (`intent_classifier_weights.json` ships `vocab`+`idf`; the CoreML
+head is "float-vector input"), so TFLite mirrors it: native TF-IDF on-device, the
+linear head in the model. Since the head is a linear map, fp32 TFLite is
+bit-parity with the ONNX `LinearClassifier` (which `train.py` emits with
+`raw_scores=True`) — parity by construction, max |Δlogit| ≈ 1e-6.
+**Consequences:** (1) TensorFlow is an EXPORT-ONLY dep (allowlisted in
+`test_declared_dependencies.py`), never on the inference path; it runs on Linux so
+TFLite export lives in the release-pack `train-gate` job, not a macOS runner.
+(2) The exporter self-checks fp32 parity and fails on divergence; int8 keeps argmax
+(guarded by `tests/test_tflite_export.py`). (3) TRADE-OFF: Android must run the
+same native TF-IDF (vocab+idf + the ADR-013 surface-form normaliser) that iOS does;
+a self-contained string-in TFLite was rejected as higher-gap (TF-IDF≠sklearn) and
+requiring the Flex delegate. (4) `bundle.schema.json` gained `tflite_artifact` /
+`tflite_int8_artifact` as sibling properties of the intent entry; `models` stays
+the closed stage set.
+
+
+## ADR-016 — Two CoreML intent heads (pruned + full vocab); both from the trained pipeline
+**Status:** Accepted (2026-07-27). **What:** the release ships TWO CoreML intent
+heads, both regenerated from the run's trained `pipeline.pkl` via
+`export_ios_weights.py`: the default top-per-class PRUNED head
+(`IntentClassifier.mlpackage`, ~1.3k features / ~290 KB — the small on-device
+default) and a FULL-vocab head (`IntentClassifier_full.mlpackage`, 4718 features /
+~1 MB, matching the ONNX/TFLite feature space), produced with
+`--top-per-class 0`. `export_coreml.py` builds the full head whenever
+`intent_classifier_weights_full.json` exists; both ride in the signed `.nlu` as
+`models.intent.<lang>.coreml_artifact` / `coreml_full_artifact` (ADR-014 Fat
+Bundle mechanism). **Why:** the CoreML head is FP32 and its size is set purely by
+vocabulary; the pruning was a deliberate on-device size win, but consumers also
+want a head that is feature-for-feature comparable to ONNX/TFLite. Shipping both
+keeps the small default and offers the parity head without forcing a size
+regression. Regenerating from `pipeline.pkl` (uploaded from train-gate) also
+closes the old "CoreML derives from committed device weights" caveat — the heads
+now come from THIS run's model. **Consequences:** (1) `bundle.schema.json` gained
+`coreml_full_artifact`; `models` stays the closed stage set (the schema-forbids
+test still holds). (2) T is refit per variant on its own device-equivalent logits
+(pruned ≠ full); a stale T mis-tunes the 0.70 gate. (3) The full head requires the
+Android/iOS runtime to build the full 4718-dim TF-IDF vector (same native TF-IDF
+counterpart as ADR-015). (4) The macOS `coreml-export` job stays
+`continue-on-error` (no Core ML runtime off-Apple-silicon); CoreML `.mlpackage`
+writing needs macOS `libmodelpackage`, so the heads are built there, not on Linux.
+
+
 ## Related memory
 
 Training/calibration -> `training.md` · Mobile -> `mobile.md` · Roadmap ->

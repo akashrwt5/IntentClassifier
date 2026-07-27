@@ -21,6 +21,11 @@ env/
 models/**/*.onnx
 models/**/*.pkl
 models/**/*.npz
+models/**/*.tflite
+# Full-vocab device weights are regenerated in CI from the trained pipeline
+# (export_ios_weights --top-per-class 0); the pruned intent_classifier_weights.json
+# stays tracked as the committed default.
+models/**/intent_classifier_weights_full.json
 models/*.onnx
 models/*.pkl
 

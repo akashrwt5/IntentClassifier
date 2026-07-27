@@ -107,6 +107,10 @@ export-coreml: ## Export CoreML .mlpackage bundles (FP16 + FP32)
 export-coreml-test: ## Numeric-equivalence (Tier-A) CoreML export test
 	$(PYTHON) multilingual/test/test_coreml_multilingual.py --full
 
+.PHONY: export-tflite
+export-tflite: ## Export the TFLite head (fp32 + int8) from the fitted pipeline (LANG=en)
+	PYTHONPATH=packages/buildtime $(PYTHON) -m nlu_export.export_tflite --lang $(or $(LANG),en)
+
 # ---------------------------------------------------------------------------
 # Housekeeping
 # ---------------------------------------------------------------------------

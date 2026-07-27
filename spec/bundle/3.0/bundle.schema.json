@@ -171,7 +171,19 @@
             },
             "quantization": { "type": "string", "enum": ["fp32", "fp16", "int8"] },
             "coreml_artifact": {
-              "description": "Archive-relative path to the Apple CoreML .mlpackage or .mlmodelc.",
+              "description": "Archive-relative path to the Apple CoreML .mlpackage or .mlmodelc (default: top-per-class pruned vocab, small on-device head).",
+              "$ref": "defs.schema.json#/$defs/nonEmptyString"
+            },
+            "coreml_full_artifact": {
+              "description": "Archive-relative path to the FULL-vocab CoreML head (matches the ONNX/TFLite feature space; optional, larger).",
+              "$ref": "defs.schema.json#/$defs/nonEmptyString"
+            },
+            "tflite_artifact": {
+              "description": "Archive-relative path to the fp32 TFLite head (float TF-IDF vector -> logits). Sibling of the ONNX artifact, not a separate stage; vectorisation is native on-device.",
+              "$ref": "defs.schema.json#/$defs/nonEmptyString"
+            },
+            "tflite_int8_artifact": {
+              "description": "Archive-relative path to the dynamic-range int8 TFLite head (optional, smaller).",
               "$ref": "defs.schema.json#/$defs/nonEmptyString"
             }
           }

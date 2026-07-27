@@ -60,6 +60,9 @@ def assemble(src: Path, version: str, out_dir: Path, *,
              weights: Path | None = None,
              calibration: Path | None = None,
              coreml: Path | None = None,
+             coreml_full: Path | None = None,
+             tflite: Path | None = None,
+             tflite_int8: Path | None = None,
              report: Path | None = None,
              key_id: str | None = None,
              channel: str = "dev") -> int:
@@ -178,22 +181,44 @@ def assemble(src: Path, version: str, out_dir: Path, *,
     # the ONNX trained in this run. Until the exporter is retargeted, treat the
     # bundled CoreML model as an iOS convenience artifact, not proof of parity
     # with the ONNX graph beside it.
-    if coreml is not None:
-        if not coreml.exists():
-            return _fail(f"coreml artifact not found: {coreml}")
-        cml_dst = staged / "models" / "intent" / lang / "IntentClassifier.mlpackage"
+    # Two CoreML heads may ride in the bundle, both derived from the same trained
+    # pipeline (see export_ios_weights.py): the default top-per-class PRUNED head
+    # (small, on-device default) and the optional FULL-vocab head that matches the
+    # ONNX/TFLite feature space. Each is a .mlpackage DIRECTORY (copytree), carried
+    # as a sibling reference on the intent entry, never a separate model stage.
+    for cml, dst_name, key in (
+        (coreml, "IntentClassifier.mlpackage", "coreml_artifact"),
+        (coreml_full, "IntentClassifier_full.mlpackage", "coreml_full_artifact"),
+    ):
+        if cml is None:
+            continue
+        if not cml.exists():
+            return _fail(f"coreml artifact not found: {cml}")
+        cml_dst = staged / "models" / "intent" / lang / dst_name
         cml_dst.parent.mkdir(parents=True, exist_ok=True)
         if cml_dst.exists():
             shutil.rmtree(cml_dst)
-        shutil.copytree(coreml, cml_dst)
-        # Note: SemanticHead is handled at the `content_bundle` step or by
-        # ensuring it is present in the staging tree. `assemble_pack` primarily
-        # patches intent models, but we could extend it if needed.
-        refreshed.append(f"models/intent/{lang}/IntentClassifier.mlpackage")
-        
-        # Ensure it is in the manifest
+        shutil.copytree(cml, cml_dst)
+        refreshed.append(f"models/intent/{lang}/{dst_name}")
         entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
-        entry["coreml_artifact"] = f"models/intent/{lang}/IntentClassifier.mlpackage"
+        entry[key] = f"models/intent/{lang}/{dst_name}"
+
+    # TFLite rides in the bundle the same way CoreML does: as a sibling
+    # reference on the intent entry (tflite_artifact / tflite_int8_artifact), NOT
+    # a new model stage. It is the HEAD only (float TF-IDF vector -> logits);
+    # vectorisation stays native on-device, so this is a single flat file, not a
+    # directory like the .mlpackage.
+    for tfl, dest, key in ((tflite, "model.tflite", "tflite_artifact"),
+                           (tflite_int8, "model_int8.tflite", "tflite_int8_artifact")):
+        if tfl is None:
+            continue
+        if not tfl.exists():
+            return _fail(f"tflite artifact not found: {tfl}")
+        intent_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy(tfl, intent_dir / dest)
+        refreshed.append(f"models/intent/{lang}/{dest}")
+        entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
+        entry[key] = f"models/intent/{lang}/{dest}"
 
     if report is not None:
         if not report.exists():
@@ -261,7 +286,14 @@ def main(argv=None) -> int:
     ap.add_argument("--calibration", type=Path, default=None,
                     help="fitted calibration.json — the temperature MUST ship "
                          "with the model it calibrates")
-    ap.add_argument("--coreml", type=Path, default=None, help=".mlpackage for iOS")
+    ap.add_argument("--coreml", type=Path, default=None,
+                    help="pruned-vocab .mlpackage for iOS (small on-device default)")
+    ap.add_argument("--coreml-full", type=Path, default=None,
+                    help="full-vocab .mlpackage (matches ONNX/TFLite; optional, larger)")
+    ap.add_argument("--tflite", type=Path, default=None,
+                    help="fp32 model.tflite head (float TF-IDF vector -> logits)")
+    ap.add_argument("--tflite-int8", type=Path, default=None,
+                    help="dynamic-range int8 model_int8.tflite head (optional)")
     ap.add_argument("--report", type=Path, default=None, help="report_card.json")
     ap.add_argument("--key-id", default=None,
                     help="signing key id (default: the compiler's dev key)")
@@ -271,6 +303,8 @@ def main(argv=None) -> int:
     return assemble(a.src, a.version, a.out, language=a.language, model=a.model,
                     labels=a.labels, weights=a.weights,
                     calibration=a.calibration, coreml=a.coreml,
+                    coreml_full=a.coreml_full,
+                    tflite=a.tflite, tflite_int8=a.tflite_int8,
                     report=a.report, key_id=a.key_id, channel=a.channel)
 
 

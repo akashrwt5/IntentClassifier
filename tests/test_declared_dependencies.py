@@ -43,12 +43,13 @@ IMPORT_TO_DIST = {
 }
 
 # Installed ON DEMAND, deliberately not in the base lock: the CoreML export job
-# pip-installs coremltools+torch itself, and the semantic/ML tooling is only run
-# by hand (semantic rescue is disabled). Locking them would put ~2 GB of wheels
-# into every job that only needs to train a TF-IDF model.
+# pip-installs coremltools+torch itself, the TFLite export job pip-installs
+# tensorflow, and the semantic/ML tooling is only run by hand (semantic rescue is
+# disabled). Locking them would put ~2 GB of wheels into every job that only needs
+# to train a TF-IDF model.
 OPTIONAL_ON_DEMAND = {
     "coremltools", "torch", "transformers", "sentence_transformers",
-    "optimum", "onnx2torch", "mlflow",
+    "optimum", "onnx2torch", "mlflow", "tensorflow",
 }
 
 SCANNED = ("packages/buildtime", "packages/runtime")

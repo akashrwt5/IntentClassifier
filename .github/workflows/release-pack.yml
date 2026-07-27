@@ -67,6 +67,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.lock
           pip install "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0"
+          # TensorFlow is EXPORT-ONLY (produces the TFLite head), never on the
+          # inference path. Unlike CoreML it runs on Linux, so TFLite export
+          # lives here in train-gate rather than the macOS job.
+          pip install "tensorflow==2.20.0"
 
       # The ONNX StringNormalizer op refuses to initialise without this locale.
       - name: Provide the en_US.UTF-8 locale
@@ -99,6 +103,16 @@ jobs:
       # every confidence gate at once (charter B2/B3, blocker B8).
       - name: Fit the calibration temperature
         run: python -m nlu_training.fit_calibration --lang "${{ github.event.inputs.language || 'en' }}" --write
+        env:
+          PYTHONPATH: packages/buildtime
+
+      # Export the TFLite HEAD (float TF-IDF vector -> logits) straight from the
+      # fitted pipeline just trained. fp32 is bit-parity with the ONNX
+      # LinearClassifier; int8 is the smaller dynamic-range variant. Runs on
+      # Linux (no macOS runner needed). The exporter self-checks fp32 parity and
+      # fails the step if the head diverges from sklearn's decision_function.
+      - name: Export the TFLite head (fp32 + int8)
+        run: python -m nlu_export.export_tflite --lang "${{ github.event.inputs.language || 'en' }}"
         env:
           PYTHONPATH: packages/buildtime
 
@@ -139,22 +153,25 @@ jobs:
             models/intent/${{ github.event.inputs.language || 'en' }}/labels.pkl
             models/intent/${{ github.event.inputs.language || 'en' }}/labels.json
             models/intent/${{ github.event.inputs.language || 'en' }}/calibration.json
+            models/intent/${{ github.event.inputs.language || 'en' }}/model.tflite
+            models/intent/${{ github.event.inputs.language || 'en' }}/model_int8.tflite
+            # pipeline.pkl lets the macOS CoreML job regenerate the device weights
+            # from THIS trained model (both the pruned and full-vocab heads).
+            models/intent/${{ github.event.inputs.language || 'en' }}/pipeline.pkl
             dist/report_card.json
 
   # 2) CoreML/ANE export on macOS — coremltools and the Core ML runtime need it.
   #    Non-blocking for now: the export path is owner-gated (ND-7 PAT) and the
   #    release must not be held hostage to a runner this repo cannot yet gate on.
   #
-  #    KNOWN LIMITATION, and the reason this is not yet a parity GATE on the
-  #    trained model: `nlu_export.export_coreml` reads the repo-committed DEVICE
-  #    artifact `models/intent_classifier_weights.json`, which is produced by
-  #    `language_packs/<lang>/train.csv` (a path the per-language
-  #    relayout removed) and upper-cases intent labels. So the .mlpackage this
-  #    job emits is derived from committed weights, NOT from the model trained in
-  #    job 1. It is published as an iOS convenience artifact only. Retargeting
-  #    export_weights at language_packs/<lang>/train.csv is what turns this into a real
-  #    parity gate; until then do not read a green tick here as proof that the
-  #    CoreML model matches the ONNX one.
+  #    This job now regenerates the device weights from the pipeline.pkl trained in
+  #    job 1 (not the committed JSON), so the CoreML heads match the ONNX/TFLite
+  #    model — closing the old "derives from committed weights" caveat. It emits
+  #    TWO intent heads: IntentClassifier.mlpackage (top-per-class PRUNED vocab,
+  #    the small on-device default) and IntentClassifier_full.mlpackage (FULL
+  #    vocab, feature-for-feature with ONNX/TFLite). Still not a hard parity GATE
+  #    (continue-on-error, macOS-only runtime), but a green tick now means the
+  #    CoreML head is built from this run's model.
   coreml-export:
     needs: train-gate
     runs-on: macos-latest
@@ -181,11 +198,26 @@ jobs:
           cp "dl/models/intent/$LANG_ARG/model.onnx"       "models/intent/$LANG_ARG/model.onnx"
           cp "dl/models/intent/$LANG_ARG/labels.pkl"       "models/intent/$LANG_ARG/labels.pkl"
           cp "dl/models/intent/$LANG_ARG/calibration.json" "models/intent/$LANG_ARG/calibration.json"
-      # No --out: the exporter has no such flag (passing it aborted the step on
-      # an unrecognised argument). It writes models/IntentClassifier.mlpackage.
+          cp "dl/models/intent/$LANG_ARG/pipeline.pkl"     "models/intent/$LANG_ARG/pipeline.pkl"
+
+      # Regenerate the device weights from THIS trained pipeline (not the
+      # committed JSON) so the CoreML heads match the ONNX/TFLite model. Two
+      # variants: the default top-per-class PRUNED head (small) and the FULL-vocab
+      # head (--top-per-class 0) that matches the ONNX/TFLite feature space.
+      - name: Regenerate device weights (pruned + full)
+        run: |
+          LANG_ARG="${{ github.event.inputs.language || 'en' }}"
+          python -m nlu_export.export_ios_weights --lang "$LANG_ARG"
+          python -m nlu_export.export_ios_weights --lang "$LANG_ARG" --top-per-class 0 \
+            --out "models/intent/$LANG_ARG/intent_classifier_weights_full.json"
+        env:
+          PYTHONPATH: packages/buildtime
+
       # --skip-minilm because semantic rescue is disabled, so the 23 MB MiniLM
-      # encoder is not part of what ships.
-      - name: Export the CoreML model
+      # encoder is not part of what ships. export_coreml builds both intent heads:
+      # IntentClassifier.mlpackage (pruned) and, since the _full weights JSON now
+      # exists, IntentClassifier_full.mlpackage (full vocab).
+      - name: Export the CoreML models (pruned + full)
         run: python -m nlu_export.export_coreml --skip-minilm
         env:
           PYTHONPATH: packages/buildtime
@@ -194,6 +226,7 @@ jobs:
           name: coreml-model
           path: |
             models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier.mlpackage
+            models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier_full.mlpackage
             models/SemanticHead.mlpackage
 
   # 3) Assemble the versioned pack and publish the Release.
@@ -241,6 +274,9 @@ jobs:
           if [ -d "cml/intent/$L/IntentClassifier.mlpackage" ]; then
             cp -r "cml/intent/$L/IntentClassifier.mlpackage" "models/intent/$L/IntentClassifier.mlpackage"
           fi
+          if [ -d "cml/intent/$L/IntentClassifier_full.mlpackage" ]; then
+            cp -r "cml/intent/$L/IntentClassifier_full.mlpackage" "models/intent/$L/IntentClassifier_full.mlpackage"
+          fi
           if [ -d "cml/SemanticHead.mlpackage" ]; then
             cp -r "cml/SemanticHead.mlpackage" "models/SemanticHead.mlpackage"
           fi
@@ -269,11 +305,25 @@ jobs:
                 --report dl/dist/report_card.json)
           if [ -n "$KEY_ID" ]; then ARGS+=(--key-id "$KEY_ID"); fi
 
-          # Inject the CoreML .mlpackage into the signed bundle (Fat Bundle).
-          # assemble_pack writes it as models.intent.<lang>.coreml_artifact — a
-          # schema-legal sibling of the ONNX artifact, NOT a second model stage.
+          # TFLite heads are produced on Linux in train-gate and travel in the
+          # model-artifacts download (dl/). Embed both variants when present.
+          if [ -f "dl/models/intent/$L/model.tflite" ]; then
+            ARGS+=(--tflite "dl/models/intent/$L/model.tflite")
+          fi
+          if [ -f "dl/models/intent/$L/model_int8.tflite" ]; then
+            ARGS+=(--tflite-int8 "dl/models/intent/$L/model_int8.tflite")
+          fi
+
+          # Inject the CoreML .mlpackage(s) into the signed bundle (Fat Bundle).
+          # assemble_pack writes them as models.intent.<lang>.coreml_artifact /
+          # coreml_full_artifact — schema-legal siblings of the ONNX artifact, NOT
+          # separate model stages. Pruned = small on-device default; full = matches
+          # the ONNX/TFLite feature space.
           if [ -d "cml/intent/$L/IntentClassifier.mlpackage" ]; then
             ARGS+=(--coreml "cml/intent/$L/IntentClassifier.mlpackage")
+          fi
+          if [ -d "cml/intent/$L/IntentClassifier_full.mlpackage" ]; then
+            ARGS+=(--coreml-full "cml/intent/$L/IntentClassifier_full.mlpackage")
           fi
 
           python scripts/ci/assemble_pack.py "${ARGS[@]}"

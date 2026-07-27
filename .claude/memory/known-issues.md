@@ -214,6 +214,25 @@ _None open. Recently fixed:_
   `make format-all` is the deliberate one-time full-repo Black pass if ever wanted.
 - Tier-B CoreML runtime + ANE checks are **macOS-only**; the Linux CI auto-skips
   them. iOS XCTest parity needs an `INTENTCLASSIFIER_PAT` secret in the STT repo.
+- **TFLite head needs the Android native TF-IDF counterpart (ADR-015).** The
+  shipped `.tflite` is the linear head only (float vector -> logits); it cannot
+  run until the Android runtime computes the same L2-normalised TF-IDF vector
+  natively from `vocab`+`idf` AND applies the ADR-013 surface-form normaliser
+  (contraction expansion + apostrophe stripping). Any divergence there
+  reintroduces the train/inference gap ADR-013 closed. iOS already implements
+  this for the CoreML head (`tfidfVector()` in Swift); Android is the open work.
+- **CoreML intent head is FP32 and PRUNED-vocab (1317 of 4718).** The shipped
+  `IntentClassifier.mlpackage` is FP32 (NeuralNetworkBuilder, ~293 KB of weights).
+  It comes from the SAME trained pipeline as ONNX/TFLite, but
+  `export_ios_weights.py` prunes the vocab to the top-25 features per class
+  (union = 1317, a strict subset of the 4718) to shrink the on-device model;
+  temperature T is then refit on the pruned-vocab device logits. So CoreML (1317)
+  vs ONNX/TFLite (4718) differ only by that pruning, not by training. Exporting
+  CoreML at the full 4718 = run `export_ios_weights --top-per-class 0` and refit T
+  (trade on-device size for full-vocab parity). DONE in CI (ADR-016): the
+  release-pack macOS job regenerates BOTH heads from the trained pipeline.pkl and
+  ships them as coreml_artifact (pruned) + coreml_full_artifact (full), so the
+  CoreML head now derives from THIS run's model, not the committed weights JSON.
 - **Fat Bundle CoreML is not yet a parity gate (ADR-014).** The release pack embeds
   the `.mlpackage` as `models.intent.<lang>.coreml_artifact`, but the model
   `nlu_export.export_coreml` emits derives from the repo-committed DEVICE weights,

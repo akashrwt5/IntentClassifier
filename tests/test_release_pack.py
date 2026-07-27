@@ -295,6 +295,62 @@ def test_coreml_is_packaged_into_the_bundle(tmp_path):
         "the .mlpackage files were not packaged into the signed bundle")
 
 
+def test_full_vocab_coreml_head_is_packaged_alongside_the_pruned_one(tmp_path):
+    """Both CoreML heads ride in the bundle: pruned (default) + full vocab.
+
+    coreml -> models.intent.<lang>.coreml_artifact (pruned, small),
+    coreml_full -> models.intent.<lang>.coreml_full_artifact (full vocab). Both are
+    .mlpackage directories; neither is a separate model stage.
+    """
+    def _pkg(name):
+        d = tmp_path / name
+        (d / "Data" / "com.apple.CoreML").mkdir(parents=True)
+        (d / "Manifest.json").write_text("{}", encoding="utf-8")
+        (d / "Data" / "com.apple.CoreML" / "model.mlmodel").write_bytes(b"\x00" * 64)
+        return d
+
+    out = tmp_path / "out"
+    rc = assemble_pack.assemble(
+        _MINIMAL, "1.2.3", out,
+        coreml=_pkg("IntentClassifier.mlpackage"),
+        coreml_full=_pkg("IntentClassifier_full.mlpackage"))
+    assert rc == 0
+
+    nlu = out / "pack-en-v1.2.3.nlu"
+    entry = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))["models"]["intent"]["en"]
+    assert entry["coreml_artifact"] == "models/intent/en/IntentClassifier.mlpackage"
+    assert entry["coreml_full_artifact"] == "models/intent/en/IntentClassifier_full.mlpackage"
+    names = zipfile.ZipFile(nlu).namelist()
+    assert "models/intent/en/IntentClassifier.mlpackage/Manifest.json" in names
+    assert "models/intent/en/IntentClassifier_full.mlpackage/Manifest.json" in names
+
+
+def test_tflite_heads_are_packaged_into_the_bundle(tmp_path):
+    """The TFLite head(s) ride in the signed bundle as sibling references.
+
+    fp32 -> models.intent.<lang>.tflite_artifact, int8 ->
+    models.intent.<lang>.tflite_int8_artifact. They are flat files (the head is
+    float-vector-in -> logits; vectorisation is native), so unlike the CoreML
+    .mlpackage directory each is a single archived file.
+    """
+    fp32 = tmp_path / "model.tflite"
+    fp32.write_bytes(b"TFL3" + b"\x00" * 128)
+    int8 = tmp_path / "model_int8.tflite"
+    int8.write_bytes(b"TFL3" + b"\x00" * 64)
+
+    out = tmp_path / "out"
+    rc = assemble_pack.assemble(_MINIMAL, "1.2.3", out, tflite=fp32, tflite_int8=int8)
+    assert rc == 0, "assemble_pack refused a TFLite head the Fat Bundle ships"
+
+    nlu = out / "pack-en-v1.2.3.nlu"
+    entry = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))["models"]["intent"]["en"]
+    assert entry["tflite_artifact"] == "models/intent/en/model.tflite"
+    assert entry["tflite_int8_artifact"] == "models/intent/en/model_int8.tflite"
+    names = zipfile.ZipFile(nlu).namelist()
+    assert "models/intent/en/model.tflite" in names
+    assert "models/intent/en/model_int8.tflite" in names
+
+
 def test_models_schema_really_forbids_a_coreml_stage():
     """CoreML rides on the intent entry, never as its own stage.
 
