@@ -249,7 +249,7 @@ def compile_capabilities(lang: str, out: Path) -> tuple[dict, dict, dict]:
 # --------------------------------------------------------------------------- #
 
 def compile_entities(lang: str, out: Path) -> None:
-    src = json.loads((CONTENT / "nlu_entities.json").read_text(encoding="utf-8"))
+    src = json.loads((REPO / "language_packs" / lang / "nlu_entities.json").read_text(encoding="utf-8"))
     entities: dict[str, dict] = {}
     for name, spec in src.items():
         eid = entity_id(name)
@@ -466,7 +466,7 @@ def compile_models(lang: str, model_dir: Path, out: Path) -> tuple[int, list[str
     # scripts/ci/assemble_pack.py; emit the fitted temperature in that shape here
     # so a bundle compiled standalone is already valid.
     fitted = json.loads((model_dir / "calibration.json").read_text(encoding="utf-8"))
-    schema = json.loads((CONTENT / "nlu_schema.json").read_text(encoding="utf-8"))
+    schema = json.loads((REPO / "language_packs" / lang / "nlu_schema.json").read_text(encoding="utf-8"))
     payload = {"temperature": fitted["temperature"],
                "conf_threshold": schema["confidence_threshold"],
                "method": "temperature_scaling"}
@@ -557,7 +557,7 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
 def compile_bundle(lang: str, out: Path, model_dir: Path,
                    report_card: Path | None, version: str, channel: str,
                    report_gaps: bool) -> int:
-    schema = json.loads((CONTENT / "nlu_schema.json").read_text(encoding="utf-8"))
+    schema = json.loads((REPO / "language_packs" / lang / "nlu_schema.json").read_text(encoding="utf-8"))
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)

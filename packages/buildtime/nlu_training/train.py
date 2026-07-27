@@ -42,30 +42,29 @@ from nlu_engine.text_norm import normalize_text
 _parser = argparse.ArgumentParser(description="Train TF-IDF intent model")
 _parser.add_argument("--lang", "-l", default="en",
                      help="language to train (default: en). Reads "
-                          "datasets/<lang>/train.csv — adding a language means "
+                          "language_packs/<lang>/train.csv — adding a language means "
                           "adding that directory, not editing this script.")
 _args = _parser.parse_args()
 
 # ---------- Paths ----------
-# Per-language layout: datasets/<lang>/. Training data is BUILD-TIME input and
+# Per-language layout: language_packs/<lang>/. Training data is BUILD-TIME input and
 # never ships — the pack records only its sha256 in bundle.json's `training`
-# block. Adding a language is adding datasets/<lang>/train.csv; this script does
-# not learn about it (see datasets/README.md).
+# block. Adding a language is adding language_packs/<lang>/train.csv; this script does
+# not learn about it.
 BASE_DIR = Path(__file__).resolve().parents[3]
 LANG = _args.lang
-DATA_DIR     = BASE_DIR / "datasets" / LANG
+DATA_DIR     = BASE_DIR / "language_packs" / LANG
 DATA_PATH    = DATA_DIR / "train.csv"
 HOLDOUT_PATH = DATA_DIR / "holdout_leakage_guard.csv"
 
 if not DATA_PATH.exists():
-    available = sorted(p.name for p in (BASE_DIR / "datasets").iterdir()
+    available = sorted(p.name for p in (BASE_DIR / "language_packs").iterdir()
                        if p.is_dir() and not p.name.startswith("_")
                        and (p / "train.csv").exists())
     raise SystemExit(
         f"No training data for {LANG!r}: {DATA_PATH} not found.\n"
         f"Languages with data: {available or '(none)'}\n"
-        f"To add one, create datasets/{LANG}/train.csv (text,intent). "
-        f"See datasets/README.md.")
+        f"To add one, create language_packs/{LANG}/train.csv (text,intent).")
 
 print(f"Language: {LANG}  |  {DATA_PATH.relative_to(BASE_DIR)}  |  "
       f"holdout: {HOLDOUT_PATH.name}")

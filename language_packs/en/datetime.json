@@ -1,0 +1,45 @@
+{
+  "day_anchors": {
+    "day_after_tomorrow": ["day after tomorrow"],
+    "tomorrow": ["tomorrow"],
+    "today": ["today"],
+    "tonight": ["tonight"],
+    "next_week": ["next week"],
+    "yesterday": ["yesterday"]
+  },
+  "time_of_day": {
+    "morning": {"names": ["morning"], "hour": 8},
+    "afternoon": {"names": ["afternoon"], "hour": 14},
+    "evening": {"names": ["evening"], "hour": 18},
+    "night": {"names": ["night"], "hour": 21},
+    "noon": {"names": ["noon"], "hour": 12},
+    "midnight": {"names": ["midnight"], "hour": 0}
+  },
+  "relative_markers": {"in": ["in"], "for": ["for"], "at": ["at"]},
+  "relative_units": {
+    "minute": ["minutes", "minute", "mins", "min"],
+    "hour": ["hours", "hour", "hrs", "hr"],
+    "day": ["days", "day"],
+    "week": ["weeks", "week"]
+  },
+  "articles": ["an", "a"],
+  "quantifiers": {
+    "few": {"phrases": ["a few"], "n": 3},
+    "couple": {"phrases": ["a couple of", "a couple"], "n": 2}
+  },
+  "clock_idioms": {
+    "half_past": ["half past"],
+    "quarter_past": ["quarter past"],
+    "quarter_to": ["quarter to"],
+    "past": ["past"],
+    "to": ["to"],
+    "half_an_hour": ["half an hour", "half a hour"]
+  },
+  "am_pm": {"am": ["am", "a m", "a.m"], "pm": ["pm", "p m", "p.m"]},
+  "strip": {
+    "at_by": ["at", "by"],
+    "connectors": ["at", "on", "by", "this", "next"],
+    "recurrence": ["every", "each"],
+    "the": ["the"]
+  }
+}

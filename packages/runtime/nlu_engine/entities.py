@@ -18,8 +18,7 @@ except Exception:
     _HAS_DATEPARSER = False
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-ENTITIES_PATH = BASE_DIR / "content" / "nlu_entities.json"
-LOCALIZATION_DIR = BASE_DIR / "content" / "localization"
+ENTITIES_PATH = BASE_DIR / "language_packs" / "en" / "nlu_entities.json"
 
 # Unicode-Latin-aware word boundaries for the lexicon-driven datetime parser.
 # Must match EntityExtractor.swift exactly so Swift and Python agree on every
@@ -36,52 +35,7 @@ _WB_R = r"(?![0-9A-Za-zÀ-ÿ])"
 # Ported from the reference branch, which had already done this eviction. Only
 # the vocabulary moved; the parser's branch ORDER and offsets are unchanged,
 # and tests/test_datetime_parity_en.py (130 golden cases) proves it.
-_DEFAULT_DT_GRAMMAR = {
-    "day_anchors": {
-        "day_after_tomorrow": ["day after tomorrow"],
-        "tomorrow": ["tomorrow"],
-        "today": ["today"],
-        "tonight": ["tonight"],
-        "next_week": ["next week"],
-        "yesterday": ["yesterday"],
-    },
-    "time_of_day": {
-        "morning":   {"names": ["morning"],   "hour": 8},
-        "afternoon": {"names": ["afternoon"], "hour": 14},
-        "evening":   {"names": ["evening"],   "hour": 18},
-        "night":     {"names": ["night"],     "hour": 21},
-        "noon":      {"names": ["noon"],      "hour": 12},
-        "midnight":  {"names": ["midnight"],  "hour": 0},
-    },
-    "relative_markers": {"in": ["in"], "for": ["for"], "at": ["at"]},
-    "relative_units": {
-        "minute": ["minutes", "minute", "mins", "min"],
-        "hour":   ["hours", "hour", "hrs", "hr"],
-        "day":    ["days", "day"],
-        "week":   ["weeks", "week"],
-    },
-    "articles": ["an", "a"],
-    "quantifiers": {"few": {"phrases": ["a few"], "n": 3},
-                    "couple": {"phrases": ["a couple of", "a couple"], "n": 2}},
-    "clock_idioms": {
-        "half_past": ["half past"], "quarter_past": ["quarter past"],
-        "quarter_to": ["quarter to"], "past": ["past"], "to": ["to"],
-        # Both articles: the original regex was `half\s+an?\s+hour`, so the
-        # ungrammatical-but-common ASR output "half a hour" resolved too. The
-        # reference branch's table listed only "half an hour" and silently
-        # dropped it — caught by the golden corpus, not by review.
-        "half_an_hour": ["half an hour", "half a hour"],
-    },
-    "am_pm": {"am": ["am", "a m", "a.m"], "pm": ["pm", "p m", "p.m"]},
-    # Function words used only to strip date/time fragments out of a reminder
-    # topic (cosmetic — never affects the resolved time).
-    "strip": {
-        "at_by": ["at", "by"],
-        "connectors": ["at", "on", "by", "this", "next"],
-        "recurrence": ["every", "each"],
-        "the": ["the"],
-    },
-}
+_DEFAULT_DT_GRAMMAR = json.loads((BASE_DIR / "language_packs" / "en" / "datetime.json").read_text(encoding="utf-8"))
 
 # Day-anchor offsets in days. Keys are canonical ROLE names, not words — a pack
 # maps its own vocabulary onto these, so they are identifiers rather than
@@ -155,7 +109,7 @@ class EntityExtractor:
         # is a file rather than a branch.
         self._lex = None
         if lexicon_path is None and language:
-            candidate = LOCALIZATION_DIR / f"nlu_lexicon.{language}.json"
+            candidate = BASE_DIR / "language_packs" / language / "lexicon.json"
             lexicon_path = candidate if candidate.exists() else None
         if lexicon_path is not None:
             try:

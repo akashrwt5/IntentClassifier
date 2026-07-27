@@ -97,10 +97,10 @@ def eval_sets(lang: str) -> list[Path]:
     Fitting on these would burn the only honest measurement of generalisation
     the project has — and would recreate exactly the failure B1 just fixed.
     """
-    ds = BASE_DIR / "datasets" / lang
+    ds = BASE_DIR / "language_packs" / lang
     return [p for p in (ds / "holdout_honest.csv",
                         ds / "holdout_leakage_guard.csv",
-                        ds / "holdout_paraphrase.csv") if p.exists()]
+                        ds / "extras" / "holdout_paraphrase.csv") if p.exists()]
 
 
 def eval_leakage_mask(texts, lang: str):
@@ -169,7 +169,7 @@ def expected_calibration_error(probs: np.ndarray, y_idx: np.ndarray,
 
 
 def fit(lang: str, folds: int, write: bool) -> int:
-    data_path = BASE_DIR / "datasets" / lang / "train.csv"
+    data_path = BASE_DIR / "language_packs" / lang / "train.csv"
     if not data_path.exists():
         print(f"FAIL: no training data for {lang!r}: {data_path}")
         return 1

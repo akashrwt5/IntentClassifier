@@ -1,0 +1,21 @@
+{
+  "per_language": {
+    "en": {
+      "macro_f1": 0.8947,
+      "holdout_accuracy": 0.9027,
+      "ece": 0.0197
+    }
+  },
+  "wrong_action_count": 39,
+  "wrong_action_per_domain": {
+    "activity": 2,
+    "device": 21,
+    "find": 6,
+    "streaming": 5,
+    "messaging": 3,
+    "translation": 1,
+    "reminders": 1
+  },
+  "oos_recall": 0.6923,
+  "gates_passed": true
+}

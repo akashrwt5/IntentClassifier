@@ -43,8 +43,8 @@ DATA = BASE / "data"
 # benchmark_250: an IN-DISTRIBUTION benchmark (sampled FROM training data), so the
 #                base set legitimately overlaps it; we only use it to keep NEW
 #                augmentation phrases conservative, never to gate the merged file.
-def _read_phrases(fname) -> set:
-    p = DATA / fname
+def _read_phrases(name: str) -> set:
+    p = BASE / "language_packs" / "en" / "extras" / name
     if not p.exists():
         return set()
     d = pd.read_csv(p)
