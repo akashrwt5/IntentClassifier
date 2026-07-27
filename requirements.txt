@@ -19,6 +19,12 @@ onnxruntime>=1.16,<2.0 ; python_version >= "3.11"
 skl2onnx>=1.16,<2.0
 numpy>=1.24,<3.0
 
+# BUILD dependency, not a device one: nlu_compiler reads the YAML content sources
+# (content/platform.yaml, content/capabilities/**) to compile a bundle. It lived
+# only in the dev/test extras, so CI — which installs requirements.lock — hit
+# ModuleNotFoundError in the release job, after training had already succeeded.
+pyyaml>=6.0,<7.0
+
 # Optional: widens system date-time parsing coverage in the NLU engine.
 # The engine has a built-in pure-Python regex parser and works without this;
 # install it for more robust natural-language date handling on the server side.

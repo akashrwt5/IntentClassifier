@@ -69,6 +69,8 @@ pytz==2026.2
     # via
     #   dateparser
     #   pandas
+pyyaml==6.0.3
+    # via -r requirements.txt
 regex==2026.7.10
     # via dateparser
 scikit-learn==1.7.2 ; python_full_version < '3.11'

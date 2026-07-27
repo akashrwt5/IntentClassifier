@@ -29,6 +29,8 @@ dependencies = [
     "onnxruntime>=1.16,<2.0; python_version >= '3.11'",
     "skl2onnx>=1.16,<2.0",
     "numpy>=1.24,<3.0",
+    # Build dependency: the compiler reads content/*.yaml — see requirements.txt.
+    "pyyaml>=6.0,<7.0",
     "dateparser>=1.2,<2.0; python_version >= '3.8'",
 ]
 
