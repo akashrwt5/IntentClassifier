@@ -192,7 +192,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: coreml-model
-          path: models/IntentClassifier.mlpackage
+          path: |
+            models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier.mlpackage
+            models/SemanticHead.mlpackage
 
   # 3) Assemble the versioned pack and publish the Release.
   release:
@@ -215,7 +217,7 @@ jobs:
       - name: Download the CoreML model (optional)
         uses: actions/download-artifact@v4
         continue-on-error: true
-        with: { name: coreml-model, path: cml/IntentClassifier.mlpackage }
+        with: { name: coreml-model, path: cml/ }
 
       - name: Resolve version
         id: ver
@@ -280,6 +282,12 @@ jobs:
           PYTHONPATH=packages/buildtime python -m nlu_compiler.verify \
             dist/pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}.nlu
 
+      - name: Bundle CoreML models
+        run: |
+          if [ -d "cml/models" ]; then
+            cd cml && zip -r ../dist/coreml-models-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}.zip models/
+          fi
+
       - name: Publish GitHub Release (the model registry)
         uses: softprops/action-gh-release@v2
         with:
@@ -294,3 +302,4 @@ jobs:
           files: |
             dist/pack-*.nlu
             dl/dist/report_card.json
+            dist/coreml-models-*.zip
