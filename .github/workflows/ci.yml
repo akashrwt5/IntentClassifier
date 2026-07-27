@@ -69,7 +69,7 @@ jobs:
       # (ADR-008). Not blocking; adopt strictness per module as types land.
       - name: MyPy (type check, non-blocking)
         continue-on-error: true
-        run: mypy packages/runtime/nlu_engine packages/buildtime multilingual/*.py
+        run: mypy packages/runtime/nlu_engine packages/buildtime legacy_research/*.py
 
       # BLOCKING (charter A9). The engine must contain no language-specific
       # branches and no hardcoded natural-language match vocabulary: language
