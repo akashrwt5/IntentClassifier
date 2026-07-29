@@ -49,17 +49,9 @@ ROUND = 4   # decimal places — 4 dp is sufficient for LR inference
 T_BOUNDS = (0.05, 10.0)   # bounded search range for the scalar temperature `T`
 
 
-def _load_or_train_pipeline():
-    if PIPELINE_PATH.exists():
-        print(f"Loading pipeline from {PIPELINE_PATH}")
-        return joblib.load(str(PIPELINE_PATH))
-
-    print(f"Pipeline not found at {PIPELINE_PATH} — training from {DATA_PATH}")
+def _get_balanced_training_data():
     import pandas as pd
-    from sklearn.pipeline import Pipeline
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.linear_model import LogisticRegression
-
+    
     data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
     data.columns = [c.strip().lower() for c in data.columns]
     data["text"]   = data["text"].astype(str).str.lower().str.strip()
@@ -72,6 +64,19 @@ def _load_or_train_pipeline():
                    for _, g in data.groupby("intent")])
         .sample(frac=1, random_state=42).reset_index(drop=True)
     )
+    return data
+
+def _load_or_train_pipeline():
+    if PIPELINE_PATH.exists():
+        print(f"Loading pipeline from {PIPELINE_PATH}")
+        return joblib.load(str(PIPELINE_PATH))
+
+    print(f"Pipeline not found at {PIPELINE_PATH} — training from {DATA_PATH}")
+    from sklearn.pipeline import Pipeline
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import LogisticRegression
+
+    data = _get_balanced_training_data()
 
     pipeline = Pipeline([
         ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=1, sublinear_tf=True)),
@@ -232,9 +237,35 @@ def export(out_path: Path, top_per_class: int):
     full_coef = np.array([coef_[class_to_row[lbl]] for lbl in labels])  # (n_classes, n_features)
 
     # Select discriminative feature subset
-    feat_idx = _select_features(full_coef, top_per_class)
-    pruned_coef = full_coef[:, feat_idx]                   # (n_classes, n_selected)
-    pruned_idf  = tfidf.idf_[feat_idx]                     # (n_selected,)
+    if top_per_class > 0:
+        target_k = len(_select_features(full_coef, top_per_class))
+        print(f"  [ios export] Pruning to {target_k} features using RFE...")
+        
+        from sklearn.feature_selection import RFE
+        df = _get_balanced_training_data()
+        X_train = tfidf.transform(df["text"])
+        y_train = df["intent"]
+        
+        rfe = RFE(estimator=clf, n_features_to_select=target_k, step=0.1)
+        rfe.fit(X_train, y_train)
+        
+        feat_idx = np.where(rfe.support_)[0]
+        
+        retrained_clf = rfe.estimator_
+        retrained_coef = retrained_clf.coef_
+        retrained_intercept = retrained_clf.intercept_
+        retrained_classes = retrained_clf.classes_
+        
+        class_to_row_rfe = {cls: i for i, cls in enumerate(retrained_classes)}
+        
+        pruned_coef = np.array([retrained_coef[class_to_row_rfe[lbl]] for lbl in labels])
+        pruned_idf  = tfidf.idf_[feat_idx]
+        intercept_out = np.array([retrained_intercept[class_to_row_rfe[lbl]] for lbl in labels])
+    else:
+        feat_idx = _select_features(full_coef, top_per_class)
+        pruned_coef = full_coef[:, feat_idx]
+        pruned_idf  = tfidf.idf_[feat_idx]
+        intercept_out = np.array([intercept_[class_to_row[lbl]] for lbl in labels])
 
     # Build a remapped vocab: token -> new sequential index
     idx_to_token = {v: k for k, v in tfidf.vocabulary_.items()}
@@ -243,7 +274,7 @@ def export(out_path: Path, top_per_class: int):
 
     coef      = [[round(float(v), ROUND) for v in row] for row in pruned_coef]
     idf       = [round(float(v), ROUND) for v in pruned_idf]
-    intercept = [round(float(intercept_[class_to_row[lbl]]), ROUND) for lbl in labels]
+    intercept = [round(float(v), ROUND) for v in intercept_out]
 
     # Scalar temperature, fit on the exact pruned weights we just built so it
     # matches the logits Swift computes (req #2: device-equivalent logits).
