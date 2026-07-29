@@ -114,6 +114,57 @@ def _run_tflite(tf, blob: bytes, X: np.ndarray) -> np.ndarray:
     return np.asarray(out)
 
 
+def _fit_int8_temperature(tf, blob: bytes, pipe, lang: str):
+    import json
+    import pandas as pd
+    from scipy.optimize import minimize_scalar
+
+    data_path = BASE_DIR / "language_packs" / lang / "train.csv"
+    if not data_path.exists():
+        print("  [WARN] train.csv not found — cannot fit int8 temperature.")
+        return None
+
+    print("  fitting int8 temperature (this may take ~10 seconds)...")
+    data = pd.read_csv(data_path, encoding="utf-8-sig", header=0)
+    data.columns = [c.strip().lower() for c in data.columns]
+    data = data.dropna(subset=["text", "intent"])
+
+    # Downsample for speed: max 50 per intent is plenty for a scalar temperature
+    data = data.groupby("intent").head(50)
+    texts = data["text"].astype(str).tolist()
+    intents = data["intent"].astype(str).str.strip().tolist()
+
+    clf = pipe.named_steps.get("clf") or pipe.named_steps.get("classifier")
+    lbl_idx = {lbl: i for i, lbl in enumerate(clf.classes_)}
+    keep = [i for i, c in enumerate(intents) if c in lbl_idx]
+    y_idx = np.array([lbl_idx[intents[i]] for i in keep])
+    texts_keep = [texts[i] for i in keep]
+
+    tfidf = pipe.named_steps.get("tfidf") or pipe.named_steps.get("vectorizer")
+    X = tfidf.transform(texts_keep).toarray().astype(np.float32)
+    logits = _run_tflite(tf, blob, X)
+
+    def _nll(T: float) -> float:
+        z = logits - logits.max(axis=1, keepdims=True)
+        e = np.exp(z / T)
+        p = e / e.sum(axis=1, keepdims=True)
+        p_true = p[np.arange(len(y_idx)), y_idx]
+        return float(-np.log(np.clip(p_true, 1e-12, 1.0)).mean())
+
+    res = minimize_scalar(_nll, bounds=(0.05, 10.0), method="bounded")
+    T_int8 = float(res.x)
+
+    # Update calibration.json in place
+    calib_file = MODELS_DIR / "intent" / lang / "calibration.json"
+    if calib_file.exists():
+        payload = json.loads(calib_file.read_text(encoding="utf-8"))
+        payload["temperature_int8"] = round(T_int8, 6)
+        calib_file.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        print(f"  updated calibration.json with temperature_int8 = {T_int8:.4f}")
+
+    return T_int8
+
+
 def export(lang: str, *, fp32: bool = True, int8: bool = True) -> int:
     tf = _require_tf()
     W, b, n_features, n_classes, pipe = _load_head(lang)
@@ -157,6 +208,7 @@ def export(lang: str, *, fp32: bool = True, int8: bool = True) -> int:
         agree = bool((t8.argmax(1) == ref.argmax(1)).all())
         print(f"int8         : {_rel(dst)}  ({len(blob):,} B)  "
               f"max|Δlogit|={diff:.3f}  argmax==sklearn:{agree}")
+        _fit_int8_temperature(tf, blob, pipe, lang)
 
     return 0
 

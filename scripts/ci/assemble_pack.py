@@ -60,9 +60,13 @@ def assemble(src: Path, version: str, out_dir: Path, *,
              weights: Path | None = None,
              calibration: Path | None = None,
              coreml: Path | None = None,
+             coreml_compiled: Path | None = None,
              coreml_full: Path | None = None,
+             coreml_full_compiled: Path | None = None,
              tflite: Path | None = None,
              tflite_int8: Path | None = None,
+             ios_weights: Path | None = None,
+             ios_weights_full: Path | None = None,
              report: Path | None = None,
              key_id: str | None = None,
              channel: str = "dev") -> int:
@@ -153,6 +157,19 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             "conf_threshold": conf_threshold,
             "method": "temperature_scaling",
         }
+        if "temperature_int8" in fitted:
+            payload["temperature_int8"] = fitted["temperature_int8"]
+
+        if ios_weights is not None and ios_weights.exists():
+            ios_data = json.loads(ios_weights.read_text(encoding="utf-8"))
+            if "temperature" in ios_data:
+                payload["temperature_coreml"] = ios_data["temperature"]
+
+        if ios_weights_full is not None and ios_weights_full.exists():
+            ios_full_data = json.loads(ios_weights_full.read_text(encoding="utf-8"))
+            if "temperature" in ios_full_data:
+                payload["temperature_coreml_full"] = ios_full_data["temperature"]
+
         if "ece_uncalibrated" in fitted:
             payload["ece_raw"] = fitted["ece_uncalibrated"]
         if "ece" in fitted:
@@ -188,20 +205,22 @@ def assemble(src: Path, version: str, out_dir: Path, *,
     # as a sibling reference on the intent entry, never a separate model stage.
     for cml, dst_name, key in (
         (coreml, "IntentClassifier.mlpackage", "coreml_artifact"),
+        (coreml_compiled, "IntentClassifier.mlmodelc", "coreml_compiled_artifact"),
         (coreml_full, "IntentClassifier_full.mlpackage", "coreml_full_artifact"),
+        (coreml_full_compiled, "IntentClassifier_full.mlmodelc", "coreml_full_compiled_artifact"),
     ):
         if cml is None:
             continue
         if not cml.exists():
             return _fail(f"coreml artifact not found: {cml}")
-        cml_dst = staged / "models" / "intent" / lang / dst_name
+        cml_dst = staged / "models" / "intent" / lang / "iOS" / dst_name
         cml_dst.parent.mkdir(parents=True, exist_ok=True)
         if cml_dst.exists():
             shutil.rmtree(cml_dst)
         shutil.copytree(cml, cml_dst)
-        refreshed.append(f"models/intent/{lang}/{dst_name}")
+        refreshed.append(f"models/intent/{lang}/iOS/{dst_name}")
         entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
-        entry[key] = f"models/intent/{lang}/{dst_name}"
+        entry[key] = f"models/intent/{lang}/iOS/{dst_name}"
 
     # TFLite rides in the bundle the same way CoreML does: as a sibling
     # reference on the intent entry (tflite_artifact / tflite_int8_artifact), NOT
@@ -214,11 +233,12 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             continue
         if not tfl.exists():
             return _fail(f"tflite artifact not found: {tfl}")
-        intent_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy(tfl, intent_dir / dest)
-        refreshed.append(f"models/intent/{lang}/{dest}")
+        tfl_dst = intent_dir / "tflite" / dest
+        tfl_dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(tfl, tfl_dst)
+        refreshed.append(f"models/intent/{lang}/tflite/{dest}")
         entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
-        entry[key] = f"models/intent/{lang}/{dest}"
+        entry[key] = f"models/intent/{lang}/tflite/{dest}"
 
     if report is not None:
         if not report.exists():
@@ -288,12 +308,20 @@ def main(argv=None) -> int:
                          "with the model it calibrates")
     ap.add_argument("--coreml", type=Path, default=None,
                     help="pruned-vocab .mlpackage for iOS (small on-device default)")
+    ap.add_argument("--coreml-compiled", type=Path, default=None,
+                    help="pruned-vocab .mlmodelc for iOS (compiled)")
     ap.add_argument("--coreml-full", type=Path, default=None,
                     help="full-vocab .mlpackage (matches ONNX/TFLite; optional, larger)")
+    ap.add_argument("--coreml-full-compiled", type=Path, default=None,
+                    help="full-vocab .mlmodelc (compiled)")
     ap.add_argument("--tflite", type=Path, default=None,
                     help="fp32 model.tflite head (float TF-IDF vector -> logits)")
     ap.add_argument("--tflite-int8", type=Path, default=None,
                     help="dynamic-range int8 model_int8.tflite head (optional)")
+    ap.add_argument("--ios-weights", type=Path, default=None,
+                    help="CoreML specific intent classifier weights JSON containing temperature_coreml")
+    ap.add_argument("--ios-weights-full", type=Path, default=None,
+                    help="CoreML full intent classifier weights JSON containing temperature_coreml_full")
     ap.add_argument("--report", type=Path, default=None, help="report_card.json")
     ap.add_argument("--key-id", default=None,
                     help="signing key id (default: the compiler's dev key)")
@@ -303,8 +331,12 @@ def main(argv=None) -> int:
     return assemble(a.src, a.version, a.out, language=a.language, model=a.model,
                     labels=a.labels, weights=a.weights,
                     calibration=a.calibration, coreml=a.coreml,
+                    coreml_compiled=a.coreml_compiled,
                     coreml_full=a.coreml_full,
+                    coreml_full_compiled=a.coreml_full_compiled,
                     tflite=a.tflite, tflite_int8=a.tflite_int8,
+                    ios_weights=a.ios_weights,
+                    ios_weights_full=a.ios_weights_full,
                     report=a.report, key_id=a.key_id, channel=a.channel)
 
 

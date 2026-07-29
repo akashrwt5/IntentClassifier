@@ -174,8 +174,16 @@
               "description": "Archive-relative path to the Apple CoreML .mlpackage or .mlmodelc (default: top-per-class pruned vocab, small on-device head).",
               "$ref": "defs.schema.json#/$defs/nonEmptyString"
             },
+            "coreml_compiled_artifact": {
+              "description": "Archive-relative path to the Apple CoreML .mlmodelc (compiled pruned vocab head).",
+              "$ref": "defs.schema.json#/$defs/nonEmptyString"
+            },
             "coreml_full_artifact": {
               "description": "Archive-relative path to the FULL-vocab CoreML head (matches the ONNX/TFLite feature space; optional, larger).",
+              "$ref": "defs.schema.json#/$defs/nonEmptyString"
+            },
+            "coreml_full_compiled_artifact": {
+              "description": "Archive-relative path to the FULL-vocab CoreML .mlmodelc (compiled).",
               "$ref": "defs.schema.json#/$defs/nonEmptyString"
             },
             "tflite_artifact": {

@@ -221,13 +221,30 @@ jobs:
         run: python -m nlu_export.export_coreml --skip-minilm
         env:
           PYTHONPATH: packages/buildtime
+      - name: Compile the CoreML models to .mlmodelc
+        run: |
+          LANG_ARG="${{ github.event.inputs.language || 'en' }}"
+          if [ -d "models/intent/$LANG_ARG/IntentClassifier.mlpackage" ]; then
+            xcrun coremlcompiler compile "models/intent/$LANG_ARG/IntentClassifier.mlpackage" "models/intent/$LANG_ARG/"
+          fi
+          if [ -d "models/intent/$LANG_ARG/IntentClassifier_full.mlpackage" ]; then
+            xcrun coremlcompiler compile "models/intent/$LANG_ARG/IntentClassifier_full.mlpackage" "models/intent/$LANG_ARG/"
+          fi
+          if [ -d "models/SemanticHead.mlpackage" ]; then
+            xcrun coremlcompiler compile "models/SemanticHead.mlpackage" "models/"
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: coreml-model
           path: |
+            models/intent/${{ github.event.inputs.language || 'en' }}/intent_classifier_weights.json
+            models/intent/${{ github.event.inputs.language || 'en' }}/intent_classifier_weights_full.json
             models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier.mlpackage
+            models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier.mlmodelc
             models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier_full.mlpackage
+            models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier_full.mlmodelc
             models/SemanticHead.mlpackage
+            models/SemanticHead.mlmodelc
 
   # 3) Assemble the versioned pack and publish the Release.
   release:
@@ -274,11 +291,20 @@ jobs:
           if [ -d "cml/intent/$L/IntentClassifier.mlpackage" ]; then
             cp -r "cml/intent/$L/IntentClassifier.mlpackage" "models/intent/$L/IntentClassifier.mlpackage"
           fi
+          if [ -d "cml/intent/$L/IntentClassifier.mlmodelc" ]; then
+            cp -r "cml/intent/$L/IntentClassifier.mlmodelc" "models/intent/$L/IntentClassifier.mlmodelc"
+          fi
           if [ -d "cml/intent/$L/IntentClassifier_full.mlpackage" ]; then
             cp -r "cml/intent/$L/IntentClassifier_full.mlpackage" "models/intent/$L/IntentClassifier_full.mlpackage"
           fi
+          if [ -d "cml/intent/$L/IntentClassifier_full.mlmodelc" ]; then
+            cp -r "cml/intent/$L/IntentClassifier_full.mlmodelc" "models/intent/$L/IntentClassifier_full.mlmodelc"
+          fi
           if [ -d "cml/SemanticHead.mlpackage" ]; then
             cp -r "cml/SemanticHead.mlpackage" "models/SemanticHead.mlpackage"
+          fi
+          if [ -d "cml/SemanticHead.mlmodelc" ]; then
+            cp -r "cml/SemanticHead.mlmodelc" "models/SemanticHead.mlmodelc"
           fi
           
           python -m nlu_compiler.content_bundle \
@@ -322,8 +348,20 @@ jobs:
           if [ -d "cml/intent/$L/IntentClassifier.mlpackage" ]; then
             ARGS+=(--coreml "cml/intent/$L/IntentClassifier.mlpackage")
           fi
+          if [ -d "cml/intent/$L/IntentClassifier.mlmodelc" ]; then
+            ARGS+=(--coreml-compiled "cml/intent/$L/IntentClassifier.mlmodelc")
+          fi
+          if [ -f "cml/intent/$L/intent_classifier_weights.json" ]; then
+            ARGS+=(--ios-weights "cml/intent/$L/intent_classifier_weights.json")
+          fi
           if [ -d "cml/intent/$L/IntentClassifier_full.mlpackage" ]; then
             ARGS+=(--coreml-full "cml/intent/$L/IntentClassifier_full.mlpackage")
+          fi
+          if [ -f "cml/intent/$L/intent_classifier_weights_full.json" ]; then
+            ARGS+=(--ios-weights-full "cml/intent/$L/intent_classifier_weights_full.json")
+          fi
+          if [ -d "cml/intent/$L/IntentClassifier_full.mlmodelc" ]; then
+            ARGS+=(--coreml-full-compiled "cml/intent/$L/IntentClassifier_full.mlmodelc")
           fi
 
           python scripts/ci/assemble_pack.py "${ARGS[@]}"
