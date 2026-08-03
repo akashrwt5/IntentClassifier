@@ -4,7 +4,7 @@ Defects found during the VoiceIntentKit pack-contract work (2026-08-03). Feature
 and contract *requests* live in the iOS team's `PROMPT_FOR_NLU_COMPILER_TEAM.md`;
 this file is only for things that are **wrong**.
 
-**Summary:** 8 fixed, 12 open.
+**Summary:** 9 fixed, 13 open.
 
 | ID | Area | Sev | Summary | Status |
 |---|---|---|---|---|
@@ -28,6 +28,8 @@ this file is only for things that are **wrong**.
 | BUG-018 | pack | Low | `.DS_Store` shipped inside the pack | Open |
 | BUG-019 | pack | Med | 56% of pack bytes are never read by any mobile client | Open |
 | BUG-020 | pack | Low | `labels.pkl` (Python pickle) shipped to mobile clients | Open |
+| BUG-021 | runtime | Med | Startup integrity check verifies files the engine does not load | Open |
+| BUG-022 | compiler | **High** | Validator rejects `.mlmodelc` internals; release pipeline cannot package | **Fixed** |
 
 ---
 
@@ -138,6 +140,41 @@ list is not duplicated — `confirmation` already has it.
 but self-inflicted. **Fix:** explicit narrowing. Zero MyPy errors remain in the
 rewritten ranges.
 
+### BUG-022 — Validator rejects `.mlmodelc` internals, blocking the release pipeline
+`release-pack.yml` fails at `nlu_compiler.build`:
+
+```
+[stage 1] ERROR UNMAPPED_FILE models/intent/en/iOS/IntentClassifier.mlmodelc/metadata.json
+[stage 1] ERROR UNMAPPED_FILE models/intent/en/iOS/IntentClassifier_full.mlmodelc/metadata.json
+FAIL: nlu_compiler.build failed
+```
+
+`_bundle_files()` walked every `*.json` in the tree except those under a
+`.mlpackage` directory. A `.mlmodelc` contains its own `metadata.json`, which is
+CoreML's format and has no bundle-spec schema — so stage 1 flagged it as an
+unknown file and `build_bundle` refused to package.
+
+Latent since the exclusion was written; surfaced when the pipeline began
+shipping pre-compiled `.mlmodelc` artifacts (ADR-017, "Compile the CoreML models
+to .mlmodelc" in `release-pack.yml`). Before that only `.mlpackage` ever reached
+a pack, so one suffix was enough.
+
+**Fix:** `_OPAQUE_MODEL_DIR_SUFFIXES = (".mlpackage", ".mlmodelc")` — packaged
+and compiled model artifacts are both opaque to the spec walker.
+
+**Verified:** reproduced the exact CI diagnostics by seeding two `.mlmodelc`
+dirs into a built bundle and running the pre-fix exclusion, then confirmed 0
+errors after. `build_bundle` packages 65 files and `integrity/manifest.sha256`
+still covers all four `.mlmodelc` entries, so a compiled model remains signed.
+436 passed, ruff clean, both golden example bundles 0 errors.
+
+**Note for later:** `build.py` canonicalises *every* `.json` it packages,
+including model-internal ones — so CoreML's `metadata.json` and a `.mlpackage`'s
+`Manifest.json` are re-serialised with sorted keys and NFC strings. Semantically
+equivalent, and `.mlpackage` has shipped this way already, but it means the
+bytes in the pack differ from what the compiler emitted. Worth confirming CoreML
+never byte-compares these.
+
 ---
 
 ## Open
@@ -206,6 +243,33 @@ since the signature and `checksums_root` must cover the sliced form.
 
 ### BUG-020 — `labels.pkl` shipped to mobile clients (Low)
 A Python pickle duplicating `labels.json`. No mobile client can read it.
+
+### BUG-021 — Startup integrity check verifies files the engine does not load (Med)
+`verify_manifest()` runs at engine startup (`classifier.py:162`) over
+`manifest.py`'s `TRACKED_FILES`, which lists only the **legacy flat** paths:
+
+```
+models/intent_model.onnx      1,676,051 bytes   2026-07-25
+models/intent/en/model.onnx   1,478,675 bytes   2026-08-03   <- what actually loads
+```
+
+`model_paths.py` resolves pack → `models/intent/<lang>/` → legacy flat, and
+documents the flat tree as a pre-per-language fallback. So the engine loads the
+per-language model while the startup guard hashes a different, ~10-day-older
+one. The check currently *passes* — `train.py` rewrites `models/manifest.json`
+on every run, re-hashing whatever sits at the legacy paths — which is worse than
+failing: it certifies a stale artifact and would stay green if the model the
+engine really loads were corrupted or swapped. That is the exact failure
+`manifest.py`'s own docstring says it exists to catch.
+
+Compounding it, all eight legacy files match `.gitignore` rules
+(`models/*.onnx`, `models/*.pkl`, `models/**/*.npz`) but are tracked from before
+those rules existed, so "regenerated, not committed" is untrue for them.
+
+**Do not fix with `git rm --cached`** — the files would vanish from a fresh
+clone and `verify_manifest()` would raise at startup for everyone. The fix is to
+point `TRACKED_FILES` at the artifacts actually resolved (or drive it from
+`model_paths.py`), then retire the flat tree deliberately.
 
 ---
 

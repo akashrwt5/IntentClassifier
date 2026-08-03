@@ -59,9 +59,17 @@ def _load(bundle: Path, rel: str):
     return json.loads((bundle / rel).read_text(encoding="utf-8"))
 
 
+# Compiled/packaged model artifacts. Their internal JSON (a .mlpackage's
+# Manifest.json, a .mlmodelc's metadata.json) is CoreML's own format, not a
+# bundle-spec document, so it has no schema here and must not be walked.
+# `.mlmodelc` joined this list when the release pipeline began shipping
+# pre-compiled models (ADR-017); before that only `.mlpackage` reached a pack.
+_OPAQUE_MODEL_DIR_SUFFIXES = (".mlpackage", ".mlmodelc")
+
+
 def _bundle_files(bundle: Path) -> list[str]:
     return sorted(p.relative_to(bundle).as_posix() for p in bundle.rglob("*.json")
-                  if not any(part.endswith(".mlpackage") for part in p.parts))
+                  if not any(part.endswith(_OPAQUE_MODEL_DIR_SUFFIXES) for part in p.parts))
 
 
 # --------------------------------------------------------------------------
