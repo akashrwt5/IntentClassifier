@@ -160,15 +160,23 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         if "temperature_int8" in fitted:
             payload["temperature_int8"] = fitted["temperature_int8"]
 
-        if ios_weights is not None and ios_weights.exists():
-            ios_data = json.loads(ios_weights.read_text(encoding="utf-8"))
-            if "temperature" in ios_data:
-                payload["temperature_coreml"] = ios_data["temperature"]
-
-        if ios_weights_full is not None and ios_weights_full.exists():
-            ios_full_data = json.loads(ios_weights_full.read_text(encoding="utf-8"))
-            if "temperature" in ios_full_data:
-                payload["temperature_coreml_full"] = ios_full_data["temperature"]
+        # A device head, its vocabulary and its temperature are ONE triple.
+        # iOS builds the TF-IDF vector in Swift from the weights file, so the
+        # pruned head (~1317 features) and the full head (~4718) each need their
+        # own vocab AND their own fitted T. Reading a temperature out of a file
+        # the pack does not then ship is how they drift apart, so the file
+        # travels with the number it contributed.
+        for src, dest, key in ((ios_weights, "intent_classifier_weights.json", "temperature_coreml"),
+                               (ios_weights_full, "intent_classifier_weights_full.json",
+                                "temperature_coreml_full")):
+            if src is None or not src.exists():
+                continue
+            data = json.loads(src.read_text(encoding="utf-8"))
+            if "temperature" in data:
+                payload[key] = data["temperature"]
+            intent_dir.mkdir(parents=True, exist_ok=True)
+            shutil.copy(src, intent_dir / dest)
+            refreshed.append(f"models/intent/{lang}/{dest}")
 
         if "ece_uncalibrated" in fitted:
             payload["ece_raw"] = fitted["ece_uncalibrated"]

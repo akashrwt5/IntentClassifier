@@ -67,6 +67,19 @@ def _load(bundle: Path, rel: str):
 _OPAQUE_MODEL_DIR_SUFFIXES = (".mlpackage", ".mlmodelc")
 
 
+def _is_device_weights(rel: str) -> bool:
+    """Device TF-IDF weight blobs — vocab, idf and a coefficient matrix.
+
+    Model data, not a bundle-spec document, so they have no schema here. Matched
+    on the STEM: the pruned head ships `intent_classifier_weights.json` and the
+    full-vocabulary head `intent_classifier_weights_full.json`, and a naive
+    substring test on the full filename misses the `_full` variant because the
+    suffix sits before the extension.
+    """
+    name = rel.rsplit("/", 1)[-1]
+    return name.startswith("intent_classifier_weights") and name.endswith(".json")
+
+
 def _bundle_files(bundle: Path) -> list[str]:
     return sorted(p.relative_to(bundle).as_posix() for p in bundle.rglob("*.json")
                   if not any(part.endswith(_OPAQUE_MODEL_DIR_SUFFIXES) for part in p.parts))
@@ -96,7 +109,7 @@ def stage_1_schemas(bundle: Path, fmt: str = "3.0") -> list[Diagnostic]:
         if not (bundle / rel).exists():
             diags.append(Diagnostic(1, "FILE_MISSING", rel, "required bundle file absent"))
     for rel in _bundle_files(bundle):
-        if rel in ("nlu_schema.json", "nlu_entities.json") or "intent_classifier_weights.json" in rel:
+        if rel in ("nlu_schema.json", "nlu_entities.json") or _is_device_weights(rel):
             continue
         matches = [s for pat, s in FILE_SCHEMA_MAP if re.match(pat, rel)]
         if len(matches) != 1:

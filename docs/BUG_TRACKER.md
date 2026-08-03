@@ -4,7 +4,7 @@ Defects found during the VoiceIntentKit pack-contract work (2026-08-03). Feature
 and contract *requests* live in the iOS team's `PROMPT_FOR_NLU_COMPILER_TEAM.md`;
 this file is only for things that are **wrong**.
 
-**Summary:** 9 fixed, 13 open.
+**Summary:** 11 fixed, 13 open.
 
 | ID | Area | Sev | Summary | Status |
 |---|---|---|---|---|
@@ -30,6 +30,8 @@ this file is only for things that are **wrong**.
 | BUG-020 | pack | Low | `labels.pkl` (Python pickle) shipped to mobile clients | Open |
 | BUG-021 | runtime | Med | Startup integrity check verifies files the engine does not load | Open |
 | BUG-022 | compiler | **High** | Validator rejects `.mlmodelc` internals; release pipeline cannot package | **Fixed** |
+| BUG-023 | compiler | Med | Schema exemption misses the `_full` device-weights variant | **Fixed** |
+| BUG-024 | compiler | Med | Pack shipped a temperature read from a file it did not ship | **Fixed** |
 
 ---
 
@@ -174,6 +176,50 @@ including model-internal ones — so CoreML's `metadata.json` and a `.mlpackage`
 equivalent, and `.mlpackage` has shipped this way already, but it means the
 bytes in the pack differ from what the compiler emitted. Worth confirming CoreML
 never byte-compares these.
+
+### BUG-023 — Schema exemption misses the `_full` device-weights variant
+`stage_1_schemas` exempted device weight blobs with:
+
+```python
+if rel in ("nlu_schema.json", "nlu_entities.json") or "intent_classifier_weights.json" in rel:
+```
+
+That substring never matches `intent_classifier_weights_full.json`, because the
+`_full` suffix sits *before* the extension. The moment the full-vocabulary
+weights were added to a pack, stage 1 flagged them `UNMAPPED_FILE` and
+`nlu_compiler.build` refused to package — the same failure shape as BUG-022, and
+the same root cause: a membership test written against the artifacts that
+existed at the time.
+
+Latent until the file first shipped, so it had never run.
+
+**Fix:** `_is_device_weights()` matches on the filename STEM
+(`intent_classifier_weights*` + `.json`), which covers both variants and any
+future one.
+
+**Verified:** validator 0 errors on a pack containing both weight files; 436
+passed; both golden example bundles clean.
+
+### BUG-024 — Pack shipped a temperature read from a file it did not ship
+`assemble_pack.py` opened both `ios_weights` and `ios_weights_full` to lift
+`temperature_coreml` / `temperature_coreml_full` into `calibration.json`, then
+copied neither file into the pack. The vocabulary shipped separately, via
+`compile_models`.
+
+So a pack's device temperature and its device vocabulary came from two
+independent sources with nothing tying them together. They agreed in
+`pack-en-v1.0.28` (both 0.791486), which is why it went unnoticed — but a
+regenerated weights file with a refitted temperature would have produced a pack
+whose T was fitted for a vocabulary it was not shipping. iOS applies
+`softmax(logits / T)` and gates at 0.70, so the failure is a quiet confidence
+shift, not an error.
+
+Underlying principle, now stated in both repos: **a device head, its vocabulary
+and its temperature are one triple** and must be selected together.
+
+**Fix:** each weights file is copied into the pack in the same loop that reads
+its temperature, so the number and the vocabulary it was fitted against cannot
+be separated. `ClassifierVariant` on the Swift side binds the same triple.
 
 ---
 

@@ -557,11 +557,19 @@ def compile_models(lang: str, model_dir: Path, out: Path) -> tuple[int, list[str
     _write(dst / "labels.json", labels)
 
     copied = [f"models/intent/{lang}/labels.json"]
-    for name in ("model.onnx", "labels.pkl", "intent_classifier_weights.json"):
+    # Device weights are optional here because a standalone compile may run
+    # before the iOS export. `_full` carries the full-vocabulary head's
+    # vocabulary + idf: iOS builds the TF-IDF vector in Swift, so the full
+    # CoreML head (~4718 features) is unusable without it — shipping that head
+    # beside only the pruned 1317-entry vocab gives a shape mismatch at the
+    # first inference rather than a readable failure.
+    OPTIONAL = {"intent_classifier_weights.json", "intent_classifier_weights_full.json"}
+    for name in ("model.onnx", "labels.pkl",
+                 "intent_classifier_weights.json", "intent_classifier_weights_full.json"):
         src = model_dir / name
-        if not src.exists() and name == "intent_classifier_weights.json":
-            continue
         if not src.exists():
+            if name in OPTIONAL:
+                continue
             raise SystemExit(f"missing trained artifact: {src}")
         shutil.copy(src, dst / name)
         copied.append(f"models/intent/{lang}/{name}")
