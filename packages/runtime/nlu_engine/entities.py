@@ -96,6 +96,9 @@ class EntityExtractor:
                 self._lookup[name] = table
         if weekdays is not None:
             self._WEEKDAYS = weekdays
+            # Keep the synonym map built by _build_en_dt_tables in step with an
+            # explicit override, which arrives after that call.
+            self._en_weekday_syn = {w.lower(): i for i, w in enumerate(weekdays)}
         if word_nums is not None:
             self._WORD_NUMS = word_nums
         self._fuzzy_stopwords = (frozenset(w.lower() for w in stopwords)
@@ -182,6 +185,31 @@ class EntityExtractor:
         self._am_forms = {w.lower() for w in ap.get("am", [])}
         self._pm_forms = {w.lower() for w in ap.get("pm", [])}
         self._alt_ampm = _alt(list(self._am_forms) + list(self._pm_forms))
+
+        # ---- absolute-date vocabulary (month names, weekday synonyms) ----
+        # These come from the SAME grammar file as everything above. They were
+        # read only by _build_lex_tables, which English never calls (it ships no
+        # lexicon.json), so `june 5` and `the 25th` could not resolve at all on
+        # the English path. When a pack omits the keys both tables are empty and
+        # section 4a never fires — behaviour is exactly what it was before.
+        self._en_month = {syn.lower(): i
+                          for i, name in enumerate(_MONTH_ORDER, 1)
+                          for syn in g.get("months", {}).get(name, [])}
+        self._alt_month = _alt(list(self._en_month)) if self._en_month else ""
+        self._en_ordinal = {syn.lower(): int(k)
+                            for k, syns in g.get("ordinals_1_to_31", {}).items()
+                            for syn in syns}
+        self._alt_ordinal = _alt(list(self._en_ordinal)) if self._en_ordinal else ""
+        # Words that mark an ordinal as a day-of-month rather than a quantity.
+        # Data, not literals: English the/of, French le/du/de, German der/den/am.
+        self._alt_ord_ctx = _alt(g.get("ordinal_context", []))
+        wd = g.get("weekdays") or {}
+        # synonym -> 0..6. Falls back to the canonical class list so an override
+        # passed to __init__ (or a grammar without `weekdays`) still works.
+        self._en_weekday_syn = ({syn.lower(): i
+                                 for i, name in enumerate(_WD_ORDER)
+                                 for syn in wd.get(name, [])}
+                                or {w.lower(): i for i, w in enumerate(self._WEEKDAYS)})
 
         # ---- topic-strip vocabulary (function words; cosmetic only) ----
         strip = g.get("strip", {})
@@ -279,10 +307,23 @@ class EntityExtractor:
         for k, syns in d.get("numbers_0_to_31", {}).items():
             for syn in syns:
                 self._lex_number[syn.lower()] = int(k)
+        self._lex_ordinal = {}                         # synonym -> int
         for k, syns in d.get("ordinals_1_to_31", {}).items():
             for syn in syns:
-                self._lex_number[syn.lower()] = int(k)
-        self._lex_number_phrases = sorted(self._lex_number.items(), key=lambda x: (-len(x[0]), x[0]))
+                self._lex_ordinal[syn.lower()] = int(k)
+        # `_lex_number` keeps both for the adjacent-hour lookup, but the
+        # NORMALISATION pass runs on cardinals only. Ordinals are rewritten
+        # separately and gated on a date context, matching the English path:
+        # rewriting every ordinal unconditionally turns a bare "deuxième" into a
+        # digit that the clock parser then reads as an hour.
+        self._lex_number.update(self._lex_ordinal)
+        self._lex_number_phrases = sorted(
+            ((s, v) for s, v in self._lex_number.items() if s not in self._lex_ordinal),
+            key=lambda x: (-len(x[0]), x[0]))
+        self._lex_ordinal_phrases = sorted(self._lex_ordinal.items(),
+                                           key=lambda x: (-len(x[0]), x[0]))
+        self._lex_ord_ctx = sorted(
+            [w.lower() for w in d.get("ordinal_context", [])], key=len, reverse=True)
         self._lex_period = sorted(                     # (name, hour) longest-first
             [(n.lower(), e["hour"]) for e in d.get("time_of_day", {}).values() for n in e["names"]],
             key=lambda x: (-len(x[0]), x[0]))
@@ -393,6 +434,40 @@ class EntityExtractor:
             t = re.sub(rf"\b{word}\b", str(val), t)
         return t
 
+    @staticmethod
+    def _ord_suffix(n: int) -> str:
+        return "th" if 11 <= n % 100 <= 13 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+
+    def _normalise_word_ordinals(self, t: str) -> str:
+        """Rewrite spelled-out ordinals to digits ("twenty fifth" -> "25th").
+
+        Must run BEFORE `_normalise_word_numbers`, which would otherwise turn the
+        "twenty" into "20" and strand "fifth" — that is why word ordinals never
+        reached the date branch.
+
+        Gated on a date context — an `ordinal_context` marker or an adjacent
+        month — because bare ordinal words are ambiguous: "wait a second" must
+        not become "wait a 2nd". Both the ordinal vocabulary and the context
+        markers come from the grammar, so a pack supplies its own.
+        """
+        if not self._alt_ordinal:
+            return t
+
+        def digits(word: str) -> str:
+            n = self._en_ordinal[word.lower()]
+            return f"{n}{self._ord_suffix(n)}"
+
+        ctx = "|".join(p for p in (self._alt_ord_ctx, self._alt_month) if p)
+        if not ctx:
+            return t
+        # context BEFORE the ordinal: "the twenty fifth", "june twenty fifth"
+        t = re.sub(rf"\b({ctx})\s+({self._alt_ordinal})\b",
+                   lambda m: f"{m.group(1)} {digits(m.group(2))}", t)
+        # context AFTER: "twenty fifth of june"
+        t = re.sub(rf"\b({self._alt_ordinal})\s+({ctx})\b",
+                   lambda m: f"{digits(m.group(1))} {m.group(2)}", t)
+        return t
+
     def _pick_future_hour(self, h: int, minute: int, base_day: datetime,
                           now: datetime, period: str = None) -> datetime:
         """
@@ -449,9 +524,43 @@ class EntityExtractor:
         return _WB_L + re.escape(phrase) + _WB_R
 
     def _lex_normalise_numbers(self, t: str) -> str:
-        """Replace spoken number words with digits (longest phrase first)."""
+        """Replace spoken CARDINAL number words with digits (longest first).
+
+        Ordinals are handled by `_lex_normalise_ordinals`, which runs first and
+        applies a date-context gate — see there for why.
+        """
         for phrase, val in self._lex_number_phrases:
             t = re.sub(self._lex_boundary(phrase), str(val), t)
+        return t
+
+    def _lex_normalise_ordinals(self, t: str) -> str:
+        """Ordinal words -> digits, but only in a date context.
+
+        The mirror of `_normalise_word_ordinals` on the English path. Runs BEFORE
+        the cardinal pass, which would otherwise consume the leading component of
+        a compound ordinal ("vingt-cinquième" -> "20-cinquième").
+
+        The gate is an `ordinal_context` marker or an adjacent month, both from
+        the pack. A pack that ships no `ordinal_context` gets no ordinal
+        rewriting rather than unconditional rewriting — the safe direction, since
+        an ungated ordinal becomes a bare digit the clock parser may claim.
+        """
+        if not self._lex_ordinal_phrases:
+            return t
+        ctx = self._lex_ord_ctx + sorted(self._lex_month, key=len, reverse=True)
+        if not ctx:
+            return t
+        calt = "|".join(re.escape(c) for c in ctx)
+        for phrase, val in self._lex_ordinal_phrases:
+            p = re.escape(phrase)
+            # Trailing dot is the European ordinal marker ("25." = 25th) and is
+            # what lets C3b tell an ordinal day from a cardinal clock hour after
+            # normalisation has erased the word form. C3 already tolerated it.
+            rep = f"{val}."
+            t = re.sub(rf"({_WB_L}(?:{calt}){_WB_R}\s+){p}{_WB_R}",
+                       lambda m: m.group(1) + rep, t)
+            t = re.sub(rf"{_WB_L}{p}(\s+(?:{calt}){_WB_R})",
+                       lambda m: rep + m.group(1), t)
         return t
 
     def _lex_adjacent_hour(self, t: str, start: int, end: int):
@@ -503,6 +612,7 @@ class EntityExtractor:
             if key == "yesterday" and re.search(self._lex_boundary(phrase), t):
                 return None
 
+        t = self._lex_normalise_ordinals(t)
         t = self._lex_normalise_numbers(t)
         base_day = now; explicit_day = False; consumed_anchor = False
 
@@ -533,18 +643,60 @@ class EntityExtractor:
                     explicit_day = True; consumed_anchor = True
                     t = blank(t, m.start(), m.end()); break
 
-        # C3. Date of month "<day>[.] <month>"
+        # C3. Date of month. Day-then-month ("25 décembre", "25. Dezember",
+        # "5 de junio") or month-then-day ("juin 25"), with an optional separator
+        # drawn from `ordinal_context` — the words that mark an ordinal are the
+        # same ones that join a day to its month in the languages we carry.
+        named_month = False
         if not consumed_anchor and self._lex_month:
             malt = "|".join(re.escape(m) for m in sorted(self._lex_month, key=len, reverse=True))
-            m = re.search(rf"{_WB_L}(\d{{1,2}})\.?\s+({malt}){_WB_R}", t)
+            sep = "|".join(re.escape(c) for c in self._lex_ord_ctx)
+            gap = rf"(?:\s+(?:{sep}))?\s+" if sep else r"\s+"
+            day = mon = None
+            m = re.search(rf"{_WB_L}(\d{{1,2}})\.?{gap}({malt}){_WB_R}", t)
             if m:
-                day = int(m.group(1)); mon = self._lex_month[m.group(2).lower()]
-                if 1 <= day <= 31:
-                    cand = now.replace(month=mon, day=day, hour=9, minute=0, second=0, microsecond=0)
+                day, mon = int(m.group(1)), self._lex_month[m.group(2).lower()]
+            else:
+                m = re.search(rf"{_WB_L}({malt}){gap}(\d{{1,2}})\.?{_WB_R}", t)
+                if m:
+                    mon, day = self._lex_month[m.group(1).lower()], int(m.group(2))
+            named_month = m is not None
+            if m is not None and day is not None and mon is not None and 1 <= day <= 31:
+                try:
+                    cand = now.replace(month=mon, day=day, hour=9, minute=0,
+                                       second=0, microsecond=0)
+                except ValueError:
+                    cand = None                      # e.g. "30 février"
+                if cand is not None:
                     if cand.date() < now.date():
                         cand = cand.replace(year=now.year + 1)
                     base_day = cand; explicit_day = True
                     t = blank(t, m.start(), m.end())
+
+        # C3b. Bare day-of-month ("le 25."). Requires the ordinal dot written by
+        # _lex_normalise_ordinals: after normalisation a naked digit is a clock
+        # hour, so "à 14" must never become the 14th. Rolls to next month when
+        # the day has already passed, matching the English path.
+        #
+        # Skipped when C3 already matched a month: if that date was rejected as
+        # impossible ("31 février") the day must NOT be silently re-read against
+        # the current month — the user named a month and we honour it or fail.
+        if not consumed_anchor and not explicit_day and not named_month:
+            m = re.search(rf"{_WB_L}(\d{{1,2}})\.", t)
+            if m:
+                day = int(m.group(1))
+                if 1 <= day <= 31:
+                    try:
+                        cand = now.replace(day=day, hour=9, minute=0,
+                                           second=0, microsecond=0)
+                    except ValueError:
+                        cand = None                  # e.g. "31." in a 30-day month
+                    if cand is not None:
+                        if cand.date() < now.date():
+                            cand = (cand.replace(month=cand.month + 1) if cand.month < 12
+                                    else cand.replace(year=now.year + 1, month=1))
+                        base_day = cand; explicit_day = True
+                        t = blank(t, m.start(), m.end())
 
         # D. Clock time
         hour = minute = None
@@ -687,7 +839,10 @@ class EntityExtractor:
         if any(rex.search(t) for rex in self._yesterday_res):
             return None, None, 0.0, False, False
 
-        # --- 3. Normalise word numbers so "nine pm" -> "9 pm", "nine thirty" -> "9 30" ---
+        # --- 3. Normalise word numbers so "nine pm" -> "9 pm", "nine thirty" -> "9 30".
+        # Ordinals go first: the cardinal pass would eat the "twenty" out of
+        # "twenty fifth" and leave a fragment nothing can match. ---
+        t = self._normalise_word_ordinals(t)
         t = self._normalise_word_numbers(t)
 
         # Re-try the duration grammar on the normalised form. Step 1 requires a
@@ -714,12 +869,57 @@ class EntityExtractor:
                 explicit_day = True
                 break
         else:
-            for i, wd in enumerate(self._WEEKDAYS):
-                if re.search(rf"\b{wd}\b", t):
+            # Longest-first so a full name wins over its abbreviation.
+            for wd, i in sorted(self._en_weekday_syn.items(),
+                                key=lambda kv: (-len(kv[0]), kv[0])):
+                if re.search(rf"\b{re.escape(wd)}\b", t):
                     ahead = (i - now.weekday()) % 7 or 7
                     base_day = now + timedelta(days=ahead)
                     explicit_day = True
                     break
+
+        # --- 4a. Absolute date: "june 5" / "5 june" / "the 25th" ---
+        # Only reached when no anchor or weekday claimed the day. The matched
+        # span is blanked so section 6 cannot re-read the day number as an hour
+        # ("june 5" must not become 05:00).
+        #
+        # Only digit forms are matched here — spelled-out ordinals were already
+        # rewritten to digits by step 3's `_normalise_word_ordinals`, so "the
+        # twenty fifth" arrives as "the 25th" and needs no separate branch.
+        if not explicit_day:
+            _ORD = r"(?:st|nd|rd|th)"
+            m = day = mon = None
+            if self._alt_month:
+                m = re.search(rf"\b({self._alt_month})\s+(?:the\s+)?(\d{{1,2}}){_ORD}?\b", t)
+                if m:
+                    mon, day = self._en_month[m.group(1).lower()], int(m.group(2))
+                else:
+                    m = re.search(
+                        rf"\b(?:the\s+)?(\d{{1,2}}){_ORD}?\s+(?:of\s+)?({self._alt_month})\b", t)
+                    if m:
+                        day, mon = int(m.group(1)), self._en_month[m.group(2).lower()]
+            if m is None:
+                # Bare day-of-month. Requires BOTH "the" and an ordinal suffix —
+                # a naked digit is a clock hour on this path, never a date.
+                m = re.search(rf"\bthe\s+(\d{{1,2}}){_ORD}\b", t)
+                if m:
+                    day = int(m.group(1))
+            if m is not None and day is not None and 1 <= day <= 31:
+                try:
+                    cand = now.replace(month=mon or now.month, day=day,
+                                       hour=9, minute=0, second=0, microsecond=0)
+                except ValueError:
+                    cand = None                      # e.g. "february 30"
+                if cand is not None:
+                    if cand.date() < now.date():
+                        # Past date -> next occurrence: next year if the month was
+                        # named, otherwise next month.
+                        cand = (cand.replace(year=now.year + 1) if mon else
+                                (cand.replace(month=cand.month + 1) if cand.month < 12
+                                 else cand.replace(year=now.year + 1, month=1)))
+                    base_day = cand
+                    explicit_day = True
+                    t = t[:m.start()] + " " * (m.end() - m.start()) + t[m.end():]
 
         # --- 4b. Period hint from context words (matchers from the grammar) ---
         period = None

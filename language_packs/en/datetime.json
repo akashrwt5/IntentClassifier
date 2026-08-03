@@ -1,45 +1,499 @@
 {
   "day_anchors": {
-    "day_after_tomorrow": ["day after tomorrow"],
-    "tomorrow": ["tomorrow"],
-    "today": ["today"],
-    "tonight": ["tonight"],
-    "next_week": ["next week"],
-    "yesterday": ["yesterday"]
+    "day_after_tomorrow": [
+      "day after tomorrow"
+    ],
+    "tomorrow": [
+      "tomorrow"
+    ],
+    "today": [
+      "today"
+    ],
+    "tonight": [
+      "tonight"
+    ],
+    "next_week": [
+      "next week"
+    ],
+    "yesterday": [
+      "yesterday"
+    ]
   },
   "time_of_day": {
-    "morning": {"names": ["morning"], "hour": 8},
-    "afternoon": {"names": ["afternoon"], "hour": 14},
-    "evening": {"names": ["evening"], "hour": 18},
-    "night": {"names": ["night"], "hour": 21},
-    "noon": {"names": ["noon"], "hour": 12},
-    "midnight": {"names": ["midnight"], "hour": 0}
+    "morning": {
+      "names": [
+        "morning"
+      ],
+      "hour": 8
+    },
+    "afternoon": {
+      "names": [
+        "afternoon"
+      ],
+      "hour": 14
+    },
+    "evening": {
+      "names": [
+        "evening"
+      ],
+      "hour": 18
+    },
+    "night": {
+      "names": [
+        "night"
+      ],
+      "hour": 21
+    },
+    "noon": {
+      "names": [
+        "noon"
+      ],
+      "hour": 12
+    },
+    "midnight": {
+      "names": [
+        "midnight"
+      ],
+      "hour": 0
+    }
   },
-  "relative_markers": {"in": ["in"], "for": ["for"], "at": ["at"]},
+  "relative_markers": {
+    "in": [
+      "in"
+    ],
+    "for": [
+      "for"
+    ],
+    "at": [
+      "at"
+    ]
+  },
   "relative_units": {
-    "minute": ["minutes", "minute", "mins", "min"],
-    "hour": ["hours", "hour", "hrs", "hr"],
-    "day": ["days", "day"],
-    "week": ["weeks", "week"]
+    "minute": [
+      "minutes",
+      "minute",
+      "mins",
+      "min"
+    ],
+    "hour": [
+      "hours",
+      "hour",
+      "hrs",
+      "hr"
+    ],
+    "day": [
+      "days",
+      "day"
+    ],
+    "week": [
+      "weeks",
+      "week"
+    ]
   },
-  "articles": ["an", "a"],
+  "articles": [
+    "an",
+    "a"
+  ],
   "quantifiers": {
-    "few": {"phrases": ["a few"], "n": 3},
-    "couple": {"phrases": ["a couple of", "a couple"], "n": 2}
+    "few": {
+      "phrases": [
+        "a few"
+      ],
+      "n": 3
+    },
+    "couple": {
+      "phrases": [
+        "a couple of",
+        "a couple"
+      ],
+      "n": 2
+    }
   },
   "clock_idioms": {
-    "half_past": ["half past"],
-    "quarter_past": ["quarter past"],
-    "quarter_to": ["quarter to"],
-    "past": ["past"],
-    "to": ["to"],
-    "half_an_hour": ["half an hour", "half a hour"]
+    "half_past": [
+      "half past"
+    ],
+    "quarter_past": [
+      "quarter past"
+    ],
+    "quarter_to": [
+      "quarter to"
+    ],
+    "past": [
+      "past"
+    ],
+    "to": [
+      "to"
+    ],
+    "half_an_hour": [
+      "half an hour",
+      "half a hour"
+    ]
   },
-  "am_pm": {"am": ["am", "a m", "a.m"], "pm": ["pm", "p m", "p.m"]},
+  "am_pm": {
+    "am": [
+      "am",
+      "a m",
+      "a.m"
+    ],
+    "pm": [
+      "pm",
+      "p m",
+      "p.m"
+    ]
+  },
   "strip": {
-    "at_by": ["at", "by"],
-    "connectors": ["at", "on", "by", "this", "next"],
-    "recurrence": ["every", "each"],
-    "the": ["the"]
-  }
+    "at_by": [
+      "at",
+      "by"
+    ],
+    "connectors": [
+      "at",
+      "on",
+      "by",
+      "this",
+      "next"
+    ],
+    "recurrence": [
+      "every",
+      "each"
+    ],
+    "the": [
+      "the"
+    ]
+  },
+  "weekdays": {
+    "Monday": [
+      "monday",
+      "mon"
+    ],
+    "Tuesday": [
+      "tuesday",
+      "tue"
+    ],
+    "Wednesday": [
+      "wednesday",
+      "wed"
+    ],
+    "Thursday": [
+      "thursday",
+      "thu"
+    ],
+    "Friday": [
+      "friday",
+      "fri"
+    ],
+    "Saturday": [
+      "saturday",
+      "sat"
+    ],
+    "Sunday": [
+      "sunday",
+      "sun"
+    ]
+  },
+  "months": {
+    "January": [
+      "january",
+      "jan"
+    ],
+    "February": [
+      "february",
+      "feb"
+    ],
+    "March": [
+      "march",
+      "mar"
+    ],
+    "April": [
+      "april",
+      "apr"
+    ],
+    "May": [
+      "may"
+    ],
+    "June": [
+      "june",
+      "jun"
+    ],
+    "July": [
+      "july",
+      "jul"
+    ],
+    "August": [
+      "august",
+      "aug"
+    ],
+    "September": [
+      "september",
+      "sept",
+      "sep"
+    ],
+    "October": [
+      "october",
+      "oct"
+    ],
+    "November": [
+      "november",
+      "nov"
+    ],
+    "December": [
+      "december",
+      "dec"
+    ]
+  },
+  "numbers_0_to_31": {
+    "0": [
+      "zero"
+    ],
+    "1": [
+      "one"
+    ],
+    "2": [
+      "two"
+    ],
+    "3": [
+      "three"
+    ],
+    "4": [
+      "four"
+    ],
+    "5": [
+      "five"
+    ],
+    "6": [
+      "six"
+    ],
+    "7": [
+      "seven"
+    ],
+    "8": [
+      "eight"
+    ],
+    "9": [
+      "nine"
+    ],
+    "10": [
+      "ten"
+    ],
+    "11": [
+      "eleven"
+    ],
+    "12": [
+      "twelve"
+    ],
+    "13": [
+      "thirteen"
+    ],
+    "14": [
+      "fourteen"
+    ],
+    "15": [
+      "fifteen"
+    ],
+    "16": [
+      "sixteen"
+    ],
+    "17": [
+      "seventeen"
+    ],
+    "18": [
+      "eighteen"
+    ],
+    "19": [
+      "nineteen"
+    ],
+    "20": [
+      "twenty"
+    ],
+    "21": [
+      "twenty one",
+      "twenty-one"
+    ],
+    "22": [
+      "twenty two",
+      "twenty-two"
+    ],
+    "23": [
+      "twenty three",
+      "twenty-three"
+    ],
+    "24": [
+      "twenty four",
+      "twenty-four"
+    ],
+    "25": [
+      "twenty five",
+      "twenty-five"
+    ],
+    "26": [
+      "twenty six",
+      "twenty-six"
+    ],
+    "27": [
+      "twenty seven",
+      "twenty-seven"
+    ],
+    "28": [
+      "twenty eight",
+      "twenty-eight"
+    ],
+    "29": [
+      "twenty nine",
+      "twenty-nine"
+    ],
+    "30": [
+      "thirty"
+    ],
+    "31": [
+      "thirty one",
+      "thirty-one"
+    ]
+  },
+  "ordinals_1_to_31": {
+    "1": [
+      "first",
+      "1st"
+    ],
+    "2": [
+      "second",
+      "2nd"
+    ],
+    "3": [
+      "third",
+      "3rd"
+    ],
+    "4": [
+      "fourth",
+      "4th"
+    ],
+    "5": [
+      "fifth",
+      "5th"
+    ],
+    "6": [
+      "sixth",
+      "6th"
+    ],
+    "7": [
+      "seventh",
+      "7th"
+    ],
+    "8": [
+      "eighth",
+      "8th"
+    ],
+    "9": [
+      "ninth",
+      "9th"
+    ],
+    "10": [
+      "tenth",
+      "10th"
+    ],
+    "11": [
+      "eleventh",
+      "11th"
+    ],
+    "12": [
+      "twelfth",
+      "12th"
+    ],
+    "13": [
+      "thirteenth",
+      "13th"
+    ],
+    "14": [
+      "fourteenth",
+      "14th"
+    ],
+    "15": [
+      "fifteenth",
+      "15th"
+    ],
+    "16": [
+      "sixteenth",
+      "16th"
+    ],
+    "17": [
+      "seventeenth",
+      "17th"
+    ],
+    "18": [
+      "eighteenth",
+      "18th"
+    ],
+    "19": [
+      "nineteenth",
+      "19th"
+    ],
+    "20": [
+      "twentieth",
+      "20th"
+    ],
+    "21": [
+      "twenty first",
+      "21st",
+      "twenty-first"
+    ],
+    "22": [
+      "twenty second",
+      "22nd",
+      "twenty-second"
+    ],
+    "23": [
+      "twenty third",
+      "23rd",
+      "twenty-third"
+    ],
+    "24": [
+      "twenty fourth",
+      "24th",
+      "twenty-fourth"
+    ],
+    "25": [
+      "twenty fifth",
+      "25th",
+      "twenty-fifth"
+    ],
+    "26": [
+      "twenty sixth",
+      "26th",
+      "twenty-sixth"
+    ],
+    "27": [
+      "twenty seventh",
+      "27th",
+      "twenty-seventh"
+    ],
+    "28": [
+      "twenty eighth",
+      "28th",
+      "twenty-eighth"
+    ],
+    "29": [
+      "twenty ninth",
+      "29th",
+      "twenty-ninth"
+    ],
+    "30": [
+      "thirtieth",
+      "30th"
+    ],
+    "31": [
+      "thirty first",
+      "31st",
+      "thirty-first"
+    ]
+  },
+  "clock_hour_markers": [],
+  "grammar": {
+    "time_format": "12h",
+    "conjunction": null,
+    "decimal_hour_idioms": []
+  },
+  "ordinal_context": [
+    "the",
+    "of"
+  ]
 }
