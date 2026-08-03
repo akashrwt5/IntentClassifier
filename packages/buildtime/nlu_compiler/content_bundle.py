@@ -28,6 +28,10 @@ Derived from content (the compiler's actual work):
                                            one is "never hand-authored")
     runtime/cascade.json                <- stage wiring; tfidf output dim is the
                                            real label count
+    runtime/guards.json                 <- pre-dispatch intent guards (the help
+                                           marker redirect + polarity guards),
+                                           previously reachable ONLY through the
+                                           root nlu_schema.json shim
     models/intent/en/*                  <- trained artifacts + fitted calibration
     meta/*                              <- report card, git/dataset lineage
     bundle.json                         <- the manifest tying it together
@@ -380,15 +384,26 @@ def compile_policies(schema: dict, out: Path) -> None:
     gated = set(uc.get("intents", []))
     confirmation = {i: ("when_ambiguous" if i in gated else "never")
                     for i in sorted(schema["intents"])}
+
+    thresholds = {
+        "confidence": schema["confidence_threshold"],
+        "interrupt": schema["interrupt_threshold"],
+        "semantic": schema["semantic_threshold"],
+    }
+    # `when_ambiguous` above names WHICH intents the gate covers; these two say
+    # WHEN it fires. Without them a runtime knows the gated set but not the band,
+    # so it either confirms always or never — both wrong. The intent list is not
+    # duplicated here: `confirmation` already carries it.
+    if "below_confidence" in uc:
+        thresholds["uncertain_confirm_below"] = uc["below_confidence"]
+    if "confirm_floor" in uc:
+        thresholds["uncertain_confirm_floor"] = uc["confirm_floor"]
+
     _write(out / "runtime" / "policies.json", {
         "policy_schema": 1,
         "policy_content": 1,
         "confirmation": confirmation,
-        "thresholds": {
-            "confidence": schema["confidence_threshold"],
-            "interrupt": schema["interrupt_threshold"],
-            "semantic": schema["semantic_threshold"],
-        },
+        "thresholds": thresholds,
         "limits": {"max_slot_attempts": 3, "session_timeout_s": 120},
     })
 
@@ -412,6 +427,88 @@ def compile_cascade(schema: dict, n_labels: int, out: Path) -> None:
         {"id": "semantic",
          "enabled": bool(schema.get("semantic_rescue_enabled", False))},
     ]})
+
+
+def compile_confirm_responses(lang: str, schema: dict, out: Path) -> None:
+    """Append the confirm-gate's own user-facing strings to the `sys` catalog.
+
+    `uncertain_confirm.cancel_message` is text a user hears ("Okay, I won't.").
+    It was sitting in a policy table, which means it could never be localised —
+    a French pack would have shipped an English cancellation. Responses are the
+    only per-language surface in the format, so it belongs here.
+    """
+    uc = schema.get("uncertain_confirm") or {}
+    msg = uc.get("cancel_message")
+    if not msg:
+        return
+    path = out / "capabilities" / "sys" / "responses" / f"{lang}.json"
+    if not path.exists():
+        return
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["sys.confirm.cancelled"] = msg
+    _write(path, {k: data[k] for k in sorted(data)})
+
+
+def compile_guards(schema: dict, out: Path) -> list[str]:
+    """Pre-dispatch intent guards — corrections applied before the dispatcher.
+
+    These were the last content keys with no home in 3.0: a runtime binding only
+    the normalized surface silently lost them, because they lived exclusively in
+    the root `nlu_schema.json` shim that v3 consumers do not read.
+
+    They are NOT tuning knobs. Without `help_marker`, every intent in `pairs`
+    fires on the question *about* it — "how do i turn up the volume" changes the
+    volume. That is a wrong action, which is the metric this pack is gated on.
+
+    Kept out of `runtime/routing.json` deliberately: routing decides what to do
+    when confidence is LOW, whereas a guard fires regardless of confidence. They
+    are different mechanisms and merging them would make both harder to reason
+    about.
+
+    Returns coverage gaps (non-conformant patterns), consistent with the other
+    compile_* functions — a pattern outside the portable subset is reported and
+    omitted, never shipped, because Swift and Kotlin may read it differently.
+    """
+    from .portable_regex import check_pattern
+
+    gaps: list[str] = []
+    guards: dict = {}
+    known = set(schema["intents"])
+
+    hm = schema.get("help_marker_guard") or {}
+    markers, pairs = hm.get("markers"), hm.get("pairs") or {}
+    if markers and pairs:
+        problems = check_pattern(markers)
+        if problems:
+            gaps.append(f"help_marker_guard.markers: {'; '.join(problems)}")
+        else:
+            # A redirect to an intent the pack does not contain would route a
+            # real utterance into a void. Fail the build rather than ship it.
+            bad = sorted({i for pair in pairs.items() for i in pair} - known)
+            if bad:
+                raise ValueError(
+                    f"help_marker_guard references {len(bad)} intent(s) absent "
+                    f"from nlu_schema.json: {bad[:6]}")
+            guards["help_marker"] = {
+                "markers": markers,
+                "pairs": {k: pairs[k] for k in sorted(pairs)},
+            }
+
+    # `polarity_guards` is empty in every pack authored so far. Emit the key
+    # anyway: a runtime can then bind the section once, and populating it later
+    # becomes content, not a format change.
+    polarity = []
+    for g in schema.get("polarity_guards") or []:
+        problems = check_pattern(g.get("pattern", ""))
+        if problems:
+            gaps.append(f"polarity_guards[{g.get('intent')}]: {'; '.join(problems)}")
+            continue
+        polarity.append({k: v for k, v in sorted(g.items())
+                         if k in ("intent", "pattern", "redirect")})
+    guards["polarity"] = polarity
+
+    _write(out / "runtime" / "guards.json", guards)
+    return gaps
 
 
 def carry_templates(schema: dict, out: Path) -> list[str]:
@@ -628,6 +725,8 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
 
     gaps = compile_keywords(lang, schema, out)
     gaps += compile_lexicon(lang, schema, out)
+    gaps += compile_guards(schema, out)
+    compile_confirm_responses(lang, schema, out)
     compile_policies(schema, out)
     compile_plan_facts(intent_capability, out)
     n_labels, copied, intent_coreml, semhead_coreml = compile_models(lang, model_dir, out)

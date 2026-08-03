@@ -37,6 +37,7 @@ FILE_SCHEMA_MAP = [
     (r"^runtime/cascade\.json$", "cascade.schema.json"),
     (r"^runtime/policies\.json$", "policies.schema.json"),
     (r"^runtime/routing\.json$", "routing.schema.json"),
+    (r"^runtime/guards\.json$", "guards.schema.json"),
     (r"^runtime/plan_facts\.json$", "plan_facts.schema.json"),
     (r"^capabilities/[^/]+/capability\.json$", "capability.schema.json"),
     (r"^capabilities/[^/]+/workflows\.json$", "workflows.schema.json"),

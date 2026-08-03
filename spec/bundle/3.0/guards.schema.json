@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/guards.schema.json",
+  "title": "runtime/guards.json — pre-dispatch intent guards (ADR-005 Part 2)",
+  "description": "Deterministic corrections applied to a classified intent BEFORE the action dispatcher sees it. These are not tuning knobs: without them a help-phrased utterance fires the command it asks about. Distinct from runtime/routing.json, which decides what to do when confidence is LOW; a guard fires regardless of confidence. Additive section — a runtime that does not find this file loses the corrections but still loads the pack.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "help_marker": {
+      "description": "Redirects a command intent to its help counterpart when the utterance is phrased as a question. 'how do i turn up the volume' must show help, not change the volume.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["markers", "pairs"],
+      "properties": {
+        "markers": {
+          "description": "Portable-subset regex (spec/bundle/portable-regex.md, compiler stage 10) matched against the normalized utterance. A match arms the redirect.",
+          "$ref": "defs.schema.json#/$defs/nonEmptyString"
+        },
+        "pairs": {
+          "description": "classified intent id -> help intent id to substitute. Both sides must exist in the pack's intent set (compiler-enforced).",
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+            }
+          }
+        }
+      }
+    },
+    "polarity": {
+      "description": "Contradiction guards: utterances whose surface intent is negated by a polarity cue ('don't turn it up'). Empty until authored; the section exists so a runtime can bind it without a format change.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["intent", "pattern"],
+        "properties": {
+          "intent": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+          },
+          "pattern": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+          "redirect": {
+            "description": "Intent to substitute. Omitted means suppress to the out-of-scope fallback.",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+          }
+        }
+      }
+    }
+  }
+}
