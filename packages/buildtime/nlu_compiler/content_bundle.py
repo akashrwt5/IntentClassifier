@@ -477,6 +477,20 @@ def compile_plan_facts(intent_capability: dict, out: Path) -> None:
     })
 
 
+def compile_legacy_labels(out: Path) -> None:
+    """Ship the app-compatibility label map (modern -> legacy Dialogflow) so
+    native clients (iOS/Android) can translate at their OWN output boundary —
+    one JSON contract instead of a per-platform adapter. Copied verbatim from
+    the canonical source, which the reference Python engine
+    (nlu_engine/label_compat.py) reads too, so both sides never drift. Optional
+    artifact: if absent, clients simply get modern labels. Validated against
+    spec/bundle/3.0/legacy_labels.schema.json (stage 1)."""
+    src = REPO / "packages" / "runtime" / "nlu_engine" / "legacy_label_map.json"
+    if src.exists():
+        _write(out / "runtime" / "legacy_labels.json",
+               json.loads(src.read_text(encoding="utf-8")))
+
+
 def compile_cascade(schema: dict, n_labels: int, out: Path) -> None:
     """Stage wiring. `output.dim` is the real label count — stage 8 probes the
     model via ORT and compares, so a stale number fails the build."""
@@ -798,6 +812,7 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
     compile_confirm_responses(lang, schema, out)
     compile_policies(schema, out)
     compile_plan_facts(intent_capability, out)
+    compile_legacy_labels(out)
     n_labels, copied, intent_coreml, semhead_coreml = compile_models(lang, model_dir, out)
     compile_cascade(schema, n_labels, out)
     carried = carry_templates(schema, out)

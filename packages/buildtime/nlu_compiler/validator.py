@@ -39,6 +39,7 @@ FILE_SCHEMA_MAP = [
     (r"^runtime/routing\.json$", "routing.schema.json"),
     (r"^runtime/guards\.json$", "guards.schema.json"),
     (r"^runtime/plan_facts\.json$", "plan_facts.schema.json"),
+    (r"^runtime/legacy_labels\.json$", "legacy_labels.schema.json"),
     (r"^capabilities/[^/]+/capability\.json$", "capability.schema.json"),
     (r"^capabilities/[^/]+/workflows\.json$", "workflows.schema.json"),
     (r"^capabilities/[^/]+/entities\.json$", "entities.schema.json"),

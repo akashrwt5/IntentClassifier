@@ -28,6 +28,7 @@ from .classifier import IntentClassifier
 from .entities import EntityExtractor
 from .context import SessionStore
 from .model_paths import resolve_model_set
+from . import label_compat
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 # Paths are dynamic based on language pack
@@ -565,7 +566,8 @@ class NLUEngine:
             result = self._handle_uncertain_confirmation(session, text, now)
             self._log_decision(session_id, text, result, "uncertain_confirm",
                                (time.perf_counter() - t0) * 1000.0)
-            return result
+            # Telemetry above logs modern labels; app boundary gets legacy names.
+            return label_compat.apply(result)
 
         confirm = self._active_confirmation(session)
         if confirm:
@@ -584,7 +586,8 @@ class NLUEngine:
 
         self._log_decision(session_id, text, result, entry_stage,
                            (time.perf_counter() - t0) * 1000.0)
-        return result
+        # Telemetry above logs modern labels; app boundary gets legacy names.
+        return label_compat.apply(result)
 
     def _log_decision(self, session_id, text, result, entry_stage, latency_ms):
         """Emit one structured telemetry record per turn (no raw text by default)."""
@@ -636,9 +639,12 @@ class NLUEngine:
                              message=fu["prompt"], confidence=1.0)
         session.clear_context(fu["context"])
         branch = fu["yes"] if polarity else fu["no"]
-        return NLUResult(type="FULFILL", intent=intent_name,
-                         action=branch["action"], message=branch.get("fulfillment", ""),
-                         confidence=1.0, complete=True)
+        result = NLUResult(type="FULFILL", intent=intent_name,
+                           action=branch["action"], message=branch.get("fulfillment", ""),
+                           confidence=1.0, complete=True)
+        result._confirm_polarity = "yes" if polarity else "no"
+        result._confirmed_intent = intent_name
+        return result
 
     _UNCERTAIN = ("not sure", "maybe", "dunno", "don't know", "dont know",
                   "i don't know", "no idea", "unsure")
@@ -959,12 +965,20 @@ class NLUEngine:
                                message=pending.get("fulfillment", ""),
                                confidence=1.0, complete=True)
             session.record_fulfillment(pending["intent"], params)
+            # Confirmation-outcome tags (internal, not serialized): let the app
+            # boundary reconstruct legacy compound labels (Cmd.SendMessage - yes)
+            # without the classifier ever owning a dialogue-act label.
+            result._confirm_polarity = "yes"
+            result._confirmed_intent = pending["intent"]
             return result
         if polarity is False:
             session.pending_confirm = None
-            return NLUResult(type="FULFILL", intent="sys.confirm.cancelled",
-                             action=None, message=self._confirm_cancel_msg,
-                             confidence=1.0, complete=True)
+            result = NLUResult(type="FULFILL", intent="sys.confirm.cancelled",
+                               action=None, message=self._confirm_cancel_msg,
+                               confidence=1.0, complete=True)
+            result._confirm_polarity = "no"
+            result._confirmed_intent = pending["intent"]
+            return result
         # Unclear reply: the user likely said something else entirely — drop
         # the held action (never fire on ambiguity) and process this turn fresh.
         session.pending_confirm = None

@@ -1,0 +1,14 @@
+session,turn,text,expected_type,expected_intent
+single-0,1,increase volume,CONFIRM,Cmd.VolumeIncrease
+single-1,1,turn up the volume,CONFIRM,Cmd.VolumeIncrease
+single-2,1,decrease volume,CONFIRM,Cmd.VolumeDecrease
+single-3,1,mute,FULFILL,Cmd.VolumeMute
+single-4,1,unmute the volume,CONFIRM,Cmd.VolumeUnmute
+single-5,1,what's my battery level,FULFILL,Cmd.BatteryLevel
+single-6,1,find my phone,FULFILL,Cmd.FindMyPhone
+single-7,1,how do i change my memories,FALLBACK,GENAI
+single-8,1,start streaming,FULFILL,Cmd.StreamingStart
+send-yes,1,send a message,CONFIRM,Cmd.SendMessage
+send-yes,2,yes,FULFILL,Cmd.SendMessage - yes
+send-no,1,send a message,CONFIRM,Cmd.SendMessage
+send-no,2,no,FULFILL,Cmd.SendMessage - no
