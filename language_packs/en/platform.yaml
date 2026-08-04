@@ -125,7 +125,18 @@ lexicon:
   - ^\s*please\s+
   - ^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*
   - ^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*
-  - ^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about|for\s+(?!\d))?\s*
+  # `for` is deliberately NOT stripped here. It used to be, guarded by
+  # `for\s+(?!\d)` so "set a reminder for 5pm" kept its time — but negative
+  # lookahead is outside the portable-regex subset, so the compiler dropped this
+  # whole carrier from every bundle and only the Python engine kept it. Any
+  # pack-driven runtime therefore stored "set a reminder to go to the airport"
+  # as the reminder's own name.
+  #
+  # Dropping the `for` branch is equivalent: a leading "for" left behind is
+  # removed by `leading_connectors` one step later. Verified identical on 11/11
+  # reminder utterances, and strictly better on two of them — "set a reminder
+  # for 5pm" produced a reminder literally named "for" before.
+  - ^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about)?\s*
   - ^\s*make\s+sure\s+(?:i|to)\b\s*
   - ^\s*i\s+(?:need|have|want)\s+to\b\s*
   leading_connectors:

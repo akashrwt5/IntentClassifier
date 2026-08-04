@@ -38,6 +38,11 @@
               "$ref": "defs.schema.json#/$defs/portableRegex"
             },
             "fuzzy": { "type": "boolean", "default": false },
+            "open": {
+              "description": "type=list: the value list is a hint, not a closed set — a free-text answer is acceptable and the runtime may derive one from the utterance. Absent/false means only listed values (or a fuzzy match to one) may fill the slot.",
+              "type": "boolean",
+              "default": false
+            },
             "dynamic_source": {
               "description": "type=dynamic: which capability-context snapshot supplies values at runtime (ADR-002 A5).",
               "$ref": "defs.schema.json#/$defs/stableId"

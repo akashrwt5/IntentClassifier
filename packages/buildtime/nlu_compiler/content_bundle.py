@@ -252,6 +252,25 @@ def compile_capabilities(lang: str, out: Path) -> tuple[dict, dict, dict]:
 # entities / keywords / lexicons
 # --------------------------------------------------------------------------- #
 
+# Which builtin resolver a `sys.*` entity needs.
+#
+# `runtime.builtin` alone said only "the runtime resolves this", not WHAT to
+# resolve it as, so `sys.date_time` and `sys.number_integer` were byte-identical
+# in the bundle. A consumer could only tell them apart by the entity id, which
+# means ids carried meaning the format says they do not have — rename one and a
+# device stops filling date slots with nothing to see. Qualifying the source
+# makes ids free to change and makes an unrecognised builtin something a runtime
+# can refuse at load instead of discovering as a slot that never fills.
+#
+# `stableId` already permits dotted segments, so this needs no schema change.
+# Keys are content-tree entity names (pre-`entity_id`, so hyphenated).
+_BUILTIN_SOURCES = {
+    "sys.date-time": "runtime.builtin.datetime",
+    "sys.number-integer": "runtime.builtin.integer",
+}
+_BUILTIN_FALLBACK = "runtime.builtin"
+
+
 def compile_entities(lang: str, out: Path) -> None:
     src = json.loads((REPO / "language_packs" / lang / "nlu_entities.json").read_text(encoding="utf-8"))
     entities: dict[str, dict] = {}
@@ -264,6 +283,14 @@ def compile_entities(lang: str, out: Path) -> None:
             entities[eid] = {
                 "type": "list",
                 "fuzzy": bool(spec.get("fuzzy")),
+                # `open` = the value list is a hint, not a closed set, so a
+                # free-text answer is acceptable. The engine reads it directly
+                # (`EntityExtractor.is_open`), and dropping it here made every
+                # entity look closed: `remind` could then only be filled with one
+                # of its six canned values, so "remind me to call the plumber"
+                # could not fill its own name slot. The failure is a re-prompt,
+                # not an error, which is why it survived this long.
+                "open": bool(spec.get("open")),
                 "values": {canon: {lang: list(syns)}
                            for canon, syns in (spec.get("values") or {}).items()
                            if syns},
@@ -273,7 +300,16 @@ def compile_entities(lang: str, out: Path) -> None:
         else:
             # sys.* builtins carry no values in content; declare them dynamic so
             # the runtime knows to resolve them itself rather than by lookup.
-            entities[eid] = {"type": "dynamic", "dynamic_source": "runtime.builtin"}
+            source = _BUILTIN_SOURCES.get(name)
+            if source is None:
+                # Not fatal: an unknown builtin is still legitimately dynamic,
+                # and failing the build would block content that a newer runtime
+                # may well handle. But say so — the unqualified form is what a
+                # consumer cannot act on.
+                print(f"  warning: no builtin source mapped for entity '{name}'; "
+                      f"emitting '{_BUILTIN_FALLBACK}', which consumers cannot dispatch on")
+                source = _BUILTIN_FALLBACK
+            entities[eid] = {"type": "dynamic", "dynamic_source": source}
     _write(out / "entities" / "shared" / "content.json", {"entities": entities})
 
 
@@ -326,12 +362,37 @@ def compile_lexicon(lang: str, schema: dict, out: Path) -> list[str]:
     lexicon = schema.get("lexicon") or {}
     gaps: list[str] = []
     carriers = []
+    unportable: list[str] = []
     for pat in lexicon.get("carriers", []):
         errs = check_pattern(pat)
         if errs:
-            gaps.append(f"lexicon carrier omitted (not portable: {errs}): {pat}")
+            unportable.append(f"{pat}\n      ({'; '.join(errs)})")
         else:
             carriers.append(pat)
+
+    # A dropped carrier is a BUILD FAILURE, not a coverage gap.
+    #
+    # It used to be appended to `gaps`, which surfaces as one line in the build
+    # summary and a field in the report card. That is the right treatment for
+    # something the format genuinely cannot express — but a carrier is not
+    # metadata. Dropping one changes what the runtime extracts, and the engine's
+    # own `_DEFAULT_CARRIERS` still had the pattern, so the bundle and the
+    # reference silently diverged on ordinary input.
+    #
+    # That is exactly how VIK-022 survived: `set a reminder to ...` used
+    # `for\s+(?!\d)`, lookahead is forbidden, the carrier vanished from every
+    # bundle ever built, and the only trace was a line in a log nobody reads
+    # downstream. Failing here costs a content author one edit; not failing costs
+    # a user a reminder named after their own sentence.
+    if unportable:
+        raise SystemExit(
+            f"error: {len(unportable)} lexicon carrier(s) are outside the portable "
+            f"regex subset and cannot be shipped in a bundle.\n"
+            + "".join(f"    - {p}\n" for p in unportable)
+            + "  Rewrite them within the subset (spec/bundle/portable-regex.md).\n"
+            "  Do NOT leave the pattern in the engine's _DEFAULT_ tables only — that\n"
+            "  is what makes the reference and the bundle disagree."
+        )
 
     lex = {
         "lang": lang,

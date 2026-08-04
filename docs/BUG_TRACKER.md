@@ -4,7 +4,7 @@ Defects found during the VoiceIntentKit pack-contract work (2026-08-03). Feature
 and contract *requests* live in the iOS team's `PROMPT_FOR_NLU_COMPILER_TEAM.md`;
 this file is only for things that are **wrong**.
 
-**Summary:** 11 fixed, 13 open.
+**Summary:** 14 fixed, 13 open.
 
 | ID | Area | Sev | Summary | Status |
 |---|---|---|---|---|
@@ -32,6 +32,9 @@ this file is only for things that are **wrong**.
 | BUG-022 | compiler | **High** | Validator rejects `.mlmodelc` internals; release pipeline cannot package | **Fixed** |
 | BUG-023 | compiler | Med | Schema exemption misses the `_full` device-weights variant | **Fixed** |
 | BUG-024 | compiler | Med | Pack shipped a temperature read from a file it did not ship | **Fixed** |
+| BUG-025 | compiler | **High** | `open` entity flag dropped by the v3 projection | **Fixed** |
+| BUG-026 | compiler | Med | `dynamic_source` does not say which builtin an entity is | **Fixed** |
+| BUG-027 | compiler | **High** | Non-portable carrier silently dropped from every bundle | **Fixed** |
 
 ---
 
@@ -220,6 +223,72 @@ and its temperature are one triple** and must be selected together.
 **Fix:** each weights file is copied into the pack in the same loop that reads
 its temperature, so the number and the vocabulary it was fitted against cannot
 be separated. `ClassifierVariant` on the Swift side binds the same triple.
+
+### BUG-025 — `open` entity flag dropped by the v3 projection
+`language_packs/*/nlu_entities.json` marks `remind` as `"open": true` — its value
+list is a hint, not a closed set, so a free-text answer is acceptable.
+`compile_entities` read `type` and `fuzzy` and nothing else, and
+`entities.schema.json` declares `additionalProperties: false` with no `open`
+property, so the field was unexpressible even if emitted.
+
+`EntityExtractor.is_open` has always read this flag, so any consumer bound to
+the v3 surface saw every entity as closed. The symptom is a slot that will not
+fill from free text — "remind me to call the plumber" cannot supply its own
+name — and it presents as a re-prompt, never an error.
+
+**Fix:** `open` added to the schema; `compile_entities` emits
+`bool(spec.get("open"))` alongside `fuzzy`. Verified: emitted entities validate
+against the registry, `remind.open == true`, unknown keys still rejected.
+
+### BUG-026 — `dynamic_source` does not identify the builtin
+`sys.date_time` and `sys.number_integer` both emitted
+`"dynamic_source": "runtime.builtin"`, which states that the runtime resolves
+the entity but not what to resolve it as. A date parser and an integer parser
+are not interchangeable, so the only discriminator left was the entity id —
+meaning ids carried semantics the format says they do not have, and renaming one
+would break date slots on device with no error anywhere.
+
+**Fix:** `runtime.builtin.datetime` / `runtime.builtin.integer`, from a table
+keyed by content-tree entity name, with a warning (not an error) for an unmapped
+builtin. No schema change — `stableId` already permits dotted segments.
+
+**Still open:** the vocabulary of builtin sources is not published, so a consumer
+cannot decide whether an unknown one should be a refusal or a degraded load.
+Same question as `required_runtime_features` (iOS ask B5).
+
+### BUG-027 — Non-portable carrier silently dropped from every bundle
+`compile_lexicon` runs each carrier through `portable_regex.check_pattern` and
+appends failures to `gaps`, which surfaces as one line in the build summary.
+
+`^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about|for\s+(?!\d))?\s*`
+contains a negative lookahead, which the subset forbids. So it has been dropped
+from **every bundle ever built**, while `engine.py::_DEFAULT_CARRIERS` kept it.
+The engine and the bundles have been resolving the same utterance differently
+since format 3.0 shipped: the engine derives the topic "go to the airport" from
+"set a reminder to go to the airport", and a bundle-driven runtime stores the
+entire sentence as the reminder's name.
+
+This is a divergence between our two release trains. It was reported by the iOS
+client, but it is not an iOS defect.
+
+**Fix, in three parts:**
+
+1. The `for` branch is removed rather than the guard rewritten — a leading "for"
+   is stripped by `leading_connectors` one step later, so it was redundant.
+   Verified identical on 10/11 reminder utterances and better on the other two:
+   "set a reminder for 5pm" previously produced a reminder literally named
+   "for".
+2. That last case was `_build_leading_connector` anchoring on `^(?:...)\s+`,
+   which cannot match a connector with nothing after it. Now `(?:\s+|$)`.
+3. Changed in `platform.yaml`, `nlu_schema.json` and `_DEFAULT_CARRIERS`
+   together, so content and reference cannot drift again — asserted by
+   `_DEFAULT_CARRIERS == lexicon.carriers`.
+
+**And the guard that hid it:** a non-portable carrier is now a build failure.
+A carrier changes what the runtime extracts; it is not metadata, and demoting it
+to a log line is why this survived. Push back if a warning is preferred, but
+then it has to reach whoever consumes the bundle, not just whoever runs the
+build.
 
 ---
 

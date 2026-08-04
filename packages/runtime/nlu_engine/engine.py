@@ -54,7 +54,19 @@ _DEFAULT_CARRIERS = [
     r"^\s*please\s+",
     r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*",
     r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*",
-    r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about|for\s+(?!\d))?\s*",
+    # No `for` branch, and no negative lookahead. The previous form guarded it
+    # with `for\s+(?!\d)`; lookahead is outside the portable-regex subset
+    # (spec/bundle/portable-regex.md), so `compile_lexicon` silently dropped this
+    # entire carrier from every bundle it built. The engine kept it, which meant
+    # this table and the bundles disagreed — the engine stripped the carrier and
+    # a pack-driven runtime did not, so the same utterance produced two different
+    # reminder names.
+    #
+    # A leading "for" is removed by `_leading_connector` one step later, so the
+    # branch was redundant anyway. Keep this in step with
+    # `language_packs/*/platform.yaml`; the point of the rewrite is that the two
+    # can no longer diverge.
+    r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about)?\s*",
     r"^\s*make\s+sure\s+(?:i|to)\b\s*",
     r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
 ]
@@ -369,7 +381,14 @@ class NLUEngine:
             except Exception:
                 logger.warning("nlu.lexicon.connectors_unreadable lang=%s", language)
         alt = "|".join(re.escape(w) for w in sorted(words, key=len, reverse=True))
-        return re.compile(rf"^(?:{alt})\s+", re.I)
+        # `(?:\s+|$)`, not `\s+`: a connector can be the ENTIRE remainder once the
+        # time expression has been stripped out from behind it. "Set a reminder
+        # for 5pm" reduces to "for", which `^(?:...)\s+` cannot match because
+        # there is no trailing space — so the reminder was created with the name
+        # "for". Anchoring on end-of-string as well removes it and leaves no
+        # topic, which is correct: the user gave a time and no subject, and the
+        # engine should ask for one.
+        return re.compile(rf"^(?:{alt})(?:\s+|$)", re.I)
 
     @staticmethod
     def _build_carrier_patterns(language: str) -> list:
