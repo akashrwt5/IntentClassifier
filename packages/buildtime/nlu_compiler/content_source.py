@@ -36,8 +36,8 @@ LOC = REPO / "language_packs"
 LANGS = tuple(p.name for p in LOC.iterdir() if p.is_dir() and p.name != "en")
 
 # Top-level schema keys owned by the platform (not any capability).
-PLATFORM_KEYS = ("version", "confidence_threshold", "slot_confidence_threshold",
-                 "interrupt_threshold",
+PLATFORM_KEYS = ("version", "confidence_threshold",
+                 "interrupt_threshold", "agreement_threshold",
                  "semantic_threshold", "semantic_rescue_enabled",
                  "keyword_triggers", "affirmative", "negative", "lexicon",
                  "polarity_guards", "help_marker_guard", "uncertain_confirm")
@@ -126,8 +126,8 @@ def assemble(write: bool = True) -> dict:
     # Preserve the compiled files' key layout: platform keys in their
     # original position with intents where the current schema puts them.
     ordered = {}
-    for key in ("version", "confidence_threshold", "slot_confidence_threshold",
-                "interrupt_threshold",
+    for key in ("version", "confidence_threshold",
+                "interrupt_threshold", "agreement_threshold",
                 "semantic_threshold", "semantic_rescue_enabled", "keyword_triggers"):
         if key in schema:
             ordered[key] = schema[key]

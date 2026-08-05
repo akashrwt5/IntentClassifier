@@ -14,6 +14,7 @@ affirmative:
 - go ahead
 - please do
 - affirmative
+agreement_threshold: 0.5
 confidence_threshold: 0.7
 help_marker_guard:
   markers: (how\s+(to|do\s+i|does|can\s+i|is|would\s+i)\b)|(\bguide\b)|(\bexplain\b)|(\btutorial\b)|(what\s+(is|are|does)\b)|(where\s+(can|do)\s+i\s+(see|find|view))|(is\s+there\s+a\s+way)|(help\s+(with|me\s+understand|for|understanding))|(how\s+to\s+use)|(\w+\s+help\b)|(does\s+\w+\s+(keep|save|store|record|work))|(can\s+the\s+app)
@@ -32,12 +33,12 @@ help_marker_guard:
 interrupt_threshold: 0.68
 keyword_triggers:
 - intent: translation.session.start
-  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is
-    there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
+  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where
+    (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
   regex: \btranslat(e|es|ing|ion)\b
 - intent: transcription.session.start
-  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is
-    there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
+  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where
+    (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
   regex: \btranscri(be|bing|ption)\b
 - exact:
   - mute
@@ -68,7 +69,8 @@ keyword_triggers:
 - intent: device.volume.increase
   regex: \bsound(s)? like whispers?\b|\bwhispers?\b.{0,20}\b(voices?|sounds?|them|talking)\b
 - intent: device.volume.increase
-  regex: \bnothing\b.{0,20}\bcoming through\b|\b(slipping|passing)\b.{0,15}\bpast me\b
+  regex: \bnothing\b.{0,20}\bcoming through\b|\b(slipping|passing)\b.{0,15}\bpast
+    me\b
 - intent: device.volume.increase
   regex: \b(asking|ask)\b.{0,20}\brepeat (themselves|himself|herself|yourself)\b
 - intent: device.volume.increase
@@ -88,27 +90,29 @@ keyword_triggers:
 - intent: reminders.task.create
   regex: \b(set|create|add|make)\b.{0,20}\breminder\b
 - intent: reminders.task.create
-  regex: \bnudge me\b|\bslip my mind\b|\bjot this down\b|\bnote this down\b|\bdon'?t (let me )?forget\b
+  regex: \bnudge me\b|\bslip my mind\b|\bjot this down\b|\bnote this down\b|\bdon'?t
+    (let me )?forget\b
 - intent: reminders.task.create
   regex: \b(rappelle[\s-]?moi|r[eé]gler\s+une\s+alarme|mettre?\s+une\s+alarme|fixer?\s+une\s+alarme|cr[eé]er?\s+un\s+rappel|d[eé]finir?\s+un\s+rappel|mettre?\s+un\s+rappel|poser\s+un\s+rappel|ajouter\s+un\s+rappel|planifier\s+un\s+rappel|configurer\s+un\s+rappel)\b
 - intent: device.volume.decrease
-  regex: \b(too|way|so|very|really)\s+(hot|loud|bright|much)\b|\bcoming in (way )?too (hot|loud)\b|\btake
-    the edge off\b
+  regex: \b(too|way|so|very|really)\s+(hot|loud|bright|much)\b|\bcoming in (way )?too
+    (hot|loud)\b|\btake the edge off\b
 - intent: device.volume.decrease
   not_regex: \b(increase|raise|louder|up)\b
   regex: \b(dim|soften|dampen|quieten)\b.{0,15}\b(audio|sound|volume|it)\b
 - intent: help.device_settings.show
   regex: \b(everything|audio|sounds?)\b.{0,15}\b(muffled|distorted|garbled|warped)\b
 - intent: device.status.battery
-  regex: \b(power|battery)\s+(reading|level|status|left|remaining)\b|\b(die|dying|run out|running out)\b.{0,20}\b(on
-    me|battery|charge|power)\b|\bhow (much|long).{0,20}\b(battery|charge|power|life)\b
+  regex: \b(power|battery)\s+(reading|level|status|left|remaining)\b|\b(die|dying|run
+    out|running out)\b.{0,20}\b(on me|battery|charge|power)\b|\bhow (much|long).{0,20}\b(battery|charge|power|life)\b
 - intent: help.find_my_hearing_aids.show
-  regex: \bping\b.{0,15}\b(hearing aids?|aids?|devices?)\b|\b(locate|find|where).{0,20}\b(hearing aids?|aids?|devices?)\b|\bcannot?
-    (find|locate).{0,20}\b(device|aid)\b
+  regex: \bping\b.{0,15}\b(hearing aids?|aids?|devices?)\b|\b(locate|find|where).{0,20}\b(hearing
+    aids?|aids?|devices?)\b|\bcannot? (find|locate).{0,20}\b(device|aid)\b
 - intent: messaging.message.send
   regex: \bget word to\b|\bping\b.{0,20}\b(my )?(daughter|son|wife|husband|brother|sister|mom|dad|mother|father|friend|family|partner)\b
 - intent: streaming.session.start
-  not_regex: \b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another person|someone)\b
+  not_regex: \b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another
+    person|someone)\b
   regex: \bpatch\b.{0,15}\b(sound|audio)\b.{0,10}\bthrough\b|\bstream\b.{0,15}\b(from|phone|tv|device)\b
 - intent: device.memory.change
   not_regex: \b(what is|tell me about|help with|explain|how does|what does|about)\b
@@ -118,24 +122,13 @@ keyword_triggers:
 - intent: device.memory.change
   regex: \b(swap|switch|change|flip)\b.{0,15}\b(to the |to my )?(program|memory|setting|mode|profile)\b.{0,20}\bfor\b
 - intent: help.home.show
-  regex: \bwhat features\b|\bfeatures (are )?available\b|\bpoint me in the right direction\b|\bhow does
-    (this|it|everything) work\b
+  regex: \bwhat features\b|\bfeatures (are )?available\b|\bpoint me in the right direction\b|\bhow
+    does (this|it|everything) work\b
 lexicon:
   carriers:
   - ^\s*please\s+
   - ^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*
   - ^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*
-  # `for` is deliberately NOT stripped here. It used to be, guarded by
-  # `for\s+(?!\d)` so "set a reminder for 5pm" kept its time — but negative
-  # lookahead is outside the portable-regex subset, so the compiler dropped this
-  # whole carrier from every bundle and only the Python engine kept it. Any
-  # pack-driven runtime therefore stored "set a reminder to go to the airport"
-  # as the reminder's own name.
-  #
-  # Dropping the `for` branch is equivalent: a leading "for" left behind is
-  # removed by `leading_connectors` one step later. Verified identical on 11/11
-  # reminder utterances, and strictly better on two of them — "set a reminder
-  # for 5pm" produced a reminder literally named "for" before.
   - ^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about)?\s*
   - ^\s*make\s+sure\s+(?:i|to)\b\s*
   - ^\s*i\s+(?:need|have|want)\s+to\b\s*
@@ -174,24 +167,6 @@ negative:
 polarity_guards: []
 semantic_rescue_enabled: false
 semantic_threshold: 0.4
-slot_confidence_threshold: 0.5
 uncertain_confirm:
-  below_confidence: 0.91
   cancel_message: Okay, I won't.
-  confirm_floor: 0.55
-  intents:
-  - device.memory.change
-  - device.volume.decrease
-  - device.volume.increase
-  - device.volume.mute
-  - device.volume.unmute
-  - find.phone.locate
-  - messaging.message.listen
-  - messaging.message.send
-  - reminders.task.complete
-  - reminders.task.create
-  - streaming.session.start
-  - streaming.session.stop
-  - transcription.session.start
-  - translation.session.start
 version: 2

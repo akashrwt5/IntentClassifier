@@ -60,62 +60,64 @@ def test_mute_request_never_fires_unmute(engine):
         assert r.type in ("FULFILL", "CONFIRM")
 
 
-def test_quiet_request_is_at_least_gated(engine):
+def test_quiet_request_never_silently_raises_the_volume(engine):
     """A "quieter" request must never SILENTLY raise the volume.
 
-    This test used to assert the polarity guard redirected the intent. Those
-    guards were deliberately RETIRED (see content/platform.yaml): replaying the
-    1,461-utterance holdout with them OFF was as good or better — 3 vs 4 wrong
-    state-changing actions — because the rules mostly flipped answers that were
-    already correct.
+    This asserted first that the polarity guard redirected the intent, then —
+    after those guards were retired (see language_packs/en/platform.yaml) — that
+    the uncertainty-confirmation gate turned a borderline volume change into an
+    ask-first turn.
 
-    So the intent can still come back wrong here; what must hold is that the
-    surviving mitigation catches it. The uncertainty-confirmation gate turns a
-    borderline volume change into an ask-first turn, so the user is asked rather
-    than having their hearing aid turned up on them. Closing the residual
-    wrong-action budget is charter B1, not this guard.
+    That gate is now gone too. It sat above the fire threshold and cost 103
+    friction turns for 16 useful catches on the honest holdout; see
+    docs/confirm-gate-diagnosis.md. So the surviving mitigation is the fire
+    threshold itself: a borderline "quieter" request must not clear it as
+    volume.increase. If it does, that is a MODEL problem to fix with data or the
+    threshold — not with a confidence-triggered question.
     """
     engine.reset("pg2")
     r = engine.handle("pg2", "i need it more quiet")
-    if r.intent == "device.volume.increase":
-        assert r.type == "CONFIRM", (
-            f"a 'quieter' request resolved to volume.increase and would have "
-            f"fired without asking ({r.type}, {r.confidence:.2f})")
+    assert r.intent != "device.volume.increase" or r.type != "FULFILL", (
+        f"a 'quieter' request fired volume.increase at {r.confidence:.2f}")
 
 
-def test_uncertain_confirm_ask_then_yes_fires(engine, monkeypatch):
-    monkeypatch.setattr(engine, "_confirm_below", 1.01)  # force the gate
-    engine.reset("uc1")
-    r1 = engine.handle("uc1", "mute my hearing aids")
-    assert r1.type == "CONFIRM" and r1.intent == "device.volume.mute"
-    assert "mute" in (r1.message or "").lower()
-    r2 = engine.handle("uc1", "yes please")
-    assert r2.type == "FULFILL" and r2.intent == "device.volume.mute"
-    assert r2.action == "volume.mute"
+def test_the_authored_send_confirmation_asks_then_fires(engine):
+    """The one confirmation the product declares — and it is not confidence-driven.
+
+    Replaces three tests that forced `_confirm_below` to 1.01 to exercise the
+    uncertainty gate. That gate no longer exists; a `followup` on the intent
+    does, and it fires every time regardless of confidence.
+    """
+    engine.reset("send1")
+    r1 = engine.handle("send1", "send a message")
+    assert r1.type == "CONFIRM" and r1.intent == "messaging.message.send"
+    assert "send" in (r1.message or "").lower()
+    r2 = engine.handle("send1", "yes please")
+    assert r2.type == "FULFILL" and r2.intent == "messaging.message.send"
+    assert r2.action == "message.compose"
 
 
-def test_uncertain_confirm_no_cancels_without_action(engine, monkeypatch):
-    monkeypatch.setattr(engine, "_confirm_below", 1.01)
-    engine.reset("uc2")
-    r1 = engine.handle("uc2", "mute my hearing aids")
-    assert r1.type == "CONFIRM"
-    r2 = engine.handle("uc2", "no")
-    assert r2.type == "FULFILL" and r2.intent == "sys.confirm.cancelled"
-    assert r2.action is None
+def test_declining_the_authored_confirmation_carries_no_action(engine):
+    engine.reset("send2")
+    assert engine.handle("send2", "send a message").type == "CONFIRM"
+    r2 = engine.handle("send2", "no")
+    assert r2.type == "FULFILL" and r2.action is None
 
 
-def test_uncertain_confirm_unclear_reply_never_fires_held_action(engine, monkeypatch):
-    monkeypatch.setattr(engine, "_confirm_below", 1.01)
-    engine.reset("uc3")
-    r1 = engine.handle("uc3", "turn the volume up")
-    assert r1.type == "CONFIRM"
+def test_an_unclear_reply_never_fires_the_held_action(engine):
+    engine.reset("send3")
+    assert engine.handle("send3", "send a message").type == "CONFIRM"
     # user says something unrelated — the held action must be dropped, not fired
-    r2 = engine.handle("uc3", "what's the weather like")
-    assert not (r2.type == "FULFILL" and r2.action and "volume" in (r2.action or "")), r2
+    r2 = engine.handle("send3", "what's the weather like")
+    assert not (r2.type == "FULFILL" and r2.action == "message.compose"), r2
 
 
-def test_confident_commands_still_fire_without_friction(engine):
-    """The gate must not add friction to clearly-confident commands."""
+def test_confident_commands_fire_without_friction(engine):
+    """No confidence-triggered question may stand between a command and its action."""
     engine.reset("cf1")
-    r = engine.handle("cf1", "mute")
-    assert r.type == "FULFILL" and r.intent == "device.volume.mute", (r.type, r.intent)
+    for text, intent in (("mute", "device.volume.mute"),
+                         ("increase volume", "device.volume.increase"),
+                         ("decrease volume", "device.volume.decrease")):
+        engine.reset("cf1")
+        r = engine.handle("cf1", text)
+        assert r.type == "FULFILL" and r.intent == intent, (text, r.type, r.intent)

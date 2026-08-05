@@ -17,7 +17,8 @@
       "patternProperties": {
         "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$": {
           "type": "string",
-          "enum": ["always", "never", "when_ambiguous"]
+          "description": "always = the intent declares a followup and confirms on every turn; never = it fires directly. There is deliberately no confidence-conditional value: a band that decides when to ask was removed in favour of a single fire threshold (docs/confirm-gate-diagnosis.md), and an app contract cannot depend on where the classifier happened to land.",
+          "enum": ["always", "never"]
         }
       }
     },
@@ -29,13 +30,8 @@
         "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
         "interrupt": { "type": "number", "minimum": 0, "maximum": 1 },
         "semantic": { "type": "number", "minimum": 0, "maximum": 1 },
-        "agreement": { "type": "number", "minimum": 0, "maximum": 1 },
-        "uncertain_confirm_below": {
-          "description": "Upper bound of the confirmation band. Confidence at or above this is acted on directly; below it, intents marked when_ambiguous are confirmed first.",
-          "type": "number", "minimum": 0, "maximum": 1
-        },
-        "uncertain_confirm_floor": {
-          "description": "Lower bound of the confirmation band. Below this the utterance is too weak to confirm and falls through to the routing ladder rather than asking about a probably-wrong intent.",
+        "agreement": {
+          "description": "Relaxed bar applied when two INDEPENDENT recognisers name the same intent — a keyword rule and the model, or the model and the semantic head. Corroboration offsets the softmax diffusion of a large label space, so a turn both stages agree on need only clear this instead of `confidence`. It is evidence strength, not a confidence: the reported confidence stays the model's calibrated probability.",
           "type": "number", "minimum": 0, "maximum": 1
         }
       }

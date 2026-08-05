@@ -1,8 +1,8 @@
 {
   "version": 2,
   "confidence_threshold": 0.7,
-  "slot_confidence_threshold": 0.5,
   "interrupt_threshold": 0.68,
+  "agreement_threshold": 0.5,
   "semantic_threshold": 0.4,
   "semantic_rescue_enabled": false,
   "keyword_triggers": [
@@ -424,6 +424,19 @@
     "messaging.message.send": {
       "action": "message.compose",
       "confirm_prompt": "Just to be sure — send a message?",
+      "followup": {
+        "context": "await_send_confirmation",
+        "lifespan": 2,
+        "no": {
+          "action": null,
+          "fulfillment": "Okay, I won't."
+        },
+        "prompt": "Just to be sure — send a message?",
+        "yes": {
+          "action": "message.compose",
+          "fulfillment": "Ready to record your message."
+        }
+      },
       "fulfillment": "Ready to record your message.",
       "slots": []
     },
@@ -572,24 +585,6 @@
     }
   },
   "uncertain_confirm": {
-    "below_confidence": 0.91,
-    "cancel_message": "Okay, I won't.",
-    "confirm_floor": 0.55,
-    "intents": [
-      "device.memory.change",
-      "device.volume.decrease",
-      "device.volume.increase",
-      "device.volume.mute",
-      "device.volume.unmute",
-      "find.phone.locate",
-      "messaging.message.listen",
-      "messaging.message.send",
-      "reminders.task.complete",
-      "reminders.task.create",
-      "streaming.session.start",
-      "streaming.session.stop",
-      "transcription.session.start",
-      "translation.session.start"
-    ]
+    "cancel_message": "Okay, I won't."
   }
 }

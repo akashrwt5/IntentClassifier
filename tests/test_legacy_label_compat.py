@@ -111,3 +111,68 @@ def test_killswitch_disables_shim(monkeypatch):
     r = NLUResult(type="FULFILL", intent="device.volume.mute")
     label_compat.apply(r)
     assert r.intent == "device.volume.mute"  # untouched — modern label passes through
+
+
+# --------------------------------------------------------------------------- #
+# The published conformance vector
+# --------------------------------------------------------------------------- #
+
+_FIXTURES = _ROOT / "tests" / "fixtures" / "legacy_label_parity_en.csv"
+
+
+@pytest.mark.skipif(not _FIXTURES.exists(), reason="conformance vector absent")
+def test_the_engine_still_produces_the_published_conformance_vector(monkeypatch):
+    """The CSV iOS and Android are told to reproduce must match this engine.
+
+    Nothing read this file before — only `scripts/gen_legacy_label_fixtures.py`
+    wrote it. That is how it came to assert `CONFIRM` for four volume
+    utterances: the generator replays the engine and records whatever comes out,
+    so a defect was captured as the cross-platform contract (ADR-011, parity by
+    fixtures) with no test to notice the divergence afterwards.
+
+    A generated golden still needs a consumer, or the engine and the contract
+    drift apart in silence — which is precisely the failure mode this whole
+    change set exists to remove.
+
+    If this fails after an intentional behaviour change: regenerate with
+    `python scripts/gen_legacy_label_fixtures.py`, and TELL THE CLIENT TEAMS.
+    The file is their contract, not an internal snapshot.
+    """
+    import csv
+    import warnings
+
+    pytest.importorskip("onnxruntime")
+    monkeypatch.setenv("NLU_LEGACY_LABELS", "1")
+    label_compat._load.cache_clear()
+
+    pack_dir = _ROOT / "dist" / "bundle-en"
+    if not pack_dir.exists():
+        pytest.skip("built pack (dist/bundle-en) required")
+
+    from nlu_engine import NLUEngine
+    from nlu_langpack import load_pack
+
+    with _FIXTURES.open(encoding="utf-8", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            eng = NLUEngine(pack=load_pack(str(pack_dir)))
+        seen = set()
+        mismatches = []
+        for row in rows:
+            sid = row["session"]
+            if sid not in seen:
+                eng.reset(sid)
+                seen.add(sid)
+            r = eng.handle(sid, row["text"])
+            got = (r.type, r.intent or "")
+            want = (row["expected_type"], row["expected_intent"])
+            if got != want:
+                mismatches.append(f"  {row['text']!r}: expected {want}, got {got}")
+        assert not mismatches, (
+            "the engine no longer reproduces the published conformance vector:\n"
+            + "\n".join(mismatches))
+    finally:
+        label_compat._load.cache_clear()

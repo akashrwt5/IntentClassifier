@@ -147,10 +147,11 @@ def test_contains_rule_is_suppressed_via_injected_cues():
     cls.negation_cues = _cues("fr")
     cls.last_keyword_tier = None
 
-    intent, conf = cls._keyword_match("traduire ça")
-    assert intent == "translation.session.start" and conf > 0
+    intent = cls._keyword_match("traduire ça")
+    assert intent == "translation.session.start"
+    assert cls.last_keyword_tier == "contains"
 
-    intent, conf = cls._keyword_match("je ne veux pas traduire ça")
+    intent = cls._keyword_match("je ne veux pas traduire ça")
     assert intent is None, "French negation did not suppress the contains hit"
 
 
