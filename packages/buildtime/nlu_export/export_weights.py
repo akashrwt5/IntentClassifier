@@ -25,16 +25,13 @@ data = data.dropna().drop_duplicates(subset=["text", "intent"])
 print(f"Total samples: {len(data)}")
 print(f"Intents: {sorted(data['intent'].unique())}")
 
-MAX_PER_INTENT = 500
-data = (
-    pd.concat([
-        g.sample(min(len(g), MAX_PER_INTENT), random_state=42)
-        for _, g in data.groupby("intent")
-    ])
-    .sample(frac=1, random_state=42)
-    .reset_index(drop=True)
-)
-print(f"\nSamples per intent (capped at {MAX_PER_INTENT}):")
+# Shared with the trainer and every fitter — see
+# `nlu_training.fit_calibration.MAX_PER_INTENT`, currently disabled. Previously
+# an inlined 500 applied with `sample()` where train.py used `tail()`: the same
+# nominal cap over different rows.
+from nlu_training.fit_calibration import MAX_PER_INTENT, cap_per_intent  # noqa: E402
+data = cap_per_intent(data).sample(frac=1, random_state=42).reset_index(drop=True)
+print(f"\nSamples per intent (cap={MAX_PER_INTENT}):")
 print(data["intent"].value_counts().to_string())
 
 X, y = data["text"], data["intent"]

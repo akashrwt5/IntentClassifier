@@ -82,9 +82,38 @@ SEED = 0
 
 # MUST mirror nlu_training/train.py. The fitted T only calibrates logits from
 # this exact featurizer; a mismatch here reproduces blocker B8 in a new place.
-MAX_PER_INTENT = 500
+#
+# DISABLED (None = no cap). It used to be 500, which deleted rows outright —
+# they reached neither training nor evaluation. That cost the most on
+# `sys.oos.fallback`, which went 1191 -> 500: a catch-all class is defined by
+# its LEXICAL VARIETY, not by a pattern, so removing 58% of it removes 58% of
+# the evidence that anything is out of scope. Measured on holdout_honest.csv,
+# uncapping moved OOS recall 69.2% -> 81.0% AND accuracy 90.5% -> 92.0%.
+#
+# `class_weight="balanced"` in LR_KW already corrects class imbalance, which is
+# what the cap was for — so the two were doing the same job and only the cap
+# did it by destroying data.
+#
+# It is NOT the train/test split. The 80/20 split in train.py runs after this
+# and is unaffected, and `holdout_honest.csv` remains a separate leak-guarded
+# file that never enters training.
+MAX_PER_INTENT = None
 TFIDF_KW = {"ngram_range": (1, 2), "min_df": 2, "sublinear_tf": True}
 LR_KW = {"max_iter": 3000, "class_weight": "balanced", "C": 15.0}
+
+
+def cap_per_intent(df, col: str = "intent"):
+    """Apply the per-intent row cap, or pass the frame through when disabled.
+
+    One implementation so every fitter and exporter caps identically. They used
+    to each inline the cap, and two of them (`export_ios_weights`,
+    `export_weights`) used `sample()` where the trainer used `tail()` — so the
+    device head was fit on a DIFFERENT subset of rows than the server head it is
+    supposed to mirror.
+    """
+    if MAX_PER_INTENT is None:
+        return df.reset_index(drop=True)
+    return df.groupby(col).tail(MAX_PER_INTENT).reset_index(drop=True)
 
 
 def _sha256(path: Path) -> str:
@@ -182,7 +211,7 @@ def fit(lang: str, folds: int, write: bool) -> int:
     df["text"] = df["text"].astype(str).map(featurize_text)
     df["intent"] = df["intent"].astype(str).str.strip()
     df = df.drop_duplicates(subset=["text", "intent"])
-    df = df.groupby("intent").tail(MAX_PER_INTENT).reset_index(drop=True)
+    df = cap_per_intent(df)
 
     keep, leaked, checked = eval_leakage_mask(df["text"].values, lang)
     if leaked:

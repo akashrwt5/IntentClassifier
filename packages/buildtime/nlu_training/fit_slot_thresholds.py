@@ -75,7 +75,7 @@ import numpy as np
 import pandas as pd
 
 from nlu_training.fit_calibration import (
-    MAX_PER_INTENT, _softmax, eval_leakage_mask, oof_logits,
+    cap_per_intent, _softmax, eval_leakage_mask, oof_logits,
 )
 from nlu_training.leakage import normalize_text
 
@@ -148,7 +148,7 @@ def _oof(lang: str, folds: int, T: float):
     df["text"] = df["text"].astype(str).map(featurize_text)
     df["intent"] = df["intent"].astype(str).str.strip()
     df = df.drop_duplicates(subset=["text", "intent"])
-    df = df.groupby("intent").tail(MAX_PER_INTENT).reset_index(drop=True)
+    df = cap_per_intent(df)
     keep, _l, _c = eval_leakage_mask(df["text"].values, lang)
     df = df[keep]
     counts = df["intent"].value_counts()
