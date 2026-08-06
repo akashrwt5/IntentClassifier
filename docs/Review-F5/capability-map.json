@@ -90,55 +90,55 @@
   "intents": {
     "Cmd.ActivityAerobics": {
       "capability": "activity",
-      "proposed_intent": "activity.aerobics.query"
+      "proposed_intent": "Cmd.ActivityAerobics"
     },
     "Cmd.ActivityCalories": {
       "capability": "activity",
-      "proposed_intent": "activity.calories.query"
+      "proposed_intent": "Cmd.ActivityCalories"
     },
     "Cmd.ActivityCycle": {
       "capability": "activity",
-      "proposed_intent": "activity.cycle.query"
+      "proposed_intent": "Cmd.ActivityCycle"
     },
     "Cmd.ActivityExercise": {
       "capability": "activity",
-      "proposed_intent": "activity.exercise.query"
+      "proposed_intent": "Cmd.ActivityExercise"
     },
     "Cmd.ActivityRun": {
       "capability": "activity",
-      "proposed_intent": "activity.run.query"
+      "proposed_intent": "Cmd.ActivityRun"
     },
     "Cmd.ActivityStand": {
       "capability": "activity",
-      "proposed_intent": "activity.stand.query"
+      "proposed_intent": "Cmd.ActivityStand"
     },
     "Cmd.ActivityStep": {
       "capability": "activity",
-      "proposed_intent": "activity.step.query"
+      "proposed_intent": "Cmd.ActivityStep"
     },
     "Cmd.ActivityWalk": {
       "capability": "activity",
-      "proposed_intent": "activity.walk.query"
+      "proposed_intent": "Cmd.ActivityWalk"
     },
     "Cmd.BatteryLevel": {
       "capability": "device.status",
-      "proposed_intent": "device.status.battery"
+      "proposed_intent": "Cmd.BatteryLevel"
     },
     "Cmd.FindMyPhone": {
       "capability": "find",
-      "proposed_intent": "find.phone.locate"
+      "proposed_intent": "Cmd.FindMyPhone"
     },
     "Cmd.ListenMessage": {
       "capability": "messaging.ptt",
-      "proposed_intent": "messaging.message.listen"
+      "proposed_intent": "Cmd.ListenMessage"
     },
     "Cmd.MemoryChange": {
       "capability": "device.memory",
-      "proposed_intent": "device.memory.change"
+      "proposed_intent": "Cmd.MemoryChange"
     },
     "Cmd.SendMessage": {
       "capability": "messaging.ptt",
-      "proposed_intent": "messaging.message.send"
+      "proposed_intent": "Cmd.SendMessage"
     },
     "Cmd.SendMessage - no": {
       "capability": "messaging.ptt",
@@ -152,179 +152,179 @@
     },
     "Cmd.StreamingStart": {
       "capability": "streaming",
-      "proposed_intent": "streaming.session.start"
+      "proposed_intent": "Cmd.StreamingStart"
     },
     "Cmd.StreamingStop": {
       "capability": "streaming",
-      "proposed_intent": "streaming.session.stop"
+      "proposed_intent": "Cmd.StreamingStop"
     },
     "Cmd.TranscribeStart": {
       "capability": "transcription",
-      "proposed_intent": "transcription.session.start"
+      "proposed_intent": "Cmd.TranscribeStart"
     },
     "Cmd.TranslationStart": {
       "capability": "translation",
-      "proposed_intent": "translation.session.start"
+      "proposed_intent": "Cmd.TranslationStart"
     },
     "Cmd.VolumeDecrease": {
       "capability": "device.volume",
-      "proposed_intent": "device.volume.decrease"
+      "proposed_intent": "Cmd.VolumeDecrease"
     },
     "Cmd.VolumeIncrease": {
       "capability": "device.volume",
-      "proposed_intent": "device.volume.increase"
+      "proposed_intent": "Cmd.VolumeIncrease"
     },
     "Cmd.VolumeMute": {
       "capability": "device.volume",
-      "proposed_intent": "device.volume.mute"
+      "proposed_intent": "Cmd.VolumeMute"
     },
     "Cmd.VolumeUnmute": {
       "capability": "device.volume",
-      "proposed_intent": "device.volume.unmute"
+      "proposed_intent": "Cmd.VolumeUnmute"
     },
     "Default Fallback Intent": {
       "capability": "sys",
-      "proposed_intent": "sys.oos.fallback"
+      "proposed_intent": "Default Fallback Intent"
     },
     "Help_Accessories": {
       "capability": "help",
-      "proposed_intent": "help.accessories.show"
+      "proposed_intent": "Help_Accessories"
     },
     "Help_AppSettings": {
       "capability": "help",
-      "proposed_intent": "help.app_settings.show"
+      "proposed_intent": "Help_AppSettings"
     },
     "Help_Battery": {
       "capability": "help",
-      "proposed_intent": "help.battery.show"
+      "proposed_intent": "Help_Battery"
     },
     "Help_ChangingMemories": {
       "capability": "help",
-      "proposed_intent": "help.changing_memories.show"
+      "proposed_intent": "Help_ChangingMemories"
     },
     "Help_CleanCare": {
       "capability": "help",
-      "proposed_intent": "help.clean_care.show"
+      "proposed_intent": "Help_CleanCare"
     },
     "Help_Customize": {
       "capability": "help",
-      "proposed_intent": "help.customize.show"
+      "proposed_intent": "Help_Customize"
     },
     "Help_DemoMode": {
       "capability": "help",
-      "proposed_intent": "help.demo_mode.show"
+      "proposed_intent": "Help_DemoMode"
     },
     "Help_DeviceSettings": {
       "capability": "help",
-      "proposed_intent": "help.device_settings.show"
+      "proposed_intent": "Help_DeviceSettings"
     },
     "Help_EdgeMode": {
       "capability": "help",
-      "proposed_intent": "help.edge_mode.show"
+      "proposed_intent": "Help_EdgeMode"
     },
     "Help_FallAlert": {
       "capability": "help",
-      "proposed_intent": "help.fall_alert.show"
+      "proposed_intent": "Help_FallAlert"
     },
     "Help_FindMyHearingAids": {
       "capability": "help",
-      "proposed_intent": "help.find_my_hearing_aids.show"
+      "proposed_intent": "Help_FindMyHearingAids"
     },
     "Help_Health": {
       "capability": "help",
-      "proposed_intent": "help.health.show"
+      "proposed_intent": "Help_Health"
     },
     "Help_HearShare": {
       "capability": "help",
-      "proposed_intent": "help.hear_share.show"
+      "proposed_intent": "Help_HearShare"
     },
     "Help_HearingCareAnywhereConnect": {
       "capability": "help",
-      "proposed_intent": "help.hearing_care_anywhere_connect.show"
+      "proposed_intent": "Help_HearingCareAnywhereConnect"
     },
     "Help_HeartRate": {
       "capability": "help",
-      "proposed_intent": "help.heart_rate.show"
+      "proposed_intent": "Help_HeartRate"
     },
     "Help_HeartRateRecovery": {
       "capability": "help",
-      "proposed_intent": "help.heart_rate_recovery.show"
+      "proposed_intent": "Help_HeartRateRecovery"
     },
     "Help_Home": {
       "capability": "help",
-      "proposed_intent": "help.home.show"
+      "proposed_intent": "Help_Home"
     },
     "Help_InsertDevice": {
       "capability": "help",
-      "proposed_intent": "help.insert_device.show"
+      "proposed_intent": "Help_InsertDevice"
     },
     "Help_IntelliVoice": {
       "capability": "help",
-      "proposed_intent": "help.intelli_voice.show"
+      "proposed_intent": "Help_IntelliVoice"
     },
     "Help_MaskMode": {
       "capability": "help",
-      "proposed_intent": "help.mask_mode.show"
+      "proposed_intent": "Help_MaskMode"
     },
     "Help_MemoryOptions": {
       "capability": "help",
-      "proposed_intent": "help.memory_options.show"
+      "proposed_intent": "Help_MemoryOptions"
     },
     "Help_Pairing": {
       "capability": "help",
-      "proposed_intent": "help.pairing.show"
+      "proposed_intent": "Help_Pairing"
     },
     "Help_Reminder": {
       "capability": "help",
-      "proposed_intent": "help.reminder.show"
+      "proposed_intent": "Help_Reminder"
     },
     "Help_RemoteProgramming": {
       "capability": "help",
-      "proposed_intent": "help.remote_programming.show"
+      "proposed_intent": "Help_RemoteProgramming"
     },
     "Help_SelfCheck": {
       "capability": "help",
-      "proposed_intent": "help.self_check.show"
+      "proposed_intent": "Help_SelfCheck"
     },
     "Help_ThriveScore": {
       "capability": "help",
-      "proposed_intent": "help.thrive_score.show"
+      "proposed_intent": "Help_ThriveScore"
     },
     "Help_Tinnitus": {
       "capability": "help",
-      "proposed_intent": "help.tinnitus.show"
+      "proposed_intent": "Help_Tinnitus"
     },
     "Help_Transcribe": {
       "capability": "help",
-      "proposed_intent": "help.transcribe.show"
+      "proposed_intent": "Help_Transcribe"
     },
     "Help_Translate": {
       "capability": "help",
-      "proposed_intent": "help.translate.show"
+      "proposed_intent": "Help_Translate"
     },
     "Help_VoiceAssistant": {
       "capability": "help",
-      "proposed_intent": "help.voice_assistant.show"
+      "proposed_intent": "Help_VoiceAssistant"
     },
     "Help_Volume": {
       "capability": "help",
-      "proposed_intent": "help.volume.show"
+      "proposed_intent": "Help_Volume"
     },
     "Help_WhatsNew": {
       "capability": "help",
-      "proposed_intent": "help.whats_new.show"
+      "proposed_intent": "Help_WhatsNew"
     },
     "Help_WiCROS": {
       "capability": "help",
-      "proposed_intent": "help.wi_c_r_o_s.show"
+      "proposed_intent": "Help_WiCROS"
     },
     "reminders.add": {
       "capability": "reminders",
-      "proposed_intent": "reminders.task.create"
+      "proposed_intent": "reminders.add"
     },
     "reminders.complete": {
       "capability": "reminders",
-      "proposed_intent": "reminders.task.complete"
+      "proposed_intent": "reminders.complete"
     }
   }
 }
