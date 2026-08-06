@@ -33,6 +33,10 @@
         "agreement": {
           "description": "Relaxed bar applied when two INDEPENDENT recognisers name the same intent — a keyword rule and the model, or the model and the semantic head. Corroboration offsets the softmax diffusion of a large label space, so a turn both stages agree on need only clear this instead of `confidence`. It is evidence strength, not a confidence: the reported confidence stays the model's calibrated probability.",
           "type": "number", "minimum": 0, "maximum": 1
+        },
+        "oov_reject": {
+          "description": "Share of an utterance's tokens that may be absent from the intent model's vocabulary before the turn is refused, whatever the confidence. A TF-IDF vector has one slot per known term and none for anything else, so an unknown word does not lower the score — it vanishes, and 'turn off toshiba' produces a vector bit-identical to 'turn off'. Confidence is therefore honest about an input the model was never given, and no confidence threshold can recover the difference. Tokenise exactly as the featurizer does (default sklearn token_pattern) and compare against the model's UNIGRAM vocabulary. The value is a property of the vocabulary shipped with it: a client using the pruned head must use the ratio fitted for that head.",
+          "type": "number", "minimum": 0, "maximum": 1
         }
       }
     },

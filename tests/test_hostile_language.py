@@ -71,7 +71,23 @@ def zz_localization(tmp_path, monkeypatch):
         "carrier_phrases": ["^hello", "^world", "^custom1"],
         "negation_cues": ["not", "never"]
     }))
-    
+
+    # The out-of-vocabulary guard is switched off for `zz`, and that is a real
+    # deployment rule rather than a test convenience.
+    #
+    # The guard asks "can the model's vocabulary represent this word?", so it is
+    # only meaningful when the vocabulary was built for the language being
+    # spoken. `zz` BORROWS English's model (see below), so every zz-shaped token
+    # is out of vocabulary and the guard would refuse every turn — correctly, on
+    # its own terms, and uselessly for what this file is proving.
+    #
+    # A pack that borrows another language's model must not enable a
+    # vocabulary-based guard. That constraint belongs in the pack, which is
+    # exactly where it is expressed here.
+    zz_schema = json.loads((zz_dir / "nlu_schema.json").read_text(encoding="utf-8"))
+    zz_schema.pop("oov_reject_ratio", None)
+    (zz_dir / "nlu_schema.json").write_text(json.dumps(zz_schema), encoding="utf-8")
+
     # A language needs a MODEL as well as tables. Point the resolver at a `zz`
     # build directory carrying English's artifacts — the weights are irrelevant
     # here, what is under test is that the engine wires an unknown language up

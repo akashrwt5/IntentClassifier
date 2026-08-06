@@ -301,6 +301,46 @@ class IntentClassifier:
         self.last_arbitration = "contested"
         return kw_intent, self.CONTESTED_CONFIDENCE
 
+    # Token pattern sklearn's TfidfVectorizer uses by default. The guard must
+    # split text the same way the featurizer does, or it counts words the model
+    # was never offered and reports an out-of-vocabulary share that describes
+    # nothing.
+    _TOKEN_RE = re.compile(r"(?u)\b\w\w+\b")
+
+    def oov_ratio(self, text: str) -> float:
+        """Share of this utterance's tokens the featurizer cannot represent.
+
+        WHY THIS EXISTS. TF-IDF's vocabulary is a fixed set of slots. A token
+        outside it is not weighed and dismissed — there is nowhere to put it, so
+        the sentence arrives without it:
+
+            'turn off'          -> 3 non-zero features
+            'turn off toshiba'  -> 3 non-zero features, cosine 1.000000
+
+        The two are bit-identical, so no threshold, training row or
+        hyperparameter can separate them: the model is never asked the
+        question. And the word that makes an utterance out of scope is almost
+        always a rare, specific one — a brand, an object, a topic — which is
+        precisely the kind of word a finite vocabulary lacks.
+
+        That unknown word is itself evidence, and it was being discarded. This
+        recovers it: "the utterance contains content the model has never seen"
+        is a reason to doubt any confident reading of the remainder.
+
+        Returns 0.0 when the backend cannot report a vocabulary, which disables
+        the guard rather than rejecting everything.
+        """
+        vocab = getattr(self.backend, "unigram_vocabulary", None)
+        if vocab is None:
+            return 0.0
+        known = vocab()
+        if not known:
+            return 0.0
+        tokens = self._TOKEN_RE.findall(normalize_text(text).lower())
+        if not tokens:
+            return 0.0
+        return sum(1 for t in tokens if t not in known) / len(tokens)
+
     def calibrated_confidence(self, intent: str) -> float | None:
         """The model's calibrated probability for `intent` on the LAST turn.
 

@@ -477,6 +477,13 @@ def compile_policies(schema: dict, out: Path) -> None:
         # both say volume.increase, but a sibling class splits the mass and the
         # top sits at 0.66).
         "agreement": schema["agreement_threshold"],
+        # Out-of-vocabulary guard. A runtime that ignores this fires on
+        # utterances the reference engine refuses, because a TF-IDF vector
+        # cannot represent a word outside its vocabulary at all — "help me find
+        # a paper" reaches the model as "help me find". The ratio is a property
+        # of the vocabulary shipped alongside it, so a client using the pruned
+        # head must use the value fitted for THAT head.
+        "oov_reject": schema["oov_reject_ratio"],
     }
 
     _write(out / "runtime" / "policies.json", {

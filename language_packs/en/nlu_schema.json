@@ -3,6 +3,8 @@
   "confidence_threshold": 0.7,
   "interrupt_threshold": 0.68,
   "agreement_threshold": 0.5,
+  "oov_reject_ratio": 0.25,
+  "oov_bypass_confidence": 0.97,
   "semantic_threshold": 0.4,
   "semantic_rescue_enabled": false,
   "keyword_triggers": [

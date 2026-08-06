@@ -1,3 +1,23 @@
+_oov_bypass_confidence_note: 'Fit out-of-fold by nlu_training.fit_oov_guard, and soundly
+  so — a confidence is the one quantity out-of-fold estimates correctly here. Above
+  this the guard stands down: an unknown token is evidence of being out of scope only
+  when the REST of the utterance is also ambiguous. Entity values are unknown BY NATURE
+  (a contact name, a brand, a free-text reminder topic can never all be in a finite
+  vocabulary), so ''send a message to john'' (oov 0.25, conf 1.000) and ''stream from
+  netflix'' (oov 0.33, conf 0.996) are real commands while ''help me find a paper''
+  (oov 0.25, conf 0.771) is not.'
+_oov_reject_ratio_note: 'PROVISIONAL — the one value in this file that is NOT soundly
+  fitted. The out-of-vocabulary ratio is defined against a vocabulary, and neither
+  vocabulary available at fit time is the one the guard faces: fold vocabularies overstate
+  it (they have seen 80% of the rows), while against the shipped vocabulary 94.7%
+  of training rows score exactly 0.0 by construction, leaving no tail to place a threshold
+  in. nlu_training.fit_oov_guard reports its fold-space answer and refuses to pretend
+  it can correct it; two corrections were tried and both fail for that one reason.
+  0.25 is chosen deliberately: it is where the honest holdout halves out-of-scope
+  actions (10 -> 5) for 5 correct commands, and it is the smallest value that catches
+  the reported case. RE-FIT FROM FIELD TELEMETRY — `nlu.oov_guard` records oov_ratio
+  on every blocked turn, which is the sample that would make this fittable. Also re-fit
+  whenever the vocabulary changes; the pruned device head needs its own value.'
 affirmative:
 - 'yes'
 - yeah
@@ -164,6 +184,8 @@ negative:
 - do not
 - never mind
 - nevermind
+oov_bypass_confidence: 0.97
+oov_reject_ratio: 0.25
 polarity_guards: []
 semantic_rescue_enabled: false
 semantic_threshold: 0.4

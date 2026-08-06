@@ -174,6 +174,17 @@ class NLUEngine:
             "interrupt_threshold", self.DEFAULT_INTERRUPT_THRESHOLD)
         self.agreement_threshold = self.schema.get(
             "agreement_threshold", self.DEFAULT_AGREEMENT_THRESHOLD)
+        # Share of an utterance's tokens that may be absent from the model's
+        # vocabulary before the turn is refused outright. `None` disables the
+        # guard. Content-owned so a language pack sets its own — the value
+        # depends on the vocabulary that pack ships, not on the engine.
+        self._oov_reject_ratio = self.schema.get("oov_reject_ratio")
+        # Above this confidence an unknown word is read as an entity VALUE
+        # rather than as evidence the utterance is out of scope, and the guard
+        # stands down. Defaults to 1.01 (never bypass) so a pack that sets a
+        # ratio without a ceiling gets the strict behaviour rather than a
+        # silently disabled guard.
+        self._oov_bypass_confidence = self.schema.get("oov_bypass_confidence", 1.01)
         self.affirmative = set(self.schema.get("affirmative", []))
         self.negative = set(self.schema.get("negative", []))
         # Explicit cancellation cues, honoured while a slot-filling flow is
@@ -1021,6 +1032,52 @@ class NLUEngine:
         # the one the threshold is there to prevent.
         corroborated = getattr(self.classifier, "last_arbitration", None) == "corroborated"
         fire_bar = self.agreement_threshold if corroborated else self.threshold
+
+        # OUT-OF-VOCABULARY GUARD. A confident reading of the words the
+        # featurizer CAN see says nothing about the words it cannot.
+        #
+        # "help me find a paper" -> the model receives `help me find`, because
+        # "paper" appears nowhere in the training corpus and so has no slot in
+        # the vocabulary at all. On that input `help.find_my_hearing_aids.show`
+        # is the correct answer; the utterance that was actually spoken never
+        # reached the model. Same shape as "turn off toshiba" reducing to
+        # "turn off", whose vector is bit-identical to the bare command.
+        #
+        # So the unknown words are consulted directly rather than thrown away:
+        # above `oov_reject_ratio` of the tokens being unrepresentable, the turn
+        # goes to the fallback intent regardless of how confident the remainder
+        # looks. This cannot be done by tuning a threshold — the confidence is
+        # honest about the input the model was given.
+        #
+        # An unknown word is only evidence when the REST of the utterance is
+        # also ambiguous. Entity values are unknown BY NATURE — a contact name,
+        # a brand, a free-text reminder topic can never all be in a finite
+        # vocabulary — so a bare ratio test refuses:
+        #
+        #   'send a message to john'   oov 0.25, conf 1.000   <- a real command
+        #   'stream from netflix'      oov 0.33, conf 0.996   <- a real command
+        #   'help me find a paper'     oov 0.25, conf 0.771   <- out of scope
+        #
+        # The ratio cannot tell a slot value from a foreign topic, but the
+        # confidence can: when the remainder reads unambiguously the unknown
+        # token is almost certainly the VALUE the command operates on; when the
+        # remainder is merely plausible, it is the thing that puts the utterance
+        # out of scope. So the guard stands down above
+        # `oov_bypass_confidence`. Measured on the honest holdout, adding that
+        # condition keeps the same out-of-scope reduction (10 -> 5) and returns
+        # 7 correct commands the bare ratio was refusing.
+        #
+        # Applied AFTER the guards so it sees the intent actually being
+        # returned, and before the fire test so it can only ever withhold an
+        # action, never cause one.
+        if self._oov_reject_ratio is not None and intent != "sys.oos.fallback" \
+                and conf < self._oov_bypass_confidence:
+            ratio = self.classifier.oov_ratio(text)
+            if ratio >= self._oov_reject_ratio:
+                logger.info("nlu.oov_guard", extra={"nlu": {
+                    "blocked": intent, "oov_ratio": round(ratio, 3),
+                    "confidence": round(conf, 3)}})
+                return self._genai_fallback(conf)
 
         if intent == "sys.oos.fallback" or conf < fire_bar:
             # Stage 3: semantic rescue via MiniLM when TF-IDF is uncertain
