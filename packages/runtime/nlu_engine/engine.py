@@ -686,10 +686,42 @@ class NLUEngine:
         intent_name, fu = confirm
         polarity = self._yes_no(text)
         if polarity is None:
+            # NOT yes and not no. Two very different things arrive here, and
+            # re-prompting for both traps the user:
+            #
+            # This branch used to unconditionally re-ask AND re-set the context,
+            # so the lifespan never counted down. "send a message" followed by
+            # "increase volume" asked about sending a message forever, with no
+            # way out. It was unreachable while no intent declared a `followup`;
+            # giving messaging.message.send one made it live.
+            #
+            # A confident, different command is the user moving on — it
+            # interrupts, exactly as it does mid slot-filling, and the
+            # abandoned intent is reported so the app can say so. Anything else
+            # ("hmm", silence, a mumble) is a genuine non-answer and is
+            # re-asked, but only within a bounded budget so a user who cannot
+            # be understood is routed out instead of being held.
+            new_intent, new_conf = self.classifier.classify(text)
+            if (new_intent != intent_name
+                    and new_intent != "sys.oos.fallback"
+                    and new_conf >= self.interrupt_threshold
+                    and self.intents.get(new_intent) is not None):
+                session.clear_context(fu["context"])
+                session.confirm_attempts = 0
+                result = self._handle_new_intent(session, text, now)
+                result.interrupted_intent = intent_name
+                return result
+
+            session.confirm_attempts = getattr(session, "confirm_attempts", 0) + 1
+            if session.confirm_attempts >= self.MAX_SLOT_ATTEMPTS:
+                session.clear_context(fu["context"])
+                session.confirm_attempts = 0
+                return self._genai_fallback(0.0)
             session.set_context(fu["context"], fu.get("lifespan", 2), now=now)
             return NLUResult(type="CONFIRM", intent=intent_name,
                              message=fu["prompt"], confidence=1.0)
         session.clear_context(fu["context"])
+        session.confirm_attempts = 0
         branch = fu["yes"] if polarity else fu["no"]
         result = NLUResult(type="FULFILL", intent=intent_name,
                            action=branch["action"], message=branch.get("fulfillment", ""),

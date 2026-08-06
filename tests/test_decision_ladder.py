@@ -168,6 +168,34 @@ def test_yes_completes_the_authored_flow_and_no_cancels_it(engine):
         "declining a send must not carry an action")
 
 
+def test_a_different_command_escapes_the_confirmation(engine):
+    """A user who changes their mind must not be held in the confirmation.
+
+    `_handle_confirmation` re-asked on any non-yes/no reply AND re-set its own
+    context, so the lifespan never counted down: "send a message" followed by
+    "increase volume" asked about sending a message forever. The branch was
+    unreachable while no intent declared a `followup`; giving one to
+    messaging.message.send made it live.
+
+    A confident different command now interrupts, exactly as it does mid
+    slot-filling.
+    """
+    engine.reset("escape")
+    assert engine.handle("escape", "send a message").type == "CONFIRM"
+    r = engine.handle("escape", "increase volume")
+    assert r.type == "FULFILL" and r.intent == "device.volume.increase", (r.type, r.intent)
+    assert r.interrupted_intent == "messaging.message.send"
+
+
+def test_repeated_non_answers_route_out_instead_of_holding(engine):
+    """A user who cannot be understood is let go, not asked forever."""
+    engine.reset("stuck")
+    assert engine.handle("stuck", "send a message").type == "CONFIRM"
+    seen = [engine.handle("stuck", m).type for m in ("hmm", "uhh", "errr")]
+    assert seen[-1] == "FALLBACK", (
+        f"still confirming after {len(seen)} non-answers: {seen}")
+
+
 def test_the_legacy_compound_labels_still_resolve(engine, monkeypatch):
     """The app contract this followup exists to keep alive."""
     from nlu_engine import label_compat

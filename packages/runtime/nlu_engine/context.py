@@ -48,6 +48,11 @@ class Session:
     pending_slots: dict = field(default_factory=dict)
     awaiting_slot: Optional[str] = None
     slot_attempts: int = 0          # failed attempts to fill awaiting_slot
+    # Non-answers to an authored yes/no `followup`. Bounded for the same reason
+    # as slot_attempts: the confirmation re-sets its own context each time it
+    # re-asks, so without a budget a user who is never understood is held in it
+    # forever.
+    confirm_attempts: int = 0
     # When a date-time slot answer gives a day but no time ("tomorrow"), the
     # resolved day is parked here so the time prompt's answer can be anchored to
     # it (keeping the day) instead of resolving against today.
