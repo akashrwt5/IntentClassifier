@@ -477,13 +477,22 @@ def compile_policies(schema: dict, out: Path) -> None:
         # both say volume.increase, but a sibling class splits the mass and the
         # top sits at 0.66).
         "agreement": schema["agreement_threshold"],
-        # Out-of-vocabulary guard. A runtime that ignores this fires on
-        # utterances the reference engine refuses, because a TF-IDF vector
-        # cannot represent a word outside its vocabulary at all — "help me find
-        # a paper" reaches the model as "help me find". The ratio is a property
-        # of the vocabulary shipped alongside it, so a client using the pruned
-        # head must use the value fitted for THAT head.
+        # Out-of-vocabulary guard — BOTH halves, always together.
+        #
+        # A runtime that ignores these fires on utterances the reference engine
+        # refuses, because a TF-IDF vector cannot represent a word outside its
+        # vocabulary at all: "help me find a paper" reaches the model as "help
+        # me find". The ratio is a property of the vocabulary shipped alongside
+        # it, so a client using the pruned head must use the value fitted for
+        # THAT head.
+        #
+        # `oov_bypass` is not optional. A client that reads the ratio without it
+        # refuses entity values, which are out-of-vocabulary BY NATURE — "send a
+        # message to john" is 25% unknown and entirely real. Shipping one half
+        # of a pair is how the device/server temperature diverged (B8); the two
+        # are emitted from the same statement so they cannot separate.
         "oov_reject": schema["oov_reject_ratio"],
+        "oov_bypass": schema["oov_bypass_confidence"],
     }
 
     _write(out / "runtime" / "policies.json", {

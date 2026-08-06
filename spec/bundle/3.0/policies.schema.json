@@ -35,8 +35,12 @@
           "type": "number", "minimum": 0, "maximum": 1
         },
         "oov_reject": {
-          "description": "Share of an utterance's tokens that may be absent from the intent model's vocabulary before the turn is refused, whatever the confidence. A TF-IDF vector has one slot per known term and none for anything else, so an unknown word does not lower the score — it vanishes, and 'turn off toshiba' produces a vector bit-identical to 'turn off'. Confidence is therefore honest about an input the model was never given, and no confidence threshold can recover the difference. Tokenise exactly as the featurizer does (default sklearn token_pattern) and compare against the model's UNIGRAM vocabulary. The value is a property of the vocabulary shipped with it: a client using the pruned head must use the ratio fitted for that head.",
+          "description": "Share of an utterance's tokens that may be absent from the intent model's vocabulary before the turn is refused. A TF-IDF vector has one slot per known term and none for anything else, so an unknown word does not lower the score — it vanishes, and 'turn off toshiba' produces a vector bit-identical to 'turn off'. Confidence is therefore honest about an input the model was never given, and no confidence threshold can recover the difference. Tokenise exactly as the featurizer does (default sklearn token_pattern) and compare against the model's UNIGRAM vocabulary. MUST be applied together with `oov_bypass`. The value is a property of the vocabulary shipped with it: a client using the pruned head must use the ratio fitted for that head.",
           "type": "number", "minimum": 0, "maximum": 1
+        },
+        "oov_bypass": {
+          "description": "Confidence at or above which the out-of-vocabulary guard stands down. REQUIRED WHENEVER `oov_reject` IS PRESENT — a client applying the ratio without this ceiling refuses entity values, which are out-of-vocabulary by nature: a contact name, a brand or a free-text topic can never all be in a finite vocabulary, so 'send a message to john' (25% unknown, confidence 1.000) and 'stream from netflix' (33% unknown, 0.996) are real commands while 'help me find a paper' (25% unknown, 0.771) is not. The ratio cannot separate those; the confidence can. An unknown token is evidence of being out of scope only when the REST of the utterance is also ambiguous.",
+          "type": "number", "minimum": 0, "maximum": 1.01
         }
       }
     },

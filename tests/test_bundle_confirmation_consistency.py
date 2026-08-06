@@ -86,6 +86,31 @@ def test_no_confidence_conditional_confirmation_reaches_the_bundle():
         assert dead not in policies_doc["thresholds"]
 
 
+def test_the_oov_guard_ships_as_a_PAIR():
+    """Half of this guard is worse than none of it.
+
+    `oov_reject` alone refuses entity values, which are out-of-vocabulary BY
+    NATURE — a contact name, a brand, a free-text reminder topic can never all
+    be in a finite vocabulary. "send a message to john" is 25% unknown and
+    entirely real; only `oov_bypass` separates it from "help me find a paper",
+    which is 25% unknown and out of scope.
+
+    Shipping one half of a pair is how the device and server temperatures
+    diverged (B8). This asserts the two travel together, in both the bundle and
+    the schema they are compiled from.
+    """
+    thresholds = json.loads((_BUNDLE / "runtime" / "policies.json")
+                            .read_text(encoding="utf-8"))["thresholds"]
+    assert ("oov_reject" in thresholds) == ("oov_bypass" in thresholds), (
+        f"the out-of-vocabulary guard shipped incomplete: {sorted(thresholds)}")
+
+    schema = json.loads((_ROOT / "language_packs" / "en" / "nlu_schema.json")
+                        .read_text(encoding="utf-8"))
+    if "oov_reject" in thresholds:
+        assert thresholds["oov_reject"] == schema["oov_reject_ratio"]
+        assert thresholds["oov_bypass"] == schema["oov_bypass_confidence"]
+
+
 def test_the_agreement_threshold_reaches_the_bundle():
     """A client without it rejects corroborated commands the engine fires.
 
