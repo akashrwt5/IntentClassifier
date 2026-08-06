@@ -2,7 +2,7 @@
 Negation suppression must be language-aware (charter A4).
 
 `_is_negated` guards `contains` keyword rules: "I don't want to translate this"
-must not fire translation.session.start. It previously consulted a hardcoded
+must not fire Cmd.TranslationStart. It previously consulted a hardcoded
 English tuple with no language input, so the guard was English-only for every
 language.
 
@@ -143,12 +143,12 @@ def test_contains_rule_is_suppressed_via_injected_cues():
     """
     cls = _M.IntentClassifier.__new__(_M.IntentClassifier)
     cls._kw_rules = [{"type": "contains", "terms": ["traduire"],
-                      "intent": "translation.session.start"}]
+                      "intent": "Cmd.TranslationStart"}]
     cls.negation_cues = _cues("fr")
     cls.last_keyword_tier = None
 
     intent = cls._keyword_match("traduire ça")
-    assert intent == "translation.session.start"
+    assert intent == "Cmd.TranslationStart"
     assert cls.last_keyword_tier == "contains"
 
     intent = cls._keyword_match("je ne veux pas traduire ça")

@@ -81,7 +81,7 @@ BASE_DIR = Path(__file__).resolve().parents[3]
 FIRE_GRID = [float(round(x, 2)) for x in np.arange(0.50, 1.001, 0.01)]
 FLOOR_GRID = [float(round(x, 2)) for x in np.arange(0.30, 0.901, 0.05)]
 
-OOS = "sys.oos.fallback"
+OOS = "Default Fallback Intent"
 
 
 def keyword_intent(rules, text: str, cues) -> str | None:

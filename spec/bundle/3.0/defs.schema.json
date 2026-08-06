@@ -7,14 +7,14 @@
     "stableId": {
       "description": "Stable identifier grammar (ADR-005 stage 10): lowercase dotted segments, e.g. 'audio.volume.set'.",
       "type": "string",
-      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$",
+      "pattern": "^[A-Za-z0-9_. -]+$",
       "minLength": 1,
       "maxLength": 128
     },
     "intentId": {
       "description": "Intent id in the domain.object.action taxonomy (roadmap §2.3).",
       "type": "string",
-      "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+      "pattern": "^[A-Za-z0-9_. -]+$"
     },
     "lang": {
       "description": "ISO 639-1 language code.",
@@ -44,7 +44,7 @@
     "responseKey": {
       "description": "Key into a capability's responses/{lang}.json.",
       "type": "string",
-      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+      "pattern": "^[A-Za-z0-9_. -]+$"
     },
     "channel": {
       "type": "string",

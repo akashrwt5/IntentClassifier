@@ -63,7 +63,7 @@ def main() -> None:
     # app's dialogue act appeared for "send a message" but vanished for "send a
     # message to john".
     #
-    # `messaging.message.send` now declares a schema `followup`, so the
+    # `Cmd.SendMessage` now declares a schema `followup`, so the
     # confirmation is authored dialogue and fires every turn on its own. No
     # forcing, and the fixture records what the engine actually does.
     for polarity_text, sid in [("yes", "send-yes"), ("no", "send-no")]:

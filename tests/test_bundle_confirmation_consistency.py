@@ -8,7 +8,7 @@ native client may read either:
 
 `required` was hardcoded `False` and documented as "ask only when the
 uncertainty gate says so". Once that gate was removed, `False` stopped meaning
-"conditionally" and started meaning "never" — so `messaging.message.send`
+"conditionally" and started meaning "never" — so `Cmd.SendMessage`
 claimed `always` in policies and `required: false` in its workflow. A client
 reading workflows would have skipped the send confirmation entirely, silently,
 while the reference engine asked every time.

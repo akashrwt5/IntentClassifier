@@ -228,7 +228,7 @@ def compile_capabilities(lang: str, out: Path) -> tuple[dict, dict, dict]:
                 #
                 # It was hardcoded False, meaning "ask only when the uncertainty
                 # gate says so". That gate no longer exists, so False now says
-                # "never ask" — which for messaging.message.send contradicted
+                # "never ask" — which for Cmd.SendMessage contradicted
                 # policies.json's `always` and would have dropped the send
                 # confirmation for any client reading workflows instead of
                 # policies. A `followup` is unconditional by construction; there
@@ -435,7 +435,7 @@ def compile_lexicon(lang: str, schema: dict, out: Path) -> list[str]:
 
 def _state_changing(intents) -> set[str]:
     def read_only(i):
-        return i == "device.status.battery" or i.rsplit(".", 1)[-1] == "query"
+        return i == "Cmd.BatteryLevel" or i.rsplit(".", 1)[-1] == "query"
     return {i for i in intents
             if not i.startswith(("help.", "sys.")) and not read_only(i)}
 

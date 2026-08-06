@@ -80,7 +80,7 @@ def test_no_confidence_band_survives_in_the_schema():
 def test_the_only_declared_confirmations_are_authored_followups():
     """A `followup` is a product decision; a band is a classifier artifact."""
     authored = {i for i, cfg in SCHEMA["intents"].items() if cfg.get("followup")}
-    assert authored == {"messaging.message.send"}, (
+    assert authored == {"Cmd.SendMessage"}, (
         f"authored confirmations are {sorted(authored)}. Adding one is a "
         f"deliberate product call — sending a message is the one irreversible, "
         f"externally-visible action in this taxonomy.")
@@ -88,7 +88,7 @@ def test_the_only_declared_confirmations_are_authored_followups():
 
 @pytest.mark.parametrize("field", ["context", "prompt", "yes", "no"])
 def test_the_authored_followup_is_complete(field):
-    fu = SCHEMA["intents"]["messaging.message.send"]["followup"]
+    fu = SCHEMA["intents"]["Cmd.SendMessage"]["followup"]
     assert fu.get(field) is not None, f"followup is missing {field!r}"
 
 
@@ -98,7 +98,7 @@ def test_authored_followups_are_localized(lang):
     if not path.exists():
         pytest.skip(f"no localization for {lang}")
     loc = json.loads(path.read_text(encoding="utf-8")).get("intents", {})
-    send = loc.get("messaging.message.send", {})
+    send = loc.get("Cmd.SendMessage", {})
     assert send.get("confirm_prompt") or send.get("followup"), (
         f"{lang} has no localized send-confirmation prompt")
 
@@ -126,7 +126,7 @@ def test_a_confident_command_never_asks(engine):
 def test_a_low_confidence_turn_falls_back_rather_than_asking(engine):
     """Below the threshold there is no middle tier — it is the fallback intent.
 
-    "can you to us number one hits" classified as device.memory.change at 0.519
+    "can you to us number one hits" classified as Cmd.MemoryChange at 0.519
     and "one" filled its memory slot, so the flow completed on entry and the
     hearing-aid program changed. It reported confidence 1.0, the slot-fill
     certainty rather than the intent's, which is what hid it.
@@ -175,7 +175,7 @@ def test_a_different_command_escapes_the_confirmation(engine):
     context, so the lifespan never counted down: "send a message" followed by
     "increase volume" asked about sending a message forever. The branch was
     unreachable while no intent declared a `followup`; giving one to
-    messaging.message.send made it live.
+    Cmd.SendMessage made it live.
 
     A confident different command now interrupts, exactly as it does mid
     slot-filling.
@@ -183,8 +183,8 @@ def test_a_different_command_escapes_the_confirmation(engine):
     engine.reset("escape")
     assert engine.handle("escape", "send a message").type == "CONFIRM"
     r = engine.handle("escape", "increase volume")
-    assert r.type == "FULFILL" and r.intent == "device.volume.increase", (r.type, r.intent)
-    assert r.interrupted_intent == "messaging.message.send"
+    assert r.type == "FULFILL" and r.intent == "Cmd.VolumeIncrease", (r.type, r.intent)
+    assert r.interrupted_intent == "Cmd.SendMessage"
 
 
 def test_repeated_non_answers_route_out_instead_of_holding(engine):

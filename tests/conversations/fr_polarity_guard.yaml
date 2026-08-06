@@ -2,4 +2,4 @@
 lang: fr
 turns:
   - user: "mets le moins fort possible"
-    expect: {not_intent: device.volume.increase}
+    expect: {not_intent: Cmd.VolumeIncrease}

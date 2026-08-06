@@ -12,13 +12,13 @@
     "featurizer": "TfidfVectorizer({'ngram_range': (1, 2), 'min_df': 2, 'sublinear_tf': True}) + LogisticRegression({'max_iter': 3000, 'class_weight': 'balanced', 'C': 15.0})",
     "max_per_intent": null,
     "source": "language_packs/en/train.csv",
-    "source_sha256": "95060d4ed540ae1fb3592350deec8fe6124b0b36833a2e47d3227bb09338f8dd",
+    "source_sha256": "803a97d57a5397b1db522b18c982fe0a70092719265aabbe375830b55da6074b",
     "eval_sets_excluded": [
       "language_packs/en/holdout_honest.csv",
       "language_packs/en/holdout_leakage_guard.csv",
       "language_packs/en/extras/holdout_paraphrase.csv"
     ],
-    "fitted_at": "2026-08-05T18:10:31Z",
+    "fitted_at": "2026-08-06T06:31:11Z",
     "fitted_by": "nlu_training.fit_calibration"
   }
 }

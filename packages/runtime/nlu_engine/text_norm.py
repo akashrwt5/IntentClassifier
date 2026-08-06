@@ -10,7 +10,7 @@ plus the bigram "what up"; the exported ONNX graph tokenises the same string
 differently and loses that disambiguating bigram. The result is a train/inference
 mismatch: `pipeline.pkl` predicts one intent and the shipped `model.onnx`
 predicts another for ANY apostrophe input (observed: "what's up" -> OOS in the
-pkl, -> device.volume.increase in ONNX).
+pkl, -> Cmd.VolumeIncrease in ONNX).
 
 FIX
 ---

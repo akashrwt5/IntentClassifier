@@ -3,6 +3,6 @@ lang: en
 force_confirm: true
 turns:
   - user: "start streaming"
-    expect: {type: CONFIRM, intent: streaming.session.start}
+    expect: {type: CONFIRM, intent: Cmd.StreamingStart}
   - user: "what's my battery level"
     expect: {not_action: streaming.start}

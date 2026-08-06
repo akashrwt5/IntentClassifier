@@ -15,7 +15,7 @@
       "minProperties": 1,
       "additionalProperties": false,
       "patternProperties": {
-        "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$": {
+        "^[A-Za-z0-9_. -]+$": {
           "type": "string",
           "description": "always = the intent declares a followup and confirms on every turn; never = it fires directly. There is deliberately no confidence-conditional value: a band that decides when to ask was removed in favour of a single fire threshold (docs/confirm-gate-diagnosis.md), and an app contract cannot depend on where the classifier happened to land.",
           "enum": ["always", "never"]

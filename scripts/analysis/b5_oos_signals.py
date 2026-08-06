@@ -3,8 +3,8 @@
 Tests three scores that need NO new model, only the logits the engine already
 computes:
   (a) max logit  (energy-style OOD score)
-  (b) rank of sys.oos.fallback in the logit ordering
-  (c) softmax prob assigned to sys.oos.fallback
+  (b) rank of Default Fallback Intent in the logit ordering
+  (c) softmax prob assigned to Default Fallback Intent
 
 Question is only 'does the signal separate?', not 'what threshold?' — the
 parameter must be fit on a dev split, never on this holdout.
@@ -29,7 +29,7 @@ with warnings.catch_warnings():
     warnings.simplefilter("ignore")
     ENG = NLUEngine(model_name="en", language="en", semantic_enabled=False)
 labels = list(ENG.classifier.labels)
-OOS = labels.index("sys.oos.fallback")
+OOS = labels.index("Default Fallback Intent")
 T = ENG.classifier.temperature
 
 rec = []

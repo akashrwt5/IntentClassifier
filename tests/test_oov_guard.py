@@ -10,7 +10,7 @@ sentence arrives without it:
 The model is not wrong about "turn off toshiba" — it is never asked. Confidence
 is honest about the input it was handed, which is why no threshold, training row
 or hyperparameter separates these two. `help me find a paper` reduces to
-`help me find`, where `help.find_my_hearing_aids.show` is the correct reading.
+`help me find`, where `Help_FindMyHearingAids` is the correct reading.
 
 And the word that puts an utterance out of scope is almost always rare and
 specific — a brand, an object, a topic — exactly what a finite vocabulary lacks.
@@ -131,7 +131,7 @@ def test_entity_values_are_not_refused(engine, text):
 # ------------------------------ the behaviour -------------------------------
 
 def test_the_reported_case_no_longer_fires(engine):
-    """'help me find a paper' -> help.find_my_hearing_aids.show.
+    """'help me find a paper' -> Help_FindMyHearingAids.
 
     The model sees `help me find`; 'paper' appears zero times in train.csv, so
     it has no slot at all and cannot be added by min_df, by the per-intent cap,
@@ -147,15 +147,15 @@ def test_the_guard_can_only_withhold_an_action_never_cause_one(engine):
     """It runs before the fire test, so its only power is to refuse."""
     engine.reset("oov-2")
     r = engine.handle("oov-2", "increase volume")
-    assert r.type == "FULFILL" and r.intent == "device.volume.increase"
+    assert r.type == "FULFILL" and r.intent == "Cmd.VolumeIncrease"
 
 
 def test_head_commands_are_untouched_by_the_guard(engine):
     """The guard must not tax the commands users actually say."""
-    for text, intent in (("increase volume", "device.volume.increase"),
-                         ("decrease volume", "device.volume.decrease"),
-                         ("mute", "device.volume.mute"),
-                         ("volume up", "device.volume.increase")):
+    for text, intent in (("increase volume", "Cmd.VolumeIncrease"),
+                         ("decrease volume", "Cmd.VolumeDecrease"),
+                         ("mute", "Cmd.VolumeMute"),
+                         ("volume up", "Cmd.VolumeIncrease")):
         engine.reset("oov-head")
         r = engine.handle("oov-head", text)
         assert r.type == "FULFILL" and r.intent == intent, (text, r.type, r.intent)
@@ -180,7 +180,7 @@ def test_out_of_scope_action_budget_is_met(engine):
     import csv
 
     with _HOLDOUT.open(encoding="utf-8-sig", newline="") as fh:
-        rows = [r for r in csv.DictReader(fh) if r["intent"] == "sys.oos.fallback"]
+        rows = [r for r in csv.DictReader(fh) if r["intent"] == "Default Fallback Intent"]
 
     leaked = []
     for i, row in enumerate(rows):

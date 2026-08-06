@@ -85,7 +85,7 @@ SEED = 0
 #
 # DISABLED (None = no cap). It used to be 500, which deleted rows outright —
 # they reached neither training nor evaluation. That cost the most on
-# `sys.oos.fallback`, which went 1191 -> 500: a catch-all class is defined by
+# `Default Fallback Intent`, which went 1191 -> 500: a catch-all class is defined by
 # its LEXICAL VARIETY, not by a pattern, so removing 58% of it removes 58% of
 # the evidence that anything is out of scope. Measured on holdout_honest.csv,
 # uncapping moved OOS recall 69.2% -> 81.0% AND accuracy 90.5% -> 92.0%.

@@ -21,29 +21,29 @@
     {
       "lang": "en",
       "text": "can you phone phone phone phone phone",
-      "truth": "sys.oos.fallback",
-      "fired": "find.phone.locate",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.FindMyPhone",
       "confidence": 0.999
     },
     {
       "lang": "en",
       "text": "can you stream, youtube music.",
-      "truth": "sys.oos.fallback",
-      "fired": "streaming.session.start",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.StreamingStart",
       "confidence": 0.973
     },
     {
       "lang": "en",
       "text": "iphone",
-      "truth": "sys.oos.fallback",
-      "fired": "find.phone.locate",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.FindMyPhone",
       "confidence": 1.0
     },
     {
       "lang": "en",
       "text": "play festival",
-      "truth": "sys.oos.fallback",
-      "fired": "messaging.message.listen",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.ListenMessage",
       "confidence": 0.983
     }
   ],

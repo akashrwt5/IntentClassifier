@@ -2,4 +2,4 @@
 lang: en
 turns:
   - user: "remind me to take my medication tomorrow at 8am"
-    expect: {type: FULFILL, intent: reminders.task.create}
+    expect: {type: FULFILL, intent: reminders.add}

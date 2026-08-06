@@ -8,7 +8,7 @@
         {
           "user": "how many calories have i burned",
           "type": "FULFILL",
-          "intent": "activity.calories.query",
+          "intent": "Cmd.ActivityCalories",
           "action": "activity.calories",
           "confidence": 0.9886,
           "complete": true
@@ -21,7 +21,7 @@
         {
           "user": "how long did i exercise today",
           "type": "FULFILL",
-          "intent": "activity.exercise.query",
+          "intent": "Cmd.ActivityExercise",
           "action": "activity.exercise",
           "confidence": 0.8665,
           "complete": true
@@ -34,7 +34,7 @@
         {
           "user": "how many steps have i taken today",
           "type": "FULFILL",
-          "intent": "activity.step.query",
+          "intent": "Cmd.ActivityStep",
           "action": "activity.step",
           "confidence": 0.9982,
           "complete": true
@@ -47,7 +47,7 @@
         {
           "user": "what's my battery level",
           "type": "FULFILL",
-          "intent": "device.status.battery",
+          "intent": "Cmd.BatteryLevel",
           "action": "battery.level",
           "confidence": 0.75,
           "complete": true
@@ -60,7 +60,7 @@
         {
           "user": "wie ist der batteriestand meiner hörgeräte",
           "type": "FULFILL",
-          "intent": "device.status.battery",
+          "intent": "Cmd.BatteryLevel",
           "action": "battery.level",
           "confidence": 0.9723,
           "complete": true
@@ -73,7 +73,7 @@
         {
           "user": "bitte etwas leiser stellen",
           "type": "FULFILL",
-          "intent": "device.volume.decrease",
+          "intent": "Cmd.VolumeDecrease",
           "action": "volume.decrease",
           "confidence": 0.8533,
           "complete": true
@@ -86,7 +86,7 @@
         {
           "user": "streaming beenden",
           "type": "FULFILL",
-          "intent": "streaming.session.stop",
+          "intent": "Cmd.StreamingStop",
           "action": "streaming.stop",
           "confidence": 0.8823,
           "complete": true
@@ -99,7 +99,7 @@
         {
           "user": "mach es leiser",
           "type": "CONFIRM",
-          "intent": "device.volume.decrease",
+          "intent": "Cmd.VolumeDecrease",
           "action": "volume.decrease",
           "confidence": 0.7827,
           "complete": false
@@ -107,7 +107,7 @@
         {
           "user": "ja",
           "type": "FULFILL",
-          "intent": "device.volume.decrease",
+          "intent": "Cmd.VolumeDecrease",
           "action": "volume.decrease",
           "confidence": 1.0,
           "complete": true
@@ -120,7 +120,7 @@
         {
           "user": "find my phone",
           "type": "FULFILL",
-          "intent": "find.phone.locate",
+          "intent": "Cmd.FindMyPhone",
           "action": "phone.find",
           "confidence": 0.97,
           "complete": true
@@ -133,7 +133,7 @@
         {
           "user": "coupe le son s'il te plaît",
           "type": "FULFILL",
-          "intent": "device.volume.mute",
+          "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
           "confidence": 0.9799,
           "complete": true
@@ -146,7 +146,7 @@
         {
           "user": "mets le moins fort possible",
           "type": "CONFIRM",
-          "intent": "device.volume.decrease",
+          "intent": "Cmd.VolumeDecrease",
           "action": "volume.decrease",
           "confidence": 0.6748,
           "complete": false
@@ -159,8 +159,8 @@
         {
           "user": "rappelle-moi de prendre mes médicaments demain à 8 heures",
           "type": "FULFILL",
-          "intent": "reminders.task.create",
-          "action": "reminders.task.create",
+          "intent": "reminders.add",
+          "action": "reminders.add",
           "confidence": 1.0,
           "complete": true
         }
@@ -172,7 +172,7 @@
         {
           "user": "baisse le volume",
           "type": "FULFILL",
-          "intent": "device.volume.decrease",
+          "intent": "Cmd.VolumeDecrease",
           "action": "volume.decrease",
           "confidence": 0.9869,
           "complete": true
@@ -185,7 +185,7 @@
         {
           "user": "how do i pair my hearing aids",
           "type": "FULFILL",
-          "intent": "help.pairing.show",
+          "intent": "Help_Pairing",
           "action": "help.pairing",
           "confidence": 0.9767,
           "complete": true
@@ -206,7 +206,7 @@
         {
           "user": "how do i pair my hearing aids with my phone",
           "type": "FULFILL",
-          "intent": "help.pairing.show",
+          "intent": "Help_Pairing",
           "action": "help.pairing",
           "confidence": 0.9957,
           "complete": true
@@ -214,7 +214,7 @@
         {
           "user": "mute",
           "type": "FULFILL",
-          "intent": "device.volume.mute",
+          "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
           "confidence": 0.97,
           "complete": true
@@ -240,7 +240,7 @@
         {
           "user": "play my messages",
           "type": "FULFILL",
-          "intent": "messaging.message.listen",
+          "intent": "Cmd.ListenMessage",
           "action": "message.listen",
           "confidence": 0.9992,
           "complete": true
@@ -253,7 +253,7 @@
         {
           "user": "switch my hearing program",
           "type": "PROMPT",
-          "intent": "device.memory.change",
+          "intent": "Cmd.MemoryChange",
           "action": null,
           "confidence": 1.0,
           "complete": false
@@ -295,7 +295,7 @@
         {
           "user": "mute",
           "type": "FULFILL",
-          "intent": "device.volume.mute",
+          "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
           "confidence": 0.97,
           "complete": true
@@ -308,7 +308,7 @@
         {
           "user": "turn mute on",
           "type": "CONFIRM",
-          "intent": "device.volume.mute",
+          "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
           "confidence": 0.6485,
           "complete": false
@@ -316,7 +316,7 @@
         {
           "user": "yes",
           "type": "FULFILL",
-          "intent": "device.volume.mute",
+          "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
           "confidence": 1.0,
           "complete": true
@@ -329,7 +329,7 @@
         {
           "user": "i need it more quiet",
           "type": "CONFIRM",
-          "intent": "device.volume.decrease",
+          "intent": "Cmd.VolumeDecrease",
           "action": "volume.decrease",
           "confidence": 0.75,
           "complete": false
@@ -342,16 +342,16 @@
         {
           "user": "remind me to call the audiologist tomorrow at 3pm",
           "type": "FULFILL",
-          "intent": "reminders.task.create",
-          "action": "reminders.task.create",
+          "intent": "reminders.add",
+          "action": "reminders.add",
           "confidence": 1.0,
           "complete": true
         },
         {
           "user": "mark my reminder as done",
           "type": "FULFILL",
-          "intent": "reminders.task.complete",
-          "action": "reminders.task.complete",
+          "intent": "reminders.complete",
+          "action": "reminders.complete",
           "confidence": 0.9872,
           "complete": true
         }
@@ -363,8 +363,8 @@
         {
           "user": "remind me to take my medication tomorrow at 8am",
           "type": "FULFILL",
-          "intent": "reminders.task.create",
-          "action": "reminders.task.create",
+          "intent": "reminders.add",
+          "action": "reminders.add",
           "confidence": 1.0,
           "complete": true
         }
@@ -376,7 +376,7 @@
         {
           "user": "set a reminder",
           "type": "PROMPT",
-          "intent": "reminders.task.create",
+          "intent": "reminders.add",
           "action": null,
           "confidence": 1.0,
           "complete": false
@@ -384,7 +384,7 @@
         {
           "user": "take my medication",
           "type": "PROMPT",
-          "intent": "reminders.task.create",
+          "intent": "reminders.add",
           "action": null,
           "confidence": 1.0,
           "complete": false
@@ -392,8 +392,8 @@
         {
           "user": "tomorrow at 8am",
           "type": "FULFILL",
-          "intent": "reminders.task.create",
-          "action": "reminders.task.create",
+          "intent": "reminders.add",
+          "action": "reminders.add",
           "confidence": 1.0,
           "complete": true
         }
@@ -405,7 +405,7 @@
         {
           "user": "send a message to my wife",
           "type": "FULFILL",
-          "intent": "messaging.message.send",
+          "intent": "Cmd.SendMessage",
           "action": "message.compose",
           "confidence": 0.9,
           "complete": true
@@ -418,7 +418,7 @@
         {
           "user": "set a reminder",
           "type": "PROMPT",
-          "intent": "reminders.task.create",
+          "intent": "reminders.add",
           "action": null,
           "confidence": 1.0,
           "complete": false
@@ -426,7 +426,7 @@
         {
           "user": "actually just mute my hearing aids",
           "type": "FULFILL",
-          "intent": "device.volume.mute",
+          "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
           "confidence": 0.8958,
           "complete": true
@@ -439,7 +439,7 @@
         {
           "user": "stop streaming",
           "type": "FULFILL",
-          "intent": "streaming.session.stop",
+          "intent": "Cmd.StreamingStop",
           "action": "streaming.stop",
           "confidence": 0.9986,
           "complete": true
@@ -452,7 +452,7 @@
         {
           "user": "start transcribing this conversation",
           "type": "FULFILL",
-          "intent": "transcription.session.start",
+          "intent": "Cmd.TranscribeStart",
           "action": "transcribe.open",
           "confidence": 0.9,
           "complete": true
@@ -465,7 +465,7 @@
         {
           "user": "start translating",
           "type": "FULFILL",
-          "intent": "translation.session.start",
+          "intent": "Cmd.TranslationStart",
           "action": "translate.open",
           "confidence": 0.9,
           "complete": true
@@ -478,7 +478,7 @@
         {
           "user": "mute",
           "type": "FULFILL",
-          "intent": "device.volume.mute",
+          "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
           "confidence": 0.97,
           "complete": true
@@ -486,7 +486,7 @@
         {
           "user": "unmute",
           "type": "FULFILL",
-          "intent": "device.volume.unmute",
+          "intent": "Cmd.VolumeUnmute",
           "action": "volume.unmute",
           "confidence": 0.97,
           "complete": true
@@ -494,7 +494,7 @@
         {
           "user": "turn the volume up",
           "type": "CONFIRM",
-          "intent": "device.volume.increase",
+          "intent": "Cmd.VolumeIncrease",
           "action": "volume.increase",
           "confidence": 0.75,
           "complete": false
@@ -502,7 +502,7 @@
         {
           "user": "yes",
           "type": "FULFILL",
-          "intent": "device.volume.increase",
+          "intent": "Cmd.VolumeIncrease",
           "action": "volume.increase",
           "confidence": 1.0,
           "complete": true

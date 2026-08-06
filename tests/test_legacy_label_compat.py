@@ -4,7 +4,7 @@ Verifies that the modern ``domain.object.action`` labels are translated back to
 the legacy Dialogflow contract the app still consumes, WITHOUT retraining or
 touching the model:
 
-  * simple renames (device.volume.mute -> Cmd.VolumeMute),
+  * simple renames (Cmd.VolumeMute -> Cmd.VolumeMute),
   * passthrough for sentinels / unmapped / None,
   * confirmation compound synthesis: a yes/no resolution of a send
     confirmation becomes ``Cmd.SendMessage - yes`` / ``Cmd.SendMessage - no``,
@@ -39,9 +39,9 @@ def _fresh_cache(monkeypatch):
 
 
 def test_simple_renames():
-    assert label_compat.to_app_label("device.volume.mute") == "Cmd.VolumeMute"
-    assert label_compat.to_app_label("help.battery.show") == "Help_Battery"
-    assert label_compat.to_app_label("sys.oos.fallback") == "Default Fallback Intent"
+    assert label_compat.to_app_label("Cmd.VolumeMute") == "Cmd.VolumeMute"
+    assert label_compat.to_app_label("Help_Battery") == "Help_Battery"
+    assert label_compat.to_app_label("Default Fallback Intent") == "Default Fallback Intent"
 
 
 def test_passthrough():
@@ -51,9 +51,9 @@ def test_passthrough():
 
 
 def test_apply_rewrites_all_label_fields():
-    r = NLUResult(type="FULFILL", intent="device.volume.mute",
-                  interrupted_intent="help.battery.show",
-                  tfidf_intent="reminders.task.create")
+    r = NLUResult(type="FULFILL", intent="Cmd.VolumeMute",
+                  interrupted_intent="Help_Battery",
+                  tfidf_intent="reminders.add")
     label_compat.apply(r)
     assert r.intent == "Cmd.VolumeMute"
     assert r.interrupted_intent == "Help_Battery"
@@ -61,10 +61,10 @@ def test_apply_rewrites_all_label_fields():
 
 
 def test_send_confirmation_yes_becomes_compound():
-    r = NLUResult(type="FULFILL", intent="messaging.message.send",
+    r = NLUResult(type="FULFILL", intent="Cmd.SendMessage",
                   action="message.compose", complete=True)
     r._confirm_polarity = "yes"
-    r._confirmed_intent = "messaging.message.send"
+    r._confirmed_intent = "Cmd.SendMessage"
     label_compat.apply(r)
     assert r.intent == "Cmd.SendMessage - yes"
 
@@ -74,15 +74,15 @@ def test_send_confirmation_no_becomes_compound():
     # intent was being confirmed, so the app gets the exact legacy "- no".
     r = NLUResult(type="FULFILL", intent="sys.confirm.cancelled", complete=True)
     r._confirm_polarity = "no"
-    r._confirmed_intent = "messaging.message.send"
+    r._confirmed_intent = "Cmd.SendMessage"
     label_compat.apply(r)
     assert r.intent == "Cmd.SendMessage - no"
 
 
 def test_internal_tags_do_not_leak_into_payload():
-    r = NLUResult(type="FULFILL", intent="messaging.message.send", complete=True)
+    r = NLUResult(type="FULFILL", intent="Cmd.SendMessage", complete=True)
     r._confirm_polarity = "yes"
-    r._confirmed_intent = "messaging.message.send"
+    r._confirmed_intent = "Cmd.SendMessage"
     payload = label_compat.apply(r).to_dict()
     assert payload["intent"] == "Cmd.SendMessage - yes"
     assert "_confirm_polarity" not in payload
@@ -108,9 +108,9 @@ def test_every_trained_intent_has_a_legacy_mapping():
 def test_killswitch_disables_shim(monkeypatch):
     monkeypatch.setenv("NLU_LEGACY_LABELS", "0")
     label_compat._load.cache_clear()
-    r = NLUResult(type="FULFILL", intent="device.volume.mute")
+    r = NLUResult(type="FULFILL", intent="Cmd.VolumeMute")
     label_compat.apply(r)
-    assert r.intent == "device.volume.mute"  # untouched — modern label passes through
+    assert r.intent == "Cmd.VolumeMute"  # untouched — modern label passes through
 
 
 # --------------------------------------------------------------------------- #

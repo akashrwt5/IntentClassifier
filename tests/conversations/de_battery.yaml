@@ -1,4 +1,4 @@
 lang: de
 turns:
   - user: "wie ist der batteriestand meiner hörgeräte"
-    expect: {intent: device.status.battery}
+    expect: {intent: Cmd.BatteryLevel}

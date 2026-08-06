@@ -258,10 +258,10 @@ def export(out_path: Path, top_per_class: int):
         #
         # IT IS A FLOOR, NOT A FIX. Measured on holdout_honest.csv, adding it
         # moved device out-of-scope leakage 16.4% -> 15.4%. The hypothesis it
-        # was built on — that `sys.oos.fallback` has its own strong features
+        # was built on — that `Default Fallback Intent` has its own strong features
         # that RFE was discarding — is WRONG, and the measurement says so:
         #
-        #   sys.oos.fallback's top-30 features by |coef| are
+        #   Default Fallback Intent's top-30 features by |coef| are
         #   ['streaming','calories','sound','help','aid','memory','volume',
         #    'reminder','my','you', ...] — DOMAIN words, 1 of 30 exclusive to
         #   out-of-scope text.

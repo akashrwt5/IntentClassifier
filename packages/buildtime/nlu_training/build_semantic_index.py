@@ -33,7 +33,7 @@ def load_data():
     data["intent"] = data["intent"].astype(str).str.strip()
     data = data.dropna().drop_duplicates(subset=["text", "intent"])
     # Exclude Default Fallback Intent — semantically noisy, should stay as GenAI
-    data = data[data["intent"] != "sys.oos.fallback"]
+    data = data[data["intent"] != "Default Fallback Intent"]
     print(f"Phrases to embed: {len(data)}  (across {data['intent'].nunique()} intents)")
     return data
 

@@ -1,4 +1,4 @@
 lang: en
 turns:
   - user: "start transcribing this conversation"
-    expect: {intent: transcription.session.start}
+    expect: {intent: Cmd.TranscribeStart}

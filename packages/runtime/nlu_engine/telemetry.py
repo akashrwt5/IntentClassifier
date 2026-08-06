@@ -15,6 +15,7 @@ no per-user rows, no precise timestamps.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
@@ -53,10 +54,31 @@ def confidence_bucket(conf: float, width: float = 0.1) -> str:
     return f"{lo:.1f}-{lo + width:.1f}"
 
 
+_DOMAIN_SEPARATORS = re.compile(r"[._ ]")
+
+
 def domain_of(intent: str | None) -> str:
+    """The COARSE family of an intent — never the intent itself.
+
+    Telemetry records a domain rather than a label so an uploaded event cannot
+    say what a user asked about. That matters most for the help topics: tinnitus,
+    fall alerts and heart rate are health-adjacent, and this product's users are
+    a clinical population.
+
+    It used to split on `.` alone and return the whole string when there was no
+    dot. Under `domain.object.action` every label had a dot, so that was safe.
+    The move to `Cmd.*` / `Help_*` broke it silently in the worst direction:
+    `Help_Tinnitus` has no dot, so the guard returned `help_tinnitus` — the
+    exact disclosure it exists to prevent — while `Cmd.VolumeMute` kept working.
+    A privacy control that degrades quietly is worse than none, because nothing
+    reports that it stopped.
+
+    Splitting on any of `.`, `_` or a space keeps the first segment whatever
+    convention the labels follow next.
+    """
     if not intent:
         return "none"
-    return intent.split(".")[0].lower() if "." in intent else intent.lower()
+    return _DOMAIN_SEPARATORS.split(intent, 1)[0].lower()
 
 
 @dataclass

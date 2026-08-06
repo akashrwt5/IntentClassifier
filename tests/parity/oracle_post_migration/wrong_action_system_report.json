@@ -66,281 +66,281 @@
     {
       "lang": "en",
       "text": "hush it up",
-      "truth": "device.volume.decrease",
-      "fired": "device.volume.mute",
+      "truth": "Cmd.VolumeDecrease",
+      "fired": "Cmd.VolumeMute",
       "confidence": 0.9
     },
     {
       "lang": "en",
       "text": "help with battery questions",
-      "truth": "help.battery.show",
-      "fired": "device.status.battery",
+      "truth": "Help_Battery",
+      "fired": "Cmd.BatteryLevel",
       "confidence": 0.735
     },
     {
       "lang": "en",
       "text": "i'm walking into a loud bar",
-      "truth": "device.memory.change",
-      "fired": "activity.walk.query",
+      "truth": "Cmd.MemoryChange",
+      "fired": "Cmd.ActivityWalk",
       "confidence": 0.75
     },
     {
       "lang": "en",
       "text": "get down south",
-      "truth": "sys.oos.fallback",
-      "fired": "device.volume.decrease",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.VolumeDecrease",
       "confidence": 0.955
     },
     {
       "lang": "en",
       "text": "how many calories did i burn jogging",
-      "truth": "activity.run.query",
-      "fired": "activity.calories.query",
+      "truth": "Cmd.ActivityRun",
+      "fired": "Cmd.ActivityCalories",
       "confidence": 0.928
     },
     {
       "lang": "en",
       "text": "shut off the streamed sound",
-      "truth": "streaming.session.stop",
-      "fired": "device.volume.mute",
+      "truth": "Cmd.StreamingStop",
+      "fired": "Cmd.VolumeMute",
       "confidence": 0.875
     },
     {
       "lang": "en",
       "text": "lower how loud it is",
-      "truth": "device.volume.decrease",
-      "fired": "device.volume.increase",
+      "truth": "Cmd.VolumeDecrease",
+      "fired": "Cmd.VolumeIncrease",
       "confidence": 0.902
     },
     {
       "lang": "en",
       "text": "do i need to remove the battery at night",
-      "truth": "help.battery.show",
-      "fired": "device.status.battery",
+      "truth": "Help_Battery",
+      "fired": "Cmd.BatteryLevel",
       "confidence": 0.932
     },
     {
       "lang": "en",
       "text": "it's less the fucking thing altogether",
-      "truth": "sys.oos.fallback",
-      "fired": "device.volume.decrease",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.VolumeDecrease",
       "confidence": 0.944
     },
     {
       "lang": "en",
       "text": "stream from an accessory mic to my aids",
-      "truth": "help.accessories.show",
-      "fired": "streaming.session.start",
+      "truth": "Help_Accessories",
+      "fired": "Cmd.StreamingStart",
       "confidence": 0.9
     },
     {
       "lang": "fr",
       "text": "la duree de vie de la batterie est de plus en plus courte",
-      "truth": "help.battery.show",
-      "fired": "device.status.battery",
+      "truth": "Help_Battery",
+      "fired": "Cmd.BatteryLevel",
       "confidence": 0.873
     },
     {
       "lang": "fr",
       "text": "commencer mon entrainement cycliste",
-      "truth": "activity.cycle.query",
-      "fired": "activity.exercise.query",
+      "truth": "Cmd.ActivityCycle",
+      "fired": "Cmd.ActivityExercise",
       "confidence": 0.923
     },
     {
       "lang": "fr",
       "text": "iphone",
-      "truth": "sys.oos.fallback",
-      "fired": "find.phone.locate",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.FindMyPhone",
       "confidence": 0.999
     },
     {
       "lang": "fr",
       "text": "s'il te plait, passe au silence",
-      "truth": "device.memory.change",
-      "fired": "device.volume.mute",
+      "truth": "Cmd.MemoryChange",
+      "fired": "Cmd.VolumeMute",
       "confidence": 0.9
     },
     {
       "lang": "fr",
       "text": "peux-tu faire taire mes aides auditives",
-      "truth": "device.volume.decrease",
-      "fired": "device.volume.mute",
+      "truth": "Cmd.VolumeDecrease",
+      "fired": "Cmd.VolumeMute",
       "confidence": 0.956
     },
     {
       "lang": "fr",
       "text": "le micro du partenaire diffuse-t-il vers mes aides auditives",
-      "truth": "help.accessories.show",
-      "fired": "streaming.session.start",
+      "truth": "Help_Accessories",
+      "fired": "Cmd.StreamingStart",
       "confidence": 0.979
     },
     {
       "lang": "fr",
       "text": "quelle taille de batterie mes aides auditives utilisent-elles",
-      "truth": "help.battery.show",
-      "fired": "device.status.battery",
+      "truth": "Help_Battery",
+      "fired": "Cmd.BatteryLevel",
       "confidence": 0.879
     },
     {
       "lang": "fr",
       "text": "peux-tu passer au silence",
-      "truth": "device.memory.change",
-      "fired": "device.volume.mute",
+      "truth": "Cmd.MemoryChange",
+      "fired": "Cmd.VolumeMute",
       "confidence": 0.9
     },
     {
       "lang": "fr",
       "text": "tout semble trop dur",
-      "truth": "device.volume.decrease",
-      "fired": "device.volume.increase",
+      "truth": "Cmd.VolumeDecrease",
+      "fired": "Cmd.VolumeIncrease",
       "confidence": 0.916
     },
     {
       "lang": "fr",
       "text": "peux-tu tonner un message",
-      "truth": "sys.oos.fallback",
-      "fired": "messaging.message.send",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.SendMessage",
       "confidence": 0.99
     },
     {
       "lang": "de",
       "text": "vollstandige erinnerung",
-      "truth": "help.clean_care.show",
-      "fired": "reminders.task.complete",
+      "truth": "Help_CleanCare",
+      "fired": "reminders.complete",
       "confidence": 0.988
     },
     {
       "lang": "de",
       "text": "kannst du mir mein laufziel zeigen?",
-      "truth": "activity.run.query",
-      "fired": "activity.walk.query",
+      "truth": "Cmd.ActivityRun",
+      "fired": "Cmd.ActivityWalk",
       "confidence": 0.963
     },
     {
       "lang": "de",
       "text": "help for translate",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
+      "truth": "Help_Translate",
+      "fired": "Cmd.TranslationStart",
       "confidence": 0.9
     },
     {
       "lang": "de",
       "text": "zeig mir meine standgeschichte",
-      "truth": "activity.stand.query",
-      "fired": "activity.walk.query",
+      "truth": "Cmd.ActivityStand",
+      "fired": "Cmd.ActivityWalk",
       "confidence": 0.927
     },
     {
       "lang": "de",
       "text": "how accurate is the translation",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
+      "truth": "Help_Translate",
+      "fired": "Cmd.TranslationStart",
       "confidence": 0.9
     },
     {
       "lang": "de",
       "text": "show me the help for translate",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
+      "truth": "Help_Translate",
+      "fired": "Cmd.TranslationStart",
       "confidence": 0.9
     },
     {
       "lang": "de",
       "text": "hearing aids translate help",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
+      "truth": "Help_Translate",
+      "fired": "Cmd.TranslationStart",
       "confidence": 0.9
     },
     {
       "lang": "de",
       "text": "does translation work both ways",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
+      "truth": "Help_Translate",
+      "fired": "Cmd.TranslationStart",
       "confidence": 0.9
     },
     {
       "lang": "de",
       "text": "translate user guide",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
+      "truth": "Help_Translate",
+      "fired": "Cmd.TranslationStart",
       "confidence": 0.9
     },
     {
       "lang": "de",
       "text": "show me the translate user guide",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
+      "truth": "Help_Translate",
+      "fired": "Cmd.TranslationStart",
       "confidence": 0.9
     },
     {
       "lang": "da",
       "text": "kan du stille mine horeapparater til ro",
-      "truth": "device.volume.decrease",
-      "fired": "device.volume.mute",
+      "truth": "Cmd.VolumeDecrease",
+      "fired": "Cmd.VolumeMute",
       "confidence": 0.871
     },
     {
       "lang": "da",
       "text": "sla lyden tilbage",
-      "truth": "device.volume.decrease",
-      "fired": "device.volume.unmute",
+      "truth": "Cmd.VolumeDecrease",
+      "fired": "Cmd.VolumeUnmute",
       "confidence": 0.975
     },
     {
       "lang": "da",
       "text": "kan du stille en diagnose pa mine horeapparater",
-      "truth": "help.self_check.show",
-      "fired": "device.volume.mute",
+      "truth": "Help_SelfCheck",
+      "fired": "Cmd.VolumeMute",
       "confidence": 0.877
     },
     {
       "lang": "da",
       "text": "kan du stave til restaurant",
-      "truth": "sys.oos.fallback",
-      "fired": "device.memory.change",
+      "truth": "Default Fallback Intent",
+      "fired": "Cmd.MemoryChange",
       "confidence": 1.0
     },
     {
       "lang": "da",
       "text": "stille alt ned til ingenting",
-      "truth": "device.volume.mute",
-      "fired": "device.volume.decrease",
+      "truth": "Cmd.VolumeMute",
+      "fired": "Cmd.VolumeDecrease",
       "confidence": 0.954
     },
     {
       "lang": "da",
       "text": "kan min aegtefaelle hore gennem mine hjaelpemidler",
-      "truth": "help.hear_share.show",
-      "fired": "streaming.session.start",
+      "truth": "Help_HearShare",
+      "fired": "Cmd.StreamingStart",
       "confidence": 0.902
     },
     {
       "lang": "da",
       "text": "stop med at lyde nu",
-      "truth": "device.volume.unmute",
-      "fired": "streaming.session.stop",
+      "truth": "Cmd.VolumeUnmute",
+      "fired": "Cmd.StreamingStop",
       "confidence": 0.979
     },
     {
       "lang": "da",
       "text": "gemmer translate mine samtaler?",
-      "truth": "help.translate.show",
-      "fired": "translation.session.start",
+      "truth": "Help_Translate",
+      "fired": "Cmd.TranslationStart",
       "confidence": 0.9
     },
     {
       "lang": "da",
       "text": "returnere lyden til mine hjaelpemidler",
-      "truth": "device.volume.unmute",
-      "fired": "streaming.session.start",
+      "truth": "Cmd.VolumeUnmute",
+      "fired": "Cmd.StreamingStart",
       "confidence": 0.904
     },
     {
       "lang": "da",
       "text": "sende en besked til nogen",
-      "truth": "help.home.show",
-      "fired": "messaging.message.send",
+      "truth": "Help_Home",
+      "fired": "Cmd.SendMessage",
       "confidence": 1.0
     }
   ],

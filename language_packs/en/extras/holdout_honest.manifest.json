@@ -23,41 +23,41 @@
     {
       "at": "2026-07-26T12:40:30Z",
       "by": "scripts/ci/fix_oos_mislabels.py",
-      "what": "Relabelled utterances wrongly marked sys.oos.fallback where an in-scope sibling made the label a contradiction. This is a label correction, NOT a re-split — the train/holdout partition is unchanged, so the sets remain disjoint.",
+      "what": "Relabelled utterances wrongly marked Default Fallback Intent where an in-scope sibling made the label a contradiction. This is a label correction, NOT a re-split — the train/holdout partition is unchanged, so the sets remain disjoint.",
       "rows": [
         {
           "file": "train.csv",
           "text": "read last text message",
-          "from": "sys.oos.fallback",
-          "to": "messaging.message.listen",
+          "from": "Default Fallback Intent",
+          "to": "Cmd.ListenMessage",
           "why": "in-scope siblings: 'read my new texts aloud', 'read my unread messages'"
         },
         {
           "file": "train.csv",
           "text": "where do i find the mute button",
-          "from": "sys.oos.fallback",
-          "to": "help.volume.show",
+          "from": "Default Fallback Intent",
+          "to": "Help_Volume",
           "why": "in-scope siblings: 'where do i change loudness', 'how do i mute the sound?'"
         },
         {
           "file": "train.csv",
           "text": "please read last text message",
-          "from": "sys.oos.fallback",
-          "to": "messaging.message.listen",
+          "from": "Default Fallback Intent",
+          "to": "Cmd.ListenMessage",
           "why": "in-scope siblings: 'read my new texts aloud', 'read my unread messages'"
         },
         {
           "file": "train.csv",
           "text": "translate hello to french",
-          "from": "sys.oos.fallback",
-          "to": "translation.session.start",
+          "from": "Default Fallback Intent",
+          "to": "Cmd.TranslationStart",
           "why": "in-scope sibling: 'translate how much do i owe you to spanish'"
         },
         {
           "file": "holdout_honest.csv",
           "text": "can you read last text message",
-          "from": "sys.oos.fallback",
-          "to": "messaging.message.listen",
+          "from": "Default Fallback Intent",
+          "to": "Cmd.ListenMessage",
           "why": "in-scope siblings: 'read my new texts aloud', 'read my unread messages'"
         }
       ]

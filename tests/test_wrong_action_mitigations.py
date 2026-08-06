@@ -35,7 +35,7 @@ def test_mute_request_never_fires_unmute(engine):
     """The safety property: a MUTE request must never trigger UNMUTE.
 
     It used to assert the correct intent came back. It cannot: on the current
-    English model the classifier predicts device.volume.unmute — the OPPOSITE
+    English model the classifier predicts Cmd.VolumeUnmute — the OPPOSITE
     action — at 0.512, and only the 0.70 fire threshold stops it. Deflecting to
     fallback is a capability loss; firing unmute would be a safety event, and
     those are not the same thing, so this test now pins the one that matters.
@@ -53,10 +53,10 @@ def test_mute_request_never_fires_unmute(engine):
     """
     engine.reset("pg1")
     r = engine.handle("pg1", "turn mute on")
-    assert r.intent != "device.volume.unmute", (
+    assert r.intent != "Cmd.VolumeUnmute", (
         f"a MUTE request resolved to UNMUTE ({r.type}, {r.confidence:.2f}) — "
         f"the opposite action reached the user")
-    if r.intent == "device.volume.mute":
+    if r.intent == "Cmd.VolumeMute":
         assert r.type in ("FULFILL", "CONFIRM")
 
 
@@ -77,7 +77,7 @@ def test_quiet_request_never_silently_raises_the_volume(engine):
     """
     engine.reset("pg2")
     r = engine.handle("pg2", "i need it more quiet")
-    assert r.intent != "device.volume.increase" or r.type != "FULFILL", (
+    assert r.intent != "Cmd.VolumeIncrease" or r.type != "FULFILL", (
         f"a 'quieter' request fired volume.increase at {r.confidence:.2f}")
 
 
@@ -90,10 +90,10 @@ def test_the_authored_send_confirmation_asks_then_fires(engine):
     """
     engine.reset("send1")
     r1 = engine.handle("send1", "send a message")
-    assert r1.type == "CONFIRM" and r1.intent == "messaging.message.send"
+    assert r1.type == "CONFIRM" and r1.intent == "Cmd.SendMessage"
     assert "send" in (r1.message or "").lower()
     r2 = engine.handle("send1", "yes please")
-    assert r2.type == "FULFILL" and r2.intent == "messaging.message.send"
+    assert r2.type == "FULFILL" and r2.intent == "Cmd.SendMessage"
     assert r2.action == "message.compose"
 
 
@@ -115,9 +115,9 @@ def test_an_unclear_reply_never_fires_the_held_action(engine):
 def test_confident_commands_fire_without_friction(engine):
     """No confidence-triggered question may stand between a command and its action."""
     engine.reset("cf1")
-    for text, intent in (("mute", "device.volume.mute"),
-                         ("increase volume", "device.volume.increase"),
-                         ("decrease volume", "device.volume.decrease")):
+    for text, intent in (("mute", "Cmd.VolumeMute"),
+                         ("increase volume", "Cmd.VolumeIncrease"),
+                         ("decrease volume", "Cmd.VolumeDecrease")):
         engine.reset("cf1")
         r = engine.handle("cf1", text)
         assert r.type == "FULFILL" and r.intent == intent, (text, r.type, r.intent)

@@ -35,10 +35,10 @@ def engine():
 # A) Natural phrasings that mention the current state — BOTH cues present.
 #    The model predicts these correctly; the guard must leave them alone.
 BOTH_CUE = [
-    ("lower how loud it is", "device.volume.decrease"),
-    ("turn it up its too quiet", "device.volume.increase"),
-    ("its too loud turn it down", "device.volume.decrease"),
-    ("make it quieter its too loud", "device.volume.decrease"),
+    ("lower how loud it is", "Cmd.VolumeDecrease"),
+    ("turn it up its too quiet", "Cmd.VolumeIncrease"),
+    ("its too loud turn it down", "Cmd.VolumeDecrease"),
+    ("make it quieter its too loud", "Cmd.VolumeDecrease"),
 ]
 
 
@@ -53,10 +53,10 @@ def test_guard_does_not_flip_correct_model_prediction(engine, text, expected):
 #    only ever flipped CORRECT model answers. Assert the model handles direction
 #    (and un/mute) unaided — no rule involved.
 @pytest.mark.parametrize("text,expected", [
-    ("please lower it", "device.volume.decrease"),
-    ("make it louder", "device.volume.increase"),
-    ("make it less loud", "device.volume.decrease"),
-    ("cancel the mute please", "device.volume.unmute"),
+    ("please lower it", "Cmd.VolumeDecrease"),
+    ("make it louder", "Cmd.VolumeIncrease"),
+    ("make it less loud", "Cmd.VolumeDecrease"),
+    ("cancel the mute please", "Cmd.VolumeUnmute"),
 ])
 def test_model_handles_volume_direction_without_a_guard(engine, text, expected):
     r = engine.handle(f"sess-{text}", text)

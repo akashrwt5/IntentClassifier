@@ -132,7 +132,7 @@ if HOLDOUT_PATH.exists():
 
 # ---------- 1c. Per-intent row cap (DISABLED) ----------
 # `None` = no cap. It was 500, applied with `.tail()`, which DELETED rows — they
-# reached neither training nor the test split. `sys.oos.fallback` went 1191 ->
+# reached neither training nor the test split. `Default Fallback Intent` went 1191 ->
 # 500, and a catch-all class is defined by its LEXICAL VARIETY rather than by a
 # pattern, so cutting 58% of it cut 58% of the evidence that anything is out of
 # scope. That is where out-of-scope detection lives: the word which makes an

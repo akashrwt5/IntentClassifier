@@ -15,68 +15,68 @@
       "failures": [
         {
           "text": "turn off toshiba",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.mute",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.863
         },
         {
           "text": "please got to getting a text message at boston",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.send",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.SendMessage",
           "conf": 0.841
         },
         {
           "text": "can you read last text message",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.974
         },
         {
           "text": "can you phone phone phone phone phone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 0.999
         },
         {
           "text": "please stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.874
         },
         {
           "text": "can you stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.977
         },
         {
           "text": "please my ears sweat",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.decrease",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeDecrease",
           "conf": 0.826
         },
         {
           "text": "hear it as they got to go.",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.722
         },
         {
           "text": "iphone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 1.0
         },
         {
           "text": "play festival",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.983
         },
         {
           "text": "set me up for conversation",
-          "truth": "device.memory.change",
-          "fired": "device.volume.increase",
+          "truth": "Cmd.MemoryChange",
+          "fired": "Cmd.VolumeIncrease",
           "conf": 0.826
         }
       ]
@@ -93,86 +93,86 @@
       "failures": [
         {
           "text": "turn off toshiba",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.mute",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.863
         },
         {
           "text": "please got to getting a text message at boston",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.send",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.SendMessage",
           "conf": 0.841
         },
         {
           "text": "can you read last text message",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.974
         },
         {
           "text": "can you phone phone phone phone phone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 0.999
         },
         {
           "text": "please stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.874
         },
         {
           "text": "can you stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.977
         },
         {
           "text": "please my ears sweat",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.decrease",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeDecrease",
           "conf": 0.826
         },
         {
           "text": "hear it as they got to go.",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.722
         },
         {
           "text": "iphone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 1.0
         },
         {
           "text": "play festival",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.983
         },
         {
           "text": "set me up for conversation",
-          "truth": "device.memory.change",
-          "fired": "device.volume.increase",
+          "truth": "Cmd.MemoryChange",
+          "fired": "Cmd.VolumeIncrease",
           "conf": 0.826
         },
         {
           "text": "take my aids off mute",
-          "truth": "device.volume.unmute",
-          "fired": "device.volume.mute",
+          "truth": "Cmd.VolumeUnmute",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.868
         },
         {
           "text": "take the mute off",
-          "truth": "device.volume.unmute",
-          "fired": "device.volume.mute",
+          "truth": "Cmd.VolumeUnmute",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.998
         },
         {
           "text": "make it less loud",
-          "truth": "device.volume.decrease",
-          "fired": "device.volume.increase",
+          "truth": "Cmd.VolumeDecrease",
+          "fired": "Cmd.VolumeIncrease",
           "conf": 0.995
         }
       ]
@@ -189,92 +189,92 @@
       "failures": [
         {
           "text": "hearing aids transcribe help",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "turn off toshiba",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.mute",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.863
         },
         {
           "text": "can you show me transcribe user guide",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "please hearing aids transcribe help",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "please show me help for transcribe",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "can you show me help for transcribe",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "please got to getting a text message at boston",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.send",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.SendMessage",
           "conf": 0.841
         },
         {
           "text": "can you read last text message",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.974
         },
         {
           "text": "can you phone phone phone phone phone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 0.999
         },
         {
           "text": "please stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.874
         },
         {
           "text": "can you stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.977
         },
         {
           "text": "please my ears sweat",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.decrease",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeDecrease",
           "conf": 0.826
         },
         {
           "text": "hearing aids translate guide",
-          "truth": "help.translate.show",
-          "fired": "translation.session.start",
+          "truth": "Help_Translate",
+          "fired": "Cmd.TranslationStart",
           "conf": 0.9
         },
         {
           "text": "show me the translate help",
-          "truth": "help.translate.show",
-          "fired": "translation.session.start",
+          "truth": "Help_Translate",
+          "fired": "Cmd.TranslationStart",
           "conf": 0.9
         },
         {
           "text": "hear it as they got to go.",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.722
         }
       ]
@@ -291,68 +291,68 @@
       "failures": [
         {
           "text": "turn off toshiba",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.mute",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.863
         },
         {
           "text": "please got to getting a text message at boston",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.send",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.SendMessage",
           "conf": 0.841
         },
         {
           "text": "can you read last text message",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.974
         },
         {
           "text": "can you phone phone phone phone phone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 0.999
         },
         {
           "text": "please stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.874
         },
         {
           "text": "can you stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.977
         },
         {
           "text": "please my ears sweat",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.decrease",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeDecrease",
           "conf": 0.826
         },
         {
           "text": "hear it as they got to go.",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.722
         },
         {
           "text": "iphone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 1.0
         },
         {
           "text": "play festival",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.983
         },
         {
           "text": "set me up for conversation",
-          "truth": "device.memory.change",
-          "fired": "device.volume.increase",
+          "truth": "Cmd.MemoryChange",
+          "fired": "Cmd.VolumeIncrease",
           "conf": 0.826
         }
       ]
@@ -369,86 +369,86 @@
       "failures": [
         {
           "text": "turn off toshiba",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.mute",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.863
         },
         {
           "text": "please got to getting a text message at boston",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.send",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.SendMessage",
           "conf": 0.841
         },
         {
           "text": "can you read last text message",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.974
         },
         {
           "text": "can you phone phone phone phone phone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 0.999
         },
         {
           "text": "please stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.874
         },
         {
           "text": "can you stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.977
         },
         {
           "text": "please my ears sweat",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.decrease",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeDecrease",
           "conf": 0.826
         },
         {
           "text": "hear it as they got to go.",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.722
         },
         {
           "text": "iphone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 1.0
         },
         {
           "text": "play festival",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.983
         },
         {
           "text": "set me up for conversation",
-          "truth": "device.memory.change",
-          "fired": "device.volume.increase",
+          "truth": "Cmd.MemoryChange",
+          "fired": "Cmd.VolumeIncrease",
           "conf": 0.826
         },
         {
           "text": "take my aids off mute",
-          "truth": "device.volume.unmute",
-          "fired": "device.volume.mute",
+          "truth": "Cmd.VolumeUnmute",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.868
         },
         {
           "text": "take the mute off",
-          "truth": "device.volume.unmute",
-          "fired": "device.volume.mute",
+          "truth": "Cmd.VolumeUnmute",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.998
         },
         {
           "text": "make it less loud",
-          "truth": "device.volume.decrease",
-          "fired": "device.volume.increase",
+          "truth": "Cmd.VolumeDecrease",
+          "fired": "Cmd.VolumeIncrease",
           "conf": 0.995
         }
       ]
@@ -465,92 +465,92 @@
       "failures": [
         {
           "text": "hearing aids transcribe help",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "turn off toshiba",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.mute",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeMute",
           "conf": 0.863
         },
         {
           "text": "can you show me transcribe user guide",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "please hearing aids transcribe help",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "please show me help for transcribe",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "can you show me help for transcribe",
-          "truth": "help.transcribe.show",
-          "fired": "transcription.session.start",
+          "truth": "Help_Transcribe",
+          "fired": "Cmd.TranscribeStart",
           "conf": 0.9
         },
         {
           "text": "please got to getting a text message at boston",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.send",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.SendMessage",
           "conf": 0.841
         },
         {
           "text": "can you read last text message",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.974
         },
         {
           "text": "can you phone phone phone phone phone",
-          "truth": "sys.oos.fallback",
-          "fired": "find.phone.locate",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.FindMyPhone",
           "conf": 0.999
         },
         {
           "text": "please stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.874
         },
         {
           "text": "can you stream, youtube music.",
-          "truth": "sys.oos.fallback",
-          "fired": "streaming.session.start",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.StreamingStart",
           "conf": 0.977
         },
         {
           "text": "please my ears sweat",
-          "truth": "sys.oos.fallback",
-          "fired": "device.volume.decrease",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.VolumeDecrease",
           "conf": 0.826
         },
         {
           "text": "hearing aids translate guide",
-          "truth": "help.translate.show",
-          "fired": "translation.session.start",
+          "truth": "Help_Translate",
+          "fired": "Cmd.TranslationStart",
           "conf": 0.9
         },
         {
           "text": "show me the translate help",
-          "truth": "help.translate.show",
-          "fired": "translation.session.start",
+          "truth": "Help_Translate",
+          "fired": "Cmd.TranslationStart",
           "conf": 0.9
         },
         {
           "text": "hear it as they got to go.",
-          "truth": "sys.oos.fallback",
-          "fired": "messaging.message.listen",
+          "truth": "Default Fallback Intent",
+          "fired": "Cmd.ListenMessage",
           "conf": 0.722
         }
       ]

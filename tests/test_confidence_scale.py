@@ -133,15 +133,15 @@ def test_contested_is_the_only_constant_and_it_is_declared(engine):
 # Volume up/down are also trivially reversible — the cost of getting one wrong
 # is the user saying "no, down", which is cheaper than asking every time.
 _HEAD_COMMANDS = [
-    ("increase volume", "device.volume.increase"),
-    ("turn up the volume", "device.volume.increase"),
-    ("volume up", "device.volume.increase"),
-    ("make it louder", "device.volume.increase"),
-    ("decrease volume", "device.volume.decrease"),
-    ("turn down the volume", "device.volume.decrease"),
-    ("turn it down", "device.volume.decrease"),
-    ("mute", "device.volume.mute"),
-    ("unmute", "device.volume.unmute"),
+    ("increase volume", "Cmd.VolumeIncrease"),
+    ("turn up the volume", "Cmd.VolumeIncrease"),
+    ("volume up", "Cmd.VolumeIncrease"),
+    ("make it louder", "Cmd.VolumeIncrease"),
+    ("decrease volume", "Cmd.VolumeDecrease"),
+    ("turn down the volume", "Cmd.VolumeDecrease"),
+    ("turn it down", "Cmd.VolumeDecrease"),
+    ("mute", "Cmd.VolumeMute"),
+    ("unmute", "Cmd.VolumeUnmute"),
 ]
 
 

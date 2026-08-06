@@ -1,332 +1,332 @@
 utterance,expected_intent,difficulty
-the television is blaring and i still miss the words,device.volume.increase,HARD
-people seem so far away when they talk,device.volume.increase,HARD
-i keep asking everyone to repeat themselves,device.volume.increase,HARD
-conversations are slipping past me,device.volume.increase,HARD
-could you amplify things a touch,device.volume.increase,HARD
-the world sounds dull today,device.volume.increase,HARD
-my grandkids sound like whispers,device.volume.increase,HARD
-add some more loudness please,device.volume.increase,HARD
-nothing is coming through clearly,device.volume.increase,HARD
-push the sound higher,device.volume.increase,HARD
-my ears are getting hammered,device.volume.decrease,HARD
-this place is deafening,device.volume.decrease,HARD
-soften the audio for me,device.volume.decrease,HARD
-everything is coming in way too hot,device.volume.decrease,HARD
-the noise is unbearable right now,device.volume.decrease,HARD
-take the edge off the sound,device.volume.decrease,HARD
-bring it down several notches,device.volume.decrease,HARD
-the loudness is giving me a headache,device.volume.decrease,HARD
-calm the audio down,device.volume.decrease,HARD
-less sound please,device.volume.decrease,HARD
-i just sat down at a busy cafe,device.memory.change,HARD
-adjust for this loud room,device.memory.change,HARD
-give me the setting for crowds,device.memory.change,HARD
-flip to my quiet home program,device.memory.change,HARD
-this environment needs a different setup,device.memory.change,HARD
-swap to the program for meetings,device.memory.change,HARD
-put my aids in party mode,device.memory.change,HARD
-the current program isn't right for here,device.memory.change,HARD
-load my usual configuration,device.memory.change,HARD
-do my aids have enough power for tonight,device.status.battery,HARD
-when will these die on me,device.status.battery,HARD
-give me a power reading,device.status.battery,HARD
-should i plug them in soon,device.status.battery,HARD
-how full are the batteries,device.status.battery,HARD
-is the charge holding up,device.status.battery,HARD
-tell me how much runtime is left,device.status.battery,HARD
-are we good on power,device.status.battery,HARD
-i'm worried the batteries might quit,device.status.battery,HARD
-what's the power situation,device.status.battery,HARD
-my hearing aids have vanished,help.find_my_hearing_aids.show,HARD
-i think i left my aids somewhere,help.find_my_hearing_aids.show,HARD
-no idea where my devices went,help.find_my_hearing_aids.show,HARD
-help me hunt down my hearing aids,help.find_my_hearing_aids.show,HARD
-one of my aids is missing,help.find_my_hearing_aids.show,HARD
-show me the last place my aids were,help.find_my_hearing_aids.show,HARD
-my right hearing aid disappeared,help.find_my_hearing_aids.show,HARD
-i cannot locate either device,help.find_my_hearing_aids.show,HARD
-they fell out somewhere help me search,help.find_my_hearing_aids.show,HARD
-ping my hearing aids for me,help.find_my_hearing_aids.show,HARD
-nudge me about this in an hour,reminders.task.create,HARD
-i'll forget this unless you save it,reminders.task.create,HARD
-flag this for me tonight,reminders.task.create,HARD
-set something so i remember my pills,reminders.task.create,HARD
-poke me about this tomorrow,reminders.task.create,HARD
-jot this down so i don't lose it,reminders.task.create,HARD
-i have an appointment i can't miss,reminders.task.create,HARD
-make sure this doesn't slip my mind,reminders.task.create,HARD
-put a reminder on for the morning,reminders.task.create,HARD
-alert me when it's time,reminders.task.create,HARD
-get word to my daughter,messaging.message.send,HARD
-i want to drop someone a line,messaging.message.send,HARD
-shoot a message to my friend,messaging.message.send,HARD
-let my son know something,messaging.message.send,HARD
-i'd like to message somebody,messaging.message.send,HARD
-deliver a note to my wife,messaging.message.send,HARD
-help me write to someone,messaging.message.send,HARD
-ping my brother with an update,messaging.message.send,HARD
-i have news to share with a contact,messaging.message.send,HARD
-send word that i'm running late,messaging.message.send,HARD
-put the tv sound straight into my ears,streaming.session.start,HARD
-beam the audio to my aids,streaming.session.start,HARD
-i want the show playing in my hearing aids,streaming.session.start,HARD
-feed the television into my devices,streaming.session.start,HARD
-patch the sound through to me,streaming.session.start,HARD
-begin streaming to my ears,streaming.session.start,HARD
-hook the tv audio up to my aids,streaming.session.start,HARD
-push the movie sound to my hearing aids,streaming.session.start,HARD
-let the music play inside my aids,streaming.session.start,HARD
-turn on direct tv listening,streaming.session.start,HARD
-i'm lost in this app,help.home.show,HARD
-where do i even begin,help.home.show,HARD
-explain what this thing can do,help.home.show,HARD
-i could use a hand figuring this out,help.home.show,HARD
-none of this makes sense to me,help.home.show,HARD
-point me in the right direction,help.home.show,HARD
-what features are available,help.home.show,HARD
-give me a quick tour,help.home.show,HARD
-i don't understand how to use this,help.home.show,HARD
-list the things you can help with,help.home.show,HARD
-who painted the mona lisa,sys.oos.fallback,HARD
-what time is it in tokyo,sys.oos.fallback,HARD
-sing me a song,sys.oos.fallback,HARD
-how far is the moon,sys.oos.fallback,HARD
-what should i cook for dinner,sys.oos.fallback,HARD
-tell me about the roman empire,sys.oos.fallback,HARD
-play chess with me,sys.oos.fallback,HARD
-what's the fastest car in the world,sys.oos.fallback,HARD
-give me lottery numbers,sys.oos.fallback,HARD
-when is the next full moon,sys.oos.fallback,HARD
-kill the noise completely,device.volume.mute,HARD
-i need dead silence right now,device.volume.mute,HARD
-mute everything for me,device.volume.mute,EASY
-not a peep please,device.volume.mute,HARD
-let the sound back in,device.volume.unmute,HARD
-i want to hear again,device.volume.unmute,HARD
-bring the audio back please,device.volume.unmute,HARD
-take me off mute,device.volume.unmute,HARD
-cut the tv connection,streaming.session.stop,HARD
-i'm done listening to the stream,streaming.session.stop,HARD
-stop sending audio to my hearing aids,streaming.session.stop,EASY
-disconnect from what i was streaming,streaming.session.stop,HARD
-end the broadcast to my ears,streaming.session.stop,HARD
-i've misplaced my phone again,find.phone.locate,HARD
-ring my phone so i can find it,find.phone.locate,HARD
-help me track down my handset,find.phone.locate,HARD
-my phone has gone missing,find.phone.locate,HARD
-i'm about to head out for a jog,activity.run.query,HARD
-track this run for me,activity.run.query,EASY
-log the miles i just covered,activity.run.query,HARD
-i went for a run this morning,activity.run.query,HARD
-start counting my running,activity.run.query,HARD
-i'm off for a stroll track it please,activity.walk.query,HARD
-count my steps on this walk,activity.walk.query,HARD
-log my evening walk,activity.walk.query,EASY
-i went for a long walk today,activity.walk.query,HARD
-record this walk for me,activity.walk.query,HARD
-have i hit ten thousand steps yet,activity.step.query,HARD
-how close am i to my step target,activity.step.query,HARD
-what's my step count for today,activity.step.query,EASY
-am i near my walking goal,activity.walk.query,HARD
-how many steps have i clocked today,activity.step.query,HARD
-i just finished a bike ride log it,activity.cycle.query,HARD
-track my cycling session,activity.cycle.query,EASY
-how many kilometres have i cycled,activity.cycle.query,HARD
-am i close to my biking goal,activity.cycle.query,HARD
-record this ride please,activity.cycle.query,HARD
-have i stood up enough today,activity.stand.query,HARD
-how long have i been on my feet,activity.stand.query,HARD
-check my standing time,activity.stand.query,EASY
-am i meeting my standing goal,activity.stand.query,HARD
-how much longer should i stay standing,activity.stand.query,HARD
-track my aerobics class,activity.aerobics.query,EASY
-how many aerobic minutes today,activity.aerobics.query,HARD
-log the aerobics i just did,activity.aerobics.query,HARD
-show me my aerobic progress,activity.aerobics.query,HARD
-how many calories have i torched today,activity.calories.query,HARD
-show me my burn for the week,activity.calories.query,HARD
-what's my calorie count so far,activity.calories.query,EASY
-did i hit my calorie goal,activity.calories.query,HARD
-how many more calories to reach my target,activity.calories.query,HARD
-log my gym session,activity.exercise.query,HARD
-how long did i work out today,activity.exercise.query,EASY
-did i reach my exercise goal,activity.exercise.query,HARD
-track this training session,activity.exercise.query,HARD
-record my workout just now,activity.exercise.query,HARD
-write down everything being said,transcription.session.start,HARD
-i need a live transcript,transcription.session.start,HARD
-caption what people are saying,transcription.session.start,HARD
-start converting speech to text,transcription.session.start,EASY
-put the conversation in writing,transcription.session.start,HARD
-start translating for me,translation.session.start,EASY
-i need this conversation in english,translation.session.start,HARD
-switch on translation mode,translation.session.start,HARD
-help me understand this foreign language,translation.session.start,HARD
-translate what they're saying,translation.session.start,HARD
-read out my messages,messaging.message.listen,HARD
-play back my latest texts,messaging.message.listen,HARD
-any messages for me,messaging.message.listen,HARD
-let me hear my messages,messaging.message.listen,EASY
-what did people send me,messaging.message.listen,HARD
-roughly how much life do these have left,device.status.battery,HARD
-are my aids running low,device.status.battery,HARD
-will they last the afternoon,device.status.battery,HARD
-let me know the charge level,device.status.battery,HARD
-mark that task as done,reminders.task.complete,HARD
-i finished the reminder,reminders.task.complete,HARD
-tick off my reminder,reminders.task.complete,HARD
-complete the reminder for me,reminders.task.complete,EASY
-i took my pills you can clear that,reminders.task.complete,HARD
-my ears won't stop ringing,help.tinnitus.show,HARD
-there's a constant buzzing in my head,help.tinnitus.show,HARD
-how do i turn on the masking sound,help.tinnitus.show,HARD
-tinnitus relief help,help.tinnitus.show,EASY
-the ringing is driving me mad,help.tinnitus.show,HARD
-my hearing aids won't connect,help.pairing.show,HARD
-link my aids to the app,help.pairing.show,HARD
-how do i set up the bluetooth connection,help.pairing.show,HARD
-my aids have lost their connection,help.pairing.show,HARD
-pair my hearing aids,help.pairing.show,EASY
-the sound is cutting in and out,help.device_settings.show,HARD
-audio quality has gone downhill,help.device_settings.show,HARD
-my aids sound distorted,help.device_settings.show,HARD
-fix the audio problems with my aids,help.device_settings.show,HARD
-help with my hearing aid settings,help.device_settings.show,EASY
-how do i change the volume on one side,help.volume.show,HARD
-volume controls explained,help.volume.show,HARD
-where is the volume setting,help.volume.show,EASY
-can i set different volumes per ear,help.volume.show,HARD
-help with adjusting loudness,help.volume.show,HARD
-how do i create a custom program,help.memory_options.show,HARD
-what memory presets are available,help.memory_options.show,HARD
-how do i rename a memory,help.memory_options.show,HARD
-memory options help,help.memory_options.show,EASY
-can i set a favourite program,help.memory_options.show,HARD
-how do i switch between programs,help.changing_memories.show,HARD
-change memory explained,help.changing_memories.show,HARD
-help with switching profiles,help.changing_memories.show,EASY
-how do different memories work,help.changing_memories.show,HARD
-my hearing aid battery died quickly,help.battery.show,HARD
-how do i replace the battery,help.battery.show,EASY
-rechargeable or disposable which is better,help.battery.show,HARD
-the charger isn't charging my aid,help.battery.show,HARD
-battery tips for hearing aids,help.battery.show,HARD
-how do i maintain my hearing aids,help.clean_care.show,HARD
-cleaning tips for my aids,help.clean_care.show,EASY
-i've got wax stuck in my hearing aid,help.clean_care.show,HARD
-is it ok to get my aids wet,help.clean_care.show,HARD
-how often should i clean them,help.clean_care.show,HARD
-how do i get this in my ear properly,help.insert_device.show,HARD
-the device keeps falling out,help.insert_device.show,HARD
-help putting in my hearing aid,help.insert_device.show,EASY
-which way does this go in my ear,help.insert_device.show,HARD
-how to wear my hearing aid correctly,help.insert_device.show,HARD
-what accessories can i use with my aids,help.accessories.show,EASY
-tell me about the tv streamer,help.accessories.show,HARD
-how do i use the remote microphone,help.accessories.show,HARD
-what add-ons are compatible,help.accessories.show,HARD
-can i stream from a clip-on mic,help.accessories.show,HARD
-my audiologist can adjust remotely yes,help.remote_programming.show,HARD
-how does remote tuning work,help.remote_programming.show,HARD
-remote programming help,help.remote_programming.show,EASY
-can my audiologist change settings from afar,help.remote_programming.show,HARD
-how do i request a remote fitting,help.remote_programming.show,HARD
-connect with my hearing care professional,help.hearing_care_anywhere_connect.show,HARD
-how do i use telehear,help.hearing_care_anywhere_connect.show,EASY
-remote appointment with my audiologist,help.hearing_care_anywhere_connect.show,HARD
-back up my settings to the cloud,help.hearing_care_anywhere_connect.show,HARD
-restore my profile after reinstalling,help.hearing_care_anywhere_connect.show,HARD
-run diagnostics on my hearing aids,help.self_check.show,HARD
-check if my aids are working properly,help.self_check.show,HARD
-test my hearing aids,help.self_check.show,HARD
-something seems off with one aid diagnose,help.self_check.show,HARD
-set up fall detection,help.fall_alert.show,EASY
-how does fall alert work,help.fall_alert.show,HARD
-will it detect if i take a tumble,help.fall_alert.show,HARD
-alert my family if i fall,help.fall_alert.show,HARD
-fall alert setup help,help.fall_alert.show,HARD
-how does the smart voice feature work,help.intelli_voice.show,HARD
-intellivoice explained,help.intelli_voice.show,EASY
-the voice recognition feature help,help.intelli_voice.show,HARD
-what can intelligent voice do,help.intelli_voice.show,HARD
-enable the smart speech feature,help.intelli_voice.show,HARD
-i can't hear people with face masks on,help.mask_mode.show,HARD
-how does mask mode improve speech,help.mask_mode.show,HARD
-people in masks are hard to understand,help.mask_mode.show,HARD
-turn on mask mode,help.mask_mode.show,HARD
-too much wind noise outside,help.edge_mode.show,HARD
-reduce wind interference with edge mode,help.edge_mode.show,HARD
-is edge mode good for outdoor use,help.edge_mode.show,HARD
-let me explore the app without aids,help.demo_mode.show,HARD
-demo mode help,help.demo_mode.show,EASY
-try out features without connecting aids,help.demo_mode.show,HARD
-i want to show someone the app without aids,help.demo_mode.show,HARD
-preview the app in demonstration mode,help.demo_mode.show,HARD
-where do i find the app preferences,help.app_settings.show,HARD
-switch to advanced mode in the app,help.app_settings.show,HARD
-app settings help,help.app_settings.show,EASY
-how do i change to basic mode,help.app_settings.show,HARD
-notification settings for the app,help.app_settings.show,HARD
-how do i tweak the equalizer,help.customize.show,HARD
-customize my hearing aid sound,help.customize.show,EASY
-i want less bass in my left aid,help.customize.show,HARD
-reduce the background noise level,help.customize.show,HARD
-personalise my listening experience,help.customize.show,HARD
-where is the transcription feature,help.transcribe.show,HARD
-transcribe feature help,help.transcribe.show,EASY
-does the app do live captions,help.transcribe.show,HARD
-how does speech to text work in thrive,help.transcribe.show,HARD
-what is the transcribe function,help.transcribe.show,HARD
-what languages can it translate,help.translate.show,HARD
-translate feature help,help.translate.show,EASY
-how do i use the translation function,help.translate.show,HARD
-is french available for translation,help.translate.show,HARD
-how does the real-time translation work,help.translate.show,HARD
-what is my wellness score,help.thrive_score.show,HARD
-show my thrive score,help.thrive_score.show,EASY
-how is the thrive score calculated,help.thrive_score.show,HARD
-my body and brain score,help.thrive_score.show,HARD
-where do i see my overall health rating,help.health.show,HARD
-can these aids measure my pulse,help.heart_rate.show,HARD
-show my heart rate from today,help.heart_rate.show,HARD
-is my heart rate tracked automatically,help.heart_rate.show,HARD
-where do i see my bpm,help.heart_rate.show,HARD
-how quickly did my heart recover,help.heart_rate_recovery.show,HARD
-explain my recovery score,help.heart_rate_recovery.show,HARD
-what's a good heart rate recovery time,help.heart_rate_recovery.show,HARD
-is my recovery getting better,help.heart_rate_recovery.show,HARD
-show me my overall activity dashboard,help.health.show,HARD
-health screen help,help.health.show,EASY
-where do i see all my fitness data,help.health.show,HARD
-how do i set my weekly health goals,help.health.show,HARD
-i want to see my full health summary,help.health.show,HARD
-how do i share what i'm hearing,help.hear_share.show,HARD
-can someone else listen with me,help.hear_share.show,HARD
-hear share feature help,help.hear_share.show,EASY
-stream audio to another person,help.hear_share.show,HARD
-how does shared listening work,help.hear_share.show,HARD
-what voice assistants work with my aids,help.voice_assistant.show,HARD
-voice assistant help,help.voice_assistant.show,EASY
-can i use siri with my hearing aids,help.voice_assistant.show,HARD
-how do i activate google assistant,help.voice_assistant.show,HARD
-enable the voice assistant feature,help.voice_assistant.show,HARD
-help with my cros hearing aids,help.wi_c_r_o_s.show,EASY
-what is the cros balance control,help.wi_c_r_o_s.show,HARD
-my transmitter isn't working,help.wi_c_r_o_s.show,HARD
-how do i adjust cros balance,help.wi_c_r_o_s.show,HARD
-wicros feature explained,help.wi_c_r_o_s.show,HARD
-how do reminders work in this app,help.reminder.show,HARD
-reminder feature help,help.reminder.show,EASY
-can i get a daily reminder,help.reminder.show,HARD
-set up recurring reminders,help.reminder.show,HARD
-what's been added to the app lately,help.whats_new.show,HARD
-show me what's new,help.whats_new.show,EASY
-any new features i should know about,help.whats_new.show,HARD
-what changed in the latest update,help.whats_new.show,HARD
-recent updates to thrive,help.whats_new.show,HARD
-what's the weather going to be like,sys.oos.fallback,EASY
-who won last night's match,sys.oos.fallback,EASY
-recommend me a tv show,sys.oos.fallback,EASY
-how do i make a cheese omelette,sys.oos.fallback,EASY
-what's a good book to read this month,sys.oos.fallback,EASY
+the television is blaring and i still miss the words,Cmd.VolumeIncrease,HARD
+people seem so far away when they talk,Cmd.VolumeIncrease,HARD
+i keep asking everyone to repeat themselves,Cmd.VolumeIncrease,HARD
+conversations are slipping past me,Cmd.VolumeIncrease,HARD
+could you amplify things a touch,Cmd.VolumeIncrease,HARD
+the world sounds dull today,Cmd.VolumeIncrease,HARD
+my grandkids sound like whispers,Cmd.VolumeIncrease,HARD
+add some more loudness please,Cmd.VolumeIncrease,HARD
+nothing is coming through clearly,Cmd.VolumeIncrease,HARD
+push the sound higher,Cmd.VolumeIncrease,HARD
+my ears are getting hammered,Cmd.VolumeDecrease,HARD
+this place is deafening,Cmd.VolumeDecrease,HARD
+soften the audio for me,Cmd.VolumeDecrease,HARD
+everything is coming in way too hot,Cmd.VolumeDecrease,HARD
+the noise is unbearable right now,Cmd.VolumeDecrease,HARD
+take the edge off the sound,Cmd.VolumeDecrease,HARD
+bring it down several notches,Cmd.VolumeDecrease,HARD
+the loudness is giving me a headache,Cmd.VolumeDecrease,HARD
+calm the audio down,Cmd.VolumeDecrease,HARD
+less sound please,Cmd.VolumeDecrease,HARD
+i just sat down at a busy cafe,Cmd.MemoryChange,HARD
+adjust for this loud room,Cmd.MemoryChange,HARD
+give me the setting for crowds,Cmd.MemoryChange,HARD
+flip to my quiet home program,Cmd.MemoryChange,HARD
+this environment needs a different setup,Cmd.MemoryChange,HARD
+swap to the program for meetings,Cmd.MemoryChange,HARD
+put my aids in party mode,Cmd.MemoryChange,HARD
+the current program isn't right for here,Cmd.MemoryChange,HARD
+load my usual configuration,Cmd.MemoryChange,HARD
+do my aids have enough power for tonight,Cmd.BatteryLevel,HARD
+when will these die on me,Cmd.BatteryLevel,HARD
+give me a power reading,Cmd.BatteryLevel,HARD
+should i plug them in soon,Cmd.BatteryLevel,HARD
+how full are the batteries,Cmd.BatteryLevel,HARD
+is the charge holding up,Cmd.BatteryLevel,HARD
+tell me how much runtime is left,Cmd.BatteryLevel,HARD
+are we good on power,Cmd.BatteryLevel,HARD
+i'm worried the batteries might quit,Cmd.BatteryLevel,HARD
+what's the power situation,Cmd.BatteryLevel,HARD
+my hearing aids have vanished,Help_FindMyHearingAids,HARD
+i think i left my aids somewhere,Help_FindMyHearingAids,HARD
+no idea where my devices went,Help_FindMyHearingAids,HARD
+help me hunt down my hearing aids,Help_FindMyHearingAids,HARD
+one of my aids is missing,Help_FindMyHearingAids,HARD
+show me the last place my aids were,Help_FindMyHearingAids,HARD
+my right hearing aid disappeared,Help_FindMyHearingAids,HARD
+i cannot locate either device,Help_FindMyHearingAids,HARD
+they fell out somewhere help me search,Help_FindMyHearingAids,HARD
+ping my hearing aids for me,Help_FindMyHearingAids,HARD
+nudge me about this in an hour,reminders.add,HARD
+i'll forget this unless you save it,reminders.add,HARD
+flag this for me tonight,reminders.add,HARD
+set something so i remember my pills,reminders.add,HARD
+poke me about this tomorrow,reminders.add,HARD
+jot this down so i don't lose it,reminders.add,HARD
+i have an appointment i can't miss,reminders.add,HARD
+make sure this doesn't slip my mind,reminders.add,HARD
+put a reminder on for the morning,reminders.add,HARD
+alert me when it's time,reminders.add,HARD
+get word to my daughter,Cmd.SendMessage,HARD
+i want to drop someone a line,Cmd.SendMessage,HARD
+shoot a message to my friend,Cmd.SendMessage,HARD
+let my son know something,Cmd.SendMessage,HARD
+i'd like to message somebody,Cmd.SendMessage,HARD
+deliver a note to my wife,Cmd.SendMessage,HARD
+help me write to someone,Cmd.SendMessage,HARD
+ping my brother with an update,Cmd.SendMessage,HARD
+i have news to share with a contact,Cmd.SendMessage,HARD
+send word that i'm running late,Cmd.SendMessage,HARD
+put the tv sound straight into my ears,Cmd.StreamingStart,HARD
+beam the audio to my aids,Cmd.StreamingStart,HARD
+i want the show playing in my hearing aids,Cmd.StreamingStart,HARD
+feed the television into my devices,Cmd.StreamingStart,HARD
+patch the sound through to me,Cmd.StreamingStart,HARD
+begin streaming to my ears,Cmd.StreamingStart,HARD
+hook the tv audio up to my aids,Cmd.StreamingStart,HARD
+push the movie sound to my hearing aids,Cmd.StreamingStart,HARD
+let the music play inside my aids,Cmd.StreamingStart,HARD
+turn on direct tv listening,Cmd.StreamingStart,HARD
+i'm lost in this app,Help_Home,HARD
+where do i even begin,Help_Home,HARD
+explain what this thing can do,Help_Home,HARD
+i could use a hand figuring this out,Help_Home,HARD
+none of this makes sense to me,Help_Home,HARD
+point me in the right direction,Help_Home,HARD
+what features are available,Help_Home,HARD
+give me a quick tour,Help_Home,HARD
+i don't understand how to use this,Help_Home,HARD
+list the things you can help with,Help_Home,HARD
+who painted the mona lisa,Default Fallback Intent,HARD
+what time is it in tokyo,Default Fallback Intent,HARD
+sing me a song,Default Fallback Intent,HARD
+how far is the moon,Default Fallback Intent,HARD
+what should i cook for dinner,Default Fallback Intent,HARD
+tell me about the roman empire,Default Fallback Intent,HARD
+play chess with me,Default Fallback Intent,HARD
+what's the fastest car in the world,Default Fallback Intent,HARD
+give me lottery numbers,Default Fallback Intent,HARD
+when is the next full moon,Default Fallback Intent,HARD
+kill the noise completely,Cmd.VolumeMute,HARD
+i need dead silence right now,Cmd.VolumeMute,HARD
+mute everything for me,Cmd.VolumeMute,EASY
+not a peep please,Cmd.VolumeMute,HARD
+let the sound back in,Cmd.VolumeUnmute,HARD
+i want to hear again,Cmd.VolumeUnmute,HARD
+bring the audio back please,Cmd.VolumeUnmute,HARD
+take me off mute,Cmd.VolumeUnmute,HARD
+cut the tv connection,Cmd.StreamingStop,HARD
+i'm done listening to the stream,Cmd.StreamingStop,HARD
+stop sending audio to my hearing aids,Cmd.StreamingStop,EASY
+disconnect from what i was streaming,Cmd.StreamingStop,HARD
+end the broadcast to my ears,Cmd.StreamingStop,HARD
+i've misplaced my phone again,Cmd.FindMyPhone,HARD
+ring my phone so i can find it,Cmd.FindMyPhone,HARD
+help me track down my handset,Cmd.FindMyPhone,HARD
+my phone has gone missing,Cmd.FindMyPhone,HARD
+i'm about to head out for a jog,Cmd.ActivityRun,HARD
+track this run for me,Cmd.ActivityRun,EASY
+log the miles i just covered,Cmd.ActivityRun,HARD
+i went for a run this morning,Cmd.ActivityRun,HARD
+start counting my running,Cmd.ActivityRun,HARD
+i'm off for a stroll track it please,Cmd.ActivityWalk,HARD
+count my steps on this walk,Cmd.ActivityWalk,HARD
+log my evening walk,Cmd.ActivityWalk,EASY
+i went for a long walk today,Cmd.ActivityWalk,HARD
+record this walk for me,Cmd.ActivityWalk,HARD
+have i hit ten thousand steps yet,Cmd.ActivityStep,HARD
+how close am i to my step target,Cmd.ActivityStep,HARD
+what's my step count for today,Cmd.ActivityStep,EASY
+am i near my walking goal,Cmd.ActivityWalk,HARD
+how many steps have i clocked today,Cmd.ActivityStep,HARD
+i just finished a bike ride log it,Cmd.ActivityCycle,HARD
+track my cycling session,Cmd.ActivityCycle,EASY
+how many kilometres have i cycled,Cmd.ActivityCycle,HARD
+am i close to my biking goal,Cmd.ActivityCycle,HARD
+record this ride please,Cmd.ActivityCycle,HARD
+have i stood up enough today,Cmd.ActivityStand,HARD
+how long have i been on my feet,Cmd.ActivityStand,HARD
+check my standing time,Cmd.ActivityStand,EASY
+am i meeting my standing goal,Cmd.ActivityStand,HARD
+how much longer should i stay standing,Cmd.ActivityStand,HARD
+track my aerobics class,Cmd.ActivityAerobics,EASY
+how many aerobic minutes today,Cmd.ActivityAerobics,HARD
+log the aerobics i just did,Cmd.ActivityAerobics,HARD
+show me my aerobic progress,Cmd.ActivityAerobics,HARD
+how many calories have i torched today,Cmd.ActivityCalories,HARD
+show me my burn for the week,Cmd.ActivityCalories,HARD
+what's my calorie count so far,Cmd.ActivityCalories,EASY
+did i hit my calorie goal,Cmd.ActivityCalories,HARD
+how many more calories to reach my target,Cmd.ActivityCalories,HARD
+log my gym session,Cmd.ActivityExercise,HARD
+how long did i work out today,Cmd.ActivityExercise,EASY
+did i reach my exercise goal,Cmd.ActivityExercise,HARD
+track this training session,Cmd.ActivityExercise,HARD
+record my workout just now,Cmd.ActivityExercise,HARD
+write down everything being said,Cmd.TranscribeStart,HARD
+i need a live transcript,Cmd.TranscribeStart,HARD
+caption what people are saying,Cmd.TranscribeStart,HARD
+start converting speech to text,Cmd.TranscribeStart,EASY
+put the conversation in writing,Cmd.TranscribeStart,HARD
+start translating for me,Cmd.TranslationStart,EASY
+i need this conversation in english,Cmd.TranslationStart,HARD
+switch on translation mode,Cmd.TranslationStart,HARD
+help me understand this foreign language,Cmd.TranslationStart,HARD
+translate what they're saying,Cmd.TranslationStart,HARD
+read out my messages,Cmd.ListenMessage,HARD
+play back my latest texts,Cmd.ListenMessage,HARD
+any messages for me,Cmd.ListenMessage,HARD
+let me hear my messages,Cmd.ListenMessage,EASY
+what did people send me,Cmd.ListenMessage,HARD
+roughly how much life do these have left,Cmd.BatteryLevel,HARD
+are my aids running low,Cmd.BatteryLevel,HARD
+will they last the afternoon,Cmd.BatteryLevel,HARD
+let me know the charge level,Cmd.BatteryLevel,HARD
+mark that task as done,reminders.complete,HARD
+i finished the reminder,reminders.complete,HARD
+tick off my reminder,reminders.complete,HARD
+complete the reminder for me,reminders.complete,EASY
+i took my pills you can clear that,reminders.complete,HARD
+my ears won't stop ringing,Help_Tinnitus,HARD
+there's a constant buzzing in my head,Help_Tinnitus,HARD
+how do i turn on the masking sound,Help_Tinnitus,HARD
+tinnitus relief help,Help_Tinnitus,EASY
+the ringing is driving me mad,Help_Tinnitus,HARD
+my hearing aids won't connect,Help_Pairing,HARD
+link my aids to the app,Help_Pairing,HARD
+how do i set up the bluetooth connection,Help_Pairing,HARD
+my aids have lost their connection,Help_Pairing,HARD
+pair my hearing aids,Help_Pairing,EASY
+the sound is cutting in and out,Help_DeviceSettings,HARD
+audio quality has gone downhill,Help_DeviceSettings,HARD
+my aids sound distorted,Help_DeviceSettings,HARD
+fix the audio problems with my aids,Help_DeviceSettings,HARD
+help with my hearing aid settings,Help_DeviceSettings,EASY
+how do i change the volume on one side,Help_Volume,HARD
+volume controls explained,Help_Volume,HARD
+where is the volume setting,Help_Volume,EASY
+can i set different volumes per ear,Help_Volume,HARD
+help with adjusting loudness,Help_Volume,HARD
+how do i create a custom program,Help_MemoryOptions,HARD
+what memory presets are available,Help_MemoryOptions,HARD
+how do i rename a memory,Help_MemoryOptions,HARD
+memory options help,Help_MemoryOptions,EASY
+can i set a favourite program,Help_MemoryOptions,HARD
+how do i switch between programs,Help_ChangingMemories,HARD
+change memory explained,Help_ChangingMemories,HARD
+help with switching profiles,Help_ChangingMemories,EASY
+how do different memories work,Help_ChangingMemories,HARD
+my hearing aid battery died quickly,Help_Battery,HARD
+how do i replace the battery,Help_Battery,EASY
+rechargeable or disposable which is better,Help_Battery,HARD
+the charger isn't charging my aid,Help_Battery,HARD
+battery tips for hearing aids,Help_Battery,HARD
+how do i maintain my hearing aids,Help_CleanCare,HARD
+cleaning tips for my aids,Help_CleanCare,EASY
+i've got wax stuck in my hearing aid,Help_CleanCare,HARD
+is it ok to get my aids wet,Help_CleanCare,HARD
+how often should i clean them,Help_CleanCare,HARD
+how do i get this in my ear properly,Help_InsertDevice,HARD
+the device keeps falling out,Help_InsertDevice,HARD
+help putting in my hearing aid,Help_InsertDevice,EASY
+which way does this go in my ear,Help_InsertDevice,HARD
+how to wear my hearing aid correctly,Help_InsertDevice,HARD
+what accessories can i use with my aids,Help_Accessories,EASY
+tell me about the tv streamer,Help_Accessories,HARD
+how do i use the remote microphone,Help_Accessories,HARD
+what add-ons are compatible,Help_Accessories,HARD
+can i stream from a clip-on mic,Help_Accessories,HARD
+my audiologist can adjust remotely yes,Help_RemoteProgramming,HARD
+how does remote tuning work,Help_RemoteProgramming,HARD
+remote programming help,Help_RemoteProgramming,EASY
+can my audiologist change settings from afar,Help_RemoteProgramming,HARD
+how do i request a remote fitting,Help_RemoteProgramming,HARD
+connect with my hearing care professional,Help_HearingCareAnywhereConnect,HARD
+how do i use telehear,Help_HearingCareAnywhereConnect,EASY
+remote appointment with my audiologist,Help_HearingCareAnywhereConnect,HARD
+back up my settings to the cloud,Help_HearingCareAnywhereConnect,HARD
+restore my profile after reinstalling,Help_HearingCareAnywhereConnect,HARD
+run diagnostics on my hearing aids,Help_SelfCheck,HARD
+check if my aids are working properly,Help_SelfCheck,HARD
+test my hearing aids,Help_SelfCheck,HARD
+something seems off with one aid diagnose,Help_SelfCheck,HARD
+set up fall detection,Help_FallAlert,EASY
+how does fall alert work,Help_FallAlert,HARD
+will it detect if i take a tumble,Help_FallAlert,HARD
+alert my family if i fall,Help_FallAlert,HARD
+fall alert setup help,Help_FallAlert,HARD
+how does the smart voice feature work,Help_IntelliVoice,HARD
+intellivoice explained,Help_IntelliVoice,EASY
+the voice recognition feature help,Help_IntelliVoice,HARD
+what can intelligent voice do,Help_IntelliVoice,HARD
+enable the smart speech feature,Help_IntelliVoice,HARD
+i can't hear people with face masks on,Help_MaskMode,HARD
+how does mask mode improve speech,Help_MaskMode,HARD
+people in masks are hard to understand,Help_MaskMode,HARD
+turn on mask mode,Help_MaskMode,HARD
+too much wind noise outside,Help_EdgeMode,HARD
+reduce wind interference with edge mode,Help_EdgeMode,HARD
+is edge mode good for outdoor use,Help_EdgeMode,HARD
+let me explore the app without aids,Help_DemoMode,HARD
+demo mode help,Help_DemoMode,EASY
+try out features without connecting aids,Help_DemoMode,HARD
+i want to show someone the app without aids,Help_DemoMode,HARD
+preview the app in demonstration mode,Help_DemoMode,HARD
+where do i find the app preferences,Help_AppSettings,HARD
+switch to advanced mode in the app,Help_AppSettings,HARD
+app settings help,Help_AppSettings,EASY
+how do i change to basic mode,Help_AppSettings,HARD
+notification settings for the app,Help_AppSettings,HARD
+how do i tweak the equalizer,Help_Customize,HARD
+customize my hearing aid sound,Help_Customize,EASY
+i want less bass in my left aid,Help_Customize,HARD
+reduce the background noise level,Help_Customize,HARD
+personalise my listening experience,Help_Customize,HARD
+where is the transcription feature,Help_Transcribe,HARD
+transcribe feature help,Help_Transcribe,EASY
+does the app do live captions,Help_Transcribe,HARD
+how does speech to text work in thrive,Help_Transcribe,HARD
+what is the transcribe function,Help_Transcribe,HARD
+what languages can it translate,Help_Translate,HARD
+translate feature help,Help_Translate,EASY
+how do i use the translation function,Help_Translate,HARD
+is french available for translation,Help_Translate,HARD
+how does the real-time translation work,Help_Translate,HARD
+what is my wellness score,Help_ThriveScore,HARD
+show my thrive score,Help_ThriveScore,EASY
+how is the thrive score calculated,Help_ThriveScore,HARD
+my body and brain score,Help_ThriveScore,HARD
+where do i see my overall health rating,Help_Health,HARD
+can these aids measure my pulse,Help_HeartRate,HARD
+show my heart rate from today,Help_HeartRate,HARD
+is my heart rate tracked automatically,Help_HeartRate,HARD
+where do i see my bpm,Help_HeartRate,HARD
+how quickly did my heart recover,Help_HeartRateRecovery,HARD
+explain my recovery score,Help_HeartRateRecovery,HARD
+what's a good heart rate recovery time,Help_HeartRateRecovery,HARD
+is my recovery getting better,Help_HeartRateRecovery,HARD
+show me my overall activity dashboard,Help_Health,HARD
+health screen help,Help_Health,EASY
+where do i see all my fitness data,Help_Health,HARD
+how do i set my weekly health goals,Help_Health,HARD
+i want to see my full health summary,Help_Health,HARD
+how do i share what i'm hearing,Help_HearShare,HARD
+can someone else listen with me,Help_HearShare,HARD
+hear share feature help,Help_HearShare,EASY
+stream audio to another person,Help_HearShare,HARD
+how does shared listening work,Help_HearShare,HARD
+what voice assistants work with my aids,Help_VoiceAssistant,HARD
+voice assistant help,Help_VoiceAssistant,EASY
+can i use siri with my hearing aids,Help_VoiceAssistant,HARD
+how do i activate google assistant,Help_VoiceAssistant,HARD
+enable the voice assistant feature,Help_VoiceAssistant,HARD
+help with my cros hearing aids,Help_WiCROS,EASY
+what is the cros balance control,Help_WiCROS,HARD
+my transmitter isn't working,Help_WiCROS,HARD
+how do i adjust cros balance,Help_WiCROS,HARD
+wicros feature explained,Help_WiCROS,HARD
+how do reminders work in this app,Help_Reminder,HARD
+reminder feature help,Help_Reminder,EASY
+can i get a daily reminder,Help_Reminder,HARD
+set up recurring reminders,Help_Reminder,HARD
+what's been added to the app lately,Help_WhatsNew,HARD
+show me what's new,Help_WhatsNew,EASY
+any new features i should know about,Help_WhatsNew,HARD
+what changed in the latest update,Help_WhatsNew,HARD
+recent updates to thrive,Help_WhatsNew,HARD
+what's the weather going to be like,Default Fallback Intent,EASY
+who won last night's match,Default Fallback Intent,EASY
+recommend me a tv show,Default Fallback Intent,EASY
+how do i make a cheese omelette,Default Fallback Intent,EASY
+what's a good book to read this month,Default Fallback Intent,EASY

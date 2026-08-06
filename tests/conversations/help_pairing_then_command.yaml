@@ -4,4 +4,4 @@ turns:
   - user: "how do i pair my hearing aids with my phone"
     expect: {intent_prefix: help.}
   - user: "mute"
-    expect: {type: FULFILL, intent: device.volume.mute}
+    expect: {type: FULFILL, intent: Cmd.VolumeMute}

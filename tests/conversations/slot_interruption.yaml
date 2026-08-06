@@ -2,6 +2,6 @@
 lang: en
 turns:
   - user: "set a reminder"
-    expect: {type: PROMPT, intent: reminders.task.create}
+    expect: {type: PROMPT, intent: reminders.add}
   - user: "actually just mute my hearing aids"
-    expect: {intent: device.volume.mute}
+    expect: {intent: Cmd.VolumeMute}

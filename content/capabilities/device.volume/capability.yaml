@@ -1,9 +1,9 @@
 id: device.volume
 intents:
-- device.volume.decrease
-- device.volume.increase
-- device.volume.mute
-- device.volume.unmute
+- Cmd.VolumeDecrease
+- Cmd.VolumeIncrease
+- Cmd.VolumeMute
+- Cmd.VolumeUnmute
 languages:
 - en
 - fr

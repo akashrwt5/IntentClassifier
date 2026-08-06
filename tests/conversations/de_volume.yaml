@@ -2,6 +2,6 @@
 lang: de
 turns:
   - user: "mach es leiser"
-    expect: {type: CONFIRM, intent: device.volume.decrease}
+    expect: {type: CONFIRM, intent: Cmd.VolumeDecrease}
   - user: "ja"
-    expect: {type: FULFILL, intent: device.volume.decrease}
+    expect: {type: FULFILL, intent: Cmd.VolumeDecrease}

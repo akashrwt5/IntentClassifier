@@ -1,4 +1,4 @@
 lang: en
 turns:
   - user: "send a message to my wife"
-    expect: {intent: messaging.message.send}
+    expect: {intent: Cmd.SendMessage}

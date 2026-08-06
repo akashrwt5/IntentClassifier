@@ -552,7 +552,7 @@ class NLUEngine:
         only_in_model = labels - schema_intents
         only_in_schema = schema_intents - labels
         # Default Fallback Intent is allowed to be schema-only (it's a catch-all)
-        only_in_schema.discard("sys.oos.fallback")
+        only_in_schema.discard("Default Fallback Intent")
         if only_in_model or only_in_schema:
             raise RuntimeError(
                 f"Label/schema mismatch detected.\n"
@@ -583,8 +583,26 @@ class NLUEngine:
         self._availability = dict(snapshot)
 
     def _capability_of(self, intent: str) -> str | None:
-        """Longest-prefix match of the intent id against pushed capability ids."""
+        """Which capability owns this intent, read from the schema.
+
+        This used to be a longest-prefix match of the intent id against the
+        pushed capability ids — `device.volume.mute`.startswith(`device.volume`).
+        That inferred structure from the LABEL, and when the taxonomy moved to
+        `Cmd.*` the prefix relationship vanished: every capability pushed as
+        `unavailable` quietly resumed firing actions, because nothing could be
+        matched to it any more.
+
+        The compiler records the owning capability per intent, so the lookup is
+        now a fact rather than a guess and a rename cannot break it. The prefix
+        walk is kept only as a fallback for a pack compiled before that field
+        existed.
+        """
         caps = self._availability.get("capabilities", {})
+        if not caps:
+            return None
+        declared = (self.intents.get(intent) or {}).get("capability")
+        if declared is not None:
+            return declared if declared in caps else None
         best = None
         for cap_id in caps:
             if (intent == cap_id or intent.startswith(cap_id + ".")) and \
@@ -693,7 +711,7 @@ class NLUEngine:
             # so the lifespan never counted down. "send a message" followed by
             # "increase volume" asked about sending a message forever, with no
             # way out. It was unreachable while no intent declared a `followup`;
-            # giving messaging.message.send one made it live.
+            # giving Cmd.SendMessage one made it live.
             #
             # A confident, different command is the user moving on — it
             # interrupts, exactly as it does mid slot-filling, and the
@@ -703,7 +721,7 @@ class NLUEngine:
             # be understood is routed out instead of being held.
             new_intent, new_conf = self.classifier.classify(text)
             if (new_intent != intent_name
-                    and new_intent != "sys.oos.fallback"
+                    and new_intent != "Default Fallback Intent"
                     and new_conf >= self.interrupt_threshold
                     and self.intents.get(new_intent) is not None):
                 session.clear_context(fu["context"])
@@ -821,7 +839,7 @@ class NLUEngine:
         # has to take precedence over re-classification.
         answers_prompt = self._answers_awaited_slot(session, cfg, text)
         if (new_intent != intent_name
-                and new_intent != "sys.oos.fallback"
+                and new_intent != "Default Fallback Intent"
                 and new_conf >= self.interrupt_threshold
                 and not weak_keyword
                 and not answers_prompt
@@ -1022,9 +1040,9 @@ class NLUEngine:
             # later.
             #
             # "how do i turn up the loudness on my hearing aids?" is the case:
-            # the `turn up` regex proposes device.volume.increase, the model
-            # says help.volume.show at 0.85, the help guard correctly redirects
-            # to help.volume.show — and the turn then carried the *contested*
+            # the `turn up` regex proposes Cmd.VolumeIncrease, the model
+            # says Help_Volume at 0.85, the help guard correctly redirects
+            # to Help_Volume — and the turn then carried the *contested*
             # confidence of the blocked action, dropping it under the fire
             # threshold and deflecting a perfectly good help request to GenAI.
             # Latent before arbitration too: it inherited the `regex` literal
@@ -1044,7 +1062,7 @@ class NLUEngine:
         # slot-bearing intent whose slots are ALL filled by the classifying
         # utterance completes immediately, and then the lower bar is just a
         # lower bar on a live action: "can you to us number one hits" classified
-        # as device.memory.change at 0.519, "one" filled the memory slot, and
+        # as Cmd.MemoryChange at 0.519, "one" filled the memory slot, and
         # the hearing-aid program changed — reported as confidence 1.0, which is
         # the slot-fill certainty rather than the intent's.
         #
@@ -1070,7 +1088,7 @@ class NLUEngine:
         #
         # "help me find a paper" -> the model receives `help me find`, because
         # "paper" appears nowhere in the training corpus and so has no slot in
-        # the vocabulary at all. On that input `help.find_my_hearing_aids.show`
+        # the vocabulary at all. On that input `Help_FindMyHearingAids`
         # is the correct answer; the utterance that was actually spoken never
         # reached the model. Same shape as "turn off toshiba" reducing to
         # "turn off", whose vector is bit-identical to the bare command.
@@ -1102,7 +1120,7 @@ class NLUEngine:
         # Applied AFTER the guards so it sees the intent actually being
         # returned, and before the fire test so it can only ever withhold an
         # action, never cause one.
-        if self._oov_reject_ratio is not None and intent != "sys.oos.fallback" \
+        if self._oov_reject_ratio is not None and intent != "Default Fallback Intent" \
                 and conf < self._oov_bypass_confidence:
             ratio = self.classifier.oov_ratio(text)
             if ratio >= self._oov_reject_ratio:
@@ -1111,11 +1129,11 @@ class NLUEngine:
                     "confidence": round(conf, 3)}})
                 return self._genai_fallback(conf)
 
-        if intent == "sys.oos.fallback" or conf < fire_bar:
+        if intent == "Default Fallback Intent" or conf < fire_bar:
             # Stage 3: semantic rescue via MiniLM when TF-IDF is uncertain
             if self.semantic is not None:
                 sem_intent, sem_conf = self.semantic.classify(text)
-                if sem_intent != "sys.oos.fallback":
+                if sem_intent != "Default Fallback Intent":
                     # Two ways to accept a rescue:
                     #   1. Standard: the head clears the absolute softmax floor.
                     #   2. Agreement gate: TF-IDF and the head INDEPENDENTLY land
@@ -1129,7 +1147,7 @@ class NLUEngine:
                     #      real command.
                     accept_threshold = self.semantic_threshold
                     if (sem_intent == intent
-                            and intent != "sys.oos.fallback"):
+                            and intent != "Default Fallback Intent"):
                         accept_threshold = self.agreement_threshold
                     if sem_conf >= accept_threshold:
                         sem_intent = self._apply_polarity_guards(text, sem_intent)

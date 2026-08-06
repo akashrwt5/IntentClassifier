@@ -117,6 +117,19 @@ def assemble(write: bool = True) -> dict:
         for intent in sorted(cap["intents"]):
             cfg = _load(base / "intents" / f"{intent}.yaml")
             assert cfg.pop("intent") == intent, f"{base}: intent key mismatch"
+            # Which capability owns this intent, recorded EXPLICITLY.
+            #
+            # The engine's availability check (`_capability_of`) used to derive
+            # this from the label: `intent.startswith(cap_id + ".")` matched
+            # `device.volume.mute` to `device.volume`. That is inference from a
+            # naming convention, and the convention moved — under `Cmd.*` the
+            # prefix relationship does not exist, so every capability pushed as
+            # `unavailable` silently went back to firing actions.
+            #
+            # The compiler has always known the answer here (it is the same
+            # mapping `runtime/plan_facts.json` ships). Writing it down means a
+            # rename cannot break the lookup again.
+            cfg["capability"] = cap["id"]
             intents[intent] = cfg
         for lang in LANGS:
             p = base / "prompts" / f"{lang}.yaml"

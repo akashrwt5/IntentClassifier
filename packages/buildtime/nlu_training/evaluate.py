@@ -8,7 +8,7 @@ fallback class).
 wrong_action_count (OFFICIAL definition, per the medical-safety budget):
 a turn where the model CONFIDENTLY predicts an ACTIONABLE intent that
 differs from the truth — i.e. the device would fire an action it shouldn't.
-Predicted help.* or sys.oos.fallback cannot fire an action (help shows
+Predicted help.* or Default Fallback Intent cannot fire an action (help shows
 content; fallback routes to GenAI narration), so confident confusions INTO
 those classes are missed/deflected turns, not wrong actions. Confusions
 FROM any true label INTO a different actionable intent count — including
@@ -40,18 +40,27 @@ DATASETS_DIR = REPO_ROOT / "language_packs"
 CALIBRATION = REPO_ROOT / "config" / "calibration.json"
 
 # The trained OOS / fallback class in the CURRENT label space. After the
-# ND-3 migration this becomes 'sys.oos.fallback' — read from the migration
+# ND-3 migration this becomes 'Default Fallback Intent' — read from the migration
 # map once it exists so this file needs no edit then.
-FALLBACK_LABEL = "sys.oos.fallback"
+FALLBACK_LABEL = "Default Fallback Intent"
 ACCURACY_FLOOR = 0.80
 # Medical-safety budget: max confident wrong ACTIONS across shipped
 # (non-waived) languages. Charter: ≤5 global, moving toward per-domain.
 WRONG_ACTION_BUDGET = 5
 
 
-def is_actionable(label: str) -> bool:
-    """True if a prediction of this label fires a device/app action."""
-    return bool(label) and not label.startswith(("help.", "sys."))
+# Imported, not redefined. This file used to carry its own copy —
+# `not label.startswith(("help.", "sys."))` — and when the taxonomy moved to
+# `Cmd.*` / `Help_*` / `Default Fallback Intent` the copy silently started
+# counting every help prediction and every fallback as a device action. The
+# reported wrong-action count went from 28 to 90 without a single wrong action
+# being added, and `gates_passed` stayed True because the budget is only
+# enforced elsewhere.
+#
+# Two copies of a safety predicate is one copy too many; there is now one, in
+# `wrong_action_harness`, where the sets are enumerated rather than inferred
+# from a naming convention.
+from nlu_training.wrong_action_harness import is_actionable  # noqa: E402
 # Danish is flag-gated (fails its floor; native-data program pending) —
 # excluded from gates_passed, never from the report itself.
 GATE_WAIVERS = {"da"}

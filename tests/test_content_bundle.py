@@ -131,14 +131,14 @@ def test_identifiers_are_translated_to_the_spec_grammar(bundle):
     assert all("-" not in e for e in ents)
 
     wf = _j(bundle, "capabilities/device.memory/workflows.json")
-    slots = wf["intents"]["device.memory.change"]["slots"]
+    slots = wf["intents"]["Cmd.MemoryChange"]["slots"]
     assert [s["name"] for s in slots] == ["memory_name"], "slot name not snake_cased"
 
 
 def test_prompt_text_moves_into_responses_and_is_referenced_by_key(bundle):
     """The spec keeps TEXT out of logic: workflows hold response KEYS."""
     wf = _j(bundle, "capabilities/device.memory/workflows.json")
-    slot = wf["intents"]["device.memory.change"]["slots"][0]
+    slot = wf["intents"]["Cmd.MemoryChange"]["slots"][0]
     responses = _j(bundle, "capabilities/device.memory/responses/en.json")
     assert slot["prompt"] in responses, "slot prompt key has no response"
     assert " " not in slot["prompt"], "the prompt is literal text, not a key"

@@ -44,7 +44,7 @@
   "wrong_action_taxonomy": {
     "out_of_scope_rejection_failures": 10,
     "in_scope_intent_confusions": 1,
-    "comment": "10 of 11 have truth == sys.oos.fallback. The budget is being consumed almost entirely by failure to ABSTAIN, not by confusing one command for another."
+    "comment": "10 of 11 have truth == Default Fallback Intent. The budget is being consumed almost entirely by failure to ABSTAIN, not by confusing one command for another."
   },
   "per_domain": {
     "device": 3,
@@ -59,16 +59,16 @@
     "comment": "The residue is HIGH-confidence. A threshold raise cannot clear it without destroying recall: 5 of 11 fire above 0.95, and one at 1.000."
   },
   "all_failures": [
-    {"conf": 0.863, "truth": "sys.oos.fallback", "fired": "device.volume.mute", "text": "turn off toshiba"},
-    {"conf": 0.841, "truth": "sys.oos.fallback", "fired": "messaging.message.send", "text": "please got to getting a text message at boston"},
-    {"conf": 0.974, "truth": "sys.oos.fallback", "fired": "messaging.message.listen", "text": "can you read last text message"},
-    {"conf": 0.999, "truth": "sys.oos.fallback", "fired": "find.phone.locate", "text": "can you phone phone phone phone phone"},
-    {"conf": 0.874, "truth": "sys.oos.fallback", "fired": "streaming.session.start", "text": "please stream, youtube music."},
-    {"conf": 0.977, "truth": "sys.oos.fallback", "fired": "streaming.session.start", "text": "can you stream, youtube music."},
-    {"conf": 0.826, "truth": "sys.oos.fallback", "fired": "device.volume.decrease", "text": "please my ears sweat"},
-    {"conf": 0.722, "truth": "sys.oos.fallback", "fired": "messaging.message.listen", "text": "hear it as they got to go."},
-    {"conf": 1.0, "truth": "sys.oos.fallback", "fired": "find.phone.locate", "text": "iphone"},
-    {"conf": 0.983, "truth": "sys.oos.fallback", "fired": "messaging.message.listen", "text": "play festival"},
-    {"conf": 0.826, "truth": "device.memory.change", "fired": "device.volume.increase", "text": "set me up for conversation"}
+    {"conf": 0.863, "truth": "Default Fallback Intent", "fired": "Cmd.VolumeMute", "text": "turn off toshiba"},
+    {"conf": 0.841, "truth": "Default Fallback Intent", "fired": "Cmd.SendMessage", "text": "please got to getting a text message at boston"},
+    {"conf": 0.974, "truth": "Default Fallback Intent", "fired": "Cmd.ListenMessage", "text": "can you read last text message"},
+    {"conf": 0.999, "truth": "Default Fallback Intent", "fired": "Cmd.FindMyPhone", "text": "can you phone phone phone phone phone"},
+    {"conf": 0.874, "truth": "Default Fallback Intent", "fired": "Cmd.StreamingStart", "text": "please stream, youtube music."},
+    {"conf": 0.977, "truth": "Default Fallback Intent", "fired": "Cmd.StreamingStart", "text": "can you stream, youtube music."},
+    {"conf": 0.826, "truth": "Default Fallback Intent", "fired": "Cmd.VolumeDecrease", "text": "please my ears sweat"},
+    {"conf": 0.722, "truth": "Default Fallback Intent", "fired": "Cmd.ListenMessage", "text": "hear it as they got to go."},
+    {"conf": 1.0, "truth": "Default Fallback Intent", "fired": "Cmd.FindMyPhone", "text": "iphone"},
+    {"conf": 0.983, "truth": "Default Fallback Intent", "fired": "Cmd.ListenMessage", "text": "play festival"},
+    {"conf": 0.826, "truth": "Cmd.MemoryChange", "fired": "Cmd.VolumeIncrease", "text": "set me up for conversation"}
   ]
 }

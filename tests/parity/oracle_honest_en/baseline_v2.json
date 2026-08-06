@@ -39,7 +39,7 @@
   "amendments": [
     {
       "at": "2026-07-26T12:43:28Z",
-      "what": "Relabelled 5 utterances wrongly marked sys.oos.fallback where an in-scope sibling made the label a contradiction (scripts/ci/fix_oos_mislabels.py): 3x 'read last text message' -> messaging.message.listen, 'translate hello to french' -> translation.session.start, 'where do i find the mute button' -> help.volume.show. 4 rows in train.csv, 1 in holdout_honest.csv. The train/holdout PARTITION is unchanged, so the sets remain disjoint — this is a label correction, not a re-split.",
+      "what": "Relabelled 5 utterances wrongly marked Default Fallback Intent where an in-scope sibling made the label a contradiction (scripts/ci/fix_oos_mislabels.py): 3x 'read last text message' -> Cmd.ListenMessage, 'translate hello to french' -> Cmd.TranslationStart, 'where do i find the mute button' -> Help_Volume. 4 rows in train.csv, 1 in holdout_honest.csv. The train/holdout PARTITION is unchanged, so the sets remain disjoint — this is a label correction, not a re-split.",
       "metrics_before": {
         "accuracy": 0.9007,
         "macro_f1": 0.8872,

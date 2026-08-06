@@ -47,7 +47,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
 
-FALLBACK_LABEL = "sys.oos.fallback"
+FALLBACK_LABEL = "Default Fallback Intent"
 WRONG_ACTION_BUDGET = 5
 GATE_WAIVERS = {"da"}
 
@@ -57,19 +57,59 @@ def holdout_path(lang: str) -> Path:
     return REPO / "datasets" / lang / "holdout_honest.csv"
 
 
+# WHY THESE ARE EXPLICIT SETS AND NOT PREFIX TESTS
+#
+# These predicates decide what counts as a wrong ACTION — the medical safety
+# budget, `WRONG_ACTION_BUDGET`, the report card's `wrong_action_count`, and
+# blocker B1 all reduce to them.
+#
+# They used to read the taxonomy: `not label.startswith(("help.", "sys."))` and
+# a `.query` suffix test. That worked while labels were `domain.object.action`,
+# because that taxonomy ENCODED actionability in the name. The migration to
+# `Cmd.*` / `Help_*` / `Default Fallback Intent` does not, and the prefix tests
+# did not fail — they silently started answering True for every help intent and
+# for the fallback, so displaying help content and deflecting to GenAI both
+# began counting as device actions.
+#
+# A predicate whose meaning depends on a naming convention will break again the
+# next time the convention moves, quietly, in the direction of a worse-looking
+# metric. So the sets are enumerated, derived once from the taxonomy that DID
+# encode this (`legacy_label_map.json`, modern -> legacy), and a test asserts
+# they still cover the shipped label space.
+NON_ACTIONABLE_PREFIXES = ("Help_", "help.", "sys.")
+NON_ACTIONABLE_INTENTS = frozenset({"Default Fallback Intent"})
+
+
 def is_actionable(label: str) -> bool:
-    return bool(label) and not label.startswith(("help.", "sys."))
+    """Could acting on this label do something to the device or the app?
+
+    False for help content (shows an article) and for the fallback (routes to
+    GenAI narration). Neither can fire an action, so a wrong one is a missed or
+    deflected turn rather than a safety event.
+    """
+    if not label:
+        return False
+    if label in NON_ACTIONABLE_INTENTS:
+        return False
+    return not label.startswith(NON_ACTIONABLE_PREFIXES)
 
 
 # Read-only intents report information but change NO device or app state (they
 # read a value back to the user), so a wrong one is a query-ACCURACY miss, not a
 # safety event. The medical wrong-ACTION budget governs state changes — firing
 # the wrong irreversible/stateful command — so read-only misses are tracked
-# separately (``wrong_queries``) and NOT charged to the budget. Identified by
-# the ``.query`` suffix of the domain.object.action taxonomy, plus an explicit
-# allow-list for read-only status intents that do not end in ``.query``.
+# separately (``wrong_queries``) and NOT charged to the budget.
+#
+# Enumerated for the reason above. Under `domain.object.action` these were the
+# `.query` suffix plus `device.status.battery`; the same nine intents under the
+# current taxonomy are the eight activity readings and the battery level.
 READ_ONLY_SUFFIXES = ("query",)
-READ_ONLY_INTENTS = frozenset({"device.status.battery"})
+READ_ONLY_INTENTS = frozenset({
+    "Cmd.BatteryLevel",
+    "Cmd.ActivityAerobics", "Cmd.ActivityCalories", "Cmd.ActivityCycle",
+    "Cmd.ActivityExercise", "Cmd.ActivityRun", "Cmd.ActivityStand",
+    "Cmd.ActivityStep", "Cmd.ActivityWalk",
+})
 
 
 def is_read_only(label: str) -> bool:

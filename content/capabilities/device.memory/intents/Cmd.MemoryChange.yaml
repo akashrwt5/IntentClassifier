@@ -1,0 +1,14 @@
+action: memory.change
+back_reference:
+  pattern: \b(change|switch|go|set|put|flip|take|bring|turn)\s+(it\s+|me\s+|them\s+|that\s+)?back\b|\bback\s+to\s+(the|my)\b|\b(previous|prior|old)\s+(program|memory|setting|mode|profile|one)\b|\brevert\b|\bundo\b|\bas
+    before\b|\bthe way it was\b
+  slot: MemoryName
+  source: prev_memory
+confirm_prompt: Just to be sure — switch your hearing aid program?
+fulfillment: Memory changed.
+intent: Cmd.MemoryChange
+slots:
+- entity: memory
+  name: MemoryName
+  prompt: What is the name of the memory?
+  required: true

@@ -77,7 +77,7 @@ def _load_temperature(weights_path: Path,
 KEYWORD_TIER_ORDER = ("exact", "regex_guarded", "contains", "regex")
 
 # Negation cues that flip the meaning of a `contains` substring hit. "I don't
-# want to translate this" should not fire translation.session.start. We only
+# want to translate this" should not fire Cmd.TranslationStart. We only
 # guard `contains` rules; `exact`/`regex` authors express negation explicitly.
 #
 # ENGLISH FALLBACK ONLY. A pack/lexicon supplies its own cues via

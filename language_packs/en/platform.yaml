@@ -39,66 +39,66 @@ confidence_threshold: 0.7
 help_marker_guard:
   markers: (how\s+(to|do\s+i|does|can\s+i|is|would\s+i)\b)|(\bguide\b)|(\bexplain\b)|(\btutorial\b)|(what\s+(is|are|does)\b)|(where\s+(can|do)\s+i\s+(see|find|view))|(is\s+there\s+a\s+way)|(help\s+(with|me\s+understand|for|understanding))|(how\s+to\s+use)|(\w+\s+help\b)|(does\s+\w+\s+(keep|save|store|record|work))|(can\s+the\s+app)
   pairs:
-    device.memory.change: help.memory_options.show
-    device.volume.decrease: help.volume.show
-    device.volume.increase: help.volume.show
-    device.volume.mute: help.volume.show
-    device.volume.unmute: help.volume.show
-    reminders.task.complete: help.reminder.show
-    reminders.task.create: help.reminder.show
-    streaming.session.start: help.accessories.show
-    streaming.session.stop: help.accessories.show
-    transcription.session.start: help.transcribe.show
-    translation.session.start: help.translate.show
+    Cmd.MemoryChange: Help_MemoryOptions
+    Cmd.VolumeDecrease: Help_Volume
+    Cmd.VolumeIncrease: Help_Volume
+    Cmd.VolumeMute: Help_Volume
+    Cmd.VolumeUnmute: Help_Volume
+    reminders.complete: Help_Reminder
+    reminders.add: Help_Reminder
+    Cmd.StreamingStart: Help_Accessories
+    Cmd.StreamingStop: Help_Accessories
+    Cmd.TranscribeStart: Help_Transcribe
+    Cmd.TranslationStart: Help_Translate
 interrupt_threshold: 0.68
 keyword_triggers:
-- intent: translation.session.start
+- intent: Cmd.TranslationStart
   not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where
     (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
   regex: \btranslat(e|es|ing|ion)\b
-- intent: transcription.session.start
+- intent: Cmd.TranscribeStart
   not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where
     (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
   regex: \btranscri(be|bing|ption)\b
 - exact:
   - mute
   - silence
-  intent: device.volume.mute
-- intent: device.volume.mute
+  intent: Cmd.VolumeMute
+- intent: Cmd.VolumeMute
   not_regex: \b(what|how|tell me|ask|explain|mean)\b
   regex: \b(silence|hush|shush)\b
 - exact:
   - unmute
-  intent: device.volume.unmute
+  intent: Cmd.VolumeUnmute
 - exact:
   - push to talk
   - ptt
-  intent: messaging.message.send
-- intent: messaging.message.send
+  intent: Cmd.SendMessage
+- intent: Cmd.SendMessage
   not_regex: ^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\s+send|send\s+it|send\s+now)\b
   regex: \bsend\b.{0,30}\bmessage\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(increase|raise|turn up)\b.{0,15}\bvolume\b|\bvolume\b.{0,10}\b(up|higher|louder)\b|\bturn
     it up\b|\bturn up\b|\bvolume up\b|\bamplify\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(too|so|very|really)\s+(quiet|low|soft|faint)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(sounds?|volume|audio|its?|everything|speech|voices?)\b.{0,12}\b(quiet|low|soft|faint|dull|unclear)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(miss|missing|can.?t (catch|hear))\b.{0,20}\b(words?|speech|conversations?|voices?)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \bsound(s)? like whispers?\b|\bwhispers?\b.{0,20}\b(voices?|sounds?|them|talking)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \bnothing\b.{0,20}\bcoming through\b|\b(slipping|passing)\b.{0,15}\bpast
     me\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(asking|ask)\b.{0,20}\brepeat (themselves|himself|herself|yourself)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(sound|seems?|feels?)\b.{0,15}\b(so |too )?(far away|distant)\b|\bfar away\b.{0,20}\b(talk|speak|when)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   not_regex: \b(down|reduce|lower)\b
   regex: \b(crank|jack|pump)\b.{0,10}\b(it|the|sound|volume|up|higher)\b|\b(boost|amp)\b.{0,10}\b(it|the|sound|volume)\b
-- intent: device.volume.decrease
+- intent: Cmd.VolumeDecrease
   regex: \b(decrease|lower|reduce|turn down)\b.{0,15}\bvolume\b|\bvolume\b.{0,10}\b(down|lower|quieter)\b|\bturn
     it down\b|\bturn down\b|\bvolume down\b
 - exact:
@@ -106,42 +106,42 @@ keyword_triggers:
   - where is my phone
   - locate my phone
   - find phone
-  intent: find.phone.locate
-- intent: reminders.task.create
+  intent: Cmd.FindMyPhone
+- intent: reminders.add
   regex: \b(set|create|add|make)\b.{0,20}\breminder\b
-- intent: reminders.task.create
+- intent: reminders.add
   regex: \bnudge me\b|\bslip my mind\b|\bjot this down\b|\bnote this down\b|\bdon'?t
     (let me )?forget\b
-- intent: reminders.task.create
+- intent: reminders.add
   regex: \b(rappelle[\s-]?moi|r[eé]gler\s+une\s+alarme|mettre?\s+une\s+alarme|fixer?\s+une\s+alarme|cr[eé]er?\s+un\s+rappel|d[eé]finir?\s+un\s+rappel|mettre?\s+un\s+rappel|poser\s+un\s+rappel|ajouter\s+un\s+rappel|planifier\s+un\s+rappel|configurer\s+un\s+rappel)\b
-- intent: device.volume.decrease
+- intent: Cmd.VolumeDecrease
   regex: \b(too|way|so|very|really)\s+(hot|loud|bright|much)\b|\bcoming in (way )?too
     (hot|loud)\b|\btake the edge off\b
-- intent: device.volume.decrease
+- intent: Cmd.VolumeDecrease
   not_regex: \b(increase|raise|louder|up)\b
   regex: \b(dim|soften|dampen|quieten)\b.{0,15}\b(audio|sound|volume|it)\b
-- intent: help.device_settings.show
+- intent: Help_DeviceSettings
   regex: \b(everything|audio|sounds?)\b.{0,15}\b(muffled|distorted|garbled|warped)\b
-- intent: device.status.battery
+- intent: Cmd.BatteryLevel
   regex: \b(power|battery)\s+(reading|level|status|left|remaining)\b|\b(die|dying|run
     out|running out)\b.{0,20}\b(on me|battery|charge|power)\b|\bhow (much|long).{0,20}\b(battery|charge|power|life)\b
-- intent: help.find_my_hearing_aids.show
+- intent: Help_FindMyHearingAids
   regex: \bping\b.{0,15}\b(hearing aids?|aids?|devices?)\b|\b(locate|find|where).{0,20}\b(hearing
     aids?|aids?|devices?)\b|\bcannot? (find|locate).{0,20}\b(device|aid)\b
-- intent: messaging.message.send
+- intent: Cmd.SendMessage
   regex: \bget word to\b|\bping\b.{0,20}\b(my )?(daughter|son|wife|husband|brother|sister|mom|dad|mother|father|friend|family|partner)\b
-- intent: streaming.session.start
+- intent: Cmd.StreamingStart
   not_regex: \b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another
     person|someone)\b
   regex: \bpatch\b.{0,15}\b(sound|audio)\b.{0,10}\bthrough\b|\bstream\b.{0,15}\b(from|phone|tv|device)\b
-- intent: device.memory.change
+- intent: Cmd.MemoryChange
   not_regex: \b(what is|tell me about|help with|explain|how does|what does|about)\b
   regex: \b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\b.{0,10}\bmode\b
-- intent: device.memory.change
+- intent: Cmd.MemoryChange
   regex: \b(load|restore|apply|use)\b.{0,20}\b(my )?(usual|default|normal|saved|last|previous)\b.{0,15}\b(config|configuration|setting|program|profile|memory)\b
-- intent: device.memory.change
+- intent: Cmd.MemoryChange
   regex: \b(swap|switch|change|flip)\b.{0,15}\b(to the |to my )?(program|memory|setting|mode|profile)\b.{0,20}\bfor\b
-- intent: help.home.show
+- intent: Help_Home
   regex: \bwhat features\b|\bfeatures (are )?available\b|\bpoint me in the right direction\b|\bhow
     does (this|it|everything) work\b
 lexicon:

@@ -68,7 +68,7 @@ def is_read_only(label: str, read_only_intents: set[str]) -> bool:
 
 def state_changing(schema: dict) -> set[str]:
     """Intents that change device/app state — what the gate must cover."""
-    ro = {"device.status.battery"}
+    ro = {"Cmd.BatteryLevel"}
     return {i for i in schema.get("intents", {})
             if is_actionable(i) and not is_read_only(i, ro)}
 

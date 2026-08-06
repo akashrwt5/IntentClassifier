@@ -1,7 +1,7 @@
 id: messaging.ptt
 intents:
-- messaging.message.listen
-- messaging.message.send
+- Cmd.ListenMessage
+- Cmd.SendMessage
 languages:
 - en
 - fr

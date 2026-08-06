@@ -158,7 +158,7 @@ class Session:
     def record_fulfillment(self, intent: str, params: dict):
         """Called after every FULFILL to persist parameters for later reuse."""
         self.last_fulfilled[intent] = dict(params)
-        if intent == "device.memory.change" and params.get("MemoryName"):
+        if intent == "Cmd.MemoryChange" and params.get("MemoryName"):
             self.prev_memory = self.last_memory
             self.last_memory = params["MemoryName"]
 

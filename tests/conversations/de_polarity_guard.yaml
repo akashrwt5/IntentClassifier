@@ -2,4 +2,4 @@
 lang: de
 turns:
   - user: "bitte etwas leiser stellen"
-    expect: {not_intent: device.volume.increase}
+    expect: {not_intent: Cmd.VolumeIncrease}

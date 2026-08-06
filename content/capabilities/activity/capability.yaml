@@ -1,13 +1,13 @@
 id: activity
 intents:
-- activity.aerobics.query
-- activity.calories.query
-- activity.cycle.query
-- activity.exercise.query
-- activity.run.query
-- activity.stand.query
-- activity.step.query
-- activity.walk.query
+- Cmd.ActivityAerobics
+- Cmd.ActivityCalories
+- Cmd.ActivityCycle
+- Cmd.ActivityExercise
+- Cmd.ActivityRun
+- Cmd.ActivityStand
+- Cmd.ActivityStep
+- Cmd.ActivityWalk
 languages:
 - en
 - fr

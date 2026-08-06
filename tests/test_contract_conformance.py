@@ -39,7 +39,7 @@ def engine():
 
 def test_session_blob_roundtrip_slot_flow():
     s = Session(session_id="s1")
-    s.pending_intent = "reminders.task.create"
+    s.pending_intent = "reminders.add"
     s.pending_slots = {"what": "medication"}
     s.awaiting_slot = "when"
     s.slot_attempts = 1
@@ -47,12 +47,12 @@ def test_session_blob_roundtrip_slot_flow():
     assert blob["v"] == 1 and blob["frames"][0]["awaiting_slot"] == "when"
     r = Session.from_blob(blob)
     assert (r.pending_intent, r.pending_slots, r.awaiting_slot, r.slot_attempts) == \
-           ("reminders.task.create", {"what": "medication"}, "when", 1)
+           ("reminders.add", {"what": "medication"}, "when", 1)
 
 
 def test_session_blob_roundtrip_held_confirmation():
     s = Session(session_id="s2")
-    s.pending_confirm = {"intent": "device.volume.mute", "action": "volume.mute",
+    s.pending_confirm = {"intent": "Cmd.VolumeMute", "action": "volume.mute",
                          "fulfillment": "Muted."}
     r = Session.from_blob(s.to_blob())
     assert r.pending_confirm["action"] == "volume.mute"
@@ -60,7 +60,7 @@ def test_session_blob_roundtrip_held_confirmation():
 
 def test_session_blob_never_contains_utterance_text():
     s = Session(session_id="s3")
-    s.pending_intent = "reminders.task.create"
+    s.pending_intent = "reminders.add"
 
     def all_keys(obj):
         if isinstance(obj, dict):
@@ -113,7 +113,7 @@ def test_unavailable_capability_never_fires_action(engine):
         r = engine.handle("av1", "mute")
         assert r.action is None, "unavailable capability must not fire an action"
         assert "can't reach" in r.message
-        assert r.intent == "device.volume.mute", "intent stays recognized (A6)"
+        assert r.intent == "Cmd.VolumeMute", "intent stays recognized (A6)"
     finally:
         engine.push_availability({"snapshot_id": 2, "capabilities": {}})
 
@@ -142,7 +142,7 @@ def test_inference_backend_is_injectable(engine):
         def tfidf_logits(self, text):
             import numpy as np
             z = np.full(len(self._labels), -5.0)
-            z[self._labels.index("device.status.battery")] = 10.0
+            z[self._labels.index("Cmd.BatteryLevel")] = 10.0
             return z
 
         def embed_tokens(self, *a):
@@ -155,4 +155,4 @@ def test_inference_backend_is_injectable(engine):
         schema_path=REPO_ROOT / "language_packs" / "en" / "nlu_schema.json",
         backend=CannedBackend(engine.classifier.labels))
     intent, conf = clf.classify("zzz nonsense that matches no keyword rule zzz")
-    assert intent == "device.status.battery" and conf > 0.9
+    assert intent == "Cmd.BatteryLevel" and conf > 0.9

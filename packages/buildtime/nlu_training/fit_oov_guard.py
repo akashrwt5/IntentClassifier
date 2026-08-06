@@ -16,7 +16,7 @@ and dismissed — there is nowhere to put it, so the sentence arrives without it
 
 The two inputs are the same input. No threshold separates them, because the
 model is never asked the question. `help me find a paper` reduces to
-`help me find` — on which `help.find_my_hearing_aids.show` is the RIGHT answer,
+`help me find` — on which `Help_FindMyHearingAids` is the RIGHT answer,
 confidently held, and wrong about the sentence the user actually said.
 
 The word that makes an utterance out of scope is almost always rare and
@@ -66,7 +66,7 @@ from nlu_training.fit_calibration import (
 from nlu_engine.text_norm import normalize_text as featurize_text
 
 BASE_DIR = Path(__file__).resolve().parents[3]
-OOS = "sys.oos.fallback"
+OOS = "Default Fallback Intent"
 
 # Must match `IntentClassifier._TOKEN_RE`, which in turn matches sklearn's
 # default `token_pattern`. Splitting text differently from the featurizer would

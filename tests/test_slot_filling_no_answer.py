@@ -49,7 +49,7 @@ needs_model = pytest.mark.skipif(not _MODEL.exists(),
 # Utterance used purely as a VEHICLE to enter a slot-filling flow, for the tests
 # below that are about what happens once you are in one.
 #
-# It was "set me up for a concert", which entered `reminders.task.create` only
+# It was "set me up for a concert", which entered `reminders.add` only
 # because slot-bearing intents used to fire at a lower bar
 # (`slot_confidence_threshold` 0.50, since removed). It now classifies at 0.597
 # and correctly falls back, so every cancellation test silently stopped testing
@@ -58,7 +58,7 @@ needs_model = pytest.mark.skipif(not _MODEL.exists(),
 # A vehicle should be the most unambiguous flow-entering utterance available,
 # not an interesting one — the interesting part is the turn AFTER it.
 _ENTER_FLOW = "change my memory"
-_ENTER_FLOW_INTENT = "device.memory.change"
+_ENTER_FLOW_INTENT = "Cmd.MemoryChange"
 
 
 @needs_model
@@ -103,7 +103,7 @@ def test_no_during_reminder_time_cancels_instead_of_creating(eng):
 def test_pure_cancellation_abandons_the_flow(eng, cancel_word):
     """PURE meta-words with no intent of their own cancel the flow.
 
-    Deliberately excludes "stop": it classifies as streaming.session.stop, a
+    Deliberately excludes "stop": it classifies as Cmd.StreamingStop, a
     real device command, so it is handled by the interruption path (which runs
     first) rather than as a cancel. That precedence is correct — a genuine
     command wins over the meta layer; only words with no intent fall through to
@@ -119,7 +119,7 @@ def test_pure_cancellation_abandons_the_flow(eng, cancel_word):
 def test_a_real_command_word_interrupts_not_cancels(eng):
     """A word that IS a device command interrupts the flow instead of cancelling.
 
-    "stop" -> streaming.session.stop. The interruption path runs before the
+    "stop" -> Cmd.StreamingStop. The interruption path runs before the
     cancel layer, so a real command takes precedence over meta-cancellation.
     """
     eng.reset("stop-cmd")
