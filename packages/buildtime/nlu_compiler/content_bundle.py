@@ -410,16 +410,18 @@ def compile_lexicon(lang: str, schema: dict, out: Path) -> list[str]:
         "negation_cues": sorted(lexicon.get("negation_cues", [])),
         "carriers": carriers,
         "leading_connectors": sorted(lexicon.get("leading_connectors", [])),
+        "fuzzyStopwords": lexicon.get("fuzzyStopwords", []),
+        "trailingFunctionWords": lexicon.get("trailingFunctionWords", []),
     }
 
     # Load language-specific data tables directly from the language pack, rather
     # than relying on engine fallback defaults.
     lang_dir = REPO / "language_packs" / lang
-    
+
     dt_path = lang_dir / "datetime.json"
     if dt_path.exists():
         lex["datetime_grammar"] = json.loads(dt_path.read_text(encoding="utf-8"))
-        
+
     contractions_path = lang_dir / "contractions.json"
     if contractions_path.exists():
         lex["contractions"] = json.loads(contractions_path.read_text(encoding="utf-8"))
@@ -759,7 +761,7 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
             summary[k] = str(v).lower()
         elif isinstance(v, (int, float, str)):
             summary[k] = v
-            
+
     models = {
         "intent": {lang: {
             "artifact": f"models/intent/{lang}/model.onnx",
@@ -767,10 +769,10 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
             "model_version": f"{lang}-{version}"
         }}
     }
-    
+
     if intent_coreml:
         models["intent"][lang]["coreml_artifact"] = intent_coreml
-        
+
     if semhead_coreml:
         models["semantic_head"] = {
             "shared": {
@@ -836,7 +838,7 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
                      f"capability: {missing[:6]}")
 
     compile_entities(lang, out)
-    
+
     # Expose schema and entities at the bundle root (ADR-005)
     shutil.copy(REPO / "language_packs" / lang / "nlu_schema.json", out / "nlu_schema.json")
     shutil.copy(REPO / "language_packs" / lang / "nlu_entities.json", out / "nlu_entities.json")

@@ -57,6 +57,16 @@
       "type": "array",
       "items": { "type": "string" },
       "description": "Leading connector words to drop during parsing."
+    },
+    "fuzzyStopwords": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Stopwords to ignore during fuzzy entity matching."
+    },
+    "trailingFunctionWords": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Function words that can be safely stripped from the end of an utterance."
     }
   }
 }
