@@ -221,14 +221,14 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             continue
         if not cml.exists():
             return _fail(f"coreml artifact not found: {cml}")
-        cml_dst = staged / "models" / "intent" / lang / "iOS" / dst_name
+        cml_dst = staged / "models" / "intent" / lang / dst_name
         cml_dst.parent.mkdir(parents=True, exist_ok=True)
         if cml_dst.exists():
             shutil.rmtree(cml_dst)
         shutil.copytree(cml, cml_dst)
-        refreshed.append(f"models/intent/{lang}/iOS/{dst_name}")
+        refreshed.append(f"models/intent/{lang}/{dst_name}")
         entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
-        entry[key] = f"models/intent/{lang}/iOS/{dst_name}"
+        entry[key] = f"models/intent/{lang}/{dst_name}"
 
     # TFLite rides in the bundle the same way CoreML does: as a sibling
     # reference on the intent entry (tflite_artifact / tflite_int8_artifact), NOT
@@ -241,12 +241,12 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             continue
         if not tfl.exists():
             return _fail(f"tflite artifact not found: {tfl}")
-        tfl_dst = intent_dir / "tflite" / dest
+        tfl_dst = intent_dir / dest
         tfl_dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(tfl, tfl_dst)
-        refreshed.append(f"models/intent/{lang}/tflite/{dest}")
+        refreshed.append(f"models/intent/{lang}/{dest}")
         entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
-        entry[key] = f"models/intent/{lang}/tflite/{dest}"
+        entry[key] = f"models/intent/{lang}/{dest}"
 
     if report is not None:
         if not report.exists():
@@ -266,11 +266,11 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         if staged_slice.exists():
             shutil.rmtree(staged_slice)
         shutil.copytree(staged, staged_slice)
-        
+
         slice_manifest = json.loads((staged_slice / "bundle.json").read_text(encoding="utf-8"))
         mod_func(staged_slice, slice_manifest)
         (staged_slice / "bundle.json").write_text(json.dumps(slice_manifest, indent=2) + "\n", encoding="utf-8")
-        
+
         nlu_out = out_dir / f"pack-{lang}-v{version}-{suffix}.nlu"
         cmd = [sys.executable, "-m", "nlu_compiler.build", str(staged_slice),
                "--out", str(nlu_out), "--channel", channel]
@@ -284,7 +284,7 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             if "LABEL_INTENT_MISMATCH" in (proc.stdout + proc.stderr):
                 print("\nHINT: LABEL_INTENT_MISMATCH detected.", file=sys.stderr)
             raise RuntimeError(f"nlu_compiler.build failed for {suffix}")
-        
+
         shutil.rmtree(staged_slice)
         return nlu_out
 
@@ -292,26 +292,36 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         pass
 
     def mod_ios(s_dir, s_man):
-        tflite_dir = s_dir / "models" / "intent" / lang / "tflite"
-        if tflite_dir.exists():
-            shutil.rmtree(tflite_dir)
+        for t in ["model.tflite", "model_int8.tflite"]:
+            f = s_dir / "models" / "intent" / lang / t
+            if f.exists():
+                f.unlink()
         onnx_file = s_dir / "models" / "intent" / lang / "model.onnx"
         if onnx_file.exists():
             onnx_file.unlink()
-        
+
         intent = s_man.get("models", {}).get("intent", {}).get(lang, {})
         for key in ["tflite_artifact", "tflite_int8_artifact"]:
             intent.pop(key, None)
 
     def mod_android(s_dir, s_man):
-        ios_dir = s_dir / "models" / "intent" / lang / "iOS"
-        if ios_dir.exists():
-            shutil.rmtree(ios_dir)
-        
+        for cml in [
+            "IntentClassifier.mlpackage",
+            "IntentClassifier.mlmodelc",
+            "IntentClassifier_full.mlpackage",
+            "IntentClassifier_full.mlmodelc",
+        ]:
+            cml_path = s_dir / "models" / "intent" / lang / cml
+            if cml_path.exists():
+                if cml_path.is_dir():
+                    shutil.rmtree(cml_path)
+                else:
+                    cml_path.unlink()
+
         intent = s_man.get("models", {}).get("intent", {}).get(lang, {})
         for key in ["coreml_artifact", "coreml_compiled_artifact", "coreml_full_artifact", "coreml_full_compiled_artifact", "temperature_coreml", "temperature_coreml_full"]:
             intent.pop(key, None)
-            
+
         for w in ["intent_classifier_weights.json", "intent_classifier_weights_full.json"]:
             w_file = s_dir / "models" / "intent" / lang / w
             if w_file.exists():
