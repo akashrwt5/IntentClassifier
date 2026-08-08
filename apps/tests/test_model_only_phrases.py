@@ -34,16 +34,16 @@ BENCHMARK = Path(__file__).resolve().parent / "semantic_benchmark_250.csv"
 # Legacy benchmark labels -> current domain.object.action taxonomy.
 # "Default Fallback Intent" -> GENAI sentinel (expected to deflect, not fire).
 LABEL_MAP = {
-    "Cmd.BatteryLevel": "device.status.battery",
-    "Cmd.MemoryChange": "device.memory.change",
-    "Cmd.SendMessage": "messaging.message.send",
-    "Cmd.StreamingStart": "streaming.session.start",
-    "Cmd.VolumeDecrease": "device.volume.decrease",
-    "Cmd.VolumeIncrease": "device.volume.increase",
+    "Cmd.BatteryLevel": "Cmd.BatteryLevel",
+    "Cmd.MemoryChange": "Cmd.MemoryChange",
+    "Cmd.SendMessage": "Cmd.SendMessage",
+    "Cmd.StreamingStart": "Cmd.StreamingStart",
+    "Cmd.VolumeDecrease": "Cmd.VolumeDecrease",
+    "Cmd.VolumeIncrease": "Cmd.VolumeIncrease",
     "Default Fallback Intent": "GENAI",
-    "Help_FindMyHearingAids": "help.find_my_hearing_aids.show",
-    "Help_Home": "help.home.show",
-    "reminders.add": "reminders.task.create",
+    "Help_FindMyHearingAids": "Help_FindMyHearingAids",
+    "Help_Home": "Help_Home",
+    "reminders.add": "reminders.add",
 }
 
 

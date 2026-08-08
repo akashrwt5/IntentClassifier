@@ -6,7 +6,7 @@ Embeds the utterance with MiniLM-L6-v2 and classifies it with a trained
 logistic-regression head (SetFit-style, frozen encoder).
 
 The head is trained by scripts/train_semantic_head.py on embeddings of
-ALL training phrases — including sys.oos.fallback phrases as an
+ALL training phrases — including Default Fallback Intent phrases as an
 explicit out-of-scope class. Rejection is therefore learned, not
 threshold-guessed: when the head predicts the fallback class, the engine
 routes to GenAI.
@@ -33,7 +33,7 @@ MODEL_DIR  = BASE_DIR / "models"
 HEAD_PATH  = MODEL_DIR / "semantic_head.npz"
 ONNX_PATH  = MODEL_DIR / "minilm-l6-v2.onnx"
 
-FALLBACK_INTENT = "sys.oos.fallback"
+FALLBACK_INTENT = "Default Fallback Intent"
 
 # Minimum softmax probability for the head's prediction to rescue a turn.
 # Measured on held-out data (train_semantic_head.py rejection curve):

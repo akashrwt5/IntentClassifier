@@ -1,12 +1,12 @@
-device.volume.decrease:
+Cmd.VolumeDecrease:
   confirm_prompt: Zur Sicherheit — die Lautstärke verringern?
   fulfillment: Lautstärke verringert.
-device.volume.increase:
+Cmd.VolumeIncrease:
   confirm_prompt: Zur Sicherheit — die Lautstärke erhöhen?
   fulfillment: Lautstärke erhöht.
-device.volume.mute:
+Cmd.VolumeMute:
   confirm_prompt: Zur Sicherheit — Ihre Hörgeräte stummschalten?
   fulfillment: Stummgeschaltet.
-device.volume.unmute:
+Cmd.VolumeUnmute:
   confirm_prompt: Zur Sicherheit — die Stummschaltung aufheben?
   fulfillment: Stummschaltung aufgehoben.

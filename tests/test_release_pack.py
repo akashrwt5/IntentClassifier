@@ -47,9 +47,10 @@ def _workflow_without_comments() -> str:
 
 
 def _build(tmp_path, **kw):
-    rc = assemble_pack.assemble(_MINIMAL, kw.pop("version", "1.2.3"), tmp_path, **kw)
+    version = kw.pop("version", "1.2.3")
+    rc = assemble_pack.assemble(_MINIMAL, version, tmp_path, **kw)
     assert rc == 0, "assemble_pack failed"
-    return next(tmp_path.glob("pack-*.nlu"))
+    return tmp_path / f"pack-en-v{version}-universal.nlu"
 
 
 def _manifest(nlu: Path) -> dict:
@@ -62,7 +63,7 @@ def _manifest(nlu: Path) -> dict:
 
 def test_produces_a_versioned_single_language_pack(tmp_path):
     nlu = _build(tmp_path)
-    assert nlu.name == "pack-en-v1.2.3.nlu"
+    assert nlu.name == "pack-en-v1.2.3-universal.nlu"
     m = _manifest(nlu)
     assert m["bundle_id"] == "pack-en-v1.2.3"
     assert list(m["languages"]) == ["en"], "a release pack declares exactly one language"
@@ -287,12 +288,12 @@ def test_coreml_is_packaged_into_the_bundle(tmp_path):
     rc = assemble_pack.assemble(_MINIMAL, "1.2.3", out, coreml=fake)
     assert rc == 0, "assemble_pack refused a CoreML artifact the Fat Bundle ships"
 
-    nlu = out / "pack-en-v1.2.3.nlu"
+    nlu = out / "pack-en-v1.2.3-universal.nlu"
     manifest = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))
     entry = manifest["models"]["intent"]["en"]
-    assert entry["coreml_artifact"] == "models/intent/en/iOS/IntentClassifier.mlpackage"
+    assert entry["coreml_artifact"] == "models/intent/en/IntentClassifier.mlpackage"
     names = zipfile.ZipFile(nlu).namelist()
-    assert "models/intent/en/iOS/IntentClassifier.mlpackage/Manifest.json" in names, (
+    assert "models/intent/en/IntentClassifier.mlpackage/Manifest.json" in names, (
         "the .mlpackage files were not packaged into the signed bundle")
 
 
@@ -317,13 +318,13 @@ def test_full_vocab_coreml_head_is_packaged_alongside_the_pruned_one(tmp_path):
         coreml_full=_pkg("IntentClassifier_full.mlpackage"))
     assert rc == 0
 
-    nlu = out / "pack-en-v1.2.3.nlu"
+    nlu = out / "pack-en-v1.2.3-universal.nlu"
     entry = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))["models"]["intent"]["en"]
-    assert entry["coreml_artifact"] == "models/intent/en/iOS/IntentClassifier.mlpackage"
-    assert entry["coreml_full_artifact"] == "models/intent/en/iOS/IntentClassifier_full.mlpackage"
+    assert entry["coreml_artifact"] == "models/intent/en/IntentClassifier.mlpackage"
+    assert entry["coreml_full_artifact"] == "models/intent/en/IntentClassifier_full.mlpackage"
     names = zipfile.ZipFile(nlu).namelist()
-    assert "models/intent/en/iOS/IntentClassifier.mlpackage/Manifest.json" in names
-    assert "models/intent/en/iOS/IntentClassifier_full.mlpackage/Manifest.json" in names
+    assert "models/intent/en/IntentClassifier.mlpackage/Manifest.json" in names
+    assert "models/intent/en/IntentClassifier_full.mlpackage/Manifest.json" in names
 
 
 def test_tflite_heads_are_packaged_into_the_bundle(tmp_path):
@@ -343,13 +344,13 @@ def test_tflite_heads_are_packaged_into_the_bundle(tmp_path):
     rc = assemble_pack.assemble(_MINIMAL, "1.2.3", out, tflite=fp32, tflite_int8=int8)
     assert rc == 0, "assemble_pack refused a TFLite head the Fat Bundle ships"
 
-    nlu = out / "pack-en-v1.2.3.nlu"
+    nlu = out / "pack-en-v1.2.3-universal.nlu"
     entry = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))["models"]["intent"]["en"]
-    assert entry["tflite_artifact"] == "models/intent/en/tflite/model.tflite"
-    assert entry["tflite_int8_artifact"] == "models/intent/en/tflite/model_int8.tflite"
+    assert entry["tflite_artifact"] == "models/intent/en/model.tflite"
+    assert entry["tflite_int8_artifact"] == "models/intent/en/model_int8.tflite"
     names = zipfile.ZipFile(nlu).namelist()
-    assert "models/intent/en/tflite/model.tflite" in names
-    assert "models/intent/en/tflite/model_int8.tflite" in names
+    assert "models/intent/en/model.tflite" in names
+    assert "models/intent/en/model_int8.tflite" in names
 
 
 def test_models_schema_really_forbids_a_coreml_stage():

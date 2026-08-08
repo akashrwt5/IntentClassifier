@@ -44,7 +44,7 @@ import numpy as np
 import pandas as pd
 
 from nlu_training.fit_calibration import (
-    MAX_PER_INTENT, eval_leakage_mask, oof_logits,
+    cap_per_intent, eval_leakage_mask, oof_logits,
 )
 
 # The FEATURISATION normaliser the trainer applies (contraction expansion +
@@ -68,7 +68,7 @@ def is_read_only(label: str, read_only_intents: set[str]) -> bool:
 
 def state_changing(schema: dict) -> set[str]:
     """Intents that change device/app state — what the gate must cover."""
-    ro = {"device.status.battery"}
+    ro = {"Cmd.BatteryLevel"}
     return {i for i in schema.get("intents", {})
             if is_actionable(i) and not is_read_only(i, ro)}
 
@@ -92,7 +92,7 @@ def fit(lang: str, folds: int, max_friction: float) -> int:
     df["text"] = df["text"].astype(str).map(featurize_text)
     df["intent"] = df["intent"].astype(str).str.strip()
     df = df.drop_duplicates(subset=["text", "intent"])
-    df = df.groupby("intent").tail(MAX_PER_INTENT).reset_index(drop=True)
+    df = cap_per_intent(df)
     keep, _leaked, _checked = eval_leakage_mask(df["text"].values, lang)
     df = df[keep]
 

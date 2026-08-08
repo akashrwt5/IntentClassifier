@@ -4,7 +4,7 @@ Verifies that the modern ``domain.object.action`` labels are translated back to
 the legacy Dialogflow contract the app still consumes, WITHOUT retraining or
 touching the model:
 
-  * simple renames (device.volume.mute -> Cmd.VolumeMute),
+  * simple renames (Cmd.VolumeMute -> Cmd.VolumeMute),
   * passthrough for sentinels / unmapped / None,
   * confirmation compound synthesis: a yes/no resolution of a send
     confirmation becomes ``Cmd.SendMessage - yes`` / ``Cmd.SendMessage - no``,
@@ -39,9 +39,9 @@ def _fresh_cache(monkeypatch):
 
 
 def test_simple_renames():
-    assert label_compat.to_app_label("device.volume.mute") == "Cmd.VolumeMute"
-    assert label_compat.to_app_label("help.battery.show") == "Help_Battery"
-    assert label_compat.to_app_label("sys.oos.fallback") == "Default Fallback Intent"
+    assert label_compat.to_app_label("Cmd.VolumeMute") == "Cmd.VolumeMute"
+    assert label_compat.to_app_label("Help_Battery") == "Help_Battery"
+    assert label_compat.to_app_label("Default Fallback Intent") == "Default Fallback Intent"
 
 
 def test_passthrough():
@@ -51,9 +51,9 @@ def test_passthrough():
 
 
 def test_apply_rewrites_all_label_fields():
-    r = NLUResult(type="FULFILL", intent="device.volume.mute",
-                  interrupted_intent="help.battery.show",
-                  tfidf_intent="reminders.task.create")
+    r = NLUResult(type="FULFILL", intent="Cmd.VolumeMute",
+                  interrupted_intent="Help_Battery",
+                  tfidf_intent="reminders.add")
     label_compat.apply(r)
     assert r.intent == "Cmd.VolumeMute"
     assert r.interrupted_intent == "Help_Battery"
@@ -61,10 +61,10 @@ def test_apply_rewrites_all_label_fields():
 
 
 def test_send_confirmation_yes_becomes_compound():
-    r = NLUResult(type="FULFILL", intent="messaging.message.send",
+    r = NLUResult(type="FULFILL", intent="Cmd.SendMessage",
                   action="message.compose", complete=True)
     r._confirm_polarity = "yes"
-    r._confirmed_intent = "messaging.message.send"
+    r._confirmed_intent = "Cmd.SendMessage"
     label_compat.apply(r)
     assert r.intent == "Cmd.SendMessage - yes"
 
@@ -74,15 +74,15 @@ def test_send_confirmation_no_becomes_compound():
     # intent was being confirmed, so the app gets the exact legacy "- no".
     r = NLUResult(type="FULFILL", intent="sys.confirm.cancelled", complete=True)
     r._confirm_polarity = "no"
-    r._confirmed_intent = "messaging.message.send"
+    r._confirmed_intent = "Cmd.SendMessage"
     label_compat.apply(r)
     assert r.intent == "Cmd.SendMessage - no"
 
 
 def test_internal_tags_do_not_leak_into_payload():
-    r = NLUResult(type="FULFILL", intent="messaging.message.send", complete=True)
+    r = NLUResult(type="FULFILL", intent="Cmd.SendMessage", complete=True)
     r._confirm_polarity = "yes"
-    r._confirmed_intent = "messaging.message.send"
+    r._confirmed_intent = "Cmd.SendMessage"
     payload = label_compat.apply(r).to_dict()
     assert payload["intent"] == "Cmd.SendMessage - yes"
     assert "_confirm_polarity" not in payload
@@ -108,6 +108,71 @@ def test_every_trained_intent_has_a_legacy_mapping():
 def test_killswitch_disables_shim(monkeypatch):
     monkeypatch.setenv("NLU_LEGACY_LABELS", "0")
     label_compat._load.cache_clear()
-    r = NLUResult(type="FULFILL", intent="device.volume.mute")
+    r = NLUResult(type="FULFILL", intent="Cmd.VolumeMute")
     label_compat.apply(r)
-    assert r.intent == "device.volume.mute"  # untouched — modern label passes through
+    assert r.intent == "Cmd.VolumeMute"  # untouched — modern label passes through
+
+
+# --------------------------------------------------------------------------- #
+# The published conformance vector
+# --------------------------------------------------------------------------- #
+
+_FIXTURES = _ROOT / "tests" / "fixtures" / "legacy_label_parity_en.csv"
+
+
+@pytest.mark.skipif(not _FIXTURES.exists(), reason="conformance vector absent")
+def test_the_engine_still_produces_the_published_conformance_vector(monkeypatch):
+    """The CSV iOS and Android are told to reproduce must match this engine.
+
+    Nothing read this file before — only `scripts/gen_legacy_label_fixtures.py`
+    wrote it. That is how it came to assert `CONFIRM` for four volume
+    utterances: the generator replays the engine and records whatever comes out,
+    so a defect was captured as the cross-platform contract (ADR-011, parity by
+    fixtures) with no test to notice the divergence afterwards.
+
+    A generated golden still needs a consumer, or the engine and the contract
+    drift apart in silence — which is precisely the failure mode this whole
+    change set exists to remove.
+
+    If this fails after an intentional behaviour change: regenerate with
+    `python scripts/gen_legacy_label_fixtures.py`, and TELL THE CLIENT TEAMS.
+    The file is their contract, not an internal snapshot.
+    """
+    import csv
+    import warnings
+
+    pytest.importorskip("onnxruntime")
+    monkeypatch.setenv("NLU_LEGACY_LABELS", "1")
+    label_compat._load.cache_clear()
+
+    pack_dir = _ROOT / "dist" / "bundle-en"
+    if not pack_dir.exists():
+        pytest.skip("built pack (dist/bundle-en) required")
+
+    from nlu_engine import NLUEngine
+    from nlu_langpack import load_pack
+
+    with _FIXTURES.open(encoding="utf-8", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            eng = NLUEngine(pack=load_pack(str(pack_dir)))
+        seen = set()
+        mismatches = []
+        for row in rows:
+            sid = row["session"]
+            if sid not in seen:
+                eng.reset(sid)
+                seen.add(sid)
+            r = eng.handle(sid, row["text"])
+            got = (r.type, r.intent or "")
+            want = (row["expected_type"], row["expected_intent"])
+            if got != want:
+                mismatches.append(f"  {row['text']!r}: expected {want}, got {got}")
+        assert not mismatches, (
+            "the engine no longer reproduces the published conformance vector:\n"
+            + "\n".join(mismatches))
+    finally:
+        label_compat._load.cache_clear()

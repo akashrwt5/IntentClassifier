@@ -46,6 +46,30 @@ def eng():
 needs_model = pytest.mark.skipif(not _MODEL.exists(),
                                  reason="trained English artifacts absent")
 
+# Utterance used purely as a VEHICLE to enter a slot-filling flow, for the tests
+# below that are about what happens once you are in one.
+#
+# It was "set me up for a concert", which entered `reminders.add` only
+# because slot-bearing intents used to fire at a lower bar
+# (`slot_confidence_threshold` 0.50, since removed). It now classifies at 0.597
+# and correctly falls back, so every cancellation test silently stopped testing
+# cancellation and started asserting on a fallback message.
+#
+# A vehicle should be the most unambiguous flow-entering utterance available,
+# not an interesting one — the interesting part is the turn AFTER it.
+_ENTER_FLOW = "change my memory"
+_ENTER_FLOW_INTENT = "Cmd.MemoryChange"
+
+
+@needs_model
+def test_the_flow_vehicle_still_enters_a_flow(eng):
+    """Guards the fixture above: if this fails, the tests below are vacuous."""
+    eng.reset("vehicle")
+    r = eng.handle("vehicle", _ENTER_FLOW)
+    assert r.type == "PROMPT" and r.intent == _ENTER_FLOW_INTENT, (
+        f"{_ENTER_FLOW!r} no longer starts a slot flow ({r.type}/{r.intent}); "
+        f"pick a new vehicle or the cancellation tests prove nothing")
+
 
 # --------------------------- the reported bugs -----------------------------
 
@@ -64,10 +88,11 @@ def test_off_topic_reply_does_not_fabricate_a_memory(eng):
 @needs_model
 def test_no_during_reminder_time_cancels_instead_of_creating(eng):
     """'no' to 'when should I remind you?' used to create a November reminder."""
-    eng.handle("rem-no", "set me up for a concert")
+    eng.reset("rem-no")
+    eng.handle("rem-no", _ENTER_FLOW)
     r = eng.handle("rem-no", "no")
-    assert not (r.type == "FULFILL" and r.action == "reminders.task.create"), (
-        f"'no' created a reminder anyway: {r.parameters}")
+    assert not (r.type == "FULFILL" and r.action), (
+        f"'no' completed the flow anyway: {r.parameters}")
     assert r.message == _CANCEL_MSG
 
 
@@ -78,13 +103,14 @@ def test_no_during_reminder_time_cancels_instead_of_creating(eng):
 def test_pure_cancellation_abandons_the_flow(eng, cancel_word):
     """PURE meta-words with no intent of their own cancel the flow.
 
-    Deliberately excludes "stop": it classifies as streaming.session.stop, a
+    Deliberately excludes "stop": it classifies as Cmd.StreamingStop, a
     real device command, so it is handled by the interruption path (which runs
     first) rather than as a cancel. That precedence is correct — a genuine
     command wins over the meta layer; only words with no intent fall through to
     cancellation. See test_a_real_command_word_interrupts_not_cancels.
     """
-    eng.handle(f"cancel-{cancel_word}", "set me up for a concert")
+    eng.reset(f"cancel-{cancel_word}")
+    eng.handle(f"cancel-{cancel_word}", _ENTER_FLOW)
     r = eng.handle(f"cancel-{cancel_word}", cancel_word)
     assert r.message == _CANCEL_MSG and r.action is None
 
@@ -93,13 +119,14 @@ def test_pure_cancellation_abandons_the_flow(eng, cancel_word):
 def test_a_real_command_word_interrupts_not_cancels(eng):
     """A word that IS a device command interrupts the flow instead of cancelling.
 
-    "stop" -> streaming.session.stop. The interruption path runs before the
+    "stop" -> Cmd.StreamingStop. The interruption path runs before the
     cancel layer, so a real command takes precedence over meta-cancellation.
     """
-    eng.handle("stop-cmd", "set me up for a concert")
+    eng.reset("stop-cmd")
+    eng.handle("stop-cmd", _ENTER_FLOW)
     r = eng.handle("stop-cmd", "stop")
     assert r.message != _CANCEL_MSG
-    assert r.interrupted_intent == "reminders.task.create"
+    assert r.interrupted_intent == _ENTER_FLOW_INTENT
 
 
 @needs_model

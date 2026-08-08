@@ -4,7 +4,7 @@
 WHY
 ---
 Charter B5 found 11 wrong actions on the honest holdout, 10 of them carrying
-``truth == sys.oos.fallback``. Auditing those against their nearest in-scope
+``truth == Default Fallback Intent``. Auditing those against their nearest in-scope
 training neighbours showed that some were not model errors at all: the same
 request appears under an in-scope label elsewhere in the corpus, so the model
 answered correctly and the TEST was wrong.
@@ -16,20 +16,20 @@ because relabelling them asserts a product capability rather than fixing data
 
 THE RELABELS
 ------------
-``read last text message`` -> ``messaging.message.listen``
+``read last text message`` -> ``Cmd.ListenMessage``
     In-scope training already contains ``read my new texts aloud``,
     ``read my unread messages``, ``read out who texted me`` and
-    ``play the text i just got``, all labelled messaging.message.listen. Same
-    verb, same object. The model fired messaging.message.listen at 0.974 and
+    ``play the text i just got``, all labelled Cmd.ListenMessage. Same
+    verb, same object. The model fired Cmd.ListenMessage at 0.974 and
     was charged a wrong action for being right.
 
-``translate hello to french`` -> ``translation.session.start``
+``translate hello to french`` -> ``Cmd.TranslationStart``
     In-scope training contains ``translate how much do i owe you to spanish``
-    and ``start translating in french`` under translation.session.start —
+    and ``start translating in french`` under Cmd.TranslationStart —
     identical "translate <phrase> to <language>" shape.
 
-``where do i find the mute button`` -> ``help.volume.show``
-    In-scope help.volume.show contains ``how do i mute the sound?``,
+``where do i find the mute button`` -> ``Help_Volume``
+    In-scope Help_Volume contains ``how do i mute the sound?``,
     ``where do i change loudness`` and ``where is the loudness control``. A
     read-only help intent, so this one does not affect the wrong-action budget;
     it is corrected because it is wrong.
@@ -37,9 +37,9 @@ THE RELABELS
 NOT TOUCHED (deliberately)
 --------------------------
 ``stream, youtube music`` — the INTENT is streaming; YouTube is the unsupported
-    part. Relabelling it to streaming.session.start would assert that YouTube
+    part. Relabelling it to Cmd.StreamingStart would assert that YouTube
     streaming is supported. That is a product decision, and the deeper issue is
-    that sys.oos.fallback conflates "not a command" with "a command whose
+    that Default Fallback Intent conflates "not a command" with "a command whose
     parameter we cannot fulfil" (see docs/Review-F5/b5-root-cause-audit.md §5).
 ``how do i set up the automatic car memory`` — may name a feature that does not
     exist.
@@ -79,14 +79,14 @@ REPO = Path(__file__).resolve().parents[2]
 # (compiled matcher, new label, why) — matched against the raw utterance.
 RELABELS: list[tuple[re.Pattern, str, str]] = [
     (re.compile(r"\bread\b.*\b(text\s+)?message", re.I),
-     "messaging.message.listen",
+     "Cmd.ListenMessage",
      "in-scope siblings: 'read my new texts aloud', 'read my unread messages'"),
     (re.compile(r"\btranslate\b.+\bto\s+(french|spanish|german|danish|english)\b", re.I),
-     "translation.session.start",
+     "Cmd.TranslationStart",
      "in-scope sibling: 'translate how much do i owe you to spanish'"),
     (re.compile(r"\bwhere\b.*\b(mute|volume|loudness)\b.*\bbutton\b"
                 r"|\bwhere\b.*\bbutton\b.*\b(mute|volume)\b", re.I),
-     "help.volume.show",
+     "Help_Volume",
      "in-scope siblings: 'where do i change loudness', 'how do i mute the sound?'"),
 ]
 
@@ -112,12 +112,12 @@ def apply(lang: str, dry_run: bool) -> int:
 
         changed = []
         for row in rows:
-            if row["intent"].strip() != "sys.oos.fallback":
+            if row["intent"].strip() != "Default Fallback Intent":
                 continue
             for pat, new_label, why in RELABELS:
                 if pat.search(row["text"]):
                     changed.append({"file": name, "text": row["text"],
-                                    "from": "sys.oos.fallback", "to": new_label,
+                                    "from": "Default Fallback Intent", "to": new_label,
                                     "why": why})
                     row["intent"] = new_label
                     break
@@ -149,7 +149,7 @@ def apply(lang: str, dry_run: bool) -> int:
         man.setdefault("amendments", []).append({
             "at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "by": "scripts/ci/fix_oos_mislabels.py",
-            "what": "Relabelled utterances wrongly marked sys.oos.fallback where "
+            "what": "Relabelled utterances wrongly marked Default Fallback Intent where "
                     "an in-scope sibling made the label a contradiction. This is "
                     "a label correction, NOT a re-split — the train/holdout "
                     "partition is unchanged, so the sets remain disjoint.",

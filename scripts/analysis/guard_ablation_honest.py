@@ -48,22 +48,22 @@ from nlu_training.wrong_action_harness import (  # noqa: E402
 # The six rules removed on 2026-07-24, recovered from content/platform.yaml at
 # commit 835083f9 (the last revision that carried them).
 POLARITY_GUARDS = [
-    {"blocked_intent": "device.volume.unmute", "pattern": r"\bmute\b",
-     "redirect_intent": "device.volume.mute"},
-    {"blocked_intent": "device.volume.mute", "pattern": r"\bunmute\b|\bun-mute\b",
-     "redirect_intent": "device.volume.unmute"},
-    {"blocked_intent": "device.volume.increase",
+    {"blocked_intent": "Cmd.VolumeUnmute", "pattern": r"\bmute\b",
+     "redirect_intent": "Cmd.VolumeMute"},
+    {"blocked_intent": "Cmd.VolumeMute", "pattern": r"\bunmute\b|\bun-mute\b",
+     "redirect_intent": "Cmd.VolumeUnmute"},
+    {"blocked_intent": "Cmd.VolumeIncrease",
      "pattern": r"\b(quiet(er)?|lower|softer|decrease|reduce|down)\b",
-     "redirect_intent": "device.volume.decrease"},
-    {"blocked_intent": "device.volume.decrease",
+     "redirect_intent": "Cmd.VolumeDecrease"},
+    {"blocked_intent": "Cmd.VolumeDecrease",
      "pattern": r"\b(loud(er)?|higher|increase|raise|up)\b",
-     "redirect_intent": "device.volume.increase"},
-    {"blocked_intent": "streaming.session.start",
+     "redirect_intent": "Cmd.VolumeIncrease"},
+    {"blocked_intent": "Cmd.StreamingStart",
      "pattern": r"\b(stop|end|quit|finish|turn off)\b",
-     "redirect_intent": "streaming.session.stop"},
-    {"blocked_intent": "streaming.session.stop",
+     "redirect_intent": "Cmd.StreamingStop"},
+    {"blocked_intent": "Cmd.StreamingStop",
      "pattern": r"\b(start|begin|turn on)\b",
-     "redirect_intent": "streaming.session.start"},
+     "redirect_intent": "Cmd.StreamingStart"},
 ]
 
 

@@ -1,165 +1,165 @@
 utterance,expected_intent,difficulty
-mute the audio,device.volume.mute,easy
-silence please,device.volume.mute,hard
-turn off the sound,device.volume.mute,hard
-increase the volume,device.volume.increase,easy
-make it louder,device.volume.increase,hard
-turn it up,device.volume.increase,hard
-turn it down,device.volume.decrease,easy
-decrease volume,device.volume.decrease,hard
-make it quieter,device.volume.decrease,hard
-change to restaurant memory,device.memory.change,easy
-switch to work profile,device.memory.change,hard
-set memory to fitness,device.memory.change,hard
-remind me tomorrow at 9am to call chris,reminders.task.create,easy
-set a reminder for next monday,reminders.task.create,hard
-create an alarm for 6am,reminders.task.create,hard
-start running,activity.run.query,easy
-log a jog,activity.run.query,hard
-begin a run,activity.run.query,hard
-start a walk,activity.walk.query,easy
-begin walking,activity.walk.query,hard
-log a walk session,activity.walk.query,hard
-record steps,activity.step.query,easy
-log my steps,activity.step.query,hard
-track steps for the day,activity.step.query,hard
-start cycling,activity.cycle.query,easy
-begin a bike ride,activity.cycle.query,hard
-log cycling,activity.cycle.query,hard
-find my phone,find.phone.locate,easy
-where is my phone,find.phone.locate,hard
-locate my device,find.phone.locate,hard
-send a message to mom,messaging.message.send,easy
-text dad hello,messaging.message.send,hard
-listen to my messages,messaging.message.listen,easy
-read my messages,messaging.message.listen,hard
-play my texts,messaging.message.listen,hard
-start streaming music,streaming.session.start,easy
-play some songs,streaming.session.start,hard
-begin streaming,streaming.session.start,hard
-stop streaming,streaming.session.stop,easy
-stop the music,streaming.session.stop,hard
-pause streaming,streaming.session.stop,hard
-get my battery level,device.status.battery,easy
-how much battery do i have,device.status.battery,hard
-check battery percentage,device.status.battery,hard
-start transcription,transcription.session.start,easy
-begin transcribing,transcription.session.start,hard
-enable speech to text,transcription.session.start,hard
-start translation,translation.session.start,easy
-begin translating,translation.session.start,hard
-enable translation mode,translation.session.start,hard
-my ears are ringing,help.tinnitus.show,hard
-i hear ringing in my ears,help.tinnitus.show,hard
-constant buzzing sound,help.tinnitus.show,hard
-how do i pair my device,help.pairing.show,easy
-help me set up pairing,help.pairing.show,hard
-device won't connect,help.pairing.show,hard
-how do i insert my device,help.insert_device.show,easy
-where does the device go,help.insert_device.show,hard
-help me place it correctly,help.insert_device.show,hard
-how do i clean my device,help.clean_care.show,easy
-device cleaning tips,help.clean_care.show,hard
-how to maintain the device,help.clean_care.show,hard
-device is cutting out,help.device_settings.show,easy
-everything sounds muffled,help.device_settings.show,hard
-audio quality is bad,help.device_settings.show,hard
-how do i customize settings,help.customize.show,easy
-change device preferences,help.customize.show,hard
-modify my settings,help.customize.show,hard
-what are demo mode features,help.demo_mode.show,easy
-how does demo mode work,help.demo_mode.show,hard
-enable demo functionality,help.demo_mode.show,hard
-what memories can i create,help.changing_memories.show,easy
-how many memory profiles exist,help.changing_memories.show,hard
-list all available memories,help.changing_memories.show,hard
-how do i change memory options,help.memory_options.show,easy
-modify my memory settings,help.memory_options.show,hard
-memory customization help,help.memory_options.show,hard
-check my heart rate,help.heart_rate.show,easy
-what is my current heart rate,help.heart_rate.show,hard
-monitor my heartbeat,help.heart_rate.show,hard
-what is my heart rate recovery,help.heart_rate_recovery.show,easy
-check heart recovery stats,help.heart_rate_recovery.show,hard
-view my heart recovery,help.heart_rate_recovery.show,hard
-what is my thrive score,help.thrive_score.show,easy
-check my wellbeing score,help.thrive_score.show,hard
-view my overall health score,help.thrive_score.show,hard
-help with volume settings,help.volume.show,easy
-how to adjust volume controls,help.volume.show,hard
-volume optimization tips,help.volume.show,hard
-what is intelligent voice,help.intelli_voice.show,easy
-how does voice recognition work,help.intelli_voice.show,hard
-enable smart voice features,help.intelli_voice.show,hard
-what is mask mode,help.mask_mode.show,easy
-enable mask mode function,help.mask_mode.show,hard
-how to use mask mode,help.mask_mode.show,hard
-what is edge mode,help.edge_mode.show,easy
-enable edge mode feature,help.edge_mode.show,hard
-how to activate edge mode,help.edge_mode.show,hard
-find my hearing aids,help.find_my_hearing_aids.show,easy
-where are my devices,help.find_my_hearing_aids.show,hard
-locate my hearing aids,help.find_my_hearing_aids.show,hard
-what's new in the app,help.whats_new.show,easy
-show me new features,help.whats_new.show,hard
-what features were added,help.whats_new.show,hard
-battery not charging,help.battery.show,hard
-device battery problems,help.battery.show,hard
-need to replace battery,help.battery.show,hard
-help with app settings,help.app_settings.show,easy
-app configuration guide,help.app_settings.show,hard
-modify app preferences,help.app_settings.show,hard
-what are the accessories,help.accessories.show,easy
-compatible device accessories,help.accessories.show,hard
-what can i attach to device,help.accessories.show,hard
-what about transcription features,help.transcribe.show,easy
-how to use transcribe,help.transcribe.show,hard
-transcription quality tips,help.transcribe.show,hard
-translation feature help,help.translate.show,easy
-how translation works,help.translate.show,hard
-enable translation feature,help.translate.show,hard
-voice assistant features,help.voice_assistant.show,easy
-how voice assistant helps,help.voice_assistant.show,hard
-activate voice assistant,help.voice_assistant.show,hard
-hearing care anywhere connect,help.hearing_care_anywhere_connect.show,easy
-remote hearing care options,help.hearing_care_anywhere_connect.show,hard
-connect with audiologist,help.hearing_care_anywhere_connect.show,hard
-remote programming help,help.remote_programming.show,easy
-how to adjust settings remotely,help.remote_programming.show,hard
-remote tuning instructions,help.remote_programming.show,hard
-self check feature,help.self_check.show,easy
-run a device self check,help.self_check.show,hard
-self diagnostic help,help.self_check.show,hard
-device health check,help.health.show,hard
-health monitoring features,help.health.show,hard
-hear share functionality,help.hear_share.show,easy
-how to share audio,help.hear_share.show,hard
-use hear share feature,help.hear_share.show,hard
-where is the home button,help.home.show,easy
-what is the home screen,help.home.show,hard
-navigate to home,help.home.show,hard
-fall alert information,help.fall_alert.show,easy
-how fall alert works,help.fall_alert.show,hard
-enable fall detection,help.fall_alert.show,hard
-wi-cross explained,help.wi_c_r_o_s.show,easy
-what is wi-cross,help.wi_c_r_o_s.show,hard
-enable wi-cross feature,help.wi_c_r_o_s.show,hard
-reminder about appointments,help.reminder.show,easy
-set a reminder for later,help.reminder.show,hard
-mark reminder as complete,help.reminder.show,hard
-complete my reminder,reminders.task.complete,easy
-mark task as finished,reminders.task.complete,hard
-finish a pending reminder,reminders.task.complete,hard
-what are aerobic activities,activity.aerobics.query,hard
-track aerobic exercise,activity.aerobics.query,hard
-log aerobics session,activity.aerobics.query,hard
-track calories burned,activity.calories.query,hard
-log my calorie burn,activity.calories.query,hard
-monitor calories,activity.calories.query,hard
-workout exercise tracking,activity.exercise.query,hard
-log my exercise session,activity.exercise.query,hard
-track this exercise,activity.exercise.query,hard
-stand activity tracking,activity.stand.query,hard
-log standing time,activity.stand.query,hard
-track standing sessions,activity.stand.query,hard
-Default Fallback Intent,sys.oos.fallback,easy
+mute the audio,Cmd.VolumeMute,easy
+silence please,Cmd.VolumeMute,hard
+turn off the sound,Cmd.VolumeMute,hard
+increase the volume,Cmd.VolumeIncrease,easy
+make it louder,Cmd.VolumeIncrease,hard
+turn it up,Cmd.VolumeIncrease,hard
+turn it down,Cmd.VolumeDecrease,easy
+decrease volume,Cmd.VolumeDecrease,hard
+make it quieter,Cmd.VolumeDecrease,hard
+change to restaurant memory,Cmd.MemoryChange,easy
+switch to work profile,Cmd.MemoryChange,hard
+set memory to fitness,Cmd.MemoryChange,hard
+remind me tomorrow at 9am to call chris,reminders.add,easy
+set a reminder for next monday,reminders.add,hard
+create an alarm for 6am,reminders.add,hard
+start running,Cmd.ActivityRun,easy
+log a jog,Cmd.ActivityRun,hard
+begin a run,Cmd.ActivityRun,hard
+start a walk,Cmd.ActivityWalk,easy
+begin walking,Cmd.ActivityWalk,hard
+log a walk session,Cmd.ActivityWalk,hard
+record steps,Cmd.ActivityStep,easy
+log my steps,Cmd.ActivityStep,hard
+track steps for the day,Cmd.ActivityStep,hard
+start cycling,Cmd.ActivityCycle,easy
+begin a bike ride,Cmd.ActivityCycle,hard
+log cycling,Cmd.ActivityCycle,hard
+find my phone,Cmd.FindMyPhone,easy
+where is my phone,Cmd.FindMyPhone,hard
+locate my device,Cmd.FindMyPhone,hard
+send a message to mom,Cmd.SendMessage,easy
+text dad hello,Cmd.SendMessage,hard
+listen to my messages,Cmd.ListenMessage,easy
+read my messages,Cmd.ListenMessage,hard
+play my texts,Cmd.ListenMessage,hard
+start streaming music,Cmd.StreamingStart,easy
+play some songs,Cmd.StreamingStart,hard
+begin streaming,Cmd.StreamingStart,hard
+stop streaming,Cmd.StreamingStop,easy
+stop the music,Cmd.StreamingStop,hard
+pause streaming,Cmd.StreamingStop,hard
+get my battery level,Cmd.BatteryLevel,easy
+how much battery do i have,Cmd.BatteryLevel,hard
+check battery percentage,Cmd.BatteryLevel,hard
+start transcription,Cmd.TranscribeStart,easy
+begin transcribing,Cmd.TranscribeStart,hard
+enable speech to text,Cmd.TranscribeStart,hard
+start translation,Cmd.TranslationStart,easy
+begin translating,Cmd.TranslationStart,hard
+enable translation mode,Cmd.TranslationStart,hard
+my ears are ringing,Help_Tinnitus,hard
+i hear ringing in my ears,Help_Tinnitus,hard
+constant buzzing sound,Help_Tinnitus,hard
+how do i pair my device,Help_Pairing,easy
+help me set up pairing,Help_Pairing,hard
+device won't connect,Help_Pairing,hard
+how do i insert my device,Help_InsertDevice,easy
+where does the device go,Help_InsertDevice,hard
+help me place it correctly,Help_InsertDevice,hard
+how do i clean my device,Help_CleanCare,easy
+device cleaning tips,Help_CleanCare,hard
+how to maintain the device,Help_CleanCare,hard
+device is cutting out,Help_DeviceSettings,easy
+everything sounds muffled,Help_DeviceSettings,hard
+audio quality is bad,Help_DeviceSettings,hard
+how do i customize settings,Help_Customize,easy
+change device preferences,Help_Customize,hard
+modify my settings,Help_Customize,hard
+what are demo mode features,Help_DemoMode,easy
+how does demo mode work,Help_DemoMode,hard
+enable demo functionality,Help_DemoMode,hard
+what memories can i create,Help_ChangingMemories,easy
+how many memory profiles exist,Help_ChangingMemories,hard
+list all available memories,Help_ChangingMemories,hard
+how do i change memory options,Help_MemoryOptions,easy
+modify my memory settings,Help_MemoryOptions,hard
+memory customization help,Help_MemoryOptions,hard
+check my heart rate,Help_HeartRate,easy
+what is my current heart rate,Help_HeartRate,hard
+monitor my heartbeat,Help_HeartRate,hard
+what is my heart rate recovery,Help_HeartRateRecovery,easy
+check heart recovery stats,Help_HeartRateRecovery,hard
+view my heart recovery,Help_HeartRateRecovery,hard
+what is my thrive score,Help_ThriveScore,easy
+check my wellbeing score,Help_ThriveScore,hard
+view my overall health score,Help_ThriveScore,hard
+help with volume settings,Help_Volume,easy
+how to adjust volume controls,Help_Volume,hard
+volume optimization tips,Help_Volume,hard
+what is intelligent voice,Help_IntelliVoice,easy
+how does voice recognition work,Help_IntelliVoice,hard
+enable smart voice features,Help_IntelliVoice,hard
+what is mask mode,Help_MaskMode,easy
+enable mask mode function,Help_MaskMode,hard
+how to use mask mode,Help_MaskMode,hard
+what is edge mode,Help_EdgeMode,easy
+enable edge mode feature,Help_EdgeMode,hard
+how to activate edge mode,Help_EdgeMode,hard
+find my hearing aids,Help_FindMyHearingAids,easy
+where are my devices,Help_FindMyHearingAids,hard
+locate my hearing aids,Help_FindMyHearingAids,hard
+what's new in the app,Help_WhatsNew,easy
+show me new features,Help_WhatsNew,hard
+what features were added,Help_WhatsNew,hard
+battery not charging,Help_Battery,hard
+device battery problems,Help_Battery,hard
+need to replace battery,Help_Battery,hard
+help with app settings,Help_AppSettings,easy
+app configuration guide,Help_AppSettings,hard
+modify app preferences,Help_AppSettings,hard
+what are the accessories,Help_Accessories,easy
+compatible device accessories,Help_Accessories,hard
+what can i attach to device,Help_Accessories,hard
+what about transcription features,Help_Transcribe,easy
+how to use transcribe,Help_Transcribe,hard
+transcription quality tips,Help_Transcribe,hard
+translation feature help,Help_Translate,easy
+how translation works,Help_Translate,hard
+enable translation feature,Help_Translate,hard
+voice assistant features,Help_VoiceAssistant,easy
+how voice assistant helps,Help_VoiceAssistant,hard
+activate voice assistant,Help_VoiceAssistant,hard
+hearing care anywhere connect,Help_HearingCareAnywhereConnect,easy
+remote hearing care options,Help_HearingCareAnywhereConnect,hard
+connect with audiologist,Help_HearingCareAnywhereConnect,hard
+remote programming help,Help_RemoteProgramming,easy
+how to adjust settings remotely,Help_RemoteProgramming,hard
+remote tuning instructions,Help_RemoteProgramming,hard
+self check feature,Help_SelfCheck,easy
+run a device self check,Help_SelfCheck,hard
+self diagnostic help,Help_SelfCheck,hard
+device health check,Help_Health,hard
+health monitoring features,Help_Health,hard
+hear share functionality,Help_HearShare,easy
+how to share audio,Help_HearShare,hard
+use hear share feature,Help_HearShare,hard
+where is the home button,Help_Home,easy
+what is the home screen,Help_Home,hard
+navigate to home,Help_Home,hard
+fall alert information,Help_FallAlert,easy
+how fall alert works,Help_FallAlert,hard
+enable fall detection,Help_FallAlert,hard
+wi-cross explained,Help_WiCROS,easy
+what is wi-cross,Help_WiCROS,hard
+enable wi-cross feature,Help_WiCROS,hard
+reminder about appointments,Help_Reminder,easy
+set a reminder for later,Help_Reminder,hard
+mark reminder as complete,Help_Reminder,hard
+complete my reminder,reminders.complete,easy
+mark task as finished,reminders.complete,hard
+finish a pending reminder,reminders.complete,hard
+what are aerobic activities,Cmd.ActivityAerobics,hard
+track aerobic exercise,Cmd.ActivityAerobics,hard
+log aerobics session,Cmd.ActivityAerobics,hard
+track calories burned,Cmd.ActivityCalories,hard
+log my calorie burn,Cmd.ActivityCalories,hard
+monitor calories,Cmd.ActivityCalories,hard
+workout exercise tracking,Cmd.ActivityExercise,hard
+log my exercise session,Cmd.ActivityExercise,hard
+track this exercise,Cmd.ActivityExercise,hard
+stand activity tracking,Cmd.ActivityStand,hard
+log standing time,Cmd.ActivityStand,hard
+track standing sessions,Cmd.ActivityStand,hard
+Default Fallback Intent,Default Fallback Intent,easy

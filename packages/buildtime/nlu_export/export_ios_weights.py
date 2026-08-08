@@ -58,13 +58,15 @@ def _get_balanced_training_data():
     data["intent"] = data["intent"].astype(str).str.strip()
     data = data.dropna().drop_duplicates(subset=["text", "intent"])
 
-    MAX_PER_INTENT = 500
-    data = (
-        pd.concat([g.sample(min(len(g), MAX_PER_INTENT), random_state=42)
-                   for _, g in data.groupby("intent")])
-        .sample(frac=1, random_state=42).reset_index(drop=True)
-    )
-    return data
+    # Shared with the trainer and every fitter — see
+    # `nlu_training.fit_calibration.MAX_PER_INTENT`, currently disabled.
+    #
+    # This used to inline its own `MAX_PER_INTENT = 500` applied with
+    # `sample()`, where train.py used `tail()`. Same nominal cap, different
+    # ROWS: the device head was therefore selected and fitted on a different
+    # subset than the server head it is supposed to mirror.
+    from nlu_training.fit_calibration import cap_per_intent
+    return cap_per_intent(data).sample(frac=1, random_state=42).reset_index(drop=True)
 
 def _load_or_train_pipeline():
     if PIPELINE_PATH.exists():
@@ -238,20 +240,60 @@ def export(out_path: Path, top_per_class: int):
 
     # Select discriminative feature subset
     if top_per_class > 0:
-        target_k = len(_select_features(full_coef, top_per_class))
-        print(f"  [ios export] Pruning to {target_k} features using RFE...")
-        
+        per_class_idx = _select_features(full_coef, top_per_class)
+        target_k = len(per_class_idx)
+        print(f"  [ios export] Pruning to ~{target_k} features using RFE...")
+
         from sklearn.feature_selection import RFE
         df = _get_balanced_training_data()
         X_train = tfidf.transform(df["text"])
         y_train = df["intent"]
-        
+
         rfe = RFE(estimator=clf, n_features_to_select=target_k, step=0.1)
         rfe.fit(X_train, y_train)
-        
-        feat_idx = np.where(rfe.support_)[0]
-        
-        retrained_clf = rfe.estimator_
+
+        # UNION with the per-class top-N, so no class can be pruned into
+        # silence whatever RFE's global ranking says. `_select_features` was
+        # already computed here but only its LENGTH was used, to size RFE.
+        #
+        # IT IS A FLOOR, NOT A FIX. Measured on holdout_honest.csv, adding it
+        # moved device out-of-scope leakage 16.4% -> 15.4%. The hypothesis it
+        # was built on — that `Default Fallback Intent` has its own strong features
+        # that RFE was discarding — is WRONG, and the measurement says so:
+        #
+        #   Default Fallback Intent's top-30 features by |coef| are
+        #   ['streaming','calories','sound','help','aid','memory','volume',
+        #    'reminder','my','you', ...] — DOMAIN words, 1 of 30 exclusive to
+        #   out-of-scope text.
+        #
+        # The classifier learns "out of scope" largely as the ABSENCE of domain
+        # patterns: big negative weights on domain words rather than positive
+        # weights on foreign ones. The positive evidence is spread across ~432
+        # rare words at a median |coef| of 0.475 — individually negligible,
+        # collectively decisive. No top-N scheme can capture a signal shaped
+        # like that, so pruning to ~1600 features and detecting out-of-scope are
+        # in direct tension.
+        #
+        # THE ACTUAL FIX IS NOT TO PRUNE. `--top-per-class 0` ships the full
+        # vocabulary and measures far better on the axis that matters:
+        #
+        #   head            vocab   size     OOS->action   correct fires
+        #   pruned           1592   729 KB   30  (15.4%)      1135
+        #   FULL             5896  2719 KB   17  ( 8.7%)      1160
+        #
+        # 2.1 MB buys half the out-of-scope leakage and 25 more commands that
+        # work. `assemble_pack` already ships both heads with their own fitted
+        # temperatures; prefer the full one unless a real device budget forbids
+        # it, and if it does, record the leakage cost rather than absorbing it.
+        rfe_idx = np.where(rfe.support_)[0]
+        feat_idx = np.array(sorted(set(rfe_idx.tolist()) | set(per_class_idx.tolist())), dtype=int)
+        print(f"  [ios export] RFE kept {len(rfe_idx)}, per-class floor added "
+              f"{len(feat_idx) - len(rfe_idx)} -> {len(feat_idx)} features")
+
+        # The union changes the feature set, so the coefficients RFE fitted for
+        # its own subset no longer describe it. Refit on exactly what ships.
+        from sklearn.base import clone
+        retrained_clf = clone(clf).fit(X_train[:, feat_idx], y_train)
         retrained_coef = retrained_clf.coef_
         retrained_intercept = retrained_clf.intercept_
         retrained_classes = retrained_clf.classes_

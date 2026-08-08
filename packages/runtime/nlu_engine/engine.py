@@ -122,12 +122,33 @@ class NLUEngine:
     # path; anything looser is noise that would trap the user in the flow.
     SLOT_ANSWER_MATCH_FLOOR = 0.9
 
-    # Relaxed semantic-rescue floor used ONLY when the TF-IDF stage and the
-    # MiniLM head independently agree on the same real intent (see the agreement
-    # gate in _handle_new_intent). Lower than semantic_threshold because mutual
-    # corroboration offsets the softmax diffusion of a 61-class head; still high
-    # enough that a flat (genuinely-ambiguous) distribution is rejected.
-    AGREEMENT_THRESHOLD = 0.50
+    # Relaxed floor used ONLY when two INDEPENDENT recognisers land on the same
+    # real intent. Lower than either stage's own bar because mutual
+    # corroboration offsets the softmax diffusion of a 57-class head, while
+    # still rejecting a flat (genuinely-ambiguous) distribution.
+    #
+    # Applies to both agreements this engine can observe:
+    #   * TF-IDF and the MiniLM semantic head (the original use), and
+    #   * a keyword rule and the model (`last_arbitration == "corroborated"`).
+    #
+    # It is EVIDENCE STRENGTH, not a confidence. The reported confidence stays
+    # the model's calibrated probability; only the bar it must clear moves. That
+    # distinction is the whole point — inventing a higher number for a
+    # corroborated turn would put a second scale back in the confidence field,
+    # which is the defect this ladder was rebuilt to remove.
+    #
+    # Measured on holdout_honest.csv: corroborated keyword turns are 99.2%
+    # correct overall (n=118) and 100% correct in the 0.50-0.70 band (n=4) —
+    # turns where the rule and the model agree but a sibling class ("too quiet"
+    # pulling volume.increase toward volume.decrease) splits the mass.
+    #
+    # FALLBACK ONLY. The live value is CONTENT-OWNED (`agreement_threshold` in
+    # platform.yaml, per-language via overlay) and read into
+    # `self.agreement_threshold`; use that, not this. As a bare class constant
+    # it had the same defect this codebase already called out in
+    # DEFAULT_INTERRUPT_THRESHOLD — no language pack could override it.
+    DEFAULT_AGREEMENT_THRESHOLD = 0.50
+    AGREEMENT_THRESHOLD = DEFAULT_AGREEMENT_THRESHOLD  # back-compat alias
 
     def __init__(self, schema_path: Path | None = None, model_name: str | None = None,
                  language: str = "en", semantic_enabled: bool | None = None,
@@ -151,6 +172,19 @@ class NLUEngine:
         self.threshold = self.schema.get("confidence_threshold", 0.70)
         self.interrupt_threshold = self.schema.get(
             "interrupt_threshold", self.DEFAULT_INTERRUPT_THRESHOLD)
+        self.agreement_threshold = self.schema.get(
+            "agreement_threshold", self.DEFAULT_AGREEMENT_THRESHOLD)
+        # Share of an utterance's tokens that may be absent from the model's
+        # vocabulary before the turn is refused outright. `None` disables the
+        # guard. Content-owned so a language pack sets its own — the value
+        # depends on the vocabulary that pack ships, not on the engine.
+        self._oov_reject_ratio = self.schema.get("oov_reject_ratio")
+        # Above this confidence an unknown word is read as an entity VALUE
+        # rather than as evidence the utterance is out of scope, and the guard
+        # stands down. Defaults to 1.01 (never bypass) so a pack that sets a
+        # ratio without a ceiling gets the strict behaviour rather than a
+        # silently disabled guard.
+        self._oov_bypass_confidence = self.schema.get("oov_bypass_confidence", 1.01)
         self.affirmative = set(self.schema.get("affirmative", []))
         self.negative = set(self.schema.get("negative", []))
         # Explicit cancellation cues, honoured while a slot-filling flow is
@@ -192,13 +226,32 @@ class NLUEngine:
         self._help_markers = re.compile(_markers, re.IGNORECASE) if _markers else None
         # ND-11(a): uncertainty-confirmation gate — flagged fire-and-forget
         # intents below this confidence get an ask-first turn instead of firing.
-        uc = self.schema.get("uncertain_confirm", {})
-        self._confirm_intents = set(uc.get("intents", []))
-        self._confirm_below = uc.get("below_confidence", 0.80)
-        self._confirm_floor = uc.get("confirm_floor", 0.55)
-        self._confirm_generic_prompt = uc.get(
-            "prompt", "Just to be sure — should I go ahead with that?")
-        self._confirm_cancel_msg = uc.get("cancel_message", "Okay, I won't.")
+        # The decision ladder is BINARY: `confidence_threshold` and below it the
+        # fallback intent. There is no confidence-triggered confirmation.
+        #
+        # There used to be one — `uncertain_confirm`, a band from 0.55 to 0.91
+        # over a hand-curated 14-intent list. It was removed rather than
+        # retuned, for three reasons:
+        #
+        #  * The band sat ABOVE the fire threshold, so it converted commands
+        #    that would have fired into questions. On the honest holdout it
+        #    produced 103 friction turns against 16 useful catches — 85% of
+        #    every confirmation a user saw was asked about a CORRECT prediction.
+        #  * The product never asked for it. Dialogflow, which this replaces,
+        #    has no confidence-triggered confirmation at all: intent matching is
+        #    threshold-or-fallback, and confirmation is authored dialogue.
+        #    `legacy_label_map.json`'s `confirm_compound` carries exactly one
+        #    entry, an explicitly designed send-message flow.
+        #  * A confirmation is delivered through audio, which for a
+        #    hearing-impaired user is the channel already failing — a "did you
+        #    mean volume up?" arrives through the volume they cannot hear.
+        #
+        # Confirmation that a product genuinely wants is declared per intent as
+        # a schema `followup` and is DETERMINISTIC (see `_handle_confirmation`);
+        # it fires every time regardless of confidence, which is what a contract
+        # with an app requires.
+        self._confirm_cancel_msg = self.schema.get("uncertain_confirm", {}).get(
+            "cancel_message", "Okay, I won't.")
         self.classifier = self._load_classifier(model_name)
         self.entities = self._load_entities(language)
         self._carrier = self._build_carrier_patterns(language)
@@ -499,7 +552,7 @@ class NLUEngine:
         only_in_model = labels - schema_intents
         only_in_schema = schema_intents - labels
         # Default Fallback Intent is allowed to be schema-only (it's a catch-all)
-        only_in_schema.discard("sys.oos.fallback")
+        only_in_schema.discard("Default Fallback Intent")
         if only_in_model or only_in_schema:
             raise RuntimeError(
                 f"Label/schema mismatch detected.\n"
@@ -530,8 +583,26 @@ class NLUEngine:
         self._availability = dict(snapshot)
 
     def _capability_of(self, intent: str) -> str | None:
-        """Longest-prefix match of the intent id against pushed capability ids."""
+        """Which capability owns this intent, read from the schema.
+
+        This used to be a longest-prefix match of the intent id against the
+        pushed capability ids — `device.volume.mute`.startswith(`device.volume`).
+        That inferred structure from the LABEL, and when the taxonomy moved to
+        `Cmd.*` the prefix relationship vanished: every capability pushed as
+        `unavailable` quietly resumed firing actions, because nothing could be
+        matched to it any more.
+
+        The compiler records the owning capability per intent, so the lookup is
+        now a fact rather than a guess and a rename cannot break it. The prefix
+        walk is kept only as a fallback for a pack compiled before that field
+        existed.
+        """
         caps = self._availability.get("capabilities", {})
+        if not caps:
+            return None
+        declared = (self.intents.get(intent) or {}).get("capability")
+        if declared is not None:
+            return declared if declared in caps else None
         best = None
         for cap_id in caps:
             if (intent == cap_id or intent.startswith(cap_id + ".")) and \
@@ -561,13 +632,6 @@ class NLUEngine:
         # Bound input length before any inference: very long ASR output or
         # adversarial input should not drive tokenizer/regex work unbounded.
         text = text.strip()[:500]
-
-        if session.pending_confirm is not None:
-            result = self._handle_uncertain_confirmation(session, text, now)
-            self._log_decision(session_id, text, result, "uncertain_confirm",
-                               (time.perf_counter() - t0) * 1000.0)
-            # Telemetry above logs modern labels; app boundary gets legacy names.
-            return label_compat.apply(result)
 
         confirm = self._active_confirmation(session)
         if confirm:
@@ -613,6 +677,12 @@ class NLUEngine:
             "confidence": round(result.confidence, 4),
             "semantic_rescue": result.semantic_rescue,
             "interrupted_intent": result.interrupted_intent,
+            # Rule-vs-model arbitration outcome for this turn (None when no
+            # keyword rule fired). Contested turns are the ones a confirmation
+            # exists to catch, so the split has to be visible in the field —
+            # a rising contested rate means the rules and the model have drifted
+            # apart and one of them needs attention.
+            "arbitration": getattr(self.classifier, "last_arbitration", None),
             "text_len": len(text),
             "latency_ms": round(latency_ms, 2),
         }
@@ -634,10 +704,42 @@ class NLUEngine:
         intent_name, fu = confirm
         polarity = self._yes_no(text)
         if polarity is None:
+            # NOT yes and not no. Two very different things arrive here, and
+            # re-prompting for both traps the user:
+            #
+            # This branch used to unconditionally re-ask AND re-set the context,
+            # so the lifespan never counted down. "send a message" followed by
+            # "increase volume" asked about sending a message forever, with no
+            # way out. It was unreachable while no intent declared a `followup`;
+            # giving Cmd.SendMessage one made it live.
+            #
+            # A confident, different command is the user moving on — it
+            # interrupts, exactly as it does mid slot-filling, and the
+            # abandoned intent is reported so the app can say so. Anything else
+            # ("hmm", silence, a mumble) is a genuine non-answer and is
+            # re-asked, but only within a bounded budget so a user who cannot
+            # be understood is routed out instead of being held.
+            new_intent, new_conf = self.classifier.classify(text)
+            if (new_intent != intent_name
+                    and new_intent != "Default Fallback Intent"
+                    and new_conf >= self.interrupt_threshold
+                    and self.intents.get(new_intent) is not None):
+                session.clear_context(fu["context"])
+                session.confirm_attempts = 0
+                result = self._handle_new_intent(session, text, now)
+                result.interrupted_intent = intent_name
+                return result
+
+            session.confirm_attempts = getattr(session, "confirm_attempts", 0) + 1
+            if session.confirm_attempts >= self.MAX_SLOT_ATTEMPTS:
+                session.clear_context(fu["context"])
+                session.confirm_attempts = 0
+                return self._genai_fallback(0.0)
             session.set_context(fu["context"], fu.get("lifespan", 2), now=now)
             return NLUResult(type="CONFIRM", intent=intent_name,
                              message=fu["prompt"], confidence=1.0)
         session.clear_context(fu["context"])
+        session.confirm_attempts = 0
         branch = fu["yes"] if polarity else fu["no"]
         result = NLUResult(type="FULFILL", intent=intent_name,
                            action=branch["action"], message=branch.get("fulfillment", ""),
@@ -737,7 +839,7 @@ class NLUEngine:
         # has to take precedence over re-classification.
         answers_prompt = self._answers_awaited_slot(session, cfg, text)
         if (new_intent != intent_name
-                and new_intent != "sys.oos.fallback"
+                and new_intent != "Default Fallback Intent"
                 and new_conf >= self.interrupt_threshold
                 and not weak_keyword
                 and not answers_prompt
@@ -802,23 +904,14 @@ class NLUEngine:
 
         return self._advance_slots(session, intent_name, cfg)
 
-    def _advance_slots(self, session, intent_name, cfg, entry_conf=None):
+    def _advance_slots(self, session, intent_name, cfg):
         """Prompt for the next missing required slot, or fulfil when none remain.
 
-        `entry_conf` is the classifier confidence of the turn that STARTED the
-        flow, and is passed only from that turn. Continuation turns leave it
-        None: by then the user has answered a prompt, so the flow is established
-        and re-confirming it would be pure friction.
-
-        It matters because a slot-bearing intent can complete on the very turn
-        that classified it, when the utterance already carries every required
-        slot. That path returned FULFILL directly and never reached the
-        uncertainty-confirmation gate in _fulfill_intent, so a gated intent could
-        fire without asking: "can you to us number one hits" classified as
-        device.memory.change at 0.529 — far below the 0.90 confirm band, and
-        device.memory.change IS in the gate — yet "one" filled the memory slot
-        and the memory changed silently. Being reported as confidence 1.0 (the
-        slot-fill certainty, not the intent's) is what hid it.
+        This used to take an `entry_conf` so a flow completing on its very first
+        turn could still be held by the uncertainty gate. That gate is gone (see
+        __init__), so the parameter went with it — a slot-bearing intent is
+        governed by the same single fire threshold as everything else, applied
+        once in `_handle_new_intent` before the flow ever starts.
         """
         for slot in cfg["slots"]:
             if slot["required"] and slot["name"] not in session.pending_slots:
@@ -828,20 +921,6 @@ class NLUEngine:
                                  parameters=dict(session.pending_slots),
                                  message=slot["prompt"], confidence=1.0)
         params = dict(session.pending_slots)
-        # Same gate as _fulfill_intent, applied to the flow that never prompted.
-        if (entry_conf is not None
-                and intent_name in self._confirm_intents
-                and entry_conf < self._confirm_below):
-            session.reset_slot_filling()
-            session.pending_confirm = {"intent": intent_name,
-                                       "action": cfg.get("action"),
-                                       "fulfillment": cfg.get("fulfillment", ""),
-                                       "parameters": params}
-            return NLUResult(type="CONFIRM", intent=intent_name,
-                             action=cfg.get("action"), parameters=params,
-                             message=cfg.get("confirm_prompt",
-                                             self._confirm_generic_prompt),
-                             confidence=entry_conf)
         session.reset_slot_filling()
         session.record_fulfillment(intent_name, params)
         return NLUResult(type="FULFILL", intent=intent_name, action=cfg.get("action"),
@@ -949,62 +1028,112 @@ class NLUEngine:
             "blocked": intent, "redirected": sibling}})
         return sibling
 
-    def _handle_uncertain_confirmation(self, session, text, now=0.0):
-        """ND-11(a): resolve the ask-first turn for a held-back action."""
-        pending = session.pending_confirm
-        polarity = self._yes_no(text)
-        if polarity is True:
-            session.pending_confirm = None
-            # Carry the slots collected before the gate held the action back;
-            # a held slot-bearing intent otherwise fires with no slot values
-            # ("yes" to "switch your hearing aid program?" would change memory
-            # to nothing).
-            params = dict(pending.get("parameters") or {})
-            result = NLUResult(type="FULFILL", intent=pending["intent"],
-                               action=pending["action"], parameters=params,
-                               message=pending.get("fulfillment", ""),
-                               confidence=1.0, complete=True)
-            session.record_fulfillment(pending["intent"], params)
-            # Confirmation-outcome tags (internal, not serialized): let the app
-            # boundary reconstruct legacy compound labels (Cmd.SendMessage - yes)
-            # without the classifier ever owning a dialogue-act label.
-            result._confirm_polarity = "yes"
-            result._confirmed_intent = pending["intent"]
-            return result
-        if polarity is False:
-            session.pending_confirm = None
-            result = NLUResult(type="FULFILL", intent="sys.confirm.cancelled",
-                               action=None, message=self._confirm_cancel_msg,
-                               confidence=1.0, complete=True)
-            result._confirm_polarity = "no"
-            result._confirmed_intent = pending["intent"]
-            return result
-        # Unclear reply: the user likely said something else entirely — drop
-        # the held action (never fire on ambiguity) and process this turn fresh.
-        session.pending_confirm = None
-        return self._handle_new_intent(session, text, now)
-
     def _handle_new_intent(self, session, text, now=0.0):
         session.decrement_contexts()
         intent, conf = self.classifier.classify(text)
-        intent = self._apply_polarity_guards(text, intent)
-        intent = self._apply_help_guard(text, intent)
+        guarded = self._apply_help_guard(text, self._apply_polarity_guards(text, intent))
+        if guarded != intent:
+            # A guard changed WHICH intent we report, so the confidence must be
+            # re-read for the intent actually being reported. Inheriting the
+            # blocked prediction's number describes something we are no longer
+            # returning, and it is compared against the fire threshold moments
+            # later.
+            #
+            # "how do i turn up the loudness on my hearing aids?" is the case:
+            # the `turn up` regex proposes Cmd.VolumeIncrease, the model
+            # says Help_Volume at 0.85, the help guard correctly redirects
+            # to Help_Volume — and the turn then carried the *contested*
+            # confidence of the blocked action, dropping it under the fire
+            # threshold and deflecting a perfectly good help request to GenAI.
+            # Latent before arbitration too: it inherited the `regex` literal
+            # 0.75, which happened to clear the 0.70 bar, so nothing failed.
+            reguarded_conf = self.classifier.calibrated_confidence(guarded)
+            if reguarded_conf is not None:
+                conf = reguarded_conf
+            intent = guarded
 
         cfg = self.intents.get(intent)
 
-        # Slot-filling intents use a lower threshold: a prompt will resolve
-        # any ambiguity, while a fire-and-forget intent executing at low
-        # confidence causes a silent wrong action.
-        has_slots = bool(cfg and cfg.get("slots"))
-        effective_threshold = self.schema.get(
-            "slot_confidence_threshold", 0.60
-        ) if has_slots else self.threshold
+        # ONE threshold, for every intent. Slot-bearing intents used to get a
+        # lower bar (`slot_confidence_threshold`, 0.50) on the reasoning that a
+        # prompt would resolve any ambiguity before anything happened.
+        #
+        # That reasoning only holds when the flow actually prompts. A
+        # slot-bearing intent whose slots are ALL filled by the classifying
+        # utterance completes immediately, and then the lower bar is just a
+        # lower bar on a live action: "can you to us number one hits" classified
+        # as Cmd.MemoryChange at 0.519, "one" filled the memory slot, and
+        # the hearing-aid program changed — reported as confidence 1.0, which is
+        # the slot-fill certainty rather than the intent's.
+        #
+        # That hole was previously plugged by handing `entry_conf` down to
+        # `_advance_slots` so the completing turn still met the confirmation
+        # gate. With the gate gone, the plug went with it, and the honest fix is
+        # the one threshold rather than a second special case.
+        #
+        # The single exception is CORROBORATION: when a keyword rule and the
+        # model independently name the same intent, two recognisers agree and
+        # the bar drops to AGREEMENT_THRESHOLD — the same relaxation this engine
+        # already applies to TF-IDF/MiniLM agreement below. "turn it up its too
+        # quiet" is the case: rule and model both say volume.increase, but
+        # "quiet" splits the mass with volume.decrease and leaves the top class
+        # at 0.66. Rejecting a command both recognisers agree on, because a
+        # sibling class took a third of the probability, is a worse error than
+        # the one the threshold is there to prevent.
+        corroborated = getattr(self.classifier, "last_arbitration", None) == "corroborated"
+        fire_bar = self.agreement_threshold if corroborated else self.threshold
 
-        if intent == "sys.oos.fallback" or conf < effective_threshold:
+        # OUT-OF-VOCABULARY GUARD. A confident reading of the words the
+        # featurizer CAN see says nothing about the words it cannot.
+        #
+        # "help me find a paper" -> the model receives `help me find`, because
+        # "paper" appears nowhere in the training corpus and so has no slot in
+        # the vocabulary at all. On that input `Help_FindMyHearingAids`
+        # is the correct answer; the utterance that was actually spoken never
+        # reached the model. Same shape as "turn off toshiba" reducing to
+        # "turn off", whose vector is bit-identical to the bare command.
+        #
+        # So the unknown words are consulted directly rather than thrown away:
+        # above `oov_reject_ratio` of the tokens being unrepresentable, the turn
+        # goes to the fallback intent regardless of how confident the remainder
+        # looks. This cannot be done by tuning a threshold — the confidence is
+        # honest about the input the model was given.
+        #
+        # An unknown word is only evidence when the REST of the utterance is
+        # also ambiguous. Entity values are unknown BY NATURE — a contact name,
+        # a brand, a free-text reminder topic can never all be in a finite
+        # vocabulary — so a bare ratio test refuses:
+        #
+        #   'send a message to john'   oov 0.25, conf 1.000   <- a real command
+        #   'stream from netflix'      oov 0.33, conf 0.996   <- a real command
+        #   'help me find a paper'     oov 0.25, conf 0.771   <- out of scope
+        #
+        # The ratio cannot tell a slot value from a foreign topic, but the
+        # confidence can: when the remainder reads unambiguously the unknown
+        # token is almost certainly the VALUE the command operates on; when the
+        # remainder is merely plausible, it is the thing that puts the utterance
+        # out of scope. So the guard stands down above
+        # `oov_bypass_confidence`. Measured on the honest holdout, adding that
+        # condition keeps the same out-of-scope reduction (10 -> 5) and returns
+        # 7 correct commands the bare ratio was refusing.
+        #
+        # Applied AFTER the guards so it sees the intent actually being
+        # returned, and before the fire test so it can only ever withhold an
+        # action, never cause one.
+        if self._oov_reject_ratio is not None and intent != "Default Fallback Intent" \
+                and conf < self._oov_bypass_confidence:
+            ratio = self.classifier.oov_ratio(text)
+            if ratio >= self._oov_reject_ratio:
+                logger.info("nlu.oov_guard", extra={"nlu": {
+                    "blocked": intent, "oov_ratio": round(ratio, 3),
+                    "confidence": round(conf, 3)}})
+                return self._genai_fallback(conf)
+
+        if intent == "Default Fallback Intent" or conf < fire_bar:
             # Stage 3: semantic rescue via MiniLM when TF-IDF is uncertain
             if self.semantic is not None:
                 sem_intent, sem_conf = self.semantic.classify(text)
-                if sem_intent != "sys.oos.fallback":
+                if sem_intent != "Default Fallback Intent":
                     # Two ways to accept a rescue:
                     #   1. Standard: the head clears the absolute softmax floor.
                     #   2. Agreement gate: TF-IDF and the head INDEPENDENTLY land
@@ -1018,8 +1147,8 @@ class NLUEngine:
                     #      real command.
                     accept_threshold = self.semantic_threshold
                     if (sem_intent == intent
-                            and intent != "sys.oos.fallback"):
-                        accept_threshold = self.AGREEMENT_THRESHOLD
+                            and intent != "Default Fallback Intent"):
+                        accept_threshold = self.agreement_threshold
                     if sem_conf >= accept_threshold:
                         sem_intent = self._apply_polarity_guards(text, sem_intent)
                         sem_intent = self._apply_help_guard(text, sem_intent)
@@ -1030,17 +1159,8 @@ class NLUEngine:
                             result.tfidf_intent       = intent
                             result.tfidf_confidence   = conf
                             return result
-            # ND-11(a) extension: a below-threshold prediction of a
-            # confirm-gated action with respectable confidence asks first
-            # instead of deflecting to GenAI — 'turn mute on' at 0.65 should
-            # produce "Just to be sure — mute?" rather than a fallback.
-            if (cfg is not None and intent in self._confirm_intents
-                    and conf >= self._confirm_floor and not cfg.get("slots")):
-                session.pending_confirm = {"intent": intent, "action": cfg.get("action"),
-                                           "fulfillment": cfg.get("fulfillment", "")}
-                return NLUResult(type="CONFIRM", intent=intent, action=cfg.get("action"),
-                                 message=cfg.get("confirm_prompt", self._confirm_generic_prompt),
-                                 confidence=conf)
+            # Below the fire threshold and not rescued: the fallback intent.
+            # There is no confirmation tier under the threshold — see __init__.
             return self._genai_fallback(conf)
         if cfg is None:
             return self._genai_fallback(conf)
@@ -1069,20 +1189,10 @@ class NLUEngine:
             session.pending_intent = intent
             session.pending_slots = slots
             session.awaiting_slot = None
-            # Fresh classification — pass the confidence so a flow that completes
-            # on this very turn is still subject to the confirmation gate.
-            return self._advance_slots(session, intent, cfg, entry_conf=conf)
+            return self._advance_slots(session, intent, cfg)
         blocked = self._availability_block(intent)
         if blocked is not None:
             return blocked
-        # ND-11(a): uncertainty gate — a flagged fire-and-forget action below
-        # the confirmation confidence bar asks first instead of firing.
-        if intent in self._confirm_intents and conf < self._confirm_below:
-            session.pending_confirm = {"intent": intent, "action": cfg.get("action"),
-                                       "fulfillment": cfg.get("fulfillment", "")}
-            prompt = cfg.get("confirm_prompt", self._confirm_generic_prompt)
-            return NLUResult(type="CONFIRM", intent=intent, action=cfg.get("action"),
-                             message=prompt, confidence=conf)
         result = NLUResult(type="FULFILL", intent=intent, action=cfg.get("action"),
                            message=cfg.get("fulfillment", ""), confidence=conf, complete=True)
         session.record_fulfillment(intent, {})

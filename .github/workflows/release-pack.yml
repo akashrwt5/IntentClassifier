@@ -367,10 +367,18 @@ jobs:
           python scripts/ci/assemble_pack.py "${ARGS[@]}"
 
       # Verify what will actually be published, not what we assume we built.
-      - name: Verify the signed pack
+      - name: Verify the signed packs
         run: |
-          PYTHONPATH=packages/buildtime python -m nlu_compiler.verify \
-            dist/pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}.nlu
+          PYTHONPATH=packages/buildtime python -m nlu_compiler.verify dist/pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}-universal.nlu
+          PYTHONPATH=packages/buildtime python -m nlu_compiler.verify dist/pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}-ios.nlu
+          PYTHONPATH=packages/buildtime python -m nlu_compiler.verify dist/pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}-android.nlu
+
+      - name: Upload Pack Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-packs
+          path: dist/pack-*.nlu
+          retention-days: 14
 
       - name: Publish GitHub Release (the model registry)
         uses: softprops/action-gh-release@v2

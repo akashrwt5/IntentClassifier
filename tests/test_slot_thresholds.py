@@ -34,7 +34,6 @@ SCHEMA = json.loads((_ROOT / "language_packs" / "en" / "nlu_schema.json").read_t
 FITTED = _ROOT / "models" / "intent" / "en" / "slot_thresholds.json"
 
 # From `python -m nlu_training.fit_slot_thresholds --lang en --write`.
-EXPECTED_SLOT = 0.5
 EXPECTED_INTERRUPT = 0.68
 
 
@@ -59,17 +58,31 @@ def test_engine_reads_the_schema_value():
 
 
 def test_thresholds_match_the_fitted_values():
-    assert SCHEMA["slot_confidence_threshold"] == EXPECTED_SLOT
     assert SCHEMA["interrupt_threshold"] == EXPECTED_INTERRUPT
 
 
-def test_slot_threshold_is_below_the_fire_threshold():
-    """Entering a slot flow only asks a question; firing changes device state.
+def test_there_is_no_separate_slot_fire_threshold():
+    """A slot-bearing intent fires at the same bar as everything else.
 
-    A slot-bearing intent must therefore never need MORE confidence than a
-    fire-and-forget one.
+    `slot_confidence_threshold` (0.50) existed on the reasoning that entering a
+    slot flow only asks a question, so it could afford a lower bar than a
+    fire-and-forget action. That holds only when the flow actually prompts.
+
+    A slot-bearing intent whose slots are ALL filled by the classifying
+    utterance completes on that turn, and then the lower bar applied to a live
+    action: "can you to us number one hits" classified as Cmd.MemoryChange
+    at 0.519, "one" filled the memory slot, and the hearing-aid program changed
+    — reported as confidence 1.0, the slot-fill certainty rather than the
+    intent's.
+
+    That was previously patched by carrying `entry_conf` into `_advance_slots`
+    so the completing turn still met the confirmation gate. The gate is gone
+    (docs/confirm-gate-diagnosis.md), so the patch went with it and the honest
+    fix is one threshold rather than a second special case.
     """
-    assert SCHEMA["slot_confidence_threshold"] <= SCHEMA["confidence_threshold"]
+    assert "slot_confidence_threshold" not in SCHEMA, (
+        f"a second fire threshold is back ({SCHEMA['slot_confidence_threshold']}). "
+        f"See docs/confirm-gate-remediation-plan.md before reintroducing it.")
 
 
 @pytest.mark.skipif(not FITTED.exists(), reason="thresholds not fitted yet")
@@ -79,7 +92,10 @@ def test_fitted_values_carry_provenance():
     for key in ("method", "folds", "temperature", "slot_confidence",
                 "interrupt", "source", "fitted_at", "fitted_by"):
         assert key in prov, f"provenance missing {key!r}"
-    assert data["slot_confidence_threshold"] == EXPECTED_SLOT
+    # The fitted ARTIFACT still records slot_confidence — the fitter measures it
+    # and the provenance should not be rewritten retroactively. What changed is
+    # that the schema no longer consumes it; see
+    # `test_there_is_no_separate_slot_fire_threshold`.
     assert data["interrupt_threshold"] == EXPECTED_INTERRUPT
 
 
@@ -129,17 +145,17 @@ def _answer(engine, session, answer):
                                     "restaurant", "outdoors"])
 def test_memory_name_that_is_also_a_command_fills_the_slot(engine, answer):
     r = _answer(engine, f"slot-{answer}", answer)
-    assert r.intent == "device.memory.change", (
+    assert r.intent == "Cmd.MemoryChange", (
         f"answering the memory prompt with {answer!r} produced "
         f"{r.intent} / action={r.action} instead of changing the memory")
     assert r.interrupted_intent is None
 
 
 @pytest.mark.parametrize("utterance,expected", [
-    ("turn up the volume", "device.volume.increase"),
-    ("make it louder", "device.volume.increase"),
-    ("find my phone", "find.phone.locate"),
-    ("stop the stream", "streaming.session.stop"),
+    ("turn up the volume", "Cmd.VolumeIncrease"),
+    ("make it louder", "Cmd.VolumeIncrease"),
+    ("find my phone", "Cmd.FindMyPhone"),
+    ("stop the stream", "Cmd.StreamingStop"),
 ])
 def test_a_genuine_topic_switch_still_interrupts(engine, utterance, expected):
     """The precedence rule must not trap the user in the flow.
@@ -149,7 +165,7 @@ def test_a_genuine_topic_switch_still_interrupts(engine, utterance, expected):
     silently swallowed. Hence the strict match floor.
     """
     r = _answer(engine, f"switch-{utterance}", utterance)
-    assert r.interrupted_intent == "device.memory.change", (
+    assert r.interrupted_intent == "Cmd.MemoryChange", (
         f"{utterance!r} did not interrupt the memory flow (got {r.intent})")
     assert r.intent == expected
 
@@ -161,4 +177,4 @@ def test_open_text_slot_still_accepts_arbitrary_answers(engine):
         warnings.simplefilter("ignore")
         engine.handle("open-slot", "remind me")
         r = engine.handle("open-slot", "water the plants")
-    assert r.intent == "reminders.task.create", r.intent
+    assert r.intent == "reminders.add", r.intent

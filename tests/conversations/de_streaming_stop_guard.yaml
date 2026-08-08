@@ -2,4 +2,4 @@
 lang: de
 turns:
   - user: "streaming beenden"
-    expect: {not_intent: streaming.session.start}
+    expect: {not_intent: Cmd.StreamingStart}

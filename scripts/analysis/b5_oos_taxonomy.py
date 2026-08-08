@@ -1,6 +1,6 @@
 """How much of the OOS class is actually in-scope speech wearing an OOS label?
 
-Nearest in-scope neighbour by TF-IDF cosine for every sys.oos.fallback row.
+Nearest in-scope neighbour by TF-IDF cosine for every Default Fallback Intent row.
 A high-similarity pair means the same words carry both labels, which is not a
 hard example — it is a contradictory training signal sitting on the decision
 boundary of the intent it resembles.
@@ -17,8 +17,8 @@ REPO = Path("/home/user/IntentClassifier")
 
 train = list(csv.DictReader(open(REPO / "datasets/en/train.csv",
                                  encoding="utf-8-sig", newline="")))
-oos = [r for r in train if r["intent"] == "sys.oos.fallback"]
-ins = [r for r in train if r["intent"] != "sys.oos.fallback"]
+oos = [r for r in train if r["intent"] == "Default Fallback Intent"]
+ins = [r for r in train if r["intent"] != "Default Fallback Intent"]
 print(f"train: {len(train)} rows -> {len(oos)} OOS / {len(ins)} in-scope")
 
 vec = TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True).fit(

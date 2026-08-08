@@ -126,11 +126,11 @@ print("\n=== Q6  OOS coverage in training data ===")
 tr = list(csv.DictReader(open(REPO / "datasets/en/train.csv",
                               encoding="utf-8-sig", newline="")))
 c = Counter(r["intent"] for r in tr)
-print(f"  train rows {len(tr)}; sys.oos.fallback = {c['sys.oos.fallback']} "
-      f"({c['sys.oos.fallback']/len(tr)*100:.1f}%)")
+print(f"  train rows {len(tr)}; Default Fallback Intent = {c['Default Fallback Intent']} "
+      f"({c['Default Fallback Intent']/len(tr)*100:.1f}%)")
 print(f"  mean rows per in-scope intent: "
-      f"{np.mean([v for k,v in c.items() if k!='sys.oos.fallback']):.0f}")
-oos_hold = [t for t in turns if t["truth"] == "sys.oos.fallback"]
+      f"{np.mean([v for k,v in c.items() if k!='Default Fallback Intent']):.0f}")
+oos_hold = [t for t in turns if t["truth"] == "Default Fallback Intent"]
 caught = sum(1 for t in oos_hold if t["type"] == "FALLBACK"
              or not is_actionable(t["intent"]))
 print(f"  OOS turns in holdout: {len(oos_hold)}; correctly deflected: {caught} "

@@ -1,4 +1,4 @@
 lang: en
 turns:
   - user: "how many steps have i taken today"
-    expect: {intent: activity.step.query}
+    expect: {intent: Cmd.ActivityStep}

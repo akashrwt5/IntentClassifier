@@ -1,3 +1,23 @@
+_oov_bypass_confidence_note: 'Fit out-of-fold by nlu_training.fit_oov_guard, and soundly
+  so — a confidence is the one quantity out-of-fold estimates correctly here. Above
+  this the guard stands down: an unknown token is evidence of being out of scope only
+  when the REST of the utterance is also ambiguous. Entity values are unknown BY NATURE
+  (a contact name, a brand, a free-text reminder topic can never all be in a finite
+  vocabulary), so ''send a message to john'' (oov 0.25, conf 1.000) and ''stream from
+  netflix'' (oov 0.33, conf 0.996) are real commands while ''help me find a paper''
+  (oov 0.25, conf 0.771) is not.'
+_oov_reject_ratio_note: 'PROVISIONAL — the one value in this file that is NOT soundly
+  fitted. The out-of-vocabulary ratio is defined against a vocabulary, and neither
+  vocabulary available at fit time is the one the guard faces: fold vocabularies overstate
+  it (they have seen 80% of the rows), while against the shipped vocabulary 94.7%
+  of training rows score exactly 0.0 by construction, leaving no tail to place a threshold
+  in. nlu_training.fit_oov_guard reports its fold-space answer and refuses to pretend
+  it can correct it; two corrections were tried and both fail for that one reason.
+  0.25 is chosen deliberately: it is where the honest holdout halves out-of-scope
+  actions (10 -> 5) for 5 correct commands, and it is the smallest value that catches
+  the reported case. RE-FIT FROM FIELD TELEMETRY — `nlu.oov_guard` records oov_ratio
+  on every blocked turn, which is the sample that would make this fittable. Also re-fit
+  whenever the vocabulary changes; the pruned device head needs its own value.'
 affirmative:
 - 'yes'
 - yeah
@@ -14,69 +34,71 @@ affirmative:
 - go ahead
 - please do
 - affirmative
+agreement_threshold: 0.5
 confidence_threshold: 0.7
 help_marker_guard:
   markers: (how\s+(to|do\s+i|does|can\s+i|is|would\s+i)\b)|(\bguide\b)|(\bexplain\b)|(\btutorial\b)|(what\s+(is|are|does)\b)|(where\s+(can|do)\s+i\s+(see|find|view))|(is\s+there\s+a\s+way)|(help\s+(with|me\s+understand|for|understanding))|(how\s+to\s+use)|(\w+\s+help\b)|(does\s+\w+\s+(keep|save|store|record|work))|(can\s+the\s+app)
   pairs:
-    device.memory.change: help.memory_options.show
-    device.volume.decrease: help.volume.show
-    device.volume.increase: help.volume.show
-    device.volume.mute: help.volume.show
-    device.volume.unmute: help.volume.show
-    reminders.task.complete: help.reminder.show
-    reminders.task.create: help.reminder.show
-    streaming.session.start: help.accessories.show
-    streaming.session.stop: help.accessories.show
-    transcription.session.start: help.transcribe.show
-    translation.session.start: help.translate.show
+    Cmd.MemoryChange: Help_MemoryOptions
+    Cmd.VolumeDecrease: Help_Volume
+    Cmd.VolumeIncrease: Help_Volume
+    Cmd.VolumeMute: Help_Volume
+    Cmd.VolumeUnmute: Help_Volume
+    reminders.complete: Help_Reminder
+    reminders.add: Help_Reminder
+    Cmd.StreamingStart: Help_Accessories
+    Cmd.StreamingStop: Help_Accessories
+    Cmd.TranscribeStart: Help_Transcribe
+    Cmd.TranslationStart: Help_Translate
 interrupt_threshold: 0.68
 keyword_triggers:
-- intent: translation.session.start
-  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is
-    there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
+- intent: Cmd.TranslationStart
+  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where
+    (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
   regex: \btranslat(e|es|ing|ion)\b
-- intent: transcription.session.start
-  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is
-    there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
+- intent: Cmd.TranscribeStart
+  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where
+    (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
   regex: \btranscri(be|bing|ption)\b
 - exact:
   - mute
   - silence
-  intent: device.volume.mute
-- intent: device.volume.mute
+  intent: Cmd.VolumeMute
+- intent: Cmd.VolumeMute
   not_regex: \b(what|how|tell me|ask|explain|mean)\b
   regex: \b(silence|hush|shush)\b
 - exact:
   - unmute
-  intent: device.volume.unmute
+  intent: Cmd.VolumeUnmute
 - exact:
   - push to talk
   - ptt
-  intent: messaging.message.send
-- intent: messaging.message.send
+  intent: Cmd.SendMessage
+- intent: Cmd.SendMessage
   not_regex: ^(yes|yeah|no|nope|cancel|don.t|okay|ok|sure|alright|please\s+send|send\s+it|send\s+now)\b
   regex: \bsend\b.{0,30}\bmessage\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(increase|raise|turn up)\b.{0,15}\bvolume\b|\bvolume\b.{0,10}\b(up|higher|louder)\b|\bturn
     it up\b|\bturn up\b|\bvolume up\b|\bamplify\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(too|so|very|really)\s+(quiet|low|soft|faint)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(sounds?|volume|audio|its?|everything|speech|voices?)\b.{0,12}\b(quiet|low|soft|faint|dull|unclear)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(miss|missing|can.?t (catch|hear))\b.{0,20}\b(words?|speech|conversations?|voices?)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \bsound(s)? like whispers?\b|\bwhispers?\b.{0,20}\b(voices?|sounds?|them|talking)\b
-- intent: device.volume.increase
-  regex: \bnothing\b.{0,20}\bcoming through\b|\b(slipping|passing)\b.{0,15}\bpast me\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
+  regex: \bnothing\b.{0,20}\bcoming through\b|\b(slipping|passing)\b.{0,15}\bpast
+    me\b
+- intent: Cmd.VolumeIncrease
   regex: \b(asking|ask)\b.{0,20}\brepeat (themselves|himself|herself|yourself)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   regex: \b(sound|seems?|feels?)\b.{0,15}\b(so |too )?(far away|distant)\b|\bfar away\b.{0,20}\b(talk|speak|when)\b
-- intent: device.volume.increase
+- intent: Cmd.VolumeIncrease
   not_regex: \b(down|reduce|lower)\b
   regex: \b(crank|jack|pump)\b.{0,10}\b(it|the|sound|volume|up|higher)\b|\b(boost|amp)\b.{0,10}\b(it|the|sound|volume)\b
-- intent: device.volume.decrease
+- intent: Cmd.VolumeDecrease
   regex: \b(decrease|lower|reduce|turn down)\b.{0,15}\bvolume\b|\bvolume\b.{0,10}\b(down|lower|quieter)\b|\bturn
     it down\b|\bturn down\b|\bvolume down\b
 - exact:
@@ -84,58 +106,49 @@ keyword_triggers:
   - where is my phone
   - locate my phone
   - find phone
-  intent: find.phone.locate
-- intent: reminders.task.create
+  intent: Cmd.FindMyPhone
+- intent: reminders.add
   regex: \b(set|create|add|make)\b.{0,20}\breminder\b
-- intent: reminders.task.create
-  regex: \bnudge me\b|\bslip my mind\b|\bjot this down\b|\bnote this down\b|\bdon'?t (let me )?forget\b
-- intent: reminders.task.create
+- intent: reminders.add
+  regex: \bnudge me\b|\bslip my mind\b|\bjot this down\b|\bnote this down\b|\bdon'?t
+    (let me )?forget\b
+- intent: reminders.add
   regex: \b(rappelle[\s-]?moi|r[eé]gler\s+une\s+alarme|mettre?\s+une\s+alarme|fixer?\s+une\s+alarme|cr[eé]er?\s+un\s+rappel|d[eé]finir?\s+un\s+rappel|mettre?\s+un\s+rappel|poser\s+un\s+rappel|ajouter\s+un\s+rappel|planifier\s+un\s+rappel|configurer\s+un\s+rappel)\b
-- intent: device.volume.decrease
-  regex: \b(too|way|so|very|really)\s+(hot|loud|bright|much)\b|\bcoming in (way )?too (hot|loud)\b|\btake
-    the edge off\b
-- intent: device.volume.decrease
+- intent: Cmd.VolumeDecrease
+  regex: \b(too|way|so|very|really)\s+(hot|loud|bright|much)\b|\bcoming in (way )?too
+    (hot|loud)\b|\btake the edge off\b
+- intent: Cmd.VolumeDecrease
   not_regex: \b(increase|raise|louder|up)\b
   regex: \b(dim|soften|dampen|quieten)\b.{0,15}\b(audio|sound|volume|it)\b
-- intent: help.device_settings.show
+- intent: Help_DeviceSettings
   regex: \b(everything|audio|sounds?)\b.{0,15}\b(muffled|distorted|garbled|warped)\b
-- intent: device.status.battery
-  regex: \b(power|battery)\s+(reading|level|status|left|remaining)\b|\b(die|dying|run out|running out)\b.{0,20}\b(on
-    me|battery|charge|power)\b|\bhow (much|long).{0,20}\b(battery|charge|power|life)\b
-- intent: help.find_my_hearing_aids.show
-  regex: \bping\b.{0,15}\b(hearing aids?|aids?|devices?)\b|\b(locate|find|where).{0,20}\b(hearing aids?|aids?|devices?)\b|\bcannot?
-    (find|locate).{0,20}\b(device|aid)\b
-- intent: messaging.message.send
+- intent: Cmd.BatteryLevel
+  regex: \b(power|battery)\s+(reading|level|status|left|remaining)\b|\b(die|dying|run
+    out|running out)\b.{0,20}\b(on me|battery|charge|power)\b|\bhow (much|long).{0,20}\b(battery|charge|power|life)\b
+- intent: Help_FindMyHearingAids
+  regex: \bping\b.{0,15}\b(hearing aids?|aids?|devices?)\b|\b(locate|find|where).{0,20}\b(hearing
+    aids?|aids?|devices?)\b|\bcannot? (find|locate).{0,20}\b(device|aid)\b
+- intent: Cmd.SendMessage
   regex: \bget word to\b|\bping\b.{0,20}\b(my )?(daughter|son|wife|husband|brother|sister|mom|dad|mother|father|friend|family|partner)\b
-- intent: streaming.session.start
-  not_regex: \b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another person|someone)\b
+- intent: Cmd.StreamingStart
+  not_regex: \b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another
+    person|someone)\b
   regex: \bpatch\b.{0,15}\b(sound|audio)\b.{0,10}\bthrough\b|\bstream\b.{0,15}\b(from|phone|tv|device)\b
-- intent: device.memory.change
+- intent: Cmd.MemoryChange
   not_regex: \b(what is|tell me about|help with|explain|how does|what does|about)\b
   regex: \b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\b.{0,10}\bmode\b
-- intent: device.memory.change
+- intent: Cmd.MemoryChange
   regex: \b(load|restore|apply|use)\b.{0,20}\b(my )?(usual|default|normal|saved|last|previous)\b.{0,15}\b(config|configuration|setting|program|profile|memory)\b
-- intent: device.memory.change
+- intent: Cmd.MemoryChange
   regex: \b(swap|switch|change|flip)\b.{0,15}\b(to the |to my )?(program|memory|setting|mode|profile)\b.{0,20}\bfor\b
-- intent: help.home.show
-  regex: \bwhat features\b|\bfeatures (are )?available\b|\bpoint me in the right direction\b|\bhow does
-    (this|it|everything) work\b
+- intent: Help_Home
+  regex: \bwhat features\b|\bfeatures (are )?available\b|\bpoint me in the right direction\b|\bhow
+    does (this|it|everything) work\b
 lexicon:
   carriers:
   - ^\s*please\s+
   - ^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*
   - ^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*
-  # `for` is deliberately NOT stripped here. It used to be, guarded by
-  # `for\s+(?!\d)` so "set a reminder for 5pm" kept its time — but negative
-  # lookahead is outside the portable-regex subset, so the compiler dropped this
-  # whole carrier from every bundle and only the Python engine kept it. Any
-  # pack-driven runtime therefore stored "set a reminder to go to the airport"
-  # as the reminder's own name.
-  #
-  # Dropping the `for` branch is equivalent: a leading "for" left behind is
-  # removed by `leading_connectors` one step later. Verified identical on 11/11
-  # reminder utterances, and strictly better on two of them — "set a reminder
-  # for 5pm" produced a reminder literally named "for" before.
   - ^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about)?\s*
   - ^\s*make\s+sure\s+(?:i|to)\b\s*
   - ^\s*i\s+(?:need|have|want)\s+to\b\s*
@@ -158,6 +171,80 @@ lexicon:
   - no need to
   - stop
   - cancel
+  fuzzyStopwords:
+  - the
+  - a
+  - an
+  - of
+  - to
+  - in
+  - "on"
+  - at
+  - is
+  - it
+  - as
+  - by
+  - be
+  - or
+  - and
+  - for
+  - with
+  - who
+  - what
+  - when
+  - where
+  - why
+  - how
+  - my
+  - me
+  - you
+  - your
+  - i
+  - we
+  - he
+  - she
+  - they
+  - this
+  - that
+  - these
+  - those
+  - please
+  - can
+  - could
+  - would
+  - do
+  - does
+  trailingFunctionWords:
+  - a
+  - an
+  - the
+  - to
+  - for
+  - at
+  - in
+  - "on"
+  - of
+  - and
+  - or
+  - my
+  - me
+  - our
+  - your
+  - with
+  - about
+  - that
+  - this
+  - by
+  - from
+  - so
+  - but
+  - is
+  - are
+  - be
+  - it
+  - when
+  - if
+  - then
 negative:
 - 'no'
 - nope
@@ -171,27 +258,11 @@ negative:
 - do not
 - never mind
 - nevermind
+oov_bypass_confidence: 0.97
+oov_reject_ratio: 0.25
 polarity_guards: []
 semantic_rescue_enabled: false
 semantic_threshold: 0.4
-slot_confidence_threshold: 0.5
 uncertain_confirm:
-  below_confidence: 0.91
   cancel_message: Okay, I won't.
-  confirm_floor: 0.55
-  intents:
-  - device.memory.change
-  - device.volume.decrease
-  - device.volume.increase
-  - device.volume.mute
-  - device.volume.unmute
-  - find.phone.locate
-  - messaging.message.listen
-  - messaging.message.send
-  - reminders.task.complete
-  - reminders.task.create
-  - streaming.session.start
-  - streaming.session.stop
-  - transcription.session.start
-  - translation.session.start
 version: 2

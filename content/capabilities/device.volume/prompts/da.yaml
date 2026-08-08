@@ -1,12 +1,12 @@
-device.volume.decrease:
+Cmd.VolumeDecrease:
   confirm_prompt: For en sikkerheds skyld — skru ned for lyden?
   fulfillment: Lydstyrke skruet ned.
-device.volume.increase:
+Cmd.VolumeIncrease:
   confirm_prompt: For en sikkerheds skyld — skru op for lyden?
   fulfillment: Lydstyrke skruet op.
-device.volume.mute:
+Cmd.VolumeMute:
   confirm_prompt: For en sikkerheds skyld — slå lyden fra?
   fulfillment: Lyd slået fra.
-device.volume.unmute:
+Cmd.VolumeUnmute:
   confirm_prompt: For en sikkerheds skyld — slå lyden til igen?
   fulfillment: Lyd slået til.

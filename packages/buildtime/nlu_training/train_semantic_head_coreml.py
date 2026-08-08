@@ -55,7 +55,7 @@ VOCAB_PATH   = MODEL_DIR / "minilm-vocab.txt"
 HEAD_NPZ     = MODEL_DIR / "semantic_head_coreml.npz"
 HEAD_JSON    = MODEL_DIR / "semantic_head_coreml.json"
 
-FALLBACK_INTENT = "sys.oos.fallback"
+FALLBACK_INTENT = "Default Fallback Intent"
 MAX_LEN = 64
 
 # The shipped CoreML encoder is exported at a FIXED (1, SEQ_LEN) shape

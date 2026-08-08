@@ -41,7 +41,7 @@ user says while ANSWERING a prompt.
 
 Auditing them found a live wrong-action bug that no single-turn holdout could
 see. Several MEMORY names are also commands, so "What is the name of the memory?"
-answered with "mute" fired device.volume.mute at 0.980 — the device muted instead
+answered with "mute" fired Cmd.VolumeMute at 0.980 — the device muted instead
 of switching to the Mute memory. "quiet" muted too; "telephone" rang the phone.
 No bar can fix that ("tinnitus" and "mask" classify at 1.000), so the engine now
 resolves it by PRECEDENCE: ``NLUEngine._answers_awaited_slot`` treats a valid
@@ -75,7 +75,7 @@ import numpy as np
 import pandas as pd
 
 from nlu_training.fit_calibration import (
-    MAX_PER_INTENT, _softmax, eval_leakage_mask, oof_logits,
+    cap_per_intent, _softmax, eval_leakage_mask, oof_logits,
 )
 from nlu_training.leakage import normalize_text
 
@@ -148,7 +148,7 @@ def _oof(lang: str, folds: int, T: float):
     df["text"] = df["text"].astype(str).map(featurize_text)
     df["intent"] = df["intent"].astype(str).str.strip()
     df = df.drop_duplicates(subset=["text", "intent"])
-    df = df.groupby("intent").tail(MAX_PER_INTENT).reset_index(drop=True)
+    df = cap_per_intent(df)
     keep, _l, _c = eval_leakage_mask(df["text"].values, lang)
     df = df[keep]
     counts = df["intent"].value_counts()
@@ -250,11 +250,11 @@ def fit(lang: str, folds: int, max_irrelevant: float, write: bool) -> int:
 
     # A phrase is only a negative if it would ACTUALLY interrupt: the engine
     # requires a different intent that is not the OOS label. A recurrence answer
-    # scoring 0.856 for sys.oos.fallback is already safe.
+    # scoring 0.856 for Default Fallback Intent is already safe.
     neg_rows = []
     for phrase, entity, owners in held:
         intent, c = predict(phrase)
-        if intent != "sys.oos.fallback" and intent not in owners:
+        if intent != "Default Fallback Intent" and intent not in owners:
             neg_rows.append((c, phrase, intent, entity))
     neg = np.array([c for c, *_ in neg_rows]) if neg_rows else np.array([0.0])
     print(f"  of those, {len(neg_rows)} would interrupt (different non-OOS intent):")
@@ -287,7 +287,7 @@ def fit(lang: str, folds: int, max_irrelevant: float, write: bool) -> int:
     MIN_ADMIT = 0.95
     state_changing = {i for i in schema.get("intents", {})
                       if not i.startswith(("help.", "sys."))
-                      and i != "device.status.battery"
+                      and i != "Cmd.BatteryLevel"
                       and i.rsplit(".", 1)[-1] != "query"}
     sc_neg = np.array([c for c, _p, intent, _e in neg_rows
                        if intent in state_changing] or [0.0])

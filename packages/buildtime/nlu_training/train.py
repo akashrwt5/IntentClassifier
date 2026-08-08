@@ -130,15 +130,29 @@ if HOLDOUT_PATH.exists():
         )
     print(f"\n{leak_report([], len(holdout_texts), source='permanent holdout')}")
 
-# ---------- 1c. Cap over-represented intents (deterministic keep-last) ----------
-MAX_PER_INTENT = 500
-data = (
-    data.groupby("intent")
-        .tail(MAX_PER_INTENT)          # keep newest rows when over cap; preserves all columns
-        .sample(frac=1, random_state=42)
-        .reset_index(drop=True)
-)
-print(f"\nSamples per intent (capped at {MAX_PER_INTENT}):")
+# ---------- 1c. Per-intent row cap (DISABLED) ----------
+# `None` = no cap. It was 500, applied with `.tail()`, which DELETED rows — they
+# reached neither training nor the test split. `Default Fallback Intent` went 1191 ->
+# 500, and a catch-all class is defined by its LEXICAL VARIETY rather than by a
+# pattern, so cutting 58% of it cut 58% of the evidence that anything is out of
+# scope. That is where out-of-scope detection lives: the word which makes an
+# utterance out of scope is a rare, specific one, so it is the first thing a cap
+# removes and then `min_df=2` finishes off.
+#
+# Measured on holdout_honest.csv: uncapping moves OOS recall 69.2% -> 81.0% and
+# accuracy 90.5% -> 92.0%. Both improve — `class_weight="balanced"` below was
+# already doing the imbalance job the cap was for, and doing it without
+# destroying data.
+#
+# This is NOT the train/test split. Step 2 below is unaffected and still holds
+# out 20%; `holdout_honest.csv` remains a separate leak-guarded file (step 1b).
+# The cap only decided which rows exist at all.
+#
+# The value lives in `nlu_training.fit_calibration` so the trainer, the fitters
+# and the exporters cannot drift apart.
+from nlu_training.fit_calibration import MAX_PER_INTENT, cap_per_intent  # noqa: E402
+data = cap_per_intent(data).sample(frac=1, random_state=42).reset_index(drop=True)
+print(f"\nSamples per intent (cap={MAX_PER_INTENT}):")
 print(data["intent"].value_counts().to_string())
 
 X = data["text"]

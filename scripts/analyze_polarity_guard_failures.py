@@ -17,17 +17,17 @@ from nlu_engine import NLUEngine  # noqa: E402
 # The FULL original guard set (incl. the up/down rules we retired for English),
 # so we can measure each rule's real-world help/hurt on the holdout.
 ALL_GUARDS = [
-    (r"\bmute\b(?!\s+off)", "device.volume.unmute", "device.volume.mute"),
+    (r"\bmute\b(?!\s+off)", "Cmd.VolumeUnmute", "Cmd.VolumeMute"),
     (r"\bunmute\b|\bun-mute\b|\bmute\s+off\b|\boff\s+mute\b|\bturn\s+(the\s+)?mute\s+off\b",
-     "device.volume.mute", "device.volume.unmute"),
+     "Cmd.VolumeMute", "Cmd.VolumeUnmute"),
     (r"\b(quiet(er)?|lower|softer|decrease|reduce|down)\b",
-     "device.volume.increase", "device.volume.decrease"),
+     "Cmd.VolumeIncrease", "Cmd.VolumeDecrease"),
     (r"\b(loud(er)?|higher|increase|raise|up)\b",
-     "device.volume.decrease", "device.volume.increase"),
+     "Cmd.VolumeDecrease", "Cmd.VolumeIncrease"),
     (r"\b(stop|end|quit|finish|turn off)\b",
-     "streaming.session.start", "streaming.session.stop"),
+     "Cmd.StreamingStart", "Cmd.StreamingStop"),
     (r"\b(start|begin|turn on)\b",
-     "streaming.session.stop", "streaming.session.start"),
+     "Cmd.StreamingStop", "Cmd.StreamingStart"),
 ]
 COMPILED = [(re.compile(p, re.I), b, r) for p, b, r in ALL_GUARDS]
 

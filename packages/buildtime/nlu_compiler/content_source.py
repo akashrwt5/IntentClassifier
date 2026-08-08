@@ -36,8 +36,8 @@ LOC = REPO / "language_packs"
 LANGS = tuple(p.name for p in LOC.iterdir() if p.is_dir() and p.name != "en")
 
 # Top-level schema keys owned by the platform (not any capability).
-PLATFORM_KEYS = ("version", "confidence_threshold", "slot_confidence_threshold",
-                 "interrupt_threshold",
+PLATFORM_KEYS = ("version", "confidence_threshold",
+                 "interrupt_threshold", "agreement_threshold", "oov_reject_ratio", "oov_bypass_confidence",
                  "semantic_threshold", "semantic_rescue_enabled",
                  "keyword_triggers", "affirmative", "negative", "lexicon",
                  "polarity_guards", "help_marker_guard", "uncertain_confirm")
@@ -117,6 +117,19 @@ def assemble(write: bool = True) -> dict:
         for intent in sorted(cap["intents"]):
             cfg = _load(base / "intents" / f"{intent}.yaml")
             assert cfg.pop("intent") == intent, f"{base}: intent key mismatch"
+            # Which capability owns this intent, recorded EXPLICITLY.
+            #
+            # The engine's availability check (`_capability_of`) used to derive
+            # this from the label: `intent.startswith(cap_id + ".")` matched
+            # `device.volume.mute` to `device.volume`. That is inference from a
+            # naming convention, and the convention moved — under `Cmd.*` the
+            # prefix relationship does not exist, so every capability pushed as
+            # `unavailable` silently went back to firing actions.
+            #
+            # The compiler has always known the answer here (it is the same
+            # mapping `runtime/plan_facts.json` ships). Writing it down means a
+            # rename cannot break the lookup again.
+            cfg["capability"] = cap["id"]
             intents[intent] = cfg
         for lang in LANGS:
             p = base / "prompts" / f"{lang}.yaml"
@@ -126,8 +139,8 @@ def assemble(write: bool = True) -> dict:
     # Preserve the compiled files' key layout: platform keys in their
     # original position with intents where the current schema puts them.
     ordered = {}
-    for key in ("version", "confidence_threshold", "slot_confidence_threshold",
-                "interrupt_threshold",
+    for key in ("version", "confidence_threshold",
+                "interrupt_threshold", "agreement_threshold", "oov_reject_ratio", "oov_bypass_confidence",
                 "semantic_threshold", "semantic_rescue_enabled", "keyword_triggers"):
         if key in schema:
             ordered[key] = schema[key]

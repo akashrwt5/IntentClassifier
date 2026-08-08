@@ -22,9 +22,9 @@
           "minProperties": 1,
           "additionalProperties": false,
           "patternProperties": {
-            "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$": {
+            "^[A-Za-z0-9_. -]+$": {
               "type": "string",
-              "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+              "pattern": "^[A-Za-z0-9_. -]+$"
             }
           }
         }
@@ -40,13 +40,13 @@
         "properties": {
           "intent": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+            "pattern": "^[A-Za-z0-9_. -]+$"
           },
           "pattern": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
           "redirect": {
             "description": "Intent to substitute. Omitted means suppress to the out-of-scope fallback.",
             "type": "string",
-            "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+            "pattern": "^[A-Za-z0-9_. -]+$"
           }
         }
       }

@@ -122,8 +122,18 @@ def test_featurizer_mirrors_the_trainer():
         train_src.replace(" ", "").replace("\n", ""), "ngram_range drifted from train.py"
     assert f'min_df={fc.TFIDF_KW["min_df"]}' in train_src, "min_df drifted from train.py"
     assert f'C={fc.LR_KW["C"]}' in train_src, "C drifted from train.py"
-    assert f"MAX_PER_INTENT = {fc.MAX_PER_INTENT}" in train_src, \
-        "per-intent cap drifted from train.py"
+    # The cap can no longer drift by construction: train.py IMPORTS it from
+    # fit_calibration rather than declaring its own literal. Asserting the
+    # import is a stronger guarantee than comparing two numbers that a careless
+    # edit could still desynchronise.
+    #
+    # It also has to be an import now, because the cap moved to `None`
+    # (disabled) and lives behind `cap_per_intent`, so there is no literal in
+    # train.py to compare against — the old assertion would fail on a
+    # correctly-wired tree.
+    assert "from nlu_training.fit_calibration import" in train_src \
+        and "cap_per_intent" in train_src, \
+        "train.py must take the per-intent cap from fit_calibration, not redeclare it"
 
 
 def test_runtime_uses_the_fitted_temperature_not_the_device_one(calib):

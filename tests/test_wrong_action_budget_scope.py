@@ -25,20 +25,20 @@ class TestReadOnlyIsNotCharged:
     """Read-only queries are actionable-looking but change no state."""
 
     READ_ONLY = [
-        "activity.calories.query",  # "how many calories did i burn jogging"
-        "activity.run.query",
-        "activity.walk.query",
-        "device.status.battery",  # "help with battery questions" mis-fires here
+        "Cmd.ActivityCalories",  # "how many calories did i burn jogging"
+        "Cmd.ActivityRun",
+        "Cmd.ActivityWalk",
+        "Cmd.BatteryLevel",  # "help with battery questions" mis-fires here
     ]
 
     STATE_CHANGING = [
-        "device.volume.decrease",  # "lower how loud it is"
-        "device.volume.increase",
-        "device.volume.mute",  # "hush it up"
-        "streaming.session.start",  # "stream from an accessory mic ..."
-        "messaging.message.send",
-        "translation.session.start",
-        "reminders.task.complete",
+        "Cmd.VolumeDecrease",  # "lower how loud it is"
+        "Cmd.VolumeIncrease",
+        "Cmd.VolumeMute",  # "hush it up"
+        "Cmd.StreamingStart",  # "stream from an accessory mic ..."
+        "Cmd.SendMessage",
+        "Cmd.TranslationStart",
+        "reminders.complete",
     ]
 
     def test_read_only_intents_are_read_only(self):
@@ -56,12 +56,12 @@ class TestReadOnlyIsNotCharged:
             assert not is_read_only(label)
 
     def test_help_and_sys_never_charged(self):
-        for label in ("help.battery.show", "sys.oos.fallback"):
+        for label in ("Help_Battery", "Default Fallback Intent"):
             assert not is_state_changing(label)
             assert not is_actionable(label)
 
 
 def test_query_suffix_convention_holds():
     # Any *.query intent is read-only by the domain.object.action taxonomy.
-    assert is_read_only("activity.stand.query")
-    assert not is_state_changing("activity.stand.query")
+    assert is_read_only("Cmd.ActivityStand")
+    assert not is_state_changing("Cmd.ActivityStand")

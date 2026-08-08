@@ -55,9 +55,17 @@ def main() -> None:
                      "expected_type": r.type, "expected_intent": r.intent or ""})
 
     # Two-turn send-confirmation flow -> the compound dialogue-act labels.
-    # Force the gate so the confirmation is deterministic regardless of model
-    # confidence (mirrors test_wrong_action_mitigations).
-    eng._confirm_below = 1.01
+    #
+    # This used to force the uncertainty gate (`eng._confirm_below = 1.01`) so
+    # the confirmation would happen "regardless of model confidence". That line
+    # was the defect in miniature: the confirmation genuinely DID depend on
+    # confidence, so the fixture had to lie to produce a stable vector, and the
+    # app's dialogue act appeared for "send a message" but vanished for "send a
+    # message to john".
+    #
+    # `Cmd.SendMessage` now declares a schema `followup`, so the
+    # confirmation is authored dialogue and fires every turn on its own. No
+    # forcing, and the fixture records what the engine actually does.
     for polarity_text, sid in [("yes", "send-yes"), ("no", "send-no")]:
         eng.reset(sid)
         r1 = eng.handle(sid, "send a message")

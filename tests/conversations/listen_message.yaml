@@ -1,4 +1,4 @@
 lang: en
 turns:
   - user: "play my messages"
-    expect: {intent: messaging.message.listen}
+    expect: {intent: Cmd.ListenMessage}

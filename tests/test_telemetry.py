@@ -62,7 +62,13 @@ def test_aggregation_counts_and_flush(tmp_path):
 
 
 def test_domain_and_bucket_coarseness():
-    assert domain_of("device.volume.mute") == "device"
+    assert domain_of("Cmd.VolumeMute") == "cmd"
+    # The separator that matters: Help_* has no dot, and these topics are
+    # health-adjacent. A guard that returns the whole label here is the
+    # disclosure it exists to prevent.
+    assert domain_of("Help_Tinnitus") == "help"
+    assert domain_of("Help_FallAlert") == "help"
+    assert domain_of("Default Fallback Intent") == "default"
     assert domain_of("GENAI") == "genai"
     assert domain_of(None) == "none"
     assert confidence_bucket(1.0) == "0.9-1.0"

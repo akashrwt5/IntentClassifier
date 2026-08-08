@@ -3,10 +3,10 @@
 lang: en
 turns:
   - user: "mute"
-    expect: {type: FULFILL, intent: device.volume.mute, action: volume.mute}
+    expect: {type: FULFILL, intent: Cmd.VolumeMute, action: volume.mute}
   - user: "unmute"
-    expect: {type: FULFILL, intent: device.volume.unmute}
+    expect: {type: FULFILL, intent: Cmd.VolumeUnmute}
   - user: "turn the volume up"
-    expect: {type: CONFIRM, intent: device.volume.increase}
+    expect: {type: CONFIRM, intent: Cmd.VolumeIncrease}
   - user: "yes"
-    expect: {type: FULFILL, intent: device.volume.increase, action: volume.increase}
+    expect: {type: FULFILL, intent: Cmd.VolumeIncrease, action: volume.increase}

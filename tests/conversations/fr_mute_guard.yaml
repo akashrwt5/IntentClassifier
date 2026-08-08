@@ -2,4 +2,4 @@
 lang: fr
 turns:
   - user: "coupe le son s'il te plaît"
-    expect: {not_intent: device.volume.unmute}
+    expect: {not_intent: Cmd.VolumeUnmute}

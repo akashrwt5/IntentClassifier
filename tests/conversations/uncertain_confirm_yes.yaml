@@ -3,6 +3,6 @@ lang: en
 force_confirm: true
 turns:
   - user: "mute my hearing aids"
-    expect: {type: CONFIRM, intent: device.volume.mute}
+    expect: {type: CONFIRM, intent: Cmd.VolumeMute}
   - user: "yes please"
-    expect: {type: FULFILL, intent: device.volume.mute, action: volume.mute}
+    expect: {type: FULFILL, intent: Cmd.VolumeMute, action: volume.mute}

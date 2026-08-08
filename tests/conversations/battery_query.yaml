@@ -1,4 +1,4 @@
 lang: en
 turns:
   - user: "what's my battery level"
-    expect: {type: FULFILL, intent: device.status.battery}
+    expect: {type: FULFILL, intent: Cmd.BatteryLevel}

@@ -95,12 +95,22 @@ def test_policies_carry_our_fitted_thresholds_not_the_fixtures(bundle):
     assert th["semantic"] == SCHEMA["semantic_threshold"]
 
 
-def test_confirmation_policy_matches_the_uncertainty_gate(bundle):
+def test_confirmation_policy_matches_the_authored_followups(bundle):
+    """`always` for a declared followup, `never` otherwise — and no third state.
+
+    This asserted that `when_ambiguous` matched the 14-intent uncertainty-gate
+    list. That gate was removed (docs/confirm-gate-diagnosis.md): it sat above
+    the fire threshold and turned commands that would have fired into questions.
+    Confirmation is now something an intent DECLARES, so it is unconditional.
+    """
     conf = _j(bundle, "runtime/policies.json")["confirmation"]
-    gated = set(SCHEMA["uncertain_confirm"]["intents"])
+    authored = {i for i, c in SCHEMA["intents"].items() if c.get("followup")}
     assert set(conf) == set(SCHEMA["intents"]), "every intent needs a policy"
-    assert {i for i, v in conf.items() if v == "when_ambiguous"} == gated
-    assert all(v in ("always", "never", "when_ambiguous") for v in conf.values())
+    assert {i for i, v in conf.items() if v == "always"} == authored
+    assert "when_ambiguous" not in set(conf.values()), (
+        "the confidence band is back in the bundle — a runtime would need "
+        "`uncertain_confirm_below` to interpret it, and there is none")
+    assert all(v in ("always", "never") for v in conf.values())
 
 
 def test_routing_ladder_uses_our_fire_threshold(bundle):
@@ -121,14 +131,14 @@ def test_identifiers_are_translated_to_the_spec_grammar(bundle):
     assert all("-" not in e for e in ents)
 
     wf = _j(bundle, "capabilities/device.memory/workflows.json")
-    slots = wf["intents"]["device.memory.change"]["slots"]
+    slots = wf["intents"]["Cmd.MemoryChange"]["slots"]
     assert [s["name"] for s in slots] == ["memory_name"], "slot name not snake_cased"
 
 
 def test_prompt_text_moves_into_responses_and_is_referenced_by_key(bundle):
     """The spec keeps TEXT out of logic: workflows hold response KEYS."""
     wf = _j(bundle, "capabilities/device.memory/workflows.json")
-    slot = wf["intents"]["device.memory.change"]["slots"][0]
+    slot = wf["intents"]["Cmd.MemoryChange"]["slots"][0]
     responses = _j(bundle, "capabilities/device.memory/responses/en.json")
     assert slot["prompt"] in responses, "slot prompt key has no response"
     assert " " not in slot["prompt"], "the prompt is literal text, not a key"

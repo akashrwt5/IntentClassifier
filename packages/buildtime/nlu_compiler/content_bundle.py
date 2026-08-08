@@ -221,11 +221,20 @@ def compile_capabilities(lang: str, out: Path) -> tuple[dict, dict, dict]:
             if cfg.get("confirm_prompt"):
                 ckey = _response_key(intent, "confirm")
                 responses[ckey] = cfg["confirm_prompt"]
-                # `required` is mandatory. False means "ask only when the
-                # uncertainty gate says so" — the engine's actual behaviour;
-                # True would mean unconditional confirmation, which is the open
-                # owner decision (Review-F5 B1), so it is not asserted here.
-                wf["confirmation"] = {"required": False, "prompt": ckey}
+                # `required` mirrors the intent's authored `followup`, and must
+                # agree with `runtime/policies.json`'s always/never for the same
+                # intent — the bundle states confirmation in two places and a
+                # client may read either.
+                #
+                # It was hardcoded False, meaning "ask only when the uncertainty
+                # gate says so". That gate no longer exists, so False now says
+                # "never ask" — which for Cmd.SendMessage contradicted
+                # policies.json's `always` and would have dropped the send
+                # confirmation for any client reading workflows instead of
+                # policies. A `followup` is unconditional by construction; there
+                # is nothing conditional left to express.
+                wf["confirmation"] = {"required": bool(cfg.get("followup")),
+                                      "prompt": ckey}
 
             workflows[intent] = wf
             intent_capability[intent] = cap_id
@@ -401,16 +410,18 @@ def compile_lexicon(lang: str, schema: dict, out: Path) -> list[str]:
         "negation_cues": sorted(lexicon.get("negation_cues", [])),
         "carriers": carriers,
         "leading_connectors": sorted(lexicon.get("leading_connectors", [])),
+        "fuzzyStopwords": lexicon.get("fuzzyStopwords", []),
+        "trailingFunctionWords": lexicon.get("trailingFunctionWords", []),
     }
 
     # Load language-specific data tables directly from the language pack, rather
     # than relying on engine fallback defaults.
     lang_dir = REPO / "language_packs" / lang
-    
+
     dt_path = lang_dir / "datetime.json"
     if dt_path.exists():
         lex["datetime_grammar"] = json.loads(dt_path.read_text(encoding="utf-8"))
-        
+
     contractions_path = lang_dir / "contractions.json"
     if contractions_path.exists():
         lex["contractions"] = json.loads(contractions_path.read_text(encoding="utf-8"))
@@ -426,7 +437,7 @@ def compile_lexicon(lang: str, schema: dict, out: Path) -> list[str]:
 
 def _state_changing(intents) -> set[str]:
     def read_only(i):
-        return i == "device.status.battery" or i.rsplit(".", 1)[-1] == "query"
+        return i == "Cmd.BatteryLevel" or i.rsplit(".", 1)[-1] == "query"
     return {i for i in intents
             if not i.startswith(("help.", "sys.")) and not read_only(i)}
 
@@ -434,31 +445,57 @@ def _state_changing(intents) -> set[str]:
 def compile_policies(schema: dict, out: Path) -> None:
     """The rulebook, flat and complete — a runtime never merges policy.
 
-    `confirmation` is our uncertainty gate expressed per intent:
-    `when_ambiguous` for the state-changing intents the gate covers (the engine
-    asks when confidence is under the band), `never` for everything else. The
-    schema notes high-cost actions "must resolve to always"; which intents are
-    high-cost enough for unconditional confirmation is the open owner decision
-    (Review-F5 B1), so nothing is promoted to `always` here.
+    `confirmation` is `always` for an intent that declares a `followup` and
+    `never` for every other intent. There is no `when_ambiguous` any more.
+
+    That third value used to carry the uncertainty gate: the state-changing
+    intents a confidence band covered, plus `uncertain_confirm_below` /
+    `_floor` telling a runtime when the band fired. The band was removed rather
+    than retuned — it sat ABOVE the fire threshold, so it converted commands
+    that would have fired into questions (103 friction turns against 16 useful
+    catches on the honest holdout). See docs/confirm-gate-diagnosis.md.
+
+    What survives is confirmation the product DECLARES, which is deterministic:
+    a `followup` asks on every turn regardless of confidence, because an app
+    contract cannot depend on where the classifier happened to land. That is
+    also how the legacy Dialogflow agent worked — `Cmd.SendMessage - yes/no` is
+    an authored follow-up intent, not a confidence artifact.
+
+    `when_ambiguous` is deliberately never emitted. A runtime reading this
+    bundle needs no band, because there is none to read.
     """
-    uc = schema.get("uncertain_confirm", {})
-    gated = set(uc.get("intents", []))
-    confirmation = {i: ("when_ambiguous" if i in gated else "never")
-                    for i in sorted(schema["intents"])}
+    confirmation = {
+        i: ("always" if schema["intents"][i].get("followup") else "never")
+        for i in sorted(schema["intents"])
+    }
 
     thresholds = {
         "confidence": schema["confidence_threshold"],
         "interrupt": schema["interrupt_threshold"],
         "semantic": schema["semantic_threshold"],
+        # The relaxed bar for a turn two independent recognisers agree on. A
+        # device runtime that omits it would reject corroborated commands the
+        # reference engine fires ("turn it up its too quiet": rule and model
+        # both say volume.increase, but a sibling class splits the mass and the
+        # top sits at 0.66).
+        "agreement": schema["agreement_threshold"],
+        # Out-of-vocabulary guard — BOTH halves, always together.
+        #
+        # A runtime that ignores these fires on utterances the reference engine
+        # refuses, because a TF-IDF vector cannot represent a word outside its
+        # vocabulary at all: "help me find a paper" reaches the model as "help
+        # me find". The ratio is a property of the vocabulary shipped alongside
+        # it, so a client using the pruned head must use the value fitted for
+        # THAT head.
+        #
+        # `oov_bypass` is not optional. A client that reads the ratio without it
+        # refuses entity values, which are out-of-vocabulary BY NATURE — "send a
+        # message to john" is 25% unknown and entirely real. Shipping one half
+        # of a pair is how the device/server temperature diverged (B8); the two
+        # are emitted from the same statement so they cannot separate.
+        "oov_reject": schema["oov_reject_ratio"],
+        "oov_bypass": schema["oov_bypass_confidence"],
     }
-    # `when_ambiguous` above names WHICH intents the gate covers; these two say
-    # WHEN it fires. Without them a runtime knows the gated set but not the band,
-    # so it either confirms always or never — both wrong. The intent list is not
-    # duplicated here: `confirmation` already carries it.
-    if "below_confidence" in uc:
-        thresholds["uncertain_confirm_below"] = uc["below_confidence"]
-    if "confirm_floor" in uc:
-        thresholds["uncertain_confirm_floor"] = uc["confirm_floor"]
 
     _write(out / "runtime" / "policies.json", {
         "policy_schema": 1,
@@ -724,7 +761,7 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
             summary[k] = str(v).lower()
         elif isinstance(v, (int, float, str)):
             summary[k] = v
-            
+
     models = {
         "intent": {lang: {
             "artifact": f"models/intent/{lang}/model.onnx",
@@ -732,10 +769,10 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
             "model_version": f"{lang}-{version}"
         }}
     }
-    
+
     if intent_coreml:
         models["intent"][lang]["coreml_artifact"] = intent_coreml
-        
+
     if semhead_coreml:
         models["semantic_head"] = {
             "shared": {
@@ -801,7 +838,7 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
                      f"capability: {missing[:6]}")
 
     compile_entities(lang, out)
-    
+
     # Expose schema and entities at the bundle root (ADR-005)
     shutil.copy(REPO / "language_packs" / lang / "nlu_schema.json", out / "nlu_schema.json")
     shutil.copy(REPO / "language_packs" / lang / "nlu_entities.json", out / "nlu_entities.json")

@@ -56,21 +56,28 @@ def _load_temperature(weights_path: Path,
     return 1.0
 
 
-# Honest, match-type-calibrated confidences for keyword hits. A keyword match
-# is evidence, not certainty: a full-string exact match is near-certain, a bare
-# substring is the weakest signal. Returning a calibrated value (instead of a
-# blanket 1.0) keeps the keyword stage from always out-ranking a genuine
-# mid-slot interrupt and stops a weak substring hit from masquerading as
-# maximum confidence downstream.
-KEYWORD_CONFIDENCE = {
-    "exact": 0.97,
-    "contains": 0.85,
-    "regex_guarded": 0.90,   # regex with a not_regex exclusion
-    "regex": 0.75,           # bare regex, the broadest pattern
-}
+# Match-type ordering for keyword hits, retained for TELEMETRY AND ORDERING ONLY.
+#
+# These values no longer reach `classify()`'s confidence output, and must not be
+# put back there. A keyword rule is deterministic; it cannot produce a
+# probability, and any constant written into the confidence field is a category
+# error rather than a badly-chosen number.
+#
+# What went wrong when they were live: `regex` returned 0.75, which the engine
+# compared against `uncertain_confirm.below_confidence` — a band fitted
+# out-of-fold on temperature-calibrated softmax probabilities. Two incompatible
+# scales, one comparison. `0.75 < 0.91` is arithmetically true and semantically
+# meaningless, so every one of the schema's 28 `regex` rules became permanently
+# un-fireable the day that band moved 0.80 -> 0.91 (blocker B8). "increase
+# volume" asked the user for confirmation while the model scored it 0.9992.
+#
+# They were also inverted against measured precision: `regex` measures 95.4%
+# accurate and was assigned the LOWEST value, `regex_guarded` measures 76.7% and
+# was assigned the second-highest. See docs/confirm-gate-diagnosis.md.
+KEYWORD_TIER_ORDER = ("exact", "regex_guarded", "contains", "regex")
 
 # Negation cues that flip the meaning of a `contains` substring hit. "I don't
-# want to translate this" should not fire translation.session.start. We only
+# want to translate this" should not fire Cmd.TranslationStart. We only
 # guard `contains` rules; `exact`/`regex` authors express negation explicitly.
 #
 # ENGLISH FALLBACK ONLY. A pack/lexicon supplies its own cues via
@@ -147,6 +154,22 @@ def _negation_pattern(cue: str) -> "re.Pattern":
 
 
 class IntentClassifier:
+    # Confidence reported when a keyword rule fires but the model's top
+    # prediction is a DIFFERENT intent. The rule still wins the label — it is a
+    # deliberate product decision — but the disagreement is real evidence of
+    # ambiguity and the number must say so.
+    #
+    # PROVISIONAL. This is the one constant left in the confidence path, and it
+    # is currently a placeholder chosen to land inside the confirmation band. It
+    # must be fitted out-of-fold on train.csv (never on the holdout — that is
+    # blocker B9) by the joint (FIRE, FLOOR) sweep described in step 5 of
+    # docs/confirm-gate-remediation-plan.md. Shipping a fitted 0.75 in place of
+    # a guessed 0.75 would repeat the original defect with better manners.
+    #
+    # Basis for the placeholder: contested keyword predictions measure ~45%
+    # correct on holdout_honest.csv (n=20) versus 99.1% when corroborated.
+    CONTESTED_CONFIDENCE = 0.60
+
     def __init__(self,
                  model_path:   Path | None = None,
                  labels_path:  Path | None = None,
@@ -175,14 +198,25 @@ class IntentClassifier:
         # Language-specific negation cues, supplied by the caller from the
         # pack/lexicon. None => the English fallback table.
         self.negation_cues = tuple(negation_cues) if negation_cues else _DEFAULT_NEGATIONS
-        self.last_stage = None         # "keyword" | "tfidf" — set on each classify()
-        self.last_keyword_tier = None  # "exact"|"contains"|"regex"|"regex_guarded"|None
+        # Label -> row index, built once. `calibrated_confidence` is on the turn
+        # path and must not do a linear scan of the label list per call.
+        self._label_index = {label: i for i, label in enumerate(self.labels)}
+        # Per-turn observability, all set by classify(). Annotated because the
+        # bare `= None` made mypy infer NoneType and reject every real value.
+        self.last_stage: str | None = None            # "keyword" | "tfidf"
+        self.last_keyword_tier: str | None = None     # "exact"|"contains"|"regex"|"regex_guarded"
+        self.last_arbitration: str | None = None      # "corroborated" | "contested"
+        self.last_distribution: np.ndarray | None = None  # calibrated probabilities
 
     def _keyword_match(self, text: str):
         """
-        Return (intent, confidence) if a declarative keyword rule fires, else
-        (None, 0.0). Confidence is calibrated by match type (see
-        KEYWORD_CONFIDENCE); `contains` hits are suppressed when negated.
+        Return the intent of the first declarative keyword rule that fires, else
+        None. The match tier is recorded on ``self.last_keyword_tier`` (the
+        engine's interrupt logic reads it); `contains` hits are suppressed when
+        negated.
+
+        Deliberately returns NO confidence. A rule is deterministic and cannot
+        express one — see the note on ``KEYWORD_TIER_ORDER``.
         """
         t = text.lower().strip()
         self.last_keyword_tier = None
@@ -192,39 +226,133 @@ class IntentClassifier:
                 hit = next((term for term in rule["terms"] if term in t), None)
                 if hit and not _is_negated(t, hit, self.negation_cues):
                     self.last_keyword_tier = "contains"
-                    return rule["intent"], KEYWORD_CONFIDENCE["contains"]
+                    return rule["intent"]
             elif kind == "exact":
                 if t in rule["terms"]:
                     self.last_keyword_tier = "exact"
-                    return rule["intent"], KEYWORD_CONFIDENCE["exact"]
+                    return rule["intent"]
             elif kind == "regex":
                 if rule["pattern"].search(t):
                     if rule["not_pattern"] is None or not rule["not_pattern"].search(t):
                         tier = "regex" if rule["not_pattern"] is None else "regex_guarded"
                         self.last_keyword_tier = tier
-                        return rule["intent"], KEYWORD_CONFIDENCE[tier]
-        return None, 0.0
+                        return rule["intent"]
+        return None
 
-    def classify(self, text: str):
-        kw_intent, kw_conf = self._keyword_match(text)
-        if kw_intent:
-            self.last_stage = "keyword"
-            return kw_intent, kw_conf
+    def _model_distribution(self, text: str) -> np.ndarray:
+        """Calibrated probability over the full label space.
 
-        self.last_stage = "tfidf"
-        # Normalise the surface form (expand contractions, drop apostrophes) so
-        # the ONNX tokenizer sees exactly what sklearn saw at fit time. Applied
-        # to the TF-IDF path ONLY — the keyword stage above matches raw text.
-        # MUST stay identical to the normalisation in nlu_training/train.py.
+        Normalise the surface form (expand contractions, drop apostrophes) so
+        the ONNX tokenizer sees exactly what sklearn saw at fit time. Applied to
+        the MODEL path only — the keyword stage matches raw text. MUST stay
+        identical to the normalisation in nlu_training/train.py.
+
+        `scores` are raw decision-function logits (the ONNX graph is exported
+        with raw_scores=True). Temperature scaling is rank-preserving — dividing
+        by a positive scalar leaves argmax unchanged — so intent selection
+        equals the raw-logit argmax; only the confidence is rescaled.
+        """
         scores = self.backend.tfidf_logits(normalize_text(text))
         if isinstance(scores, dict):  # zipmap-style graph output
             scores = np.array([scores[l] for l in self.labels], dtype=float)
+        return _stable_softmax(np.asarray(scores, dtype=float) / self.temperature)
 
-        # `scores` are raw decision-function logits (the ONNX graph is exported
-        # with raw_scores=True). Temperature scaling is rank-preserving — dividing
-        # by a positive scalar leaves argmax unchanged — so intent selection
-        # equals the raw-logit argmax; only the confidence is rescaled.
-        scaled = scores / self.temperature
-        top = int(np.argmax(scaled))
-        conf = float(_stable_softmax(scaled)[top])
-        return self.labels[top], conf
+    def classify(self, text: str):
+        """Arbitrate between the keyword rules and the model.
+
+        The model runs on EVERY turn, and is the sole author of the confidence
+        this returns. The rule, when one fires, is the sole author of the label.
+        Separating those two responsibilities is the point:
+
+        * a rule is a deliberate, hand-authored product decision about what an
+          utterance means, so it decides the label;
+        * only the model produces a calibrated probability, and confidence is
+          compared downstream against thresholds fitted on exactly that scale,
+          so it decides the number.
+
+        Previously the keyword stage short-circuited the model and returned a
+        hardcoded constant, which put two incompatible scales in one field.
+        "increase volume" returned 0.75 (the `regex` literal) and was held for
+        confirmation, while the model scored it 0.9992.
+
+        Corroborated (rule and model agree) measures 99.1% correct; contested
+        (they disagree) measures ~45% on the honest holdout — a coin flip, and
+        exactly the condition a confirmation exists to catch. See
+        docs/confirm-gate-diagnosis.md.
+
+        Cost: one extra inference on the ~9% of turns that hit a keyword rule;
+        the rest already ran the model. Measured at 0.06 ms.
+        """
+        kw_intent = self._keyword_match(text)
+        p = self._model_distribution(text)
+        self.last_distribution = p
+        top = int(np.argmax(p))
+        model_intent, model_conf = self.labels[top], float(p[top])
+
+        if not kw_intent:
+            self.last_stage = "tfidf"
+            self.last_arbitration = None
+            return model_intent, model_conf
+
+        self.last_stage = "keyword"
+        if model_intent == kw_intent:
+            self.last_arbitration = "corroborated"
+            return kw_intent, model_conf
+        self.last_arbitration = "contested"
+        return kw_intent, self.CONTESTED_CONFIDENCE
+
+    # Token pattern sklearn's TfidfVectorizer uses by default. The guard must
+    # split text the same way the featurizer does, or it counts words the model
+    # was never offered and reports an out-of-vocabulary share that describes
+    # nothing.
+    _TOKEN_RE = re.compile(r"(?u)\b\w\w+\b")
+
+    def oov_ratio(self, text: str) -> float:
+        """Share of this utterance's tokens the featurizer cannot represent.
+
+        WHY THIS EXISTS. TF-IDF's vocabulary is a fixed set of slots. A token
+        outside it is not weighed and dismissed — there is nowhere to put it, so
+        the sentence arrives without it:
+
+            'turn off'          -> 3 non-zero features
+            'turn off toshiba'  -> 3 non-zero features, cosine 1.000000
+
+        The two are bit-identical, so no threshold, training row or
+        hyperparameter can separate them: the model is never asked the
+        question. And the word that makes an utterance out of scope is almost
+        always a rare, specific one — a brand, an object, a topic — which is
+        precisely the kind of word a finite vocabulary lacks.
+
+        That unknown word is itself evidence, and it was being discarded. This
+        recovers it: "the utterance contains content the model has never seen"
+        is a reason to doubt any confident reading of the remainder.
+
+        Returns 0.0 when the backend cannot report a vocabulary, which disables
+        the guard rather than rejecting everything.
+        """
+        vocab = getattr(self.backend, "unigram_vocabulary", None)
+        if vocab is None:
+            return 0.0
+        known = vocab()
+        if not known:
+            return 0.0
+        tokens = self._TOKEN_RE.findall(normalize_text(text).lower())
+        if not tokens:
+            return 0.0
+        return sum(1 for t in tokens if t not in known) / len(tokens)
+
+    def calibrated_confidence(self, intent: str) -> float | None:
+        """The model's calibrated probability for `intent` on the LAST turn.
+
+        For callers that change the reported intent after `classify` has run —
+        the engine's polarity and help-marker guards — so the confidence can be
+        re-derived for the intent actually being reported instead of being
+        inherited from the one that was blocked.
+
+        Returns None when there is no distribution yet or the intent is outside
+        the model's label space; the caller keeps whatever it had.
+        """
+        idx = self._label_index.get(intent)
+        if self.last_distribution is None or idx is None:
+            return None
+        return float(self.last_distribution[idx])

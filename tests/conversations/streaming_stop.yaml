@@ -1,4 +1,4 @@
 lang: en
 turns:
   - user: "stop streaming"
-    expect: {intent: streaming.session.stop}
+    expect: {intent: Cmd.StreamingStop}
