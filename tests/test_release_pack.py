@@ -291,9 +291,9 @@ def test_coreml_is_packaged_into_the_bundle(tmp_path):
     nlu = out / "pack-en-v1.2.3-universal.nlu"
     manifest = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))
     entry = manifest["models"]["intent"]["en"]
-    assert entry["coreml_artifact"] == "models/intent/en/iOS/IntentClassifier.mlpackage"
+    assert entry["coreml_artifact"] == "models/intent/en/IntentClassifier.mlpackage"
     names = zipfile.ZipFile(nlu).namelist()
-    assert "models/intent/en/iOS/IntentClassifier.mlpackage/Manifest.json" in names, (
+    assert "models/intent/en/IntentClassifier.mlpackage/Manifest.json" in names, (
         "the .mlpackage files were not packaged into the signed bundle")
 
 
@@ -320,11 +320,11 @@ def test_full_vocab_coreml_head_is_packaged_alongside_the_pruned_one(tmp_path):
 
     nlu = out / "pack-en-v1.2.3-universal.nlu"
     entry = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))["models"]["intent"]["en"]
-    assert entry["coreml_artifact"] == "models/intent/en/iOS/IntentClassifier.mlpackage"
-    assert entry["coreml_full_artifact"] == "models/intent/en/iOS/IntentClassifier_full.mlpackage"
+    assert entry["coreml_artifact"] == "models/intent/en/IntentClassifier.mlpackage"
+    assert entry["coreml_full_artifact"] == "models/intent/en/IntentClassifier_full.mlpackage"
     names = zipfile.ZipFile(nlu).namelist()
-    assert "models/intent/en/iOS/IntentClassifier.mlpackage/Manifest.json" in names
-    assert "models/intent/en/iOS/IntentClassifier_full.mlpackage/Manifest.json" in names
+    assert "models/intent/en/IntentClassifier.mlpackage/Manifest.json" in names
+    assert "models/intent/en/IntentClassifier_full.mlpackage/Manifest.json" in names
 
 
 def test_tflite_heads_are_packaged_into_the_bundle(tmp_path):
@@ -346,11 +346,11 @@ def test_tflite_heads_are_packaged_into_the_bundle(tmp_path):
 
     nlu = out / "pack-en-v1.2.3-universal.nlu"
     entry = json.loads(zipfile.ZipFile(nlu).read("bundle.json"))["models"]["intent"]["en"]
-    assert entry["tflite_artifact"] == "models/intent/en/tflite/model.tflite"
-    assert entry["tflite_int8_artifact"] == "models/intent/en/tflite/model_int8.tflite"
+    assert entry["tflite_artifact"] == "models/intent/en/model.tflite"
+    assert entry["tflite_int8_artifact"] == "models/intent/en/model_int8.tflite"
     names = zipfile.ZipFile(nlu).namelist()
-    assert "models/intent/en/tflite/model.tflite" in names
-    assert "models/intent/en/tflite/model_int8.tflite" in names
+    assert "models/intent/en/model.tflite" in names
+    assert "models/intent/en/model_int8.tflite" in names
 
 
 def test_models_schema_really_forbids_a_coreml_stage():
