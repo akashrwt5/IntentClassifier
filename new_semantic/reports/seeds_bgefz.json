@@ -1,0 +1,36 @@
+{
+  "name": "bgefz",
+  "n_seeds": 3,
+  "locked acc": {
+    "mean": 0.8936,
+    "sd": 0.011,
+    "min": 0.8843,
+    "max": 0.9057
+  },
+  "macro recall": {
+    "mean": 0.8947,
+    "sd": 0.0197,
+    "min": 0.8759,
+    "max": 0.9152
+  },
+  "stress acc": {
+    "mean": 0.774,
+    "sd": 0.0205,
+    "min": 0.7504,
+    "max": 0.7876
+  },
+  "OOD raw": {
+    "mean": 0.7254,
+    "sd": 0.0722,
+    "min": 0.6501,
+    "max": 0.794
+  },
+  "OOD reject@best": {
+    "mean": 0.8801,
+    "sd": 0.0137
+  },
+  "in-scope@best": {
+    "mean": 0.8385,
+    "sd": 0.011
+  }
+}

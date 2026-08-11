@@ -1,0 +1,190 @@
+{
+  "locked": {
+    "rows": 1686,
+    "accuracy": 0.8932,
+    "macro_recall": 0.8701,
+    "mean_confidence": 0.7298,
+    "worst_classes": [
+      {
+        "intent": "Help_HearingCareAnywhereConnect",
+        "recall": 0.444,
+        "n": 9
+      },
+      {
+        "intent": "Help_Customize",
+        "recall": 0.545,
+        "n": 11
+      },
+      {
+        "intent": "Cmd.VolumeUnmute",
+        "recall": 0.591,
+        "n": 22
+      },
+      {
+        "intent": "Help_Home",
+        "recall": 0.619,
+        "n": 21
+      },
+      {
+        "intent": "Cmd.BatteryLevel",
+        "recall": 0.652,
+        "n": 23
+      },
+      {
+        "intent": "Help_DemoMode",
+        "recall": 0.667,
+        "n": 9
+      },
+      {
+        "intent": "Help_InsertDevice",
+        "recall": 0.667,
+        "n": 12
+      },
+      {
+        "intent": "Cmd.FindMyPhone",
+        "recall": 0.762,
+        "n": 21
+      }
+    ]
+  },
+  "stress": {
+    "rows": 565,
+    "accuracy": 0.7699,
+    "macro_recall": 0.7701,
+    "mean_confidence": 0.4443,
+    "worst_classes": [
+      {
+        "intent": "Cmd.VolumeIncrease",
+        "recall": 0.522,
+        "n": 46
+      },
+      {
+        "intent": "Cmd.VolumeUnmute",
+        "recall": 0.538,
+        "n": 52
+      },
+      {
+        "intent": "Cmd.MemoryChange",
+        "recall": 0.623,
+        "n": 53
+      },
+      {
+        "intent": "Cmd.VolumeMute",
+        "recall": 0.679,
+        "n": 53
+      },
+      {
+        "intent": "Help_Reminder",
+        "recall": 0.759,
+        "n": 54
+      },
+      {
+        "intent": "Cmd.StreamingStop",
+        "recall": 0.827,
+        "n": 52
+      },
+      {
+        "intent": "Cmd.StreamingStart",
+        "recall": 0.833,
+        "n": 54
+      },
+      {
+        "intent": "Cmd.VolumeDecrease",
+        "recall": 0.865,
+        "n": 52
+      }
+    ]
+  },
+  "ood": {
+    "rows": 403,
+    "fallback_rate": 0.5682,
+    "escaped": 174,
+    "escaped_into": {
+      "Help_Home": 20,
+      "reminders.add": 15,
+      "Help_Customize": 13,
+      "Help_MemoryOptions": 8,
+      "Help_DeviceSettings": 8,
+      "Help_Accessories": 7,
+      "Help_AppSettings": 6,
+      "Help_InsertDevice": 6,
+      "Cmd.BatteryLevel": 6,
+      "Help_FindMyHearingAids": 5
+    }
+  },
+  "threshold_sweep": [
+    {
+      "threshold": 0.0,
+      "ood_reject": 0.5682,
+      "in_scope_acc": 0.8932,
+      "harmonic": 0.6946
+    },
+    {
+      "threshold": 0.3,
+      "ood_reject": 0.7345,
+      "in_scope_acc": 0.8737,
+      "harmonic": 0.7981
+    },
+    {
+      "threshold": 0.4,
+      "ood_reject": 0.8015,
+      "in_scope_acc": 0.8482,
+      "harmonic": 0.8242
+    },
+    {
+      "threshold": 0.5,
+      "ood_reject": 0.8586,
+      "in_scope_acc": 0.7989,
+      "harmonic": 0.8277
+    },
+    {
+      "threshold": 0.55,
+      "ood_reject": 0.8635,
+      "in_scope_acc": 0.7438,
+      "harmonic": 0.7992
+    },
+    {
+      "threshold": 0.6,
+      "ood_reject": 0.8759,
+      "in_scope_acc": 0.6702,
+      "harmonic": 0.7594
+    },
+    {
+      "threshold": 0.65,
+      "ood_reject": 0.8908,
+      "in_scope_acc": 0.5587,
+      "harmonic": 0.6867
+    },
+    {
+      "threshold": 0.7,
+      "ood_reject": 0.9107,
+      "in_scope_acc": 0.4881,
+      "harmonic": 0.6356
+    },
+    {
+      "threshold": 0.75,
+      "ood_reject": 0.9206,
+      "in_scope_acc": 0.4798,
+      "harmonic": 0.6309
+    },
+    {
+      "threshold": 0.8,
+      "ood_reject": 0.9256,
+      "in_scope_acc": 0.4686,
+      "harmonic": 0.6222
+    },
+    {
+      "threshold": 0.85,
+      "ood_reject": 0.9355,
+      "in_scope_acc": 0.4466,
+      "harmonic": 0.6046
+    },
+    {
+      "threshold": 0.9,
+      "ood_reject": 0.9553,
+      "in_scope_acc": 0.3968,
+      "harmonic": 0.5607
+    }
+  ],
+  "suggested_threshold": 0.5
+}

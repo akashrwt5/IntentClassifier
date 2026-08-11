@@ -1,0 +1,129 @@
+model,text,predicted,confidence,rejected_as_ood
+Current INT8,I need to go to the airport tomorrow,streaming.session.start,0.3714865744113922,True
+Current INT8,what is the weather going to be today,reminders.task.create,0.6769073009490967,True
+Current INT8,call my brother when you get a chance,find.phone.locate,0.718578577041626,False
+Current INT8,play some relaxing music,streaming.session.start,0.9883332848548889,False
+Current INT8,open the camera,device.memory.change,0.4954582154750824,True
+Current INT8,what time is it right now,device.volume.decrease,0.33759668469429016,True
+Current INT8,how far away is the airport,device.volume.increase,0.44722962379455566,True
+Current INT8,tell me a joke,device.memory.change,0.9486373066902161,False
+Current INT8,I am going shopping this afternoon,device.memory.change,0.8100762963294983,False
+Current INT8,send an email to my manager,streaming.session.start,0.44101428985595703,True
+Current INT8,what is my battery percentage on the phone,find.phone.locate,0.9992586970329285,False
+Current INT8,set an alarm for six in the morning,reminders.task.create,0.9838648438453674,False
+Current INT8,show me the nearest restaurant,device.memory.change,0.8868818283081055,False
+Current INT8,translate this sentence into Hindi,device.memory.change,0.7280626893043518,False
+Current INT8,what is the capital of France,device.volume.increase,0.964694619178772,False
+Current INT8,start navigation to the airport,streaming.session.start,0.9885241389274597,False
+Current INT8,take a photo,device.memory.change,0.9457271099090576,False
+Current INT8,open my calendar,streaming.session.stop,0.7823259234428406,False
+Current INT8,what day is tomorrow,device.volume.decrease,0.4254499077796936,True
+Current INT8,play the latest news,device.memory.change,0.36235255002975464,True
+Current INT8,I need directions home,device.volume.increase,0.7384465336799622,False
+Current INT8,connect to WiFi,streaming.session.start,0.992235004901886,False
+Current INT8,turn on Bluetooth,device.volume.unmute,0.8941832184791565,False
+Current INT8,check my email,reminders.task.complete,0.9490746855735779,False
+Current INT8,what is the temperature outside,device.volume.increase,0.6842127442359924,True
+Current INT8,remind me to buy milk next week,reminders.task.create,0.9995540976524353,False
+Current INT8,book me a taxi,device.memory.change,0.9717556834220886,False
+Current INT8,send a WhatsApp message,device.memory.change,0.904791533946991,False
+Current INT8,open YouTube,streaming.session.start,0.5251960158348083,True
+Current INT8,I have a meeting at three,reminders.task.create,0.8730896711349487,False
+Current INT8,tell me today's date,device.memory.change,0.6973820924758911,True
+Current INT8,search for a nearby pharmacy,find.phone.locate,0.9960154891014099,False
+V5 Medium,I need to go to the airport tomorrow,reminders.task.create,0.9887338876724243,False
+V5 Medium,what is the weather going to be today,device.memory.change,0.8733832836151123,False
+V5 Medium,call my brother when you get a chance,reminders.task.create,0.9822730422019958,False
+V5 Medium,play some relaxing music,streaming.session.start,0.36439457535743713,True
+V5 Medium,open the camera,reminders.task.create,0.6021439433097839,True
+V5 Medium,what time is it right now,device.volume.decrease,0.6221573352813721,True
+V5 Medium,how far away is the airport,device.volume.decrease,0.6182358264923096,True
+V5 Medium,tell me a joke,reminders.task.create,0.809337317943573,False
+V5 Medium,I am going shopping this afternoon,device.volume.decrease,0.981908917427063,False
+V5 Medium,send an email to my manager,reminders.task.create,0.9421038031578064,False
+V5 Medium,what is my battery percentage on the phone,find.phone.locate,0.9713969230651855,False
+V5 Medium,set an alarm for six in the morning,reminders.task.create,0.9971491694450378,False
+V5 Medium,show me the nearest restaurant,device.memory.change,0.484900563955307,True
+V5 Medium,translate this sentence into Hindi,reminders.task.create,0.9796926975250244,False
+V5 Medium,what is the capital of France,reminders.task.create,0.4904559254646301,True
+V5 Medium,start navigation to the airport,streaming.session.start,0.9697712659835815,False
+V5 Medium,take a photo,reminders.task.create,0.9785647392272949,False
+V5 Medium,open my calendar,device.memory.change,0.6220767498016357,True
+V5 Medium,what day is tomorrow,reminders.task.create,0.9200968742370605,False
+V5 Medium,play the latest news,streaming.session.start,0.37882354855537415,True
+V5 Medium,I need directions home,reminders.task.create,0.5156858563423157,True
+V5 Medium,connect to WiFi,streaming.session.start,0.7451819181442261,False
+V5 Medium,turn on Bluetooth,reminders.task.create,0.4506840705871582,True
+V5 Medium,check my email,reminders.task.complete,0.6037322878837585,True
+V5 Medium,what is the temperature outside,reminders.task.create,0.7714652419090271,False
+V5 Medium,remind me to buy milk next week,reminders.task.create,0.9988682270050049,False
+V5 Medium,book me a taxi,reminders.task.create,0.8650654554367065,False
+V5 Medium,send a WhatsApp message,reminders.task.create,0.9797753095626831,False
+V5 Medium,open YouTube,device.volume.decrease,0.6188788414001465,True
+V5 Medium,I have a meeting at three,reminders.task.create,0.960420548915863,False
+V5 Medium,tell me today's date,reminders.task.create,0.8197592496871948,False
+V5 Medium,search for a nearby pharmacy,reminders.task.create,0.9682642817497253,False
+V5 Large,I need to go to the airport tomorrow,streaming.session.stop,0.5357926487922668,True
+V5 Large,what is the weather going to be today,device.memory.change,0.8718867301940918,False
+V5 Large,call my brother when you get a chance,reminders.task.create,0.8388887643814087,False
+V5 Large,play some relaxing music,device.memory.change,0.48294946551322937,True
+V5 Large,open the camera,reminders.task.create,0.8231818079948425,False
+V5 Large,what time is it right now,device.volume.unmute,0.5173168182373047,True
+V5 Large,how far away is the airport,help.reminder.show,0.8414137363433838,False
+V5 Large,tell me a joke,reminders.task.create,0.7847521901130676,False
+V5 Large,I am going shopping this afternoon,device.volume.decrease,0.4007032513618469,True
+V5 Large,send an email to my manager,reminders.task.create,0.932941198348999,False
+V5 Large,what is my battery percentage on the phone,help.reminder.show,0.4991016983985901,True
+V5 Large,set an alarm for six in the morning,reminders.task.create,0.9936192631721497,False
+V5 Large,show me the nearest restaurant,device.memory.change,0.832493782043457,False
+V5 Large,translate this sentence into Hindi,reminders.task.create,0.8632931113243103,False
+V5 Large,what is the capital of France,reminders.task.create,0.47730231285095215,True
+V5 Large,start navigation to the airport,device.memory.change,0.5201790928840637,True
+V5 Large,take a photo,reminders.task.create,0.9153213500976562,False
+V5 Large,open my calendar,device.memory.change,0.9283548593521118,False
+V5 Large,what day is tomorrow,reminders.task.create,0.7805635333061218,False
+V5 Large,play the latest news,device.memory.change,0.4553492069244385,True
+V5 Large,I need directions home,device.volume.decrease,0.4039555788040161,True
+V5 Large,connect to WiFi,streaming.session.start,0.9731870889663696,False
+V5 Large,turn on Bluetooth,reminders.task.create,0.683505117893219,True
+V5 Large,check my email,reminders.task.complete,0.8975339531898499,False
+V5 Large,what is the temperature outside,reminders.task.create,0.5944756269454956,True
+V5 Large,remind me to buy milk next week,reminders.task.create,0.997556209564209,False
+V5 Large,book me a taxi,reminders.task.create,0.9548974633216858,False
+V5 Large,send a WhatsApp message,reminders.task.create,0.9610239267349243,False
+V5 Large,open YouTube,device.memory.change,0.987717866897583,False
+V5 Large,I have a meeting at three,reminders.task.create,0.9631858468055725,False
+V5 Large,tell me today's date,reminders.task.create,0.7439493536949158,False
+V5 Large,search for a nearby pharmacy,reminders.task.create,0.5720707774162292,True
+Error-Driven V1,I need to go to the airport tomorrow,reminders.task.create,0.9705761075019836,False
+Error-Driven V1,what is the weather going to be today,reminders.task.create,0.9133325815200806,False
+Error-Driven V1,call my brother when you get a chance,find.phone.locate,0.6604514718055725,True
+Error-Driven V1,play some relaxing music,streaming.session.start,0.9726719856262207,False
+Error-Driven V1,open the camera,device.volume.increase,0.3285905420780182,True
+Error-Driven V1,what time is it right now,device.volume.mute,0.8518443703651428,False
+Error-Driven V1,how far away is the airport,find.phone.locate,0.47286996245384216,True
+Error-Driven V1,tell me a joke,device.memory.change,0.9377239346504211,False
+Error-Driven V1,I am going shopping this afternoon,device.memory.change,0.5566157698631287,True
+Error-Driven V1,send an email to my manager,device.memory.change,0.4022691249847412,True
+Error-Driven V1,what is my battery percentage on the phone,find.phone.locate,0.9656427502632141,False
+Error-Driven V1,set an alarm for six in the morning,reminders.task.create,0.9782983660697937,False
+Error-Driven V1,show me the nearest restaurant,device.memory.change,0.8308616876602173,False
+Error-Driven V1,translate this sentence into Hindi,device.volume.increase,0.3690894842147827,True
+Error-Driven V1,what is the capital of France,device.volume.increase,0.9576656222343445,False
+Error-Driven V1,start navigation to the airport,streaming.session.start,0.9670894145965576,False
+Error-Driven V1,take a photo,device.memory.change,0.834348201751709,False
+Error-Driven V1,open my calendar,streaming.session.stop,0.625106692314148,True
+Error-Driven V1,what day is tomorrow,device.volume.decrease,0.8330071568489075,False
+Error-Driven V1,play the latest news,device.volume.unmute,0.7118105888366699,False
+Error-Driven V1,I need directions home,device.volume.increase,0.8781550526618958,False
+Error-Driven V1,connect to WiFi,streaming.session.start,0.9790715575218201,False
+Error-Driven V1,turn on Bluetooth,device.volume.unmute,0.7804306745529175,False
+Error-Driven V1,check my email,reminders.task.complete,0.9364381432533264,False
+Error-Driven V1,what is the temperature outside,device.volume.increase,0.8802850842475891,False
+Error-Driven V1,remind me to buy milk next week,reminders.task.create,0.9845256209373474,False
+Error-Driven V1,book me a taxi,device.memory.change,0.9808985590934753,False
+Error-Driven V1,send a WhatsApp message,device.memory.change,0.5860700607299805,True
+Error-Driven V1,open YouTube,streaming.session.stop,0.6114795804023743,True
+Error-Driven V1,I have a meeting at three,reminders.task.create,0.8579114079475403,False
+Error-Driven V1,tell me today's date,device.memory.change,0.4276084899902344,True
+Error-Driven V1,search for a nearby pharmacy,find.phone.locate,0.9558956027030945,False

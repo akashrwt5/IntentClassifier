@@ -1,0 +1,92 @@
+Total samples: 20636
+Total intents: 11
+
+Intent distribution:
+intent
+device.volume.unmute       1876
+device.memory.change       1876
+reminders.task.create      1876
+device.volume.increase     1876
+reminders.task.complete    1876
+find.phone.locate          1876
+device.volume.mute         1876
+streaming.session.start    1876
+help.reminder.show         1876
+device.volume.decrease     1876
+streaming.session.stop     1876
+Name: count, dtype: int64
+
+Dataset split:
+Train: 16508
+Validation: 2064
+Test: 2064
+
+Loading semantic model...
+Model loaded.
+
+Creating train embeddings...
+
+Creating validation embeddings...
+
+Creating test embeddings...
+
+Creating intent prototypes...
+Prototype shape: (11, 384)
+
+==============================
+VALIDATION RESULTS
+==============================
+Accuracy: 89.2 %
+Macro F1: 89.37 %
+
+==============================
+TEST RESULTS
+==============================
+Accuracy: 90.12 %
+Macro F1: 90.19 %
+
+==============================
+CLASSIFICATION REPORT
+==============================
+                         precision    recall  f1-score   support
+
+   device.memory.change     0.9884    0.9091    0.9471       187
+ device.volume.decrease     0.7117    0.8449    0.7726       187
+ device.volume.increase     0.9080    0.8404    0.8729       188
+     device.volume.mute     0.6995    0.6809    0.6900       188
+   device.volume.unmute     0.8973    0.8830    0.8901       188
+      find.phone.locate     0.9400    1.0000    0.9691       188
+     help.reminder.show     0.9163    0.9894    0.9514       188
+reminders.task.complete     0.9674    0.9468    0.9570       188
+  reminders.task.create     0.9711    0.8984    0.9333       187
+streaming.session.start     0.9738    0.9894    0.9815       188
+ streaming.session.stop     0.9831    0.9305    0.9560       187
+
+               accuracy                         0.9012      2064
+              macro avg     0.9051    0.9012    0.9019      2064
+           weighted avg     0.9051    0.9012    0.9019      2064
+
+
+==============================
+CONFUSION MATRIX
+==============================
+                         device.memory.change  ...  streaming.session.stop
+device.memory.change                      170  ...                       0
+device.volume.decrease                      0  ...                       0
+device.volume.increase                      0  ...                       0
+device.volume.mute                          0  ...                       1
+device.volume.unmute                        0  ...                       0
+find.phone.locate                           0  ...                       0
+help.reminder.show                          0  ...                       0
+reminders.task.complete                     0  ...                       0
+reminders.task.create                       2  ...                       0
+streaming.session.start                     0  ...                       2
+streaming.session.stop                      0  ...                     174
+
+[11 rows x 11 columns]
+
+Results saved:
+semantic_test_predictions.csv
+semantic_confusion_matrix.csv
+intent_prototypes.npy saved
+intent_labels.txt saved

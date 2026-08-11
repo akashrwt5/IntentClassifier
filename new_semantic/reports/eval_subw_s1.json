@@ -1,0 +1,115 @@
+{
+  "locked": {
+    "rows": 1686,
+    "accuracy": 0.8849,
+    "macro_recall": 0.8814,
+    "mean_confidence": 0.7023,
+    "worst_classes": [
+      {
+        "intent": "Help_Home",
+        "recall": 0.571,
+        "n": 21
+      },
+      {
+        "intent": "Help_DemoMode",
+        "recall": 0.667,
+        "n": 9
+      },
+      {
+        "intent": "Help_HearingCareAnywhereConnect",
+        "recall": 0.667,
+        "n": 9
+      },
+      {
+        "intent": "Help_Battery",
+        "recall": 0.667,
+        "n": 9
+      },
+      {
+        "intent": "Cmd.BatteryLevel",
+        "recall": 0.696,
+        "n": 23
+      },
+      {
+        "intent": "Default Fallback Intent",
+        "recall": 0.718,
+        "n": 238
+      },
+      {
+        "intent": "Help_Customize",
+        "recall": 0.727,
+        "n": 11
+      },
+      {
+        "intent": "Help_VoiceAssistant",
+        "recall": 0.727,
+        "n": 11
+      }
+    ]
+  },
+  "stress": {
+    "rows": 565,
+    "accuracy": 0.7381,
+    "macro_recall": 0.739,
+    "mean_confidence": 0.4728,
+    "worst_classes": [
+      {
+        "intent": "Cmd.VolumeUnmute",
+        "recall": 0.385,
+        "n": 52
+      },
+      {
+        "intent": "Cmd.MemoryChange",
+        "recall": 0.453,
+        "n": 53
+      },
+      {
+        "intent": "Cmd.VolumeIncrease",
+        "recall": 0.587,
+        "n": 46
+      },
+      {
+        "intent": "Help_Reminder",
+        "recall": 0.741,
+        "n": 54
+      },
+      {
+        "intent": "Cmd.StreamingStop",
+        "recall": 0.75,
+        "n": 52
+      },
+      {
+        "intent": "Cmd.VolumeMute",
+        "recall": 0.792,
+        "n": 53
+      },
+      {
+        "intent": "Cmd.VolumeDecrease",
+        "recall": 0.827,
+        "n": 52
+      },
+      {
+        "intent": "reminders.add",
+        "recall": 0.846,
+        "n": 52
+      }
+    ]
+  },
+  "ood": {
+    "rows": 403,
+    "fallback_rate": 0.4218,
+    "escaped": 233,
+    "escaped_into": {
+      "Help_Home": 22,
+      "Help_Health": 15,
+      "Cmd.SendMessage": 14,
+      "Help_DeviceSettings": 13,
+      "Help_CleanCare": 13,
+      "Cmd.BatteryLevel": 13,
+      "reminders.add": 11,
+      "Help_WhatsNew": 10,
+      "Help_FallAlert": 8,
+      "Help_IntelliVoice": 6
+    }
+  }
+}

@@ -1,0 +1,26 @@
+text,intent,v7_prediction,v7_confidence,v7_top2,v7_top3,refinement_group,priority,confidence_band
+are my hearing aids getting low?,Cmd.BatteryLevel,Help_DeviceSettings,0.28274804,Help_Volume,Help_Tinnitus,BATTERY_CONFUSION,HIGH,VERY_LOW
+got enough battery for a movie,Cmd.BatteryLevel,Default Fallback Intent,0.40105107,Cmd.BatteryLevel,Help_Battery,BATTERY_CONFUSION,HIGH,LOW
+what is memory,Help_ChangingMemories,Help_MemoryOptions,0.43822756,Cmd.MemoryChange,Help_ChangingMemories,CHANGING_MEMORIES_CONFUSION,HIGH,LOW
+how do different memories work,Help_ChangingMemories,Help_MemoryOptions,0.5662522,Help_ChangingMemories,Help_DeviceSettings,CHANGING_MEMORIES_CONFUSION,HIGH,MEDIUM
+where do i go to do things,Help_Home,Default Fallback Intent,0.48040873,Help_Home,Help_WhatsNew,HOME_VS_FALLBACK,HIGH,LOW
+how do i navigate,Help_Home,Default Fallback Intent,0.494737,Help_Home,Help_WhatsNew,HOME_VS_FALLBACK,HIGH,LOW
+break it down for me,Help_Home,Default Fallback Intent,0.5627123,Help_Home,Cmd.TranscribeStart,HOME_VS_FALLBACK,HIGH,MEDIUM
+i could use an introduction,Help_Home,Default Fallback Intent,0.6413463,Help_Home,Cmd.TranscribeStart,HOME_VS_FALLBACK,HIGH,MEDIUM
+i could use a hand figuring this out,Help_Home,Default Fallback Intent,0.72051126,Help_Home,Cmd.SendMessage,HOME_VS_FALLBACK,HIGH,HIGH
+can you explain?,Help_Home,Default Fallback Intent,0.8539231,Help_Home,Cmd.SendMessage,HOME_VS_FALLBACK,HIGH,HIGH
+where what is the home,Help_Home,Default Fallback Intent,0.9920244,Help_Home,Cmd.FindMyPhone,HOME_VS_FALLBACK,HIGH,HIGH
+do i put the earmold in first,Help_InsertDevice,Default Fallback Intent,0.36653036,Help_InsertDevice,Help_CleanCare,INSERT_DEVICE_CONFUSION,HIGH,LOW
+the dome won't stay put,Help_InsertDevice,Default Fallback Intent,0.56728023,Help_InsertDevice,Help_DeviceSettings,INSERT_DEVICE_CONFUSION,HIGH,MEDIUM
+where is my crowd settings,Help_MemoryOptions,Help_DeviceSettings,0.25274068,Help_AppSettings,Help_Customize,MEMORY_OPTIONS_CONFUSION,HIGH,VERY_LOW
+can i set a favourite program,Help_MemoryOptions,Help_ChangingMemories,0.5526108,Cmd.MemoryChange,Help_MemoryOptions,OTHER_TARGETED_CONFUSION,HIGH,MEDIUM
+i took my pills you can clear that,reminders.complete,Default Fallback Intent,0.4428771,reminders.complete,Cmd.ListenMessage,REMINDER_COMPLETE_CONFUSION,HIGH,LOW
+tick off my reminder,reminders.complete,reminders.add,0.59687334,reminders.complete,Help_Reminder,REMINDER_COMPLETE_CONFUSION,HIGH,MEDIUM
+i did it cross it off,reminders.complete,Default Fallback Intent,0.7534409,reminders.complete,Cmd.ListenMessage,REMINDER_COMPLETE_CONFUSION,HIGH,HIGH
+that's handled cross it off,reminders.complete,Default Fallback Intent,0.881979,reminders.complete,Cmd.VolumeMute,REMINDER_COMPLETE_CONFUSION,HIGH,HIGH
+how can i get the left hearing aid?,Help_SelfCheck,Help_FindMyHearingAids,0.27234358,Help_SelfCheck,Help_InsertDevice,SELF_CHECK_CONFUSION,HIGH,VERY_LOW
+how do i know if my microphone is working?,Help_SelfCheck,Help_Accessories,0.42681777,Help_DeviceSettings,Help_SelfCheck,SELF_CHECK_CONFUSION,HIGH,LOW
+turn on hearing aids,Cmd.VolumeUnmute,Default Fallback Intent,0.5392316,Cmd.VolumeUnmute,Cmd.VolumeMute,UNMUTE_CONFUSION,HIGH,MEDIUM
+can you show me the quick guide,Help_WhatsNew,Help_Home,0.5215271,Help_WhatsNew,Help_DemoMode,WHATSNEW_CONFUSION,HIGH,MEDIUM
+can you show me a quick start guide,Help_WhatsNew,Help_Home,0.52623224,Help_WhatsNew,Help_DemoMode,WHATSNEW_CONFUSION,HIGH,MEDIUM
+show me a quick start guide,Help_WhatsNew,Help_Home,0.55379635,Help_WhatsNew,Help_DemoMode,WHATSNEW_CONFUSION,HIGH,MEDIUM

@@ -1,0 +1,1687 @@
+text,intent,prediction,confidence,correct
+where is my cell phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.90241355,True
+how to intelligent voice,Help_IntelliVoice,Help_IntelliVoice,0.8764694,True
+can you switch setting to number two,Cmd.MemoryChange,Cmd.MemoryChange,0.97465205,True
+complete my reminder,reminders.complete,reminders.complete,0.97531337,True
+please change program to office,Cmd.MemoryChange,Cmd.MemoryChange,0.97852695,True
+trader reminder,reminders.add,reminders.add,0.57572377,True
+what percentage of battery is left,Cmd.BatteryLevel,Cmd.BatteryLevel,0.891559,True
+how do i change to another program on my hearing aids?,Help_ChangingMemories,Help_ChangingMemories,0.90881324,True
+can you change to quiet memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9354467,True
+send a quick text,Cmd.SendMessage,Cmd.SendMessage,0.9685688,True
+remind me to pay my credit card bill,reminders.add,reminders.add,0.96654564,True
+how do i customize my hearing aid memory?,Help_MemoryOptions,Help_MemoryOptions,0.5156772,True
+television program,Cmd.MemoryChange,Cmd.MemoryChange,0.85604656,True
+i need you to remind me,reminders.add,reminders.add,0.9522049,True
+turn the volume up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8062555,True
+play frank sinatra,Default Fallback Intent,Default Fallback Intent,0.8261325,True
+how is heart rate recovery measured,Help_HeartRateRecovery,Help_HeartRateRecovery,0.94765383,True
+please volume up right aid,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8971498,True
+what's the serial number of my aid?,Help_DeviceSettings,Help_DeviceSettings,0.38005117,True
+can i translate english to french?,Help_Translate,Cmd.TranslationStart,0.53105044,False
+tell me about the news,Default Fallback Intent,Default Fallback Intent,0.67043626,True
+apple music sign in,Default Fallback Intent,Default Fallback Intent,0.17703001,True
+what's the meaning of life,Default Fallback Intent,Default Fallback Intent,0.6290778,True
+help customizing my settings,Help_Customize,Help_AppSettings,0.25576657,False
+how does the voice clarity feature work,Help_IntelliVoice,Help_VoiceAssistant,0.28180647,False
+where do i find my overall rating,Help_ThriveScore,Help_HearingCareAnywhereConnect,0.19383168,False
+the stage sign,Default Fallback Intent,Cmd.MemoryChange,0.28206956,False
+can you set to auditorium program,Cmd.MemoryChange,Cmd.MemoryChange,0.97472566,True
+are these almost dead,Cmd.BatteryLevel,Default Fallback Intent,0.73878217,False
+help me with thive assistant,Help_VoiceAssistant,Help_VoiceAssistant,0.9393471,True
+can you alexa learn my voice,Default Fallback Intent,Default Fallback Intent,0.29243404,True
+change to pub memory,Cmd.MemoryChange,Cmd.MemoryChange,0.97776973,True
+lexus assembly to new,Default Fallback Intent,Default Fallback Intent,0.807615,True
+please it's too low turn it up,Cmd.VolumeIncrease,Default Fallback Intent,0.43077755,False
+please turn the engine off of,Default Fallback Intent,Default Fallback Intent,0.9344756,True
+capture my running session,Cmd.ActivityRun,Cmd.ActivityWalk,0.4650343,False
+how do i enable double tap on my aid?,Help_DeviceSettings,Help_DeviceSettings,0.72894096,True
+start streaming remote to my hearing aids,Cmd.StreamingStart,Cmd.StreamingStart,0.88406426,True
+hearing aid,Default Fallback Intent,Help_FindMyHearingAids,0.48089013,False
+can you search for my hearing aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.8272287,True
+can you show me user manual for my accessory,Help_Accessories,Help_RemoteProgramming,0.58873093,False
+send a quick update,Cmd.SendMessage,Cmd.SendMessage,0.9730143,True
+please change to mask,Cmd.MemoryChange,Cmd.MemoryChange,0.85832155,True
+can you finish my reminder.,reminders.complete,reminders.complete,0.9131397,True
+can you switch program to theater,Cmd.MemoryChange,Cmd.MemoryChange,0.9836235,True
+please they are trying to reduce the temperature right now,Default Fallback Intent,Default Fallback Intent,0.7803049,True
+send a message to a person,Cmd.SendMessage,Cmd.SendMessage,0.97828054,True
+turn off cable,Default Fallback Intent,Default Fallback Intent,0.8022768,True
+how do i mute the aid?,Help_Volume,Help_HearingCareAnywhereConnect,0.25053558,False
+how do i connect my hearing aids,Help_Pairing,Help_Pairing,0.6070645,True
+where would i cancel a fall alert text?,Help_FallAlert,Help_FallAlert,0.9900995,True
+help with transcription,Help_Transcribe,Help_IntelliVoice,0.5266249,False
+send audio message,Cmd.SendMessage,Cmd.SendMessage,0.83245903,True
+create a reminder for me,reminders.add,reminders.add,0.9332723,True
+add mask as a customized memory,Help_MemoryOptions,Cmd.MemoryChange,0.8443104,False
+phone missing,Cmd.FindMyPhone,Cmd.FindMyPhone,0.7967627,True
+but i want to see,Default Fallback Intent,Default Fallback Intent,0.7544618,True
+mute sound on hearing aids,Cmd.VolumeMute,Cmd.VolumeUnmute,0.5429473,False
+how to run self check,Help_SelfCheck,Help_SelfCheck,0.46687353,True
+can you sync car bluetooth to hearing aid,Help_Pairing,Help_Pairing,0.7974882,True
+please cooking pork ribs on the bbq,Default Fallback Intent,Default Fallback Intent,0.9232822,True
+can you west winds blowing it up,Default Fallback Intent,Default Fallback Intent,0.9182494,True
+how do i use self check,Help_SelfCheck,Help_SelfCheck,0.7667103,True
+please sorry i didn't give you a kiss,Default Fallback Intent,Default Fallback Intent,0.8641372,True
+please record this meeting,Cmd.TranscribeStart,Cmd.TranscribeStart,0.74989563,True
+set a reminder for me please,reminders.add,reminders.add,0.95526195,True
+how do i adjust my noise masker in my aid?,Help_Tinnitus,Help_Tinnitus,0.75132203,True
+can my audiologist adjust my aid remotely?,Help_RemoteProgramming,Help_RemoteProgramming,0.75037575,True
+let me send a message,Cmd.SendMessage,Cmd.SendMessage,0.9559946,True
+when should i use self-check?,Help_SelfCheck,Default Fallback Intent,0.40270162,False
+how do i show the app without hearing aids?,Help_DemoMode,Help_DemoMode,0.77162045,True
+where do i intercept an alert message text?,Help_FallAlert,Help_FallAlert,0.97617835,True
+my hearing aids are missing,Help_FindMyHearingAids,Help_DeviceSettings,0.41207016,False
+what are symptoms of ear wax buildup,Help_CleanCare,Help_CleanCare,0.38362586,True
+please switch to worship,Cmd.MemoryChange,Cmd.MemoryChange,0.94599867,True
+please pairing aids on the app,Help_Pairing,Help_Pairing,0.9603448,True
+what is the life cycle of a rechargeable hearing aid,Default Fallback Intent,Default Fallback Intent,0.78868985,True
+can you show me an overview of the thrive app,Help_WhatsNew,Help_WhatsNew,0.8404171,True
+can you switch to work memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9456756,True
+please not so loud,Cmd.VolumeDecrease,Default Fallback Intent,0.36828727,False
+can i setup geotagging,Help_MemoryOptions,Default Fallback Intent,0.37268445,False
+can you please remind me to call,reminders.add,reminders.add,0.9858569,True
+can you calories working out,Cmd.ActivityExercise,Default Fallback Intent,0.44697997,False
+set to worship program,Cmd.MemoryChange,Cmd.MemoryChange,0.9852939,True
+please play my message,Cmd.ListenMessage,Cmd.ListenMessage,0.9677729,True
+can you turn my left hearing aid off,Cmd.VolumeMute,Cmd.VolumeMute,0.8038031,True
+please help with self check,Help_SelfCheck,Help_SelfCheck,0.7470878,True
+cut off the streamed audio,Cmd.StreamingStop,Cmd.StreamingStop,0.5693699,True
+please switch setting to number three,Cmd.MemoryChange,Cmd.MemoryChange,0.940522,True
+please turn off source plugs,Default Fallback Intent,Default Fallback Intent,0.95699704,True
+remember to work out,reminders.add,Default Fallback Intent,0.75862867,False
+how do i enable mask mode for masks,Help_MaskMode,Help_MaskMode,0.929773,True
+search for my hearing aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.7980478,True
+i want to listen to the presenter,Cmd.StreamingStart,Cmd.StreamingStart,0.6672783,True
+how do i enable double tap on my hearing aid?,Help_DeviceSettings,Help_DeviceSettings,0.73707074,True
+begin a message,Cmd.SendMessage,Cmd.SendMessage,0.9849355,True
+let a friend hear what i hear,Help_HearShare,Help_HearShare,0.5754304,True
+can the hearing care specialist adjust my aids remotely?,Help_RemoteProgramming,Help_RemoteProgramming,0.87418425,True
+how do i adjust the volume on my remote mic?,Help_Accessories,Help_Accessories,0.8165417,True
+can you stream from the remote microphone,Cmd.StreamingStart,Cmd.StreamingStart,0.5841051,True
+track my aerobic exercise,Cmd.ActivityAerobics,Cmd.ActivityAerobics,0.6867309,True
+stop the audio stream,Cmd.StreamingStop,Cmd.StreamingStop,0.7906698,True
+are my hearing aids paired to the phone?,Help_Pairing,Help_Pairing,0.9716904,True
+can you set reminder for dinner with tom please,reminders.add,reminders.add,0.98482877,True
+how will i know when the hearing specialist adjusted my hearing aid?,Help_RemoteProgramming,Help_RemoteProgramming,0.95730793,True
+can you set to theater memory,Cmd.MemoryChange,Cmd.MemoryChange,0.96804327,True
+can you remind me to wake up tomorrow,reminders.add,reminders.add,0.98514915,True
+please locate the nearest golf course,Default Fallback Intent,Default Fallback Intent,0.98518735,True
+please remind me of my appointment,reminders.add,reminders.add,0.966037,True
+does a remote microphone work with my aids,Help_Accessories,Help_Accessories,0.60148925,True
+lower the level,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.8264793,True
+can you make my aid silent,Cmd.VolumeMute,Cmd.VolumeMute,0.59179217,True
+can you it's different both of them are different,Default Fallback Intent,Default Fallback Intent,0.86205304,True
+hearing care anywhere help,Help_HearingCareAnywhereConnect,Help_FindMyHearingAids,0.3057925,False
+read my new texts aloud,Cmd.ListenMessage,Help_Health,0.2558644,False
+silence the aids entirely,Cmd.VolumeMute,Default Fallback Intent,0.27013057,False
+what is thrive assistant,Help_VoiceAssistant,Help_VoiceAssistant,0.92677015,True
+can you play last message,Cmd.ListenMessage,Cmd.ListenMessage,0.9754097,True
+find the product name hearing aids starkly,Help_DeviceSettings,Default Fallback Intent,0.18725872,False
+how to use edge mode,Help_EdgeMode,Help_EdgeMode,0.97692,True
+please my left ear doesn't work good,Help_SelfCheck,Help_SelfCheck,0.30655575,True
+pairing my hearing aids with my app,Help_Pairing,Help_Pairing,0.94943947,True
+what microphone accessories can stream to me,Help_Accessories,Help_Accessories,0.38929,True
+can you new reminder about fitness,reminders.add,reminders.add,0.76779544,True
+detect phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.87556684,True
+create reminder,reminders.add,reminders.add,0.45812586,True
+please switch program to master,Cmd.MemoryChange,Cmd.MemoryChange,0.9769099,True
+how do i charge my hearing aid itc,Help_Battery,Help_Battery,0.6119544,True
+can you switch setting to number three,Cmd.MemoryChange,Cmd.MemoryChange,0.9627079,True
+set to auditorium memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9822405,True
+please change settings to three,Cmd.MemoryChange,Cmd.MemoryChange,0.9075483,True
+how much juice is left?,Cmd.BatteryLevel,Cmd.BatteryLevel,0.82771355,True
+why can't i easily turn the sound on my hearing aid app,Help_Volume,Help_Pairing,0.26444852,False
+please remind me to send out christmas cards every year on december 1st at 5 p.m.,reminders.add,reminders.add,0.915282,True
+set program to pub,Cmd.MemoryChange,Cmd.MemoryChange,0.9876984,True
+how far have i jogged?,Cmd.ActivityRun,Cmd.ActivityCycle,0.44772285,False
+please set setting to number one,Cmd.MemoryChange,Cmd.MemoryChange,0.96423095,True
+how do i make eggs,Default Fallback Intent,Default Fallback Intent,0.9352379,True
+cut the wind noise with a setting,Help_EdgeMode,Help_Reminder,0.24368201,False
+what's the best way to clean my aids,Help_CleanCare,Help_RemoteProgramming,0.20030251,False
+please change setting to two,Cmd.MemoryChange,Cmd.MemoryChange,0.973194,True
+take me to quick start,Help_WhatsNew,Help_WhatsNew,0.24820822,True
+where can i see my daily goals,Help_Health,Help_Health,0.7498928,True
+how does transcribe work,Help_Transcribe,Help_Transcribe,0.97583425,True
+turn up my right aid,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.6469619,True
+hey google,Default Fallback Intent,Default Fallback Intent,0.86788684,True
+can you help with tinnitus volume adjustment in my aid,Help_Tinnitus,Help_Tinnitus,0.9636253,True
+switch setting to number two,Cmd.MemoryChange,Cmd.MemoryChange,0.97881246,True
+let someone know about this,Cmd.SendMessage,Default Fallback Intent,0.74170244,False
+explain how edge mode works,Help_EdgeMode,Help_EdgeMode,0.877476,True
+translate hebrew,Cmd.TranslationStart,Help_Translate,0.4572413,False
+how can i use custom memories?,Help_MemoryOptions,Help_MemoryOptions,0.76747364,True
+can you pairing my aids,Help_Pairing,Help_Pairing,0.9154764,True
+can you have i stood an hour,Cmd.ActivityStand,Cmd.ActivityStand,0.8417952,True
+help finding my hearing aids feature,Help_FindMyHearingAids,Help_DeviceSettings,0.38706234,False
+can you david soul alert,Default Fallback Intent,Default Fallback Intent,0.92694896,True
+activity goal,Cmd.ActivityAerobics,Cmd.VolumeIncrease,0.5288282,False
+set to pub memory,Cmd.MemoryChange,Cmd.MemoryChange,0.980702,True
+wish you would have been with me it is so crowded on their john's pass you can't find a parking spot,Default Fallback Intent,Default Fallback Intent,0.9577348,True
+can you change to music memory,Cmd.MemoryChange,Cmd.MemoryChange,0.96497726,True
+can you change memory to work,Cmd.MemoryChange,Cmd.MemoryChange,0.9754484,True
+what's the charge on my aids,Cmd.BatteryLevel,Help_DeviceSettings,0.31816682,False
+nice to meet you,Default Fallback Intent,Default Fallback Intent,0.9538436,True
+can you remind me i have a meeting,reminders.add,reminders.add,0.89688647,True
+explain how to schedule reminders,Help_Reminder,Help_HearShare,0.3761594,False
+how many steps calories,Cmd.ActivityStep,Cmd.ActivityStep,0.3704323,True
+can you transcribe help,Help_Transcribe,Help_Transcribe,0.98117054,True
+can i use the app without a hearing aid,Help_DemoMode,Help_DemoMode,0.42507464,True
+please turn streaming on,Cmd.StreamingStart,Cmd.StreamingStart,0.52567744,True
+can you turn on this is my life,Default Fallback Intent,Default Fallback Intent,0.7470757,True
+please search for my hearing aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.52665734,True
+how do i increase the volume in just the left side?,Help_Volume,Help_Volume,0.9794526,True
+please remind about business meeting every monday at 4 p.m.,reminders.add,reminders.add,0.8647808,True
+reminder me every year to go to the doctor at 8 a.m.,reminders.add,reminders.add,0.9797219,True
+min sound,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.35464445,True
+please turn off tv,Default Fallback Intent,Default Fallback Intent,0.36438805,True
+how do i unpair my aids from my phone?,Help_Pairing,Help_Pairing,0.32072988,True
+can i snooze a reminder,Help_Reminder,Help_Reminder,0.4654652,True
+bye bye,Default Fallback Intent,Cmd.TranscribeStart,0.17773885,False
+tell me what my step goal is,Cmd.ActivityStep,Cmd.ActivityStep,0.9591579,True
+saab wanted control,Default Fallback Intent,Help_WiCROS,0.43051317,False
+how do i use translate,Help_Translate,Help_Translate,0.8969302,True
+remind me,reminders.add,reminders.add,0.9849126,True
+speech program,Cmd.MemoryChange,Cmd.MemoryChange,0.9684908,True
+what's the score of the match,Default Fallback Intent,Default Fallback Intent,0.8721712,True
+can you ask my house,Default Fallback Intent,Default Fallback Intent,0.9760233,True
+kitchen program,Cmd.MemoryChange,Cmd.MemoryChange,0.9701858,True
+please turn my left hearing aid on,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.6211049,True
+can you first washing machine,Default Fallback Intent,reminders.add,0.58374894,False
+how do i change the cros balance on the receiver?,Help_WiCROS,Help_WiCROS,0.82244384,True
+he forgot them and you need them let me know if i have a free afternoon i can drive over,Default Fallback Intent,Default Fallback Intent,0.5343762,True
+make things quieter,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.4255059,True
+how do i access mask mode,Help_MaskMode,Help_MaskMode,0.94665134,True
+how can i use my voice to talk to thrive,Help_VoiceAssistant,Help_Transcribe,0.3013656,False
+where is the heart feature?,Help_HeartRate,Help_HeartRateRecovery,0.3644825,False
+how do i adjust the sensitivity of the double tap?,Help_DeviceSettings,Help_DeviceSettings,0.7644192,True
+battery life is getting shorter,Help_Battery,Cmd.BatteryLevel,0.45149082,False
+please play it again.,Cmd.ListenMessage,Cmd.ListenMessage,0.9171009,True
+what does the body score mean?,Help_ThriveScore,Help_ThriveScore,0.95361185,True
+can you assist me,Default Fallback Intent,Default Fallback Intent,0.97492087,True
+how do i set reminders,Help_Reminder,Help_Reminder,0.7949542,True
+can you set memory to two,Cmd.MemoryChange,Cmd.MemoryChange,0.98010147,True
+can you am i close enough to the car,Default Fallback Intent,Default Fallback Intent,0.9462205,True
+can you adjusted with my phone,Default Fallback Intent,Default Fallback Intent,0.36160842,True
+turn up volume,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8883258,True
+how many steps have i taken this week?,Cmd.ActivityStep,Cmd.ActivityStep,0.88919985,True
+i need it more quiet,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.3207888,False
+how do i increase the volume in the left hearing aid?,Help_Volume,Help_Volume,0.94425535,True
+what's the firmware version of my hearing aid?,Help_DeviceSettings,Help_DeviceSettings,0.59085995,True
+on the phone with pt ptt,Default Fallback Intent,Default Fallback Intent,0.9336534,True
+can you increase volume in my hearing aids,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8435785,True
+can you i'll let you sleep,Default Fallback Intent,Default Fallback Intent,0.5458164,True
+please take us to see forget it we are in the car and the drone noise will cost if i have them in the road noises being amplified as well,Default Fallback Intent,Default Fallback Intent,0.95174026,True
+can you switch program to telephone,Cmd.MemoryChange,Cmd.MemoryChange,0.9840846,True
+please set a reminder for 8 a.m.,reminders.add,reminders.add,0.97816557,True
+switch program to office,Cmd.MemoryChange,Cmd.MemoryChange,0.9832667,True
+can you school memory,Cmd.MemoryChange,Cmd.MemoryChange,0.94554,True
+can you tell me about the reminders feature,Help_Reminder,Default Fallback Intent,0.48849237,False
+how do i remove accessories from my app?,Help_Accessories,Help_Accessories,0.8282124,True
+please set to everyday program,Cmd.MemoryChange,Cmd.MemoryChange,0.92826766,True
+how does self check work?,Help_SelfCheck,Help_SelfCheck,0.9420073,True
+compose a message to my coworker,Cmd.SendMessage,Cmd.SendMessage,0.76517826,True
+explain my brain score,Help_ThriveScore,Help_ThriveScore,0.92617613,True
+start writing down the speech,Cmd.TranscribeStart,Cmd.TranscribeStart,0.17452101,True
+talking about my daughter,Default Fallback Intent,Cmd.ActivityRun,0.23096873,False
+can the audiologist adjust the hearing aid remotely?,Help_RemoteProgramming,Help_RemoteProgramming,0.8036281,True
+remind me to deliver to saint barbara catholic church on friday 9 to 9:30,reminders.add,reminders.add,0.71576923,True
+how do i let another person hear with me,Help_HearShare,Help_HearShare,0.89323163,True
+can you self check user guide,Help_SelfCheck,Help_SelfCheck,0.86786133,True
+i'm new to this,Help_Home,Help_WhatsNew,0.1712244,False
+dnn speech enhancement user guide,Help_IntelliVoice,Help_IntelliVoice,0.91249555,True
+how does hearshare connect another person,Help_HearShare,Help_HearShare,0.95104533,True
+can you music program,Cmd.MemoryChange,Cmd.MemoryChange,0.86037534,True
+tell me my calories for today,Cmd.ActivityCalories,Cmd.ActivityCalories,0.6514873,True
+i want to send a voice message,Cmd.SendMessage,Cmd.SendMessage,0.95129156,True
+i want you to remind me something,reminders.add,reminders.add,0.9629698,True
+can you connect left aid,Help_Pairing,Help_Pairing,0.66804695,True
+please remind me to visit my family on thanksgiving day,reminders.add,reminders.add,0.9810029,True
+find me a hotel,Default Fallback Intent,Default Fallback Intent,0.6409497,True
+pull back the volume,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.79785615,True
+please my right hearing aid is at 0%,Default Fallback Intent,Help_SelfCheck,0.75461394,False
+can you turn the sound on,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.772231,True
+note down my walk,Cmd.ActivityWalk,Cmd.ActivityWalk,0.2160719,True
+how do i find heart rate recovery?,Help_HeartRateRecovery,Help_HeartRateRecovery,0.9501133,True
+where can i learn more,Help_Home,Default Fallback Intent,0.49656674,False
+please change to home,Cmd.MemoryChange,Cmd.MemoryChange,0.8033137,True
+can you help with tinnitus sound adjustments in my hearing aids,Help_Tinnitus,Help_Tinnitus,0.9744167,True
+please where's my phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.9512609,True
+make everything quieter,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.4443691,False
+inserting hearing aids help,Help_InsertDevice,Help_CleanCare,0.34788772,False
+set a reminder so i don't forget,reminders.add,reminders.add,0.85015166,True
+can you help me transcribe,Help_Transcribe,Help_Transcribe,0.9703287,True
+can you switch to tinnitus program,Cmd.MemoryChange,Cmd.MemoryChange,0.9021877,True
+please show me my jogging goal,Cmd.ActivityRun,Cmd.ActivityRun,0.5300755,True
+any new messages read them,Cmd.ListenMessage,Cmd.ActivityExercise,0.27127782,False
+please increase the right hearing aid,Cmd.VolumeIncrease,Help_SelfCheck,0.4137849,False
+remind me once about running,reminders.add,reminders.add,0.98754,True
+what is transcribe,Help_Transcribe,Help_Transcribe,0.97247463,True
+how does my provider adjust my aids remotely,Help_RemoteProgramming,Help_RemoteProgramming,0.29176182,True
+what is a cros hearing aid,Help_WiCROS,Help_WiCROS,0.4149487,True
+change program to car,Cmd.MemoryChange,Cmd.MemoryChange,0.9856149,True
+make a reminder for me,reminders.add,reminders.add,0.9586989,True
+we searched for relief you can go in,Default Fallback Intent,Default Fallback Intent,0.9118516,True
+please make volume louder,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.72315717,True
+play my message,Cmd.ListenMessage,Cmd.ListenMessage,0.8760083,True
+thursday,Default Fallback Intent,Default Fallback Intent,0.9262861,True
+can you switch to meeting memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9449496,True
+help me send information,Cmd.SendMessage,Cmd.SendMessage,0.5541687,True
+my hearing aid won't stay in it keeps coming out,Help_InsertDevice,Help_InsertDevice,0.49036998,True
+can you remind me to call mom on christmas,reminders.add,reminders.add,0.97105646,True
+what does alert sent mean?,Help_FallAlert,Help_FallAlert,0.78685766,True
+what does the activity score mean?,Help_ThriveScore,Help_ThriveScore,0.92781335,True
+can you switch memory to auditorium,Cmd.MemoryChange,Cmd.MemoryChange,0.98178536,True
+can you switch program to two,Cmd.MemoryChange,Cmd.MemoryChange,0.97941804,True
+search genesis,Default Fallback Intent,Default Fallback Intent,0.78677547,True
+can you switch program to everyday,Cmd.MemoryChange,Cmd.MemoryChange,0.97494626,True
+can you crowd setting,Cmd.MemoryChange,Cmd.MemoryChange,0.97331196,True
+how do i personalize my sound settings,Help_Customize,Help_Customize,0.49014872,True
+how are you feeling today,Default Fallback Intent,Default Fallback Intent,0.9576909,True
+creating a demo with your capabilities,Default Fallback Intent,Default Fallback Intent,0.8054847,True
+stream from an accessory mic to my aids,Help_Accessories,Help_Accessories,0.5263356,True
+how many calories did i burn while exercising,Cmd.ActivityExercise,Cmd.ActivityCalories,0.38845673,False
+please help with tinnitus volume adjustment on my hearing aids,Help_Tinnitus,Help_Tinnitus,0.9228431,True
+change to theater memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9762239,True
+can you switch program to automatic,Cmd.MemoryChange,Cmd.MemoryChange,0.98013693,True
+how does mask mode help with covered faces,Help_MaskMode,Help_MaskMode,0.55065364,True
+stop stream,Cmd.StreamingStop,Cmd.StreamingStop,0.85332674,True
+can you he forgot them and you need them let me know if i have a free afternoon i can drive over,Default Fallback Intent,Default Fallback Intent,0.5550695,True
+please set an alarm for 8 a.m.,reminders.add,reminders.add,0.7113649,True
+please switch memory to quiet,Cmd.MemoryChange,Cmd.MemoryChange,0.95017856,True
+remind me at,reminders.add,reminders.add,0.9941307,True
+i need a reminder,reminders.add,reminders.add,0.87017787,True
+can you volume decrease,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.85736173,True
+can you phone missing,Cmd.FindMyPhone,Cmd.FindMyPhone,0.9268232,True
+how do i enable heart rate tracking,Help_HeartRate,Help_HeartRate,0.8523598,True
+what improvements are new,Help_WhatsNew,Help_WhatsNew,0.44850835,True
+what should i watch tonight,Default Fallback Intent,Cmd.BatteryLevel,0.59468895,False
+play tv stream,Cmd.StreamingStart,Cmd.StreamingStart,0.89924306,True
+can you change memory to outdoors,Cmd.MemoryChange,Cmd.MemoryChange,0.9686337,True
+how to set daily reminder,Help_Reminder,reminders.add,0.4893296,False
+switch to telephone,Cmd.MemoryChange,Cmd.MemoryChange,0.9507182,True
+are both of my hearing aids working,Help_SelfCheck,Cmd.BatteryLevel,0.35243177,False
+please let me hear the tv,Cmd.StreamingStart,Cmd.StreamingStart,0.570392,True
+how do i adjust my loudness of the white noise in my hearing aid?,Help_Tinnitus,Help_Tinnitus,0.95699245,True
+please listen to my tv,Cmd.StreamingStart,Cmd.StreamingStart,0.9473495,True
+how do i diagnose my hearing aids,Help_SelfCheck,Help_DeviceSettings,0.3995592,False
+hearing aid audio stream,Cmd.StreamingStart,Cmd.StreamingStart,0.7329418,True
+does a clip on mic send audio to my aids,Help_Accessories,Help_SelfCheck,0.55434704,False
+please i can't find my android phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.91324776,True
+which version of the app am i using?,Help_AppSettings,Cmd.ActivityRun,0.21711558,False
+how do i use self-check feature?,Help_SelfCheck,Default Fallback Intent,0.17920613,False
+what is voice ai?,Help_IntelliVoice,Help_IntelliVoice,0.96325296,True
+am i close to my cycling goal?,Cmd.ActivityCycle,Cmd.ActivityRun,0.24199079,False
+ratchet the volume back,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.84888273,True
+please i'm walking and they didn't working,Default Fallback Intent,Cmd.TranslationStart,0.28858638,False
+want to send a message,Cmd.SendMessage,Cmd.SendMessage,0.9670154,True
+reduce the hearing aid volume,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.5394596,True
+how do i adjust the cros balance on the transmitter?,Help_WiCROS,Help_WiCROS,0.8587572,True
+please all pre-program settings change when once changed,Default Fallback Intent,Default Fallback Intent,0.17071132,True
+what are the fall detections,Help_FallAlert,Help_FallAlert,0.68196076,True
+how to save edge mode setting?,Help_EdgeMode,Help_EdgeMode,0.8858418,True
+how do i share my information with my son?,Help_HearShare,Help_HearShare,0.95091933,True
+track my walking distance,Cmd.ActivityWalk,Cmd.ActivityWalk,0.8760322,True
+i'd like to stream now,Cmd.StreamingStart,Cmd.StreamingStart,0.7908372,True
+please switch memory to telephone,Cmd.MemoryChange,Cmd.MemoryChange,0.9743601,True
+please change to program one,Cmd.MemoryChange,Cmd.MemoryChange,0.9715537,True
+are my hearing aids cros?,Help_WiCROS,Help_FindMyHearingAids,0.19084565,False
+can you memory number one,Cmd.MemoryChange,Cmd.MemoryChange,0.9395273,True
+give me some quiet,Cmd.VolumeDecrease,Default Fallback Intent,0.306329,False
+please pick up tv stream signal,Cmd.StreamingStart,Cmd.StreamingStart,0.60937953,True
+play message i got.,Cmd.ListenMessage,Cmd.ListenMessage,0.6816798,True
+please set memory to two,Cmd.MemoryChange,Cmd.MemoryChange,0.9757874,True
+reach out to my family for me,Cmd.SendMessage,Cmd.ActivityAerobics,0.37823442,False
+take me to amazon,Default Fallback Intent,Cmd.MemoryChange,0.60155237,False
+can you i was down 17 grand earlier today,Default Fallback Intent,Default Fallback Intent,0.9784686,True
+can you i need to program new stamping to my phone,Default Fallback Intent,Help_ChangingMemories,0.2301467,False
+how do i adjust my tinnitus setting?,Help_Tinnitus,Help_Tinnitus,0.86418533,True
+remind me of my appointment,reminders.add,reminders.add,0.97658587,True
+todays calorie count,Cmd.ActivityCalories,Default Fallback Intent,0.6371001,False
+everything is way too loud,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.74406976,True
+can you change memory to car,Cmd.MemoryChange,Cmd.MemoryChange,0.9839175,True
+start transcription,Cmd.TranscribeStart,Cmd.TranscribeStart,0.4962506,True
+quiet it down for me,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.582928,True
+how do i geotag my memory?,Help_MemoryOptions,Help_MemoryOptions,0.60485274,True
+please switch to television program,Cmd.MemoryChange,Cmd.MemoryChange,0.9530003,True
+please remind me to wake up tomorrow,reminders.add,reminders.add,0.98922694,True
+how do i test drive the app?,Help_DemoMode,Help_Accessories,0.25542152,False
+how do i change the volume of my tv streamer?,Help_Accessories,Help_Accessories,0.9464477,True
+can you tinnitus program,Cmd.MemoryChange,Cmd.MemoryChange,0.72907114,True
+memory button,Help_ChangingMemories,Cmd.MemoryChange,0.6259531,False
+remind me to call dad,reminders.add,reminders.add,0.9876858,True
+can you don't let me forget to pick up milk today,reminders.add,reminders.add,0.7742763,True
+text someone,Cmd.SendMessage,Cmd.SendMessage,0.8795743,True
+how do i adjust my tinnitus noise on the aid?,Help_Tinnitus,Help_Tinnitus,0.95462066,True
+how long before the battery dies,Cmd.BatteryLevel,Help_Battery,0.48326018,False
+discover iphone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.73035127,True
+mark my last reminder complete,reminders.complete,reminders.complete,0.9812589,True
+they're speaking another language i can't follow,Cmd.TranslationStart,Default Fallback Intent,0.7034764,False
+help with tinnitus sound adjustment on my hearing aid,Help_Tinnitus,Help_Tinnitus,0.94224536,True
+please remind me to pick up my prescription at 5 p.m. on monday,reminders.add,reminders.add,0.990428,True
+beep,Help_DeviceSettings,Cmd.BatteryLevel,0.4443725,False
+help with moving between memories,Help_ChangingMemories,Help_ChangingMemories,0.35317,True
+can you switch program to meeting,Cmd.MemoryChange,Cmd.MemoryChange,0.97659475,True
+can you switch to memory number one,Cmd.MemoryChange,Cmd.MemoryChange,0.95922077,True
+can i test features without aids connected,Help_DemoMode,Help_Pairing,0.5484552,False
+can you remind about running everyday at 6 a.m.,reminders.add,reminders.add,0.98752093,True
+how do i submit another help request?,Help_RemoteProgramming,Help_DeviceSettings,0.21741635,False
+play who messaged me,Cmd.ListenMessage,Default Fallback Intent,0.71308094,False
+how much longer can they go,Cmd.BatteryLevel,Help_MaskMode,0.4171109,False
+how do i turn up the loudness on my aids?,Help_Volume,Help_Volume,0.97126424,True
+i walked into a restaurant,Cmd.MemoryChange,Default Fallback Intent,0.68559587,False
+set reminder set reminder,reminders.add,reminders.add,0.7891226,True
+tell me about hearing care anywhere,Help_HearingCareAnywhereConnect,Help_HearingCareAnywhereConnect,0.37105447,True
+is my power almost gone,Cmd.BatteryLevel,Default Fallback Intent,0.67678225,False
+switch program to restaurant,Cmd.MemoryChange,Cmd.MemoryChange,0.9803405,True
+please play me the microphone,Cmd.StreamingStart,Cmd.StreamingStart,0.4282726,True
+can you turn on hearing aids,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.48792884,True
+tune for this windy weather,Cmd.MemoryChange,Default Fallback Intent,0.94666064,False
+please change memory to number three,Cmd.MemoryChange,Cmd.MemoryChange,0.9600553,True
+how does finding my aids work,Help_FindMyHearingAids,Help_CleanCare,0.5551273,False
+how do i start streaming from the accessory?,Help_Accessories,Help_Accessories,0.9570018,True
+can you start remote stream,Cmd.StreamingStart,Cmd.StreamingStart,0.86866605,True
+can you set to work memory,Cmd.MemoryChange,Cmd.MemoryChange,0.96455836,True
+please pairing my aids,Help_Pairing,Help_Pairing,0.9415977,True
+how are things,Default Fallback Intent,Cmd.VolumeDecrease,0.5428812,False
+can you start recording,Cmd.TranscribeStart,Cmd.TranscribeStart,0.5334146,True
+explain how to care for my aids,Help_CleanCare,Help_HearingCareAnywhereConnect,0.38998374,False
+text my sister,Cmd.SendMessage,Cmd.SendMessage,0.39330053,True
+scale back the sound,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.74860984,True
+please help with accessories,Help_Accessories,Help_Accessories,0.86394054,True
+help me remember to take medication at 9 am,reminders.add,reminders.add,0.98067456,True
+please remind me to drink water today,reminders.add,reminders.add,0.9863529,True
+help with changing memories using the thrive app,Help_ChangingMemories,Help_ChangingMemories,0.9433602,True
+what can the caption feature do,Help_Transcribe,Help_Home,0.5509293,False
+can you mask mode,Cmd.MemoryChange,Help_MaskMode,0.8643849,False
+can you set program to quiet,Cmd.MemoryChange,Cmd.MemoryChange,0.9649788,True
+can you onkyo receiver,Default Fallback Intent,Default Fallback Intent,0.81539834,True
+can you switch program to master,Cmd.MemoryChange,Cmd.MemoryChange,0.9828908,True
+can you remind me to refill my prescription tomorrow afternoon,reminders.add,reminders.add,0.98299384,True
+show me transcribe user guide,Help_Transcribe,Help_Transcribe,0.9525863,True
+direct hearing aid connection,Cmd.StreamingStart,Help_Pairing,0.43555278,False
+switch to restaurant memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9698538,True
+customize my hearing aid settings,Help_Customize,Help_MemoryOptions,0.40443304,False
+change to noise memory,Cmd.MemoryChange,Cmd.MemoryChange,0.98370206,True
+can you start translation for spanish,Cmd.TranslationStart,Cmd.TranslationStart,0.7232862,True
+track my bike ride,Cmd.ActivityCycle,Cmd.ActivityCycle,0.7057971,True
+please switch memory to meeting,Cmd.MemoryChange,Cmd.MemoryChange,0.95965004,True
+can you right hearing aid doesn't work,Help_SelfCheck,Help_SelfCheck,0.50516725,True
+can you set setting to three,Cmd.MemoryChange,Cmd.MemoryChange,0.97959614,True
+can you i'm interested in my location,Default Fallback Intent,Default Fallback Intent,0.8642844,True
+how do i create a new program,Help_MemoryOptions,Help_MemoryOptions,0.5641818,True
+raise the volume up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8863251,True
+"this is important, remind me later",reminders.add,reminders.add,0.98490137,True
+begin tracking my exercise,Cmd.ActivityExercise,Cmd.ActivityExercise,0.91835076,True
+please set to noise program,Cmd.MemoryChange,Cmd.MemoryChange,0.9589165,True
+can you remind me tomorrow,reminders.add,reminders.add,0.9922227,True
+use my hearing aids as speakers,Cmd.StreamingStart,Cmd.VolumeIncrease,0.2343219,False
+when would i send a manual alert text message?,Help_FallAlert,Help_FallAlert,0.96112406,True
+how accurate is the heart rate reading,Help_HeartRate,Help_HeartRate,0.9418225,True
+stream from the remote mic,Cmd.StreamingStart,Cmd.StreamingStart,0.50067157,True
+can you set program to television,Cmd.MemoryChange,Cmd.MemoryChange,0.9650513,True
+where can i change app settings,Help_AppSettings,Help_AppSettings,0.9141175,True
+how do i change my preferences?,Help_DeviceSettings,Help_Customize,0.28414023,False
+show my walking activity,Cmd.ActivityWalk,Cmd.ActivityWalk,0.52476186,True
+how do i geotag a location to a memory?,Help_MemoryOptions,Help_MemoryOptions,0.8621135,True
+please hi there i don't,Default Fallback Intent,reminders.add,0.8739404,False
+how do i get more information on the brain score?,Help_ThriveScore,Help_ThriveScore,0.9765147,True
+can you start writing this down for me,Cmd.TranscribeStart,Default Fallback Intent,0.4568527,False
+morning,Default Fallback Intent,Help_Tinnitus,0.28508562,False
+please change memory to music,Cmd.MemoryChange,Cmd.MemoryChange,0.9749307,True
+how many stand hours today,Cmd.ActivityStand,Cmd.ActivityStand,0.7942266,True
+what's my battery at,Cmd.BatteryLevel,Cmd.BatteryLevel,0.5509804,True
+please switch to tinnitus program,Cmd.MemoryChange,Cmd.MemoryChange,0.8956942,True
+can you switch to school program,Cmd.MemoryChange,Cmd.MemoryChange,0.9800352,True
+please tell me what how much do i owe you would be in español,Cmd.TranslationStart,Default Fallback Intent,0.5319765,False
+can you set memory to number one,Cmd.MemoryChange,Cmd.MemoryChange,0.956031,True
+how do i adjust bass on edge mode?,Help_EdgeMode,Help_EdgeMode,0.9134425,True
+how's my exercise progress,Cmd.ActivityExercise,Cmd.ActivityExercise,0.9104903,True
+please switch to outdoors,Cmd.MemoryChange,Cmd.MemoryChange,0.94837475,True
+help me understand edge mode,Help_EdgeMode,Help_EdgeMode,0.76964223,True
+can you change to quiet,Cmd.MemoryChange,Cmd.MemoryChange,0.9534389,True
+getting customers exactly with a free wireless.,Default Fallback Intent,Default Fallback Intent,0.4991417,True
+show my current heart rate,Help_HeartRate,Help_HeartRate,0.95389,True
+please finish this reminder.,reminders.complete,reminders.add,0.75122714,False
+can my professional adjust my aids remotely?,Help_RemoteProgramming,Help_RemoteProgramming,0.7848557,True
+please change to everyday memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9623588,True
+begin my walking workout,Cmd.ActivityWalk,Cmd.ActivityWalk,0.64830786,True
+what do i hear when an alert text message is received?,Help_FallAlert,Help_FallAlert,0.8316877,True
+guide me through the interface,Help_Home,Help_Home,0.65038973,True
+but their counterparts of the white pieces of fabric,Default Fallback Intent,Default Fallback Intent,0.8847967,True
+can you pump up the volume,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.83654165,True
+concussion rehabilitation team works collaboratively in designing and implementing a treatment program,Default Fallback Intent,Default Fallback Intent,0.77969664,True
+please set program to number one,Cmd.MemoryChange,Cmd.MemoryChange,0.9694327,True
+how do i reach my audiologist through the app,Help_HearingCareAnywhereConnect,Help_AppSettings,0.33836344,False
+please record a message,Cmd.SendMessage,Cmd.SendMessage,0.94980407,True
+tips for putting in my aids,Help_InsertDevice,Default Fallback Intent,0.29007152,False
+locate iphone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.79261976,True
+turn down my right aid,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.7536611,True
+i need to contact someone,Cmd.SendMessage,Cmd.SendMessage,0.9425115,True
+how do i assign a location to my memory?,Help_MemoryOptions,Help_MemoryOptions,0.9201319,True
+have you seen my aids,Help_FindMyHearingAids,Default Fallback Intent,0.25038287,False
+please and how do you think we can resolve that,Default Fallback Intent,Default Fallback Intent,0.99593157,True
+what memory settings are available,Help_MemoryOptions,Help_MemoryOptions,0.40712735,True
+i've misplaced both my aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.6178368,True
+guide me on using translate,Help_Translate,Help_Pairing,0.3239201,False
+hello hello,Default Fallback Intent,Cmd.MemoryChange,0.16431433,False
+what do my hearing aids do when i've fallen?,Help_FallAlert,Help_Customize,0.26909903,False
+kill all the noise completely,Cmd.VolumeMute,Default Fallback Intent,0.44234213,False
+good day,Default Fallback Intent,Default Fallback Intent,0.53882897,True
+what is the impact to the environment of an electric battery for a vehicle,Default Fallback Intent,Default Fallback Intent,0.9217733,True
+please change to worship,Cmd.MemoryChange,Cmd.MemoryChange,0.95645034,True
+please turn up the loudness on my hearing aids,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.6790661,True
+meeting memory,Cmd.MemoryChange,Cmd.MemoryChange,0.94450265,True
+what is my biking goal?,Cmd.ActivityCycle,Cmd.ActivityCycle,0.85424787,True
+help me find my hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9587488,True
+help with tinnitus noise adjustments in my aids,Help_Tinnitus,Help_Tinnitus,0.9787799,True
+what do all these buttons do,Help_Home,Help_FallAlert,0.21664539,False
+where is my right aid?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.83886987,True
+please it was discouraging and then i found balance of nature it's just being a no-brainer ever since i feel good,Default Fallback Intent,Default Fallback Intent,0.98346436,True
+how will i know when my hearing specialist adjusted my hearing aids?,Help_RemoteProgramming,Help_RemoteProgramming,0.95393896,True
+switch to personal program,Cmd.MemoryChange,Cmd.MemoryChange,0.9817321,True
+please android phone to listen to spotify,Default Fallback Intent,Default Fallback Intent,0.36736187,True
+switch to home,Cmd.MemoryChange,Cmd.MemoryChange,0.9332937,True
+turn off the volume in my left hearing aid,Cmd.VolumeMute,Cmd.VolumeMute,0.60250646,True
+where do i see my health data,Help_Health,Help_Health,0.654549,True
+can you right,Default Fallback Intent,Default Fallback Intent,0.79330087,True
+please your permit on my cellphone,Default Fallback Intent,Default Fallback Intent,0.9325359,True
+can you remind me to call jose tomorrow,reminders.add,reminders.add,0.98811775,True
+do i need special tools to clean my hearing aid?,Help_CleanCare,Help_CleanCare,0.90279835,True
+connect to media audio,Cmd.StreamingStart,Cmd.StreamingStart,0.90419024,True
+guide me on tinnitus relief,Help_Tinnitus,Help_Tinnitus,0.9201653,True
+can you which version of the app am i using?,Help_AppSettings,Default Fallback Intent,0.21984905,False
+log a walk for me,Cmd.ActivityWalk,Cmd.ActivityWalk,0.8009976,True
+please change to restaurant program,Cmd.MemoryChange,Cmd.MemoryChange,0.97544575,True
+please switch to meeting program,Cmd.MemoryChange,Cmd.MemoryChange,0.9647726,True
+the sound is faint,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.626742,False
+send sms,Cmd.SendMessage,Default Fallback Intent,0.46734905,False
+please switch memory to number two,Cmd.MemoryChange,Cmd.MemoryChange,0.9625787,True
+what is the transmitter?,Help_WiCROS,Help_WiCROS,0.5314014,True
+show me a summary of new app,Help_WhatsNew,Help_WhatsNew,0.9291213,True
+can you make it louder,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.4600915,True
+help with body score,Help_ThriveScore,Help_ThriveScore,0.98125666,True
+please change memory to one,Cmd.MemoryChange,Cmd.MemoryChange,0.9709538,True
+explain how to test my devices,Help_SelfCheck,Help_ChangingMemories,0.7598401,False
+how do i use my aids with an accessory?,Help_Accessories,Help_Accessories,0.930302,True
+can you schedule physical therapy appointment tomorrow morning 8:40 a.m.,reminders.add,Default Fallback Intent,0.464245,False
+can you remind me to buy bread at 11 a.m. tomorrow,reminders.add,reminders.add,0.9809295,True
+remind me to vitamin d at 7 p.m. everyday,reminders.add,reminders.add,0.9842838,True
+please switch on ps4,Default Fallback Intent,Cmd.MemoryChange,0.5362448,False
+set program to auditorium,Cmd.MemoryChange,Cmd.MemoryChange,0.9857895,True
+please on the phone with pt ptt,Default Fallback Intent,Default Fallback Intent,0.9271401,True
+where do i intercept a manual alert text message?,Help_FallAlert,Help_FallAlert,0.9836723,True
+how would i stop an alert?,Help_FallAlert,Help_FallAlert,0.9688511,True
+help with white noise adjustment,Help_Tinnitus,Help_Tinnitus,0.8546017,True
+pair my right hearing aid,Help_Pairing,Help_Pairing,0.9114058,True
+edge mode help please,Help_EdgeMode,Help_EdgeMode,0.83800846,True
+please make my hearing aids softer,Cmd.VolumeDecrease,Cmd.VolumeMute,0.30723414,False
+find my device,Cmd.FindMyPhone,Help_FindMyHearingAids,0.36833203,False
+can you switch setting to one,Cmd.MemoryChange,Cmd.MemoryChange,0.9707351,True
+please show me the user guide for transcribe,Help_Transcribe,Help_Transcribe,0.94188005,True
+train setting,Cmd.MemoryChange,Cmd.MemoryChange,0.77798754,True
+can you switch to crowd memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9449355,True
+goodnight,Default Fallback Intent,Default Fallback Intent,0.9434338,True
+can you reset,Default Fallback Intent,Default Fallback Intent,0.9062601,True
+can you change program to golf,Cmd.MemoryChange,Cmd.MemoryChange,0.97712016,True
+open my wellness dashboard,Help_Health,Cmd.ListenMessage,0.3704186,False
+change to golf memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9626297,True
+can you send me a reminder to pay the cable bill on march 3,reminders.add,reminders.add,0.8588903,True
+can you turn on my program for restaurant,Cmd.MemoryChange,Cmd.MemoryChange,0.8250066,True
+down volume,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.90514493,True
+play the microphone,Cmd.StreamingStart,Cmd.ListenMessage,0.37268928,False
+please make this quieter,Cmd.VolumeDecrease,Default Fallback Intent,0.344704,False
+switch to school,Cmd.MemoryChange,Cmd.MemoryChange,0.94739974,True
+how do i increase the volume in my hearing aids?,Help_Volume,Help_Volume,0.9796602,True
+can you which version of the app do i have?,Help_AppSettings,Help_AppSettings,0.17440605,True
+change to meeting memory,Cmd.MemoryChange,Cmd.MemoryChange,0.97256213,True
+what's the most expensive phone,Default Fallback Intent,Default Fallback Intent,0.8336282,True
+help with changing memories on my phone,Help_ChangingMemories,Help_ChangingMemories,0.97851324,True
+can i pair a wearable microphone,Help_Accessories,Help_DemoMode,0.25426996,False
+how do i stop streaming from my tv streamer?,Help_Accessories,Help_Accessories,0.97104824,True
+translate user guide,Help_Translate,Help_Translate,0.9245631,True
+where's my son,Default Fallback Intent,Cmd.SendMessage,0.36854473,False
+can you switch to television,Cmd.MemoryChange,Cmd.MemoryChange,0.94515777,True
+can i have a different volume in each ear,Help_Volume,Help_Volume,0.44406056,True
+can you locate a restaurant,Default Fallback Intent,Default Fallback Intent,0.90328836,True
+have a good one,Default Fallback Intent,Cmd.MemoryChange,0.6196985,False
+switch program,Cmd.MemoryChange,Cmd.MemoryChange,0.9775934,True
+lower it down please,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.9538089,True
+its to loud,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.82395077,True
+can my professional adjust the aid remotely?,Help_RemoteProgramming,Help_RemoteProgramming,0.7286788,True
+where is the loudness control,Help_Volume,Help_WiCROS,0.58818746,False
+ping my aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.5770001,True
+can you find my aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.6864851,True
+can you help with changing programs,Help_ChangingMemories,Help_ChangingMemories,0.93326265,True
+how do i change my app settings?,Help_AppSettings,Help_AppSettings,0.78371376,True
+please i'm interested in my location,Default Fallback Intent,Default Fallback Intent,0.55036026,True
+make it dead silent,Cmd.VolumeMute,Default Fallback Intent,0.5636701,False
+it sounds too low,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.59325725,False
+unsilence,Cmd.VolumeUnmute,Default Fallback Intent,0.9434338,False
+can you sound off,Cmd.VolumeMute,Cmd.VolumeMute,0.679448,True
+which version of the app do i have?,Help_AppSettings,Help_AppSettings,0.23506556,True
+how would i know if a manual alert has been initiated?,Help_FallAlert,Help_FallAlert,0.5890175,True
+how do i set my heart rate recovery?,Help_HeartRateRecovery,Help_HeartRateRecovery,0.8382318,True
+how do i link my aids to bluetooth,Help_Pairing,Help_Pairing,0.9756403,True
+please turn my left hearing aid up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.61303157,True
+how long on my feet today,Cmd.ActivityStand,Cmd.ActivityCycle,0.18521866,False
+can you schedule appointment,reminders.add,Cmd.VolumeMute,0.21615772,False
+how do i adjust my noise masker on my aid?,Help_Tinnitus,Help_Tinnitus,0.6031565,True
+can you help,Default Fallback Intent,Default Fallback Intent,0.72372663,True
+can you add a reminder for tomorrow,reminders.add,reminders.add,0.9544731,True
+i'd like to hear once more,Cmd.VolumeUnmute,Default Fallback Intent,0.53566396,False
+can you switch to kitchen,Cmd.MemoryChange,Cmd.MemoryChange,0.9792698,True
+close out that reminder,reminders.complete,reminders.complete,0.8285006,True
+switch to crowd,Cmd.MemoryChange,Cmd.MemoryChange,0.9857525,True
+how do i get a better kind score?,Help_ThriveScore,Help_ThriveScore,0.97020984,True
+please fall alert isn't working,Help_FallAlert,Help_FallAlert,0.482929,True
+how do i manage my reminders,Help_Reminder,Help_Reminder,0.9066131,True
+what can i personalize on my aids,Help_Customize,Help_Customize,0.28756008,True
+can you help with tinnitus volume adjustment on my aids,Help_Tinnitus,Help_Tinnitus,0.9441534,True
+put captions on everyone's speech,Cmd.TranscribeStart,Help_Transcribe,0.28138223,False
+i'm running low aren't i,Cmd.BatteryLevel,Help_Home,0.22828768,False
+remind me to take my pills at 8,reminders.add,reminders.add,0.9944524,True
+can you set an alarm for doctors appointment tomorrow morning,reminders.add,reminders.add,0.95088804,True
+explain the transcription feature,Help_Transcribe,Help_Transcribe,0.3610561,True
+please remind me to,reminders.add,reminders.add,0.97529805,True
+please add mask as a customized memory,Help_MemoryOptions,Cmd.MemoryChange,0.5769504,False
+please pairing devices with my thrive app,Help_Pairing,Help_Pairing,0.9798463,True
+time my run,Cmd.ActivityRun,Cmd.ActivityRun,0.55548936,True
+change to kitchen program,Cmd.MemoryChange,Cmd.MemoryChange,0.98137486,True
+what is the ringing in my ears,Help_Tinnitus,Help_DeviceSettings,0.26689592,False
+standing calories,Cmd.ActivityStand,Cmd.ActivityStand,0.77241576,True
+please set to master program,Cmd.MemoryChange,Cmd.MemoryChange,0.96728086,True
+who invented the telephone?,Default Fallback Intent,Default Fallback Intent,0.7522615,True
+charge status,Cmd.BatteryLevel,Cmd.BatteryLevel,0.73936725,True
+please show me a help guide for my accessories,Help_Accessories,Help_HeartRate,0.2915999,False
+what voice helpers are supported,Help_VoiceAssistant,Help_VoiceAssistant,0.3976227,True
+give me a reminder later today,reminders.add,reminders.add,0.9555144,True
+program cleaned iboost,Default Fallback Intent,Cmd.MemoryChange,0.41888875,False
+please change memory to kitchen,Cmd.MemoryChange,Cmd.MemoryChange,0.96730405,True
+how do i get my device to stream,Help_Accessories,Help_Accessories,0.5950247,True
+fix face mask issues,Help_MaskMode,Help_MaskMode,0.8786607,True
+can you remind me to drink water everyday at 10 in the morning,reminders.add,reminders.add,0.9654209,True
+help with volume adjustment on my hearing aid,Help_Volume,Help_Volume,0.8016515,True
+my battery drains too fast why,Help_Battery,Help_Battery,0.6160977,True
+can my hearing aids use intellivoice,Help_IntelliVoice,Help_IntelliVoice,0.74128944,True
+phone a friend,Default Fallback Intent,Cmd.SendMessage,0.5621876,False
+help with tinnitus volume adjustment in my hearing aid,Help_Tinnitus,Help_Tinnitus,0.9505896,True
+please let me hear the remote mic,Cmd.StreamingStart,Cmd.StreamingStart,0.42910096,True
+can you assistant professor jobs,Default Fallback Intent,Default Fallback Intent,0.6328,True
+sound bar,Default Fallback Intent,Cmd.VolumeUnmute,0.39093217,False
+it sounds too soft,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.53811,True
+how do you calculate the ipro score?,Help_ThriveScore,Help_ThriveScore,0.9198713,True
+help me get started,Help_Home,Help_Home,0.30742002,True
+and i'm really looking forward to not having to wear the mask anymore for sure,Default Fallback Intent,Default Fallback Intent,0.7797091,True
+switch the sound off,Cmd.VolumeMute,Cmd.VolumeMute,0.38641432,True
+please help with tinnitus masker adjustment on my aids,Help_Tinnitus,Help_Tinnitus,0.9647588,True
+stop sending sound to my hearing aids,Cmd.StreamingStop,Help_SelfCheck,0.37499157,False
+can you make the hearing aids quieter,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.3139817,False
+mute all audio right now,Cmd.VolumeMute,Cmd.VolumeMute,0.5134144,True
+how do i adjust my loudness of the tinnitus stimulus on the hearing aids?,Help_Tinnitus,Help_Tinnitus,0.9653954,True
+show me my aerobics stats,Cmd.ActivityAerobics,Cmd.ActivityAerobics,0.76538765,True
+please show me how to insert hearing aids into my ears.,Help_InsertDevice,Help_InsertDevice,0.69308025,True
+message my friend,Cmd.SendMessage,Cmd.SendMessage,0.37121633,True
+set up a remote appointment,Help_HearingCareAnywhereConnect,reminders.add,0.44110033,False
+move to my church program,Cmd.MemoryChange,Cmd.MemoryChange,0.9029601,True
+it's different both of them are different,Default Fallback Intent,Default Fallback Intent,0.3579809,True
+can you remind me once about running,reminders.add,reminders.add,0.981455,True
+remind me 10:30 p.m. to close the restaurant,reminders.add,reminders.add,0.87628233,True
+how do i request an adjustment?,Help_RemoteProgramming,Help_Customize,0.4292312,False
+can you change to worship,Cmd.MemoryChange,Cmd.MemoryChange,0.9793444,True
+please set to gym program,Cmd.MemoryChange,Cmd.MemoryChange,0.9791493,True
+send sound straight to my aids,Cmd.StreamingStart,Cmd.VolumeUnmute,0.35276988,False
+please let me hear the presenter,Cmd.StreamingStart,Default Fallback Intent,0.44080693,False
+can you set to kitchen memory,Cmd.MemoryChange,Cmd.MemoryChange,0.94671255,True
+please switch program to work,Cmd.MemoryChange,Cmd.MemoryChange,0.9755931,True
+how do you fix your tv?,Default Fallback Intent,Help_Accessories,0.6715716,False
+when is samsung releasing the next galaxy phone,Default Fallback Intent,Default Fallback Intent,0.87033826,True
+please set to auditorium program,Cmd.MemoryChange,Cmd.MemoryChange,0.9571955,True
+please switch to restaurant,Cmd.MemoryChange,Cmd.MemoryChange,0.956,True
+please set program to speech,Cmd.MemoryChange,Cmd.MemoryChange,0.9721568,True
+please send message,Cmd.SendMessage,Cmd.SendMessage,0.93611324,True
+please translate how much do i owe you in español,Cmd.TranslationStart,Cmd.TranslationStart,0.5630028,True
+what's the problem,Default Fallback Intent,Default Fallback Intent,0.567407,True
+play message,Cmd.ListenMessage,Cmd.ListenMessage,0.82970935,True
+how do i set up fall detection,Help_FallAlert,Help_FallAlert,0.80182797,True
+can you so do i unable to caesar,Default Fallback Intent,Default Fallback Intent,0.93477184,True
+set to work program,Cmd.MemoryChange,Cmd.MemoryChange,0.9900595,True
+what does a self check tell me,Help_SelfCheck,Help_SelfCheck,0.788547,True
+help with tinnitus masker adjustments in my aids,Help_Tinnitus,Help_Tinnitus,0.97977084,True
+please setting number two,Cmd.MemoryChange,Cmd.MemoryChange,0.95323366,True
+remind me tomorrow to,reminders.add,reminders.add,0.9880905,True
+can you don't tell me that's the problem,Default Fallback Intent,Default Fallback Intent,0.7325327,True
+can you use soap to clean hearing aids?,Help_CleanCare,Help_CleanCare,0.812408,True
+what’s virtual assistant?,Help_VoiceAssistant,Help_VoiceAssistant,0.8382327,True
+please help with tinnitus stimulus adjustment on my aids,Help_Tinnitus,Help_Tinnitus,0.97860134,True
+share my audio so others can hear,Help_HearShare,Help_HearShare,0.263005,True
+what are the volume options,Help_Volume,Help_Volume,0.5699604,True
+hi there i don't,Default Fallback Intent,reminders.add,0.46923998,False
+guide me through changing memories,Help_ChangingMemories,Help_ChangingMemories,0.92599815,True
+what's my remaining charge?,Cmd.BatteryLevel,Default Fallback Intent,0.56218183,False
+how are my batteries doing?,Cmd.BatteryLevel,Cmd.BatteryLevel,0.4114784,True
+can you i can't remember where my aids are,Help_FindMyHearingAids,Help_FindMyHearingAids,0.92714524,True
+raise volume,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8727487,True
+let me hear the presenter,Cmd.StreamingStart,Default Fallback Intent,0.19236863,False
+please the shadowy men on a shadowy planet,Default Fallback Intent,Default Fallback Intent,0.9729033,True
+change to golf,Cmd.MemoryChange,Cmd.MemoryChange,0.9053106,True
+how many help requests can i submit?,Help_RemoteProgramming,Help_Home,0.24150857,False
+can you fisher is jacking off in the car so it's in the closet,Default Fallback Intent,Default Fallback Intent,0.7607714,True
+can you completely,Default Fallback Intent,Default Fallback Intent,0.8070431,True
+please change setting to number two,Cmd.MemoryChange,Cmd.MemoryChange,0.9595084,True
+please change to automatic memory,Cmd.MemoryChange,Cmd.MemoryChange,0.97922814,True
+explain the find my aids feature,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9127187,True
+crowd program,Cmd.MemoryChange,Cmd.MemoryChange,0.9771457,True
+can you change to theater memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9576896,True
+my phone is lost ring it,Cmd.FindMyPhone,Cmd.FindMyPhone,0.69028056,True
+what does the fall alert do,Help_FallAlert,Help_FallAlert,0.934423,True
+put me in speech mode,Cmd.MemoryChange,Help_MaskMode,0.2114345,False
+help with the volume feature,Help_Volume,Help_Volume,0.942177,True
+can you exercise goal,Cmd.ActivityExercise,Cmd.ActivityExercise,0.89139926,True
+everyone has to say things twice for me,Cmd.VolumeIncrease,Default Fallback Intent,0.48948884,False
+pump up the volume,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.76781505,True
+how do i make,Default Fallback Intent,Default Fallback Intent,0.8846275,True
+please remind me to pick up my prescription sunday at 5 p.m.,reminders.add,reminders.add,0.9876837,True
+can you i got a ton of recommendation completely wireless,Default Fallback Intent,Default Fallback Intent,0.96702063,True
+how would i stop a fall alert text?,Help_FallAlert,Help_FallAlert,0.99060297,True
+i need help pairing,Help_Pairing,Help_Pairing,0.7901601,True
+help me understand volume settings,Help_Volume,Help_Volume,0.60738194,True
+max burger,Default Fallback Intent,Default Fallback Intent,0.40613413,True
+please change memory to crowd,Cmd.MemoryChange,Cmd.MemoryChange,0.96896553,True
+where's intellivoice?,Help_IntelliVoice,Help_IntelliVoice,0.8273187,True
+please change program to master,Cmd.MemoryChange,Cmd.MemoryChange,0.9854269,True
+set memory to restaurant,Cmd.MemoryChange,Cmd.MemoryChange,0.98389775,True
+can you turn the volume on,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.56391466,True
+can you reminder finished.,reminders.complete,reminders.add,0.53416526,False
+please set memory to mute,Cmd.MemoryChange,Cmd.MemoryChange,0.9615307,True
+what is quick start,Help_WhatsNew,Help_WhatsNew,0.9007606,True
+start logging my walk,Cmd.ActivityWalk,Cmd.ActivityWalk,0.7396191,True
+how do i make one side louder,Help_Volume,Default Fallback Intent,0.4174078,False
+reminder to play with my cat everyday at 7 p.m.,reminders.add,reminders.add,0.81622833,True
+how to charge my itc hearing aid?,Help_Battery,Help_Pairing,0.27779928,False
+can you hearing aids,Default Fallback Intent,Default Fallback Intent,0.2725899,True
+how do i adjust my loudness of the tinnitus masker on the aid?,Help_Tinnitus,Help_Tinnitus,0.9687806,True
+can you music memory,Cmd.MemoryChange,Cmd.MemoryChange,0.8844026,True
+set program to quiet,Cmd.MemoryChange,Cmd.MemoryChange,0.97350514,True
+how does changing profiles work,Help_ChangingMemories,Help_ChangingMemories,0.41570786,True
+please sentences with more,Default Fallback Intent,Default Fallback Intent,0.9848475,True
+"can you this jena fuller. can you trying to fill out way, too?",Default Fallback Intent,Default Fallback Intent,0.9768693,True
+have i reached my biking goal?,Cmd.ActivityCycle,Cmd.ActivityCycle,0.7841768,True
+can you i cannot remember where my aids are,Help_FindMyHearingAids,Help_FindMyHearingAids,0.88930434,True
+help with pairing the aids,Help_Pairing,Help_Pairing,0.9806888,True
+please set to 80% volume,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.5637261,True
+how do i insert my left hearing aids into my ears?,Help_InsertDevice,Help_InsertDevice,0.36607713,True
+can i pair siri to my hearing aids,Help_VoiceAssistant,Help_Pairing,0.5755262,False
+please show me my exercise goal,Cmd.ActivityExercise,Cmd.ActivityExercise,0.8390213,True
+show me where my iphone is,Cmd.FindMyPhone,Cmd.FindMyPhone,0.32740438,True
+remind me to wake up tomorrow,reminders.add,reminders.add,0.99226964,True
+can you kid pushes the top button real quick and let it go the volume goes up,Default Fallback Intent,Default Fallback Intent,0.93186027,True
+please help with changing programs on my aid,Help_ChangingMemories,Help_ChangingMemories,0.9674751,True
+explain the main options,Help_Home,Help_Home,0.73296547,True
+can you got to getting a text message at boston,Default Fallback Intent,Default Fallback Intent,0.85042125,True
+how depleted is the battery,Cmd.BatteryLevel,Cmd.BatteryLevel,0.5873363,True
+can you i misplaced my other aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9599026,True
+start my cardio class tracking,Cmd.ActivityAerobics,Cmd.ActivityCalories,0.28347737,False
+set to mute program,Cmd.MemoryChange,Cmd.MemoryChange,0.97811365,True
+how do i adjust the volume on my aids?,Help_Volume,Help_Volume,0.9732049,True
+shift into the outdoor profile,Cmd.MemoryChange,Default Fallback Intent,0.5750197,False
+why is my hearing aid quiet on one side,Help_DeviceSettings,Help_SelfCheck,0.34453818,False
+please switch program to car,Cmd.MemoryChange,Cmd.MemoryChange,0.9728347,True
+can you remind me to call someone everyday at 4 p.m.,reminders.add,reminders.add,0.9924711,True
+i can't even hardly hear that,Default Fallback Intent,Default Fallback Intent,0.91655,True
+can you change to master memory,Cmd.MemoryChange,Cmd.MemoryChange,0.93990386,True
+please and i'm really looking forward to not having to wear the mask anymore for sure,Default Fallback Intent,Default Fallback Intent,0.8840891,True
+can you let me hear the tv,Cmd.StreamingStart,Cmd.StreamingStart,0.9053623,True
+compose message,Cmd.SendMessage,Default Fallback Intent,0.57315195,False
+can you i want to connect to my audiologist,Help_RemoteProgramming,Help_RemoteProgramming,0.3972061,True
+can you change program to restaurant,Cmd.MemoryChange,Cmd.MemoryChange,0.98261803,True
+every day,reminders.add,reminders.add,0.8867558,True
+please hear it again.,Cmd.ListenMessage,Default Fallback Intent,0.28169948,False
+reduce the noise level,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.81973356,True
+please go to outdoors,Cmd.MemoryChange,Cmd.MemoryChange,0.66627663,True
+am i close to my running goal?,Cmd.ActivityRun,Cmd.ActivityRun,0.65012115,True
+stop streaming tv to my hearing aids,Cmd.StreamingStop,Cmd.StreamingStop,0.5720974,True
+put hearing aids in auditorium setting,Cmd.MemoryChange,Cmd.MemoryChange,0.42922136,True
+new edema,Default Fallback Intent,Default Fallback Intent,0.8673666,True
+how do i change programs on my hearing aid?,Help_ChangingMemories,Help_ChangingMemories,0.96031624,True
+locate the hearing devices,Help_FindMyHearingAids,Help_FindMyHearingAids,0.3330708,True
+information on the ipro score,Help_ThriveScore,Help_ThriveScore,0.92553705,True
+switch program to number one,Cmd.MemoryChange,Cmd.MemoryChange,0.97427434,True
+how do i check if the hearing aids are connected to the thrive app?,Help_Pairing,Help_Pairing,0.9452806,True
+my aids aren't where i left them,Help_FindMyHearingAids,Help_FindMyHearingAids,0.5151933,True
+can you set me a reminder,reminders.add,reminders.add,0.8929518,True
+where'd you go,Default Fallback Intent,Default Fallback Intent,0.92494375,True
+can you search citizens,Default Fallback Intent,Default Fallback Intent,0.9771313,True
+why is my left very faint not working,Help_SelfCheck,Default Fallback Intent,0.7184696,False
+explain personalizing my hearing aids,Help_Customize,Help_DeviceSettings,0.4026521,False
+remind me to pick up my prescription sunday at 5 p.m.,reminders.add,reminders.add,0.9916979,True
+where do i see my wellness score,Help_ThriveScore,Help_ThriveScore,0.9175366,True
+please turn the volume up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8210114,True
+play my incoming texts,Cmd.ListenMessage,Cmd.ListenMessage,0.8910996,True
+let me hear the microphone,Cmd.StreamingStart,Default Fallback Intent,0.23468503,False
+what microphones can i pair,Help_Accessories,Help_Pairing,0.32977805,False
+add reminder for meeting,reminders.add,reminders.add,0.5569201,True
+can you federal assistance up to my energy,Default Fallback Intent,Default Fallback Intent,0.6547281,True
+can you return to initial settings,Default Fallback Intent,Default Fallback Intent,0.42503035,True
+how old is tom cruise?,Default Fallback Intent,Default Fallback Intent,0.73346955,True
+please set memory to music,Cmd.MemoryChange,Cmd.MemoryChange,0.98138565,True
+don't make any noise for a minute,Default Fallback Intent,reminders.add,0.53637135,False
+please i lost my hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.95026135,True
+play i'm carrying it,Default Fallback Intent,Cmd.ListenMessage,0.7521545,False
+dispatch a message,Cmd.SendMessage,Cmd.SendMessage,0.8915247,True
+where did i leave my right aid?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.98985475,True
+can you change memory to number four,Cmd.MemoryChange,Cmd.MemoryChange,0.9597473,True
+please set to speech program,Cmd.MemoryChange,Cmd.MemoryChange,0.9688696,True
+can you help with tinnitus masker adjustment on my aids,Help_Tinnitus,Help_Tinnitus,0.9411484,True
+the audio is distorted on my hearing aids,Help_DeviceSettings,Cmd.StreamingStart,0.3847711,False
+how do i share what i hear,Help_HearShare,Help_HearShare,0.7263163,True
+how do i turn my hearing aids down,Help_Volume,Help_Volume,0.5825506,True
+restaurant near me,Default Fallback Intent,Default Fallback Intent,0.7399058,True
+can you switch to master program,Cmd.MemoryChange,Cmd.MemoryChange,0.9763871,True
+what's on the health screen,Help_Health,Help_Home,0.39009392,False
+begin streaming to my devices,Cmd.StreamingStart,Cmd.StreamingStart,0.7498357,True
+can you amazon screen is dark,Default Fallback Intent,Default Fallback Intent,0.9518694,True
+please switch program to school,Cmd.MemoryChange,Cmd.MemoryChange,0.9752681,True
+how do i customize my left hearing aid?,Help_Customize,Help_Customize,0.5561315,True
+total quiet now please,Cmd.VolumeMute,reminders.add,0.4629862,False
+what was the indians score,Default Fallback Intent,Default Fallback Intent,0.5082075,True
+remind me to pick up my prescription at 5 p.m. on thursday,reminders.add,reminders.add,0.98711604,True
+will you set a reminder for me,reminders.add,reminders.add,0.93424237,True
+show me how to insert hearing aids into my ears.,Help_InsertDevice,Help_InsertDevice,0.7566929,True
+please i don't like the double tap feature. how do i turn it off?,Help_DeviceSettings,Default Fallback Intent,0.92135215,False
+please i cannot find my aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9938024,True
+can you intelligent voice user guide,Help_IntelliVoice,Help_IntelliVoice,0.9422075,True
+can you help with remote programming,Help_RemoteProgramming,Help_RemoteProgramming,0.3869974,True
+does translation work both ways,Help_Translate,Default Fallback Intent,0.7910909,False
+help understanding remote tuning,Help_RemoteProgramming,Help_RemoteProgramming,0.5020336,True
+can you and push it down for dramatics,Default Fallback Intent,Default Fallback Intent,0.7899443,True
+make speech louder,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.42083037,True
+can you make my hearing aids softer,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.5032206,False
+can you my left hearing aid does not respond,Help_SelfCheck,Default Fallback Intent,0.5307154,False
+how do i restore my hearing aid settings?,Help_HearingCareAnywhereConnect,Help_Customize,0.32804212,False
+please connect me to my audiologist,Help_RemoteProgramming,Help_RemoteProgramming,0.25905854,True
+minimum volume,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.59514904,False
+please wax build up,Help_CleanCare,Default Fallback Intent,0.7203771,False
+how do i get to mask mode?,Help_MaskMode,Help_MaskMode,0.9502193,True
+can you text levitar,Default Fallback Intent,Default Fallback Intent,0.86053085,True
+pairing aids on the app,Help_Pairing,Help_Pairing,0.9552799,True
+what health info does the app track,Help_Health,Help_AppSettings,0.5830118,False
+record my training session,Cmd.ActivityExercise,Cmd.ListenMessage,0.3738522,False
+stream the audio to my devices,Cmd.StreamingStart,Cmd.StreamingStart,0.89648736,True
+can you switch to car program,Cmd.MemoryChange,Cmd.MemoryChange,0.9843805,True
+set memory to mask,Cmd.MemoryChange,Cmd.MemoryChange,0.9809732,True
+how do i play notifications through my hearing aids?,Help_DeviceSettings,Help_DeviceSettings,0.5870225,True
+can you tell me what my stand goal is,Cmd.ActivityStand,Cmd.ActivityStand,0.80631965,True
+how can i synchronize my hearing aids,Help_Pairing,Help_CleanCare,0.20691955,False
+how do different programs work,Help_ChangingMemories,Help_Customize,0.26196325,False
+quiet memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9515418,True
+how does translate work?,Help_Translate,Help_Translate,0.9460048,True
+can you program number two,Cmd.MemoryChange,Cmd.MemoryChange,0.9078983,True
+what's different about this app?,Help_WhatsNew,Help_WhatsNew,0.8823366,True
+can you set program to number one,Cmd.MemoryChange,Cmd.MemoryChange,0.95530295,True
+help me find my iphone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.52795464,True
+change to restaurant memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9695895,True
+can you volume louder,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.7389982,True
+can you show me my jogging goal,Cmd.ActivityRun,Cmd.ActivityRun,0.5351595,True
+can you switch to crowd program,Cmd.MemoryChange,Cmd.MemoryChange,0.9757849,True
+how does the activity score work?,Help_ThriveScore,Help_ThriveScore,0.96946317,True
+i need to disconnect the hearing aids from the phone,Help_Pairing,Default Fallback Intent,0.43868554,False
+explain personalizing my hearing,Help_Customize,Help_Health,0.41192147,False
+can you turn down my right aid,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.7486675,True
+can you turn off my left aid,Cmd.VolumeMute,Cmd.VolumeMute,0.76856107,True
+can you i need a reminder for today,reminders.add,reminders.add,0.9550638,True
+can you remind me at 7 p.m. on november 11 to do homework,reminders.add,reminders.add,0.8682766,True
+can you work memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9215512,True
+can you there is a problem with my hearing aid,Help_SelfCheck,Help_SelfCheck,0.5455917,True
+do these need charging right now,Cmd.BatteryLevel,Cmd.BatteryLevel,0.49769232,True
+s&s side working,Default Fallback Intent,Default Fallback Intent,0.9475765,True
+calories burned today,Cmd.ActivityCalories,Cmd.ActivityCalories,0.9592187,True
+how has kind changed?,Help_WhatsNew,Help_WhatsNew,0.553892,True
+help with changing programs using my app,Help_ChangingMemories,Help_ChangingMemories,0.97455186,True
+how do i put this left hearing aid in?,Help_InsertDevice,Help_InsertDevice,0.8789937,True
+can you mask setting,Cmd.MemoryChange,Cmd.MemoryChange,0.6383702,True
+please go to restaurant,Cmd.MemoryChange,Default Fallback Intent,0.48932683,False
+tell me my stand hours,Cmd.ActivityStand,Cmd.ActivityStand,0.8362604,True
+can you help with changing memories using my app,Help_ChangingMemories,Help_ChangingMemories,0.9529567,True
+why aren't my hearing aids synced,Help_Pairing,Help_SelfCheck,0.43397826,False
+bluetooth pairing help,Help_Pairing,Help_Pairing,0.96734846,True
+please i want to listen to the presenter,Cmd.StreamingStart,Cmd.StreamingStart,0.7770888,True
+please help with changing memories on my aids,Help_ChangingMemories,Help_ChangingMemories,0.95803183,True
+please show me an overview of this thrive app,Help_WhatsNew,Help_WhatsNew,0.9159914,True
+can you change to home memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9310531,True
+can you so it goes back it goes back to the memory or in,Default Fallback Intent,Default Fallback Intent,0.797391,True
+can you i can't find my left hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.85784745,True
+battery information,Cmd.BatteryLevel,Cmd.BatteryLevel,0.4752816,True
+push to talk,Cmd.SendMessage,Cmd.ListenMessage,0.35715514,False
+turn the sound level down,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.95414674,True
+can you turn the lights off,Default Fallback Intent,Default Fallback Intent,0.9078768,True
+help with pairing the aids with the phone,Help_Pairing,Help_Pairing,0.99228585,True
+please no tv remote in fry's app,Default Fallback Intent,Cmd.StreamingStart,0.50083905,False
+what accessories do i have?,Help_Accessories,Cmd.ActivityStand,0.5615045,False
+can you turn on my right aid,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.47832537,True
+please i'm floating on the road,Default Fallback Intent,Default Fallback Intent,0.82067263,True
+how do i pair my accessory?,Help_Accessories,Help_Accessories,0.42989835,True
+make a note to remind me,reminders.add,reminders.add,0.962544,True
+how do i enable auto alert?,Help_FallAlert,Help_FallAlert,0.38847622,True
+please new reminder about fitness,reminders.add,reminders.add,0.56678605,True
+can you volume up left aid,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.85393566,True
+please and so now the what happens is if it is in streaming mode cuz waiting for you to ask a question,Default Fallback Intent,Default Fallback Intent,0.9392336,True
+switch to memory one,Cmd.MemoryChange,Cmd.MemoryChange,0.9688724,True
+please change memory to three,Cmd.MemoryChange,Cmd.MemoryChange,0.9717486,True
+but they live here i remember when jerry told me,Default Fallback Intent,Default Fallback Intent,0.96372914,True
+do i have charleston,Default Fallback Intent,Cmd.ActivityCycle,0.20573214,False
+can i see my step goal?,Cmd.ActivityStep,Cmd.ActivityStep,0.9514378,True
+is there a button for memory,Help_ChangingMemories,Cmd.MemoryChange,0.40643638,False
+what is the app menu,Help_Home,Help_AppSettings,0.62551665,False
+tinnitus setting,Cmd.MemoryChange,Cmd.MemoryChange,0.651831,True
+please remember to wake up at 6 a.m.,reminders.add,reminders.add,0.89408296,True
+help with the home screen,Help_Home,Help_Home,0.7657822,True
+please set program to mask,Cmd.MemoryChange,Cmd.MemoryChange,0.95509684,True
+how do i tweak the volume on each side,Help_Volume,Help_Volume,0.95860636,True
+hearing aid audio link,Cmd.StreamingStart,Cmd.VolumeMute,0.65027696,False
+how do i make my aids quieter?,Help_Volume,Help_Tinnitus,0.32500783,False
+translate for russian,Cmd.TranslationStart,Help_Translate,0.6750237,False
+i can't make sense of the app,Help_Home,Default Fallback Intent,0.6506765,False
+reminder user guide,Help_Reminder,reminders.complete,0.35895488,False
+please volume on right aid,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.63511956,True
+set reminder for everyday,reminders.add,reminders.add,0.9526289,True
+begin my aerobics session,Cmd.ActivityAerobics,Cmd.ActivityAerobics,0.96045154,True
+please change program to kitchen,Cmd.MemoryChange,Cmd.MemoryChange,0.97070247,True
+wanted to say hello,Default Fallback Intent,Cmd.ListenMessage,0.26244643,False
+battery drains fast,Help_Battery,Cmd.BatteryLevel,0.58550555,False
+can you sometimes it's okay to take a day off,Default Fallback Intent,Default Fallback Intent,0.8090093,True
+put my hearing back on,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.5035988,True
+what does the equalizer do,Help_Customize,Help_Home,0.53426594,False
+please switch to kitchen program,Cmd.MemoryChange,Cmd.MemoryChange,0.9716049,True
+please change to crowd program,Cmd.MemoryChange,Cmd.MemoryChange,0.9720338,True
+is the application of sound,Default Fallback Intent,Cmd.VolumeDecrease,0.61767507,False
+what features should i know about,Help_Home,Help_Accessories,0.4590048,False
+set memory to tinnitus,Cmd.MemoryChange,Cmd.MemoryChange,0.9372606,True
+do i look good,Default Fallback Intent,Cmd.BatteryLevel,0.45055583,False
+how do i talk to someone that’s speaking a different language?,Help_Translate,Default Fallback Intent,0.62376446,False
+can my hearing care specialist adjust my hearing aids remotely?,Help_RemoteProgramming,Help_RemoteProgramming,0.8510548,True
+where did i put my other hearing aid?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.8356,True
+can you help with volume adjustment on my hearing aid,Help_Volume,Help_Volume,0.66388905,True
+can you switch to program two,Cmd.MemoryChange,Cmd.MemoryChange,0.98052514,True
+how do i get my right hearing aid to stream,Help_Accessories,Help_Accessories,0.5330285,True
+i need help with pairing the aids,Help_Pairing,Help_Pairing,0.9750991,True
+can you alexa,Default Fallback Intent,Default Fallback Intent,0.5535732,True
+can you minimum sound,Cmd.VolumeDecrease,Default Fallback Intent,0.47431737,False
+please switch to music memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9737292,True
+pairing my hearing aids with the thrive app,Help_Pairing,Help_Pairing,0.971657,True
+how much longer do i need to stand,Cmd.ActivityStand,Cmd.ActivityRun,0.51468724,False
+can you help me intercept a fall alert,Help_FallAlert,Help_FallAlert,0.9610383,True
+send my message,Cmd.SendMessage,Cmd.SendMessage,0.96253675,True
+set memory to three,Cmd.MemoryChange,Cmd.MemoryChange,0.9842083,True
+change to work,Cmd.MemoryChange,Cmd.MemoryChange,0.90304404,True
+what's the latest cricket score?,Default Fallback Intent,Default Fallback Intent,0.70355135,True
+okay microphone,Default Fallback Intent,Help_SelfCheck,0.20423214,False
+can you youtube videos,Default Fallback Intent,Default Fallback Intent,0.9765453,True
+please change program to number one,Cmd.MemoryChange,Cmd.MemoryChange,0.95818317,True
+would you send a message for me,Cmd.SendMessage,Cmd.SendMessage,0.9435937,True
+i can't hear the,Default Fallback Intent,Default Fallback Intent,0.36557207,True
+is my hearing aid connected to the app?,Help_Pairing,Help_Pairing,0.96170145,True
+please change to memory two,Cmd.MemoryChange,Cmd.MemoryChange,0.9756625,True
+can you auditorium setting,Cmd.MemoryChange,Cmd.MemoryChange,0.9580574,True
+how do i link a location to my memory?,Help_MemoryOptions,Help_MemoryOptions,0.8954191,True
+please where's dnn speech enhancement?,Help_IntelliVoice,Help_IntelliVoice,0.9282178,True
+communicate via text,Cmd.SendMessage,Default Fallback Intent,0.6594492,False
+how often should i use intellivoice?,Help_IntelliVoice,Help_IntelliVoice,0.9459019,True
+soften things up,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.79666156,False
+please change to mask memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9728795,True
+make my surroundings quieter,Cmd.VolumeDecrease,Default Fallback Intent,0.24446411,False
+can you finish reminder.,reminders.complete,reminders.complete,0.5457744,True
+angry orchard beer,Default Fallback Intent,Default Fallback Intent,0.9356053,True
+how do i use thrive assistant,Help_VoiceAssistant,Help_VoiceAssistant,0.9633718,True
+can you tell me what my step goal is,Cmd.ActivityStep,Cmd.ActivityStep,0.917344,True
+can i assign a location to my memory?,Help_MemoryOptions,Help_MemoryOptions,0.8620219,True
+please turn the sound down,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.91213727,True
+can you so that your hearing,Default Fallback Intent,Default Fallback Intent,0.95716965,True
+how much battery,Cmd.BatteryLevel,Cmd.BatteryLevel,0.91677076,True
+how do i toggle my hearing programs,Help_ChangingMemories,Help_Customize,0.4103036,False
+how will i know when the audiologist adjusted my hearing aids?,Help_RemoteProgramming,Help_RemoteProgramming,0.95229405,True
+change to mask mode,Cmd.MemoryChange,Cmd.MemoryChange,0.84814435,True
+how do you spell keep my microphone,Default Fallback Intent,Default Fallback Intent,0.28353024,True
+step calories,Cmd.ActivityStep,Cmd.ActivityStep,0.46969816,True
+please change to everyday,Cmd.MemoryChange,Cmd.MemoryChange,0.806067,True
+can i turn off tinnitus,Help_Tinnitus,Help_Tinnitus,0.4393497,True
+what's new in this engage app?,Help_WhatsNew,Help_WhatsNew,0.9505509,True
+how to change my step goals from weekly to daily?,Help_Health,Help_Health,0.8824807,True
+how will i know when my professional adjusted the hearing aids?,Help_RemoteProgramming,Help_RemoteProgramming,0.9638666,True
+stop casting to my hearing aids,Cmd.StreamingStop,Help_SelfCheck,0.3821996,False
+can you help with remote mic,Help_Accessories,Help_Accessories,0.8769031,True
+change to mute,Cmd.MemoryChange,Cmd.MemoryChange,0.9338872,True
+please change program to worship,Cmd.MemoryChange,Cmd.MemoryChange,0.9795786,True
+please switch program to office,Cmd.MemoryChange,Cmd.MemoryChange,0.97663385,True
+please remind me to pick up my car friday morning,reminders.add,reminders.add,0.98099536,True
+switch memory to speech,Cmd.MemoryChange,Cmd.MemoryChange,0.96977973,True
+how do remote fittings work,Help_RemoteProgramming,Help_Accessories,0.24150707,False
+please remind me to wash the car,reminders.add,reminders.add,0.9753737,True
+my ears keep ringing what can i do,Help_Tinnitus,Help_InsertDevice,0.43264467,False
+please sync car bluetooth to hearing aid,Help_Pairing,Help_Pairing,0.85675925,True
+turn on the answer double tap slept here.,Default Fallback Intent,Default Fallback Intent,0.80972064,True
+please play frank sinatra,Default Fallback Intent,Default Fallback Intent,0.72116476,True
+how do i increase my kind score?,Help_ThriveScore,Help_ThriveScore,0.97705746,True
+can you phone a friend,Default Fallback Intent,Default Fallback Intent,0.7997182,True
+new reminder,reminders.add,reminders.add,0.8110531,True
+please set memory to number three,Cmd.MemoryChange,Cmd.MemoryChange,0.9689978,True
+begin a walk,Cmd.ActivityWalk,Cmd.ActivityWalk,0.69484365,True
+what accessories work with my aids,Help_Accessories,Help_Accessories,0.7598989,True
+can you car memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9447804,True
+can you change program to number four,Cmd.MemoryChange,Cmd.MemoryChange,0.961217,True
+how do i use,Default Fallback Intent,Help_IntelliVoice,0.4186704,False
+please i cannot find my right hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.97597754,True
+telephone missing,Cmd.FindMyPhone,Cmd.FindMyPhone,0.40592292,True
+help with the ipro score,Help_ThriveScore,Help_ThriveScore,0.93577945,True
+detect android phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.95337975,True
+please switch to personal,Cmd.MemoryChange,Cmd.MemoryChange,0.94881046,True
+please latest reminder completed.,reminders.complete,reminders.complete,0.79601157,True
+please change memory to personal,Cmd.MemoryChange,Cmd.MemoryChange,0.98072684,True
+can you set to noise memory,Cmd.MemoryChange,Cmd.MemoryChange,0.97837317,True
+can you sizzlers in initiated by cham tap here to inform them that you received this order,Default Fallback Intent,Default Fallback Intent,0.93788075,True
+can you heart rate recovery user guide,Help_HeartRateRecovery,Help_HeartRateRecovery,0.90928316,True
+how do i adjust the volume on just the left hearing aid?,Help_Volume,Help_Volume,0.96959287,True
+please remember to take my medicine tuesday morning at 10 a.m.,reminders.add,reminders.add,0.9516518,True
+remind me of video everyday at noon,reminders.add,reminders.add,0.99267596,True
+how do i locate my right aid?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9377266,True
+how much have i walked?,Cmd.ActivityWalk,Cmd.ActivityWalk,0.60933185,True
+how do i turn the wind noise down,Help_Customize,Help_Volume,0.7807766,False
+can you change program to noise,Cmd.MemoryChange,Cmd.MemoryChange,0.9854879,True
+can you change to quiet program,Cmd.MemoryChange,Cmd.MemoryChange,0.96949357,True
+help with changing programs on the phone,Help_ChangingMemories,Help_ChangingMemories,0.9273981,True
+can you hear it again.,Cmd.ListenMessage,Default Fallback Intent,0.7035098,False
+can you set to master program,Cmd.MemoryChange,Cmd.MemoryChange,0.98002553,True
+i want pure silence,Cmd.VolumeMute,Default Fallback Intent,0.2710333,False
+can you volume on left aid,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.7428965,True
+how do you do,Default Fallback Intent,Default Fallback Intent,0.91294014,True
+how do i clean my ric hearing aids?,Help_CleanCare,Help_CleanCare,0.92103213,True
+what's new?,Help_WhatsNew,Help_WhatsNew,0.50188,True
+where is help for intellivoice,Help_IntelliVoice,Help_IntelliVoice,0.73991495,True
+did i drop my aids somewhere,Help_FindMyHearingAids,Help_FindMyHearingAids,0.20107359,True
+what size battery does my hearing aid use,Help_Battery,Help_Battery,0.73552954,True
+when do i cancel an alert text message?,Help_FallAlert,Help_FallAlert,0.96916616,True
+please switch to auditorium program,Cmd.MemoryChange,Cmd.MemoryChange,0.97399974,True
+show me my step goal?,Cmd.ActivityStep,Cmd.ActivityStep,0.87727463,True
+can you play last voice message.,Cmd.ListenMessage,Cmd.ListenMessage,0.9780954,True
+not screaming loud enough,Default Fallback Intent,Cmd.StreamingStop,0.3420598,False
+please heart rate recovery help,Help_HeartRateRecovery,Help_HeartRateRecovery,0.964071,True
+is it ok to push the hearing aid in deep?,Help_InsertDevice,Help_InsertDevice,0.94580376,True
+how do i create my own memory for my hearing aid?,Help_MemoryOptions,Help_MemoryOptions,0.6789711,True
+how do i use find my hearing aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.92459,True
+stop piping audio to my ears,Cmd.StreamingStop,Cmd.StreamingStart,0.33004606,False
+how do i automatically change to a different memory for phone calls,Help_DeviceSettings,Default Fallback Intent,0.55447143,False
+can you switch to telephone memory,Cmd.MemoryChange,Cmd.MemoryChange,0.95266557,True
+please locate a bowling alley nearby,Default Fallback Intent,Default Fallback Intent,0.9591295,True
+can you set to pub program,Cmd.MemoryChange,Cmd.MemoryChange,0.98492014,True
+help with white noise adjustments in my hearing aids,Help_Tinnitus,Help_Tinnitus,0.9626034,True
+can you ek divas jam to send the money,Default Fallback Intent,Default Fallback Intent,0.97084886,True
+can you set up a reminder for me,reminders.add,reminders.add,0.97518325,True
+help with the remote mic,Help_Accessories,Help_Accessories,0.8140663,True
+and push it down for dramatics,Default Fallback Intent,Cmd.VolumeDecrease,0.70894796,False
+can you i don’t have a normal memory,Help_MemoryOptions,Help_MemoryOptions,0.51726973,True
+quiet everything down to nothing,Cmd.VolumeMute,Cmd.VolumeDecrease,0.67675805,False
+can i change the ringtones on my hearing aid?,Help_DeviceSettings,Help_InsertDevice,0.27058247,False
+much appreciated,Default Fallback Intent,Default Fallback Intent,0.5182466,True
+setup reminder to take medicine at 1 p.m.,reminders.add,reminders.add,0.9474919,True
+help with changing programs on my aid,Help_ChangingMemories,Help_ChangingMemories,0.97664195,True
+what is intellivoice,Help_IntelliVoice,Help_IntelliVoice,0.9716589,True
+can you discover revelation,Default Fallback Intent,Default Fallback Intent,0.8153258,True
+is my heart rate recovery good?,Help_HeartRateRecovery,Help_HeartRateRecovery,0.9556867,True
+have long have i been jogging?,Cmd.ActivityRun,Cmd.ActivityCycle,0.49387807,False
+can you change program to outdoors,Cmd.MemoryChange,Cmd.MemoryChange,0.97362673,True
+schedule appointment tomorrow,reminders.add,reminders.add,0.79797786,True
+please turn off the volume in my left hearing aid,Cmd.VolumeMute,Cmd.VolumeMute,0.48834604,True
+please set an doctors appointment for tomorrow at 10 am,reminders.add,reminders.add,0.8402836,True
+remind me to take my medicine today in one minute,reminders.add,reminders.add,0.97703266,True
+set to office memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9847247,True
+how do i turn up the tinnitus noise?,Help_Tinnitus,Help_Tinnitus,0.9523796,True
+please since you're coming up pretty soon,Default Fallback Intent,Help_CleanCare,0.25856015,False
+how do i use voice commands,Help_VoiceAssistant,Help_VoiceAssistant,0.6024208,True
+what should i wear today,Default Fallback Intent,Default Fallback Intent,0.586972,True
+hear it again.,Cmd.ListenMessage,Cmd.VolumeIncrease,0.5025976,False
+please change memory to home,Cmd.MemoryChange,Cmd.MemoryChange,0.9508556,True
+please change to kitchen,Cmd.MemoryChange,Cmd.MemoryChange,0.92581254,True
+i lost the connection to my hearing aids,Help_Pairing,Cmd.StreamingStart,0.68560207,False
+what should i do first here,Help_Home,Help_Home,0.32481015,True
+can you i misplaced my aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.93743426,True
+how is the wellness score calculated?,Help_ThriveScore,Help_ThriveScore,0.9604544,True
+switch memory to number one,Cmd.MemoryChange,Cmd.MemoryChange,0.97349024,True
+please savory someone sucking reasons,Default Fallback Intent,Default Fallback Intent,0.9725556,True
+convert this foreign language to english,Cmd.TranslationStart,Default Fallback Intent,0.48111054,False
+who has the best chinese food in sioux falls,Default Fallback Intent,Default Fallback Intent,0.9075557,True
+edge mode help,Help_EdgeMode,Help_EdgeMode,0.9184671,True
+how do i unmute the volume?,Help_Volume,Help_Volume,0.8869947,True
+mute the hearing aids,Cmd.VolumeMute,Cmd.VolumeMute,0.7202271,True
+how do i use the translation tool,Help_Translate,Default Fallback Intent,0.7043099,False
+can you increase the loudness in my aids,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.71628916,True
+show me the help for translate,Help_Translate,Help_Translate,0.9092461,True
+drop a message,Cmd.SendMessage,Cmd.SendMessage,0.7969381,True
+remember to wash the car in 4 hours,reminders.add,reminders.add,0.77827716,True
+how do i change memories on my hearing aids?,Help_ChangingMemories,Help_ChangingMemories,0.7927596,True
+please switch program to worship,Cmd.MemoryChange,Cmd.MemoryChange,0.9757623,True
+how do i add an automatic telephone program?,Help_DeviceSettings,Help_MemoryOptions,0.22292787,False
+please set to quiet program,Cmd.MemoryChange,Cmd.MemoryChange,0.94579333,True
+show me my weekly health summary,Help_Health,Help_Health,0.7295328,True
+please turn the sound up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.66753334,True
+remind me to go to work the 19th of august,reminders.add,reminders.add,0.9815025,True
+go back to normal mode,Cmd.MemoryChange,Cmd.MemoryChange,0.26229522,True
+please set program to pub,Cmd.MemoryChange,Cmd.MemoryChange,0.9806888,True
+end my tv streaming,Cmd.StreamingStop,Cmd.StreamingStop,0.7474402,True
+do i have cros or wicros?,Help_WiCROS,Help_WiCROS,0.2822328,True
+remind me to check my computer,reminders.add,reminders.add,0.96115905,True
+what's the best battery for my aids,Help_Battery,Cmd.BatteryLevel,0.41490424,False
+what's my total thrive number,Help_ThriveScore,Default Fallback Intent,0.33152974,False
+can you home memory,Cmd.MemoryChange,Cmd.MemoryChange,0.8891465,True
+can you play my message,Cmd.ListenMessage,Cmd.ListenMessage,0.96946824,True
+please start translating in french,Cmd.TranslationStart,Cmd.TranslationStart,0.5477546,True
+how do i turn down background noise?,Help_Customize,Help_Volume,0.4258847,False
+turn my right hearing aid up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.5783398,True
+can you set to tinnitus memory,Cmd.MemoryChange,Cmd.MemoryChange,0.8400365,True
+why can't i get my hearing aids to go through on my phone to go through my hearing aids,Help_Pairing,Help_ChangingMemories,0.31589058,False
+please reminder for this evening,reminders.add,reminders.add,0.8965613,True
+please go back to a high,Default Fallback Intent,Default Fallback Intent,0.6405883,True
+can you remind me today,reminders.add,reminders.add,0.99303645,True
+explain dnn speech enhancement,Help_IntelliVoice,Help_IntelliVoice,0.87107813,True
+what can i do here?,Help_Home,Help_FallAlert,0.29981497,False
+how do i adjust my loudness of the noise masker in the hearing aid?,Help_Tinnitus,Help_Tinnitus,0.887407,True
+can you change memory to tinnitus,Cmd.MemoryChange,Cmd.MemoryChange,0.8888274,True
+can you every month,reminders.add,reminders.add,0.4426366,True
+how do i change the volume on just one aid?,Help_Volume,Help_Volume,0.5209897,True
+can you open transcribe,Cmd.TranscribeStart,Cmd.TranscribeStart,0.7027681,True
+can you switch to speech program,Cmd.MemoryChange,Cmd.MemoryChange,0.97448015,True
+how do i share my status with a caregiver?,Help_HearShare,Help_HearShare,0.9410731,True
+can you make a u-turn,Default Fallback Intent,Default Fallback Intent,0.89253604,True
+how do i search for my aid?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.838966,True
+can you change to home program,Cmd.MemoryChange,Cmd.MemoryChange,0.9693897,True
+start my cycling workout,Cmd.ActivityCycle,Cmd.ActivityExercise,0.48676917,False
+where can i find tally here,Help_HearingCareAnywhereConnect,Default Fallback Intent,0.4280477,False
+set up audio streaming,Cmd.StreamingStart,Cmd.StreamingStart,0.75719005,True
+can you change memory to television,Cmd.MemoryChange,Cmd.MemoryChange,0.9605193,True
+can you pairing hearing aids on the thrive app,Help_Pairing,Help_Pairing,0.9763214,True
+track this gym session,Cmd.ActivityExercise,Default Fallback Intent,0.16431776,False
+can you kitchen memory,Cmd.MemoryChange,Cmd.MemoryChange,0.8684966,True
+can you just keep me that you searching,Default Fallback Intent,Default Fallback Intent,0.95779246,True
+can you set to television memory,Cmd.MemoryChange,Cmd.MemoryChange,0.95981735,True
+change memory to train,Cmd.MemoryChange,Cmd.MemoryChange,0.9759409,True
+can you i'd like to know how far it is to the moon,Default Fallback Intent,Default Fallback Intent,0.9849235,True
+can you i need an adjustment to my aids,Help_RemoteProgramming,Help_RemoteProgramming,0.6960908,True
+set program to gym,Cmd.MemoryChange,Cmd.MemoryChange,0.98752636,True
+please change to work program,Cmd.MemoryChange,Cmd.MemoryChange,0.97500277,True
+set a reminder to take medication today at 5 p.m.,reminders.add,reminders.add,0.99236757,True
+reminder to play with my cat every workday at 7 p.m.,reminders.add,reminders.add,0.91825455,True
+that's hurting my ears,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.65456474,True
+how do i set up hearshare?,Help_HearShare,Help_HearShare,0.9521731,True
+can thrive measure my heart rate,Help_HeartRate,Help_HeartRate,0.9674059,True
+remind me to wash my car,reminders.add,reminders.add,0.99123645,True
+can you i need to unpair my hearing aids from my phone,Help_Pairing,Help_Pairing,0.51405096,True
+make it less intense,Cmd.VolumeDecrease,Cmd.VolumeUnmute,0.6969052,False
+can you tinnitus memory,Cmd.MemoryChange,Cmd.MemoryChange,0.6525862,True
+how to run intelligent voice,Help_IntelliVoice,Default Fallback Intent,0.23422672,False
+can you locate phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.89773977,True
+can you change memory to number two,Cmd.MemoryChange,Cmd.MemoryChange,0.97297186,True
+send audio to my aids,Cmd.StreamingStart,Cmd.StreamingStart,0.4847159,True
+log a run,Cmd.ActivityRun,Cmd.VolumeDecrease,0.26084182,False
+help with self check,Help_SelfCheck,Help_SelfCheck,0.8302748,True
+change memory to crowd,Cmd.MemoryChange,Cmd.MemoryChange,0.97698087,True
+can you be more specific,Default Fallback Intent,Default Fallback Intent,0.9885648,True
+please change program to meeting,Cmd.MemoryChange,Cmd.MemoryChange,0.9651991,True
+what languages can the translate feature use?,Help_Translate,Help_Translate,0.89809155,True
+hope you're doing well,Default Fallback Intent,Help_Transcribe,0.25616735,False
+point me to what i can do here,Help_Home,Help_Home,0.28311625,True
+please i need a reminder for today,reminders.add,reminders.add,0.98413,True
+please remind me to check my computer,reminders.add,reminders.add,0.971281,True
+theater setting,Cmd.MemoryChange,Cmd.MemoryChange,0.9126501,True
+thrive assistant user guide,Help_VoiceAssistant,Help_VoiceAssistant,0.9061577,True
+stand goal?,Cmd.ActivityStand,Cmd.ActivityStand,0.75920284,True
+how do i wear my aids properly,Help_InsertDevice,Help_CleanCare,0.3166542,False
+set memory to pub,Cmd.MemoryChange,Cmd.MemoryChange,0.9848045,True
+give me my energy burn,Cmd.ActivityCalories,Help_FindMyHearingAids,0.32739544,False
+help i'm overwhelmed by the app,Help_Home,Help_AppSettings,0.53045005,False
+can you telephone memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9161619,True
+start my aerobics workout,Cmd.ActivityAerobics,Cmd.ActivityAerobics,0.9613497,True
+set to kitchen program,Cmd.MemoryChange,Cmd.MemoryChange,0.9813043,True
+can you set memory to crowd,Cmd.MemoryChange,Cmd.MemoryChange,0.98485386,True
+can you put my phone on chris home,Default Fallback Intent,Default Fallback Intent,0.3937403,True
+why isn't my heart mahira anaise bagri working,Default Fallback Intent,Default Fallback Intent,0.98281074,True
+how can i see my health goals?,Help_Health,Help_Health,0.8914983,True
+relay information,Cmd.SendMessage,Default Fallback Intent,0.9086555,False
+enable direct audio,Cmd.StreamingStart,Cmd.VolumeUnmute,0.30923086,False
+can you set memory to speech,Cmd.MemoryChange,Cmd.MemoryChange,0.97432816,True
+how do i improve my brain score?,Help_ThriveScore,Help_ThriveScore,0.98937154,True
+how should i send a manual alert text?,Help_FallAlert,Help_FallAlert,0.9547136,True
+i misplaced my hearing device,Help_FindMyHearingAids,Help_MemoryOptions,0.38754934,False
+please set program to number two,Cmd.MemoryChange,Cmd.MemoryChange,0.95954627,True
+remind me to buy shoes in paris,reminders.add,reminders.add,0.9636063,True
+help with changing memories using my app,Help_ChangingMemories,Help_ChangingMemories,0.9569602,True
+can you change program to home,Cmd.MemoryChange,Cmd.MemoryChange,0.97068465,True
+please mavis by stupid hearing aids,Default Fallback Intent,Default Fallback Intent,0.6026283,True
+can you switch to tinnitus,Cmd.MemoryChange,Cmd.MemoryChange,0.8532762,True
+translate their speech into english,Cmd.TranslationStart,Cmd.TranslationStart,0.6274018,True
+please set memory to automatic,Cmd.MemoryChange,Cmd.MemoryChange,0.9717515,True
+when should i use intellivoice,Help_IntelliVoice,Help_IntelliVoice,0.8982999,True
+please wendy's double tapped it and has not worked,Default Fallback Intent,Default Fallback Intent,0.8851216,True
+can you keep track of this for me?,reminders.add,Default Fallback Intent,0.8483755,False
+turn all sound off,Cmd.VolumeMute,Cmd.VolumeMute,0.5742316,True
+is the hearing aid connected to the app?,Help_Pairing,Help_Pairing,0.90451676,True
+max loudness,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.51343274,True
+what's new in this app?,Help_WhatsNew,Help_WhatsNew,0.9378283,True
+please change to work memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9803318,True
+i'm going cycling,Cmd.ActivityCycle,Cmd.StreamingStart,0.37397492,False
+can you help with device settings,Help_DeviceSettings,Help_MemoryOptions,0.23071192,False
+can you change memory to office,Cmd.MemoryChange,Cmd.MemoryChange,0.9822405,True
+how do i use my cros device,Help_WiCROS,Help_Health,0.39474243,False
+keep this in mind for me,reminders.add,Default Fallback Intent,0.61466527,False
+on your bookkeeping it's all on my side so,Default Fallback Intent,Default Fallback Intent,0.8739566,True
+switch my memory,Cmd.MemoryChange,Cmd.MemoryChange,0.92858225,True
+please it's busy being born,Default Fallback Intent,Default Fallback Intent,0.544402,True
+how do i save my settings online,Help_HearingCareAnywhereConnect,Help_HearingCareAnywhereConnect,0.2283812,True
+how do i unmute the left hearing aid?,Help_Volume,Help_Volume,0.89374906,True
+repair the audio on my hearing aids,Help_DeviceSettings,Cmd.StreamingStart,0.43013042,False
+voices are too soft for me,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.40102416,False
+can i use thrive assistant without my phone?,Help_VoiceAssistant,Help_VoiceAssistant,0.47135988,True
+can you play my last recording.,Cmd.ListenMessage,Cmd.ListenMessage,0.71559757,True
+can you change setting to two,Cmd.MemoryChange,Cmd.MemoryChange,0.9788906,True
+discover android phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.90512997,True
+can you change memory to speech,Cmd.MemoryChange,Cmd.MemoryChange,0.9664451,True
+can you set program to mute,Cmd.MemoryChange,Cmd.MemoryChange,0.97315764,True
+please switch to train program,Cmd.MemoryChange,Cmd.MemoryChange,0.96885663,True
+locate my hearing aids for me,Help_FindMyHearingAids,Help_FindMyHearingAids,0.89302254,True
+can you change to golf,Cmd.MemoryChange,Cmd.MemoryChange,0.9585529,True
+change memory to number four,Cmd.MemoryChange,Cmd.MemoryChange,0.9690099,True
+please yeah just take a little off yeah,Default Fallback Intent,Default Fallback Intent,0.7737336,True
+can you help with noise stimulus adjustment on my aids,Help_Tinnitus,Help_Tinnitus,0.8787756,True
+hello,Default Fallback Intent,Default Fallback Intent,0.21659245,True
+can you unmute the aids,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.46701252,True
+can you i want to make sure i also cleaned but nuflex filters in them,Default Fallback Intent,Default Fallback Intent,0.9861463,True
+i need it softer,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.34391984,True
+please switch to memory number one,Cmd.MemoryChange,Cmd.MemoryChange,0.95328635,True
+calories walking,Cmd.ActivityWalk,Cmd.ActivityWalk,0.5420295,True
+the shadowy men on a shadowy planet,Default Fallback Intent,Default Fallback Intent,0.9275758,True
+reduce the sound,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.47918645,True
+reminder finished.,reminders.complete,reminders.add,0.6428352,False
+automatic setting,Cmd.MemoryChange,Cmd.MemoryChange,0.9267514,True
+how many miles have i biked,Cmd.ActivityCycle,Help_Home,0.30084053,False
+can you help with noise stimulus adjustment in my aids,Help_Tinnitus,Help_Tinnitus,0.94292927,True
+explain the loudness controls,Help_Volume,Help_Volume,0.3699103,True
+increase the volume in my hearing aids,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.4053737,False
+can you lift device not registering,Default Fallback Intent,Default Fallback Intent,0.95250744,True
+display my calorie total,Cmd.ActivityCalories,Help_HeartRateRecovery,0.586544,False
+what's the right way to insert my aids,Help_InsertDevice,Cmd.StreamingStart,0.29904422,False
+mute program,Cmd.MemoryChange,Cmd.MemoryChange,0.94816506,True
+can you reminder completed.,reminders.complete,reminders.add,0.4991674,False
+lift device not registering,Default Fallback Intent,Default Fallback Intent,0.5060311,True
+help me understand volume per side,Help_Volume,Help_Volume,0.7258505,True
+the tv is hard to hear,Cmd.VolumeIncrease,Cmd.StreamingStart,0.30912215,False
+am i close to my step goal,Cmd.ActivityStep,Cmd.ActivityStep,0.85164404,True
+close the audio streaming,Cmd.StreamingStop,Cmd.StreamingStop,0.5568724,True
+where do i find the transcription feature,Help_Transcribe,Help_WiCROS,0.32863575,False
+how do i mute my right hearing aid?,Help_Volume,Help_Pairing,0.40749773,False
+switch to noise,Cmd.MemoryChange,Cmd.MemoryChange,0.9683661,True
+show my steps so far,Cmd.ActivityStep,Cmd.ActivityStep,0.8769358,True
+can you find my other hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9188964,True
+recommend me a book,Default Fallback Intent,Default Fallback Intent,0.63049144,True
+please my hearing aids have too much treble,Help_Customize,Help_DeviceSettings,0.23703572,False
+can you look for my hearing aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.80154276,True
+where do i find the app settings?,Help_AppSettings,Help_AppSettings,0.82870257,True
+please lift device not registering,Default Fallback Intent,Default Fallback Intent,0.8183325,True
+can you remind me to visit my family on thanksgiving day,reminders.add,reminders.add,0.9754469,True
+how do i adjust my loudness of the tinnitus volume on the hearing aids?,Help_Tinnitus,Help_Tinnitus,0.8405982,True
+can you help with white noise adjustments in my aid,Help_Tinnitus,Help_Tinnitus,0.92818457,True
+tinnitus memory,Cmd.MemoryChange,Cmd.MemoryChange,0.6836691,True
+its loudy,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.27340832,True
+since my letter needs to be updated,Default Fallback Intent,Default Fallback Intent,0.38217673,True
+bluetooth is not working,Help_Pairing,Cmd.ActivityWalk,0.28144613,False
+set the reminder,reminders.add,reminders.add,0.89265686,True
+can you switch memory to mask,Cmd.MemoryChange,Cmd.MemoryChange,0.9701526,True
+please set program to work,Cmd.MemoryChange,Cmd.MemoryChange,0.9756647,True
+can you i can't find my right hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.94006354,True
+can you volume quieter,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.4740668,False
+give me a tour of the app,Help_Home,Help_Home,0.4620454,True
+how do i change to another program on my hearing aid?,Help_ChangingMemories,Help_ChangingMemories,0.94067496,True
+please set program to train,Cmd.MemoryChange,Cmd.MemoryChange,0.9687384,True
+tell me about demo mode,Help_DemoMode,Help_DemoMode,0.83103395,True
+why did rome fall,Default Fallback Intent,Help_FallAlert,0.5999475,False
+switch listening modes,Cmd.MemoryChange,Cmd.MemoryChange,0.4890073,True
+direct the audio to my hearing devices,Cmd.StreamingStart,Help_Pairing,0.407842,False
+help with the app configuration,Help_AppSettings,Help_AppSettings,0.5710894,True
+please change memory to work,Cmd.MemoryChange,Cmd.MemoryChange,0.9756237,True
+please i need to talk t to my audiologist,Help_RemoteProgramming,Help_RemoteProgramming,0.71195287,True
+help with remote programming,Help_RemoteProgramming,Help_RemoteProgramming,0.79977506,True
+set a recurring daily reminder,Help_Reminder,reminders.add,0.9450367,False
+please i need to disconnect the hearing aids from the phone,Help_Pairing,Help_Pairing,0.7571617,True
+what does the button do that i just pressed,Default Fallback Intent,Default Fallback Intent,0.5088056,True
+i'm going for a stroll,Cmd.ActivityWalk,Default Fallback Intent,0.62397206,False
+remind me to wash the car,reminders.add,reminders.add,0.9882388,True
+translate how much do i owe you in español,Cmd.TranslationStart,Cmd.TranslationStart,0.65745306,True
+what's my total calorie count,Cmd.ActivityCalories,Cmd.ActivityCalories,0.66222817,True
+can you i need to connect the hearing aids to the phone,Help_Pairing,Help_Pairing,0.7909088,True
+help with the captioning feature,Help_Transcribe,Help_DeviceSettings,0.28325647,False
+set program to meeting,Cmd.MemoryChange,Cmd.MemoryChange,0.97996175,True
+how do i ask my audiologist for new hearing aid settings?,Help_RemoteProgramming,Help_RemoteProgramming,0.8414912,True
+how should i send a manual alert message?,Help_FallAlert,Help_FallAlert,0.8799705,True
+set up a reminder,reminders.add,reminders.add,0.9390228,True
+can you beep,Help_DeviceSettings,Default Fallback Intent,0.6062905,False
+set to master memory,Cmd.MemoryChange,Cmd.MemoryChange,0.985179,True
+switch memory to telephone,Cmd.MemoryChange,Cmd.MemoryChange,0.97224265,True
+explain edge mode,Help_EdgeMode,Help_EdgeMode,0.9549992,True
+caption this conversation,Cmd.TranscribeStart,Cmd.TranscribeStart,0.4587209,True
+does mask mode improve clarity with masks,Help_MaskMode,Help_MaskMode,0.8121559,True
+please am i close to my cycling goal?,Cmd.ActivityCycle,Default Fallback Intent,0.46391073,False
+when should i start a manual alert message?,Help_FallAlert,Help_FallAlert,0.96502656,True
+increase the right hearing aid,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.28613904,True
+explain proper aid placement,Help_InsertDevice,Help_InsertDevice,0.43273997,True
+what is my step count?,Cmd.ActivityStep,Cmd.ActivityStep,0.9574947,True
+locate my right hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.94552296,True
+where do i manage notifications,Help_AppSettings,Help_DeviceSettings,0.46104503,False
+why do my aids sound strange,Help_DeviceSettings,Help_DeviceSettings,0.8640941,True
+where do transcripts get saved,Help_Transcribe,Default Fallback Intent,0.67934334,False
+can i edit a reminder,Help_Reminder,Help_Reminder,0.4654652,True
+can you help me find my left hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.8601833,True
+sound on again please,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.7002704,True
+can you more volume on hearing aid,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.58349293,True
+listen to the presenter,Cmd.StreamingStart,Cmd.StreamingStart,0.8612965,True
+can you change to home,Cmd.MemoryChange,Cmd.MemoryChange,0.89933884,True
+help with tinnitus stimulus adjustments on my hearing aid,Help_Tinnitus,Help_Tinnitus,0.9553294,True
+please there is a problem with my right hearing aid,Help_SelfCheck,Help_SelfCheck,0.8437554,True
+turn it up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.76307225,True
+turn the mute off,Cmd.VolumeUnmute,Cmd.VolumeMute,0.63062984,False
+please tell me a joke i need to be cheered up,Default Fallback Intent,Default Fallback Intent,0.51070875,True
+turn the sound down a bit,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.93701863,True
+please help with intelligent voice,Help_IntelliVoice,Help_IntelliVoice,0.7099632,True
+remind me to go running at 6 a.m.,reminders.add,reminders.add,0.99201196,True
+switch my hearing back on,Cmd.VolumeUnmute,Cmd.MemoryChange,0.32226196,False
+how do i enable comfort boost?,Help_DeviceSettings,Help_DeviceSettings,0.7301179,True
+these keeps doing this,Default Fallback Intent,Default Fallback Intent,0.27148595,True
+please translate to english,Cmd.TranslationStart,Cmd.TranslationStart,0.8021964,True
+can you discover iphone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.69319856,True
+can you remember to take medicine,reminders.add,reminders.add,0.6261918,True
+switch to everyday,Cmd.MemoryChange,Cmd.MemoryChange,0.8653354,True
+is spanish available for translation,Help_Translate,Help_Translate,0.74876493,True
+hook my aids up to the tv sound,Cmd.StreamingStart,Cmd.StreamingStart,0.75058424,True
+what is remote programming?,Help_RemoteProgramming,Help_RemoteProgramming,0.83862805,True
+please alexa turn off porch light,Default Fallback Intent,Default Fallback Intent,0.93195593,True
+please remind me about dinner in 1 minute,reminders.add,reminders.add,0.92872053,True
+wireless stream audio,Cmd.StreamingStart,Cmd.StreamingStart,0.79752,True
+help setting up shared listening,Help_HearShare,Help_DeviceSettings,0.2711543,False
+personalize my hearing aid settings,Help_MemoryOptions,Help_HearingCareAnywhereConnect,0.42554778,False
+what's my battery life?,Cmd.BatteryLevel,Cmd.BatteryLevel,0.70379955,True
+please remind me of blood brothers,reminders.add,reminders.add,0.9234795,True
+please switch program to one,Cmd.MemoryChange,Cmd.MemoryChange,0.9742032,True
+show me my step count,Cmd.ActivityStep,Cmd.ActivityStep,0.93821484,True
+please change to worship program,Cmd.MemoryChange,Cmd.MemoryChange,0.9731006,True
+where is the heart rate function within the app?,Help_HeartRate,Help_HeartRate,0.968276,True
+how do i disconnect my aid?,Help_Pairing,Help_Pairing,0.53782594,True
+change to meeting program,Cmd.MemoryChange,Cmd.MemoryChange,0.9822296,True
+can you help transcribe,Help_Transcribe,Help_Transcribe,0.9718221,True
+can you change to auditorium memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9748038,True
+remind me to take medicine in 5 minutes,reminders.add,reminders.add,0.9923442,True
+can you change program to work,Cmd.MemoryChange,Cmd.MemoryChange,0.9838831,True
+make sure i don't forget to take my pills at 8 am,reminders.add,reminders.add,0.8127711,True
+what's my standing time,Cmd.ActivityStand,Cmd.ActivityStand,0.49578154,True
+can you have i reached my exercise goal,Cmd.ActivityExercise,Cmd.ActivityExercise,0.89571095,True
+"please hey, mark, okay.",Default Fallback Intent,Default Fallback Intent,0.65592617,True
+which battery do i need for my hearing aid,Help_Battery,Help_Battery,0.53800166,True
+create a future reminder,reminders.add,reminders.add,0.90950614,True
+when is the king and i playing,Default Fallback Intent,Default Fallback Intent,0.43502608,True
+please set memory to everyday,Cmd.MemoryChange,Cmd.MemoryChange,0.97262615,True
+i need a reminder to take medication,reminders.add,reminders.add,0.9264221,True
+please remind me of video everyday at noon,reminders.add,reminders.add,0.9823101,True
+can you set to automatic program,Cmd.MemoryChange,Cmd.MemoryChange,0.9788158,True
+can you remind me to go to sleep,reminders.add,reminders.add,0.94143546,True
+master setting,Cmd.MemoryChange,Cmd.MemoryChange,0.6483505,True
+can you switch program to three,Cmd.MemoryChange,Cmd.MemoryChange,0.9802675,True
+can you angry orchard beer,Default Fallback Intent,Default Fallback Intent,0.9800771,True
+bring the volume down,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.9770617,True
+does mask mode help me hear masked voices,Help_MaskMode,Help_MaskMode,0.3170559,True
+"alpha bail, again. swelling down in rio.",Default Fallback Intent,Default Fallback Intent,0.94333017,True
+can you have i reached my activity goal?,Cmd.ActivityAerobics,Cmd.ActivityExercise,0.27203816,False
+how much longer do i need to stand?,Cmd.ActivityStand,Cmd.ActivityRun,0.51468724,False
+can you mute off,Cmd.VolumeUnmute,Cmd.VolumeMute,0.4072524,False
+i need a hand getting going,Help_Home,Default Fallback Intent,0.5826189,False
+how many burned calories today,Cmd.ActivityCalories,Cmd.ActivityCalories,0.9200197,True
+can you change program to office,Cmd.MemoryChange,Cmd.MemoryChange,0.9852572,True
+can you set program to number three,Cmd.MemoryChange,Cmd.MemoryChange,0.9558104,True
+can you meeting program,Cmd.MemoryChange,Cmd.MemoryChange,0.94822973,True
+the program isn't right for where i am,Cmd.MemoryChange,Default Fallback Intent,0.5123233,False
+please remember to wash the car in 4 hours,reminders.add,reminders.add,0.77829635,True
+track aerobics workout,Cmd.ActivityAerobics,Cmd.ActivityAerobics,0.9165406,True
+please set to music memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9758715,True
+can you start transcribe,Cmd.TranscribeStart,Cmd.TranscribeStart,0.6184298,True
+change to mask mode memory,Cmd.MemoryChange,Cmd.MemoryChange,0.93200314,True
+please change to tinnitus memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9177444,True
+how do i change the volume on the aid?,Help_Volume,Help_Volume,0.7402165,True
+show me the user guide for translate,Help_Translate,Help_Translate,0.90357864,True
+discover phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.87864035,True
+can you switch to home,Cmd.MemoryChange,Cmd.MemoryChange,0.95420426,True
+please remind me to drink water in 10 minutes,reminders.add,reminders.add,0.9786194,True
+how will i know if i've received new hearing aid settings?,Help_RemoteProgramming,Help_RemoteProgramming,0.7183598,True
+cut the streamed audio to my aids,Cmd.StreamingStop,Cmd.StreamingStart,0.72515005,False
+how do i see my walking goals?,Help_Health,Help_Health,0.8886471,True
+where do i see my beats per minute,Help_HeartRate,Default Fallback Intent,0.27370107,False
+can you hearing aid volume on,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.60639316,True
+how long have i been exercising,Cmd.ActivityExercise,Cmd.ActivityCycle,0.4592425,False
+please change program to everyday,Cmd.MemoryChange,Cmd.MemoryChange,0.9671419,True
+how do i adjust my loudness of the tinnitus stimulus in the aids?,Help_Tinnitus,Help_Tinnitus,0.9639378,True
+volume down,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.90161985,True
+unmute everything,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.81399804,True
+show me tinnitus settings,Help_Tinnitus,Help_Tinnitus,0.7818279,True
+make it quieter,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.48916218,False
+lhs lhs,Default Fallback Intent,Default Fallback Intent,0.9755411,True
+please so it goes back it goes back to the memory or in,Default Fallback Intent,Default Fallback Intent,0.881825,True
+how do i start streaming from my tv streamer?,Help_Accessories,Help_Accessories,0.9794556,True
+log my exercise session,Cmd.ActivityExercise,Cmd.ActivityExercise,0.93250096,True
+switch program to auditorium,Cmd.MemoryChange,Cmd.MemoryChange,0.9819874,True
+can you set to train memory,Cmd.MemoryChange,Cmd.MemoryChange,0.97002745,True
+can i assign a location to a memory?,Help_MemoryOptions,Help_MemoryOptions,0.7877126,True
+please set to car program,Cmd.MemoryChange,Cmd.MemoryChange,0.9388787,True
+please change to train memory,Cmd.MemoryChange,Cmd.MemoryChange,0.98327625,True
+how does heart rate work?,Help_HeartRate,Help_HeartRate,0.8287585,True
+can you remind me in 15 minutes to go to the bar,reminders.add,reminders.add,0.8720606,True
+how do i insert my right hearing aids into my ears?,Help_InsertDevice,Help_InsertDevice,0.3084136,True
+i want to record a run,Cmd.ActivityRun,Default Fallback Intent,0.40343183,False
+help with changing memories using the app,Help_ChangingMemories,Help_ChangingMemories,0.9472961,True
+thrive translate help,Help_Translate,Help_Translate,0.9348845,True
+show me demo mode,Help_DemoMode,Help_DemoMode,0.9596017,True
+please score of the twins game,Default Fallback Intent,Default Fallback Intent,0.74281603,True
+how do i change to a different memory on my aids?,Help_ChangingMemories,Help_ChangingMemories,0.9189422,True
+volume off,Cmd.VolumeMute,Cmd.VolumeMute,0.7796876,True
+battery left,Cmd.BatteryLevel,Cmd.BatteryLevel,0.89390934,True
+can my hearing aids self check,Help_SelfCheck,Help_SelfCheck,0.9316686,True
+can you telephone setting,Cmd.MemoryChange,Cmd.MemoryChange,0.9597786,True
+remind me about the teacher meeting on friday,reminders.add,reminders.add,0.9568863,True
+please help with tinnitus masker adjustments,Help_Tinnitus,Help_Tinnitus,0.9766137,True
+can you set to personal program,Cmd.MemoryChange,Cmd.MemoryChange,0.9855123,True
+how do i stop streaming from the accessories?,Help_Accessories,Help_Accessories,0.9602042,True
+teach me how to use this,Help_Home,Default Fallback Intent,0.29486617,False
+can you everyday is exciting,Default Fallback Intent,Default Fallback Intent,0.53241324,True
+information on the brain score,Help_ThriveScore,Help_ThriveScore,0.9323123,True
+what you can check in,Default Fallback Intent,Cmd.TranslationStart,0.46822852,False
+please help with pairing the aids,Help_Pairing,Help_Pairing,0.9756941,True
+switch to speech,Cmd.MemoryChange,Cmd.MemoryChange,0.9418459,True
+please set memory to restaurant,Cmd.MemoryChange,Cmd.MemoryChange,0.98095477,True
+can you make volume off,Cmd.VolumeMute,Cmd.VolumeMute,0.6629446,True
+can you make my aids listen to the remote microphone,Cmd.StreamingStart,Cmd.StreamingStart,0.8653303,True
+remind me to pick up prescription today at 5 p.m.,reminders.add,reminders.add,0.9900766,True
+remind me to go to the doctor,reminders.add,reminders.add,0.9761854,True
+how many steps until my goal,Cmd.ActivityStep,Cmd.ActivityStep,0.8977127,True
+how do i change my battery?,Help_Battery,Help_Battery,0.76294565,True
+switch program to two,Cmd.MemoryChange,Cmd.MemoryChange,0.9798836,True
+what do i need to know about this new app?,Help_WhatsNew,Help_Home,0.324101,False
+steps to pair my devices,Help_Pairing,Help_Pairing,0.45062298,True
+show help guide for thrive,Help_ThriveScore,Help_MaskMode,0.25599033,False
+can you office memory,Cmd.MemoryChange,Cmd.MemoryChange,0.94461924,True
+can you complete reminder,reminders.complete,reminders.complete,0.87642235,True
+what does this app do,Help_Home,Help_Home,0.92335355,True
+set program to kitchen,Cmd.MemoryChange,Cmd.MemoryChange,0.9878599,True
+how do i use mask mode,Help_MaskMode,Help_MaskMode,0.9752553,True
+can you nothing i can share publicly,Default Fallback Intent,Default Fallback Intent,0.8853045,True
+check them off like pink lady,Default Fallback Intent,Default Fallback Intent,0.9090844,True
+can you adidas women boots,Default Fallback Intent,Default Fallback Intent,0.6245826,True
+please remind me to get groceries every month on the 15th at 1 p.m.,reminders.add,reminders.add,0.9116791,True
+bring the audio back,Cmd.VolumeUnmute,Cmd.VolumeDecrease,0.5470001,False
+can you switch memory to golf,Cmd.MemoryChange,Cmd.MemoryChange,0.9778817,True
+can you turn down the volume,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.95716363,True
+please switch to telephone,Cmd.MemoryChange,Cmd.MemoryChange,0.9352746,True
+can you decrease the right hearing aid,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.6156375,True
+what's new in the engage app?,Help_WhatsNew,Help_WhatsNew,0.93795395,True
+work setting,Cmd.MemoryChange,Cmd.MemoryChange,0.90969336,True
+can you talking about my daughter,Default Fallback Intent,Default Fallback Intent,0.66516757,True
+change to quiet memory,Cmd.MemoryChange,Cmd.MemoryChange,0.97149456,True
+where do i find my heart rate?,Help_HeartRate,Help_HeartRate,0.84667665,True
+people sound muffled and faint,Cmd.VolumeIncrease,Default Fallback Intent,0.38335767,False
+can you 328 cedar falls,Default Fallback Intent,Default Fallback Intent,0.9825816,True
+can you change to television memory,Cmd.MemoryChange,Cmd.MemoryChange,0.88527346,True
+explain when to use mask mode,Help_MaskMode,Help_MaskMode,0.93125385,True
+can you lost phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.7671034,True
+can you generative ai,Default Fallback Intent,Default Fallback Intent,0.7668846,True
+can i use a clip on microphone,Help_Accessories,Default Fallback Intent,0.21426696,False
+please change memory to meeting,Cmd.MemoryChange,Cmd.MemoryChange,0.9664627,True
+how do i know if i need hearing aids,Default Fallback Intent,Help_VoiceAssistant,0.350423,False
+capture this as a reminder,reminders.add,reminders.add,0.8021194,True
+can you change memory to crowd,Cmd.MemoryChange,Cmd.MemoryChange,0.97437173,True
+why is my left hearing aid not paired,Help_Pairing,Help_Pairing,0.8993367,True
+how do i switch programs,Help_ChangingMemories,Help_ChangingMemories,0.23533763,True
+switch program to mask,Cmd.MemoryChange,Cmd.MemoryChange,0.9782602,True
+can you i lost my other hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.8825022,True
+can you play hank williams junior,Default Fallback Intent,Default Fallback Intent,0.96409047,True
+please turn down my right aid,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.83153325,True
+can you list items not working,Default Fallback Intent,Default Fallback Intent,0.97819126,True
+what's my power level,Cmd.BatteryLevel,Default Fallback Intent,0.3520238,False
+can i change the name of my remote mic?,Help_Accessories,Help_Accessories,0.9518212,True
+can you go up in volume,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.9283598,True
+is my aid connected?,Help_Pairing,Help_FindMyHearingAids,0.64383763,False
+tell me my messages,Cmd.ListenMessage,Cmd.ActivityExercise,0.24698563,False
+switch program to telephone,Cmd.MemoryChange,Cmd.MemoryChange,0.9814005,True
+my left aid is missing,Help_FindMyHearingAids,Help_FindMyHearingAids,0.7603905,True
+switch to quiet program,Cmd.MemoryChange,Cmd.MemoryChange,0.9772559,True
+nudge me to stretch in an hour,reminders.add,reminders.add,0.5710464,True
+please turn the volume down,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.9568076,True
+can you switch to noise,Cmd.MemoryChange,Cmd.MemoryChange,0.9767333,True
+remind me to leave at noon,reminders.add,reminders.add,0.9930855,True
+can you change program to automatic,Cmd.MemoryChange,Cmd.MemoryChange,0.9814181,True
+how do i adjust the loudness on my transmitter?,Help_WiCROS,Help_Volume,0.6440358,False
+how do i turn down the volume in the aids?,Help_Volume,Help_Volume,0.939724,True
+what does the share listening feature do,Help_HearShare,Help_Reminder,0.5770077,False
+switch to automatic program,Cmd.MemoryChange,Cmd.MemoryChange,0.9730804,True
+what's my calorie burn today,Cmd.ActivityCalories,Cmd.ActivityCalories,0.93173635,True
+show my heart rate recovery trend,Help_HeartRateRecovery,Help_HeartRateRecovery,0.93310267,True
+remember to take medicine next thursday at 4 p.m.,reminders.add,reminders.add,0.8268571,True
+how do i delete the hearing aids from the phone?,Help_Pairing,Help_Pairing,0.33760518,True
+stop the broadcast to my hearing aids,Cmd.StreamingStop,Cmd.StreamingStop,0.831934,True
+where did i leave my left hearing aid?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9919259,True
+how do i make it louder?,Help_Volume,Cmd.VolumeIncrease,0.41365716,False
+the noise is pounding my ears,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.47562093,True
+please reminder user guide,Help_Reminder,reminders.add,0.5082184,False
+people sound too soft,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.44492817,False
+when using my iphone,Default Fallback Intent,Help_ChangingMemories,0.21639305,False
+can you remind me to have a dinner every sunday at 8 a.m.,reminders.add,reminders.add,0.98088706,True
+i don't understand their foreign language,Cmd.TranslationStart,Default Fallback Intent,0.35108554,False
+please set to office program,Cmd.MemoryChange,Cmd.MemoryChange,0.9755646,True
+what caused the fall of rome,Default Fallback Intent,Help_FallAlert,0.40973276,False
+what does demo mode do,Help_DemoMode,Help_DemoMode,0.92033935,True
+voice assistant help please,Help_VoiceAssistant,Help_VoiceAssistant,0.91672015,True
+what are the main features,Help_Home,Help_Home,0.89076287,True
+outdoors memory,Cmd.MemoryChange,Cmd.MemoryChange,0.93250614,True
+please remind me on thursday,reminders.add,reminders.add,0.9524148,True
+switch program to television,Cmd.MemoryChange,Cmd.MemoryChange,0.96321535,True
+please help with white noise adjustments in my aid,Help_Tinnitus,Help_Tinnitus,0.81269866,True
+give me so much i don't know it's another problem,Default Fallback Intent,Default Fallback Intent,0.41464093,True
+log a cycling session,Cmd.ActivityCycle,Default Fallback Intent,0.33069548,False
+i can't hear very well,Cmd.VolumeIncrease,Default Fallback Intent,0.61746573,False
+create a daily reminder to take medication at 5 p.m.,reminders.add,reminders.add,0.9755504,True
+please shelley my phone,Default Fallback Intent,Cmd.FindMyPhone,0.5508377,False
+how do i diagnose a problem with my aids,Help_SelfCheck,Help_Accessories,0.26559067,False
+what's on the health dashboard,Help_Health,Default Fallback Intent,0.5186651,False
+can i improve my heart rate recovery?,Help_HeartRateRecovery,Help_HeartRateRecovery,0.9100125,True
+thanks so much,Default Fallback Intent,Cmd.BatteryLevel,0.4742198,False
+can you at home,Default Fallback Intent,reminders.add,0.46633202,False
+car memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9586983,True
+we expect an update,Default Fallback Intent,Default Fallback Intent,0.7357677,True
+setup reminder,reminders.add,reminders.complete,0.63027996,False
+how would i know if an alert text message is canceled?,Help_FallAlert,Help_FallAlert,0.94213384,True
+how do i locate my right hearing aid?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.79615366,True
+can you set reminder about dog walking repeat it everyday at 9 a.m.,reminders.add,reminders.add,0.8927566,True
+begin a bike ride,Cmd.ActivityCycle,Cmd.BatteryLevel,0.36769384,False
+can you add reminder for meeting,reminders.add,reminders.add,0.7159624,True
+please i need to unpair my hearing aids from my phone,Help_Pairing,Default Fallback Intent,0.24881694,False
+please remember when they are unloading the truck you get exasperated,Default Fallback Intent,Default Fallback Intent,0.96731454,True
+test drive the app,Help_DemoMode,Cmd.StreamingStop,0.54628193,False
+hey send a message,Cmd.SendMessage,Cmd.SendMessage,0.9681443,True
+show me my calorie burn,Cmd.ActivityCalories,Cmd.ActivityCalories,0.5316562,True
+self check help please,Help_SelfCheck,Help_SelfCheck,0.73986864,True
+can you turn body off,Default Fallback Intent,Default Fallback Intent,0.90365404,True
+explain the program options,Help_MemoryOptions,Help_MemoryOptions,0.48721796,True
+please help for tele hear,Help_HearingCareAnywhereConnect,Cmd.ActivityCalories,0.32466552,False
+what's the model of my aids?,Help_DeviceSettings,Help_DeviceSettings,0.6551466,True
+please turn on this is my life,Default Fallback Intent,Default Fallback Intent,0.6376754,True
+please turn off mute,Cmd.VolumeUnmute,Cmd.VolumeMute,0.5318691,False
+can you i lost my hearing aids. can you help me find them?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9082213,True
+i can't find my right aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.98963356,True
+please switch program to personal,Cmd.MemoryChange,Cmd.MemoryChange,0.97128636,True
+make another reminder,reminders.add,reminders.add,0.72926575,True
+what is dnn speech enhancement,Help_IntelliVoice,Help_IntelliVoice,0.95733154,True
+how do i increase my thrive score?,Help_ThriveScore,Help_ThriveScore,0.983257,True
+transcribe what i'm hearing,Cmd.TranscribeStart,Cmd.TranscribeStart,0.560134,True
+rain. the the app me,Default Fallback Intent,Help_Home,0.25664663,False
+how does telehear work,Help_HearingCareAnywhereConnect,Default Fallback Intent,0.5949428,False
+how do i turn on intellivoice,Help_IntelliVoice,Help_IntelliVoice,0.6795406,True
+stream this to my aids,Cmd.StreamingStart,Cmd.StreamingStart,0.9487671,True
+tone the loudness down,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.9115503,True
+i need help pairing to the phone,Help_Pairing,Help_Pairing,0.86764807,True
+remember to vitamin d at 7 p.m. every day,reminders.add,reminders.add,0.8243739,True
+do my aids measure bpm,Help_HeartRate,Help_MaskMode,0.30912665,False
+how to do intelligent voice,Help_IntelliVoice,Help_IntelliVoice,0.9186114,True
+how would i intercept a manual alert text?,Help_FallAlert,Help_FallAlert,0.97025764,True
+can you i've lost my hearing aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.42121154,True
+please help with tinnitus masker adjustments in my hearing aid,Help_Tinnitus,Help_Tinnitus,0.97151595,True
+please wish you would have been with me it is so crowded on their john's pass you can't find a parking spot,Default Fallback Intent,Default Fallback Intent,0.97863364,True
+how do you calculate the wellness score?,Help_ThriveScore,Help_ThriveScore,0.94887024,True
+switch to train memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9676917,True
+please volume up left aid,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8944718,True
+well hello,Default Fallback Intent,Default Fallback Intent,0.49936125,True
+how do i change options for notification on my hearing aids?,Help_DeviceSettings,Default Fallback Intent,0.4429526,False
+can you should i tell him how i feel,Default Fallback Intent,Default Fallback Intent,0.9343995,True
+end streaming from the tv,Cmd.StreamingStop,Cmd.StreamingStop,0.7416427,True
+can you volume down,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.93873453,True
+how long have i been running?,Cmd.ActivityRun,Cmd.ActivityRun,0.28179327,True
+please set to school program,Cmd.MemoryChange,Cmd.MemoryChange,0.96890837,True
+can you remind me to drink water in 10 minutes,reminders.add,reminders.add,0.95810056,True
+where did i put my hearing aids?,Help_FindMyHearingAids,Help_FindMyHearingAids,0.97962016,True
+can you make the volume more on hearing aids,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.5731347,True
+switch memory to crowd,Cmd.MemoryChange,Cmd.MemoryChange,0.9782924,True
+a setting for very windy places,Help_EdgeMode,Default Fallback Intent,0.47160083,False
+can you locate my right hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.97140527,True
+"tony's office, i myself india.",Default Fallback Intent,Default Fallback Intent,0.9219383,True
+check battery level,Cmd.BatteryLevel,Cmd.BatteryLevel,0.9087524,True
+can you switch memory to noise,Cmd.MemoryChange,Cmd.MemoryChange,0.97957,True
+how to share my information with my wife?,Help_HearShare,Help_HearShare,0.7718872,True
+please switch to school,Cmd.MemoryChange,Cmd.MemoryChange,0.93433166,True
+what can the app do,Help_Home,Help_AppSettings,0.590621,False
+this mode isn't working for my surroundings,Cmd.MemoryChange,Help_MaskMode,0.3231397,False
+locate a restaurant,Default Fallback Intent,Default Fallback Intent,0.48292533,True
+shelley my phone,Default Fallback Intent,Cmd.FindMyPhone,0.9115698,False
+can you set program to golf,Cmd.MemoryChange,Cmd.MemoryChange,0.98130316,True
+i already did that one clear it,reminders.complete,Default Fallback Intent,0.26459014,False
+please change memory to number four,Cmd.MemoryChange,Cmd.MemoryChange,0.9633355,True
+can you setup reminder to take medicine at 1 p.m.,reminders.add,reminders.add,0.94613135,True
+start a run,Cmd.ActivityRun,Cmd.ActivityRun,0.4265841,True
+i got a chica phone if you can find her something right,Default Fallback Intent,Default Fallback Intent,0.9483064,True
+"hey spec, hello good stats heart. i didn't get that coverage. but the cardboard that was hanging in the fall.",Default Fallback Intent,Default Fallback Intent,0.9749715,True
+the sound keeps dropping out,Help_DeviceSettings,Default Fallback Intent,0.2527856,False
+bring me some quiet,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.45128036,True
+turn unmute on,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.8153552,True
+can you fire on friday,Default Fallback Intent,Default Fallback Intent,0.7261811,True
+please add one more to that what does that equal,Default Fallback Intent,Default Fallback Intent,0.7486648,True
+please first do you need to do,Default Fallback Intent,reminders.add,0.22456452,False
+how do i access my hearing aid memories?,Help_ChangingMemories,Help_MemoryOptions,0.36451063,False
+can you change memory to one,Cmd.MemoryChange,Cmd.MemoryChange,0.9463991,True
+i'm in butterbrodt new delhi,Default Fallback Intent,Default Fallback Intent,0.4982164,True
+how do i bake bread,Default Fallback Intent,Default Fallback Intent,0.51754797,True
+set reminder about dog walking repeat it everyday at 9 a.m.,reminders.add,reminders.add,0.9653266,True
+help understanding mask mode,Help_MaskMode,Help_MaskMode,0.8539136,True
+can you wax build up,Help_CleanCare,Default Fallback Intent,0.8429457,False
+switch to home program,Cmd.MemoryChange,Cmd.MemoryChange,0.9761618,True
+please set memory to auditorium,Cmd.MemoryChange,Cmd.MemoryChange,0.97451425,True
+where can i see if my hearing aid is working?,Help_SelfCheck,Help_FindMyHearingAids,0.41053444,False
+locate a bowling alley nearby,Default Fallback Intent,Default Fallback Intent,0.9337262,True
+can you change to worship memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9242002,True
+set memory to everyday,Cmd.MemoryChange,Cmd.MemoryChange,0.9616496,True
+my telephone my,Default Fallback Intent,Cmd.FindMyPhone,0.56000566,False
+please set reminder buy milk on november 11 at 5 p.m.,reminders.add,reminders.add,0.98021084,True
+record message,Cmd.SendMessage,Cmd.SendMessage,0.5248295,True
+can you set to pub memory,Cmd.MemoryChange,Cmd.MemoryChange,0.97594994,True
+when would i cancel a manual alert text message?,Help_FallAlert,Help_FallAlert,0.9882798,True
+remind me to drink water later today at 5 p.m.,reminders.add,reminders.add,0.9943798,True
+cut the volume a little,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.4026144,True
+can you basically,Default Fallback Intent,Default Fallback Intent,0.9853892,True
+set program to mute,Cmd.MemoryChange,Cmd.MemoryChange,0.9700712,True
+shoot a message,Cmd.SendMessage,Cmd.SendMessage,0.8915247,True
+can you remind me to take medicine next thursday at 4 p.m.,reminders.add,reminders.add,0.9567926,True
+can you set program to number two,Cmd.MemoryChange,Cmd.MemoryChange,0.96454406,True
+can you start translation,Cmd.TranslationStart,Cmd.TranslationStart,0.80218077,True
+please help with tinnitus volume adjustment in my hearing aid,Help_Tinnitus,Help_Tinnitus,0.95650256,True
+that's the one who's having problems with,Default Fallback Intent,Default Fallback Intent,0.5755936,True
+remember to take medicine tomorrow morning,reminders.add,reminders.add,0.95776385,True
+please change volume down,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.53424364,True
+share my hearing aid audio with someone,Help_HearShare,Help_HearShare,0.84877175,True
+make speech clearer,Cmd.VolumeIncrease,Default Fallback Intent,0.6955663,False
+start tracking my aerobics,Cmd.ActivityAerobics,Cmd.ActivityAerobics,0.96150917,True
+where is the hearing aid serial number?,Help_DeviceSettings,Help_DeviceSettings,0.23477136,True
+pairing my aids,Help_Pairing,Help_Pairing,0.97396016,True
+remind me to see the table in 5 minutes,reminders.add,reminders.add,0.98712116,True
+please switch program to pub,Cmd.MemoryChange,Cmd.MemoryChange,0.9758192,True
+please turn on the volume,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.5056092,True
+i'll see you then you help me,Default Fallback Intent,Default Fallback Intent,0.38607886,True
+please help for transcribe,Help_Transcribe,Help_Transcribe,0.96150464,True
+please set to outdoors memory,Cmd.MemoryChange,Cmd.MemoryChange,0.96750766,True
+is my aid connected to my app?,Help_Pairing,Help_Pairing,0.79763687,True
+how do i adjust my loudness of the white noise in my aids?,Help_Tinnitus,Help_Tinnitus,0.9180624,True
+please remember to take medicine today at 5 p.m.,reminders.add,reminders.add,0.92798686,True
+how often is recovery measured,Help_HeartRateRecovery,Cmd.VolumeDecrease,0.59867877,False
+please help with changing memories,Help_ChangingMemories,Help_ChangingMemories,0.912792,True
+can you set program to four,Cmd.MemoryChange,Cmd.MemoryChange,0.97632694,True
+what does ipro score mean?,Help_ThriveScore,Help_ThriveScore,0.80594265,True
+can you did my son accept my hearshare invitation?,Help_HearShare,Help_HearShare,0.8567703,True
+please set program to home,Cmd.MemoryChange,Cmd.MemoryChange,0.97265345,True
+tell me how charged they are,Cmd.BatteryLevel,Cmd.BatteryLevel,0.39768404,True
+please take a break and come back,Default Fallback Intent,Default Fallback Intent,0.6714031,True
+can i see my stand goal,Cmd.ActivityStand,Cmd.ActivityStand,0.4753652,True
+please change program to one,Cmd.MemoryChange,Cmd.MemoryChange,0.977683,True
+battery check please,Cmd.BatteryLevel,Cmd.BatteryLevel,0.83354837,True
+drop it down a few clicks,Cmd.VolumeDecrease,Default Fallback Intent,0.7417524,False
+please switch memory to gym,Cmd.MemoryChange,Cmd.MemoryChange,0.9742735,True
+what is the volume on my hearing aid automatically go down to nothing,Help_Volume,Help_Volume,0.53939927,True
+raise up the volume,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.9145981,True
+how do i disable sensitivity of the double tap?,Help_DeviceSettings,Help_DeviceSettings,0.8524367,True
+can i go to a different memory?,Help_ChangingMemories,Help_MemoryOptions,0.7462503,False
+what is in edge mode?,Help_EdgeMode,Help_EdgeMode,0.9651742,True
+find my android,Cmd.FindMyPhone,Cmd.FindMyPhone,0.6118781,True
+please just like siri,Default Fallback Intent,Default Fallback Intent,0.7630701,True
+how to wash hearing aids,Help_CleanCare,Help_SelfCheck,0.6039866,False
+move me to the speech in noise mode,Cmd.MemoryChange,Cmd.MemoryChange,0.44484445,True
+that reminder is complete,reminders.complete,reminders.complete,0.97403425,True
+please remember to work out,reminders.add,Default Fallback Intent,0.42052284,False
+please help with intellivoice,Help_IntelliVoice,Help_IntelliVoice,0.90775365,True
+can you switch memory to three,Cmd.MemoryChange,Cmd.MemoryChange,0.9772056,True
+can you show me how long i've stood,Cmd.ActivityStand,Cmd.ActivityStand,0.6810209,True
+can you hold on,Default Fallback Intent,Default Fallback Intent,0.96273595,True
+please remind me to watch,reminders.add,reminders.add,0.98924375,True
+let me hear things again,Cmd.VolumeUnmute,Cmd.TranscribeStart,0.40507048,False
+can you change memory to two,Cmd.MemoryChange,Cmd.MemoryChange,0.9795014,True
+please i wash them every now and then,Default Fallback Intent,Default Fallback Intent,0.7096182,True
+mute on,Cmd.VolumeMute,Cmd.VolumeUnmute,0.69914085,False
+how much running have i done this month?,Cmd.ActivityRun,Cmd.ActivityRun,0.62479407,True
+can you calories walking,Cmd.ActivityWalk,Cmd.ActivityWalk,0.42312875,True
+can you help with the main screen,Help_Home,Help_Home,0.7564399,True
+please turn off toshiba,Default Fallback Intent,Default Fallback Intent,0.8156488,True
+remind me to buy movie tickets for friday evening,reminders.add,reminders.add,0.9674202,True
+can you switch to speech,Cmd.MemoryChange,Cmd.MemoryChange,0.9636396,True
+change memory to speech,Cmd.MemoryChange,Cmd.MemoryChange,0.9747669,True
+can you i need help with pairing my aid to the phone,Help_Pairing,Help_Pairing,0.966359,True
+can you switch to personal,Cmd.MemoryChange,Cmd.MemoryChange,0.975048,True
+how do i dry my hearing aids,Help_CleanCare,Help_DeviceSettings,0.3995592,False
+heya,Default Fallback Intent,Default Fallback Intent,0.9434338,True
+how do i set up auto streaming?,Help_DeviceSettings,Help_Accessories,0.476594,False
+could you compose a message,Cmd.SendMessage,Cmd.SendMessage,0.43732744,True
+can you play i'm carrying it,Default Fallback Intent,Cmd.ListenMessage,0.7796781,False
+recover iphone,Cmd.FindMyPhone,Default Fallback Intent,0.5336955,False
+sync car bluetooth to hearing aid,Help_Pairing,Help_Pairing,0.8879761,True
+amplify the sound a bit,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.32369795,False
+using the app without aids connected,Help_DemoMode,Help_DemoMode,0.40263644,True
+i need a reminder set,reminders.add,reminders.add,0.92172855,True
+please turn off alarm,Default Fallback Intent,Cmd.VolumeMute,0.53544426,False
+where is italy located,Default Fallback Intent,Default Fallback Intent,0.71002936,True
+can you change program to number one,Cmd.MemoryChange,Cmd.MemoryChange,0.9454986,True
+how to share hearing aid information with my daughter?,Help_HearShare,Help_HearShare,0.925509,True
+can you switch memory to crowd,Cmd.MemoryChange,Cmd.MemoryChange,0.97952497,True
+and how do you think we can resolve that,Default Fallback Intent,Default Fallback Intent,0.92176896,True
+can you set to everyday program,Cmd.MemoryChange,Cmd.MemoryChange,0.96184325,True
+what features were just added,Help_WhatsNew,Help_Home,0.44798973,False
+guide me on the cros feature,Help_WiCROS,Help_HeartRateRecovery,0.4787978,False
+how do i replace the wax filter,Help_CleanCare,Default Fallback Intent,0.28286022,False
+can you restaurant memory,Cmd.MemoryChange,Cmd.MemoryChange,0.92855656,True
+change to restaurant,Cmd.MemoryChange,Cmd.MemoryChange,0.96352446,True
+how much power do i have,Cmd.BatteryLevel,Cmd.BatteryLevel,0.7515076,True
+i forgot all about looks thank you for reminding me,Default Fallback Intent,Default Fallback Intent,0.9742668,True
+set to restaurant memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9744169,True
+can you switch to automatic memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9658205,True

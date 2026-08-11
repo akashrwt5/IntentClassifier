@@ -1,0 +1,207 @@
+text,intent,predicted_intent
+add one more to that what does that equal,Default Fallback Intent,Help_WiCROS
+can i reset a memory,Help_MemoryOptions,Cmd.MemoryChange
+everyone is mumbling,Cmd.VolumeIncrease,Default Fallback Intent
+help with device settings,Help_DeviceSettings,Help_MemoryOptions
+message my husband,Cmd.SendMessage,Cmd.ListenMessage
+activate the noisy environment setting,Cmd.MemoryChange,Cmd.ListenMessage
+guide me on changing volume,Help_Volume,Help_DemoMode
+i'm in a loud cafeteria now,Cmd.MemoryChange,Default Fallback Intent
+show help guide for kind,Help_ThriveScore,Help_IntelliVoice
+when is memorial day,Default Fallback Intent,Cmd.VolumeDecrease
+can i control my hearing aid by just talking,Help_VoiceAssistant,Help_RemoteProgramming
+set independent loudness per side,Help_Volume,Cmd.VolumeDecrease
+where is,Default Fallback Intent,Cmd.FindMyPhone
+put me in the music listening mode,Cmd.MemoryChange,Cmd.StreamingStart
+use the audio streamer,Cmd.StreamingStart,Cmd.StreamingStop
+get a transcript going,Cmd.TranscribeStart,Cmd.ListenMessage
+what does my recovery score mean,Help_HeartRateRecovery,Cmd.FindMyPhone
+how can the app help me find my aids,Help_FindMyHearingAids,Help_AppSettings
+how long will the battery last,Cmd.BatteryLevel,Help_Battery
+where do i find the mute button,Help_Volume,Cmd.FindMyPhone
+how do i increase the bass,Help_Customize,Help_Volume
+how can i see what my hearing aid can do,Help_DemoMode,Help_InsertDevice
+how to adjust these,Default Fallback Intent,Help_Home
+can you play the microphone,Cmd.StreamingStart,Cmd.ListenMessage
+caption the people talking,Cmd.TranscribeStart,Cmd.ListenMessage
+can you restaurant near me,Default Fallback Intent,Cmd.FindMyPhone
+show me user manual for my accessory,Help_Accessories,Cmd.FindMyPhone
+please enable right hearing aid,Cmd.VolumeUnmute,Help_SelfCheck
+what should i know first,Help_Home,Default Fallback Intent
+i'm getting in the car now,Cmd.MemoryChange,Default Fallback Intent
+turn on light.,Default Fallback Intent,Help_ThriveScore
+can you translate hebrew,Cmd.TranslationStart,Help_Translate
+use hearing aid streaming,Cmd.StreamingStart,Help_SelfCheck
+how do i clean a how to do subject,Default Fallback Intent,Help_CleanCare
+what is noise induced hearing loss,Help_Tinnitus,Help_CleanCare
+can you set to tight,Default Fallback Intent,Cmd.MemoryChange
+please tell me what how much do i owe you is in español,Cmd.TranslationStart,Default Fallback Intent
+what does the smart speech mode do,Help_IntelliVoice,Help_EdgeMode
+can you mute,Cmd.VolumeMute,Cmd.VolumeUnmute
+guide me on battery care,Help_Battery,Cmd.BatteryLevel
+how many minutes have i exercised this week,Cmd.ActivityExercise,Cmd.ActivityRun
+help putting in my hearing aids,Help_InsertDevice,Help_Tinnitus
+total silence please,Cmd.VolumeMute,Cmd.VolumeDecrease
+what what's not working,Default Fallback Intent,Help_WhatsNew
+please turn my right hearing aid up,Cmd.VolumeIncrease,Help_SelfCheck
+boost the loudness please,Cmd.VolumeIncrease,Cmd.VolumeDecrease
+have i got enough battery for the day,Cmd.BatteryLevel,Help_Battery
+take care,Default Fallback Intent,Cmd.ActivityExercise
+upkeep for my hearing aids,Help_CleanCare,Help_SelfCheck
+find my cell for me,Cmd.FindMyPhone,Default Fallback Intent
+what is the best phone,Default Fallback Intent,Cmd.FindMyPhone
+can you listen again.,Cmd.ListenMessage,Default Fallback Intent
+can you increase the left hearing aid,Cmd.VolumeIncrease,Cmd.VolumeDecrease
+how do turn the volume down,Help_Volume,Cmd.VolumeDecrease
+mavis by stupid hearing aids,Default Fallback Intent,Cmd.VolumeDecrease
+i'm confused,Help_Home,Default Fallback Intent
+where's the nearest oil change,Default Fallback Intent,Help_Home
+my aids cut out intermittently,Help_DeviceSettings,Help_FindMyHearingAids
+walk me through the process,Default Fallback Intent,Help_Home
+record the miles i ran,Cmd.ActivityRun,Cmd.VolumeIncrease
+tips for cleaning my aids,Help_CleanCare,Help_Translate
+can you fix my ear pieces,Help_SelfCheck,Default Fallback Intent
+please turn volume to normal,Cmd.VolumeUnmute,Cmd.VolumeMute
+want to move up yeah i will,Default Fallback Intent,Help_HearShare
+let someone know i am running late,Cmd.SendMessage,Default Fallback Intent
+i'm heading out on the bike,Cmd.ActivityCycle,Help_MaskMode
+can i get my hearing aids tuned remotely,Help_HearingCareAnywhereConnect,Help_Pairing
+the sound is too soft,Cmd.VolumeIncrease,Cmd.VolumeDecrease
+put their foreign words into my language,Cmd.TranslationStart,Help_InsertDevice
+it smooths down is forced down,Default Fallback Intent,Cmd.VolumeDecrease
+quiet my hearing aids,Cmd.VolumeDecrease,Cmd.VolumeMute
+i don't get how any of this works,Help_Home,Help_WhatsNew
+who won the game last night,Default Fallback Intent,Help_CleanCare
+how much life is left in the hearing aid batteries,Cmd.BatteryLevel,Help_Battery
+turn speech into text,Cmd.TranscribeStart,Cmd.FindMyPhone
+stream from the microphone,Cmd.StreamingStart,Cmd.StreamingStop
+log this running workout,Cmd.ActivityRun,Cmd.ActivityExercise
+hush it up,Cmd.VolumeDecrease,Cmd.VolumeIncrease
+stream the phone call,Cmd.StreamingStart,Cmd.StreamingStop
+how do i restore the thrive app settings?,Help_HearingCareAnywhereConnect,Help_AppSettings
+knock the sound back,Cmd.VolumeDecrease,Cmd.VolumeUnmute
+that keeps popping up please listen listen listen,Default Fallback Intent,Cmd.ActivityRun
+how do you sync to hearing aids,Help_Pairing,Help_SelfCheck
+can i set reminders in my hearing aids,Help_Reminder,Help_FindMyHearingAids
+misplaced telephone,Cmd.FindMyPhone,Cmd.ActivityStand
+i'm outdoors now,Cmd.MemoryChange,Cmd.StreamingStart
+how do i verify my aids are working,Help_SelfCheck,Help_Pairing
+what should i do when i am there,Default Fallback Intent,Help_FallAlert
+why isn't my hearing aid charging,Help_Battery,Help_FindMyHearingAids
+show me a help guide for my accessories,Help_Accessories,Help_WiCROS
+can you turn off mute,Cmd.VolumeUnmute,Cmd.VolumeMute
+i cannot hear out of my right hearing aid,Help_SelfCheck,Default Fallback Intent
+explain how remote tuning works,Help_RemoteProgramming,Help_Translate
+can you all pre-program settings change when once changed,Default Fallback Intent,Help_MemoryOptions
+stop muting now,Cmd.VolumeUnmute,Cmd.StreamingStop
+where is the mask setting on my hearing aids,Default Fallback Intent,Help_MaskMode
+back the level off,Cmd.VolumeDecrease,Cmd.VolumeMute
+where could my aids have gone,Help_FindMyHearingAids,Help_DeviceSettings
+how to set a reminder,Help_Reminder,reminders.add
+please schedule physical therapy appointment tomorrow morning 8:40 a.m.,reminders.add,Help_Tinnitus
+"please hello, just a hearing aid the volume on my hearing aids. bye. bye.",Default Fallback Intent,Help_InsertDevice
+make my lost phone beep,Cmd.FindMyPhone,Help_ThriveScore
+can you go to meeting,Cmd.MemoryChange,Cmd.TranscribeStart
+what is the different between cros and wicros?,Help_WiCROS,Help_HeartRate
+i'm finished listening to the stream,Cmd.StreamingStop,Cmd.StreamingStart
+the audio sounds distorted,Help_DeviceSettings,Cmd.VolumeIncrease
+let the audio come back,Cmd.VolumeUnmute,Cmd.StreamingStart
+sync hearing aid to tv,Help_Pairing,Cmd.StreamingStart
+why doesn't my drive app?,Default Fallback Intent,Help_RemoteProgramming
+how do i ask for a new setting?,Help_RemoteProgramming,Help_Health
+the audio is aggressive,Cmd.VolumeDecrease,Help_DeviceSettings
+how do i turn thrive on,Help_Home,Help_ThriveScore
+can two people listen together,Help_HearShare,Cmd.ListenMessage
+how do i adjust the volume on my accessory?,Help_Accessories,Help_Volume
+can you pandora,Default Fallback Intent,Cmd.FindMyPhone
+sounds are not clear enough,Cmd.VolumeIncrease,Cmd.BatteryLevel
+that task is taken care of,reminders.complete,Default Fallback Intent
+please help with device settings,Help_DeviceSettings,Help_AppSettings
+can you i hear the voice,Default Fallback Intent,Cmd.VolumeIncrease
+how do i send a request to my specialist,Help_HearingCareAnywhereConnect,Help_RemoteProgramming
+is my phone an android phone?,Default Fallback Intent,Cmd.FindMyPhone
+please so where is brewster,Default Fallback Intent,Cmd.TranscribeStart
+please i hear the voice,Default Fallback Intent,Cmd.VolumeIncrease
+take,Default Fallback Intent,Cmd.TranslationStart
+hello there,Default Fallback Intent,Cmd.MemoryChange
+please have i biked an hour?,Cmd.ActivityCycle,Cmd.ActivityStand
+i can't stand the ringing in my ears,Help_Tinnitus,Help_DeviceSettings
+i keep missing parts of the conversation,Cmd.VolumeIncrease,Default Fallback Intent
+i want someone to listen along,Help_HearShare,Cmd.TranslationStart
+what do i do to get my right,Default Fallback Intent,Help_Accessories
+how many calories did i burn yesterday,Cmd.ActivityCalories,Cmd.ActivityExercise
+what's up today,Default Fallback Intent,Cmd.ActivityCalories
+my hearing aids,Default Fallback Intent,Help_FindMyHearingAids
+my overall activity stats,Help_Health,Help_Battery
+can you silence,Cmd.VolumeMute,Cmd.TranscribeStart
+finish the streaming session,Cmd.StreamingStop,Cmd.StreamingStart
+explain the personalization options,Help_Customize,Help_Home
+mute it entirely,Cmd.VolumeMute,Default Fallback Intent
+what is data log,Help_DeviceSettings,Help_MemoryOptions
+please so this is your hearing aids,Default Fallback Intent,Help_SelfCheck
+what's the way to change volume,Help_Volume,Cmd.MemoryChange
+is there a way to caption conversations,Help_Transcribe,Help_ThriveScore
+can i control my aids by voice,Help_VoiceAssistant,Help_RemoteProgramming
+can you activity goal,Cmd.ActivityAerobics,Cmd.VolumeIncrease
+walking down,Default Fallback Intent,Cmd.ActivityWalk
+caption what people are saying around me,Cmd.TranscribeStart,Cmd.SendMessage
+my left hearing aids,Default Fallback Intent,Cmd.VolumeDecrease
+how often should i use self-check?,Help_SelfCheck,Help_VoiceAssistant
+can you calories steps,Cmd.ActivityStep,Cmd.ActivityCalories
+please talking about my daughter,Default Fallback Intent,Cmd.ActivityCalories
+select a different memory,Cmd.MemoryChange,Help_MemoryOptions
+can you locate my wife,Default Fallback Intent,Cmd.FindMyPhone
+the masking sound feature help,Help_Tinnitus,Help_DeviceSettings
+change how my hearing aids are behaving,Cmd.MemoryChange,Help_DeviceSettings
+switch on ps4,Default Fallback Intent,Cmd.MemoryChange
+how many hours of charge remain,Cmd.BatteryLevel,Default Fallback Intent
+silence everything,Cmd.VolumeMute,Cmd.VolumeUnmute
+log my jog,Cmd.ActivityRun,Cmd.ActivityAerobics
+hearing aid device settings,Default Fallback Intent,Help_MemoryOptions
+how many minutes have i been cycling,Cmd.ActivityCycle,Cmd.ActivityRun
+i better not forget this,reminders.add,Default Fallback Intent
+please saab wanted control,Default Fallback Intent,Help_WiCROS
+please make sound quieter,Cmd.VolumeDecrease,Cmd.VolumeIncrease
+let me try the app features,Help_DemoMode,Help_Home
+is it safe to get my aids wet,Help_CleanCare,Help_InsertDevice
+can i switch back after i change the mode?,Help_AppSettings,Help_DeviceSettings
+what extra mics are supported,Help_Accessories,Default Fallback Intent
+cut the sound completely,Cmd.VolumeMute,Default Fallback Intent
+can settings be changed from afar,Help_RemoteProgramming,Help_WhatsNew
+can you quiet my hearing aids,Cmd.VolumeDecrease,Help_FindMyHearingAids
+where do i manage app options,Help_AppSettings,Help_Customize
+please as far as far as cleaning up over there i went pretty,Default Fallback Intent,Help_SelfCheck
+can i activate default setting on the hearing aids,Help_DeviceSettings,Help_InsertDevice
+could you raise the volume,Cmd.VolumeIncrease,Cmd.VolumeDecrease
+can it translate into french,Help_Translate,Cmd.TranslationStart
+can you stream from the remote mic,Cmd.StreamingStart,Help_Accessories
+how do i backup the data in my aid?,Help_HearingCareAnywhereConnect,Help_InsertDevice
+too loudy,Cmd.VolumeDecrease,Cmd.VolumeUnmute
+my ears can't take this pounding,Cmd.VolumeDecrease,Help_InsertDevice
+can i fine tune the bass and treble,Help_Customize,Help_AppSettings
+can i overcharge my hearing aid,Help_Battery,Help_InsertDevice
+i want to connect to my audiologist,Help_RemoteProgramming,Cmd.StreamingStart
+can i go to a different hearing aid program?,Help_ChangingMemories,Help_InsertDevice
+how many calories have i used while walking?,Cmd.ActivityWalk,Cmd.ActivityRun
+can i add a reminder,reminders.add,Help_Reminder
+where are my fitness goals,Help_Health,Help_RemoteProgramming
+jot this down so i remember,reminders.add,Default Fallback Intent
+am i meeting my stand goal,Cmd.ActivityStand,Cmd.ActivityExercise
+this is overwhelming,Cmd.VolumeDecrease,Default Fallback Intent
+what if self-check says that my hearing aid is broken?,Help_SelfCheck,Help_DeviceSettings
+where can i find tela here,Help_HearingCareAnywhereConnect,Default Fallback Intent
+please i need more volume,Cmd.VolumeIncrease,Cmd.VolumeDecrease
+can you siri,Default Fallback Intent,Help_IntelliVoice
+i'm about to join a phone call,Cmd.MemoryChange,Default Fallback Intent
+she doesn't have a skin check,Default Fallback Intent,Cmd.BatteryLevel
+play sound in my hearing aids,Cmd.StreamingStart,Cmd.VolumeMute
+please turn mute off,Cmd.VolumeUnmute,Cmd.VolumeMute
+begin a run,Cmd.ActivityRun,Cmd.VolumeDecrease
+i don’t have a normal memory,Help_MemoryOptions,Cmd.MemoryChange
+should my hearing aid look like the one in the video?,Help_InsertDevice,Help_SelfCheck
+how to change memory,Help_ChangingMemories,Cmd.MemoryChange
+can you let me hear it.,Cmd.ListenMessage,Cmd.VolumeUnmute
+please tell me about english language,Default Fallback Intent,Cmd.TranslationStart
+shut off all sound for me,Cmd.VolumeMute,Default Fallback Intent
+explain hearshare,Help_HearShare,Cmd.SendMessage
+amplify the sound for me,Cmd.VolumeIncrease,Cmd.VolumeUnmute

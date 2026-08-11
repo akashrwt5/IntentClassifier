@@ -1,0 +1,11 @@
+text,positive_intent,confusable_intent
+make it louder,device.volume.increase,device.volume.decrease
+make it quieter,device.volume.decrease,device.volume.increase
+turn it up,device.volume.increase,device.volume.decrease
+turn it down,device.volume.decrease,device.volume.increase
+mute it,device.volume.mute,device.volume.unmute
+unmute it,device.volume.unmute,device.volume.mute
+start streaming,streaming.session.start,streaming.session.stop
+stop streaming,streaming.session.stop,streaming.session.start
+create a reminder,reminders.task.create,reminders.task.complete
+complete the reminder,reminders.task.complete,reminders.task.create

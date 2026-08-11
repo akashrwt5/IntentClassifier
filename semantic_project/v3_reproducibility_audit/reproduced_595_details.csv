@@ -1,0 +1,596 @@
+text,intent,row,prediction,confidence,correct
+switch my hearing aid to the restaurant program,device.memory.change,0,device.memory.change,0.97685975,True
+put my hearing aids into the phone setting,device.memory.change,1,device.memory.change,0.8334455,True
+change the current hearing program to music,device.memory.change,2,device.memory.change,0.97533256,True
+use my outdoor hearing setting,device.memory.change,3,device.memory.change,0.9764752,True
+move to the television listening program,device.memory.change,4,device.memory.change,0.9102235,True
+change which hearing aid program is active,device.memory.change,5,device.memory.change,0.9196353,True
+switch from my current hearing mode to the phone mode,device.memory.change,6,device.memory.change,0.82527405,True
+select a different hearing profile,device.memory.change,7,device.memory.change,0.98269707,True
+change the hearing setting I'm using now,device.memory.change,8,device.memory.change,0.97646415,True
+put the devices into the program I use for conversations,device.memory.change,9,device.memory.change,0.88221496,True
+switch the active memory on my hearing aids,device.memory.change,10,device.memory.change,0.89907634,True
+choose another hearing aid environment,device.memory.change,11,device.memory.change,0.40014985,True
+move my hearing aids to the music profile,device.memory.change,12,streaming.session.start,0.6715952,False
+change the program for my hearing aids,device.memory.change,13,device.memory.change,0.9540674,True
+select the telephone hearing program,device.memory.change,14,device.memory.change,0.9394403,True
+switch to my custom hearing setting,device.memory.change,15,device.memory.change,0.9759148,True
+change the active hearing memory,device.memory.change,16,device.memory.change,0.97132707,True
+put my hearing aids in the program for watching TV,device.memory.change,17,device.memory.change,0.7454114,True
+use a different hearing profile right now,device.memory.change,18,device.memory.change,0.965647,True
+switch my devices to another listening mode,device.memory.change,19,device.memory.change,0.8451842,True
+change the memory currently selected,device.memory.change,20,device.memory.change,0.9548617,True
+move to my conversation program,device.memory.change,21,device.memory.change,0.97905356,True
+select the hearing mode for noisy places,device.memory.change,22,device.memory.change,0.8645781,True
+switch the hearing aids to my preferred program,device.memory.change,23,device.memory.change,0.948771,True
+change the current listening profile,device.memory.change,24,device.memory.change,0.9825404,True
+activate another hearing program,device.memory.change,25,device.memory.change,0.97497094,True
+put the hearing aids on the setting I use outdoors,device.memory.change,26,device.memory.change,0.93191874,True
+switch to the program for phone calls,device.memory.change,27,device.memory.change,0.9715476,True
+change which memory my hearing aids are using,device.memory.change,28,device.memory.change,0.9243586,True
+select a different sound program,device.memory.change,29,device.memory.change,0.96845955,True
+move from this hearing program to another one,device.memory.change,30,device.memory.change,0.9677442,True
+change my current device setting,device.memory.change,31,device.memory.change,0.98707867,True
+switch to my TV listening profile,device.memory.change,32,device.memory.change,0.88621956,True
+activate the restaurant hearing program,device.memory.change,33,device.memory.change,0.97977954,True
+choose another memory for the hearing aids,device.memory.change,34,device.memory.change,0.889454,True
+change the listening environment setting,device.memory.change,35,device.memory.change,0.97811776,True
+switch my hearing aids into telephone mode,device.memory.change,36,device.memory.change,0.9054221,True
+select my music hearing profile,device.memory.change,37,streaming.session.start,0.87722576,False
+move to a different hearing memory,device.memory.change,38,device.memory.change,0.99013746,True
+change the program that is active,device.memory.change,39,device.memory.change,0.97120464,True
+switch the devices to another acoustic setting,device.memory.change,40,device.memory.change,0.9548979,True
+choose the hearing program I need now,device.memory.change,41,device.memory.change,0.96808326,True
+change from the current memory to my outdoor one,device.memory.change,42,device.memory.change,0.9753248,True
+activate my conversation setting,device.memory.change,43,device.memory.change,0.94618857,True
+switch the current hearing profile,device.memory.change,44,device.memory.change,0.9547322,True
+pick another program for my hearing aids,device.memory.change,45,device.memory.change,0.9223636,True
+change the active memory setting,device.memory.change,46,device.memory.change,0.9842174,True
+put the devices into a different listening program,device.memory.change,47,device.memory.change,0.89917684,True
+switch to another hearing environment,device.memory.change,48,device.memory.change,0.97183764,True
+select the phone program on my hearing aids,device.memory.change,49,device.memory.change,0.71187013,True
+change my hearing aids from the current program,device.memory.change,50,device.memory.change,0.9251365,True
+activate a different hearing profile,device.memory.change,51,device.memory.change,0.97909445,True
+switch the listening memory to another option,device.memory.change,52,device.memory.change,0.953983,True
+make the sound a little softer,device.volume.decrease,53,device.volume.decrease,0.9873121,True
+lower what I'm hearing without silencing it,device.volume.decrease,54,device.volume.decrease,0.99072474,True
+"the hearing aids are too loud, turn them down",device.volume.decrease,55,device.volume.decrease,0.9834811,True
+reduce the audio level slightly,device.volume.decrease,56,device.volume.decrease,0.9899914,True
+I need less volume but I still want to hear,device.volume.decrease,57,device.volume.decrease,0.9684931,True
+make the sound quieter,device.volume.decrease,58,device.volume.decrease,0.9932683,True
+bring the volume down a notch,device.volume.decrease,59,device.volume.decrease,0.9872047,True
+turn the audio down a little,device.volume.decrease,60,device.volume.decrease,0.9850537,True
+reduce how loud the hearing aids are,device.volume.decrease,61,device.volume.decrease,0.9907885,True
+make everything less loud,device.volume.decrease,62,device.volume.decrease,0.9910493,True
+drop the listening level slightly,device.volume.decrease,63,device.volume.decrease,0.98494315,True
+"the sound is too strong, lower it",device.volume.decrease,64,device.volume.decrease,0.99054694,True
+give me a softer volume,device.volume.decrease,65,device.volume.decrease,0.9871715,True
+turn down the hearing level,device.volume.decrease,66,device.volume.decrease,0.99311185,True
+reduce the loudness but keep the sound on,device.volume.decrease,67,device.volume.decrease,0.9865563,True
+make my hearing aids quieter,device.volume.decrease,68,device.volume.decrease,0.9906934,True
+lower the current volume,device.volume.decrease,69,device.volume.decrease,0.99410665,True
+take the volume down a bit,device.volume.decrease,70,device.volume.decrease,0.99166286,True
+the audio is too loud for me,device.volume.decrease,71,device.volume.decrease,0.9651235,True
+soften the sound coming through the devices,device.volume.decrease,72,device.volume.decrease,0.9773756,True
+reduce the hearing aid volume,device.volume.decrease,73,device.volume.decrease,0.99347985,True
+turn the sound lower,device.volume.decrease,74,device.volume.decrease,0.9912805,True
+make the audio less intense,device.volume.decrease,75,device.volume.decrease,0.9877417,True
+I want the volume reduced,device.volume.decrease,76,device.volume.decrease,0.6092391,True
+bring the sound level down,device.volume.decrease,77,device.volume.decrease,0.99224997,True
+make it quieter while keeping audio available,device.volume.decrease,78,device.volume.decrease,0.9833614,True
+lower the output a little,device.volume.decrease,79,device.volume.decrease,0.9916823,True
+reduce the current listening volume,device.volume.decrease,80,device.volume.decrease,0.990553,True
+turn the hearing aids down,device.volume.decrease,81,device.volume.decrease,0.98973644,True
+make the audio more comfortable by lowering it,device.volume.decrease,82,device.volume.increase,0.9539361,False
+decrease the sound level,device.volume.decrease,83,device.volume.decrease,0.992607,True
+the hearing aids need to be quieter,device.volume.decrease,84,device.volume.decrease,0.9464153,True
+reduce the volume one step,device.volume.decrease,85,device.volume.decrease,0.9919807,True
+make the listening level lower,device.volume.decrease,86,device.volume.decrease,0.99169266,True
+turn down what I hear,device.volume.decrease,87,device.volume.decrease,0.99070346,True
+lower the device volume slightly,device.volume.decrease,88,device.volume.decrease,0.9932474,True
+the sound is a bit too loud,device.volume.decrease,89,device.volume.decrease,0.98719484,True
+bring the audio level down,device.volume.decrease,90,device.volume.decrease,0.9909253,True
+make the hearing output softer,device.volume.decrease,91,device.volume.decrease,0.9895807,True
+reduce how much sound I'm getting,device.volume.decrease,92,device.volume.decrease,0.9849562,True
+turn the volume down without muting,device.volume.decrease,93,device.volume.decrease,0.98779327,True
+give me less sound,device.volume.decrease,94,device.volume.decrease,0.98095155,True
+lower the hearing aid output,device.volume.decrease,95,device.volume.decrease,0.9923935,True
+quiet the audio somewhat,device.volume.decrease,96,device.volume.mute,0.42847434,False
+reduce the loudness a little,device.volume.decrease,97,device.volume.decrease,0.9914175,True
+turn the sound down but leave it audible,device.volume.decrease,98,device.volume.decrease,0.9867046,True
+make my current volume lower,device.volume.decrease,99,device.volume.decrease,0.9920608,True
+decrease the listening level,device.volume.decrease,100,device.volume.decrease,0.9910239,True
+take the audio down slightly,device.volume.decrease,101,device.volume.decrease,0.8713366,True
+make the hearing aids less loud,device.volume.decrease,102,device.volume.decrease,0.9905461,True
+lower the sound coming from the devices,device.volume.decrease,103,device.volume.decrease,0.9861288,True
+reduce the volume but don't turn it off,device.volume.decrease,104,device.volume.decrease,0.98522675,True
+soften the hearing aid output,device.volume.decrease,105,device.volume.decrease,0.9891004,True
+turn it down just a little,device.volume.decrease,106,device.volume.decrease,0.985479,True
+make the hearing aids louder,device.volume.increase,107,device.volume.increase,0.9933216,True
+raise the sound level a little,device.volume.increase,108,device.volume.increase,0.99016565,True
+I need more volume,device.volume.increase,109,device.volume.increase,0.98047996,True
+"the audio is too quiet, increase it",device.volume.increase,110,device.volume.increase,0.99160844,True
+boost what I'm hearing,device.volume.increase,111,device.volume.increase,0.9924189,True
+turn the sound up,device.volume.increase,112,device.volume.increase,0.9872798,True
+make everything louder,device.volume.increase,113,device.volume.increase,0.9926918,True
+give me a stronger listening level,device.volume.increase,114,device.volume.decrease,0.7231791,False
+raise the hearing aid volume,device.volume.increase,115,device.volume.increase,0.9926025,True
+the sound needs to be louder,device.volume.increase,116,device.volume.increase,0.9844788,True
+increase the audio output,device.volume.increase,117,device.volume.increase,0.9894237,True
+bring the volume up a notch,device.volume.increase,118,device.volume.increase,0.9887955,True
+make the hearing output stronger,device.volume.increase,119,device.volume.increase,0.76103204,True
+turn up what I hear,device.volume.increase,120,device.volume.increase,0.9861887,True
+add a little more volume,device.volume.increase,121,device.volume.increase,0.9771523,True
+raise the listening level,device.volume.increase,122,device.volume.increase,0.9888476,True
+"I can barely hear, make it louder",device.volume.increase,123,device.volume.increase,0.9905731,True
+increase the loudness,device.volume.increase,124,device.volume.increase,0.9928705,True
+boost the audio slightly,device.volume.increase,125,device.volume.increase,0.99104553,True
+make the sound more prominent,device.volume.increase,126,device.volume.increase,0.98929346,True
+turn the hearing aids up,device.volume.increase,127,device.volume.increase,0.98680854,True
+give me more sound,device.volume.increase,128,device.volume.increase,0.90875477,True
+raise the current volume,device.volume.increase,129,device.volume.increase,0.9930901,True
+the hearing aids are too quiet,device.volume.increase,130,device.volume.increase,0.6745276,True
+increase what comes through the devices,device.volume.increase,131,device.volume.increase,0.9833777,True
+make the audio louder without changing the program,device.volume.increase,132,device.volume.increase,0.9731329,True
+turn up the output,device.volume.increase,133,device.volume.increase,0.9814481,True
+bring the sound level higher,device.volume.increase,134,device.volume.increase,0.9829418,True
+make my hearing aids louder,device.volume.increase,135,device.volume.increase,0.9926992,True
+raise the audio level,device.volume.increase,136,device.volume.increase,0.9901183,True
+add more sound,device.volume.increase,137,device.volume.increase,0.89644426,True
+increase the hearing volume,device.volume.increase,138,device.volume.increase,0.99444026,True
+make the listening output stronger,device.volume.increase,139,device.volume.increase,0.64029616,True
+turn the volume higher,device.volume.increase,140,device.volume.increase,0.9906866,True
+boost what is coming through,device.volume.increase,141,device.volume.increase,0.98745465,True
+raise the sound a little,device.volume.increase,142,device.volume.increase,0.98996836,True
+I want more audio,device.volume.increase,143,device.volume.increase,0.9788957,True
+make the device output louder,device.volume.increase,144,device.volume.increase,0.99233377,True
+increase the listening level,device.volume.increase,145,device.volume.increase,0.99021965,True
+the current volume is too low,device.volume.increase,146,device.volume.increase,0.9523812,True
+turn up the hearing output,device.volume.increase,147,device.volume.increase,0.9810714,True
+make the audio less quiet,device.volume.increase,148,device.volume.decrease,0.9911272,False
+raise the device volume,device.volume.increase,149,device.volume.increase,0.99214315,True
+give the sound a boost,device.volume.increase,150,device.volume.increase,0.98559684,True
+increase the volume one step,device.volume.increase,151,device.volume.increase,0.9914794,True
+make what I'm hearing louder,device.volume.increase,152,device.volume.increase,0.9936434,True
+turn the sound up slightly,device.volume.increase,153,device.volume.increase,0.98640347,True
+boost the hearing aid level,device.volume.increase,154,device.volume.increase,0.9923821,True
+raise the loudness,device.volume.increase,155,device.volume.increase,0.992015,True
+more volume please,device.volume.increase,156,device.volume.increase,0.9795995,True
+increase the current audio level,device.volume.increase,157,device.volume.increase,0.99126095,True
+make the hearing output louder,device.volume.increase,158,device.volume.increase,0.99268407,True
+turn it up but keep the same program,device.volume.increase,159,device.volume.increase,0.939295,True
+strengthen the sound coming through,device.volume.increase,160,device.volume.mute,0.6744249,False
+silence my hearing aids completely,device.volume.mute,161,device.volume.mute,0.9953811,True
+stop all sound from the devices,device.volume.mute,162,device.volume.mute,0.98400426,True
+I don't want to hear any audio right now,device.volume.mute,163,device.volume.mute,0.9312154,True
+make the hearing aids completely silent,device.volume.mute,164,device.volume.mute,0.9936208,True
+turn the sound off entirely,device.volume.mute,165,device.volume.mute,0.9945476,True
+mute the hearing aids,device.volume.mute,166,device.volume.mute,0.9915589,True
+shut off the audio output,device.volume.mute,167,device.volume.mute,0.8135247,True
+give me complete silence,device.volume.mute,168,device.volume.mute,0.9752077,True
+stop the sound completely,device.volume.mute,169,device.volume.mute,0.95516753,True
+turn off all hearing aid audio,device.volume.mute,170,device.volume.mute,0.9950052,True
+I need the devices to be silent,device.volume.mute,171,device.volume.mute,0.9768634,True
+cut the sound off completely,device.volume.mute,172,device.volume.mute,0.9919497,True
+silence everything I'm hearing,device.volume.mute,173,device.volume.mute,0.993887,True
+make the audio stop,device.volume.mute,174,device.volume.mute,0.49527013,True
+turn off the hearing output,device.volume.mute,175,device.volume.mute,0.94395447,True
+no sound from my hearing aids,device.volume.mute,176,device.volume.mute,0.96755755,True
+completely silence the devices,device.volume.mute,177,device.volume.mute,0.99483633,True
+stop all audio through the hearing aids,device.volume.mute,178,device.volume.mute,0.9882194,True
+make them quiet with no sound at all,device.volume.mute,179,device.volume.mute,0.9659264,True
+switch the hearing aids to complete silence,device.volume.mute,180,device.volume.mute,0.93146926,True
+I need total silence,device.volume.mute,181,device.volume.mute,0.98969954,True
+mute all audio,device.volume.mute,182,device.volume.mute,0.9947678,True
+stop what is playing through my hearing aids,device.volume.mute,183,device.volume.mute,0.43001592,True
+turn the hearing aid sound completely off,device.volume.mute,184,device.volume.mute,0.9957824,True
+silence the audio output,device.volume.mute,185,device.volume.mute,0.991147,True
+make there be no sound,device.volume.mute,186,device.volume.mute,0.97938836,True
+shut the hearing aid audio off,device.volume.mute,187,device.volume.mute,0.994055,True
+stop hearing anything through the devices,device.volume.mute,188,device.volume.mute,0.70516455,True
+turn off the sound entirely,device.volume.mute,189,device.volume.mute,0.99441046,True
+silence my hearing output,device.volume.mute,190,device.volume.mute,0.9887784,True
+remove all sound from the hearing aids,device.volume.mute,191,device.volume.mute,0.9951859,True
+I want complete silence from the devices,device.volume.mute,192,device.volume.mute,0.9891945,True
+mute the current audio,device.volume.mute,193,device.volume.mute,0.99073726,True
+stop the hearing aid output,device.volume.mute,194,device.volume.mute,0.5568795,True
+make the devices produce no sound,device.volume.mute,195,device.volume.mute,0.9908869,True
+turn everything audible off,device.volume.mute,196,device.volume.mute,0.9789434,True
+completely mute the hearing aids,device.volume.mute,197,device.volume.mute,0.9949838,True
+stop all sound coming through,device.volume.mute,198,device.volume.mute,0.9933721,True
+silence the current hearing output,device.volume.mute,199,device.volume.mute,0.98573583,True
+turn off what I'm hearing,device.volume.mute,200,device.volume.mute,0.9407109,True
+make the hearing aids silent,device.volume.mute,201,device.volume.mute,0.98777837,True
+no audio should come through,device.volume.mute,202,device.volume.unmute,0.34126166,False
+shut down the sound output,device.volume.mute,203,device.volume.decrease,0.98835564,False
+mute the current hearing aid audio,device.volume.mute,204,device.volume.mute,0.9935129,True
+stop the audio completely,device.volume.mute,205,device.volume.mute,0.6895282,True
+give me zero sound,device.volume.mute,206,device.volume.mute,0.4881903,True
+turn all hearing aid audio off,device.volume.mute,207,device.volume.mute,0.99457824,True
+silence the devices now,device.volume.mute,208,device.volume.mute,0.99579287,True
+make the output completely silent,device.volume.mute,209,device.volume.mute,0.983602,True
+stop all audible output,device.volume.mute,210,device.volume.mute,0.9811879,True
+mute what I'm hearing,device.volume.mute,211,device.volume.mute,0.98850995,True
+turn the hearing sound off,device.volume.mute,212,device.volume.mute,0.9923282,True
+no sound at all please,device.volume.mute,213,device.volume.mute,0.9879083,True
+completely shut off the audio,device.volume.mute,214,device.volume.mute,0.9898435,True
+bring the sound back after muting,device.volume.unmute,215,device.volume.unmute,0.9824868,True
+restore audio to my hearing aids,device.volume.unmute,216,device.volume.unmute,0.9691009,True
+let me hear through the devices again,device.volume.unmute,217,device.volume.unmute,0.96980774,True
+turn the sound back on,device.volume.unmute,218,device.volume.unmute,0.99205947,True
+resume audio output,device.volume.unmute,219,device.volume.unmute,0.98141575,True
+unmute the hearing aids,device.volume.unmute,220,device.volume.unmute,0.9935954,True
+restore the hearing aid sound,device.volume.unmute,221,device.volume.unmute,0.9930875,True
+I want audio again,device.volume.unmute,222,device.volume.unmute,0.98955554,True
+enable sound on the devices,device.volume.unmute,223,device.volume.unmute,0.8147734,True
+bring back the volume after silence,device.volume.unmute,224,device.volume.unmute,0.5037673,True
+stop muting my hearing aids,device.volume.unmute,225,device.volume.unmute,0.8307315,True
+turn audio back on,device.volume.unmute,226,device.volume.unmute,0.9930608,True
+restore what I was hearing,device.volume.unmute,227,device.volume.unmute,0.95266145,True
+let the hearing aids produce sound again,device.volume.unmute,228,device.volume.unmute,0.9914089,True
+resume the sound output,device.volume.unmute,229,device.volume.unmute,0.9870099,True
+remove the mute state,device.volume.unmute,230,device.volume.unmute,0.9890582,True
+make the devices audible again,device.volume.unmute,231,device.volume.unmute,0.98146814,True
+switch the hearing aids back to sound,device.volume.unmute,232,device.volume.unmute,0.97818893,True
+turn hearing aid audio on,device.volume.unmute,233,device.volume.unmute,0.9774215,True
+bring the audio back,device.volume.unmute,234,device.volume.unmute,0.9866145,True
+restore sound to the devices,device.volume.unmute,235,device.volume.unmute,0.98951274,True
+"I can hear nothing, enable the audio",device.volume.unmute,236,device.volume.increase,0.42303768,False
+unmute my hearing output,device.volume.unmute,237,device.volume.unmute,0.9918419,True
+start the sound again,device.volume.unmute,238,device.volume.unmute,0.94419396,True
+allow audio through the hearing aids,device.volume.unmute,239,streaming.session.start,0.83220273,False
+restore the previous audio,device.volume.unmute,240,device.volume.unmute,0.99254334,True
+turn the hearing output back on,device.volume.unmute,241,device.volume.unmute,0.9882945,True
+bring sound back to my devices,device.volume.unmute,242,device.volume.unmute,0.9660474,True
+enable the hearing aid speakers,device.volume.unmute,243,device.volume.unmute,0.9482017,True
+resume what was muted,device.volume.unmute,244,device.volume.unmute,0.9071728,True
+make the hearing aids audible,device.volume.unmute,245,device.volume.mute,0.7966255,False
+switch off mute mode,device.volume.unmute,246,device.memory.change,0.6828461,False
+restore audio after muting,device.volume.unmute,247,device.volume.unmute,0.99073154,True
+turn sound back on for the hearing aids,device.volume.unmute,248,device.volume.unmute,0.99191743,True
+let audio come through again,device.volume.unmute,249,device.volume.unmute,0.95019495,True
+enable the device output,device.volume.unmute,250,device.volume.unmute,0.6164174,True
+return the hearing aids to audible mode,device.volume.unmute,251,device.volume.unmute,0.97922426,True
+undo mute,device.volume.unmute,252,device.volume.unmute,0.9906302,True
+restore the sound level,device.volume.unmute,253,device.volume.unmute,0.7331336,True
+start hearing aid audio again,device.volume.unmute,254,device.volume.unmute,0.97213644,True
+bring back the hearing output,device.volume.unmute,255,device.volume.unmute,0.97060376,True
+make the devices produce sound again,device.volume.unmute,256,device.volume.unmute,0.9903543,True
+cancel the mute,device.volume.unmute,257,device.volume.unmute,0.9799706,True
+resume audio through my hearing aids,device.volume.unmute,258,device.volume.unmute,0.97240597,True
+turn on the sound again,device.volume.unmute,259,device.volume.unmute,0.9912521,True
+restore hearing aid audio,device.volume.unmute,260,device.volume.unmute,0.9931681,True
+unmute the current output,device.volume.unmute,261,device.volume.unmute,0.98729277,True
+allow sound to pass through again,device.volume.unmute,262,device.volume.unmute,0.9870706,True
+reactivate audio on the hearing aids,device.volume.unmute,263,device.volume.unmute,0.9885548,True
+bring the sound back,device.volume.unmute,264,device.volume.unmute,0.9659097,True
+turn the audio output on again,device.volume.unmute,265,device.volume.unmute,0.98887104,True
+remove complete silence,device.volume.unmute,266,device.volume.mute,0.7932684,False
+restore audible output,device.volume.unmute,267,device.volume.unmute,0.9877291,True
+enable sound again,device.volume.unmute,268,device.volume.unmute,0.99176824,True
+where did I leave my phone,find.phone.locate,269,find.phone.locate,0.97793895,True
+help me locate my mobile,find.phone.locate,270,find.phone.locate,0.97585154,True
+find the phone for me,find.phone.locate,271,find.phone.locate,0.9644152,True
+I can't find my smartphone,find.phone.locate,272,find.phone.locate,0.98263997,True
+show me where my phone is,find.phone.locate,273,find.phone.locate,0.97474754,True
+locate my mobile device,find.phone.locate,274,find.phone.locate,0.99018735,True
+track down my phone,find.phone.locate,275,find.phone.locate,0.97325325,True
+where is my handset,find.phone.locate,276,find.phone.locate,0.9655636,True
+help find my phone,find.phone.locate,277,find.phone.locate,0.98972553,True
+tell me where the phone is,find.phone.locate,278,find.phone.locate,0.9523474,True
+I misplaced my mobile,find.phone.locate,279,find.phone.locate,0.9712498,True
+find my smartphone,find.phone.locate,280,find.phone.locate,0.98798776,True
+locate the phone I paired,find.phone.locate,281,find.phone.locate,0.9843522,True
+where can I find my phone,find.phone.locate,282,find.phone.locate,0.9715532,True
+my phone is missing,find.phone.locate,283,find.phone.locate,0.9809941,True
+help me find the mobile,find.phone.locate,284,find.phone.locate,0.96777713,True
+search for my phone,find.phone.locate,285,find.phone.locate,0.98537236,True
+can you locate my handset,find.phone.locate,286,find.phone.locate,0.9655725,True
+find the device I use as my phone,find.phone.locate,287,find.phone.locate,0.9802085,True
+where did my smartphone go,find.phone.locate,288,find.phone.locate,0.977512,True
+locate my missing phone,find.phone.locate,289,find.phone.locate,0.98966557,True
+help me track my mobile,find.phone.locate,290,find.phone.locate,0.9363959,True
+show the location of my phone,find.phone.locate,291,find.phone.locate,0.94800663,True
+I need to find my phone,find.phone.locate,292,find.phone.locate,0.9839708,True
+where is my mobile right now,find.phone.locate,293,find.phone.locate,0.96180034,True
+find my lost handset,find.phone.locate,294,find.phone.locate,0.96739376,True
+can you find my smartphone,find.phone.locate,295,find.phone.locate,0.9832244,True
+locate my phone please,find.phone.locate,296,find.phone.locate,0.9866882,True
+my mobile has disappeared,find.phone.locate,297,find.phone.locate,0.9094124,True
+help me locate the handset,find.phone.locate,298,find.phone.locate,0.90927124,True
+track my phone,find.phone.locate,299,find.phone.locate,0.9796275,True
+where's my mobile device,find.phone.locate,300,find.phone.locate,0.9687055,True
+find the smartphone,find.phone.locate,301,find.phone.locate,0.98746896,True
+I need the location of my phone,find.phone.locate,302,find.phone.locate,0.53626084,True
+help me search for my phone,find.phone.locate,303,find.phone.locate,0.98518515,True
+locate the phone,find.phone.locate,304,find.phone.locate,0.9904867,True
+my phone is somewhere nearby,find.phone.locate,305,find.phone.locate,0.9853902,True
+tell me where my handset is,find.phone.locate,306,find.phone.locate,0.89797497,True
+find my mobile device,find.phone.locate,307,find.phone.locate,0.98387676,True
+where did I put my phone,find.phone.locate,308,find.phone.locate,0.9797963,True
+can you track down my smartphone,find.phone.locate,309,find.phone.locate,0.9786097,True
+locate my missing mobile,find.phone.locate,310,find.phone.locate,0.98569643,True
+help locate my phone,find.phone.locate,311,find.phone.locate,0.9889951,True
+show where my handset is,find.phone.locate,312,find.phone.locate,0.95177835,True
+find the phone I can't see,find.phone.locate,313,find.phone.locate,0.97672504,True
+my smartphone is lost,find.phone.locate,314,find.phone.locate,0.97659826,True
+look for my phone,find.phone.locate,315,find.phone.locate,0.9837886,True
+where is the mobile I paired,find.phone.locate,316,find.phone.locate,0.7525144,True
+locate my smartphone,find.phone.locate,317,find.phone.locate,0.9891817,True
+help me find the handset,find.phone.locate,318,find.phone.locate,0.94891995,True
+find where my phone is,find.phone.locate,319,find.phone.locate,0.98439276,True
+track down the mobile,find.phone.locate,320,find.phone.locate,0.8292948,True
+can you locate my phone now,find.phone.locate,321,find.phone.locate,0.979425,True
+search for my missing smartphone,find.phone.locate,322,find.phone.locate,0.9852019,True
+show me the reminders I currently have,help.reminder.show,323,help.reminder.show,0.9847297,True
+what reminders are on my list,help.reminder.show,324,help.reminder.show,0.9839078,True
+let me see my reminders,help.reminder.show,325,help.reminder.show,0.966338,True
+display my pending reminders,help.reminder.show,326,help.reminder.show,0.977377,True
+which reminders are active,help.reminder.show,327,help.reminder.show,0.9810503,True
+tell me what I have scheduled,help.reminder.show,328,reminders.task.create,0.3107957,False
+show the reminders I've created,help.reminder.show,329,help.reminder.show,0.93385327,True
+what reminders do I have,help.reminder.show,330,help.reminder.show,0.9834871,True
+list my current reminders,help.reminder.show,331,help.reminder.show,0.9850306,True
+can I see my reminder list,help.reminder.show,332,help.reminder.show,0.93223494,True
+read out my reminders,help.reminder.show,333,help.reminder.show,0.9649585,True
+what tasks have I set reminders for,help.reminder.show,334,help.reminder.show,0.9866262,True
+show my reminder schedule,help.reminder.show,335,help.reminder.show,0.88675094,True
+which reminders are still pending,help.reminder.show,336,help.reminder.show,0.9803647,True
+open my reminder list,help.reminder.show,337,help.reminder.show,0.93659806,True
+give me a list of reminders,help.reminder.show,338,reminders.task.create,0.7000537,False
+what reminders are waiting,help.reminder.show,339,help.reminder.show,0.97802335,True
+see the reminders I have,help.reminder.show,340,help.reminder.show,0.9737707,True
+show all active reminders,help.reminder.show,341,help.reminder.show,0.97423154,True
+what did I set reminders for,help.reminder.show,342,help.reminder.show,0.97337896,True
+let me check my reminders,help.reminder.show,343,help.reminder.show,0.96014285,True
+display the reminder entries,help.reminder.show,344,help.reminder.show,0.95807,True
+which reminder tasks are pending,help.reminder.show,345,help.reminder.show,0.9820967,True
+tell me my current reminders,help.reminder.show,346,help.reminder.show,0.9886206,True
+show my scheduled reminders,help.reminder.show,347,help.reminder.show,0.98793274,True
+what is on my reminder list,help.reminder.show,348,help.reminder.show,0.98128617,True
+list the reminders I have,help.reminder.show,349,help.reminder.show,0.9860524,True
+read my active reminders,help.reminder.show,350,help.reminder.show,0.9870595,True
+show me what's in reminders,help.reminder.show,351,help.reminder.show,0.9920368,True
+which reminders haven't been completed,help.reminder.show,352,help.reminder.show,0.96461064,True
+let me view the reminder list,help.reminder.show,353,help.reminder.show,0.9123028,True
+give me my current reminder status,help.reminder.show,354,reminders.task.create,0.554455,False
+show existing reminders,help.reminder.show,355,help.reminder.show,0.96273583,True
+what reminders are currently saved,help.reminder.show,356,help.reminder.show,0.98571277,True
+display my reminders,help.reminder.show,357,help.reminder.show,0.9805742,True
+can you list my reminders,help.reminder.show,358,help.reminder.show,0.9544333,True
+tell me which reminders are active,help.reminder.show,359,help.reminder.show,0.9916773,True
+show my pending reminder tasks,help.reminder.show,360,help.reminder.show,0.9631029,True
+let me see saved reminders,help.reminder.show,361,help.reminder.show,0.9796322,True
+what reminder tasks are on file,help.reminder.show,362,help.reminder.show,0.9859811,True
+show my outstanding reminders,help.reminder.show,363,help.reminder.show,0.9856221,True
+which reminders do I still have,help.reminder.show,364,help.reminder.show,0.98609203,True
+read my reminder list,help.reminder.show,365,help.reminder.show,0.92194235,True
+view my current reminders,help.reminder.show,366,help.reminder.show,0.9882734,True
+what have I scheduled as reminders,help.reminder.show,367,help.reminder.show,0.9844126,True
+show the reminder items,help.reminder.show,368,help.reminder.show,0.92769706,True
+list my outstanding reminders,help.reminder.show,369,help.reminder.show,0.98554105,True
+can I see what reminders I set,help.reminder.show,370,help.reminder.show,0.9867867,True
+display the reminders I haven't finished,help.reminder.show,371,help.reminder.show,0.98080796,True
+tell me about my reminders,help.reminder.show,372,help.reminder.show,0.9865867,True
+show my active reminder items,help.reminder.show,373,help.reminder.show,0.802069,True
+let me check what reminders remain,help.reminder.show,374,help.reminder.show,0.9867568,True
+list all current reminder tasks,help.reminder.show,375,help.reminder.show,0.8622073,True
+show my reminder entries,help.reminder.show,376,help.reminder.show,0.97272444,True
+set a reminder for my appointment tomorrow,reminders.task.create,377,reminders.task.create,0.98473686,True
+remind me to call the clinic at nine,reminders.task.create,378,reminders.task.create,0.98003805,True
+create a new reminder for later,reminders.task.create,379,reminders.task.create,0.9875559,True
+add a reminder to take my keys,reminders.task.create,380,reminders.task.create,0.9781577,True
+put a reminder on my schedule,reminders.task.create,381,reminders.task.create,0.984769,True
+schedule a reminder for this evening,reminders.task.create,382,reminders.task.create,0.98589593,True
+make a reminder for my meeting,reminders.task.create,383,reminders.task.create,0.9826963,True
+remember to remind me about the meeting,reminders.task.create,384,reminders.task.create,0.9807835,True
+add something to my reminders,reminders.task.create,385,reminders.task.create,0.9704437,True
+create a reminder for next week,reminders.task.create,386,reminders.task.create,0.98720634,True
+set one up so I don't forget,reminders.task.create,387,reminders.task.create,0.90526915,True
+add a new reminder to my list,reminders.task.create,388,reminders.task.create,0.9671924,True
+schedule a reminder to call John,reminders.task.create,389,reminders.task.create,0.98135066,True
+remind me about dinner tonight,reminders.task.create,390,reminders.task.create,0.9817904,True
+make a new reminder,reminders.task.create,391,reminders.task.create,0.97920954,True
+create an entry in my reminders,reminders.task.create,392,reminders.task.create,0.8891678,True
+set something to remind me tomorrow,reminders.task.create,393,reminders.task.create,0.9860491,True
+add a reminder for the weekend,reminders.task.create,394,reminders.task.create,0.98540753,True
+schedule a new reminder,reminders.task.create,395,reminders.task.create,0.98037624,True
+please create a reminder,reminders.task.create,396,reminders.task.create,0.97840047,True
+put this on my reminder list,reminders.task.create,397,reminders.task.create,0.7682814,True
+remind me to buy groceries,reminders.task.create,398,reminders.task.create,0.96677834,True
+add an appointment reminder,reminders.task.create,399,reminders.task.create,0.98074543,True
+create a reminder for the morning,reminders.task.create,400,reminders.task.create,0.9873382,True
+set a reminder for later today,reminders.task.create,401,reminders.task.create,0.9877279,True
+make sure I get a reminder about this,reminders.task.create,402,reminders.task.create,0.9622751,True
+add this as a reminder,reminders.task.create,403,reminders.task.create,0.9786956,True
+schedule something in reminders,reminders.task.create,404,reminders.task.create,0.9540278,True
+create a reminder to charge the phone,reminders.task.create,405,reminders.task.create,0.9822289,True
+set a reminder for my medication time,reminders.task.create,406,reminders.task.create,0.96477383,True
+add a new reminder for tomorrow,reminders.task.create,407,reminders.task.create,0.9820176,True
+remind me to send the email,reminders.task.create,408,reminders.task.create,0.9789787,True
+make a reminder for Friday,reminders.task.create,409,reminders.task.create,0.9891769,True
+create a reminder entry,reminders.task.create,410,reminders.task.create,0.98224914,True
+schedule a reminder for my task,reminders.task.create,411,reminders.task.create,0.9822464,True
+set up a reminder for the appointment,reminders.task.create,412,reminders.task.create,0.986212,True
+add this task to reminders,reminders.task.create,413,reminders.task.create,0.8380056,True
+create a new scheduled reminder,reminders.task.create,414,reminders.task.create,0.9828567,True
+remind me about my call,reminders.task.create,415,reminders.task.create,0.9701708,True
+put a reminder in place,reminders.task.create,416,reminders.task.create,0.9865406,True
+set a reminder so I remember,reminders.task.create,417,reminders.task.create,0.9838695,True
+add another reminder,reminders.task.create,418,reminders.task.create,0.97763306,True
+create a reminder for tonight,reminders.task.create,419,reminders.task.create,0.9853286,True
+schedule my reminder,reminders.task.create,420,reminders.task.create,0.9742424,True
+make a reminder for the afternoon,reminders.task.create,421,reminders.task.create,0.9876808,True
+remind me to check the oven,reminders.task.create,422,reminders.task.create,0.96774787,True
+add a reminder for an upcoming task,reminders.task.create,423,reminders.task.create,0.973927,True
+create a reminder about the trip,reminders.task.create,424,reminders.task.create,0.9794717,True
+set one for tomorrow morning,reminders.task.create,425,reminders.task.create,0.96266943,True
+put this into my reminder schedule,reminders.task.create,426,reminders.task.create,0.9793768,True
+make a new reminder entry,reminders.task.create,427,reminders.task.create,0.9773521,True
+add a reminder for next month,reminders.task.create,428,reminders.task.create,0.989097,True
+create a reminder to call home,reminders.task.create,429,reminders.task.create,0.9779196,True
+schedule something as a reminder,reminders.task.create,430,reminders.task.create,0.9895946,True
+set up a new reminder,reminders.task.create,431,reminders.task.create,0.9847072,True
+mark my current reminder as done,reminders.task.complete,432,reminders.task.complete,0.9874249,True
+finish the reminder I just handled,reminders.task.complete,433,reminders.task.complete,0.9267759,True
+dismiss the reminder that is completed,reminders.task.complete,434,reminders.task.complete,0.9655664,True
+check off my latest reminder,reminders.task.complete,435,reminders.task.complete,0.98424006,True
+clear the reminder I finished,reminders.task.complete,436,reminders.task.complete,0.9489386,True
+mark that reminder complete,reminders.task.complete,437,reminders.task.complete,0.98946065,True
+remove the reminder I have already done,reminders.task.complete,438,reminders.task.complete,0.8835189,True
+complete my pending reminder,reminders.task.complete,439,reminders.task.complete,0.9905089,True
+close out the reminder I finished,reminders.task.complete,440,reminders.task.complete,0.96449286,True
+mark the task behind the reminder as complete,reminders.task.complete,441,reminders.task.complete,0.9852985,True
+"I've done it, complete that reminder",reminders.task.complete,442,reminders.task.complete,0.9616201,True
+dismiss my completed reminder,reminders.task.complete,443,reminders.task.complete,0.9848969,True
+check that reminder off my list,reminders.task.complete,444,reminders.task.complete,0.9843663,True
+finish the active reminder,reminders.task.complete,445,reminders.task.complete,0.975805,True
+mark the reminder as completed,reminders.task.complete,446,reminders.task.complete,0.9908731,True
+clear my finished reminder,reminders.task.complete,447,reminders.task.complete,0.9824683,True
+complete the reminder task,reminders.task.complete,448,reminders.task.complete,0.9865079,True
+remove the reminder after finishing it,reminders.task.complete,449,reminders.task.complete,0.76584065,True
+close the reminder I completed,reminders.task.complete,450,reminders.task.complete,0.95986295,True
+mark my reminder done,reminders.task.complete,451,reminders.task.complete,0.9904081,True
+"I finished that task, clear its reminder",reminders.task.complete,452,reminders.task.complete,0.79968184,True
+complete my latest reminder,reminders.task.complete,453,reminders.task.complete,0.9844639,True
+dismiss the reminder I no longer need,reminders.task.complete,454,reminders.task.complete,0.8265118,True
+check off the task I was reminded about,reminders.task.complete,455,reminders.task.complete,0.7550111,True
+mark that reminder as finished,reminders.task.complete,456,reminders.task.complete,0.98949665,True
+clear the completed reminder,reminders.task.complete,457,reminders.task.complete,0.9789185,True
+finish the reminder task,reminders.task.complete,458,reminders.task.complete,0.9823757,True
+complete the active reminder,reminders.task.complete,459,reminders.task.complete,0.9866143,True
+remove the reminder I just completed,reminders.task.complete,460,reminders.task.complete,0.7476939,True
+mark this reminder done,reminders.task.complete,461,reminders.task.complete,0.9843203,True
+dismiss my current reminder,reminders.task.complete,462,reminders.task.complete,0.9791982,True
+check off my reminder,reminders.task.complete,463,reminders.task.complete,0.98573583,True
+finish the reminder that's pending,reminders.task.complete,464,reminders.task.complete,0.9222943,True
+complete that reminder now,reminders.task.complete,465,reminders.task.complete,0.97412646,True
+clear the reminder I handled,reminders.task.complete,466,reminders.task.complete,0.9289629,True
+mark my outstanding reminder complete,reminders.task.complete,467,reminders.task.complete,0.98902076,True
+close my completed reminder,reminders.task.complete,468,reminders.task.complete,0.9831889,True
+finish my active reminder,reminders.task.complete,469,reminders.task.complete,0.9787248,True
+complete the reminder I just dealt with,reminders.task.complete,470,reminders.task.complete,0.94340456,True
+remove my finished reminder,reminders.task.complete,471,reminders.task.complete,0.96600723,True
+mark the current reminder as completed,reminders.task.complete,472,reminders.task.complete,0.9871313,True
+dismiss the reminder after completing it,reminders.task.complete,473,reminders.task.complete,0.97221667,True
+check the reminder off as done,reminders.task.complete,474,reminders.task.complete,0.9829385,True
+complete my pending reminder task,reminders.task.complete,475,reminders.task.complete,0.9886723,True
+clear the task reminder I finished,reminders.task.complete,476,reminders.task.complete,0.97271436,True
+mark that item complete,reminders.task.complete,477,reminders.task.complete,0.9837145,True
+finish this reminder,reminders.task.complete,478,reminders.task.complete,0.9745473,True
+remove the completed reminder,reminders.task.complete,479,reminders.task.complete,0.9718472,True
+complete the current reminder,reminders.task.complete,480,reminders.task.complete,0.97990936,True
+close out this reminder,reminders.task.complete,481,reminders.task.complete,0.9766632,True
+mark the reminder finished,reminders.task.complete,482,reminders.task.complete,0.9889135,True
+clear my completed task reminder,reminders.task.complete,483,reminders.task.complete,0.98507315,True
+check off the current reminder,reminders.task.complete,484,reminders.task.complete,0.9857216,True
+complete the reminder item,reminders.task.complete,485,reminders.task.complete,0.986043,True
+send audio from my phone to the hearing aids,streaming.session.start,486,streaming.session.start,0.9752898,True
+start streaming music into my hearing aids,streaming.session.start,487,streaming.session.start,0.98829275,True
+connect the laptop audio to my devices,streaming.session.start,488,streaming.session.start,0.986973,True
+play my tablet sound through the hearing aids,streaming.session.start,489,streaming.session.start,0.9549779,True
+route the phone's audio to my hearing aids,streaming.session.start,490,streaming.session.start,0.98244345,True
+begin streaming from my mobile,streaming.session.start,491,streaming.session.start,0.97762156,True
+let me hear the TV through my hearing aids,streaming.session.start,492,streaming.session.start,0.97132576,True
+start an audio connection with my phone,streaming.session.start,493,streaming.session.start,0.98050356,True
+stream sound from the computer,streaming.session.start,494,streaming.session.start,0.9833988,True
+connect my hearing aids to the television audio,streaming.session.start,495,streaming.session.start,0.9848599,True
+start sending media audio to my devices,streaming.session.start,496,streaming.session.start,0.9770024,True
+play the phone through my hearing aids,streaming.session.start,497,streaming.session.start,0.9653374,True
+begin streaming from the laptop,streaming.session.start,498,streaming.session.start,0.98405105,True
+route music into my hearing aids,streaming.session.start,499,streaming.session.start,0.92652816,True
+connect to my tablet for audio,streaming.session.start,500,streaming.session.start,0.9828851,True
+start the streaming session,streaming.session.start,501,streaming.session.start,0.98513585,True
+send the computer sound to my hearing aids,streaming.session.start,502,streaming.session.start,0.9304548,True
+play TV audio through the devices,streaming.session.start,503,streaming.session.start,0.9760367,True
+start streaming from my smartphone,streaming.session.start,504,streaming.session.start,0.98157805,True
+connect my hearing aids to the media source,streaming.session.start,505,streaming.session.start,0.9783489,True
+begin routing audio from the phone,streaming.session.start,506,streaming.session.start,0.93375295,True
+stream the laptop's sound to my devices,streaming.session.start,507,streaming.session.start,0.9746268,True
+let the hearing aids receive TV audio,streaming.session.start,508,streaming.session.start,0.93071234,True
+start a connection for media sound,streaming.session.start,509,streaming.session.start,0.97868836,True
+send music directly to my hearing aids,streaming.session.start,510,streaming.session.start,0.9722853,True
+begin audio streaming,streaming.session.start,511,streaming.session.start,0.9878946,True
+connect the hearing aids for streaming,streaming.session.start,512,streaming.session.start,0.9880592,True
+route my tablet audio to the devices,streaming.session.start,513,streaming.session.start,0.9781075,True
+start playing phone audio through the hearing aids,streaming.session.start,514,streaming.session.start,0.97189057,True
+stream audio from my computer,streaming.session.start,515,streaming.session.start,0.9890961,True
+connect to the TV audio,streaming.session.start,516,streaming.session.start,0.98626035,True
+begin streaming media to the hearing aids,streaming.session.start,517,streaming.session.start,0.98515224,True
+start routing sound from my phone,streaming.session.start,518,streaming.session.start,0.94824034,True
+play the computer audio through my devices,streaming.session.start,519,streaming.session.start,0.97399217,True
+establish the audio stream,streaming.session.start,520,streaming.session.stop,0.48995158,False
+start sending sound to the hearing aids,streaming.session.start,521,streaming.session.start,0.9694341,True
+connect my phone for streaming,streaming.session.start,522,streaming.session.start,0.9743853,True
+begin the media audio connection,streaming.session.start,523,streaming.session.start,0.9854037,True
+stream sound from the television,streaming.session.start,524,streaming.session.start,0.98165375,True
+route audio from my laptop,streaming.session.start,525,streaming.session.start,0.979625,True
+start streaming from my tablet,streaming.session.start,526,streaming.session.start,0.9883952,True
+send TV sound into the hearing aids,streaming.session.start,527,streaming.session.start,0.92743254,True
+open the audio stream,streaming.session.start,528,streaming.session.start,0.96327454,True
+connect the devices to my phone audio,streaming.session.start,529,streaming.session.start,0.9705738,True
+start streaming the media,streaming.session.start,530,streaming.session.start,0.9837398,True
+begin playing audio through the hearing aids,streaming.session.start,531,streaming.session.start,0.97477055,True
+route music from my smartphone,streaming.session.start,532,streaming.session.start,0.4881681,True
+start the hearing aid streaming connection,streaming.session.start,533,streaming.session.start,0.9902947,True
+connect my laptop audio,streaming.session.start,534,streaming.session.start,0.98167014,True
+begin streaming from the TV,streaming.session.start,535,streaming.session.start,0.9863468,True
+send media sound to my hearing aids,streaming.session.start,536,streaming.session.start,0.9357126,True
+start an audio stream from the phone,streaming.session.start,537,streaming.session.start,0.97407985,True
+route my computer's sound to the devices,streaming.session.start,538,streaming.session.start,0.8970877,True
+connect for audio streaming,streaming.session.start,539,streaming.session.start,0.98851657,True
+stop sending audio to my hearing aids,streaming.session.stop,540,streaming.session.stop,0.8701202,True
+end the current streaming session,streaming.session.stop,541,streaming.session.stop,0.97016597,True
+disconnect the phone audio,streaming.session.stop,542,streaming.session.stop,0.9703279,True
+stop streaming from my laptop,streaming.session.stop,543,streaming.session.stop,0.993509,True
+end the media connection,streaming.session.stop,544,streaming.session.stop,0.9861665,True
+disconnect my hearing aids from the TV audio,streaming.session.stop,545,streaming.session.stop,0.9697054,True
+stop the audio stream,streaming.session.stop,546,streaming.session.stop,0.99024266,True
+turn off the current streaming connection,streaming.session.stop,547,streaming.session.stop,0.9876457,True
+end streaming now,streaming.session.stop,548,streaming.session.stop,0.9589519,True
+stop routing sound from the phone,streaming.session.stop,549,streaming.session.stop,0.9528637,True
+disconnect the tablet audio,streaming.session.stop,550,streaming.session.stop,0.9722631,True
+finish the current streaming session,streaming.session.stop,551,streaming.session.stop,0.8938531,True
+stop sending media sound to the devices,streaming.session.stop,552,device.volume.mute,0.6714528,False
+disconnect the laptop from my hearing aids,streaming.session.stop,553,streaming.session.stop,0.9670072,True
+end the audio stream,streaming.session.stop,554,streaming.session.stop,0.9721582,True
+stop streaming music,streaming.session.stop,555,streaming.session.stop,0.99099004,True
+break the current audio connection,streaming.session.stop,556,streaming.session.start,0.4594269,False
+disconnect the hearing aids from the phone,streaming.session.stop,557,streaming.session.stop,0.96316093,True
+stop the TV audio stream,streaming.session.stop,558,streaming.session.stop,0.99022305,True
+close the streaming session,streaming.session.stop,559,streaming.session.stop,0.93403804,True
+end the connection carrying audio,streaming.session.stop,560,streaming.session.stop,0.9653014,True
+stop routing the computer sound,streaming.session.stop,561,streaming.session.stop,0.82778305,True
+disconnect from the media source,streaming.session.stop,562,streaming.session.stop,0.98363227,True
+finish streaming,streaming.session.stop,563,streaming.session.stop,0.9543292,True
+stop the audio coming from my phone,streaming.session.stop,564,streaming.session.stop,0.96338814,True
+end the current media stream,streaming.session.stop,565,streaming.session.stop,0.9816441,True
+disconnect the hearing aids from the laptop,streaming.session.stop,566,streaming.session.stop,0.9601864,True
+stop the streaming connection,streaming.session.stop,567,streaming.session.stop,0.99475586,True
+turn off audio streaming,streaming.session.stop,568,streaming.session.stop,0.9766865,True
+end the phone audio connection,streaming.session.stop,569,streaming.session.stop,0.9717026,True
+stop sending TV sound,streaming.session.stop,570,streaming.session.stop,0.82084185,True
+disconnect the tablet from the hearing aids,streaming.session.stop,571,streaming.session.stop,0.9668883,True
+close the audio stream,streaming.session.stop,572,streaming.session.stop,0.96722245,True
+finish the streaming session,streaming.session.stop,573,streaming.session.stop,0.9419722,True
+stop media audio,streaming.session.stop,574,streaming.session.stop,0.9604908,True
+break the streaming link,streaming.session.stop,575,streaming.session.start,0.9530361,False
+disconnect the computer audio,streaming.session.stop,576,streaming.session.stop,0.967599,True
+stop the current stream,streaming.session.stop,577,streaming.session.stop,0.99268335,True
+end audio streaming,streaming.session.stop,578,streaming.session.stop,0.97692454,True
+remove the active streaming connection,streaming.session.stop,579,streaming.session.stop,0.9786791,True
+stop routing sound to my devices,streaming.session.stop,580,device.volume.mute,0.6054941,False
+disconnect from the TV,streaming.session.stop,581,streaming.session.stop,0.9873675,True
+finish the current audio connection,streaming.session.stop,582,streaming.session.stop,0.9326936,True
+stop the phone stream,streaming.session.stop,583,streaming.session.stop,0.99219745,True
+close the media connection,streaming.session.stop,584,streaming.session.stop,0.99131644,True
+end streaming from the laptop,streaming.session.stop,585,streaming.session.stop,0.99026614,True
+disconnect the audio source,streaming.session.stop,586,streaming.session.stop,0.9585261,True
+stop streaming to the hearing aids,streaming.session.stop,587,streaming.session.stop,0.9774645,True
+terminate the active audio stream,streaming.session.stop,588,streaming.session.stop,0.93981594,True
+disconnect my phone audio,streaming.session.stop,589,streaming.session.stop,0.97387105,True
+end the hearing aid streaming session,streaming.session.stop,590,streaming.session.stop,0.92093784,True
+stop the media connection,streaming.session.stop,591,streaming.session.stop,0.9922117,True
+close the current stream,streaming.session.stop,592,streaming.session.stop,0.94018114,True
+disconnect from the laptop audio,streaming.session.stop,593,streaming.session.stop,0.980825,True
+finish audio streaming,streaming.session.stop,594,streaming.session.stop,0.89759225,True

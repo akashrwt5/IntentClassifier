@@ -1,0 +1,155 @@
+{
+  "tag": "subw_s7",
+  "seed": 7,
+  "train_csv": "/Users/shuklam/IntentClassifier/new_semantic/data/en/train.csv",
+  "train_rows": 23989,
+  "intents": 57,
+  "vocab_size": 3000,
+  "embed_dim": 64,
+  "init_embeddings": null,
+  "freeze_embeddings": false,
+  "tokenizer": "subword",
+  "max_len": 32,
+  "student_params": 262777,
+  "student_mb_fp32": 1.051,
+  "teacher": "intfloat/e5-small-v2",
+  "embedding_teacher": null,
+  "class_weights": true,
+  "fallback_weight_floor": null,
+  "fallback_oversample": 1,
+  "unk_aug_fraction": 0.04,
+  "unk_robust_fraction": null,
+  "synthetic_fallback_rows": 921,
+  "synthetic_in_scope_rows": 0,
+  "synthetic_rows": 921,
+  "synthetic_text": true,
+  "fallback_share_before": 0.0396,
+  "fallback_share_after": 0.0751,
+  "rows_after_augmentation": 24910,
+  "best_epoch": 13,
+  "best_val_macro_recall": 0.9159,
+  "checkpoint": "/Users/shuklam/IntentClassifier/new_semantic/models/en/student_subw_s7.pt",
+  "leak_guard": "passed",
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 1.9940765004560173,
+      "val_acc": 0.7738827936847739,
+      "val_macro_recall": 0.6846056631542858
+    },
+    {
+      "epoch": 2,
+      "loss": 1.0202459894030926,
+      "val_acc": 0.8672732138078673,
+      "val_macro_recall": 0.819800549209511
+    },
+    {
+      "epoch": 3,
+      "loss": 0.6862661231713123,
+      "val_acc": 0.9194541075729195,
+      "val_macro_recall": 0.8629387298470536
+    },
+    {
+      "epoch": 4,
+      "loss": 0.5513870719685612,
+      "val_acc": 0.9221300508429221,
+      "val_macro_recall": 0.8785331143005654
+    },
+    {
+      "epoch": 5,
+      "loss": 0.4629561940589583,
+      "val_acc": 0.9424672196949425,
+      "val_macro_recall": 0.8826790862710748
+    },
+    {
+      "epoch": 6,
+      "loss": 0.4107504101043724,
+      "val_acc": 0.9472839175809473,
+      "val_macro_recall": 0.8834581325233749
+    },
+    {
+      "epoch": 7,
+      "loss": 0.38258194600243167,
+      "val_acc": 0.9512978324859513,
+      "val_macro_recall": 0.9034535917137663
+    },
+    {
+      "epoch": 8,
+      "loss": 0.35065270116530267,
+      "val_acc": 0.9542413700829543,
+      "val_macro_recall": 0.8956489531447597
+    },
+    {
+      "epoch": 9,
+      "loss": 0.33898437669478265,
+      "val_acc": 0.9545089644099545,
+      "val_macro_recall": 0.9016622725760778
+    },
+    {
+      "epoch": 10,
+      "loss": 0.32212565462273285,
+      "val_acc": 0.9571849076799572,
+      "val_macro_recall": 0.9062607445518068
+    },
+    {
+      "epoch": 11,
+      "loss": 0.3125476756368775,
+      "val_acc": 0.9593256622959593,
+      "val_macro_recall": 0.9002470811773193
+    },
+    {
+      "epoch": 12,
+      "loss": 0.30363447533314486,
+      "val_acc": 0.9574525020069574,
+      "val_macro_recall": 0.8911821106030007
+    },
+    {
+      "epoch": 13,
+      "loss": 0.3043113447815539,
+      "val_acc": 0.964945143162965,
+      "val_macro_recall": 0.9158830781249512
+    },
+    {
+      "epoch": 14,
+      "loss": 0.29417670293744785,
+      "val_acc": 0.9622691998929622,
+      "val_macro_recall": 0.9064116903844815
+    },
+    {
+      "epoch": 15,
+      "loss": 0.29846281280000525,
+      "val_acc": 0.9598608509499599,
+      "val_macro_recall": 0.8903044854793631
+    },
+    {
+      "epoch": 16,
+      "loss": 0.29852704219071263,
+      "val_acc": 0.9598608509499599,
+      "val_macro_recall": 0.9034500473758345
+    },
+    {
+      "epoch": 17,
+      "loss": 0.2943039908107505,
+      "val_acc": 0.9625367942199625,
+      "val_macro_recall": 0.8941407082577991
+    },
+    {
+      "epoch": 18,
+      "loss": 0.291933648378016,
+      "val_acc": 0.962001605565962,
+      "val_macro_recall": 0.9001831594071439
+    },
+    {
+      "epoch": 19,
+      "loss": 0.2882347805313317,
+      "val_acc": 0.9622691998929622,
+      "val_macro_recall": 0.9029215204347785
+    },
+    {
+      "epoch": 20,
+      "loss": 0.2858960583626506,
+      "val_acc": 0.9614664169119614,
+      "val_macro_recall": 0.8900286330654665
+    }
+  ]
+}

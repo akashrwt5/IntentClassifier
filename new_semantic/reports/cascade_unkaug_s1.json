@@ -1,0 +1,42 @@
+{
+  "stage2_temperature": 1.0,
+  "stage2_threshold": 0.7,
+  "stage3_threshold": 0.4,
+  "stage2_train_overlap": {
+    "locked": 0.9887,
+    "stress": 0.0071,
+    "ood": 0.0124
+  },
+  "locked": {
+    "rows": 1686,
+    "stage2_contaminated": true,
+    "handover_rate": 0.1512,
+    "stage2_accuracy_all": 0.9573,
+    "stage2_accuracy_on_kept": 0.986,
+    "stage2_accuracy_on_handover": 0.7961,
+    "student_accuracy_on_handover": 0.6039,
+    "pipeline_with_student": 0.9282,
+    "pipeline_stage2_only": 0.9573,
+    "delta": -0.0291
+  },
+  "stress": {
+    "rows": 565,
+    "stage2_contaminated": false,
+    "handover_rate": 0.4142,
+    "stage2_accuracy_all": 0.8442,
+    "stage2_accuracy_on_kept": 0.9517,
+    "stage2_accuracy_on_handover": 0.6923,
+    "student_accuracy_on_handover": 0.3632,
+    "pipeline_with_student": 0.708,
+    "pipeline_stage2_only": 0.8442,
+    "delta": -0.1363
+  },
+  "ood": {
+    "rows": 403,
+    "handover_rate": 0.9206,
+    "stage2_rejects": 0.9529,
+    "stage2_wrongly_accepts": 19,
+    "student_rejects_on_handover": 0.9569,
+    "pipeline_reject_rate": 0.9132
+  }
+}

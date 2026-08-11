@@ -32,6 +32,8 @@ dependencies = [
     # Build dependency: the compiler reads content/*.yaml — see requirements.txt.
     "pyyaml>=6.0,<7.0",
     "dateparser>=1.2,<2.0; python_version >= '3.8'",
+    "datasets",
+    "accelerate>=1.1.0",
 ]
 
 [project.optional-dependencies]
@@ -147,7 +149,11 @@ exclude = '(^|/)(\.venv|\.venv-dfcompare|checkpoints|models|multilingual_intent/
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
 minversion = "8.0"
-testpaths = ["tests"]
+# nlu_engine's tests live next to the code they test (see the docstrings in
+# test_student_semantic.py / test_stage2_backstop.py). Without this second
+# entry those 23 tests exist but are never collected by `make check` — which
+# was the case while they were being written.
+testpaths = ["tests", "packages/runtime/nlu_engine"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]

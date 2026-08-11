@@ -1,0 +1,161 @@
+{
+  "tag": "subw_vol5_s7",
+  "seed": 7,
+  "train_csv": "/Users/shuklam/IntentClassifier/new_semantic/data/en/train.csv",
+  "train_rows": 24194,
+  "intents": 57,
+  "vocab_size": 3000,
+  "embed_dim": 64,
+  "init_embeddings": null,
+  "freeze_embeddings": false,
+  "tokenizer": "subword",
+  "max_len": 32,
+  "student_params": 262777,
+  "student_mb_fp32": 1.051,
+  "teacher": "intfloat/e5-small-v2",
+  "embedding_teacher": null,
+  "class_weights": true,
+  "fallback_weight_floor": null,
+  "fallback_oversample": 1,
+  "unk_aug_fraction": 0.04,
+  "unk_robust_fraction": null,
+  "synthetic_fallback_rows": 929,
+  "synthetic_in_scope_rows": 0,
+  "synthetic_rows": 929,
+  "synthetic_text": true,
+  "fallback_share_before": 0.0392,
+  "fallback_share_after": 0.0748,
+  "rows_after_augmentation": 25123,
+  "best_epoch": 14,
+  "best_val_macro_recall": 0.9012,
+  "checkpoint": "/Users/shuklam/IntentClassifier/new_semantic/models/en/student_subw_vol5_s7.pt",
+  "leak_guard": "passed",
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 1.9492136086532457,
+      "val_acc": 0.8052533828601751,
+      "val_macro_recall": 0.7273993900576935
+    },
+    {
+      "epoch": 2,
+      "loss": 0.9790179768722215,
+      "val_acc": 0.8933404085964447,
+      "val_macro_recall": 0.8208891927950613
+    },
+    {
+      "epoch": 3,
+      "loss": 0.6605932268196951,
+      "val_acc": 0.9222605465640753,
+      "val_macro_recall": 0.8535566999802697
+    },
+    {
+      "epoch": 4,
+      "loss": 0.5275255124012154,
+      "val_acc": 0.9347306977978244,
+      "val_macro_recall": 0.8818408660203203
+    },
+    {
+      "epoch": 5,
+      "loss": 0.4555282375055873,
+      "val_acc": 0.9365879543645529,
+      "val_macro_recall": 0.8859976854569761
+    },
+    {
+      "epoch": 6,
+      "loss": 0.40208574701212124,
+      "val_acc": 0.9464048819315468,
+      "val_macro_recall": 0.8846911774730366
+    },
+    {
+      "epoch": 7,
+      "loss": 0.36927664440549063,
+      "val_acc": 0.9503847174316795,
+      "val_macro_recall": 0.8892146879629613
+    },
+    {
+      "epoch": 8,
+      "loss": 0.3449528103103181,
+      "val_acc": 0.9543645529318121,
+      "val_macro_recall": 0.8948199136502696
+    },
+    {
+      "epoch": 9,
+      "loss": 0.3271002444678438,
+      "val_acc": 0.9535685858317856,
+      "val_macro_recall": 0.8870962646898639
+    },
+    {
+      "epoch": 10,
+      "loss": 0.3213910863784973,
+      "val_acc": 0.9533032634651101,
+      "val_macro_recall": 0.8846765036998966
+    },
+    {
+      "epoch": 11,
+      "loss": 0.31658900497916215,
+      "val_acc": 0.9562218094985407,
+      "val_macro_recall": 0.8929060792261716
+    },
+    {
+      "epoch": 12,
+      "loss": 0.3059552024581475,
+      "val_acc": 0.9599363226319979,
+      "val_macro_recall": 0.8951125714954126
+    },
+    {
+      "epoch": 13,
+      "loss": 0.3096220818108427,
+      "val_acc": 0.9596710002653224,
+      "val_macro_recall": 0.8985645992082093
+    },
+    {
+      "epoch": 14,
+      "loss": 0.3026596978752913,
+      "val_acc": 0.9580790660652693,
+      "val_macro_recall": 0.9012177573880598
+    },
+    {
+      "epoch": 15,
+      "loss": 0.2949985024814834,
+      "val_acc": 0.9572830989652428,
+      "val_macro_recall": 0.8879734003768955
+    },
+    {
+      "epoch": 16,
+      "loss": 0.2892064305836569,
+      "val_acc": 0.9623242239320775,
+      "val_macro_recall": 0.8983855823547992
+    },
+    {
+      "epoch": 17,
+      "loss": 0.2822623106533896,
+      "val_acc": 0.9617935791987264,
+      "val_macro_recall": 0.8940769345818158
+    },
+    {
+      "epoch": 18,
+      "loss": 0.2782266179244675,
+      "val_acc": 0.9578137436985938,
+      "val_macro_recall": 0.9008709157640045
+    },
+    {
+      "epoch": 19,
+      "loss": 0.2753147707727855,
+      "val_acc": 0.9623242239320775,
+      "val_macro_recall": 0.8905099549179262
+    },
+    {
+      "epoch": 20,
+      "loss": 0.2788520944332648,
+      "val_acc": 0.9602016449986734,
+      "val_macro_recall": 0.8941740986280596
+    },
+    {
+      "epoch": 21,
+      "loss": 0.30259790570436124,
+      "val_acc": 0.9586097107986203,
+      "val_macro_recall": 0.8895299625658014
+    }
+  ]
+}

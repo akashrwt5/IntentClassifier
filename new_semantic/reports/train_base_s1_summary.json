@@ -1,0 +1,157 @@
+{
+  "tag": "base_s1",
+  "seed": 1,
+  "train_csv": "/Users/shuklam/IntentClassifier/new_semantic/data/en/train.csv",
+  "train_rows": 23989,
+  "intents": 57,
+  "vocab_size": 1982,
+  "tokenizer": "word",
+  "max_len": 24,
+  "student_params": 197625,
+  "student_mb_fp32": 0.79,
+  "teacher": "intfloat/e5-small-v2",
+  "class_weights": true,
+  "fallback_weight_floor": null,
+  "fallback_oversample": 1,
+  "unk_aug_fraction": null,
+  "unk_robust_fraction": null,
+  "synthetic_fallback_rows": 0,
+  "synthetic_in_scope_rows": 0,
+  "synthetic_rows": 0,
+  "synthetic_text": false,
+  "fallback_share_before": 0.0396,
+  "fallback_share_after": 0.0396,
+  "rows_after_augmentation": 23989,
+  "best_epoch": 14,
+  "best_val_macro_recall": 0.8918,
+  "checkpoint": "/Users/shuklam/IntentClassifier/new_semantic/models/en/student_base_s1.pt",
+  "leak_guard": "passed",
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 2.0340145152062177,
+      "val_acc": 0.7868852459016393,
+      "val_macro_recall": 0.6327769985931355
+    },
+    {
+      "epoch": 2,
+      "loss": 1.0981772877275944,
+      "val_acc": 0.8816337871631008,
+      "val_macro_recall": 0.7777585127248288
+    },
+    {
+      "epoch": 3,
+      "loss": 0.7603012023493647,
+      "val_acc": 0.9130313976104474,
+      "val_macro_recall": 0.8137051799500198
+    },
+    {
+      "epoch": 4,
+      "loss": 0.5908392183482647,
+      "val_acc": 0.9294248402333982,
+      "val_macro_recall": 0.8414260769885853
+    },
+    {
+      "epoch": 5,
+      "loss": 0.48796416744589804,
+      "val_acc": 0.9416504584606835,
+      "val_macro_recall": 0.867123346204251
+    },
+    {
+      "epoch": 6,
+      "loss": 0.4298089126124978,
+      "val_acc": 0.9449847179772158,
+      "val_macro_recall": 0.8652611477536711
+    },
+    {
+      "epoch": 7,
+      "loss": 0.39511402789503336,
+      "val_acc": 0.9541539316476799,
+      "val_macro_recall": 0.8848912733392529
+    },
+    {
+      "epoch": 8,
+      "loss": 0.3650815013796091,
+      "val_acc": 0.955543206446235,
+      "val_macro_recall": 0.871191631832033
+    },
+    {
+      "epoch": 9,
+      "loss": 0.34911399856209757,
+      "val_acc": 0.9560989163656571,
+      "val_macro_recall": 0.8665070051866263
+    },
+    {
+      "epoch": 10,
+      "loss": 0.3413919387385249,
+      "val_acc": 0.9558210614059461,
+      "val_macro_recall": 0.8642428567070811
+    },
+    {
+      "epoch": 11,
+      "loss": 0.32177858110517266,
+      "val_acc": 0.9599888858016116,
+      "val_macro_recall": 0.8872376616995513
+    },
+    {
+      "epoch": 12,
+      "loss": 0.31325589027255774,
+      "val_acc": 0.9616560155598778,
+      "val_macro_recall": 0.8819777857770008
+    },
+    {
+      "epoch": 13,
+      "loss": 0.3083749312907457,
+      "val_acc": 0.9611003056404557,
+      "val_macro_recall": 0.8716046981868067
+    },
+    {
+      "epoch": 14,
+      "loss": 0.3030513320118189,
+      "val_acc": 0.9630452903584329,
+      "val_macro_recall": 0.8918144529866442
+    },
+    {
+      "epoch": 15,
+      "loss": 0.2985604930669069,
+      "val_acc": 0.9622117254792998,
+      "val_macro_recall": 0.8760426043230971
+    },
+    {
+      "epoch": 16,
+      "loss": 0.2982632594183087,
+      "val_acc": 0.9599888858016116,
+      "val_macro_recall": 0.8685701470667706
+    },
+    {
+      "epoch": 17,
+      "loss": 0.2959145663306117,
+      "val_acc": 0.9622117254792998,
+      "val_macro_recall": 0.8779539169877397
+    },
+    {
+      "epoch": 18,
+      "loss": 0.28491609189659356,
+      "val_acc": 0.9605445957210336,
+      "val_macro_recall": 0.8707721115898042
+    },
+    {
+      "epoch": 19,
+      "loss": 0.2789202586747706,
+      "val_acc": 0.9622117254792998,
+      "val_macro_recall": 0.87296435653998
+    },
+    {
+      "epoch": 20,
+      "loss": 0.2785187210887671,
+      "val_acc": 0.9624895804390108,
+      "val_macro_recall": 0.8800780000333414
+    },
+    {
+      "epoch": 21,
+      "loss": 0.27369723878800867,
+      "val_acc": 0.9652681300361211,
+      "val_macro_recall": 0.8789685533991068
+    }
+  ]
+}

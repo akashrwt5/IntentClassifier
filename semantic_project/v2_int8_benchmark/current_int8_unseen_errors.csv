@@ -1,0 +1,35 @@
+text,intent,predicted,confidence,correct
+choose another hearing aid environment,device.memory.change,device.volume.increase,0.6489328689483158,False
+move my hearing aids to the music profile,device.memory.change,streaming.session.start,0.8528413364923983,False
+select my music hearing profile,device.memory.change,streaming.session.start,0.962943254108814,False
+make the audio more comfortable by lowering it,device.volume.decrease,device.volume.increase,0.7427836753358542,False
+quiet the audio somewhat,device.volume.decrease,streaming.session.stop,0.9351910529937739,False
+take the audio down slightly,device.volume.decrease,streaming.session.stop,0.5156055694465618,False
+give me a stronger listening level,device.volume.increase,device.volume.decrease,0.4984265480734361,False
+make the listening output stronger,device.volume.increase,device.memory.change,0.5018438149830451,False
+make the audio less quiet,device.volume.increase,device.volume.decrease,0.9267859047907556,False
+turn it up but keep the same program,device.volume.increase,device.memory.change,0.5736205567831499,False
+strengthen the sound coming through,device.volume.increase,streaming.session.start,0.5087480879410976,False
+shut off the audio output,device.volume.mute,streaming.session.stop,0.8405397329778092,False
+make the audio stop,device.volume.mute,streaming.session.stop,0.9631414869661276,False
+stop the hearing aid output,device.volume.mute,streaming.session.stop,0.5993710240186769,False
+no audio should come through,device.volume.mute,streaming.session.start,0.8254800565553958,False
+shut down the sound output,device.volume.mute,device.volume.decrease,0.9936905034035171,False
+stop the audio completely,device.volume.mute,streaming.session.stop,0.9013560604530283,False
+give me zero sound,device.volume.mute,device.volume.unmute,0.4094002056877736,False
+stop muting my hearing aids,device.volume.unmute,streaming.session.stop,0.8402102240546786,False
+"I can hear nothing, enable the audio",device.volume.unmute,streaming.session.start,0.5269982023560332,False
+allow audio through the hearing aids,device.volume.unmute,streaming.session.start,0.9805280929927116,False
+make the hearing aids audible,device.volume.unmute,device.volume.increase,0.48759948367919737,False
+switch off mute mode,device.volume.unmute,device.memory.change,0.43942638269891804,False
+enable the device output,device.volume.unmute,device.memory.change,0.4256995682416123,False
+remove complete silence,device.volume.unmute,reminders.task.complete,0.7738486591851762,False
+tell me what I have scheduled,help.reminder.show,reminders.task.create,0.5937386564939433,False
+show my reminder schedule,help.reminder.show,reminders.task.create,0.5882357910549666,False
+open my reminder list,help.reminder.show,reminders.task.complete,0.6007681687122354,False
+give me a list of reminders,help.reminder.show,reminders.task.create,0.9768813681359038,False
+establish the audio stream,streaming.session.start,streaming.session.stop,0.968975578848923,False
+stop sending media sound to the devices,streaming.session.stop,device.volume.mute,0.7554445823312961,False
+break the current audio connection,streaming.session.stop,streaming.session.start,0.697886425413541,False
+break the streaming link,streaming.session.stop,streaming.session.start,0.9515658211493103,False
+stop routing sound to my devices,streaming.session.stop,device.volume.mute,0.6499090747699893,False

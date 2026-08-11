@@ -1,0 +1,61 @@
+index,text,prediction,confidence,is_fallback
+0,hello,Help_FindMyHearingAids,0.18017391860485077,False
+1,hi,Default Fallback Intent,0.561829149723053,True
+2,good morning,Default Fallback Intent,0.3031151592731476,True
+3,good afternoon,Default Fallback Intent,0.4876345694065094,True
+4,how are you,Default Fallback Intent,0.6969386339187622,True
+5,what are you doing,Default Fallback Intent,0.8657428026199341,True
+6,thank you,Default Fallback Intent,0.938034176826477,True
+7,thanks,Default Fallback Intent,0.40861228108406067,True
+8,okay,Cmd.TranslationStart,0.5124585628509521,False
+9,what's up,Default Fallback Intent,0.2730928361415863,True
+10,what is the capital of India,Default Fallback Intent,0.8249878287315369,True
+11,who is the president of the United States,Default Fallback Intent,0.8525385856628418,True
+12,what is the tallest mountain,Default Fallback Intent,0.565004289150238,True
+13,tell me a joke,Cmd.SendMessage,0.38002854585647583,False
+14,who invented the telephone,Default Fallback Intent,0.6163687109947205,True
+15,what is artificial intelligence,Default Fallback Intent,0.4996523857116699,True
+16,explain quantum physics,Default Fallback Intent,0.8075188398361206,True
+17,how do I cook rice,Default Fallback Intent,0.7595054507255554,True
+18,how do I make coffee,Default Fallback Intent,0.8829730749130249,True
+19,how do I make chicken,Default Fallback Intent,0.8829730749130249,True
+20,what should I eat for dinner,Default Fallback Intent,0.138103649020195,True
+21,give me a pizza recipe,Default Fallback Intent,0.6237799525260925,True
+22,I want to order pizza,Default Fallback Intent,0.6481491327285767,True
+23,how do I make lasagna,Default Fallback Intent,0.8829730749130249,True
+24,what is the weather today,Default Fallback Intent,0.3887001872062683,True
+25,will it rain tomorrow,Cmd.BatteryLevel,0.6035404205322266,False
+26,is it hot outside,Default Fallback Intent,0.7188915014266968,True
+27,what is the temperature,Help_Home,0.423304945230484,False
+28,is there a storm coming,Cmd.BatteryLevel,0.3642842769622803,False
+29,what time is it,Default Fallback Intent,0.4304031729698181,True
+30,what day is today,Cmd.ActivityCalories,0.5533316731452942,False
+31,what is today's date,Default Fallback Intent,0.4996523857116699,True
+32,set the clock,Default Fallback Intent,0.40541237592697144,True
+33,what time is it in London,Default Fallback Intent,0.7911756038665771,True
+34,play some music,Cmd.ListenMessage,0.5066683888435364,False
+35,play a movie,Cmd.SendMessage,0.7269435524940491,False
+36,show me a funny video,Help_Home,0.1680477112531662,False
+37,what movie should I watch,Default Fallback Intent,0.22428274154663086,True
+38,tell me a song,Default Fallback Intent,0.19106242060661316,True
+39,take me to the airport,reminders.add,0.305782288312912,False
+40,open google maps,Default Fallback Intent,0.6199363470077515,True
+41,send an email,Cmd.SendMessage,0.8481348156929016,False
+42,call my friend,Cmd.ActivityCycle,0.27442094683647156,False
+43,open instagram,Default Fallback Intent,0.7317742109298706,True
+44,turn on bluetooth,Help_Pairing,0.7547782063484192,False
+45,connect to wifi,Cmd.MemoryChange,0.6027401089668274,False
+46,banana elephant blue,Default Fallback Intent,0.891628086566925,True
+47,asdfghjkl,Default Fallback Intent,0.9064242243766785,True
+48,blah blah blah,Default Fallback Intent,0.891628086566925,True
+49,12345,Default Fallback Intent,0.9064242243766785,True
+50,the quick brown fox jumps over the lazy dog,Default Fallback Intent,0.8114542365074158,True
+51,I don't know what I want,Default Fallback Intent,0.4267483651638031,True
+52,something happened yesterday,Default Fallback Intent,0.9149829149246216,True
+53,yes,Default Fallback Intent,0.9064242243766785,True
+54,no,Default Fallback Intent,0.3545052409172058,True
+55,maybe,Default Fallback Intent,0.9064242243766785,True
+56,sure,Default Fallback Intent,0.5758665800094604,True
+57,later,Default Fallback Intent,0.4672708511352539,True
+58,stop,Default Fallback Intent,0.1704557090997696,True
+59,go,Help_Transcribe,0.3880932927131653,False

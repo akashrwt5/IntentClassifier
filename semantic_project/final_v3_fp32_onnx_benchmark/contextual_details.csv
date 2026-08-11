@@ -1,0 +1,14 @@
+text,expected,v2_predicted,v2_confidence,v2_correct,v3_predicted,v3_confidence,v3_correct
+it's quieter can you make it a little louder,device.volume.increase,device.volume.increase,0.98708575963974,True,device.volume.increase,0.9763477444648743,True
+it's a little loud can you make it quieter,device.volume.decrease,device.volume.decrease,0.937898576259613,True,device.volume.decrease,0.9885128736495972,True
+i can still hear it make it completely silent,device.volume.mute,device.volume.mute,0.9833897948265076,True,device.volume.mute,0.9754275679588318,True
+turn the sound back on,device.volume.unmute,device.volume.unmute,0.992522656917572,True,device.volume.unmute,0.9920594692230225,True
+the audio is quiet but don't mute it make it louder,device.volume.increase,device.volume.increase,0.7338300943374634,True,device.volume.increase,0.9688540697097778,True
+the audio is loud but keep it on just lower it,device.volume.decrease,device.volume.decrease,0.9820277690887451,True,device.volume.decrease,0.9828153252601624,True
+i need to go to airport tomorrow,reminders.task.create,reminders.task.create,0.9625231623649597,True,reminders.task.create,0.9379715919494629,True
+i need to go to airport tommorow,reminders.task.create,reminders.task.create,0.9203833937644958,True,reminders.task.create,0.8708311915397644,True
+where can i find my phone,find.phone.locate,find.phone.locate,0.9800907969474792,True,find.phone.locate,0.9715532064437866,True
+please show the reminders i have,help.reminder.show,help.reminder.show,0.9666260480880737,True,help.reminder.show,0.9792124032974243,True
+mark that reminder as completed,reminders.task.complete,reminders.task.complete,0.9918684959411621,True,reminders.task.complete,0.991483747959137,True
+please start the streaming session,streaming.session.start,streaming.session.start,0.9830536246299744,True,streaming.session.start,0.9797260165214539,True
+please stop the streaming session,streaming.session.stop,streaming.session.stop,0.9908027648925781,True,streaming.session.stop,0.9884540438652039,True

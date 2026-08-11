@@ -1,0 +1,35 @@
+{
+  "audit": {
+    "rows": 20724,
+    "cores": 13085,
+    "inflation": 0.3686064466319243,
+    "ambiguous": 0,
+    "core_collisions": 0
+  },
+  "contrastive_coverage": 0.05132728133201394,
+  "head_search": {
+    "1": 0.9849722312969618,
+    "4": 0.9895459000326691,
+    "10": 0.9921594250245018,
+    "30": 0.9934661875204182,
+    "100": 0.9947729500163345
+  },
+  "temperature": 0.9103136802202368,
+  "ece_before": 0.005400430527708287,
+  "ece_after": 0.00378555690915158,
+  "ood_threshold": 0.5558773875236511,
+  "conf_threshold": 0.3770185708999634,
+  "test_accuracy": 0.9931972789115646,
+  "hard_accuracy": 1.0,
+  "antonym_pairs": "4/4",
+  "oos_rejection": 0.8809523809523809,
+  "in_domain_retention": 0.9964366699060576,
+  "onnx_mb": 23.96179,
+  "parity": {
+    "max_abs_diff_embedding": 4.470348358154297e-08,
+    "max_abs_diff_probs": 1.2367963790893555e-06,
+    "max_abs_diff_ood": 4.76837158203125e-07,
+    "argmax_agreement": 1.0,
+    "passed": true
+  }
+}

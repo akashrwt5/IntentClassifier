@@ -1,0 +1,18 @@
+text,pytorch_intent,onnx_intent,max_abs_logit_diff,finite,same_prediction,pass
+make it louder,device.volume.increase,device.volume.increase,1.0728836059570312e-06,True,True,True
+it's quieter can you make it a little louder,device.volume.increase,device.volume.increase,7.152557373046875e-07,True,True,True
+the audio is quiet but don't mute it make it louder,device.volume.increase,device.volume.increase,9.5367431640625e-07,True,True,True
+make it quieter,device.volume.decrease,device.volume.decrease,9.5367431640625e-07,True,True,True
+the audio is loud but keep it on just lower it,device.volume.decrease,device.volume.decrease,7.152557373046875e-07,True,True,True
+mute it,device.volume.mute,device.volume.mute,9.5367431640625e-07,True,True,True
+i can still hear it make it completely silent,device.volume.mute,device.volume.mute,9.5367431640625e-07,True,True,True
+turn off,device.volume.mute,device.volume.mute,7.152557373046875e-07,True,True,True
+unmute it,device.volume.unmute,device.volume.unmute,1.430511474609375e-06,True,True,True
+turn the sound back on,device.volume.unmute,device.volume.unmute,4.76837158203125e-07,True,True,True
+i need to go to airport tomorrow,reminders.task.create,reminders.task.create,1.0132789611816406e-06,True,True,True
+i need to go to airport tommorow,reminders.task.create,reminders.task.create,4.76837158203125e-07,True,True,True
+where can i find my phone,find.phone.locate,find.phone.locate,8.344650268554688e-07,True,True,True
+please show the reminders i have,help.reminder.show,help.reminder.show,4.76837158203125e-07,True,True,True
+mark that reminder as completed,reminders.task.complete,reminders.task.complete,1.430511474609375e-06,True,True,True
+please start the streaming session,streaming.session.start,streaming.session.start,1.430511474609375e-06,True,True,True
+please stop the streaming session,streaming.session.stop,streaming.session.stop,4.76837158203125e-07,True,True,True

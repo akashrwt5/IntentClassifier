@@ -1,0 +1,36 @@
+{
+  "name": "semfz",
+  "n_seeds": 3,
+  "locked acc": {
+    "mean": 0.8928,
+    "sd": 0.0152,
+    "min": 0.8832,
+    "max": 0.9104
+  },
+  "macro recall": {
+    "mean": 0.8915,
+    "sd": 0.019,
+    "min": 0.8707,
+    "max": 0.9078
+  },
+  "stress acc": {
+    "mean": 0.7947,
+    "sd": 0.0262,
+    "min": 0.777,
+    "max": 0.8248
+  },
+  "OOD raw": {
+    "mean": 0.7419,
+    "sd": 0.0305,
+    "min": 0.7072,
+    "max": 0.7643
+  },
+  "OOD reject@best": {
+    "mean": 0.8801,
+    "sd": 0.0398
+  },
+  "in-scope@best": {
+    "mean": 0.8314,
+    "sd": 0.0193
+  }
+}

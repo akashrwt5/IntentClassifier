@@ -1,0 +1,32 @@
+text,intent,source,predicted_intent,correct
+choose another hearing aid environment,device.memory.change,unseen_semantic_stress_test,device.volume.unmute,False
+move my hearing aids to the music profile,device.memory.change,unseen_semantic_stress_test,streaming.session.start,False
+select the phone program on my hearing aids,device.memory.change,unseen_semantic_stress_test,streaming.session.start,False
+I want the volume reduced,device.volume.decrease,unseen_semantic_stress_test,device.volume.mute,False
+make the audio more comfortable by lowering it,device.volume.decrease,unseen_semantic_stress_test,device.volume.increase,False
+quiet the audio somewhat,device.volume.decrease,unseen_semantic_stress_test,streaming.session.stop,False
+give me a stronger listening level,device.volume.increase,unseen_semantic_stress_test,device.volume.decrease,False
+the hearing aids are too quiet,device.volume.increase,unseen_semantic_stress_test,device.volume.decrease,False
+make the listening output stronger,device.volume.increase,unseen_semantic_stress_test,device.volume.decrease,False
+make the audio less quiet,device.volume.increase,unseen_semantic_stress_test,device.volume.decrease,False
+strengthen the sound coming through,device.volume.increase,unseen_semantic_stress_test,streaming.session.stop,False
+make the audio stop,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+no audio should come through,device.volume.mute,unseen_semantic_stress_test,streaming.session.start,False
+shut down the sound output,device.volume.mute,unseen_semantic_stress_test,device.volume.decrease,False
+give me zero sound,device.volume.mute,unseen_semantic_stress_test,device.volume.unmute,False
+stop muting my hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.stop,False
+"I can hear nothing, enable the audio",device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,False
+allow audio through the hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,False
+make the hearing aids audible,device.volume.unmute,unseen_semantic_stress_test,device.volume.increase,False
+let audio come through again,device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,False
+allow sound to pass through again,device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,False
+can I see my reminder list,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+give me a list of reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+give me my current reminder status,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+show my active reminder items,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+set one for tomorrow morning,reminders.task.create,unseen_semantic_stress_test,device.memory.change,False
+remove the reminder I just completed,reminders.task.complete,unseen_semantic_stress_test,help.reminder.show,False
+establish the audio stream,streaming.session.start,unseen_semantic_stress_test,streaming.session.stop,False
+stop routing the computer sound,streaming.session.stop,unseen_semantic_stress_test,device.volume.mute,False
+stop routing sound to my devices,streaming.session.stop,unseen_semantic_stress_test,device.volume.mute,False
+finish audio streaming,streaming.session.stop,unseen_semantic_stress_test,streaming.session.start,False

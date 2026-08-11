@@ -1,0 +1,59 @@
+text,prediction,confidence,is_fallback,top2_prediction,top2_confidence,top3_prediction,top3_confidence
+hello,Default Fallback Intent,0.99421424,True,Help_Home,0.0008700798498466,reminders.add,0.0004662121064029
+hi,Default Fallback Intent,0.9919668,True,reminders.add,0.0006719760713167,Cmd.MemoryChange,0.000533330196049
+good morning,Default Fallback Intent,0.9889957,True,reminders.add,0.0009305935236625,Cmd.MemoryChange,0.0007045827223919
+good afternoon,Default Fallback Intent,0.9915074,True,reminders.add,0.0025782198645174,Cmd.MemoryChange,0.0007881911005824
+how are you,Default Fallback Intent,0.99686086,True,Cmd.BatteryLevel,0.0004588491865433,Help_Home,0.0003583399229682
+what are you doing,Default Fallback Intent,0.99591726,True,Help_Home,0.0016079567139968,Help_WhatsNew,0.0008542547002434
+thank you,Default Fallback Intent,0.9947889,True,Cmd.MemoryChange,0.0008317704196088,reminders.add,0.0005526220775209
+thanks,Default Fallback Intent,0.9939122,True,Cmd.MemoryChange,0.0004367270739749,reminders.add,0.000403903221013
+what's up,Default Fallback Intent,0.99486583,True,Help_WhatsNew,0.0008147431071847,Help_Home,0.0006798661779612
+tell me a joke,Default Fallback Intent,0.99081147,True,reminders.add,0.0015861651627346,Cmd.SendMessage,0.0008727819658815
+what is the capital of India,Default Fallback Intent,0.99534684,True,Help_Home,0.0014550430933013,Cmd.VolumeDecrease,0.0005874643684364
+who is the president of the United States,Default Fallback Intent,0.996287,True,reminders.add,0.0004070377908647,Cmd.BatteryLevel,0.0003805594751611
+what is the tallest mountain,Default Fallback Intent,0.99103856,True,Help_Home,0.0008011207683011,Cmd.VolumeDecrease,0.0005711851408705
+who invented the telephone,Default Fallback Intent,0.9887552,True,Cmd.FindMyPhone,0.0048727327957749,Cmd.MemoryChange,0.0020376336760818
+what is artificial intelligence,Default Fallback Intent,0.9899582,True,Help_Home,0.0057448875159025,Help_WhatsNew,0.0033366943243891
+explain quantum physics,Default Fallback Intent,0.9929482,True,Cmd.SendMessage,0.0010577745269984,Help_HearShare,0.0007246570894494
+how do I cook rice,Default Fallback Intent,0.9931458,True,Help_Home,0.0064581311307847,Cmd.TranslationStart,0.0012094137491658
+how do I make coffee,Default Fallback Intent,0.99584657,True,Help_Home,0.0024919584393501,reminders.add,0.0011747454991564
+how do I make chicken,Default Fallback Intent,0.9947343,True,Help_Home,0.0007746869814582,Help_HearShare,0.0007317468407563
+what should I eat for dinner,Default Fallback Intent,0.9882896,True,Help_Home,0.0144948652014136,reminders.add,0.0089275240898132
+give me a pizza recipe,Default Fallback Intent,0.99573153,True,Help_Home,0.002688507316634,Cmd.MemoryChange,0.0014737761812284
+I want to order pizza,Default Fallback Intent,0.9927089,True,reminders.add,0.009117754176259,Cmd.SendMessage,0.0054900818504393
+how do I make lasagna,Default Fallback Intent,0.9966364,True,Help_Home,0.0005829837173223,reminders.add,0.0005640325834974
+what is the weather today,Default Fallback Intent,0.996406,True,Cmd.MemoryChange,0.0011037949007004,Help_Home,0.0009533346164971
+will it rain tomorrow,Default Fallback Intent,0.9238673,True,Cmd.VolumeDecrease,0.0044995276257395,Cmd.BatteryLevel,0.0042855087667703
+is it hot outside,Default Fallback Intent,0.9689118,True,Cmd.VolumeDecrease,0.0043664681725203,reminders.add,0.0017216543201357
+what is the temperature,Default Fallback Intent,0.98251826,True,Help_Home,0.0644038692116737,Help_WhatsNew,0.0108567792922258
+is there a storm coming,Default Fallback Intent,0.83719873,True,Help_FallAlert,0.0016314922831952,reminders.add,0.0015735200140625
+what time is it,Default Fallback Intent,0.98779374,True,Help_Home,0.0012848874321207,Cmd.BatteryLevel,0.0008382321684621
+what day is today,Default Fallback Intent,0.9808775,True,Cmd.ActivityCalories,0.2642696499824524,Cmd.ActivityCycle,0.0372353047132492
+what is today's date,Default Fallback Intent,0.94819444,True,Help_Home,0.0057448875159025,Help_WhatsNew,0.0033366943243891
+what time is it in London,Default Fallback Intent,0.99134946,True,Help_Home,0.001309051644057,Help_WhatsNew,0.0006183690275065
+play some music,Default Fallback Intent,0.9867867,True,Cmd.MemoryChange,0.036134660243988,Help_WiCROS,0.0102067375555634
+play a movie,Default Fallback Intent,0.9497102,True,Cmd.MemoryChange,0.0024901686701923,Cmd.ListenMessage,0.0016121509252116
+show me a funny video,Default Fallback Intent,0.98695046,True,Help_WhatsNew,0.1774773448705673,Help_InsertDevice,0.0540314763784408
+what movie should I watch,Default Fallback Intent,0.9949431,True,Help_Home,0.0144296968355774,Help_FindMyHearingAids,0.0007361566531471
+tell me a song,Default Fallback Intent,0.99339575,True,Help_Home,0.0028953368309885,Cmd.SendMessage,0.0022340957075357
+take me to the airport,Default Fallback Intent,0.9857283,True,Help_Home,0.0507111959159374,Help_InsertDevice,0.0066039082594215
+open google maps,Default Fallback Intent,0.9882768,True,Cmd.TranslationStart,0.00107670458965,Cmd.MemoryChange,0.0009978446178138
+send an email,Default Fallback Intent,0.86384004,True,Cmd.SendMessage,0.4245636761188507,reminders.add,0.0179569795727729
+call my friend,Default Fallback Intent,0.9810323,True,Cmd.SendMessage,0.0031606638804078,reminders.add,0.0017006947891786
+open instagram,Default Fallback Intent,0.9783408,True,Cmd.TranscribeStart,0.005885946098715,Cmd.TranslationStart,0.0034433952532708
+turn on bluetooth,Default Fallback Intent,0.75469047,True,Help_Pairing,0.1806444078683853,Cmd.FindMyPhone,0.0156667418777942
+connect to wifi,Default Fallback Intent,0.987118,True,Help_Pairing,0.0040788087062537,Cmd.MemoryChange,0.0036275791935622
+banana elephant blue,Default Fallback Intent,0.99309,True,reminders.add,0.0012782202102243,Cmd.MemoryChange,0.0009645582758821
+asdfghjkl,Default Fallback Intent,0.9935055,True,reminders.add,0.0012782196281477,Cmd.MemoryChange,0.0009645578102208
+blah blah blah,Default Fallback Intent,0.993316,True,reminders.add,0.0012782202102243,Cmd.MemoryChange,0.0009645582758821
+12345,Default Fallback Intent,0.9908981,True,reminders.add,0.0012782196281477,Cmd.MemoryChange,0.0009645578102208
+the quick brown fox jumps over the lazy dog,Default Fallback Intent,0.9840353,True,Help_WhatsNew,0.0016489820554852,Help_Home,0.0016327397897839
+I don't know what I want,Default Fallback Intent,0.91874903,True,Help_Home,0.1207207813858985,Help_FindMyHearingAids,0.0046054446138441
+something happened yesterday,Default Fallback Intent,0.96073085,True,Cmd.VolumeDecrease,0.0018358242232352,reminders.add,0.0015864328015595
+yes,Default Fallback Intent,0.9924386,True,Cmd.MemoryChange,0.0695328041911125,Help_DeviceSettings,0.0022307818289846
+no,Default Fallback Intent,0.9902194,True,Cmd.VolumeDecrease,0.0052264798432588,Cmd.StreamingStop,0.003411847166717
+maybe,Default Fallback Intent,0.9950399,True,reminders.add,0.0012782196281477,Cmd.MemoryChange,0.0009645578102208
+sure,Default Fallback Intent,0.9932387,True,reminders.add,0.0520128197968006,Cmd.ActivityExercise,0.0166610162705183
+later,Default Fallback Intent,0.98365813,True,Cmd.StreamingStart,0.0340986028313636,reminders.add,0.0290088094770908
+stop,Default Fallback Intent,0.9777247,True,Cmd.StreamingStop,0.147362396121025,Cmd.VolumeMute,0.1099916324019432
+go,Default Fallback Intent,0.98819053,True,Cmd.MemoryChange,0.0019729807972908,reminders.add,0.0011938936077058

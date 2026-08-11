@@ -1,0 +1,26 @@
+text,intent,source,predicted_intent,correct
+make the audio less quiet,device.volume.increase,unseen_semantic_stress_test,device.volume.decrease,False
+turn it up but keep the same program,device.volume.increase,unseen_semantic_stress_test,device.memory.change,False
+shut off the audio output,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+make the audio stop,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+no sound from my hearing aids,device.volume.mute,unseen_semantic_stress_test,streaming.session.start,False
+stop what is playing through my hearing aids,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+stop the hearing aid output,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+no audio should come through,device.volume.mute,unseen_semantic_stress_test,streaming.session.start,False
+shut down the sound output,device.volume.mute,unseen_semantic_stress_test,device.volume.decrease,False
+stop the audio completely,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+stop muting my hearing aids,device.volume.unmute,unseen_semantic_stress_test,device.volume.mute,False
+allow audio through the hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,False
+make the hearing aids audible,device.volume.unmute,unseen_semantic_stress_test,device.volume.increase,False
+resume audio through my hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,False
+remove complete silence,device.volume.unmute,unseen_semantic_stress_test,device.volume.mute,False
+let me see my reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+tell me what I have scheduled,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+read out my reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+let me check my reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+tell me my current reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+give me my current reminder status,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+show my outstanding reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+list my outstanding reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+create an entry in my reminders,reminders.task.create,unseen_semantic_stress_test,help.reminder.show,False
+schedule something in reminders,reminders.task.create,unseen_semantic_stress_test,help.reminder.show,False

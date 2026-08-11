@@ -1,0 +1,61 @@
+text,prediction,confidence,is_fallback
+hello,Default Fallback Intent,0.21659245,True
+hi,Default Fallback Intent,0.71033597,True
+good morning,Default Fallback Intent,0.36455604,True
+good afternoon,Default Fallback Intent,0.5906414,True
+how are you,Default Fallback Intent,0.80667114,True
+what are you doing,Default Fallback Intent,0.926896,True
+thank you,Default Fallback Intent,0.965063,True
+thanks,Default Fallback Intent,0.53175193,True
+okay,Cmd.TranslationStart,0.5022351,False
+what's up,Default Fallback Intent,0.41650033,True
+what is the capital of India,Default Fallback Intent,0.88988143,True
+who is the president of the United States,Default Fallback Intent,0.90236557,True
+what is the tallest mountain,Default Fallback Intent,0.7501256,True
+tell me a joke,Cmd.SendMessage,0.31021175,False
+who invented the telephone,Default Fallback Intent,0.7522613,True
+what is artificial intelligence,Default Fallback Intent,0.689648,True
+explain quantum physics,Default Fallback Intent,0.89409506,True
+how do I cook rice,Default Fallback Intent,0.86341804,True
+how do I make coffee,Default Fallback Intent,0.9352379,True
+how do I make chicken,Default Fallback Intent,0.9352379,True
+what should I eat for dinner,Default Fallback Intent,0.2023531,True
+give me a pizza recipe,Default Fallback Intent,0.795128,True
+I want to order pizza,Default Fallback Intent,0.7726274,True
+how do I make lasagna,Default Fallback Intent,0.9352379,True
+what is the weather today,Default Fallback Intent,0.55085695,True
+will it rain tomorrow,Cmd.BatteryLevel,0.52138,False
+is it hot outside,Default Fallback Intent,0.81994325,True
+what is the temperature,Default Fallback Intent,0.4978614,True
+is there a storm coming,Default Fallback Intent,0.32530117,True
+what time is it,Default Fallback Intent,0.58972704,True
+what day is today,Cmd.ActivityCalories,0.4964346,False
+what is today's date,Default Fallback Intent,0.689648,True
+set the clock,Default Fallback Intent,0.523649,True
+what time is it in London,Default Fallback Intent,0.86479354,True
+play some music,Cmd.ListenMessage,0.46143273,False
+play a movie,Cmd.SendMessage,0.5575608,False
+show me a funny video,Help_Home,0.16196008,False
+what movie should I watch,Default Fallback Intent,0.3501915,True
+tell me a song,Default Fallback Intent,0.35514197,True
+take me to the airport,reminders.add,0.3170693,False
+open google maps,Default Fallback Intent,0.7502353,True
+send an email,Cmd.SendMessage,0.77541393,False
+call my friend,Cmd.ActivityCycle,0.26467702,False
+open instagram,Default Fallback Intent,0.8563355,True
+turn on bluetooth,Help_Pairing,0.7788951,False
+connect to wifi,Cmd.MemoryChange,0.59814286,False
+banana elephant blue,Default Fallback Intent,0.9356053,True
+asdfghjkl,Default Fallback Intent,0.94343394,True
+blah blah blah,Default Fallback Intent,0.9356053,True
+12345,Default Fallback Intent,0.94343394,True
+the quick brown fox jumps over the lazy dog,Default Fallback Intent,0.86103237,True
+I don't know what I want,Default Fallback Intent,0.5334686,True
+something happened yesterday,Default Fallback Intent,0.9455973,True
+yes,Default Fallback Intent,0.94343394,True
+no,Default Fallback Intent,0.4630221,True
+maybe,Default Fallback Intent,0.94343394,True
+sure,Default Fallback Intent,0.704746,True
+later,Default Fallback Intent,0.5502619,True
+stop,Default Fallback Intent,0.21355079,True
+go,Help_Transcribe,0.3556549,False

@@ -1,0 +1,34 @@
+text,intent,oov_words
+elevate the volume,Cmd.VolumeIncrease,elevate
+heighten the sound,Cmd.VolumeIncrease,heighten
+intensify the audio,Cmd.VolumeIncrease,intensify
+magnify the sound please,Cmd.VolumeIncrease,magnify
+strengthen the audio level,Cmd.VolumeIncrease,strengthen
+augment the volume a bit,Cmd.VolumeIncrease,augment
+escalate the sound level,Cmd.VolumeIncrease,escalate
+i need the sound elevated,Cmd.VolumeIncrease,elevated
+can you heighten what i hear,Cmd.VolumeIncrease,heighten
+please magnify the speech,Cmd.VolumeIncrease,magnify
+diminish the volume,Cmd.VolumeDecrease,diminish
+dampen the sound,Cmd.VolumeDecrease,dampen
+subdue the audio,Cmd.VolumeDecrease,subdue
+attenuate the volume,Cmd.VolumeDecrease,attenuate
+lessen the sound level,Cmd.VolumeDecrease,lessen
+can you dampen that noise,Cmd.VolumeDecrease,dampen
+i want the volume diminished,Cmd.VolumeDecrease,diminished
+subdue what i am hearing,Cmd.VolumeDecrease,subdue
+deaden the sound completely,Cmd.VolumeMute,deaden
+quell the audio,Cmd.VolumeMute,quell
+i want the sound deadened,Cmd.VolumeMute,deadened
+reinstate the sound,Cmd.VolumeUnmute,reinstate
+please reinstate my audio,Cmd.VolumeUnmute,reinstate
+swap to the restaurant setting,Cmd.MemoryChange,swap
+toggle to my outdoor program,Cmd.MemoryChange,toggle
+transition to the car memory,Cmd.MemoryChange,transition
+swap my hearing program,Cmd.MemoryChange,swap
+toggle the listening mode,Cmd.MemoryChange,toggle
+trace my phone,Cmd.FindMyPhone,trace
+pinpoint where my phone is,Cmd.FindMyPhone,pinpoint
+can you trace my mobile,Cmd.FindMyPhone,trace
+cast the tv audio to my aids,Cmd.StreamingStart,cast
+cast sound from the television,Cmd.StreamingStart,cast

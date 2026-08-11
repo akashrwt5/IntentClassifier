@@ -29,3 +29,10 @@ pyyaml>=6.0,<7.0
 # The engine has a built-in pure-Python regex parser and works without this;
 # install it for more robust natural-language date handling on the server side.
 dateparser>=1.2,<2.0 ; python_version >= "3.8"
+
+sentence-transformers
+torch
+datasets
+accelerate>=1.1.0
+sentence-transformers
+torch

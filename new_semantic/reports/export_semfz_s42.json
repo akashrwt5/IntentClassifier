@@ -1,0 +1,26 @@
+{
+  "tag": "semfz_s42",
+  "threshold": 0.4,
+  "tokenizer": "word",
+  "max_len": 24,
+  "vocab_size": 8000,
+  "intents": 57,
+  "static_shape": [
+    1,
+    24
+  ],
+  "dynamic_axes": false,
+  "output": "logits",
+  "fp32_mb": 2.4923,
+  "int8_mb": null,
+  "parity": {
+    "fp32": {
+      "max_abs_logit_delta": 4.291534423828125e-06,
+      "argmax_mismatches": 0,
+      "gate_disagreements": 0,
+      "flips": []
+    }
+  },
+  "synthetic_text": true,
+  "synthetic_rows": 921
+}

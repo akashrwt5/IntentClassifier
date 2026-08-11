@@ -1,0 +1,23 @@
+text,expected,v2_predicted,v2_confidence,v2_correct,v3_predicted,v3_confidence,v3_correct,changed,v2_wrong_v3_correct,v2_correct_v3_wrong
+make it louder,device.volume.increase,device.volume.increase,0.9942445158958435,True,device.volume.increase,0.9937511086463928,True,False,False,False
+make it a little louder,device.volume.increase,device.volume.increase,0.9940387010574341,True,device.volume.increase,0.9923255443572998,True,False,False,False
+it's quieter can you make it louder,device.volume.increase,device.volume.increase,0.9863921403884888,True,device.volume.increase,0.9720062017440796,True,False,False,False
+the audio is quiet but don't mute it make it louder,device.volume.increase,device.volume.mute,0.6005774140357971,False,device.volume.increase,0.9519266486167908,True,True,True,False
+increase the volume,device.volume.increase,device.volume.increase,0.9948516488075256,True,device.volume.increase,0.9941058158874512,True,False,False,False
+make it quieter,device.volume.decrease,device.volume.decrease,0.9927181005477905,True,device.volume.decrease,0.9925217032432556,True,False,False,False
+it's a little loud can you make it quieter,device.volume.decrease,device.volume.decrease,0.937898576259613,True,device.volume.decrease,0.9885129928588867,True,False,False,False
+the audio is loud but keep it on just lower it,device.volume.decrease,device.volume.decrease,0.9820277690887451,True,device.volume.decrease,0.9828154444694519,True,False,False,False
+decrease the volume,device.volume.decrease,device.volume.decrease,0.9951529502868652,True,device.volume.decrease,0.9940294027328491,True,False,False,False
+mute it,device.volume.mute,device.volume.mute,0.8870313763618469,True,device.volume.mute,0.9367433786392212,True,False,False,False
+make it completely silent,device.volume.mute,device.volume.mute,0.9832485914230347,True,device.volume.mute,0.9791203737258911,True,False,False,False
+i can still hear it make it completely silent,device.volume.mute,device.volume.mute,0.9833897948265076,True,device.volume.mute,0.9754275679588318,True,False,False,False
+turn off,device.volume.mute,device.volume.mute,0.7188706994056702,True,device.volume.mute,0.8979900479316711,True,False,False,False
+unmute it,device.volume.unmute,device.volume.unmute,0.9884476065635681,True,device.volume.unmute,0.9892897009849548,True,False,False,False
+turn the sound back on,device.volume.unmute,device.volume.unmute,0.992522656917572,True,device.volume.unmute,0.992059588432312,True,False,False,False
+turn the audio back on,device.volume.unmute,device.volume.unmute,0.9910066723823547,True,device.volume.unmute,0.9919252991676331,True,False,False,False
+start streaming,streaming.session.start,streaming.session.start,0.9899379014968872,True,streaming.session.start,0.9873722791671753,True,False,False,False
+please start the streaming session,streaming.session.start,streaming.session.start,0.9830536246299744,True,streaming.session.start,0.9797258973121643,True,False,False,False
+stop streaming,streaming.session.stop,streaming.session.stop,0.99498051404953,True,streaming.session.stop,0.9931935667991638,True,False,False,False
+please stop the streaming session,streaming.session.stop,streaming.session.stop,0.9908027648925781,True,streaming.session.stop,0.9884539246559143,True,False,False,False
+i need to go to airport tomorrow,reminders.task.create,reminders.task.create,0.9625231623649597,True,reminders.task.create,0.9379716515541077,True,False,False,False
+i need to go to airport tommorow,reminders.task.create,reminders.task.create,0.9066240787506104,True,reminders.task.create,0.8407766819000244,True,False,False,False

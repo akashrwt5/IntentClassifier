@@ -1,0 +1,9 @@
+row,text,true_intent,v3_prediction,v6_prediction,v3_confidence,v6_confidence,critical
+11,choose another hearing aid environment,device.memory.change,device.memory.change,device.volume.decrease,0.4001498520374298,0.13284757733345032,False
+130,the hearing aids are too quiet,device.volume.increase,device.volume.increase,device.volume.decrease,0.6745275855064392,0.166600301861763,False
+183,stop what is playing through my hearing aids,device.volume.mute,device.volume.mute,device.volume.decrease,0.4300159215927124,0.14187514781951904,False
+302,I need the location of my phone,find.phone.locate,find.phone.locate,device.volume.decrease,0.5362608432769775,0.12458979338407516,False
+320,track down the mobile,find.phone.locate,find.phone.locate,device.volume.decrease,0.8292948007583618,0.14702391624450684,False
+532,route music from my smartphone,streaming.session.start,streaming.session.start,find.phone.locate,0.4881680905818939,0.11538808047771454,False
+561,stop routing the computer sound,streaming.session.stop,streaming.session.stop,device.volume.unmute,0.8277830481529236,0.13899004459381104,False
+590,end the hearing aid streaming session,streaming.session.stop,streaming.session.stop,device.volume.unmute,0.9209378361701965,0.1417568475008011,False

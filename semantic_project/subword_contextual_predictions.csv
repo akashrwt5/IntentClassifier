@@ -1,0 +1,19 @@
+text,expected,predicted,correct
+the audio seems a bit soft could you raise it now,device.volume.increase,device.volume.increase,True
+i can hear it but it is weaker than before please turn it up,device.volume.increase,device.volume.increase,True
+the sound dropped a little can you increase the volume,device.volume.increase,device.volume.increase,True
+everything sounds low right now make it louder,device.volume.increase,device.volume.increase,True
+i want more volume because this is too quiet,device.volume.increase,device.volume.increase,True
+the audio is stronger than i need please lower it,device.volume.decrease,device.volume.decrease,True
+i can hear it fine but it is a little too loud turn it down,device.volume.decrease,device.volume.decrease,True
+the sound increased too much reduce the volume,device.volume.decrease,device.volume.decrease,True
+everything is loud right now make it softer,device.volume.decrease,device.volume.decrease,True
+i want less volume because this is too strong,device.volume.decrease,device.volume.decrease,True
+i can still hear the audio please make it totally silent,device.volume.mute,device.volume.mute,True
+there is some sound left turn all of it off,device.volume.mute,device.volume.mute,True
+i don't want any audio at all make it silent,device.volume.mute,device.volume.mute,True
+stop all sound from the hearing aids,device.volume.mute,device.volume.mute,True
+i want the audio back please restore it,device.volume.unmute,device.volume.unmute,True
+there is no sound now can you enable it again,device.volume.unmute,device.volume.unmute,True
+restore audio so i can hear again,device.volume.unmute,device.volume.unmute,True
+please enable the hearing aid sound,device.volume.unmute,device.volume.unmute,True

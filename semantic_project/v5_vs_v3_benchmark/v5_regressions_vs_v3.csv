@@ -1,0 +1,110 @@
+text,true_intent,v3_prediction,v5_prediction,v3_confidence,v5_confidence,v3_correct,v5_correct,v5_regression
+put my hearing aids into the phone setting,device.memory.change,device.memory.change,streaming.session.start,0.8334454894065857,0.14074993133544922,True,False,True
+use my outdoor hearing setting,device.memory.change,device.memory.change,device.volume.mute,0.976475179195404,0.16600021719932556,True,False,True
+switch from my current hearing mode to the phone mode,device.memory.change,device.memory.change,streaming.session.stop,0.8252740502357483,0.1763598918914795,True,False,True
+select a different hearing profile,device.memory.change,device.memory.change,streaming.session.start,0.982697069644928,0.15513351559638977,True,False,True
+choose another hearing aid environment,device.memory.change,device.memory.change,device.volume.mute,0.4001498520374298,0.1949509084224701,True,False,True
+use a different hearing profile right now,device.memory.change,device.memory.change,device.volume.decrease,0.9656469821929932,0.1628246009349823,True,False,True
+select the hearing mode for noisy places,device.memory.change,device.memory.change,device.volume.decrease,0.864578127861023,0.16746924817562103,True,False,True
+put the hearing aids on the setting I use outdoors,device.memory.change,device.memory.change,device.volume.mute,0.931918740272522,0.19200873374938965,True,False,True
+switch to my TV listening profile,device.memory.change,device.memory.change,streaming.session.start,0.8862195611000061,0.18613900244235992,True,False,True
+choose another memory for the hearing aids,device.memory.change,device.memory.change,device.volume.mute,0.8894540071487427,0.19301737844944,True,False,True
+switch the current hearing profile,device.memory.change,device.memory.change,device.volume.mute,0.9547321796417236,0.1800132393836975,True,False,True
+select the phone program on my hearing aids,device.memory.change,device.memory.change,device.volume.mute,0.7118701338768005,0.1570310890674591,True,False,True
+activate a different hearing profile,device.memory.change,device.memory.change,device.volume.increase,0.9790944457054138,0.2510533630847931,True,False,True
+make the sound a little softer,device.volume.decrease,device.volume.decrease,device.volume.increase,0.9873120784759521,0.23031756281852722,True,False,True
+"the hearing aids are too loud, turn them down",device.volume.decrease,device.volume.decrease,device.volume.increase,0.9834811091423035,0.2567181885242462,True,False,True
+reduce how loud the hearing aids are,device.volume.decrease,device.volume.decrease,device.volume.increase,0.9907885193824768,0.2429841011762619,True,False,True
+"the sound is too strong, lower it",device.volume.decrease,device.volume.decrease,device.volume.increase,0.9905469417572021,0.25284743309020996,True,False,True
+give me a softer volume,device.volume.decrease,device.volume.decrease,device.volume.increase,0.987171471118927,0.25703945755958557,True,False,True
+reduce the loudness but keep the sound on,device.volume.decrease,device.volume.decrease,device.volume.increase,0.9865562915802002,0.23886030912399292,True,False,True
+the audio is too loud for me,device.volume.decrease,device.volume.decrease,device.volume.increase,0.9651234745979309,0.25153928995132446,True,False,True
+soften the sound coming through the devices,device.volume.decrease,device.volume.decrease,device.volume.mute,0.9773756265640259,0.20827879011631012,True,False,True
+the sound is a bit too loud,device.volume.decrease,device.volume.decrease,device.volume.increase,0.987194836139679,0.2658917009830475,True,False,True
+reduce how much sound I'm getting,device.volume.decrease,device.volume.decrease,device.volume.increase,0.9849562048912048,0.13996551930904388,True,False,True
+reduce the loudness a little,device.volume.decrease,device.volume.decrease,device.volume.increase,0.9914175271987915,0.2239050716161728,True,False,True
+make the hearing aids less loud,device.volume.decrease,device.volume.decrease,device.volume.increase,0.9905461072921753,0.2221987247467041,True,False,True
+soften the hearing aid output,device.volume.decrease,device.volume.decrease,device.volume.mute,0.9891003966331482,0.19912280142307281,True,False,True
+make the hearing output stronger,device.volume.increase,device.volume.increase,reminders.task.create,0.7610320448875427,0.12009990960359573,True,False,True
+the hearing aids are too quiet,device.volume.increase,device.volume.increase,device.volume.decrease,0.6745275855064392,0.20263531804084778,True,False,True
+make the listening output stronger,device.volume.increase,device.volume.increase,streaming.session.stop,0.6402961611747742,0.1561111956834793,True,False,True
+boost what is coming through,device.volume.increase,device.volume.increase,device.memory.change,0.9874546527862549,0.13129828870296478,True,False,True
+the current volume is too low,device.volume.increase,device.volume.increase,device.volume.decrease,0.9523811936378479,0.2284626066684723,True,False,True
+I don't want to hear any audio right now,device.volume.mute,device.volume.mute,streaming.session.start,0.9312154054641724,0.18911562860012054,True,False,True
+make the audio stop,device.volume.mute,device.volume.mute,device.volume.unmute,0.49527013301849365,0.19023524224758148,True,False,True
+turn off the hearing output,device.volume.mute,device.volume.mute,device.volume.unmute,0.9439544677734375,0.23654454946517944,True,False,True
+stop all audio through the hearing aids,device.volume.mute,device.volume.mute,streaming.session.start,0.9882193803787231,0.18822206556797028,True,False,True
+make them quiet with no sound at all,device.volume.mute,device.volume.mute,device.volume.decrease,0.9659264087677002,0.17946778237819672,True,False,True
+switch the hearing aids to complete silence,device.volume.mute,device.volume.mute,device.memory.change,0.9314692616462708,0.19345581531524658,True,False,True
+silence the audio output,device.volume.mute,device.volume.mute,device.volume.unmute,0.991146981716156,0.20494022965431213,True,False,True
+stop hearing anything through the devices,device.volume.mute,device.volume.mute,streaming.session.stop,0.7051645517349243,0.1745881587266922,True,False,True
+silence my hearing output,device.volume.mute,device.volume.mute,device.volume.unmute,0.9887784123420715,0.2207358330488205,True,False,True
+stop the hearing aid output,device.volume.mute,device.volume.mute,device.volume.unmute,0.5568795204162598,0.22216907143592834,True,False,True
+silence the current hearing output,device.volume.mute,device.volume.mute,device.volume.unmute,0.9857358336448669,0.23337455093860626,True,False,True
+give me zero sound,device.volume.mute,device.volume.mute,device.volume.decrease,0.48819029331207275,0.22151504456996918,True,False,True
+turn the hearing sound off,device.volume.mute,device.volume.mute,device.volume.unmute,0.9923282265663147,0.2346416562795639,True,False,True
+resume audio output,device.volume.unmute,device.volume.unmute,streaming.session.start,0.9814157485961914,0.16419987380504608,True,False,True
+enable sound on the devices,device.volume.unmute,device.volume.unmute,device.volume.mute,0.8147733807563782,0.18657515943050385,True,False,True
+resume the sound output,device.volume.unmute,device.volume.unmute,device.volume.mute,0.9870098829269409,0.2124357521533966,True,False,True
+turn hearing aid audio on,device.volume.unmute,device.volume.unmute,device.volume.mute,0.9774215221405029,0.18927235901355743,True,False,True
+enable the hearing aid speakers,device.volume.unmute,device.volume.unmute,device.volume.decrease,0.9482017159461975,0.1734829545021057,True,False,True
+resume what was muted,device.volume.unmute,device.volume.unmute,device.volume.decrease,0.9071727991104126,0.1744108498096466,True,False,True
+enable the device output,device.volume.unmute,device.volume.unmute,device.volume.mute,0.616417407989502,0.22045890986919403,True,False,True
+return the hearing aids to audible mode,device.volume.unmute,device.volume.unmute,streaming.session.start,0.9792242646217346,0.18928402662277222,True,False,True
+start hearing aid audio again,device.volume.unmute,device.volume.unmute,device.volume.mute,0.9721364378929138,0.17372925579547882,True,False,True
+cancel the mute,device.volume.unmute,device.volume.unmute,device.volume.mute,0.9799705743789673,0.21011117100715637,True,False,True
+resume audio through my hearing aids,device.volume.unmute,device.volume.unmute,streaming.session.start,0.9724059700965881,0.18083348870277405,True,False,True
+reactivate audio on the hearing aids,device.volume.unmute,device.volume.unmute,device.volume.increase,0.9885547757148743,0.21479655802249908,True,False,True
+my mobile has disappeared,find.phone.locate,find.phone.locate,device.volume.decrease,0.9094123840332031,0.15422964096069336,True,False,True
+I need the location of my phone,find.phone.locate,find.phone.locate,device.volume.mute,0.5362608432769775,0.1633668839931488,True,False,True
+display the reminder entries,help.reminder.show,help.reminder.show,reminders.task.complete,0.9580699801445007,0.198711097240448,True,False,True
+let me view the reminder list,help.reminder.show,help.reminder.show,reminders.task.complete,0.9123027920722961,0.20196810364723206,True,False,True
+read my reminder list,help.reminder.show,help.reminder.show,reminders.task.complete,0.9219423532485962,0.2007502019405365,True,False,True
+list all current reminder tasks,help.reminder.show,help.reminder.show,reminders.task.complete,0.862207293510437,0.19848376512527466,True,False,True
+add something to my reminders,reminders.task.create,reminders.task.create,help.reminder.show,0.9704437255859375,0.24586300551891327,True,False,True
+set one up so I don't forget,reminders.task.create,reminders.task.create,device.memory.change,0.9052691459655762,0.16480813920497894,True,False,True
+create an entry in my reminders,reminders.task.create,reminders.task.create,help.reminder.show,0.8891677856445312,0.2467527985572815,True,False,True
+put this on my reminder list,reminders.task.create,reminders.task.create,help.reminder.show,0.7682814002037048,0.1997486650943756,True,False,True
+make sure I get a reminder about this,reminders.task.create,reminders.task.create,help.reminder.show,0.9622750878334045,0.21469628810882568,True,False,True
+add this as a reminder,reminders.task.create,reminders.task.create,help.reminder.show,0.9786955714225769,0.1966065615415573,True,False,True
+schedule something in reminders,reminders.task.create,reminders.task.create,help.reminder.show,0.9540277719497681,0.24039915204048157,True,False,True
+schedule a reminder for my task,reminders.task.create,reminders.task.create,help.reminder.show,0.9822463989257812,0.22364811599254608,True,False,True
+add this task to reminders,reminders.task.create,reminders.task.create,help.reminder.show,0.8380056023597717,0.2506980001926422,True,False,True
+schedule my reminder,reminders.task.create,reminders.task.create,help.reminder.show,0.9742423892021179,0.2043202668428421,True,False,True
+add a reminder for an upcoming task,reminders.task.create,reminders.task.create,help.reminder.show,0.9739270210266113,0.2313239574432373,True,False,True
+set one for tomorrow morning,reminders.task.create,reminders.task.create,device.memory.change,0.9626694321632385,0.18381203711032867,True,False,True
+put this into my reminder schedule,reminders.task.create,reminders.task.create,help.reminder.show,0.9793767929077148,0.2050831913948059,True,False,True
+add a reminder for next month,reminders.task.create,reminders.task.create,help.reminder.show,0.989096999168396,0.21337424218654633,True,False,True
+set up a new reminder,reminders.task.create,reminders.task.create,help.reminder.show,0.9847071766853333,0.22092260420322418,True,False,True
+clear the reminder I finished,reminders.task.complete,reminders.task.complete,help.reminder.show,0.9489386081695557,0.20161287486553192,True,False,True
+remove the reminder I have already done,reminders.task.complete,reminders.task.complete,help.reminder.show,0.8835188746452332,0.20972663164138794,True,False,True
+clear my finished reminder,reminders.task.complete,reminders.task.complete,help.reminder.show,0.98246830701828,0.20587283372879028,True,False,True
+"I finished that task, clear its reminder",reminders.task.complete,reminders.task.complete,help.reminder.show,0.7996818423271179,0.2364678531885147,True,False,True
+dismiss the reminder I no longer need,reminders.task.complete,reminders.task.complete,reminders.task.create,0.826511800289154,0.1895754337310791,True,False,True
+check off the task I was reminded about,reminders.task.complete,reminders.task.complete,help.reminder.show,0.7550110816955566,0.21258845925331116,True,False,True
+remove my finished reminder,reminders.task.complete,reminders.task.complete,help.reminder.show,0.9660072326660156,0.21253100037574768,True,False,True
+complete my pending reminder task,reminders.task.complete,reminders.task.complete,help.reminder.show,0.9886723160743713,0.2023317515850067,True,False,True
+clear the task reminder I finished,reminders.task.complete,reminders.task.complete,help.reminder.show,0.972714364528656,0.20587089657783508,True,False,True
+connect the laptop audio to my devices,streaming.session.start,streaming.session.start,device.volume.mute,0.986972987651825,0.16872327029705048,True,False,True
+play my tablet sound through the hearing aids,streaming.session.start,streaming.session.start,device.volume.mute,0.9549779295921326,0.16089290380477905,True,False,True
+begin streaming from my mobile,streaming.session.start,streaming.session.start,streaming.session.stop,0.9776215553283691,0.17707021534442902,True,False,True
+stream sound from the computer,streaming.session.start,streaming.session.start,streaming.session.stop,0.9833987951278687,0.20386354625225067,True,False,True
+begin streaming from the laptop,streaming.session.start,streaming.session.start,streaming.session.stop,0.9840510487556458,0.20004773139953613,True,False,True
+begin routing audio from the phone,streaming.session.start,streaming.session.start,device.volume.mute,0.9337529540061951,0.1422344297170639,True,False,True
+start routing sound from my phone,streaming.session.start,streaming.session.start,device.volume.mute,0.948240339756012,0.18333026766777039,True,False,True
+begin the media audio connection,streaming.session.start,streaming.session.start,streaming.session.stop,0.9854037165641785,0.1660187691450119,True,False,True
+stream sound from the television,streaming.session.start,streaming.session.start,streaming.session.stop,0.9816537499427795,0.20205442607402802,True,False,True
+route audio from my laptop,streaming.session.start,streaming.session.start,find.phone.locate,0.9796249866485596,0.14312808215618134,True,False,True
+send TV sound into the hearing aids,streaming.session.start,streaming.session.start,device.volume.increase,0.9274325370788574,0.16638198494911194,True,False,True
+route music from my smartphone,streaming.session.start,streaming.session.start,find.phone.locate,0.4881680905818939,0.1437719613313675,True,False,True
+connect my laptop audio,streaming.session.start,streaming.session.start,device.volume.mute,0.9816701412200928,0.2039332389831543,True,False,True
+begin streaming from the TV,streaming.session.start,streaming.session.start,streaming.session.stop,0.9863467812538147,0.2001899927854538,True,False,True
+send media sound to my hearing aids,streaming.session.start,streaming.session.start,device.volume.decrease,0.9357125759124756,0.15827558934688568,True,False,True
+start an audio stream from the phone,streaming.session.start,streaming.session.start,streaming.session.stop,0.9740798473358154,0.199342280626297,True,False,True
+stop routing sound from the phone,streaming.session.stop,streaming.session.stop,device.volume.unmute,0.9528636932373047,0.2036897838115692,True,False,True
+stop routing the computer sound,streaming.session.stop,streaming.session.stop,device.volume.unmute,0.8277830481529236,0.2032715082168579,True,False,True
+finish streaming,streaming.session.stop,streaming.session.stop,streaming.session.start,0.9543291926383972,0.20271159708499908,True,False,True
+turn off audio streaming,streaming.session.stop,streaming.session.stop,streaming.session.start,0.9766864776611328,0.19057005643844604,True,False,True
+stop sending TV sound,streaming.session.stop,streaming.session.stop,device.volume.unmute,0.8208418488502502,0.19081778824329376,True,False,True
+end the hearing aid streaming session,streaming.session.stop,streaming.session.stop,streaming.session.start,0.9209378361701965,0.18856696784496307,True,False,True
+finish audio streaming,streaming.session.stop,streaming.session.stop,streaming.session.start,0.8975922465324402,0.2108420878648758,True,False,True

@@ -1,0 +1,38 @@
+{
+  "backstop": 0.3,
+  "stage3_model": "legacy MiniLM semantic head",
+  "off": {
+    "stress": {
+      "rows": 200,
+      "score": 0.725,
+      "fallback_rate": 0.24
+    },
+    "locked": {
+      "rows": 200,
+      "score": 0.83,
+      "fallback_rate": 0.16
+    },
+    "ood": {
+      "rows": 200,
+      "score": 0.94,
+      "fallback_rate": 0.94
+    }
+  },
+  "on": {
+    "stress": {
+      "rows": 200,
+      "score": 0.825,
+      "fallback_rate": 0.085
+    },
+    "locked": {
+      "rows": 200,
+      "score": 0.83,
+      "fallback_rate": 0.15
+    },
+    "ood": {
+      "rows": 200,
+      "score": 0.835,
+      "fallback_rate": 0.835
+    }
+  }
+}

@@ -1,0 +1,22 @@
+text,removed_intent,reason
+couper le son,device.volume.unmute,minority-vs-device.volume.mute
+faire taire mes aides auditives,device.volume.decrease,minority-vs-device.volume.mute
+couper le volume,device.volume.mute,ambiguous-dropped
+couper le volume,device.volume.mute,ambiguous-dropped
+couper le volume,device.volume.decrease,ambiguous-dropped
+couper le volume,device.volume.decrease,ambiguous-dropped
+"s'il te plaît, augmente le volume",device.volume.unmute,minority-vs-device.volume.increase
+peux-tu augmenter le volume,device.volume.unmute,minority-vs-device.volume.increase
+veuillez personnaliser les paramètres de mon aide auditive,help.memory_options.show,ambiguous-dropped
+veuillez personnaliser les paramètres de mon aide auditive,help.customize.show,ambiguous-dropped
+pouvez-vous personnaliser les paramètres de mon aide auditive,help.memory_options.show,ambiguous-dropped
+pouvez-vous personnaliser les paramètres de mon aide auditive,help.customize.show,ambiguous-dropped
+peux-tu faire du son,device.volume.decrease,minority-vs-device.volume.unmute
+peux-tu couper le son,device.volume.unmute,minority-vs-device.volume.mute
+peux-tu chaque année,reminders.task.create,ambiguous-dropped
+peux-tu chaque année,sys.oos.fallback,ambiguous-dropped
+peux-tu baisser le volume,device.volume.mute,minority-vs-device.volume.decrease
+peux-tu baisser le volume,device.volume.mute,minority-vs-device.volume.decrease
+peux-tu baisser le volume,device.volume.mute,minority-vs-device.volume.decrease
+"s'il te plaît, baisse le volume",device.volume.mute,minority-vs-device.volume.decrease
+activer le mode sourdine,device.volume.unmute,minority-vs-device.volume.mute

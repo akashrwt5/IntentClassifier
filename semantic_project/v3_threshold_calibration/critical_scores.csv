@@ -1,0 +1,18 @@
+text,expected,predicted,confidence,margin,entropy,correct
+make it louder,device.volume.increase,device.volume.increase,0.9937511086463928,0.9919688701629639,0.051342323422431946,True
+it's quieter can you make it a little louder,device.volume.increase,device.volume.increase,0.9763477444648743,0.9634403586387634,0.15070003271102905,True
+the audio is quiet but don't mute it make it louder,device.volume.increase,device.volume.increase,0.9688540697097778,0.9561518430709839,0.1974538117647171,True
+make it quieter,device.volume.decrease,device.volume.decrease,0.9925218224525452,0.9909378886222839,0.060487959533929825,True
+the audio is loud but keep it on just lower it,device.volume.decrease,device.volume.decrease,0.9828153252601624,0.9799970388412476,0.12573371827602386,True
+mute it,device.volume.mute,device.volume.mute,0.936743438243866,0.9082270264625549,0.3456186354160309,True
+i can still hear it make it completely silent,device.volume.mute,device.volume.mute,0.9754275679588318,0.9652116298675537,0.1618991196155548,True
+turn off,device.volume.mute,device.volume.mute,0.8979899287223816,0.8629740476608276,0.5188590884208679,True
+unmute it,device.volume.unmute,device.volume.unmute,0.9892895817756653,0.9870744347572327,0.08233650028705597,True
+turn the sound back on,device.volume.unmute,device.volume.unmute,0.9920594692230225,0.9906090497970581,0.06415420770645142,True
+i need to go to airport tomorrow,reminders.task.create,reminders.task.create,0.9379715919494629,0.91933673620224,0.3623158931732178,True
+i need to go to airport tommorow,reminders.task.create,reminders.task.create,0.8708311915397644,0.8141502141952515,0.6289680004119873,True
+where can i find my phone,find.phone.locate,find.phone.locate,0.9715532064437866,0.9655143022537231,0.1921999305486679,True
+please show the reminders i have,help.reminder.show,help.reminder.show,0.9792124032974243,0.9721347093582153,0.14106272161006927,True
+mark that reminder as completed,reminders.task.complete,reminders.task.complete,0.991483747959137,0.9897699356079102,0.06818218529224396,True
+please start the streaming session,streaming.session.start,streaming.session.start,0.9797260165214539,0.9766549468040466,0.14501209557056427,True
+please stop the streaming session,streaming.session.stop,streaming.session.stop,0.9884540438652039,0.9859175086021423,0.08823741227388382,True

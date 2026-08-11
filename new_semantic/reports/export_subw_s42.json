@@ -1,0 +1,26 @@
+{
+  "tag": "subw_s42",
+  "threshold": 0.4,
+  "tokenizer": "subword",
+  "max_len": 32,
+  "vocab_size": 3000,
+  "intents": 57,
+  "static_shape": [
+    1,
+    32
+  ],
+  "dynamic_axes": false,
+  "output": "logits",
+  "fp32_mb": 1.2124,
+  "int8_mb": null,
+  "parity": {
+    "fp32": {
+      "max_abs_logit_delta": 2.86102294921875e-06,
+      "argmax_mismatches": 0,
+      "gate_disagreements": 0,
+      "flips": []
+    }
+  },
+  "synthetic_text": true,
+  "synthetic_rows": 921
+}

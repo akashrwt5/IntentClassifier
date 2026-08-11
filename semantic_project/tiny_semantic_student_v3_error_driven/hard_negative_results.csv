@@ -1,0 +1,43 @@
+text,expected,predicted,confidence,top2,top2_confidence,correct
+keep audio enabled and turn it up,device.volume.increase,device.volume.increase,0.8189558386802673,device.memory.change,0.1144949197769165,True
+what are my reminders,help.reminder.show,help.reminder.show,0.9870354533195496,reminders.task.complete,0.0034280153922736645,True
+switch my memory,device.memory.change,device.memory.change,0.9739949107170105,find.phone.locate,0.004773727152496576,True
+start streaming now,streaming.session.start,streaming.session.start,0.988207995891571,streaming.session.stop,0.0023464253172278404,True
+make it quieter but keep audio on,device.volume.decrease,device.volume.decrease,0.972069263458252,reminders.task.create,0.004648678936064243,True
+reduce volume and leave audio on,device.volume.decrease,device.volume.decrease,0.9854191541671753,streaming.session.stop,0.002954729599878192,True
+turn off the audio,device.volume.mute,device.volume.mute,0.7937354445457458,streaming.session.stop,0.11005571484565735,True
+remove all sound,device.volume.mute,device.volume.mute,0.9899279475212097,streaming.session.start,0.0019122912781313062,True
+show pending reminders,help.reminder.show,help.reminder.show,0.9897902607917786,reminders.task.create,0.0024696991313248873,True
+"i don't want mute, i want less volume",device.volume.decrease,device.volume.decrease,0.738620936870575,device.volume.mute,0.20021331310272217,True
+decrease volume and keep it playing,device.volume.decrease,device.volume.decrease,0.9861519932746887,reminders.task.create,0.0021643945947289467,True
+quiet it completely,device.volume.mute,device.volume.decrease,0.6718225479125977,device.volume.mute,0.29831910133361816,False
+make it totally silent,device.volume.mute,device.volume.mute,0.9148173332214355,device.volume.decrease,0.054761070758104324,True
+silence the audio completely,device.volume.mute,device.volume.mute,0.9959422945976257,device.volume.decrease,0.0008202376775443554,True
+"it is quiet here, make it louder without muting",device.volume.increase,device.volume.increase,0.9875505566596985,device.volume.decrease,0.004233975429087877,True
+"it's too quiet, don't silence it, turn it up",device.volume.increase,device.volume.increase,0.9730302095413208,device.volume.mute,0.007237742189317942,True
+lower the sound without turning it off,device.volume.decrease,device.volume.decrease,0.9839889407157898,device.volume.mute,0.004793192259967327,True
+"reduce the volume, keep audio enabled",device.volume.decrease,device.volume.decrease,0.9843845367431641,reminders.task.create,0.002051331102848053,True
+bring the sound back,device.volume.unmute,device.volume.unmute,0.9659096002578735,device.volume.decrease,0.016256598755717278,True
+mute all audio,device.volume.mute,device.volume.mute,0.9947677850723267,streaming.session.start,0.0010550811421126127,True
+remove mute,device.volume.unmute,device.volume.mute,0.8908189535140991,device.volume.unmute,0.06798704713582993,False
+stop all sound,device.volume.mute,device.volume.mute,0.9941494464874268,device.volume.decrease,0.0013613705523312092,True
+"i don't want mute, i want more volume",device.volume.increase,device.volume.increase,0.9445838332176208,device.volume.mute,0.023937499150633812,True
+start the session,streaming.session.start,streaming.session.start,0.955268383026123,device.volume.decrease,0.007367183919996023,True
+keep it audible but turn it down,device.volume.decrease,device.volume.decrease,0.9816820025444031,reminders.task.complete,0.003983903676271439,True
+"i said louder, not silent",device.volume.increase,device.volume.increase,0.9820148944854736,find.phone.locate,0.004049529321491718,True
+what reminders do i have,help.reminder.show,help.reminder.show,0.9834870100021362,reminders.task.create,0.006226327270269394,True
+i cannot find my phone,find.phone.locate,find.phone.locate,0.9804450869560242,reminders.task.create,0.00354343862272799,True
+increase volume but leave it unmuted,device.volume.increase,device.volume.increase,0.9799113869667053,device.volume.decrease,0.006612345576286316,True
+turn it down but leave sound active,device.volume.decrease,device.volume.decrease,0.984742283821106,streaming.session.stop,0.0024655975867062807,True
+"do not mute it, increase the sound",device.volume.increase,device.volume.increase,0.9657630324363708,device.volume.mute,0.01117612887173891,True
+decrease sound but leave it enabled,device.volume.decrease,device.volume.decrease,0.9835014939308167,streaming.session.start,0.0038284731563180685,True
+"i need more sound, keep it enabled",device.volume.increase,device.volume.increase,0.588948667049408,device.volume.decrease,0.23961906135082245,True
+"quiet audio, higher volume, no mute",device.volume.increase,device.volume.increase,0.9291712045669556,device.volume.mute,0.041438501328229904,True
+"don't silence it, just make it louder",device.volume.increase,device.volume.increase,0.8653004765510559,device.volume.mute,0.0844007208943367,True
+"i need more volume, not silence",device.volume.increase,device.volume.increase,0.974502682685852,device.volume.decrease,0.015057284384965897,True
+stop streaming,streaming.session.stop,streaming.session.stop,0.9931935667991638,device.volume.decrease,0.0013039883924648166,True
+display my reminders,help.reminder.show,help.reminder.show,0.9805740714073181,reminders.task.create,0.00826989859342575,True
+"i need softer audio, not silence",device.volume.decrease,device.volume.decrease,0.9794529676437378,reminders.task.create,0.004672171548008919,True
+"the volume is high, bring it down",device.volume.decrease,device.volume.decrease,0.9884523749351501,reminders.task.create,0.0021779502276331186,True
+"the sound is too loud, reduce it",device.volume.decrease,device.volume.decrease,0.9908434152603149,device.volume.increase,0.002514041494578123,True
+change what is remembered,device.memory.change,device.memory.change,0.8522769808769226,device.volume.decrease,0.05680406838655472,True

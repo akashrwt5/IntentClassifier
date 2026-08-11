@@ -1,0 +1,92 @@
+text,intent,already_in_train
+where do i buy new batteries,Help_Battery,False
+rechargeable or disposable which is better,Help_Battery,False
+are my hearing aids getting low?,Cmd.BatteryLevel,False
+are my aids running low,Cmd.BatteryLevel,False
+when will these die on me,Cmd.BatteryLevel,False
+should i plug them in soon,Cmd.BatteryLevel,False
+got enough battery for a movie,Cmd.BatteryLevel,False
+restore my profile after reinstalling,Help_HearingCareAnywhereConnect,False
+connect with my hearing care professional,Help_HearingCareAnywhereConnect,False
+remote appointment with my audiologist,Help_HearingCareAnywhereConnect,False
+how do i access my hearing aid programs?,Help_ChangingMemories,False
+what is memory,Help_ChangingMemories,False
+how do different memories work,Help_ChangingMemories,False
+too much wind noise outside,Help_EdgeMode,False
+reduce the background noise level,Help_EdgeMode,False
+kill the noise completely,Help_EdgeMode,False
+the noise is unbearable right now,Help_EdgeMode,False
+explain my recovery score,Help_HeartRateRecovery,False
+what features are available,Help_Home,False
+point me in the right direction,Help_Home,False
+how do i navigate,Help_Home,False
+where do i go to do things,Help_Home,False
+none of this makes sense to me,Help_Home,False
+break it down for me,Help_Home,False
+i could use a hand figuring this out,Help_Home,False
+i could use an introduction,Help_Home,False
+can you explain?,Help_Home,False
+where what is the home,Help_Home,False
+how to wear my hearing aid correctly,Help_InsertDevice,False
+do i put the earmold in first,Help_InsertDevice,False
+the dome won't stay put,Help_InsertDevice,False
+cut all the sound,Cmd.VolumeMute,False
+cut every bit of sound,Cmd.VolumeMute,False
+turn mute on,Cmd.VolumeMute,False
+not a peep please,Cmd.VolumeMute,False
+where is my crowd settings,Help_MemoryOptions,False
+buzz my phone so i hear it,Cmd.FindMyPhone,False
+log the miles i just covered,Cmd.ActivityRun,False
+tell me how much runtime is left,Cmd.BatteryLevel,False
+load my normal configuration,Cmd.MemoryChange,False
+my grandkids sound like whispers,Cmd.VolumeIncrease,False
+what level am i hearing aids,Default Fallback Intent,False
+what add-ons are available,Help_Accessories,False
+what add-ons are compatible,Help_Accessories,False
+how long have i been on my feet,Cmd.ActivityStand,False
+how can i get the left hearing aid?,Help_SelfCheck,False
+how should i store my aids overnight,Help_CleanCare,False
+how do i change the speech focus,Help_Customize,False
+reset the hearing aids,Default Fallback Intent,False
+how do i turn my radio music,Default Fallback Intent,False
+can only connect,Default Fallback Intent,False
+how do i change to basic mode,Help_AppSettings,False
+switch on translate mode,Cmd.TranslationStart,False
+personalise my listening experience,Help_Customize,False
+there's a constant buzzing in my head,Help_Tinnitus,False
+how do i change my phone contact,Help_FallAlert,False
+why can't i hear people in masks,Help_MaskMode,False
+how can i use my voice to do things,Help_VoiceAssistant,False
+i just walked into church,Cmd.MemoryChange,False
+fix the declining sound on my aids,Help_DeviceSettings,False
+how do i tune,Default Fallback Intent,False
+my aid keeps cutting out,Help_DeviceSettings,False
+conversations are slipping past me,Cmd.VolumeIncrease,False
+tone change,Help_DeviceSettings,False
+the television is blaring and i still miss the words,Help_Customize,False
+the sound is cutting in and out,Help_DeviceSettings,False
+how do i know if my microphone is working?,Help_SelfCheck,False
+why can't i hear anything through,Help_Pairing,False
+how do i see my biking goals?,Help_Health,False
+view my body and brain health,Help_Health,False
+patch the sound through to me,Cmd.StreamingStart,False
+turn on hearing aids,Cmd.VolumeUnmute,False
+can i set a favourite program,Help_MemoryOptions,False
+its lowd,Cmd.VolumeDecrease,False
+notification settings for the app,Help_AppSettings,False
+i want less bass in my left aid,Help_Customize,False
+switch to advanced mode in the app,Help_AppSettings,False
+everything sounds muffled,Help_DeviceSettings,False
+microphone icon,Help_VoiceAssistant,False
+tick off my reminder,reminders.complete,False
+i took my pills you can clear that,reminders.complete,False
+i did it cross it off,reminders.complete,False
+that's handled cross it off,reminders.complete,False
+fire off a text,Cmd.SendMessage,False
+text a contact with my news,Cmd.SendMessage,False
+show my daily wellness rating,Help_ThriveScore,False
+my body and brain score,Help_ThriveScore,False
+my overall score for the day,Help_ThriveScore,False
+can you show me a quick start guide,Help_WhatsNew,False
+show me a quick start guide,Help_WhatsNew,False
+can you show me the quick guide,Help_WhatsNew,False

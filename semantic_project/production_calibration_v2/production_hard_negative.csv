@@ -1,0 +1,211 @@
+text,intent,source
+the audio is quiet but don't mute it make it louder,device.volume.increase,production_hard_negative_v1
+"it's too quiet, don't silence it, turn it up",device.volume.increase,production_hard_negative_v1
+"I can barely hear it, keep it on and make it louder",device.volume.increase,production_hard_negative_v1
+"don't turn the sound off, increase the volume",device.volume.increase,production_hard_negative_v1
+keep the sound on but raise the volume,device.volume.increase,production_hard_negative_v1
+"it is quiet here, make it louder without muting",device.volume.increase,production_hard_negative_v1
+"I don't want mute, I want more volume",device.volume.increase,production_hard_negative_v1
+"don't silence it, just make it louder",device.volume.increase,production_hard_negative_v1
+keep audio enabled and turn it up,device.volume.increase,production_hard_negative_v1
+"the sound is low, increase it but don't mute it",device.volume.increase,production_hard_negative_v1
+the audio is loud but don't mute it make it quieter,device.volume.decrease,production_hard_negative_v1
+"it's too loud, keep it on and lower the volume",device.volume.decrease,production_hard_negative_v1
+"don't silence it, just turn the volume down",device.volume.decrease,production_hard_negative_v1
+keep sound enabled but reduce the volume,device.volume.decrease,production_hard_negative_v1
+"I don't want mute, I want less volume",device.volume.decrease,production_hard_negative_v1
+lower the sound without turning it off,device.volume.decrease,production_hard_negative_v1
+make it quieter but keep audio on,device.volume.decrease,production_hard_negative_v1
+"don't turn it off, just reduce the volume",device.volume.decrease,production_hard_negative_v1
+"the sound is high, lower it without muting",device.volume.decrease,production_hard_negative_v1
+keep it audible but turn it down,device.volume.decrease,production_hard_negative_v1
+I want complete silence,device.volume.mute,production_hard_negative_v1
+silence the sound completely,device.volume.mute,production_hard_negative_v1
+make it completely silent,device.volume.mute,production_hard_negative_v1
+mute the audio now,device.volume.mute,production_hard_negative_v1
+I don't want to hear anything,device.volume.mute,production_hard_negative_v1
+turn the sound completely off,device.volume.mute,production_hard_negative_v1
+turn the sound back on,device.volume.unmute,production_hard_negative_v1
+restore the sound,device.volume.unmute,production_hard_negative_v1
+unmute the audio,device.volume.unmute,production_hard_negative_v1
+enable sound again,device.volume.unmute,production_hard_negative_v1
+I want audio back,device.volume.unmute,production_hard_negative_v1
+turn audio back on,device.volume.unmute,production_hard_negative_v1
+"please don't mute, I only want it louder",device.volume.increase,targeted_hard_negative_v2
+"don't make it silent, make it louder",device.volume.increase,targeted_hard_negative_v2
+keep audio on and increase volume,device.volume.increase,targeted_hard_negative_v2
+"I still want sound, just turn it up",device.volume.increase,targeted_hard_negative_v2
+"do not mute it, increase the sound",device.volume.increase,targeted_hard_negative_v2
+"I need more volume, not silence",device.volume.increase,targeted_hard_negative_v2
+raise the volume without muting,device.volume.increase,targeted_hard_negative_v2
+make it louder while keeping sound on,device.volume.increase,targeted_hard_negative_v2
+increase volume but leave it unmuted,device.volume.increase,targeted_hard_negative_v2
+"it is difficult to hear, turn it up",device.volume.increase,targeted_hard_negative_v2
+"I can hardly hear it, make it louder",device.volume.increase,targeted_hard_negative_v2
+"the sound is very low, raise it",device.volume.increase,targeted_hard_negative_v2
+turn it up but don't turn it off,device.volume.increase,targeted_hard_negative_v2
+"make the audio louder, keep it playing",device.volume.increase,targeted_hard_negative_v2
+"I need the audio louder, not muted",device.volume.increase,targeted_hard_negative_v2
+"increase the sound level, do not silence",device.volume.increase,targeted_hard_negative_v2
+make this louder and keep the audio enabled,device.volume.increase,targeted_hard_negative_v2
+"don't silence the device, increase volume",device.volume.increase,targeted_hard_negative_v2
+keep it audible and turn it up,device.volume.increase,targeted_hard_negative_v2
+"I want higher volume, not mute",device.volume.increase,targeted_hard_negative_v2
+make the hearing sound louder without muting,device.volume.increase,targeted_hard_negative_v2
+"turn the volume up, don't silence anything",device.volume.increase,targeted_hard_negative_v2
+increase audio level while keeping it on,device.volume.increase,targeted_hard_negative_v2
+"the volume is low, raise it and keep it on",device.volume.increase,targeted_hard_negative_v2
+"make it a little louder, don't mute",device.volume.increase,targeted_hard_negative_v2
+make it much louder but leave it on,device.volume.increase,targeted_hard_negative_v2
+please raise volume instead of muting,device.volume.increase,targeted_hard_negative_v2
+"I said louder, not silent",device.volume.increase,targeted_hard_negative_v2
+"more sound please, don't mute",device.volume.increase,targeted_hard_negative_v2
+"louder please, keep the audio on",device.volume.increase,targeted_hard_negative_v2
+turn it up without turning it off,device.volume.increase,targeted_hard_negative_v2
+"raise the volume, do not mute",device.volume.increase,targeted_hard_negative_v2
+increase volume and keep audio active,device.volume.increase,targeted_hard_negative_v2
+"don't silence it, make it louder instead",device.volume.increase,targeted_hard_negative_v2
+"I need more sound, keep it enabled",device.volume.increase,targeted_hard_negative_v2
+make the audio stronger without muting,device.volume.increase,targeted_hard_negative_v2
+keep it playing and turn the volume up,device.volume.increase,targeted_hard_negative_v2
+"I can hear it but it is too quiet, raise it",device.volume.increase,targeted_hard_negative_v2
+"quiet audio, higher volume, no mute",device.volume.increase,targeted_hard_negative_v2
+"please don't mute, just lower the volume",device.volume.decrease,targeted_hard_negative_v2
+"make it quieter, don't silence it",device.volume.decrease,targeted_hard_negative_v2
+reduce the volume while keeping sound on,device.volume.decrease,targeted_hard_negative_v2
+turn it down but don't turn it off,device.volume.decrease,targeted_hard_negative_v2
+"I need less volume, not mute",device.volume.decrease,targeted_hard_negative_v2
+lower audio without muting,device.volume.decrease,targeted_hard_negative_v2
+decrease volume and keep it playing,device.volume.decrease,targeted_hard_negative_v2
+"the sound is too loud, reduce it",device.volume.decrease,targeted_hard_negative_v2
+turn down the volume but keep audio enabled,device.volume.decrease,targeted_hard_negative_v2
+make the audio softer without muting,device.volume.decrease,targeted_hard_negative_v2
+"I want lower volume, not silence",device.volume.decrease,targeted_hard_negative_v2
+keep sound active and turn it down,device.volume.decrease,targeted_hard_negative_v2
+"reduce the sound level, do not mute",device.volume.decrease,targeted_hard_negative_v2
+lower the hearing volume while keeping it on,device.volume.decrease,targeted_hard_negative_v2
+"don't silence the device, lower the volume",device.volume.decrease,targeted_hard_negative_v2
+turn it down without disabling sound,device.volume.decrease,targeted_hard_negative_v2
+"less sound please, keep it on",device.volume.decrease,targeted_hard_negative_v2
+make it quieter while staying unmuted,device.volume.decrease,targeted_hard_negative_v2
+"lower the audio, don't mute",device.volume.decrease,targeted_hard_negative_v2
+"the volume is high, bring it down",device.volume.decrease,targeted_hard_negative_v2
+decrease sound but leave it enabled,device.volume.decrease,targeted_hard_negative_v2
+"I said quieter, not silent",device.volume.decrease,targeted_hard_negative_v2
+lower it but keep the sound,device.volume.decrease,targeted_hard_negative_v2
+"make the audio less loud, don't mute",device.volume.decrease,targeted_hard_negative_v2
+reduce volume and leave audio on,device.volume.decrease,targeted_hard_negative_v2
+"turn the sound down, don't turn it off",device.volume.decrease,targeted_hard_negative_v2
+"quieter please, keep it playing",device.volume.decrease,targeted_hard_negative_v2
+lower the sound without silence,device.volume.decrease,targeted_hard_negative_v2
+decrease volume instead of muting,device.volume.decrease,targeted_hard_negative_v2
+"I need softer audio, not silence",device.volume.decrease,targeted_hard_negative_v2
+turn it down and keep it audible,device.volume.decrease,targeted_hard_negative_v2
+reduce audio level but don't mute,device.volume.decrease,targeted_hard_negative_v2
+make it less loud while staying on,device.volume.decrease,targeted_hard_negative_v2
+"lower volume, no mute",device.volume.decrease,targeted_hard_negative_v2
+turn it down but leave sound active,device.volume.decrease,targeted_hard_negative_v2
+"reduce the volume, keep audio enabled",device.volume.decrease,targeted_hard_negative_v2
+"softer sound, keep it on",device.volume.decrease,targeted_hard_negative_v2
+"please lower the audio, don't silence",device.volume.decrease,targeted_hard_negative_v2
+make the sound quieter without turning it off,device.volume.decrease,targeted_hard_negative_v2
+silence the audio completely,device.volume.mute,targeted_hard_negative_v2
+mute the device,device.volume.mute,targeted_hard_negative_v2
+mute it now,device.volume.mute,targeted_hard_negative_v2
+make the audio silent,device.volume.mute,targeted_hard_negative_v2
+silence everything,device.volume.mute,targeted_hard_negative_v2
+stop all sound,device.volume.mute,targeted_hard_negative_v2
+I want no sound,device.volume.mute,targeted_hard_negative_v2
+turn audio off completely,device.volume.mute,targeted_hard_negative_v2
+mute all audio,device.volume.mute,targeted_hard_negative_v2
+make it totally silent,device.volume.mute,targeted_hard_negative_v2
+please silence the sound,device.volume.mute,targeted_hard_negative_v2
+I need complete silence,device.volume.mute,targeted_hard_negative_v2
+turn off the audio,device.volume.mute,targeted_hard_negative_v2
+quiet it completely,device.volume.mute,targeted_hard_negative_v2
+remove all sound,device.volume.mute,targeted_hard_negative_v2
+make the hearing aid silent,device.volume.mute,targeted_hard_negative_v2
+bring the sound back,device.volume.unmute,targeted_hard_negative_v2
+restore audio,device.volume.unmute,targeted_hard_negative_v2
+start the sound again,device.volume.unmute,targeted_hard_negative_v2
+let me hear it again,device.volume.unmute,targeted_hard_negative_v2
+turn sound on,device.volume.unmute,targeted_hard_negative_v2
+enable the audio,device.volume.unmute,targeted_hard_negative_v2
+unmute it now,device.volume.unmute,targeted_hard_negative_v2
+I want the sound restored,device.volume.unmute,targeted_hard_negative_v2
+bring audio back,device.volume.unmute,targeted_hard_negative_v2
+turn my sound back on,device.volume.unmute,targeted_hard_negative_v2
+remove mute,device.volume.unmute,targeted_hard_negative_v2
+stop muting the audio,device.volume.unmute,targeted_hard_negative_v2
+restore the hearing sound,device.volume.unmute,targeted_hard_negative_v2
+make the audio audible again,device.volume.unmute,targeted_hard_negative_v2
+change the memory,device.memory.change,targeted_hard_negative_v2
+switch my memory,device.memory.change,targeted_hard_negative_v2
+change the saved memory,device.memory.change,targeted_hard_negative_v2
+update the device memory,device.memory.change,targeted_hard_negative_v2
+change what is remembered,device.memory.change,targeted_hard_negative_v2
+switch to another memory,device.memory.change,targeted_hard_negative_v2
+modify the memory setting,device.memory.change,targeted_hard_negative_v2
+change the memory configuration,device.memory.change,targeted_hard_negative_v2
+update my memory setting,device.memory.change,targeted_hard_negative_v2
+switch memory settings,device.memory.change,targeted_hard_negative_v2
+find my phone,find.phone.locate,targeted_hard_negative_v2
+where is my phone,find.phone.locate,targeted_hard_negative_v2
+locate my phone,find.phone.locate,targeted_hard_negative_v2
+help me find my phone,find.phone.locate,targeted_hard_negative_v2
+make my phone ring so I can find it,find.phone.locate,targeted_hard_negative_v2
+I cannot find my phone,find.phone.locate,targeted_hard_negative_v2
+locate the phone,find.phone.locate,targeted_hard_negative_v2
+where can I find my phone,find.phone.locate,targeted_hard_negative_v2
+help locate my missing phone,find.phone.locate,targeted_hard_negative_v2
+find the phone for me,find.phone.locate,targeted_hard_negative_v2
+show my reminders,help.reminder.show,targeted_hard_negative_v2
+show the reminders I have,help.reminder.show,targeted_hard_negative_v2
+what reminders do I have,help.reminder.show,targeted_hard_negative_v2
+list my reminders,help.reminder.show,targeted_hard_negative_v2
+display my reminders,help.reminder.show,targeted_hard_negative_v2
+open my reminder list,help.reminder.show,targeted_hard_negative_v2
+show pending reminders,help.reminder.show,targeted_hard_negative_v2
+what are my reminders,help.reminder.show,targeted_hard_negative_v2
+show all reminders,help.reminder.show,targeted_hard_negative_v2
+let me see my reminders,help.reminder.show,targeted_hard_negative_v2
+mark the reminder completed,reminders.task.complete,targeted_hard_negative_v2
+complete that reminder,reminders.task.complete,targeted_hard_negative_v2
+finish my reminder,reminders.task.complete,targeted_hard_negative_v2
+mark this reminder as done,reminders.task.complete,targeted_hard_negative_v2
+complete the task reminder,reminders.task.complete,targeted_hard_negative_v2
+set the reminder to completed,reminders.task.complete,targeted_hard_negative_v2
+mark it done,reminders.task.complete,targeted_hard_negative_v2
+finish that reminder,reminders.task.complete,targeted_hard_negative_v2
+complete my task reminder,reminders.task.complete,targeted_hard_negative_v2
+close the reminder task,reminders.task.complete,targeted_hard_negative_v2
+create a reminder,reminders.task.create,targeted_hard_negative_v2
+remind me tomorrow,reminders.task.create,targeted_hard_negative_v2
+set a reminder for tomorrow,reminders.task.create,targeted_hard_negative_v2
+add a reminder,reminders.task.create,targeted_hard_negative_v2
+make a new reminder,reminders.task.create,targeted_hard_negative_v2
+remind me to call someone,reminders.task.create,targeted_hard_negative_v2
+create a task reminder,reminders.task.create,targeted_hard_negative_v2
+set a new reminder,reminders.task.create,targeted_hard_negative_v2
+add something to my reminders,reminders.task.create,targeted_hard_negative_v2
+remember this for later,reminders.task.create,targeted_hard_negative_v2
+start streaming,streaming.session.start,targeted_hard_negative_v2
+start the streaming session,streaming.session.start,targeted_hard_negative_v2
+begin streaming,streaming.session.start,targeted_hard_negative_v2
+turn streaming on,streaming.session.start,targeted_hard_negative_v2
+start my stream,streaming.session.start,targeted_hard_negative_v2
+begin the audio stream,streaming.session.start,targeted_hard_negative_v2
+start the session,streaming.session.start,targeted_hard_negative_v2
+enable streaming,streaming.session.start,targeted_hard_negative_v2
+begin the streaming session,streaming.session.start,targeted_hard_negative_v2
+start streaming now,streaming.session.start,targeted_hard_negative_v2
+stop streaming,streaming.session.stop,targeted_hard_negative_v2
+stop the streaming session,streaming.session.stop,targeted_hard_negative_v2
+end streaming,streaming.session.stop,targeted_hard_negative_v2
+turn streaming off,streaming.session.stop,targeted_hard_negative_v2
+stop my stream,streaming.session.stop,targeted_hard_negative_v2
+end the audio stream,streaming.session.stop,targeted_hard_negative_v2
+stop the session,streaming.session.stop,targeted_hard_negative_v2
+disable streaming,streaming.session.stop,targeted_hard_negative_v2
+end the streaming session,streaming.session.stop,targeted_hard_negative_v2
+stop streaming now,streaming.session.stop,targeted_hard_negative_v2

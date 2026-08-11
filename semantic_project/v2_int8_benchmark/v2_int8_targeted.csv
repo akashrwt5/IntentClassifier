@@ -1,0 +1,15 @@
+text,expected,predicted,confidence,correct
+it's quieter can you make it a little louder,device.volume.increase,device.volume.increase,0.9909934556869757,True
+i can still hear it make it completely silent,device.volume.mute,device.volume.mute,0.9833898128096349,True
+turn off,device.volume.mute,device.volume.mute,0.7188707558308408,True
+i need to go to airport tomorrow,reminders.task.create,reminders.task.create,0.9625232637877216,True
+i need to go to airport tommorow,reminders.task.create,reminders.task.create,0.9066239845801368,True
+it's bit loudy here can you make it quietr,device.volume.decrease,device.volume.decrease,0.9446353707020636,True
+the sound is too loud turn it down,device.volume.decrease,device.volume.decrease,0.9931162015383851,True
+the sound is too quiet make it louder,device.volume.increase,device.volume.increase,0.9876466737231867,True
+turn the sound back on,device.volume.unmute,device.volume.unmute,0.9925226299526629,True
+where is my phone,find.phone.locate,find.phone.locate,0.9921501264781866,True
+show my reminders,help.reminder.show,help.reminder.show,0.9758041960977368,True
+complete my reminder,reminders.task.complete,reminders.task.complete,0.9928945212853215,True
+start streaming,streaming.session.start,streaming.session.start,0.9899378326612507,True
+stop streaming,streaming.session.stop,streaming.session.stop,0.9949805020003806,True

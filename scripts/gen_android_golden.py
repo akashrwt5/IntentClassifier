@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+"""Regenerate the Android parity fixture from the shipped device weights.
+
+A hand-written expectations file rots the first time anyone retrains and nobody
+notices, because the numbers still look plausible. This derives them from the
+artifact the client actually loads, so `make train` followed by a forgotten
+regeneration fails the Kotlin suite instead of shipping a decalibrated client.
+
+The math here is a transcription of
+``nlu_export/export_ios_weights.py::_device_logits`` — the same function the
+shipped ``temperature`` was fitted on. It is duplicated rather than imported so
+this file reads as the SPEC the Kotlin implements, line for line.
+
+Usage:
+    PYTHONPATH=packages/buildtime:packages/runtime \\
+        python scripts/gen_android_golden.py [--bundle dist/bundle-en]
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import re
+import sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[1]
+OUT = REPO / "examples" / "android" / "src" / "main" / "assets" / "golden_vectors.json"
+
+# The device tokenizer: lowercase, split on non-alphanumerics, unigrams plus
+# ADJACENT bigrams. Deliberately NOT sklearn's `\b\w\w+\b` — the exported head is
+# featurized this way, so "fixing" it decalibrates every confidence.
+_NON_ALNUM = re.compile(r"[^a-z0-9]+")
+_UNIGRAM = re.compile(r"(?u)\b\w\w+\b")
+
+# Chosen to cover each branch of the ladder rather than to look good:
+# head commands, an apostrophe (normalization), an entity value that is
+# out-of-vocabulary and REAL, an out-of-scope utterance that is out-of-vocabulary,
+# a help-marker redirect, a corroborated-but-diffuse command, and two true
+# out-of-scope queries.
+TEXTS = [
+    "increase volume",
+    "decrease volume",
+    "mute",
+    "turn up the volume",
+    "volume up",
+    "what's my battery level",
+    "start streaming",
+    "stop streaming",
+    "change my memory",
+    "send a message to john",
+    "help me find a paper",
+    "turn off toshiba",
+    "how do i turn up the loudness",
+    "find my phone",
+    "what is the weather in paris",
+    "read my messages",
+    "turn it up its too quiet",
+    "don't change anything",
+]
+
+
+def tokenize(text: str) -> list[str]:
+    words = [w for w in _NON_ALNUM.split(text.lower()) if w]
+    if len(words) < 2:
+        return words
+    return words + [f"{words[i]} {words[i + 1]}" for i in range(len(words) - 1)]
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--bundle", type=Path, default=REPO / "dist" / "bundle-en")
+    ap.add_argument("--lang", default="en")
+    args = ap.parse_args(argv)
+
+    rel = f"models/intent/{args.lang}/intent_classifier_weights_full.json"
+    weights_path = args.bundle / rel
+    if not weights_path.exists():
+        raise SystemExit(
+            f"no device weights at {weights_path}\n"
+            f"  Build the bundle first: python -m nlu_compiler.content_bundle "
+            f"--lang {args.lang} --out {args.bundle}"
+        )
+
+    from nlu_engine.text_norm import normalize_text
+
+    w = json.loads(weights_path.read_text(encoding="utf-8"))
+    labels, vocab, idf = w["labels"], w["vocab"], w["idf"]
+    coef, intercept, temperature = w["coef"], w["intercept"], w["temperature"]
+    unigrams = {k for k in vocab if " " not in k}
+
+    def distribution(norm: str) -> list[float]:
+        counts: dict[int, int] = {}
+        for token in tokenize(norm):
+            j = vocab.get(token)
+            if j is not None:
+                counts[j] = counts.get(j, 0) + 1
+        vec, sum_sq = {}, 0.0
+        for j, c in counts.items():
+            v = (1.0 + math.log(c)) * idf[j]
+            vec[j] = v
+            sum_sq += v * v
+        norm_l2 = math.sqrt(sum_sq)
+        if norm_l2 > 0:
+            vec = {j: v / norm_l2 for j, v in vec.items()}
+        logits = [
+            intercept[i] + sum(coef[i][j] * v for j, v in vec.items()) for i in range(len(labels))
+        ]
+        top = max(logits)
+        exps = [math.exp((z - top) / temperature) for z in logits]
+        total = sum(exps)
+        return [e / total for e in exps]
+
+    def oov_ratio(norm: str) -> float:
+        tokens = _UNIGRAM.findall(norm.lower())
+        if not tokens:
+            return 0.0
+        return sum(1 for t in tokens if t not in unigrams) / len(tokens)
+
+    vectors = []
+    for text in TEXTS:
+        norm = normalize_text(text)
+        probs = distribution(norm)
+        top = max(range(len(probs)), key=probs.__getitem__)
+        vectors.append(
+            {
+                "text": text,
+                "normalized": norm,
+                "tokens": tokenize(norm)[:14],
+                "intent": labels[top],
+                "confidence": round(probs[top], 6),
+                "oov_ratio": round(oov_ratio(norm), 6),
+            }
+        )
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(
+        json.dumps(
+            {
+                "_note": "Generated by scripts/gen_android_golden.py — do not hand-edit.",
+                "weights": rel,
+                "temperature": temperature,
+                "tolerance": 1e-6,
+                "vectors": vectors,
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    print(f"  {len(vectors)} vectors from {rel} (T={temperature})  ->  " f"{OUT.relative_to(REPO)}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

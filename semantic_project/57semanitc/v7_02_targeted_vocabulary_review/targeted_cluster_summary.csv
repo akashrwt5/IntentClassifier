@@ -1,0 +1,66 @@
+cluster,intent,prediction,candidate_count,mean_confidence,high_priority_count
+home_vs_oos,Help_Home,Default Fallback Intent,9,0.7232652700000001,3
+whatsnew_vs_home,Help_WhatsNew,Help_Home,3,0.671479,0
+insert_device_vs_oos,Help_InsertDevice,Default Fallback Intent,3,0.5121196433333334,0
+battery_vs_oos,Cmd.BatteryLevel,Default Fallback Intent,3,0.40367209,0
+changing_memories_vs_memory_options,Help_ChangingMemories,Help_MemoryOptions,3,0.5042631366666667,0
+edge_mode_vs_volume,Help_EdgeMode,Cmd.VolumeDecrease,3,0.7832540833333334,1
+reminder_completion_vs_oos,reminders.complete,Default Fallback Intent,3,0.92525253,3
+thrive_score_vs_oos,Help_ThriveScore,Default Fallback Intent,2,0.86815058,2
+send_message_vs_oos,Cmd.SendMessage,Default Fallback Intent,2,0.41007465,0
+battery_vs_device_settings,Cmd.BatteryLevel,Help_DeviceSettings,2,0.28297974000000004,0
+mute_vs_volume_decrease,Cmd.VolumeMute,Cmd.VolumeDecrease,2,0.58037598,0
+battery_help_vs_oos,Help_Battery,Default Fallback Intent,2,0.6316836,1
+care_anywhere_vs_remote_programming,Help_HearingCareAnywhereConnect,Help_RemoteProgramming,2,0.6261171750000001,0
+home_vs_oos,Help_Home,Help_WhatsNew,1,0.46050036,0
+other_targeted_confusion,Help_MemoryOptions,Help_ChangingMemories,1,0.67033213,0
+other_targeted_confusion,Help_Customize,Help_IntelliVoice,1,0.31689432,0
+other_targeted_confusion,Help_DeviceSettings,Cmd.MemoryChange,1,0.52618283,0
+other_targeted_confusion,Help_DeviceSettings,Cmd.VolumeDecrease,1,0.5466235,0
+other_targeted_confusion,Help_DeviceSettings,Cmd.VolumeIncrease,1,0.8969652,1
+other_targeted_confusion,Help_DeviceSettings,Help_InsertDevice,1,0.51087874,0
+other_targeted_confusion,Help_DeviceSettings,Help_Volume,1,0.46172604,0
+other_targeted_confusion,Help_FallAlert,Help_Pairing,1,0.45615906,0
+other_targeted_confusion,Help_Health,Cmd.ActivityCycle,1,0.5985581,0
+other_targeted_confusion,Help_Health,Default Fallback Intent,1,0.60649973,0
+other_targeted_confusion,Help_MaskMode,Default Fallback Intent,1,0.4575729,0
+other_targeted_confusion,Help_MemoryOptions,Help_DeviceSettings,1,0.17267436,0
+other_targeted_confusion,Help_Customize,Cmd.VolumeDecrease,1,0.8311801,1
+other_targeted_confusion,Help_Pairing,Help_SelfCheck,1,0.57900333,0
+other_targeted_confusion,Help_SelfCheck,Help_Accessories,1,0.5615043,0
+other_targeted_confusion,Help_SelfCheck,Help_FindMyHearingAids,1,0.3014371,0
+other_targeted_confusion,Help_Tinnitus,Default Fallback Intent,1,0.41383493,0
+other_targeted_confusion,Help_VoiceAssistant,Default Fallback Intent,1,0.9921663,1
+other_targeted_confusion,Help_VoiceAssistant,Help_IntelliVoice,1,0.4583529,0
+edge_mode_vs_volume,Help_EdgeMode,Cmd.VolumeMute,1,0.82183284,1
+reminder_completion_vs_oos,reminders.complete,reminders.add,1,0.64007986,0
+care_anywhere_vs_remote_programming,Help_HearingCareAnywhereConnect,Help_AppSettings,1,0.17666185,0
+thrive_score_vs_oos,Help_ThriveScore,Help_Health,1,0.4447385,0
+other_targeted_confusion,Help_Customize,Default Fallback Intent,1,0.52620274,0
+other_targeted_confusion,Help_Customize,Cmd.MemoryChange,1,0.40367034,0
+mute_vs_volume_decrease,Cmd.VolumeMute,Cmd.VolumeUnmute,1,0.70588756,0
+other_targeted_confusion,Help_CleanCare,Help_FindMyHearingAids,1,0.30867627,0
+mute_vs_volume_decrease,Cmd.VolumeMute,Default Fallback Intent,1,0.9426115,1
+other_targeted_confusion,Cmd.ActivityRun,Cmd.BatteryLevel,1,0.17750394,0
+other_targeted_confusion,Cmd.ActivityStand,Cmd.ActivityStep,1,0.28395465,0
+other_targeted_confusion,Cmd.BatteryLevel,Help_MemoryOptions,1,0.19316837,0
+other_targeted_confusion,Cmd.FindMyPhone,Cmd.VolumeUnmute,1,0.17651704,0
+other_targeted_confusion,Cmd.MemoryChange,Default Fallback Intent,1,0.46030423,0
+other_targeted_confusion,Cmd.MemoryChange,Help_MemoryOptions,1,0.19367743,0
+other_targeted_confusion,Cmd.StreamingStart,Cmd.VolumeDecrease,1,0.63004345,0
+other_targeted_confusion,Cmd.TranslationStart,Cmd.MemoryChange,1,0.39858267,0
+other_targeted_confusion,Cmd.VolumeDecrease,Default Fallback Intent,1,0.69328547,0
+other_targeted_confusion,Cmd.VolumeIncrease,Cmd.VolumeDecrease,1,0.5142789,0
+other_targeted_confusion,Cmd.VolumeIncrease,Default Fallback Intent,1,0.21169779,0
+other_targeted_confusion,Cmd.VolumeUnmute,Default Fallback Intent,1,0.6660358,0
+other_targeted_confusion,Default Fallback Intent,Cmd.VolumeUnmute,1,0.34315604,0
+other_targeted_confusion,Default Fallback Intent,Help_Customize,1,0.47578946,0
+other_targeted_confusion,Default Fallback Intent,Help_DeviceSettings,1,0.35516167,0
+other_targeted_confusion,Default Fallback Intent,Help_Pairing,1,0.37193692,0
+other_targeted_confusion,Default Fallback Intent,Help_SelfCheck,1,0.23552303,0
+heart_rate_recovery_vs_thrive_score,Help_HeartRateRecovery,Help_ThriveScore,1,0.49652892,0
+other_targeted_confusion,Help_Accessories,Help_Home,1,0.24260876,0
+other_targeted_confusion,Help_AppSettings,Cmd.MemoryChange,1,0.8371876,1
+other_targeted_confusion,Help_AppSettings,Help_ChangingMemories,1,0.3984631,0
+other_targeted_confusion,Help_AppSettings,Help_DeviceSettings,1,0.73476225,0
+other_targeted_confusion,Help_Accessories,Help_DeviceSettings,1,0.2773274,0

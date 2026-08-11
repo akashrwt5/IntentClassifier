@@ -1,0 +1,36 @@
+{
+  "name": "subw",
+  "n_seeds": 3,
+  "locked acc": {
+    "mean": 0.8715,
+    "sd": 0.0158,
+    "min": 0.8541,
+    "max": 0.8849
+  },
+  "macro recall": {
+    "mean": 0.875,
+    "sd": 0.009,
+    "min": 0.8648,
+    "max": 0.8814
+  },
+  "stress acc": {
+    "mean": 0.7528,
+    "sd": 0.0385,
+    "min": 0.7239,
+    "max": 0.7965
+  },
+  "OOD raw": {
+    "mean": 0.4367,
+    "sd": 0.0585,
+    "min": 0.3871,
+    "max": 0.5012
+  },
+  "OOD reject@best": {
+    "mean": 0.8395,
+    "sd": 0.016
+  },
+  "in-scope@best": {
+    "mean": 0.7827,
+    "sd": 0.0217
+  }
+}

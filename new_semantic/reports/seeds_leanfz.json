@@ -1,0 +1,36 @@
+{
+  "name": "leanfz",
+  "n_seeds": 3,
+  "locked acc": {
+    "mean": 0.878,
+    "sd": 0.0221,
+    "min": 0.8588,
+    "max": 0.9021
+  },
+  "macro recall": {
+    "mean": 0.8745,
+    "sd": 0.0176,
+    "min": 0.8544,
+    "max": 0.887
+  },
+  "stress acc": {
+    "mean": 0.7328,
+    "sd": 0.0413,
+    "min": 0.6991,
+    "max": 0.7788
+  },
+  "OOD raw": {
+    "mean": 0.8569,
+    "sd": 0.0137,
+    "min": 0.8437,
+    "max": 0.871
+  },
+  "OOD reject@best": {
+    "mean": 0.8825,
+    "sd": 0.0234
+  },
+  "in-scope@best": {
+    "mean": 0.8606,
+    "sd": 0.0363
+  }
+}

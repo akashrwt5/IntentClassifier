@@ -1,0 +1,51 @@
+text,expected,prediction,confidence,correct,top1,top2,top3
+make it louder,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.8918453454971313,True,Cmd.VolumeIncrease=0.8918,Cmd.VolumeUnmute=0.0194,Cmd.VolumeDecrease=0.0182
+turn the volume up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.9022440910339355,True,Cmd.VolumeIncrease=0.9022,Cmd.VolumeUnmute=0.0423,Help_Volume=0.0045
+it's too loud,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.9471102952957153,True,Cmd.VolumeDecrease=0.9471,Cmd.VolumeMute=0.0239,Cmd.VolumeIncrease=0.0052
+make it quieter,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.9380191564559937,True,Cmd.VolumeDecrease=0.9380,Cmd.VolumeIncrease=0.0247,Cmd.VolumeMute=0.0127
+mute everything,Cmd.VolumeMute,Cmd.VolumeMute,0.5935331583023071,True,Cmd.VolumeMute=0.5935,Default Fallback Intent=0.2704,Cmd.VolumeUnmute=0.0276
+cut all the sound,Cmd.VolumeMute,Cmd.VolumeMute,0.44708240032196045,True,Cmd.VolumeMute=0.4471,Cmd.VolumeDecrease=0.4359,Cmd.StreamingStop=0.0595
+turn the sound back on,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.9023815989494324,True,Cmd.VolumeUnmute=0.9024,Cmd.ListenMessage=0.0232,Cmd.FindMyPhone=0.0083
+turn on my hearing aids,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.7643800377845764,True,Cmd.VolumeUnmute=0.7644,Default Fallback Intent=0.0861,Cmd.VolumeMute=0.0316
+how much battery do I have,Cmd.BatteryLevel,Cmd.BatteryLevel,0.7992630004882812,True,Cmd.BatteryLevel=0.7993,Help_Battery=0.1647,Cmd.ActivityCalories=0.0079
+are my hearing aids getting low,Cmd.BatteryLevel,Help_DeviceSettings,0.2550707757472992,False,Help_DeviceSettings=0.2551,Help_Volume=0.1357,Help_Tinnitus=0.1237
+will they last through the movie,Cmd.BatteryLevel,Default Fallback Intent,0.7489013671875,False,Default Fallback Intent=0.7489,Cmd.BatteryLevel=0.1445,reminders.complete=0.0150
+should I charge them now,Cmd.BatteryLevel,Cmd.BatteryLevel,0.7542100548744202,True,Cmd.BatteryLevel=0.7542,Help_Battery=0.1736,Default Fallback Intent=0.0213
+change my hearing aid program,Cmd.MemoryChange,Cmd.MemoryChange,0.9940609335899353,True,Cmd.MemoryChange=0.9941,Help_ChangingMemories=0.0020,reminders.add=0.0008
+load my normal configuration,Cmd.MemoryChange,Help_MemoryOptions,0.1836610734462738,False,Help_MemoryOptions=0.1837,Default Fallback Intent=0.1673,Help_DeviceSettings=0.0870
+what is memory,Help_ChangingMemories,Help_MemoryOptions,0.4445328712463379,False,Help_MemoryOptions=0.4445,Cmd.MemoryChange=0.2005,Help_ChangingMemories=0.1449
+how do different memories work,Help_ChangingMemories,Help_MemoryOptions,0.678080677986145,False,Help_MemoryOptions=0.6781,Help_ChangingMemories=0.1318,Help_DeviceSettings=0.0560
+how do I access my hearing aid programs,Help_MemoryOptions,Help_MemoryOptions,0.31609606742858887,True,Help_MemoryOptions=0.3161,Help_ChangingMemories=0.2724,Help_AppSettings=0.1349
+can I set a favourite program,Help_MemoryOptions,Help_ChangingMemories,0.534079909324646,False,Help_ChangingMemories=0.5341,Cmd.MemoryChange=0.3793,Help_MemoryOptions=0.0512
+where is my phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.889930248260498,True,Cmd.FindMyPhone=0.8899,Default Fallback Intent=0.0606,Help_FindMyHearingAids=0.0116
+buzz my phone so I can hear it,Cmd.FindMyPhone,Cmd.FindMyPhone,0.3008255064487457,True,Cmd.FindMyPhone=0.3008,Default Fallback Intent=0.1719,Cmd.VolumeUnmute=0.0986
+where are my hearing aids,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9226944446563721,True,Help_FindMyHearingAids=0.9227,Cmd.FindMyPhone=0.0285,Default Fallback Intent=0.0078
+how can I find my left hearing aid,Help_FindMyHearingAids,Help_FindMyHearingAids,0.9661662578582764,True,Help_FindMyHearingAids=0.9662,Cmd.FindMyPhone=0.0148,Help_InsertDevice=0.0024
+set a reminder,reminders.add,reminders.add,0.9872310757637024,True,reminders.add=0.9872,Cmd.SendMessage=0.0021,Help_Reminder=0.0020
+remind me to take my medicine,reminders.add,reminders.add,0.9917775392532349,True,reminders.add=0.9918,reminders.complete=0.0012,Cmd.MemoryChange=0.0009
+"I took my pills, clear the reminder",reminders.complete,reminders.complete,0.5110008716583252,True,reminders.complete=0.5110,Default Fallback Intent=0.2841,reminders.add=0.0950
+"I did it, cross it off",reminders.complete,Default Fallback Intent,0.9731334447860718,False,Default Fallback Intent=0.9731,reminders.complete=0.0095,Cmd.ListenMessage=0.0016
+"that's handled, cross it off",reminders.complete,Default Fallback Intent,0.9865360856056213,False,Default Fallback Intent=0.9865,reminders.complete=0.0032,Cmd.ListenMessage=0.0008
+start streaming,Cmd.StreamingStart,Cmd.StreamingStart,0.48876988887786865,True,Cmd.StreamingStart=0.4888,Default Fallback Intent=0.2795,Cmd.StreamingStop=0.0536
+start my audio stream,Cmd.StreamingStart,Cmd.StreamingStart,0.9477612972259521,True,Cmd.StreamingStart=0.9478,Cmd.StreamingStop=0.0099,Help_Pairing=0.0055
+stop streaming,Cmd.StreamingStop,Default Fallback Intent,0.5648577809333801,False,Default Fallback Intent=0.5649,Cmd.StreamingStop=0.3394,reminders.complete=0.0105
+stop the audio stream,Cmd.StreamingStop,Cmd.StreamingStop,0.9479171633720398,True,Cmd.StreamingStop=0.9479,Cmd.VolumeMute=0.0160,Cmd.StreamingStart=0.0057
+send a text,Cmd.SendMessage,Default Fallback Intent,0.6778147220611572,False,Default Fallback Intent=0.6778,Cmd.SendMessage=0.2543,Cmd.FindMyPhone=0.0150
+text a contact with my news,Cmd.SendMessage,Default Fallback Intent,0.9536483883857727,False,Default Fallback Intent=0.9536,Cmd.SendMessage=0.0239,Cmd.ListenMessage=0.0050
+log the miles I just covered,Cmd.ActivityRun,Cmd.BatteryLevel,0.16742968559265137,False,Cmd.BatteryLevel=0.1674,Cmd.ActivityRun=0.1392,Cmd.ActivityCycle=0.1384
+how many steps did I take,Cmd.ActivityStep,Cmd.ActivityStep,0.8408557176589966,True,Cmd.ActivityStep=0.8409,Cmd.ActivityWalk=0.0404,Help_Health=0.0159
+how long have I been standing,Cmd.ActivityStand,Cmd.ActivityStand,0.8964998126029968,True,Cmd.ActivityStand=0.8965,Cmd.BatteryLevel=0.0139,Cmd.ActivityStep=0.0101
+how far did I walk,Cmd.ActivityWalk,Cmd.ActivityWalk,0.6607236266136169,True,Cmd.ActivityWalk=0.6607,Default Fallback Intent=0.1376,Cmd.ActivityStep=0.0251
+run a self check,Help_SelfCheck,Help_SelfCheck,0.5669915676116943,True,Help_SelfCheck=0.5670,Default Fallback Intent=0.3549,Help_InsertDevice=0.0081
+how do I know if my microphone is working,Help_SelfCheck,Help_Accessories,0.3571893870830536,False,Help_Accessories=0.3572,Default Fallback Intent=0.1659,Help_DeviceSettings=0.1651
+where are my device settings,Help_DeviceSettings,Help_DeviceSettings,0.5876415371894836,True,Help_DeviceSettings=0.5876,Help_AppSettings=0.1731,Help_Home=0.0415
+how do I change my device settings,Help_DeviceSettings,Help_DeviceSettings,0.6742396950721741,True,Help_DeviceSettings=0.6742,Help_AppSettings=0.1607,Help_Accessories=0.0190
+how do I navigate the app,Help_Home,Help_Home,0.6546454429626465,True,Help_Home=0.6546,Default Fallback Intent=0.1083,Help_AppSettings=0.0699
+where do I go to do things,Help_Home,Default Fallback Intent,0.9281664490699768,False,Default Fallback Intent=0.9282,Help_Home=0.0439,Help_WhatsNew=0.0017
+show me the quick start guide,Help_WhatsNew,Help_Home,0.5503290295600891,False,Help_Home=0.5503,Help_WhatsNew=0.2678,Help_AppSettings=0.0210
+how should I store my hearing aids overnight,Help_CleanCare,Help_FindMyHearingAids,0.2936669886112213,False,Help_FindMyHearingAids=0.2937,Default Fallback Intent=0.1544,Help_InsertDevice=0.1231
+how do I wear my hearing aid correctly,Help_InsertDevice,Default Fallback Intent,0.6527201533317566,False,Default Fallback Intent=0.6527,Help_InsertDevice=0.0748,Help_MaskMode=0.0561
+what is the weather today,Default Fallback Intent,Default Fallback Intent,0.9959725737571716,True,Default Fallback Intent=0.9960,Cmd.BatteryLevel=0.0004,Help_Home=0.0004
+tell me a joke,Default Fallback Intent,Default Fallback Intent,0.9930657148361206,True,Default Fallback Intent=0.9931,Help_Home=0.0006,Cmd.SendMessage=0.0005
+what is the capital of France,Default Fallback Intent,Default Fallback Intent,0.9952914714813232,True,Default Fallback Intent=0.9953,Cmd.FindMyPhone=0.0004,Help_Home=0.0004
+play some music,Default Fallback Intent,Default Fallback Intent,0.9943845272064209,True,Default Fallback Intent=0.9944,Cmd.BatteryLevel=0.0004,Cmd.ListenMessage=0.0004

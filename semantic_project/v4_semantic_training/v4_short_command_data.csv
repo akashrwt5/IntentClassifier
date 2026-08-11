@@ -1,0 +1,53 @@
+text,intent,source
+louder,device.volume.increase,v4_short_commands
+turn it up,device.volume.increase,v4_short_commands
+turn the sound up,device.volume.increase,v4_short_commands
+increase volume,device.volume.increase,v4_short_commands
+raise the volume,device.volume.increase,v4_short_commands
+make it louder,device.volume.increase,v4_short_commands
+more volume,device.volume.increase,v4_short_commands
+quieter,device.volume.decrease,v4_short_commands
+turn it down,device.volume.decrease,v4_short_commands
+turn the sound down,device.volume.decrease,v4_short_commands
+decrease volume,device.volume.decrease,v4_short_commands
+lower the volume,device.volume.decrease,v4_short_commands
+make it quieter,device.volume.decrease,v4_short_commands
+less volume,device.volume.decrease,v4_short_commands
+mute,device.volume.mute,v4_short_commands
+mute it,device.volume.mute,v4_short_commands
+silence it,device.volume.mute,v4_short_commands
+make it silent,device.volume.mute,v4_short_commands
+turn the sound off,device.volume.mute,v4_short_commands
+stop the sound,device.volume.mute,v4_short_commands
+unmute,device.volume.unmute,v4_short_commands
+unmute it,device.volume.unmute,v4_short_commands
+turn sound back on,device.volume.unmute,v4_short_commands
+turn it back on,device.volume.unmute,v4_short_commands
+restore the sound,device.volume.unmute,v4_short_commands
+change memory,device.memory.change,v4_short_commands
+change my memory,device.memory.change,v4_short_commands
+update memory,device.memory.change,v4_short_commands
+find my phone,find.phone.locate,v4_short_commands
+locate my phone,find.phone.locate,v4_short_commands
+where is my phone,find.phone.locate,v4_short_commands
+show reminders,help.reminder.show,v4_short_commands
+show my reminders,help.reminder.show,v4_short_commands
+list reminders,help.reminder.show,v4_short_commands
+my reminders,help.reminder.show,v4_short_commands
+complete reminder,reminders.task.complete,v4_short_commands
+finish reminder,reminders.task.complete,v4_short_commands
+mark reminder complete,reminders.task.complete,v4_short_commands
+complete that reminder,reminders.task.complete,v4_short_commands
+set a reminder,reminders.task.create,v4_short_commands
+create a reminder,reminders.task.create,v4_short_commands
+add a reminder,reminders.task.create,v4_short_commands
+remind me tomorrow,reminders.task.create,v4_short_commands
+set reminder,reminders.task.create,v4_short_commands
+start streaming,streaming.session.start,v4_short_commands
+start the stream,streaming.session.start,v4_short_commands
+begin streaming,streaming.session.start,v4_short_commands
+play streaming,streaming.session.start,v4_short_commands
+stop streaming,streaming.session.stop,v4_short_commands
+stop the stream,streaming.session.stop,v4_short_commands
+end streaming,streaming.session.stop,v4_short_commands
+end the stream,streaming.session.stop,v4_short_commands

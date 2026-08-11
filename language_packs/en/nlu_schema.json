@@ -6,7 +6,7 @@
   "oov_reject_ratio": 0.25,
   "oov_bypass_confidence": 0.97,
   "semantic_threshold": 0.4,
-  "semantic_rescue_enabled": false,
+  "semantic_rescue_enabled": true,
   "keyword_triggers": [
     {
       "intent": "Cmd.TranslationStart",
@@ -645,5 +645,6 @@
   },
   "uncertain_confirm": {
     "cancel_message": "Okay, I won't."
-  }
+  },
+  "stage2_backstop_confidence": 0.3
 }

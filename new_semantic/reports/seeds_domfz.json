@@ -1,0 +1,36 @@
+{
+  "name": "domfz",
+  "n_seeds": 3,
+  "locked acc": {
+    "mean": 0.893,
+    "sd": 0.0171,
+    "min": 0.8826,
+    "max": 0.9128
+  },
+  "macro recall": {
+    "mean": 0.8837,
+    "sd": 0.0166,
+    "min": 0.8705,
+    "max": 0.9024
+  },
+  "stress acc": {
+    "mean": 0.8083,
+    "sd": 0.0205,
+    "min": 0.7947,
+    "max": 0.8319
+  },
+  "OOD raw": {
+    "mean": 0.7932,
+    "sd": 0.0571,
+    "min": 0.737,
+    "max": 0.8511
+  },
+  "OOD reject@best": {
+    "mean": 0.8941,
+    "sd": 0.0296
+  },
+  "in-scope@best": {
+    "mean": 0.8549,
+    "sd": 0.0307
+  }
+}

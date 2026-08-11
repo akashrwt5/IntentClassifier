@@ -1,0 +1,33 @@
+text,intent,source
+the audio is quiet but don't mute it make it louder,device.volume.increase,production_hard_negative_v1
+"it's too quiet, don't silence it, turn it up",device.volume.increase,production_hard_negative_v1
+"I can barely hear it, keep it on and make it louder",device.volume.increase,production_hard_negative_v1
+"don't turn the sound off, increase the volume",device.volume.increase,production_hard_negative_v1
+keep the sound on but raise the volume,device.volume.increase,production_hard_negative_v1
+"it is quiet here, make it louder without muting",device.volume.increase,production_hard_negative_v1
+"I don't want mute, I want more volume",device.volume.increase,production_hard_negative_v1
+"don't silence it, just make it louder",device.volume.increase,production_hard_negative_v1
+keep audio enabled and turn it up,device.volume.increase,production_hard_negative_v1
+"the sound is low, increase it but don't mute it",device.volume.increase,production_hard_negative_v1
+the audio is loud but don't mute it make it quieter,device.volume.decrease,production_hard_negative_v1
+"it's too loud, keep it on and lower the volume",device.volume.decrease,production_hard_negative_v1
+"don't silence it, just turn the volume down",device.volume.decrease,production_hard_negative_v1
+keep sound enabled but reduce the volume,device.volume.decrease,production_hard_negative_v1
+"I don't want mute, I want less volume",device.volume.decrease,production_hard_negative_v1
+lower the sound without turning it off,device.volume.decrease,production_hard_negative_v1
+make it quieter but keep audio on,device.volume.decrease,production_hard_negative_v1
+"don't turn it off, just reduce the volume",device.volume.decrease,production_hard_negative_v1
+"the sound is high, lower it without muting",device.volume.decrease,production_hard_negative_v1
+keep it audible but turn it down,device.volume.decrease,production_hard_negative_v1
+I want complete silence,device.volume.mute,production_hard_negative_v1
+silence the sound completely,device.volume.mute,production_hard_negative_v1
+make it completely silent,device.volume.mute,production_hard_negative_v1
+mute the audio now,device.volume.mute,production_hard_negative_v1
+I don't want to hear anything,device.volume.mute,production_hard_negative_v1
+turn the sound completely off,device.volume.mute,production_hard_negative_v1
+turn the sound back on,device.volume.unmute,production_hard_negative_v1
+restore the sound,device.volume.unmute,production_hard_negative_v1
+unmute the audio,device.volume.unmute,production_hard_negative_v1
+enable sound again,device.volume.unmute,production_hard_negative_v1
+I want audio back,device.volume.unmute,production_hard_negative_v1
+turn audio back on,device.volume.unmute,production_hard_negative_v1

@@ -1,0 +1,2065 @@
+text,intent,predicted_intent,confidence
+i need to cut the volume on my left aid,device.volume.mute,device.volume.decrease,0.99941957
+i need you to dismiss my latest reminder,reminders.task.complete,reminders.task.complete,0.999936
+hey can you turn the right aid back on,device.volume.unmute,device.volume.unmute,0.999828
+"i need help, find my cellphone around here",find.phone.locate,find.phone.locate,0.9998104
+television memory,device.memory.change,device.memory.change,0.998284
+"hey, stream my computer to my hearing aids",streaming.session.start,streaming.session.start,0.9998572
+can you switch to gym program,device.memory.change,device.memory.change,0.99971235
+would you take both hearing aids off mute,device.volume.unmute,device.volume.mute,0.9993473
+help me ease down the volume on the right aid,device.volume.decrease,device.volume.decrease,0.99990314
+can you turn on my program for restaurant,device.memory.change,device.memory.change,0.999259
+hey can you mark my task as complete,reminders.task.complete,reminders.task.complete,0.99980927
+can you find phone,find.phone.locate,find.phone.locate,0.9986051
+i need help understanding what kind of reminders can i set,help.reminder.show,help.reminder.show,0.99993527
+i want you to unlink phone calls,streaming.session.stop,streaming.session.stop,0.99967057
+i want to disconnect my hearing aids from the microphone,streaming.session.stop,streaming.session.stop,0.9996779
+i walked into a restaurant,device.memory.change,device.memory.change,0.9335725
+please set reminder for tomorrow morning,reminders.task.create,reminders.task.create,0.999851
+would you connect to youtube and start streaming,streaming.session.start,streaming.session.start,0.99967057
+can you please set an alarm to call the doctor every day at noon,reminders.task.create,reminders.task.create,0.9998663
+i'd like you to connect to a phone call and start streaming,streaming.session.start,streaming.session.start,0.99981755
+"ugh, help me find my handset somewhere",find.phone.locate,find.phone.locate,0.99975985
+"help me out, ring my android somewhere",find.phone.locate,find.phone.locate,0.99971414
+i'd like to silence the hearing aids,device.volume.mute,device.volume.mute,0.9998276
+i'd like you to shut off the sound on my aids,device.volume.mute,device.volume.mute,0.9995133
+hey can you switch off the sound on the left aid,device.volume.mute,device.volume.mute,0.9995897
+"quick, ring my mobile phone",find.phone.locate,find.phone.locate,0.9995301
+set an alert for me,reminders.task.create,help.reminder.show,0.9986955
+please turn my hearing aid back on,device.volume.unmute,device.volume.unmute,0.9998064
+kindly turn the volume all the way down on both hearing aids,device.volume.mute,device.volume.decrease,0.9995389
+change my hearing aid program to pub,device.memory.change,device.memory.change,0.99976903
+i would like to end the stream from a phone call,streaming.session.stop,streaming.session.stop,0.99989325
+hey can you search for my mobile in the living room,find.phone.locate,find.phone.locate,0.9997722
+could you shut off the sound on my left aid,device.volume.mute,device.volume.mute,0.9994958
+please create a reminder for tomorrow afternoon to eat breakfast,reminders.task.create,reminders.task.create,0.99992263
+hey can you turn off the sound on my hearing aid,device.volume.mute,device.volume.mute,0.99962187
+quickly ease down the volume on my hearing aids,device.volume.decrease,device.volume.increase,0.9999236
+i need you to check off my medication reminder,reminders.task.complete,reminders.task.complete,0.99991244
+can you decrease the volume in my aids,device.volume.decrease,device.volume.decrease,0.9998928
+"quick, track down my smartphone somewhere",find.phone.locate,find.phone.locate,0.9996856
+start streaming the television,streaming.session.start,streaming.session.start,0.9991764
+"hey, mark the alarm finished",reminders.task.complete,reminders.task.complete,0.9998645
+change my hearing aid program to golf,device.memory.change,device.memory.change,0.99979424
+help me stop the stream coming from my phone,streaming.session.stop,streaming.session.stop,0.9998469
+i want to undo the mute on the left aid,device.volume.unmute,device.volume.unmute,0.9998981
+could you unmute my hearing device,device.volume.unmute,device.volume.unmute,0.9997401
+"hey, stream my remote mic to my hearing aids",streaming.session.start,streaming.session.start,0.99980253
+please change to tinnitus,device.memory.change,device.memory.change,0.99964195
+i want to ease down the volume on my device,device.volume.decrease,device.volume.increase,0.99993205
+"help me out, search for my phone around here",find.phone.locate,find.phone.locate,0.9996511
+can you make a reminder to drink water at 5pm,reminders.task.create,reminders.task.create,0.99994797
+can you drop the volume on both hearing aids,device.volume.decrease,device.volume.mute,0.99918735
+ring my mobile at home,find.phone.locate,find.phone.locate,0.9993424
+can you show me how to duplicate reminders,help.reminder.show,help.reminder.show,0.99993104
+go ahead and undo the mute on my aids,device.volume.unmute,device.volume.unmute,0.9998666
+just make my hearing aids quieter,device.volume.decrease,device.volume.decrease,0.9998313
+could you turn down the volume on my left aid,device.volume.decrease,device.volume.decrease,0.99978864
+i need you to turn both my aids off completely,device.volume.mute,device.volume.mute,0.9997211
+turn off remote mic streaming,streaming.session.stop,streaming.session.stop,0.9989394
+hey can you unlink my laptop,streaming.session.stop,streaming.session.stop,0.9996006
+quickly lower the volume on my devices,device.volume.decrease,device.volume.decrease,0.9999153
+where do i go to resume the reminder feature,help.reminder.show,help.reminder.show,0.9999131
+i would like to max out the hearing aids a little,device.volume.increase,device.volume.increase,0.99974495
+quickly mark my reminder as done,reminders.task.complete,reminders.task.complete,0.9999111
+could you turn the volume all the way down on my right ear hearing aid,device.volume.mute,device.volume.decrease,0.9995446
+kindly turn up the hearing aids,device.volume.increase,device.volume.increase,0.9995532
+"hey, mark the reminder as done",reminders.task.complete,reminders.task.complete,0.9999286
+i want you to switch off the sound on my left aid,device.volume.mute,device.volume.mute,0.99974936
+go ahead and unlink my tablet,streaming.session.stop,streaming.session.stop,0.99975044
+can you set to television memory,device.memory.change,device.memory.change,0.9997461
+can you kill the volume on my left aid,device.volume.mute,device.volume.decrease,0.9992397
+change my memory,device.memory.change,device.memory.change,0.99940985
+hey can you mark my active reminder done,reminders.task.complete,reminders.task.complete,0.99994105
+change memory to one,device.memory.change,device.memory.change,0.99982226
+set a reminder for tomorrow afternoon to leave for work,reminders.task.create,reminders.task.create,0.99993205
+turn up my hearing aids,device.volume.increase,device.volume.increase,0.9992808
+"i need help, track my iphone at home",find.phone.locate,find.phone.locate,0.99975103
+hey can you stop the audio from my computer,streaming.session.stop,streaming.session.stop,0.99988794
+i'd like you to make both my aids quieter,device.volume.decrease,device.volume.decrease,0.9996749
+please turn volume off,device.volume.mute,device.volume.mute,0.9996159
+i'm settling in for tv time,device.memory.change,device.memory.change,0.7238587
+can you everyday,reminders.task.create,reminders.task.create,0.9926357
+can you set memory to two,device.memory.change,device.memory.change,0.99983305
+please turn the sound up on my devices,device.volume.increase,device.volume.increase,0.99989355
+i want to bring the sound back on my devices,device.volume.unmute,device.volume.unmute,0.9998749
+switch my hearing aid program to telephone,device.memory.change,device.memory.change,0.9997748
+just dismiss the reminder,reminders.task.complete,reminders.task.complete,0.9997944
+where do i go to set a reminder in this app,help.reminder.show,reminders.task.create,0.9998587
+let's kill the volume on my hearing aid,device.volume.mute,device.volume.decrease,0.99946326
+hey can you mark my alarm as done,reminders.task.complete,reminders.task.complete,0.9998888
+"hey, route my laptop through my hearing aids",streaming.session.start,streaming.session.start,0.99870133
+put both my aids on mute,device.volume.mute,device.volume.mute,0.9992682
+please search for my handset somewhere,find.phone.locate,find.phone.locate,0.99967706
+can you remind me to take medicine next thursday at 4 p.m.,reminders.task.create,reminders.task.create,0.99991095
+let's bring up the volume on my hearing device,device.volume.increase,device.volume.increase,0.9996988
+please track my android phone in this room,find.phone.locate,find.phone.locate,0.999801
+can you set a reminder to pick up my prescription every morning,reminders.task.create,reminders.task.create,0.9999399
+direct hearing aid connection,streaming.session.start,streaming.session.start,0.9898245
+i'd like to unlink a video,streaming.session.stop,streaming.session.stop,0.999602
+would you stop the audio from the tv,streaming.session.stop,streaming.session.stop,0.9998874
+can you please stop streaming from a podcast,streaming.session.stop,streaming.session.stop,0.999901
+i need you to stream audio from a podcast,streaming.session.start,streaming.session.start,0.9998569
+set to golf program,device.memory.change,device.memory.change,0.9998311
+i need you to cut the volume on my aids,device.volume.mute,device.volume.decrease,0.99946594
+can you stop all sound on my left hearing aid,device.volume.mute,device.volume.mute,0.9999081
+go ahead and play my laptop through my hearing aids,streaming.session.start,streaming.session.start,0.9997614
+i want to turn down the hearing aids,device.volume.decrease,device.volume.decrease,0.999899
+please set memory to train,device.memory.change,device.memory.change,0.99975365
+would you please kill the volume on my left aid,device.volume.mute,device.volume.decrease,0.9993862
+how does one rename a recurring reminder,help.reminder.show,help.reminder.show,0.9998691
+"hey, could you please mark my reminder done",reminders.task.complete,reminders.task.complete,0.99992234
+could you please create a reminder for at 9am to check my blood sugar,reminders.task.create,reminders.task.create,0.99991864
+"hey, can i get reminders on my hearing aids",help.reminder.show,help.reminder.show,0.9999185
+can you connect to phone calls and start streaming,streaming.session.start,streaming.session.start,0.99988836
+"hey, could you please start listening to my ipad",streaming.session.start,streaming.session.start,0.9993803
+i need to turn the volume back on for my aids,device.volume.unmute,device.volume.unmute,0.99979746
+let's knock down the volume on my right ear hearing aid,device.volume.decrease,device.volume.decrease,0.9998712
+can you memory number one,device.memory.change,device.memory.change,0.9996135
+"one thing, what do reminders do",help.reminder.show,help.reminder.show,0.99984604
+kindly stop listening to my remote microphone,streaming.session.stop,streaming.session.stop,0.9995236
+please change memory to number two,device.memory.change,device.memory.change,0.9998305
+can you turn the volume all the way down on my aids,device.volume.mute,device.volume.decrease,0.9996224
+"i need help, track my telephone at home",find.phone.locate,find.phone.locate,0.99982643
+i need you to stop all sound on the hearing aids,device.volume.mute,device.volume.mute,0.99973416
+go ahead and turn down my right ear hearing aid,device.volume.decrease,device.volume.decrease,0.99982345
+just decrease my right ear hearing aid volume,device.volume.decrease,device.volume.decrease,0.99991745
+remember to turn off my phone everyday at 11 p.m.,reminders.task.create,reminders.task.create,0.99957794
+can you switch program to theater,device.memory.change,device.memory.change,0.9998065
+hey can you find my handset around here,find.phone.locate,find.phone.locate,0.9997184
+help me edit reminders,help.reminder.show,help.reminder.show,0.99983513
+lower the listening level,device.volume.decrease,device.volume.decrease,0.9986079
+please unmute my hearing aids,device.volume.unmute,device.volume.unmute,0.999707
+check off my reminder,reminders.task.complete,reminders.task.complete,0.9998079
+please set a reminder for at 9am to join the meeting,reminders.task.create,reminders.task.create,0.9999091
+help me turn the volume all the way down on my right ear hearing aid,device.volume.mute,device.volume.decrease,0.99959016
+would you please cut the volume on my left ear hearing aid,device.volume.mute,device.volume.decrease,0.99938554
+let's make my aids louder,device.volume.increase,device.volume.increase,0.9997303
+kindly turn the sound down on my device,device.volume.decrease,device.volume.decrease,0.9999315
+let's cross off this task,reminders.task.complete,reminders.task.complete,0.9998277
+i'd like you to stop the stream coming from an audiobook,streaming.session.stop,streaming.session.stop,0.99965686
+i don't want to forget this,reminders.task.create,reminders.task.complete,0.99929106
+set memory to one,device.memory.change,device.memory.change,0.9998155
+can you change to auditorium program,device.memory.change,device.memory.change,0.9998106
+kindly turn the volume all the way down on the left aid,device.volume.mute,device.volume.decrease,0.9994636
+can you please finish this reminder,reminders.task.complete,reminders.task.complete,0.99994016
+turn off streaming from youtube,streaming.session.stop,streaming.session.stop,0.99953467
+i need you to bump up the volume on my right aid,device.volume.increase,device.volume.increase,0.9999222
+i would like to disconnect from my phone,streaming.session.stop,streaming.session.stop,0.9994514
+i'd like to play an audiobook through my hearing aids,streaming.session.start,streaming.session.start,0.9996041
+track my cell phone in my car,find.phone.locate,find.phone.locate,0.99970776
+would you mark the task finished,reminders.task.complete,reminders.task.complete,0.9997834
+could you stop the stream coming from my laptop,streaming.session.stop,streaming.session.stop,0.99991006
+can you turn my hearing aids up,device.volume.increase,device.volume.increase,0.9993971
+"quick, where did i leave my mobile phone somewhere",find.phone.locate,find.phone.locate,0.9996653
+just disconnect my hearing aids from youtube,streaming.session.stop,streaming.session.stop,0.9998317
+would you please tone down my device,device.volume.decrease,device.volume.increase,0.99971163
+"hey, bump up the volume on my hearing aid",device.volume.increase,device.volume.increase,0.9999137
+"hey, could you please undo the mute on my hearing device",device.volume.unmute,device.volume.unmute,0.9999175
+can you please set a reminder for in 20 minutes to leave for the airport,reminders.task.create,reminders.task.create,0.99990386
+i need you to dismiss this task,reminders.task.complete,reminders.task.complete,0.9997826
+"hey, could you please reduce the right aid volume",device.volume.decrease,device.volume.decrease,0.99990976
+"help me out, locate my mobile phone in my car",find.phone.locate,find.phone.locate,0.9998096
+i'd like to turn off streaming from the microphone,streaming.session.stop,streaming.session.stop,0.9998999
+i need to turn the sound down on my right aid,device.volume.decrease,device.volume.decrease,0.9998421
+make a note to remind me,reminders.task.create,reminders.task.create,0.9997806
+help me start streaming from my meeting audio,streaming.session.start,streaming.session.start,0.99984807
+"ugh, i can't find my phone at home",find.phone.locate,find.phone.locate,0.99974626
+no sound whatsoever please,device.volume.mute,device.volume.mute,0.99899524
+please dismiss the reminder,reminders.task.complete,reminders.task.complete,0.9998031
+hey can you track my cell phone,find.phone.locate,find.phone.locate,0.9997406
+how does one customize my reminder settings,help.reminder.show,help.reminder.show,0.9998305
+i would like to unlink an audiobook,streaming.session.stop,streaming.session.stop,0.9998055
+change to master memory,device.memory.change,device.memory.change,0.99975747
+i need you to mark my alarm finished,reminders.task.complete,reminders.task.complete,0.99989897
+would you please turn my hearing devices back on,device.volume.unmute,device.volume.unmute,0.9997
+i'd like to start streaming from my music player,streaming.session.start,streaming.session.start,0.9998869
+can you send the audio from my computer to my hearing aids,streaming.session.start,streaming.session.start,0.9998329
+how can i remove the reminder feature,help.reminder.show,help.reminder.show,0.99990577
+could you please remind me to read a book tomorrow evening,reminders.task.create,reminders.task.create,0.9999107
+do you know how many reminders can i set,help.reminder.show,help.reminder.show,0.9999114
+can you undo the mute on my hearing aids,device.volume.unmute,device.volume.unmute,0.9998786
+crank the sound up a bit,device.volume.increase,device.volume.increase,0.99909943
+could you set a reminder for when i get home to feed the cat,reminders.task.create,reminders.task.create,0.9998725
+could you mark my current reminder as complete,reminders.task.complete,reminders.task.complete,0.999957
+i want you to lower the volume on my devices,device.volume.decrease,device.volume.decrease,0.9999303
+can you get the sound working again on my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.99983597
+would you restore the sound on my hearing aid,device.volume.unmute,device.volume.mute,0.99939317
+could you cut the volume on my device,device.volume.mute,device.volume.decrease,0.9991971
+please decrease the volume on both hearing aids,device.volume.decrease,device.volume.decrease,0.99985325
+"so, can reminders repeat daily",help.reminder.show,help.reminder.show,0.9998066
+"i need help, can you find my mobile phone nearby",find.phone.locate,find.phone.locate,0.9997622
+i want you to turn off the connection to my computer,streaming.session.stop,streaming.session.stop,0.99979067
+i want to tone down my right hearing aid,device.volume.decrease,device.volume.decrease,0.9998593
+i need to undo the mute on the right aid,device.volume.unmute,device.volume.unmute,0.9999039
+can you more volume please,device.volume.increase,device.volume.increase,0.99971163
+please mark last reminder complete,reminders.task.complete,reminders.task.complete,0.9998705
+can you ring my cell phone nearby,find.phone.locate,find.phone.locate,0.9995539
+please set to quiet program,device.memory.change,device.memory.change,0.99979174
+stop piping audio to my ears,streaming.session.stop,streaming.session.stop,0.9985419
+can you please set a reminder to read a book tomorrow afternoon,reminders.task.create,reminders.task.create,0.99993867
+kindly route my phone through my hearing aids,streaming.session.start,streaming.session.start,0.99899834
+i would like to stop the stream coming from a video,streaming.session.stop,streaming.session.stop,0.9997994
+i need to restore the sound on my right ear hearing aid,device.volume.unmute,device.volume.mute,0.9993962
+stream the television audio,streaming.session.start,streaming.session.start,0.99920994
+remind me to wash the car in 4 hours,reminders.task.create,reminders.task.create,0.99988925
+quickly mark this reminder finished,reminders.task.complete,reminders.task.complete,0.99988633
+i can't find my handset ring it,find.phone.locate,find.phone.locate,0.9994185
+"i'm about to watch my phone, can you connect my hearing aids",streaming.session.start,streaming.session.start,0.9952991
+bring the sound up,device.volume.increase,device.volume.increase,0.9975998
+"one thing, do reminders make a sound",help.reminder.show,help.reminder.show,0.999803
+kindly dial down my hearing device,device.volume.decrease,device.volume.increase,0.999753
+can you switch to quiet memory,device.memory.change,device.memory.change,0.9997221
+could you take my hearing aid off mute,device.volume.unmute,device.volume.unmute,0.99942863
+quickly turn my aids off completely,device.volume.mute,device.volume.mute,0.99975115
+would you please turn up my hearing aid,device.volume.increase,device.volume.increase,0.9995401
+i want to mute my hearing device,device.volume.mute,device.volume.mute,0.9995683
+i'm trying to stop the audio from my computer,streaming.session.stop,streaming.session.stop,0.99976075
+would you bump up the volume on the right aid,device.volume.increase,device.volume.increase,0.9998909
+i want you to raise the volume on my hearing device,device.volume.increase,device.volume.decrease,0.9998899
+max out my hearing aid a little,device.volume.increase,device.volume.decrease,0.999755
+"hey, complete my latest reminder",reminders.task.complete,reminders.task.complete,0.99991107
+"i need help, track my smartphone around here",find.phone.locate,find.phone.locate,0.99973404
+kindly turn the sound back on for my hearing devices,device.volume.unmute,device.volume.unmute,0.9998218
+can you play my meeting audio through my hearing aids,streaming.session.start,streaming.session.start,0.99988776
+can you track my mobile in the living room,find.phone.locate,find.phone.locate,0.9998173
+would you please listen to phone calls through my hearing aids,streaming.session.start,streaming.session.start,0.99966997
+could you please get the sound working again on the left aid,device.volume.unmute,device.volume.unmute,0.9998651
+could you play phone calls through my hearing aids,streaming.session.start,streaming.session.start,0.99950665
+i want to turn the hearing aids off completely,device.volume.mute,device.volume.mute,0.99957585
+i want to turn the sound back on for my hearing devices,device.volume.unmute,device.volume.unmute,0.9995504
+help me adjust a reminder,help.reminder.show,help.reminder.show,0.99980766
+"i'm done listening to my laptop, please disconnect",streaming.session.stop,streaming.session.stop,0.9995826
+tell me how to enable an alarm,help.reminder.show,help.reminder.show,0.99986917
+i'd like you to get the sound working again on the hearing aids,device.volume.unmute,device.volume.unmute,0.99978656
+i would like to raise my aids,device.volume.increase,device.volume.increase,0.9992349
+i'd like to start listening to youtube,streaming.session.start,streaming.session.start,0.99985284
+"hey, end the stream from the tv",streaming.session.stop,streaming.session.stop,0.99985397
+i'd like you to mute the hearing aids,device.volume.mute,device.volume.mute,0.999497
+i want you to make my hearing aid louder,device.volume.increase,device.volume.increase,0.999894
+i'm trying to lower my aids,device.volume.decrease,device.volume.decrease,0.99978083
+"hey, turn the volume back on for my right hearing aid",device.volume.unmute,device.volume.unmute,0.9999123
+can you make a reminder to pick up my prescription in 15 minutes,reminders.task.create,reminders.task.create,0.99989384
+could you please decrease my hearing device volume,device.volume.decrease,device.volume.increase,0.99988353
+could you soften my hearing aids,device.volume.decrease,device.volume.decrease,0.99984634
+could you please turn the volume all the way down on my right hearing aid,device.volume.mute,device.volume.decrease,0.9994663
+help me turn down the left aid,device.volume.decrease,device.volume.decrease,0.9998423
+i want you to increase the volume on my right hearing aid,device.volume.increase,device.volume.increase,0.9999026
+go ahead and hook up my tablet to my hearing aids,streaming.session.start,streaming.session.start,0.9997605
+i want to know how to rename a reminder,help.reminder.show,help.reminder.show,0.9999378
+i'm trying to stop the audio from my music player,streaming.session.stop,streaming.session.stop,0.9997749
+can you turn off streaming from my music player,streaming.session.stop,streaming.session.stop,0.99976397
+let's hook up my ipad to my hearing aids,streaming.session.start,streaming.session.start,0.9997709
+i'd like to switch off the sound on both hearing aids,device.volume.mute,device.volume.mute,0.99946296
+hey can you where did i leave my iphone somewhere,find.phone.locate,find.phone.locate,0.99939466
+would you remind me to go for a walk this weekend,reminders.task.create,reminders.task.create,0.9999189
+i want you to disconnect my hearing aids from the radio,streaming.session.stop,streaming.session.stop,0.99967766
+is there a way to customize a medication reminder,help.reminder.show,help.reminder.show,0.99990726
+i'd like to max out the right aid a little,device.volume.increase,device.volume.decrease,0.99976516
+quickly clear the alarm,reminders.task.complete,reminders.task.complete,0.9997491
+would you complete my last reminder,reminders.task.complete,reminders.task.complete,0.9999214
+could you restore the sound on my devices,device.volume.unmute,device.volume.unmute,0.9996297
+"hey, could you please stop streaming from my meeting audio",streaming.session.stop,streaming.session.stop,0.9998557
+tell me how to manage my reminders,help.reminder.show,help.reminder.show,0.99995124
+where do i go to modify my reminder settings,help.reminder.show,help.reminder.show,0.9998897
+can you switch to program two,device.memory.change,device.memory.change,0.99977255
+explain how to turn off my reminders,help.reminder.show,help.reminder.show,0.9999095
+begin streaming my phone,streaming.session.start,streaming.session.start,0.9993853
+help me increase my hearing device volume,device.volume.increase,device.volume.increase,0.99986947
+i'm trying to turn off streaming from youtube,streaming.session.stop,streaming.session.stop,0.9998713
+"the volume on my hearing device is way too high, could you bring it down",device.volume.decrease,device.volume.decrease,0.9997613
+could you please cross off the reminder,reminders.task.complete,reminders.task.complete,0.9999066
+i need to raise both hearing aids,device.volume.increase,device.volume.increase,0.9997385
+could you please get the sound working again on my left aid,device.volume.unmute,device.volume.unmute,0.9998809
+would you turn off streaming from a phone call,streaming.session.stop,streaming.session.stop,0.99969715
+can you add a reminder to refill my prescription at 9am,reminders.task.create,reminders.task.create,0.9998994
+just connect to a podcast and start streaming,streaming.session.start,streaming.session.start,0.9998684
+can you please decrease the volume on my right aid,device.volume.decrease,device.volume.decrease,0.9998744
+would you mark this task finished,reminders.task.complete,reminders.task.complete,0.9998426
+change to office program,device.memory.change,device.memory.change,0.99986506
+can you train program,device.memory.change,device.memory.change,0.9996741
+please mark my current reminder finished,reminders.task.complete,reminders.task.complete,0.99992704
+i'm trying to kill the volume on my right aid,device.volume.mute,device.volume.decrease,0.99927956
+quickly mute the right aid,device.volume.mute,device.volume.mute,0.9998193
+switch me to the setting for conversations,device.memory.change,device.memory.change,0.9994674
+set an alarm to take my medication tomorrow evening,reminders.task.create,reminders.task.create,0.999903
+i'd like to drop the volume on my right hearing aid,device.volume.decrease,device.volume.decrease,0.9993013
+is there a way to create an alarm,help.reminder.show,help.reminder.show,0.9998517
+ease down the volume on my hearing device,device.volume.decrease,device.volume.increase,0.9999075
+please track down my smartphone in the living room,find.phone.locate,find.phone.locate,0.99981105
+"hey, i lost my telephone around here",find.phone.locate,find.phone.locate,0.9996144
+i would like to reduce my devices volume,device.volume.decrease,device.volume.increase,0.9998911
+turn the volume back on for my aids,device.volume.unmute,device.volume.unmute,0.9995397
+could you please reduce my devices volume,device.volume.decrease,device.volume.increase,0.99987006
+could you please check the alarm off my list,reminders.task.complete,reminders.task.complete,0.9998172
+make a reminder to pay rent tomorrow afternoon,reminders.task.create,reminders.task.create,0.999885
+kindly turn down my devices,device.volume.decrease,device.volume.decrease,0.999782
+is there a way to view a daily reminder,help.reminder.show,help.reminder.show,0.99993324
+can you stop the stream coming from a podcast,streaming.session.stop,streaming.session.stop,0.99986833
+could you disconnect my hearing aids from my computer,streaming.session.stop,streaming.session.stop,0.9997429
+"hey, i lost my handset in the kitchen",find.phone.locate,find.phone.locate,0.99973094
+could you turn the hearing aids off completely,device.volume.mute,device.volume.mute,0.9997049
+would you start listening to phone calls,streaming.session.start,streaming.session.start,0.9996836
+please turn the volume back on for my devices,device.volume.unmute,device.volume.unmute,0.9997821
+could you please start listening to a phone call,streaming.session.start,streaming.session.start,0.99984926
+i'd like to louden my left hearing aid,device.volume.increase,device.volume.decrease,0.99988145
+i want to unmute my aids,device.volume.unmute,device.volume.unmute,0.99950683
+"ugh, ring my cell phone at home",find.phone.locate,find.phone.locate,0.9994699
+just stop all sound on my hearing aids,device.volume.mute,device.volume.mute,0.99945885
+"i was wondering, what is the reminder feature for",help.reminder.show,help.reminder.show,0.9998441
+please switch to master program,device.memory.change,device.memory.change,0.9998465
+create a reminder for before bed to call my son,reminders.task.create,reminders.task.create,0.9999232
+reduce the hearing aid volume,device.volume.decrease,device.volume.decrease,0.9997652
+i need to stop the audio from my computer,streaming.session.stop,streaming.session.stop,0.99988186
+mute sound on hearing aids,device.volume.mute,device.volume.mute,0.99930584
+"hey, turn both my aids back on",device.volume.unmute,device.volume.unmute,0.99975604
+amplify things for me,device.volume.increase,device.volume.increase,0.9984462
+hey can you mark that reminder as done,reminders.task.complete,reminders.task.complete,0.99994254
+cut off the stream,streaming.session.stop,streaming.session.stop,0.99233633
+"hey, connect my hearing aids to a podcast",streaming.session.start,streaming.session.start,0.9997813
+can you set a reminder to pick up prescription today at 5 p.m.,reminders.task.create,reminders.task.create,0.99991816
+i want you to unmute my left aid,device.volume.unmute,device.volume.unmute,0.99938184
+please switch memory to kitchen,device.memory.change,device.memory.change,0.99986833
+would you please restore the sound on my aids,device.volume.unmute,device.volume.unmute,0.99969524
+can you please start listening to youtube,streaming.session.start,streaming.session.start,0.99979573
+let's turn the volume all the way down on my hearing devices,device.volume.mute,device.volume.decrease,0.9996707
+can you please make a reminder to take my pills next week,reminders.task.create,reminders.task.create,0.9998641
+i want to finish my reminder,reminders.task.complete,reminders.task.complete,0.9999338
+cut the volume on the hearing aids,device.volume.mute,device.volume.decrease,0.999255
+"hey, i misplaced my mobile at home",find.phone.locate,find.phone.locate,0.99964803
+would you please connect my hearing aids to my tablet,streaming.session.start,streaming.session.start,0.9997409
+switch my hearing aid program to speech,device.memory.change,device.memory.change,0.99979144
+the sound is faint,device.volume.increase,device.volume.decrease,0.9989352
+i would like to put my right hearing aid on mute,device.volume.mute,device.volume.mute,0.99989116
+can you switch to master program,device.memory.change,device.memory.change,0.99984354
+please change program to quiet,device.memory.change,device.memory.change,0.9998258
+that sounds too loud,device.volume.decrease,device.volume.increase,0.9986426
+i need you to stop listening to a phone call,streaming.session.stop,streaming.session.stop,0.9998701
+please remember to turn the lights on at 8 p.m.,reminders.task.create,reminders.task.create,0.9992802
+would you please turn the sound down on my hearing device,device.volume.decrease,device.volume.decrease,0.99991167
+"hey, could you please stream audio from music",streaming.session.start,streaming.session.start,0.99986136
+can you please turn the sound up on my hearing aid,device.volume.increase,device.volume.increase,0.9999055
+please set program to restaurant,device.memory.change,device.memory.change,0.99987614
+make the volume more on hearing aids,device.volume.increase,device.volume.increase,0.9998701
+i want you to turn off streaming from a video,streaming.session.stop,streaming.session.stop,0.9997968
+decrease volume in my hearing aids,device.volume.decrease,device.volume.decrease,0.9998299
+where do i go to clear the reminder feature,help.reminder.show,help.reminder.show,0.99991566
+could you start audio streaming from my meeting audio,streaming.session.start,streaming.session.start,0.9998532
+could you complete my task,reminders.task.complete,reminders.task.complete,0.99970126
+reactivate my hearing aid sound,device.volume.unmute,device.volume.unmute,0.9991463
+kindly end the stream from an audiobook,streaming.session.stop,streaming.session.stop,0.9996735
+could you silence my hearing device,device.volume.mute,device.volume.mute,0.99969846
+can you turn both my aids off completely,device.volume.mute,device.volume.mute,0.9996912
+quickly connect to my phone and start streaming,streaming.session.start,streaming.session.start,0.9996441
+enable streaming,streaming.session.start,streaming.session.start,0.99738973
+remind me to exercise tonight,reminders.task.create,reminders.task.create,0.9998497
+i'm trying to turn down the volume on the hearing aids,device.volume.decrease,device.volume.decrease,0.9997162
+let's dial up my right hearing aid,device.volume.increase,device.volume.increase,0.99987566
+do not let me forget to water flowers at 7 am,reminders.task.create,reminders.task.create,0.99853116
+i'd like you to complete my alarm,reminders.task.complete,reminders.task.complete,0.99983764
+can you change to worship memory,device.memory.change,device.memory.change,0.999813
+could you please mark my active reminder as done,reminders.task.complete,reminders.task.complete,0.99994045
+stop muting now,device.volume.unmute,device.volume.mute,0.99706656
+i'm trying to mark this task finished,reminders.task.complete,reminders.task.complete,0.9998344
+go ahead and increase the volume on my left aid,device.volume.increase,device.volume.decrease,0.9999212
+people sound too soft,device.volume.increase,device.volume.increase,0.9992522
+kindly cut the stream from my remote microphone,streaming.session.stop,streaming.session.stop,0.9997879
+turn mute off,device.volume.unmute,device.volume.unmute,0.99891424
+please change volume down,device.volume.decrease,device.volume.decrease,0.9992794
+"by the way, how many reminders can i set",help.reminder.show,help.reminder.show,0.99990505
+let's mark the task as complete,reminders.task.complete,reminders.task.complete,0.99976134
+"ugh, ring my telephone in this room",find.phone.locate,find.phone.locate,0.9994805
+explain how to cancel a reminder,help.reminder.show,help.reminder.show,0.9998872
+just turn off the volume on the hearing aids,device.volume.mute,device.volume.mute,0.9998842
+help me check off my current reminder,reminders.task.complete,reminders.task.complete,0.99995476
+quickly kill the volume on my hearing aid,device.volume.mute,device.volume.decrease,0.9995575
+i want to know how to resume my reminders,help.reminder.show,help.reminder.show,0.999948
+can you turn down the volume in my right hearing aid,device.volume.decrease,device.volume.decrease,0.9998305
+"hey, send the audio from my laptop to my hearing aids",streaming.session.start,streaming.session.start,0.9996201
+let's turn off the connection to youtube,streaming.session.stop,streaming.session.stop,0.99961144
+change program to school,device.memory.change,device.memory.change,0.99986285
+switch to car memory,device.memory.change,device.memory.change,0.9998084
+go ahead and switch the sound back on for my right ear hearing aid,device.volume.unmute,device.volume.unmute,0.99932015
+i'm trying to turn up my right aid,device.volume.increase,device.volume.increase,0.99982643
+"hey, could you please complete that reminder",reminders.task.complete,reminders.task.complete,0.9998877
+could you please reduce the hearing aids volume,device.volume.decrease,device.volume.increase,0.99992025
+help me start streaming from my tablet,streaming.session.start,streaming.session.start,0.9998023
+cut every bit of sound,device.volume.mute,device.volume.mute,0.99925244
+new reminder about washing car,reminders.task.create,reminders.task.create,0.999775
+can i cancel reminders,help.reminder.show,reminders.task.complete,0.9998047
+please listen to the tv through my hearing aids,streaming.session.start,streaming.session.start,0.99968004
+can you remember to take medicine next thursday at 4 p.m.,reminders.task.create,reminders.task.create,0.9996768
+can you please cross off my alarm,reminders.task.complete,reminders.task.complete,0.9998519
+would you please turn the sound up on the right aid,device.volume.increase,device.volume.decrease,0.9998728
+please lower the right aid,device.volume.decrease,device.volume.decrease,0.9996475
+quickly lower both my aids,device.volume.decrease,device.volume.decrease,0.9997319
+could you knock down the volume on my left ear hearing aid,device.volume.decrease,device.volume.decrease,0.99989104
+can you remind me to feed my cat please,reminders.task.create,reminders.task.create,0.9998116
+where do i go to mute the reminder feature,help.reminder.show,help.reminder.show,0.99990195
+can you it's too low turn it up,device.volume.increase,device.volume.increase,0.9997823
+tell me how to edit an alarm,help.reminder.show,help.reminder.show,0.99983746
+can you remind me to pick up my prescription at 5 p.m. on thursday,reminders.task.create,reminders.task.create,0.9999068
+can you show me how to turn off my reminders,help.reminder.show,help.reminder.show,0.9999013
+kindly connect to a phone call and start streaming,streaming.session.start,streaming.session.start,0.99984187
+can you show me how to personalize a reminder notification,help.reminder.show,help.reminder.show,0.99986905
+stop streaming from an audiobook,streaming.session.stop,streaming.session.stop,0.9994477
+can you please turn the sound back on for my right aid,device.volume.unmute,device.volume.unmute,0.9996361
+explain how to modify the reminder feature,help.reminder.show,help.reminder.show,0.9999088
+please end the stream from the microphone,streaming.session.stop,streaming.session.stop,0.9998281
+can you work program,device.memory.change,device.memory.change,0.9997297
+kindly turn down the volume on my aids,device.volume.decrease,device.volume.decrease,0.99988395
+i'd like you to mark my last reminder done,reminders.task.complete,reminders.task.complete,0.99988264
+would you send the audio from my laptop to my hearing aids,streaming.session.start,streaming.session.start,0.9997647
+let's mark my medication reminder as complete,reminders.task.complete,reminders.task.complete,0.99993557
+could you please route my ipad through my hearing aids,streaming.session.start,streaming.session.start,0.99970824
+could you make a reminder to take a walk this weekend,reminders.task.create,reminders.task.create,0.99993503
+would you stream my computer to my hearing aids,streaming.session.start,streaming.session.start,0.9997566
+walk me through how to turn off a reminder in this app,help.reminder.show,help.reminder.show,0.9998945
+can you pub setting,device.memory.change,device.memory.change,0.9993457
+hey can you i lost my mobile phone,find.phone.locate,find.phone.locate,0.99959487
+can you remind me to workout tomorrow morning at 6,reminders.task.create,reminders.task.create,0.9999045
+can you change to school memory,device.memory.change,device.memory.change,0.9997944
+i need to bump up the volume on both hearing aids,device.volume.increase,device.volume.increase,0.9999386
+i would like to stream audio from my meeting audio,streaming.session.start,streaming.session.start,0.9998781
+"hey, unmute my aids",device.volume.unmute,device.volume.unmute,0.999515
+i'd like you to push the volume up on my hearing device,device.volume.increase,device.volume.increase,0.9998642
+could you search for my android at home,find.phone.locate,find.phone.locate,0.9997368
+track my cellphone in the kitchen,find.phone.locate,find.phone.locate,0.99976224
+i need to close out this task,reminders.task.complete,reminders.task.complete,0.9997863
+would you please get the sound working again on my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.9997562
+"quick, find my mobile phone nearby",find.phone.locate,find.phone.locate,0.9997788
+write this down so i remember,reminders.task.create,reminders.task.create,0.99894166
+hey can you turn the sound back on for my hearing devices,device.volume.unmute,device.volume.unmute,0.9996468
+set to worship memory,device.memory.change,device.memory.change,0.99968415
+i'd like you to mark my current reminder as done,reminders.task.complete,reminders.task.complete,0.99988395
+i want you to clear my current reminder,reminders.task.complete,reminders.task.complete,0.9999544
+is there a way to change my reminder settings,help.reminder.show,help.reminder.show,0.99991626
+help me make my left hearing aid louder,device.volume.increase,device.volume.decrease,0.9998934
+just louden the hearing aids,device.volume.increase,device.volume.increase,0.9997296
+just begin streaming my computer,streaming.session.start,streaming.session.start,0.99948096
+explain how to modify my reminders,help.reminder.show,help.reminder.show,0.9999496
+please set to automatic program,device.memory.change,device.memory.change,0.99981576
+set an alert so i don't miss it,reminders.task.create,help.reminder.show,0.9987163
+"hey, could you please listen to my computer through my hearing aids",streaming.session.start,streaming.session.start,0.9998452
+kindly start listening to the microphone,streaming.session.start,streaming.session.start,0.99977666
+please set a reminder for in 10 minutes to start the meeting,reminders.task.create,reminders.task.create,0.99992865
+would you hook up my computer to my hearing aids,streaming.session.start,streaming.session.start,0.99963474
+kindly switch off the sound on my left ear hearing aid,device.volume.mute,device.volume.mute,0.9996836
+i want to disconnect my hearing aids from the television,streaming.session.stop,streaming.session.stop,0.99956834
+i need help understanding how do i turn on reminders,help.reminder.show,help.reminder.show,0.999933
+where is my mobile phone in the living room,find.phone.locate,find.phone.locate,0.9996381
+"i was wondering, can i set a recurring reminder",help.reminder.show,help.reminder.show,0.99991864
+find my android in the kitchen,find.phone.locate,find.phone.locate,0.9996953
+quickly quiet down the left aid,device.volume.decrease,device.volume.decrease,0.999821
+hey can you ring my telephone at home,find.phone.locate,find.phone.locate,0.999494
+let's get the sound working again on both hearing aids,device.volume.unmute,device.volume.unmute,0.9998518
+"hey, can you find my mobile phone in the living room",find.phone.locate,find.phone.locate,0.99975735
+turn off streaming from a video,streaming.session.stop,streaming.session.stop,0.9990564
+can you please connect to a phone call and start streaming,streaming.session.start,streaming.session.start,0.9998331
+i'd like to silence my hearing aid,device.volume.mute,device.volume.mute,0.9997678
+unmute my right hearing aid,device.volume.unmute,device.volume.unmute,0.9994195
+i'd like to stop streaming from a phone call,streaming.session.stop,streaming.session.stop,0.9999077
+help me close out this task,reminders.task.complete,reminders.task.complete,0.9998047
+turn my devices back on,device.volume.unmute,device.volume.unmute,0.99855715
+can you show me how to change a reminder notification,help.reminder.show,help.reminder.show,0.99991256
+hey can you bring up the volume on the left aid,device.volume.increase,device.volume.increase,0.99989676
+set to worship program,device.memory.change,device.memory.change,0.99971646
+mark my alarm as done,reminders.task.complete,reminders.task.complete,0.9998433
+i need to lower both hearing aids,device.volume.decrease,device.volume.decrease,0.99981433
+could you unlink my remote mic,streaming.session.stop,streaming.session.stop,0.9998334
+could you stop the stream coming from the television,streaming.session.stop,streaming.session.stop,0.99983263
+kindly turn the volume back on for my device,device.volume.unmute,device.volume.unmute,0.99984956
+"quick, where's my iphone somewhere",find.phone.locate,find.phone.locate,0.99976695
+hey can you find my smartphone around here,find.phone.locate,find.phone.locate,0.9998051
+can you set a reminder to drink water today,reminders.task.create,reminders.task.create,0.99992293
+unmute,device.volume.unmute,device.volume.unmute,0.9963427
+i want to turn my right ear hearing aid off completely,device.volume.mute,device.volume.mute,0.9998941
+find my device,find.phone.locate,find.phone.locate,0.98454326
+hey can you can you find my cellphone at home,find.phone.locate,find.phone.locate,0.9998241
+is it possible to cancel my reminders,help.reminder.show,reminders.task.complete,0.9998771
+i want you to stream a phone call to my hearing aids,streaming.session.start,streaming.session.start,0.9998362
+"hey, track down my cellphone in my car",find.phone.locate,find.phone.locate,0.99977446
+just turn off the volume on my hearing device,device.volume.mute,device.volume.mute,0.9998826
+can you disconnect my hearing aids from my remote microphone,streaming.session.stop,streaming.session.stop,0.99953127
+is it possible to turn on a recurring reminder,help.reminder.show,help.reminder.show,0.9999077
+could you unmute my hearing aid,device.volume.unmute,device.volume.unmute,0.99965096
+can you set to speech program,device.memory.change,device.memory.change,0.9998217
+can you mark my last reminder as complete,reminders.task.complete,reminders.task.complete,0.9999493
+"i need total quiet right now, can you mute my left aid",device.volume.mute,device.volume.mute,0.99931556
+ease down the volume on the right aid,device.volume.decrease,device.volume.decrease,0.9999077
+could you start audio streaming from youtube,streaming.session.start,streaming.session.start,0.99984145
+can you set setting to two,device.memory.change,device.memory.change,0.9996417
+where's my handset in my car,find.phone.locate,find.phone.locate,0.99976957
+set memory to meeting,device.memory.change,device.memory.change,0.9998482
+i want to end the stream from the television,streaming.session.stop,streaming.session.stop,0.99985135
+"hey, turn off the volume on my left ear hearing aid",device.volume.mute,device.volume.mute,0.9997977
+can you make my right hearing aid louder,device.volume.increase,device.volume.increase,0.9999023
+hey can you turn down the volume on my device,device.volume.decrease,device.volume.decrease,0.9998769
+please start listening to youtube,streaming.session.start,streaming.session.start,0.9997208
+i'd like to mark my last reminder done,reminders.task.complete,reminders.task.complete,0.9999034
+"ugh, track my phone in this room",find.phone.locate,find.phone.locate,0.99977094
+i'd like to turn the sound back on for both my aids,device.volume.unmute,device.volume.unmute,0.9995446
+help me duplicate a reminder,help.reminder.show,help.reminder.show,0.9998425
+quickly start audio streaming from the television,streaming.session.start,streaming.session.start,0.99971443
+help me reschedule the reminder feature,help.reminder.show,help.reminder.show,0.9998991
+please change to kitchen,device.memory.change,device.memory.change,0.9996982
+please schedule a reminder to pick up groceries next monday,reminders.task.create,reminders.task.create,0.9999118
+show me how to clear the reminder feature,help.reminder.show,help.reminder.show,0.99991417
+track my phone somewhere,find.phone.locate,find.phone.locate,0.9993706
+can you search phone,find.phone.locate,find.phone.locate,0.9990077
+kindly cut the volume on my device,device.volume.mute,device.volume.decrease,0.9993255
+"hey, turn both my aids up a bit",device.volume.increase,device.volume.increase,0.99966645
+i need to be reminded,reminders.task.create,help.reminder.show,0.9995362
+go ahead and dismiss my latest reminder,reminders.task.complete,reminders.task.complete,0.99991167
+can you please create a reminder for before i leave to leave for the airport,reminders.task.create,reminders.task.create,0.99983025
+please locate my cellphone in the living room,find.phone.locate,find.phone.locate,0.99978024
+can you restore the sound on the left aid,device.volume.unmute,device.volume.unmute,0.9995095
+would you please stream music to my hearing aids,streaming.session.start,streaming.session.start,0.99977696
+can you discover telephone,find.phone.locate,find.phone.locate,0.9987696
+please more volume please,device.volume.increase,device.volume.increase,0.9995073
+is it possible to unmute an alarm,help.reminder.show,reminders.task.complete,0.99957144
+show me where my iphone is,find.phone.locate,find.phone.locate,0.99840254
+i would like to unlink my computer,streaming.session.stop,streaming.session.stop,0.9997183
+would you please end the connection to my ipad,streaming.session.stop,streaming.session.stop,0.9994639
+please turn off the volume on my left ear hearing aid,device.volume.mute,device.volume.mute,0.9998319
+please check the alarm off my list,reminders.task.complete,reminders.task.complete,0.9998075
+kill the volume on my hearing device,device.volume.mute,device.volume.decrease,0.99910116
+can you change program to noise,device.memory.change,device.memory.change,0.9998536
+schedule reminder,reminders.task.create,help.reminder.show,0.99908555
+i'd like you to begin streaming music,streaming.session.start,streaming.session.start,0.9995034
+let's ease down the volume on my hearing aids,device.volume.decrease,device.volume.increase,0.99992347
+i want to amplify the right aid,device.volume.increase,device.volume.increase,0.99972606
+how do i repeat reminders,help.reminder.show,help.reminder.show,0.9999201
+turn down the volume on the hearing aid,device.volume.decrease,device.volume.decrease,0.9998231
+i want to turn off streaming from my laptop,streaming.session.stop,streaming.session.stop,0.9999274
+"i was wondering, where do i see my reminders",help.reminder.show,help.reminder.show,0.99981725
+i need you to switch the sound back on for my devices,device.volume.unmute,device.volume.unmute,0.9989925
+could you please complete my current reminder,reminders.task.complete,reminders.task.complete,0.99994314
+"ugh, i lost my cell phone somewhere",find.phone.locate,find.phone.locate,0.99954087
+just hook up my tablet to my hearing aids,streaming.session.start,streaming.session.start,0.999711
+can you tone down both hearing aids,device.volume.decrease,device.volume.decrease,0.99986285
+can you kill the volume on my device,device.volume.mute,device.volume.decrease,0.9991726
+i need you to turn the sound up on both hearing aids,device.volume.increase,device.volume.decrease,0.99987894
+i need you to send the audio from my phone to my hearing aids,streaming.session.start,streaming.session.start,0.99977463
+let's lower the volume on my hearing devices,device.volume.decrease,device.volume.decrease,0.9999356
+please schedule a reminder to pick up groceries on friday,reminders.task.create,reminders.task.create,0.9999151
+help me turn off an alarm,help.reminder.show,reminders.task.complete,0.9998086
+i'd like you to mark my reminder as complete,reminders.task.complete,reminders.task.complete,0.999911
+where do i go to clear reminders,help.reminder.show,help.reminder.show,0.9999374
+i need to restore the sound on my hearing aid,device.volume.unmute,device.volume.unmute,0.9995731
+i'd like you to stream audio from an audiobook,streaming.session.start,streaming.session.start,0.9998438
+can you cut the volume on my hearing aids,device.volume.mute,device.volume.decrease,0.9992822
+can you make sure i check the mail before bed,reminders.task.create,reminders.task.create,0.9251644
+"hey, could you please mark my latest reminder finished",reminders.task.complete,reminders.task.complete,0.99991673
+can you create a reminder for next monday to charge my phone,reminders.task.create,reminders.task.create,0.9998994
+"i need help, track my phone in this room",find.phone.locate,find.phone.locate,0.99977386
+i need to mark my last reminder as done,reminders.task.complete,reminders.task.complete,0.99991393
+can you stream from the remote microphone,streaming.session.start,streaming.session.start,0.9994457
+go ahead and close out this reminder,reminders.task.complete,reminders.task.complete,0.9999173
+i want to know how do reminders work,help.reminder.show,help.reminder.show,0.99992955
+listen to my phone through my hearing aids,streaming.session.start,streaming.session.start,0.99964803
+please locate my android phone in the house,find.phone.locate,find.phone.locate,0.9998576
+"i need help, track my mobile",find.phone.locate,find.phone.locate,0.999725
+please switch memory to four,device.memory.change,device.memory.change,0.99983245
+"quick, ring my handset at home",find.phone.locate,find.phone.locate,0.99956614
+can you please make my right aid quieter,device.volume.decrease,device.volume.decrease,0.99989104
+can you locate my mobile in the house,find.phone.locate,find.phone.locate,0.9998307
+cut off the streamed audio,streaming.session.stop,streaming.session.stop,0.99327946
+i would like to play a video through my hearing aids,streaming.session.start,streaming.session.start,0.99987906
+i need to stream audio from my laptop,streaming.session.start,streaming.session.start,0.99976003
+could you crank up the hearing aids,device.volume.increase,device.volume.increase,0.9989894
+"i need help, can you find my cell phone in the living room",find.phone.locate,find.phone.locate,0.9996501
+lost iphone,find.phone.locate,find.phone.locate,0.99733746
+"i can't hear the conversation clearly through my right hearing aid, turn it up please",device.volume.increase,device.volume.decrease,0.9990748
+"hey, hook up my tablet to my hearing aids",streaming.session.start,streaming.session.start,0.99977946
+change memory to two,device.memory.change,device.memory.change,0.999774
+"ugh, ring my smartphone in the kitchen",find.phone.locate,find.phone.locate,0.9996914
+"the right aid is blasting way too loud, turn it down",device.volume.decrease,device.volume.decrease,0.9995227
+track my cell phone around here,find.phone.locate,find.phone.locate,0.99967384
+"hey, get the sound working again on my right hearing aid",device.volume.unmute,device.volume.unmute,0.9997383
+would you please boost the volume on the hearing aids,device.volume.increase,device.volume.increase,0.99970466
+take my left ear hearing aid off mute,device.volume.unmute,device.volume.mute,0.999583
+please track my phone in this room,find.phone.locate,find.phone.locate,0.99979633
+"i need help, locate my telephone nearby",find.phone.locate,find.phone.locate,0.9997403
+help me turn the hearing aids back on,device.volume.unmute,device.volume.unmute,0.9995699
+can you change memory to theater,device.memory.change,device.memory.change,0.9998524
+"hey, how do i create a reminder",help.reminder.show,help.reminder.show,0.99994457
+i would like to bring up the volume on the left aid,device.volume.increase,device.volume.increase,0.999897
+"just wondering, can you tell me more about the reminder feature",help.reminder.show,help.reminder.show,0.9998403
+i want you to mark my alarm as done,reminders.task.complete,reminders.task.complete,0.99988645
+hey can you help me locate my android phone in the house,find.phone.locate,find.phone.locate,0.9998206
+misplaced telephone,find.phone.locate,find.phone.locate,0.99763364
+kindly close out the task,reminders.task.complete,reminders.task.complete,0.99968344
+i can hardly hear it,device.volume.increase,device.volume.decrease,0.9987785
+just boost the volume on my hearing aid,device.volume.increase,device.volume.increase,0.9997367
+change program to personal,device.memory.change,device.memory.change,0.99988973
+quickly stop streaming from my music player,streaming.session.stop,streaming.session.stop,0.9998709
+help me bring the sound back on my devices,device.volume.unmute,device.volume.unmute,0.9998855
+please change to test one,device.memory.change,device.memory.change,0.9997105
+can you stop listening to the television,streaming.session.stop,streaming.session.stop,0.9998397
+"ugh, where did i leave my mobile",find.phone.locate,find.phone.locate,0.9994731
+i need to get the sound working again on the hearing aids,device.volume.unmute,device.volume.unmute,0.9998096
+please change setting to number one,device.memory.change,device.memory.change,0.99978536
+"hey, could you please undo the mute on both hearing aids",device.volume.unmute,device.volume.unmute,0.99991727
+can you set a reminder to eat breakfast in 20 minutes,reminders.task.create,reminders.task.create,0.9999069
+would you stop listening to my tablet,streaming.session.stop,streaming.session.stop,0.99983025
+please change memory to three,device.memory.change,device.memory.change,0.9998915
+switch program to television,device.memory.change,device.memory.change,0.9998635
+please create a reminder to take medicine today at 8 p.m.,reminders.task.create,reminders.task.create,0.999887
+please change to gym,device.memory.change,device.memory.change,0.9996854
+hey can you turn the volume all the way down on my devices,device.volume.mute,device.volume.decrease,0.9996259
+can you remember to wake up at 6 a.m.,reminders.task.create,reminders.task.create,0.9992479
+could you please create a reminder for first thing tomorrow to feed the cat,reminders.task.create,reminders.task.create,0.99986655
+would you please mark my latest reminder done,reminders.task.complete,reminders.task.complete,0.9999413
+i'm trying to turn off streaming from the tv,streaming.session.stop,streaming.session.stop,0.99988717
+can you please stream audio from my phone,streaming.session.start,streaming.session.start,0.9997846
+mark this reminder finished,reminders.task.complete,reminders.task.complete,0.9998142
+just end the stream from the radio,streaming.session.stop,streaming.session.stop,0.9998156
+remind me of video every day at noon,reminders.task.create,reminders.task.create,0.99977547
+is there a way to check reminders,help.reminder.show,help.reminder.show,0.99993795
+just decrease my right aid volume,device.volume.decrease,device.volume.decrease,0.99986506
+help me reduce the volume on my hearing aid,device.volume.decrease,device.volume.decrease,0.9999209
+could you please turn my hearing device down a bit,device.volume.decrease,device.volume.decrease,0.9998958
+remind me to drink some water in 5 minutes,reminders.task.create,reminders.task.create,0.9999031
+could you please unlink my phone,streaming.session.stop,streaming.session.stop,0.99957985
+i'm trying to cross off the alarm,reminders.task.complete,reminders.task.complete,0.99984354
+explain how to customize my reminders,help.reminder.show,help.reminder.show,0.99993706
+just turn the volume all the way down on both my aids,device.volume.mute,device.volume.decrease,0.9993776
+let's cut the stream from an audiobook,streaming.session.stop,streaming.session.stop,0.9998308
+kindly listen to a phone call through my hearing aids,streaming.session.start,streaming.session.start,0.9997504
+can you please play the television through my hearing aids,streaming.session.start,streaming.session.start,0.999814
+please add a reminder to call my sister every night,reminders.task.create,reminders.task.create,0.9999361
+i need help understanding how does the reminder feature work,help.reminder.show,help.reminder.show,0.99988514
+where do i go to duplicate a daily reminder,help.reminder.show,help.reminder.show,0.9999363
+i would like to start listening to the radio,streaming.session.start,streaming.session.start,0.99986106
+hey can you make my devices quieter,device.volume.decrease,device.volume.decrease,0.9998307
+"quick, where did i leave my telephone in the kitchen",find.phone.locate,find.phone.locate,0.9996266
+can you increase the volume in my aids,device.volume.increase,device.volume.increase,0.99988693
+get me off mute,device.volume.unmute,device.volume.mute,0.99923956
+give me a little more sound,device.volume.increase,device.volume.decrease,0.9997236
+can you please dismiss this reminder,reminders.task.complete,reminders.task.complete,0.99991685
+i would like to route my music player through my hearing aids,streaming.session.start,streaming.session.start,0.9995057
+switch my hearing aid program to tinnitus memory,device.memory.change,device.memory.change,0.99950457
+i'd like to understand how do i edit a reminder,help.reminder.show,help.reminder.show,0.9998985
+can you make things easier to hear?,device.volume.increase,device.volume.increase,0.9975578
+can you crank up both my aids,device.volume.increase,device.volume.increase,0.9994256
+please cut the stream from music,streaming.session.stop,streaming.session.stop,0.9994528
+could you please turn the volume back on for my hearing device,device.volume.unmute,device.volume.unmute,0.9999232
+please stream audio from phone calls,streaming.session.start,streaming.session.start,0.9997866
+can you tell me how do i create a reminder,help.reminder.show,help.reminder.show,0.999937
+could you please stop streaming from a video,streaming.session.stop,streaming.session.stop,0.99983805
+hey can you help me find my mobile phone at home,find.phone.locate,find.phone.locate,0.99985695
+hey can you i lost my phone,find.phone.locate,find.phone.locate,0.999562
+set it up for a concert hall,device.memory.change,device.memory.change,0.99388283
+i need to route phone calls through my hearing aids,streaming.session.start,streaming.session.start,0.9993405
+i want you to turn the right aid down a bit,device.volume.decrease,device.volume.decrease,0.99989456
+i need you to turn off the volume on the right aid,device.volume.mute,device.volume.mute,0.99979043
+quickly dismiss the task,reminders.task.complete,reminders.task.complete,0.999491
+memory three,device.memory.change,device.memory.change,0.99859875
+turn up the sound,device.volume.increase,device.volume.increase,0.9992931
+close out that reminder,reminders.task.complete,reminders.task.complete,0.99981165
+could you search for my cell phone nearby,find.phone.locate,find.phone.locate,0.9997649
+i need to make my aids quieter,device.volume.decrease,device.volume.decrease,0.9998427
+i'd like you to bring up the volume on my hearing aids,device.volume.increase,device.volume.increase,0.9997186
+i'm trying to bring down the volume on my right aid,device.volume.decrease,device.volume.decrease,0.9999023
+kindly cross off my active reminder,reminders.task.complete,reminders.task.complete,0.9999212
+"hey, turn my aids up a bit",device.volume.increase,device.volume.increase,0.9994392
+i need to decrease the volume on both hearing aids,device.volume.decrease,device.volume.decrease,0.99988097
+lower the volume,device.volume.decrease,device.volume.decrease,0.9992709
+just turn the sound down on my hearing device,device.volume.decrease,device.volume.decrease,0.9999158
+can you undo the mute on both my aids,device.volume.unmute,device.volume.unmute,0.99985814
+set program to school,device.memory.change,device.memory.change,0.9998361
+let's stop streaming from the television,streaming.session.stop,streaming.session.stop,0.99990404
+i need you to start streaming from my ipad,streaming.session.start,streaming.session.start,0.9997801
+explain how to edit reminders,help.reminder.show,help.reminder.show,0.999917
+just turn my right aid back on,device.volume.unmute,device.volume.unmute,0.99976254
+can you finish the reminder,reminders.task.complete,reminders.task.complete,0.9999013
+kindly unlink youtube,streaming.session.stop,streaming.session.stop,0.9992219
+just turn down both my aids,device.volume.decrease,device.volume.decrease,0.9997888
+would you bring up the volume on my right aid,device.volume.increase,device.volume.increase,0.9998652
+"hey, make my right ear hearing aid softer",device.volume.decrease,device.volume.decrease,0.9998908
+i want to quiet down both my aids,device.volume.decrease,device.volume.decrease,0.9998951
+go ahead and clear my current reminder,reminders.task.complete,reminders.task.complete,0.999933
+set up a reminder for that,reminders.task.create,reminders.task.create,0.9998393
+let's switch the sound back on for the hearing aids,device.volume.unmute,device.volume.unmute,0.9986051
+i'd like to understand how many reminders can i set,help.reminder.show,help.reminder.show,0.99991435
+i want you to start listening to my remote mic,streaming.session.start,streaming.session.start,0.9998572
+please undo the mute on my left hearing aid,device.volume.unmute,device.volume.unmute,0.99984676
+i'm trying to cut the volume on the left aid,device.volume.mute,device.volume.decrease,0.99921614
+hey can you can you find my iphone in this room,find.phone.locate,find.phone.locate,0.99984473
+hey can you can you find my android in the living room,find.phone.locate,find.phone.locate,0.99980515
+can you please turn off the sound on the left aid,device.volume.mute,device.volume.mute,0.99962336
+"help me out, ring my handset at home",find.phone.locate,find.phone.locate,0.9995604
+can you switch to mask program,device.memory.change,device.memory.change,0.9997712
+hey can you help me locate my mobile in the house,find.phone.locate,find.phone.locate,0.99983704
+could you please cross off that reminder,reminders.task.complete,reminders.task.complete,0.99988884
+help me boost the volume on both hearing aids,device.volume.increase,device.volume.increase,0.99985546
+could you set a reminder to return the library books tomorrow evening,reminders.task.create,reminders.task.create,0.9998927
+please i want to be reminded,reminders.task.create,help.reminder.show,0.9994322
+let's send the audio from my phone to my hearing aids,streaming.session.start,streaming.session.start,0.99985456
+could you please stop listening to the tv,streaming.session.stop,streaming.session.stop,0.9997972
+how do i change a reminder,help.reminder.show,help.reminder.show,0.9998787
+"hey, could you please end the connection to my remote mic",streaming.session.stop,streaming.session.stop,0.9997988
+help me turn my hearing device back on,device.volume.unmute,device.volume.unmute,0.9995063
+let's turn both hearing aids back on,device.volume.unmute,device.volume.unmute,0.9998479
+i'd like you to decrease the volume on my right aid,device.volume.decrease,device.volume.decrease,0.9998693
+can you change to music,device.memory.change,device.memory.change,0.99951434
+just mark my task done,reminders.task.complete,reminders.task.complete,0.99974686
+please search for my smartphone in the living room,find.phone.locate,find.phone.locate,0.9998066
+"hey, find my phone at home",find.phone.locate,find.phone.locate,0.9998335
+could you please dial up my device,device.volume.increase,device.volume.increase,0.9991564
+could you clear the alarm,reminders.task.complete,reminders.task.complete,0.9998783
+can you turn the sound back on for my left hearing aid,device.volume.unmute,device.volume.unmute,0.9997905
+could you please stream audio from music,streaming.session.start,streaming.session.start,0.9998587
+go ahead and hook up the television to my hearing aids,streaming.session.start,streaming.session.start,0.99960524
+let's mute my devices,device.volume.mute,device.volume.mute,0.99950844
+can you please set up a reminder to walk the dog in a couple of hours,reminders.task.create,reminders.task.create,0.9999037
+help me increase my right aid volume,device.volume.increase,device.volume.increase,0.999906
+setting number three,device.memory.change,device.memory.change,0.9992641
+please remind me to pick up my prescription at 5 p.m. on tuesday,reminders.task.create,reminders.task.create,0.99989384
+i want to check off my alarm,reminders.task.complete,reminders.task.complete,0.99988604
+quickly complete my active reminder,reminders.task.complete,reminders.task.complete,0.99990577
+i'd like you to unlink the radio,streaming.session.stop,streaming.session.stop,0.9998051
+help me turn my right hearing aid up a bit,device.volume.increase,device.volume.increase,0.99982333
+i want to play an audiobook through my hearing aids,streaming.session.start,streaming.session.start,0.9995284
+i would like to complete my last reminder,reminders.task.complete,reminders.task.complete,0.9999119
+i'd like to hook up the tv to my hearing aids,streaming.session.start,streaming.session.start,0.999818
+"hey, end the connection to my phone",streaming.session.stop,streaming.session.stop,0.99961764
+i'd like to bring the sound back on my hearing devices,device.volume.unmute,device.volume.unmute,0.99989414
+i'd like you to undo the mute on my hearing aids,device.volume.unmute,device.volume.unmute,0.9998997
+please change settings to three,device.memory.change,device.memory.change,0.9995632
+could you please switch off the sound on my device,device.volume.mute,device.volume.mute,0.99963707
+set program to master,device.memory.change,device.memory.change,0.9997349
+please disconnect my hearing aids from my laptop,streaming.session.stop,streaming.session.stop,0.99985987
+how do i create my reminder settings,help.reminder.show,help.reminder.show,0.99986553
+i'm trying to mute my hearing aids,device.volume.mute,device.volume.unmute,0.99931866
+hey can you mark my current reminder done,reminders.task.complete,reminders.task.complete,0.9999442
+remember to wake up at 6 a.m.,reminders.task.create,reminders.task.create,0.99892664
+walk me through how to turn off a task reminder,help.reminder.show,help.reminder.show,0.9999171
+kindly mark my alarm as complete,reminders.task.complete,reminders.task.complete,0.99977994
+can you train memory,device.memory.change,device.memory.change,0.9995618
+tell me how to manage a recurring reminder,help.reminder.show,help.reminder.show,0.9999585
+can you reduce the volume on my device,device.volume.decrease,device.volume.decrease,0.9999033
+i need you to unmute my hearing device,device.volume.unmute,device.volume.unmute,0.99955964
+i'd like you to bring up the volume on my hearing aid,device.volume.increase,device.volume.increase,0.9997721
+i'm trying to raise the volume on my right hearing aid,device.volume.increase,device.volume.decrease,0.99989927
+"hey, could you please turn down the volume on my hearing aids",device.volume.decrease,device.volume.decrease,0.99974567
+i'd like to stop the audio from my remote mic,streaming.session.stop,streaming.session.stop,0.9998628
+would you restore the sound on my right aid,device.volume.unmute,device.volume.unmute,0.9994102
+set setting to one,device.memory.change,device.memory.change,0.99950176
+can you please create a reminder for tomorrow evening to pay rent,reminders.task.create,reminders.task.create,0.99993557
+could you please cut the volume on my right ear hearing aid,device.volume.mute,device.volume.decrease,0.99920946
+hey can you where is my smartphone in the house,find.phone.locate,find.phone.locate,0.9998491
+turn the volume up on the hearing aid,device.volume.increase,device.volume.increase,0.99990135
+i'd like you to put both my aids on mute,device.volume.mute,device.volume.mute,0.99937755
+help me check a medication reminder,help.reminder.show,help.reminder.show,0.99990314
+could you please louden my left hearing aid,device.volume.increase,device.volume.decrease,0.9999114
+shift into the outdoor profile,device.memory.change,device.memory.change,0.99721277
+i need you to check that reminder off my list,reminders.task.complete,reminders.task.complete,0.99991477
+"i need help, ring my android phone somewhere",find.phone.locate,find.phone.locate,0.9996649
+can you please create a reminder for in 20 minutes to take my medication,reminders.task.create,reminders.task.create,0.9999168
+kindly boost the volume on both hearing aids,device.volume.increase,device.volume.increase,0.99980944
+can you please start streaming from the television,streaming.session.start,streaming.session.start,0.9998441
+switch memory to theater,device.memory.change,device.memory.change,0.9997889
+i'd like to turn down my left aid,device.volume.decrease,device.volume.decrease,0.99983054
+i would like to send the audio from music to my hearing aids,streaming.session.start,streaming.session.start,0.99985296
+just cross off that reminder,reminders.task.complete,reminders.task.complete,0.9998314
+i'd like you to begin streaming my remote microphone,streaming.session.start,streaming.session.start,0.99988526
+i'm trying to push the volume up on my devices,device.volume.increase,device.volume.increase,0.99989855
+help me reduce my hearing aids volume,device.volume.decrease,device.volume.increase,0.9998973
+can you change to car memory,device.memory.change,device.memory.change,0.9998446
+can you switch program to one,device.memory.change,device.memory.change,0.99986565
+can you please add a reminder to do my exercises this weekend,reminders.task.create,reminders.task.create,0.99992496
+hey can you turn off the connection to my remote mic,streaming.session.stop,streaming.session.stop,0.9998883
+just finish my alarm,reminders.task.complete,reminders.task.complete,0.99978167
+locate phone,find.phone.locate,find.phone.locate,0.9968848
+please volume on right aid,device.volume.unmute,device.volume.mute,0.9992149
+how do i adjust a daily reminder,help.reminder.show,help.reminder.show,0.9998649
+scale back the sound,device.volume.decrease,device.volume.mute,0.9991023
+is there a way to duplicate my reminders,help.reminder.show,help.reminder.show,0.9999048
+i want you to stream audio from my ipad,streaming.session.start,streaming.session.start,0.999848
+please set memory to automatic,device.memory.change,device.memory.change,0.99978524
+can you set a reminder for 8 a.m.,reminders.task.create,reminders.task.create,0.999944
+"help me out, can you find my android phone in the living room",find.phone.locate,find.phone.locate,0.99978554
+would you decrease the left aid volume,device.volume.decrease,device.volume.decrease,0.9998553
+could you turn my right aid back on,device.volume.unmute,device.volume.unmute,0.9998543
+tell me how to create a reminder notification,help.reminder.show,help.reminder.show,0.9999126
+please remind me to boil water every morning by 7 a.m.,reminders.task.create,reminders.task.create,0.99974984
+i want you to bring the sound back on my hearing devices,device.volume.unmute,device.volume.unmute,0.9999149
+how do i rename a reminder,help.reminder.show,help.reminder.show,0.9999201
+roll back the sound level,device.volume.decrease,device.volume.decrease,0.99886906
+can you clear the task,reminders.task.complete,reminders.task.complete,0.9997541
+kindly silence my left aid,device.volume.mute,device.volume.mute,0.99963635
+explain how to check a medication reminder,help.reminder.show,help.reminder.show,0.99993765
+help me dismiss the task,reminders.task.complete,reminders.task.complete,0.9996753
+how do i adjust a medication reminder,help.reminder.show,help.reminder.show,0.99989116
+i'd like to dismiss this task,reminders.task.complete,reminders.task.complete,0.999707
+i'd like you to increase the volume on my devices,device.volume.increase,device.volume.increase,0.9998995
+just end the stream from my music player,streaming.session.stop,streaming.session.stop,0.9998541
+quickly switch the sound back on for my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.9997766
+i want you to stop all sound on my devices,device.volume.mute,device.volume.mute,0.99962646
+set to telephone memory,device.memory.change,device.memory.change,0.99983025
+just complete my latest reminder,reminders.task.complete,reminders.task.complete,0.9999041
+turn up the hearing aid volume,device.volume.increase,device.volume.increase,0.9998889
+can you please turn my devices off completely,device.volume.mute,device.volume.mute,0.9995848
+show me how to delete the reminder feature,help.reminder.show,help.reminder.show,0.9998542
+i need you to turn the sound back on for my hearing devices,device.volume.unmute,device.volume.unmute,0.9996182
+switch my hearing aid program to memory number one,device.memory.change,device.memory.change,0.9996126
+kindly max out my hearing device a little,device.volume.increase,device.volume.decrease,0.9997548
+how does one check my reminders,help.reminder.show,help.reminder.show,0.9998934
+go ahead and disconnect from my ipad,streaming.session.stop,streaming.session.stop,0.99967456
+please turn my aids down,device.volume.decrease,device.volume.decrease,0.9997933
+would you push the volume up on my left aid,device.volume.increase,device.volume.increase,0.99992335
+where do i go to pause my reminder settings,help.reminder.show,help.reminder.show,0.9999271
+would you turn off the sound on my device,device.volume.mute,device.volume.mute,0.99959314
+"hey, can i set a recurring reminder",help.reminder.show,help.reminder.show,0.9999405
+can you get the sound working again on my hearing device,device.volume.unmute,device.volume.unmute,0.9998382
+let's check this reminder off my list,reminders.task.complete,reminders.task.complete,0.99992955
+help me turn off the connection to my remote mic,streaming.session.stop,streaming.session.stop,0.9997492
+i'd like you to start listening to a podcast,streaming.session.start,streaming.session.start,0.9989796
+can you make the volume more on hearing aids,device.volume.increase,device.volume.increase,0.99988407
+i want to know how to set up a task reminder,help.reminder.show,help.reminder.show,0.99991703
+change my hearing aid program to telephone,device.memory.change,device.memory.change,0.9997781
+i would like to stop streaming from youtube,streaming.session.stop,streaming.session.stop,0.99987805
+quickly raise the volume on the left aid,device.volume.increase,device.volume.decrease,0.9999108
+would you mark this reminder as done,reminders.task.complete,reminders.task.complete,0.9999341
+could you set up a reminder to stretch every night,reminders.task.create,reminders.task.create,0.9998994
+i'd like you to get the sound working again on my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.9997089
+please change to home program,device.memory.change,device.memory.change,0.99989516
+stream the audio to my devices,streaming.session.start,streaming.session.start,0.99935204
+i want to know how to resume the reminder feature,help.reminder.show,help.reminder.show,0.99991447
+explain how to view a daily reminder,help.reminder.show,help.reminder.show,0.9999047
+please turn the volume back on for both hearing aids,device.volume.unmute,device.volume.unmute,0.9998288
+"i'm curious, where do i see my reminders",help.reminder.show,help.reminder.show,0.99981755
+please change to outdoors program,device.memory.change,device.memory.change,0.99990344
+can you remind me to drink some water in 5 minutes,reminders.task.create,reminders.task.create,0.99991935
+go ahead and complete the task,reminders.task.complete,reminders.task.complete,0.99954027
+can you set memory to office,device.memory.change,device.memory.change,0.9998508
+"hey, mute my device",device.volume.mute,device.volume.mute,0.99959034
+show me how to turn on a reminder on my phone,help.reminder.show,help.reminder.show,0.99991554
+i'd like you to switch the sound back on for my devices,device.volume.unmute,device.volume.unmute,0.99872106
+i'd like to turn off streaming from youtube,streaming.session.stop,streaming.session.stop,0.999891
+would you unlink youtube,streaming.session.stop,streaming.session.stop,0.99948364
+"hey, make my left hearing aid quieter",device.volume.decrease,device.volume.decrease,0.9999036
+could you please close out the alarm,reminders.task.complete,reminders.task.complete,0.9998469
+how do i set up an alarm,help.reminder.show,help.reminder.show,0.9997706
+can i adjust a task reminder,help.reminder.show,help.reminder.show,0.99986434
+kindly close out this task,reminders.task.complete,reminders.task.complete,0.999764
+could you please begin streaming the microphone,streaming.session.start,streaming.session.start,0.99977714
+i'm trying to start streaming from a video,streaming.session.start,streaming.session.start,0.99969083
+"i'm curious, how do reminders show up",help.reminder.show,help.reminder.show,0.9998917
+"hey, switch off the sound on my hearing devices",device.volume.mute,device.volume.mute,0.9996673
+please set memory to quiet,device.memory.change,device.memory.change,0.9997415
+can you turn the volume up,device.volume.increase,device.volume.increase,0.99979675
+"hey, check the reminder off my list",reminders.task.complete,reminders.task.complete,0.99991417
+"quick, where is my phone in my car",find.phone.locate,find.phone.locate,0.9996391
+can you please turn my hearing device off completely,device.volume.mute,device.volume.mute,0.99969625
+i would like to get the sound working again on my device,device.volume.unmute,device.volume.unmute,0.9998234
+let's restore the sound on the hearing aids,device.volume.unmute,device.volume.unmute,0.999742
+kindly crank up my right aid,device.volume.increase,device.volume.increase,0.99952453
+stream this to my aids,streaming.session.start,streaming.session.start,0.9989976
+i need to start audio streaming from my tablet,streaming.session.start,streaming.session.start,0.9998472
+quickly bring down the volume on the right aid,device.volume.decrease,device.volume.decrease,0.9999249
+could you please hook up my phone to my hearing aids,streaming.session.start,streaming.session.start,0.9994164
+can you please cross off this reminder,reminders.task.complete,reminders.task.complete,0.9999133
+quickly switch the sound back on for the right aid,device.volume.unmute,device.volume.unmute,0.99974245
+please set setting to two,device.memory.change,device.memory.change,0.9996376
+quickly raise the volume on my devices,device.volume.increase,device.volume.increase,0.99987304
+explain how to edit the reminder feature,help.reminder.show,help.reminder.show,0.9999213
+could you unmute my hearing aids,device.volume.unmute,device.volume.unmute,0.9997477
+i lost my phone make it sound,find.phone.locate,find.phone.locate,0.8794504
+start audio streaming from a video,streaming.session.start,streaming.session.start,0.9997364
+i need to end the connection to my remote microphone,streaming.session.stop,streaming.session.stop,0.99986917
+let's turn the volume back on for my left hearing aid,device.volume.unmute,device.volume.unmute,0.9999237
+i'd like you to turn up my aids,device.volume.increase,device.volume.increase,0.99927926
+go ahead and kill the volume on both hearing aids,device.volume.mute,device.volume.mute,0.9991577
+"hey, i can't find my android phone nearby",find.phone.locate,find.phone.locate,0.9997967
+amplify my devices,device.volume.increase,device.volume.increase,0.9992896
+i'd like to turn my hearing device off completely,device.volume.mute,device.volume.mute,0.99966604
+how does one create a recurring reminder,help.reminder.show,help.reminder.show,0.999917
+can you set reminders,reminders.task.create,reminders.task.create,0.99979216
+could you please stream audio from phone calls,streaming.session.start,streaming.session.start,0.9998407
+tell me how to view the reminder feature,help.reminder.show,help.reminder.show,0.9999146
+turn my aids down,device.volume.decrease,device.volume.decrease,0.9996754
+please change to speech,device.memory.change,device.memory.change,0.99971676
+let's silence my hearing device,device.volume.mute,device.volume.mute,0.9997494
+would you please turn off streaming from the radio,streaming.session.stop,streaming.session.stop,0.99986976
+help me bring up the volume on my right ear hearing aid,device.volume.increase,device.volume.increase,0.9998582
+can you switch to noise program,device.memory.change,device.memory.change,0.9996606
+set an alarm to read a book in 30 minutes,reminders.task.create,reminders.task.create,0.9997536
+how do reminders work,help.reminder.show,help.reminder.show,0.99984294
+please switch to gym program,device.memory.change,device.memory.change,0.9997129
+can you set program to everyday,device.memory.change,device.memory.change,0.99965423
+that reminder is done remove it,reminders.task.complete,reminders.task.complete,0.99989116
+can you turn the volume all the way down on my left aid,device.volume.mute,device.volume.decrease,0.9994834
+i want to know how to mute a daily reminder,help.reminder.show,help.reminder.show,0.9999174
+i need to knock down the volume on my hearing device,device.volume.decrease,device.volume.decrease,0.99992853
+kindly turn the volume all the way down on the hearing aids,device.volume.mute,device.volume.decrease,0.9996619
+could you stop the audio from a podcast,streaming.session.stop,streaming.session.stop,0.9998417
+hey can you ring my iphone at home,find.phone.locate,find.phone.locate,0.9996099
+i'm trying to check off my active reminder,reminders.task.complete,reminders.task.complete,0.9999048
+make reminder,reminders.task.create,help.reminder.show,0.9991418
+i want you to max out my devices a little,device.volume.increase,device.volume.increase,0.9994976
+hey can you turn off streaming from my laptop,streaming.session.stop,streaming.session.stop,0.9999016
+change memory,device.memory.change,device.memory.change,0.9988973
+dial down my right aid,device.volume.decrease,device.volume.increase,0.9997399
+i need you to mark this reminder as complete,reminders.task.complete,reminders.task.complete,0.9999401
+"hey, could you please end the connection to the microphone",streaming.session.stop,streaming.session.stop,0.99980307
+i'm trying to stop listening to my phone,streaming.session.stop,streaming.session.stop,0.99972016
+unmute my hearing devices,device.volume.unmute,device.volume.unmute,0.99956536
+help with reminders,help.reminder.show,help.reminder.show,0.99975604
+can you complete this reminder.,reminders.task.complete,reminders.task.complete,0.9999094
+hey can you mark the alarm as complete,reminders.task.complete,reminders.task.complete,0.9997534
+"hey, could you please lower the volume on my hearing aid",device.volume.decrease,device.volume.decrease,0.9998535
+hey can you turn down the right aid,device.volume.decrease,device.volume.decrease,0.99985695
+help me cancel a reminder on my phone,help.reminder.show,help.reminder.show,0.99991685
+i'd like to turn off the volume on my left ear hearing aid,device.volume.mute,device.volume.mute,0.9998027
+"hey, unmute my left ear hearing aid",device.volume.unmute,device.volume.mute,0.99934155
+i would like to turn down the volume on my left ear hearing aid,device.volume.decrease,device.volume.decrease,0.99974585
+i need you to dial up my devices,device.volume.increase,device.volume.increase,0.99890655
+"ugh, i misplaced my iphone nearby",find.phone.locate,find.phone.locate,0.9996965
+"quick, ring my android phone nearby",find.phone.locate,find.phone.locate,0.99964875
+could you stop all sound on both hearing aids,device.volume.mute,device.volume.mute,0.99986005
+kindly knock down the volume on my devices,device.volume.decrease,device.volume.decrease,0.9998698
+where's my cell phone in this room,find.phone.locate,find.phone.locate,0.999676
+just stop the stream coming from a podcast,streaming.session.stop,streaming.session.stop,0.9998233
+"hey, find my android in this room",find.phone.locate,find.phone.locate,0.99984366
+please remind me tomorrow to call,reminders.task.create,reminders.task.create,0.99982524
+how do i create an alarm,help.reminder.show,help.reminder.show,0.99982387
+go ahead and stop all sound on my right ear hearing aid,device.volume.mute,device.volume.mute,0.999814
+could you track down my mobile phone in this room,find.phone.locate,find.phone.locate,0.99979806
+kindly stop listening to the television,streaming.session.stop,streaming.session.stop,0.99974966
+please turn on streaming,streaming.session.start,streaming.session.stop,0.98843515
+i'd like to disconnect from my phone,streaming.session.stop,streaming.session.stop,0.9994154
+"i'm done with the quiet, please unmute my hearing aids",device.volume.unmute,device.volume.mute,0.9995765
+can you create a reminder for tonight to start the meeting,reminders.task.create,reminders.task.create,0.99992573
+"one thing, how do i view my reminders",help.reminder.show,help.reminder.show,0.99991745
+"hey, search for my smartphone in the house",find.phone.locate,find.phone.locate,0.99986744
+could you stop streaming from my remote microphone,streaming.session.stop,streaming.session.stop,0.999699
+could you please set an alarm to call my sister in 15 minutes,reminders.task.create,reminders.task.create,0.9998776
+can you raise the left aid,device.volume.increase,device.volume.decrease,0.9997764
+change my hearing aid program to quiet,device.memory.change,device.memory.change,0.99971783
+how does one reschedule my reminders,help.reminder.show,help.reminder.show,0.9999226
+can you set program to telephone,device.memory.change,device.memory.change,0.9997237
+"hey, bring the sound back on my right aid",device.volume.unmute,device.volume.unmute,0.99982136
+just put the left aid on mute,device.volume.mute,device.volume.mute,0.99954635
+i need to close out my latest reminder,reminders.task.complete,reminders.task.complete,0.9999379
+please close out the alarm,reminders.task.complete,reminders.task.complete,0.9998051
+"ugh, where's my smartphone around here",find.phone.locate,find.phone.locate,0.99962205
+can you set an alarm to call mom every morning,reminders.task.create,reminders.task.create,0.99985975
+"quick question, can i set reminders for medication",help.reminder.show,help.reminder.show,0.99991846
+"quick, locate my telephone in the living room",find.phone.locate,find.phone.locate,0.9997074
+i need you to decrease the volume on my aids,device.volume.decrease,device.volume.decrease,0.99993646
+could you turn up my devices,device.volume.increase,device.volume.increase,0.99930257
+"hey, start audio streaming from a video",streaming.session.start,streaming.session.start,0.99974823
+can you switch to everyday memory,device.memory.change,device.memory.change,0.9998034
+go ahead and undo the mute on both my aids,device.volume.unmute,device.volume.unmute,0.9998791
+i want to check this reminder off my list,reminders.task.complete,reminders.task.complete,0.999929
+switch the sound back on for my device,device.volume.unmute,device.volume.unmute,0.998784
+hey can you turn the sound down on my hearing aid,device.volume.decrease,device.volume.decrease,0.9998568
+can you please turn the volume all the way down on my right ear hearing aid,device.volume.mute,device.volume.decrease,0.99940515
+change program to two,device.memory.change,device.memory.change,0.9998465
+can you please set a reminder to take my pills every night,reminders.task.create,reminders.task.create,0.9999367
+would you send the audio from my ipad to my hearing aids,streaming.session.start,streaming.session.start,0.9998223
+please stop listening to a phone call,streaming.session.stop,streaming.session.stop,0.99985677
+i'm trying to get the sound working again on both hearing aids,device.volume.unmute,device.volume.unmute,0.99985
+could you mark my active reminder as complete,reminders.task.complete,reminders.task.complete,0.99995244
+"hey, close out the task",reminders.task.complete,reminders.task.complete,0.9997414
+how can i reschedule my reminders,help.reminder.show,help.reminder.show,0.99992657
+i'd like you to raise my left hearing aid,device.volume.increase,device.volume.increase,0.9997423
+i want you to increase my hearing aid volume,device.volume.increase,device.volume.increase,0.9998941
+please turn my hearing aid volume back on,device.volume.unmute,device.volume.unmute,0.99981725
+could you stop the audio from my meeting audio,streaming.session.stop,streaming.session.stop,0.9998053
+i'm trying to decrease my devices volume,device.volume.decrease,device.volume.decrease,0.9998673
+i need to lower the volume on my right hearing aid,device.volume.decrease,device.volume.decrease,0.9999083
+i want to reduce the volume on the right aid,device.volume.decrease,device.volume.decrease,0.99994063
+switch the sound back on for my right aid,device.volume.unmute,device.volume.unmute,0.999253
+please change setting to number two,device.memory.change,device.memory.change,0.9997434
+please change to music memory,device.memory.change,device.memory.change,0.99987453
+"hey, turn down my aids",device.volume.decrease,device.volume.decrease,0.99975437
+can you listen to the tv,streaming.session.start,streaming.session.start,0.9997318
+help me understand what can reminders do,help.reminder.show,help.reminder.show,0.9999411
+would you please take my left ear hearing aid off mute,device.volume.unmute,device.volume.unmute,0.9994647
+i want to mark my reminder as complete,reminders.task.complete,reminders.task.complete,0.9999656
+can you schedule a reminder to join the meeting at 5pm,reminders.task.create,reminders.task.create,0.9998912
+hey can you where did i leave my mobile,find.phone.locate,find.phone.locate,0.9993086
+kindly check off my latest reminder,reminders.task.complete,reminders.task.complete,0.9999337
+quickly cross off the task,reminders.task.complete,reminders.task.complete,0.9997401
+"hey, could you please silence my hearing aids",device.volume.mute,device.volume.mute,0.99980646
+"hey, could you please complete this reminder",reminders.task.complete,reminders.task.complete,0.99990374
+would you turn off the volume on my devices,device.volume.mute,device.volume.mute,0.9997407
+i need to cross off my reminder,reminders.task.complete,reminders.task.complete,0.9999258
+hey can you search for my mobile phone in the kitchen,find.phone.locate,find.phone.locate,0.9997976
+could you get the sound working again on my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.99977064
+walk me through how to set my reminders,help.reminder.show,help.reminder.show,0.9999321
+i would like to make the left aid softer,device.volume.decrease,device.volume.decrease,0.9998231
+hey can you reduce my hearing aid volume,device.volume.decrease,device.volume.increase,0.99991184
+could you please connect to a video and start streaming,streaming.session.start,streaming.session.start,0.9998113
+i would like to turn off streaming from youtube,streaming.session.stop,streaming.session.stop,0.9998998
+can you please set a reminder for every morning to check in with my nurse,reminders.task.create,reminders.task.create,0.9999244
+explain how to unmute a task reminder,help.reminder.show,reminders.task.complete,0.99986035
+please reduce my right aid volume,device.volume.decrease,device.volume.increase,0.9998539
+please turn my left hearing aid back on,device.volume.unmute,device.volume.unmute,0.99989766
+hey can you decrease the volume on both my aids,device.volume.decrease,device.volume.decrease,0.99980587
+show me how to set a reminder on my phone,help.reminder.show,help.reminder.show,0.9999212
+can you switch to car memory,device.memory.change,device.memory.change,0.9998072
+kindly max out my left hearing aid a little,device.volume.increase,device.volume.decrease,0.9997939
+i'd like you to clear my current reminder,reminders.task.complete,reminders.task.complete,0.99990994
+set to office memory,device.memory.change,device.memory.change,0.9998415
+finish the reminder,reminders.task.complete,reminders.task.complete,0.9996776
+please track down my mobile phone somewhere,find.phone.locate,find.phone.locate,0.9997654
+"help me out, search for my cell phone in the kitchen",find.phone.locate,find.phone.locate,0.9997481
+would you please unmute both my aids,device.volume.unmute,device.volume.unmute,0.9997594
+"my hearing devices has no sound right now, can you unmute it",device.volume.unmute,device.volume.mute,0.9995384
+just mark my active reminder as complete,reminders.task.complete,reminders.task.complete,0.9999289
+could you please switch the sound back on for my right hearing aid,device.volume.unmute,device.volume.unmute,0.99945456
+can you change to outdoors memory,device.memory.change,device.memory.change,0.9998633
+could you switch the sound back on for my hearing aid,device.volume.unmute,device.volume.unmute,0.99923116
+kindly check my last reminder off my list,reminders.task.complete,reminders.task.complete,0.999904
+can you set a reminder for in an hour to charge my hearing aids,reminders.task.create,reminders.task.create,0.9999104
+can you please create a reminder for every morning to go for a walk,reminders.task.create,reminders.task.create,0.9999167
+i'd like you to ease down the volume on the right aid,device.volume.decrease,device.volume.decrease,0.99986744
+can i personalize a medication reminder,help.reminder.show,help.reminder.show,0.9999331
+please turn down the volume in my right hearing aid,device.volume.decrease,device.volume.decrease,0.9998627
+please remind me to go running at 6 a.m.,reminders.task.create,reminders.task.create,0.99990875
+i need you to shut off the sound on both my aids,device.volume.mute,device.volume.mute,0.99947345
+can you turn down the loudness on my hearing aids,device.volume.decrease,device.volume.decrease,0.9998989
+help me stop streaming from my remote microphone,streaming.session.stop,streaming.session.stop,0.99958354
+quickly send the audio from an audiobook to my hearing aids,streaming.session.start,streaming.session.start,0.99983275
+ring my android in the kitchen,find.phone.locate,find.phone.locate,0.9995436
+would you please dial down my hearing devices,device.volume.decrease,device.volume.increase,0.99982685
+switch memory to number one,device.memory.change,device.memory.change,0.99982345
+can you show me how to resume a recurring reminder,help.reminder.show,help.reminder.show,0.9999151
+can you boost the volume on my hearing aids,device.volume.increase,device.volume.increase,0.99971664
+"ugh, where did i leave my android phone at home",find.phone.locate,find.phone.locate,0.99957824
+would you please take my right hearing aid off mute,device.volume.unmute,device.volume.mute,0.9996809
+i want you to decrease the volume on the left aid,device.volume.decrease,device.volume.decrease,0.9998795
+hey can you cut the volume on both hearing aids,device.volume.mute,device.volume.mute,0.9993891
+change the active profile,device.memory.change,device.memory.change,0.9879524
+i'm trying to shut off the sound on my hearing device,device.volume.mute,device.volume.unmute,0.9993676
+i'd like you to check off my latest reminder,reminders.task.complete,reminders.task.complete,0.99990046
+help me disconnect my hearing aids from the microphone,streaming.session.stop,streaming.session.stop,0.9997596
+i'd like to dismiss my task,reminders.task.complete,reminders.task.complete,0.99970627
+i would like to disconnect from my meeting audio,streaming.session.stop,streaming.session.stop,0.99973357
+"quick question, can i set multiple reminders",help.reminder.show,help.reminder.show,0.9999373
+"just wondering, how do i view my reminders",help.reminder.show,help.reminder.show,0.9999026
+can you turn my hearing aid back on,device.volume.unmute,device.volume.unmute,0.99982613
+would you please switch off the sound on my left hearing aid,device.volume.mute,device.volume.mute,0.99978304
+make sure i remember tomorrow,reminders.task.create,reminders.task.create,0.9992451
+"hey, soften my devices",device.volume.decrease,device.volume.decrease,0.9997237
+i need to dial down the left aid,device.volume.decrease,device.volume.decrease,0.99990106
+hey can you boost the volume on my devices,device.volume.increase,device.volume.increase,0.9997099
+kill the volume on my devices,device.volume.mute,device.volume.mute,0.9991369
+track down my cellphone in this room,find.phone.locate,find.phone.locate,0.99976546
+can you please disconnect from my phone,streaming.session.stop,streaming.session.stop,0.9997305
+go ahead and start streaming from my phone,streaming.session.start,streaming.session.start,0.99890405
+is it possible to personalize a reminder notification,help.reminder.show,help.reminder.show,0.9998824
+"hey, my cellphone is missing in the kitchen",find.phone.locate,find.phone.locate,0.9996117
+i'm trying to shut off the sound on my right ear hearing aid,device.volume.mute,device.volume.mute,0.9996279
+is it possible to turn off a recurring reminder,help.reminder.show,help.reminder.show,0.9998353
+need to set a reminder,reminders.task.create,help.reminder.show,0.99984664
+can you switch to golf program,device.memory.change,device.memory.change,0.9997352
+more volume,device.volume.increase,device.volume.increase,0.9979856
+"quick, i lost my android phone in the living room",find.phone.locate,find.phone.locate,0.9997283
+please change memory to master,device.memory.change,device.memory.change,0.99987024
+could you add a reminder to pick up my prescription when i get home,reminders.task.create,reminders.task.create,0.9999114
+please create a reminder for in 30 minutes to drink water,reminders.task.create,reminders.task.create,0.9999375
+connect to my remote microphone and start streaming,streaming.session.start,streaming.session.start,0.99975896
+i want to know how to create my reminder settings,help.reminder.show,help.reminder.show,0.99990886
+please listen to a video through my hearing aids,streaming.session.start,streaming.session.start,0.9997016
+help me stop listening to the television,streaming.session.stop,streaming.session.stop,0.99979734
+would you please take both hearing aids off mute,device.volume.unmute,device.volume.unmute,0.99945205
+please switch to office program,device.memory.change,device.memory.change,0.9998166
+can you switch to mute memory,device.memory.change,device.memory.change,0.99967325
+change my hearing mode,device.memory.change,device.memory.change,0.99678737
+just turn my device off completely,device.volume.mute,device.volume.mute,0.9994008
+i want you to make my aids quieter,device.volume.decrease,device.volume.decrease,0.99982584
+kindly turn the volume back on for the hearing aids,device.volume.unmute,device.volume.unmute,0.99985546
+"hey, could you please lower my left aid",device.volume.decrease,device.volume.decrease,0.99981624
+explain how to disable a reminder,help.reminder.show,help.reminder.show,0.99992824
+could you please set a reminder for at 5pm to do the laundry,reminders.task.create,reminders.task.create,0.999939
+explain how to check my reminder settings,help.reminder.show,help.reminder.show,0.9999309
+switch my memory,device.memory.change,device.memory.change,0.99931735
+would you end the stream from an audiobook,streaming.session.stop,streaming.session.stop,0.99984527
+please schedule physical therapy appointment tomorrow morning 8:40 a.m.,reminders.task.create,reminders.task.create,0.9990076
+can you change program to worship,device.memory.change,device.memory.change,0.99983054
+"hey, restore the sound on my hearing devices",device.volume.unmute,device.volume.unmute,0.99949086
+can you please create a reminder to join the meeting at 9am,reminders.task.create,reminders.task.create,0.99991715
+hey can you track my mobile in my car,find.phone.locate,find.phone.locate,0.99981886
+i want to silence the right aid,device.volume.mute,device.volume.mute,0.9995955
+i need to increase the volume on my aids,device.volume.increase,device.volume.increase,0.99994564
+"hey, could you please end the connection to phone calls",streaming.session.stop,streaming.session.stop,0.9993722
+could you please unmute my right hearing aid,device.volume.unmute,device.volume.unmute,0.99939656
+"quick, search for my handset somewhere",find.phone.locate,find.phone.locate,0.9997664
+quickly restore the sound on the left aid,device.volume.unmute,device.volume.unmute,0.9994099
+would you please cut the stream from my meeting audio,streaming.session.stop,streaming.session.stop,0.9998728
+could you please push the volume up on my device,device.volume.increase,device.volume.increase,0.99989456
+please remember to wake up tomorrow,reminders.task.create,reminders.task.complete,0.9993874
+go ahead and increase the volume on my hearing device,device.volume.increase,device.volume.increase,0.999882
+make sure i remember this tonight,reminders.task.create,reminders.task.create,0.99907935
+i'm trying to begin streaming my tablet,streaming.session.start,streaming.session.start,0.999584
+can you make my right ear hearing aid softer,device.volume.decrease,device.volume.decrease,0.9999061
+i'd like to bring up the volume on my right aid,device.volume.increase,device.volume.increase,0.999882
+i want to silence my hearing devices,device.volume.mute,device.volume.mute,0.99981487
+hey can you turn the volume all the way down on both hearing aids,device.volume.mute,device.volume.decrease,0.999471
+would you turn up my aids,device.volume.increase,device.volume.increase,0.99897337
+"hey, can you find my mobile in the living room",find.phone.locate,find.phone.locate,0.99975765
+could you end the connection to the tv,streaming.session.stop,streaming.session.stop,0.99981743
+reminder for 4.15 p.m. today visit grandma please,reminders.task.create,reminders.task.create,0.9997919
+i need to send the audio from my computer to my hearing aids,streaming.session.start,streaming.session.start,0.99984974
+could you reduce the volume on both my aids,device.volume.decrease,device.volume.decrease,0.9998886
+sound off,device.volume.mute,device.volume.mute,0.9980822
+can you please create a reminder for in 10 minutes to pay rent,reminders.task.create,reminders.task.create,0.99991363
+turn the volume back on for my left hearing aid,device.volume.unmute,device.volume.unmute,0.99989545
+"ugh, my mobile is missing in this room",find.phone.locate,find.phone.locate,0.9994951
+i need you to lower the right aid,device.volume.decrease,device.volume.decrease,0.99976975
+can you complete my active reminder,reminders.task.complete,reminders.task.complete,0.99993783
+"quick, find my android phone nearby",find.phone.locate,find.phone.locate,0.9998457
+i'd like you to turn the volume all the way down on the left aid,device.volume.mute,device.volume.decrease,0.999381
+please go to outdoors,device.memory.change,device.memory.change,0.99558455
+could you hook up the television to my hearing aids,streaming.session.start,streaming.session.start,0.99979556
+let's unlink my remote microphone,streaming.session.stop,streaming.session.stop,0.9997577
+i would like to stop listening to my remote microphone,streaming.session.stop,streaming.session.stop,0.9997829
+please track down my cellphone,find.phone.locate,find.phone.locate,0.999638
+can you please schedule a reminder to pay the bills every day at noon,reminders.task.create,reminders.task.create,0.99989134
+go ahead and clear my reminder,reminders.task.complete,reminders.task.complete,0.99995327
+kindly route an audiobook through my hearing aids,streaming.session.start,streaming.session.start,0.99976486
+"hey, could you please disconnect from a phone call",streaming.session.stop,streaming.session.stop,0.99949855
+would you hook up the tv to my hearing aids,streaming.session.start,streaming.session.start,0.9997936
+please switch the sound back on for my hearing aids,device.volume.unmute,device.volume.unmute,0.9983506
+hey can you unmute my hearing devices,device.volume.unmute,device.volume.unmute,0.9998102
+"hey, help me find my telephone at home",find.phone.locate,find.phone.locate,0.9998189
+how do i modify a recurring reminder,help.reminder.show,help.reminder.show,0.99994075
+remind me to drink water today,reminders.task.create,reminders.task.create,0.99988097
+i need you to crank up my right aid,device.volume.increase,device.volume.increase,0.99958605
+help me start listening to my remote microphone,streaming.session.start,streaming.session.start,0.99977714
+can you set to master program,device.memory.change,device.memory.change,0.9998113
+i would like to lower the left aid,device.volume.decrease,device.volume.decrease,0.9997058
+can you turn my left ear hearing aid back on,device.volume.unmute,device.volume.unmute,0.9999218
+quickly disconnect my hearing aids from an audiobook,streaming.session.stop,streaming.session.stop,0.99980074
+quickly turn the left aid off completely,device.volume.mute,device.volume.mute,0.9998576
+i need stronger audio,device.volume.increase,device.volume.mute,0.998337
+hey can you end the connection to youtube,streaming.session.stop,streaming.session.stop,0.9996277
+i want to cut the stream from the radio,streaming.session.stop,streaming.session.stop,0.99990076
+could you please louden my left aid,device.volume.increase,device.volume.decrease,0.99991775
+tell me how to turn off a reminder notification,help.reminder.show,help.reminder.show,0.99990565
+please mark my reminder done,reminders.task.complete,reminders.task.complete,0.9998873
+can you please turn up my hearing aid,device.volume.increase,device.volume.increase,0.9996712
+can you please louden my device,device.volume.increase,device.volume.increase,0.9998573
+can you switch to meeting,device.memory.change,device.memory.change,0.99976885
+hey can you ring my cellphone at home,find.phone.locate,find.phone.locate,0.99947584
+please mark the reminder as complete,reminders.task.complete,reminders.task.complete,0.9999303
+kindly turn the volume all the way down on my hearing aids,device.volume.mute,device.volume.decrease,0.9996944
+go ahead and make my devices louder,device.volume.increase,device.volume.increase,0.9998161
+turn down my left aid,device.volume.decrease,device.volume.decrease,0.9998086
+direct the audio to my hearing devices,streaming.session.start,streaming.session.start,0.9976354
+can you bring up the volume on both my aids,device.volume.increase,device.volume.increase,0.9999332
+can you finish the alarm,reminders.task.complete,reminders.task.complete,0.9998435
+kindly turn up the volume on my left aid,device.volume.increase,device.volume.decrease,0.9999197
+i'd like you to put both hearing aids on mute,device.volume.mute,device.volume.mute,0.9996736
+i need to turn the sound back on for my hearing aids,device.volume.unmute,device.volume.unmute,0.9991937
+i want you to decrease my left ear hearing aid volume,device.volume.decrease,device.volume.decrease,0.9999295
+quiet everything down to nothing,device.volume.mute,device.volume.decrease,0.9991253
+help me turn off the volume on the hearing aids,device.volume.mute,device.volume.mute,0.9998565
+can you change memory to everyday,device.memory.change,device.memory.change,0.99978745
+my mobile phone is missing,find.phone.locate,find.phone.locate,0.9993251
+i'd like you to push the volume up on my hearing aid,device.volume.increase,device.volume.increase,0.99987364
+can i remove an alarm,help.reminder.show,reminders.task.complete,0.9998386
+"hey, i lost my telephone",find.phone.locate,find.phone.locate,0.9994675
+can you switch to theater memory,device.memory.change,device.memory.change,0.9997746
+can you set program to mask,device.memory.change,device.memory.change,0.9996503
+please amplify my right aid,device.volume.increase,device.volume.increase,0.9997781
+can you remind me of my appointment,reminders.task.create,reminders.task.create,0.999857
+i'm trying to bring down the volume on my aids,device.volume.decrease,device.volume.decrease,0.99991333
+show me how to customize reminders on my hearing aids,help.reminder.show,help.reminder.show,0.9999069
+could you please soften both hearing aids,device.volume.decrease,device.volume.decrease,0.99985576
+help me remember to call grandma this evening,reminders.task.create,reminders.task.create,0.99964124
+would you turn the sound back on for my right hearing aid,device.volume.unmute,device.volume.unmute,0.99988276
+quickly stream audio from music,streaming.session.start,streaming.session.start,0.999536
+let's stream the microphone to my hearing aids,streaming.session.start,streaming.session.start,0.99961436
+i'm trying to make both my aids louder,device.volume.increase,device.volume.increase,0.9998057
+i need you to turn the volume all the way down on my hearing device,device.volume.mute,device.volume.decrease,0.99967366
+just mark my active reminder finished,reminders.task.complete,reminders.task.complete,0.999906
+can you reduce my devices volume,device.volume.decrease,device.volume.increase,0.9998241
+"hey, connect to my laptop and start streaming",streaming.session.start,streaming.session.start,0.9992402
+how do i check the reminder feature,help.reminder.show,help.reminder.show,0.9999217
+can you change setting to two,device.memory.change,device.memory.change,0.99973935
+would you put both hearing aids on mute,device.volume.mute,device.volume.mute,0.99976933
+where is my android phone,find.phone.locate,find.phone.locate,0.9995289
+would you please bring the sound back on my left hearing aid,device.volume.unmute,device.volume.unmute,0.9997324
+can you please create a reminder for every morning to water the plants,reminders.task.create,reminders.task.create,0.9998479
+just make both my aids quieter,device.volume.decrease,device.volume.decrease,0.9997658
+start streaming audio now,streaming.session.start,streaming.session.start,0.9979849
+i would like to check off the alarm,reminders.task.complete,reminders.task.complete,0.9998954
+start audio streaming,streaming.session.start,streaming.session.start,0.9989657
+please remind me to pick up my prescription this afternoon,reminders.task.create,reminders.task.create,0.99990356
+i'd like to make my hearing device louder,device.volume.increase,device.volume.increase,0.99984944
+i need you to kill the volume on both my aids,device.volume.mute,device.volume.mute,0.9992346
+where do i go to create the reminder feature,help.reminder.show,help.reminder.show,0.9998832
+i'd like you to shut off the sound on my device,device.volume.mute,device.volume.mute,0.99931407
+i'm trying to cross off my active reminder,reminders.task.complete,reminders.task.complete,0.99988526
+help me check off that reminder,reminders.task.complete,reminders.task.complete,0.9999014
+change to personal program,device.memory.change,device.memory.change,0.9999003
+"quick, where did i leave my android in my car",find.phone.locate,find.phone.locate,0.9995903
+i'm trying to stop all sound on my right ear hearing aid,device.volume.mute,device.volume.mute,0.99978626
+i'd like things quieter,device.volume.decrease,device.volume.increase,0.99956834
+can you show me how to rename a reminder on my phone,help.reminder.show,help.reminder.show,0.9999145
+i need to turn off streaming from the television,streaming.session.stop,streaming.session.stop,0.99984944
+is there a way to cancel a recurring reminder,help.reminder.show,help.reminder.show,0.9998488
+i'd like you to start streaming from my computer,streaming.session.start,streaming.session.start,0.99965906
+switch to crowd memory,device.memory.change,device.memory.change,0.9998044
+how do i repeat a medication reminder,help.reminder.show,help.reminder.show,0.9999471
+can you please turn the volume back on for the left aid,device.volume.unmute,device.volume.unmute,0.9999139
+"hey, find my cellphone in the living room",find.phone.locate,find.phone.locate,0.99979043
+i need you to end the connection to a phone call,streaming.session.stop,streaming.session.stop,0.99982214
+how does one enable reminders,help.reminder.show,help.reminder.show,0.99992657
+would you undo the mute on my right hearing aid,device.volume.unmute,device.volume.unmute,0.9997818
+quickly bring up the volume on my left aid,device.volume.increase,device.volume.increase,0.9999217
+where do i go to disable an alarm,help.reminder.show,help.reminder.show,0.999875
+can you play my music player through my hearing aids,streaming.session.start,streaming.session.start,0.9996114
+just connect to a phone call and start streaming,streaming.session.start,streaming.session.start,0.9998352
+can you please set up a reminder to attend my appointment tomorrow afternoon,reminders.task.create,reminders.task.create,0.999936
+i need to unlink an audiobook,streaming.session.stop,streaming.session.stop,0.9998352
+i need to bump up the volume on the left aid,device.volume.increase,device.volume.increase,0.99993163
+can i turn off the reminder feature,help.reminder.show,help.reminder.show,0.99988407
+put the volume back on,device.volume.unmute,device.volume.unmute,0.99957216
+please hook up my meeting audio to my hearing aids,streaming.session.start,streaming.session.start,0.99978876
+can you please bring up the volume on my right ear hearing aid,device.volume.increase,device.volume.increase,0.99986833
+help me turn the volume back on for the right aid,device.volume.unmute,device.volume.unmute,0.99992365
+can you add a reminder to go to my dentist appointment first thing tomorrow,reminders.task.create,reminders.task.create,0.9999301
+i'm trying to tone down my hearing aid,device.volume.decrease,device.volume.increase,0.9998409
+can you find my telephone around here,find.phone.locate,find.phone.locate,0.9997
+i want you to restore the sound on my right aid,device.volume.unmute,device.volume.unmute,0.99967515
+i would like to shut off the sound on the left aid,device.volume.mute,device.volume.mute,0.9996606
+kindly turn off the connection to my ipad,streaming.session.stop,streaming.session.stop,0.9998163
+"hey, help me locate my handset in the kitchen",find.phone.locate,find.phone.locate,0.99987155
+"hey, could you please shut off the sound on my hearing device",device.volume.mute,device.volume.mute,0.99955696
+let's turn my hearing devices back on,device.volume.unmute,device.volume.unmute,0.9995697
+set to meeting memory,device.memory.change,device.memory.change,0.9998618
+would you end the connection to the radio,streaming.session.stop,streaming.session.stop,0.99981505
+please finish my active reminder,reminders.task.complete,reminders.task.complete,0.99993724
+i'd like to unmute both my aids,device.volume.unmute,device.volume.unmute,0.999694
+"my device has no sound right now, can you unmute it",device.volume.unmute,device.volume.mute,0.9993556
+kindly increase the right aid volume,device.volume.increase,device.volume.increase,0.9998352
+show me how to rename a reminder on my phone,help.reminder.show,help.reminder.show,0.99993664
+help me lower the volume on my aids,device.volume.decrease,device.volume.decrease,0.9999554
+can you switch to mask,device.memory.change,device.memory.change,0.99968755
+i need you to stream a video to my hearing aids,streaming.session.start,streaming.session.start,0.99909073
+can you check this reminder off my list,reminders.task.complete,reminders.task.complete,0.99991715
+i'd like to silence my right aid,device.volume.mute,device.volume.mute,0.9996333
+i need to finish the task,reminders.task.complete,reminders.task.complete,0.99974924
+i want you to restore the sound on my hearing aids,device.volume.unmute,device.volume.unmute,0.99978244
+i need you to louden my right aid,device.volume.increase,device.volume.decrease,0.9998721
+can you create a reminder for later today to go for a walk,reminders.task.create,reminders.task.create,0.99990594
+hey can you can you find my mobile phone,find.phone.locate,find.phone.locate,0.99974126
+would you finish my last reminder,reminders.task.complete,reminders.task.complete,0.9999261
+flip into my everyday program,device.memory.change,device.memory.change,0.99978787
+can you close out this reminder,reminders.task.complete,reminders.task.complete,0.9999357
+can i customize the reminder feature,help.reminder.show,help.reminder.show,0.99989766
+remember to wash my car,reminders.task.create,reminders.task.create,0.9989977
+please change program to meeting,device.memory.change,device.memory.change,0.9998811
+schedule a reminder to call the doctor tomorrow afternoon,reminders.task.create,reminders.task.create,0.99985284
+"hey, where's my mobile phone nearby",find.phone.locate,find.phone.locate,0.999738
+can you set to train program,device.memory.change,device.memory.change,0.9997725
+i need to cut the stream from music,streaming.session.stop,streaming.session.stop,0.9997819
+can you remind me to buy bread at 11 a.m. tomorrow,reminders.task.create,reminders.task.create,0.9998333
+can you please disconnect from my ipad,streaming.session.stop,streaming.session.stop,0.9997459
+quickly start streaming from the tv,streaming.session.start,streaming.session.start,0.9994221
+i need to connect my hearing aids to the microphone,streaming.session.start,streaming.session.start,0.9997844
+would you please end the stream from music,streaming.session.stop,streaming.session.stop,0.999735
+would you cross off this task,reminders.task.complete,reminders.task.complete,0.99982756
+i'm trying to raise my devices,device.volume.increase,device.volume.increase,0.9996081
+would you please connect my hearing aids to a podcast,streaming.session.start,streaming.session.start,0.9997789
+quickly turn the sound back on for my right aid,device.volume.unmute,device.volume.unmute,0.999889
+i want to mark my latest reminder as complete,reminders.task.complete,reminders.task.complete,0.9999468
+change my hearing aid program to school,device.memory.change,device.memory.change,0.9997845
+go ahead and switch the sound back on for my hearing aid,device.volume.unmute,device.volume.unmute,0.999141
+quickly silence my left ear hearing aid,device.volume.mute,device.volume.mute,0.9994461
+can you please silence the right aid,device.volume.mute,device.volume.mute,0.9997461
+hey can you i can't find my mobile in the kitchen,find.phone.locate,find.phone.locate,0.99972457
+please change to telephone,device.memory.change,device.memory.change,0.9995482
+"i'm done listening to my ipad, please disconnect",streaming.session.stop,streaming.session.stop,0.99964356
+reduce the volume on my right aid,device.volume.decrease,device.volume.decrease,0.999941
+go ahead and unmute both my aids,device.volume.unmute,device.volume.unmute,0.99962074
+kitchen memory,device.memory.change,device.memory.change,0.99863076
+i want you to turn the volume back on for my hearing aid,device.volume.unmute,device.volume.unmute,0.9998977
+set a reminder to take my pills tomorrow morning,reminders.task.create,reminders.task.create,0.9999221
+can you please add a reminder to pick up groceries tomorrow evening,reminders.task.create,reminders.task.create,0.9999296
+"hey, could you please mark my alarm finished",reminders.task.complete,reminders.task.complete,0.9998773
+i'd like to undo the mute on both my aids,device.volume.unmute,device.volume.unmute,0.9999062
+remind me to pick up my prescription saturday at 5 p.m.,reminders.task.create,reminders.task.create,0.9998762
+let's silence my aids,device.volume.mute,device.volume.mute,0.9997045
+i need to turn the left aid off completely,device.volume.mute,device.volume.mute,0.99986064
+help me mute the right aid,device.volume.mute,device.volume.mute,0.9998603
+how can i customize a reminder notification,help.reminder.show,help.reminder.show,0.99990946
+"hey, turn both hearing aids down a bit",device.volume.decrease,device.volume.increase,0.9998444
+i would like to disconnect my hearing aids from the radio,streaming.session.stop,streaming.session.stop,0.9997949
+can you please turn off streaming from the television,streaming.session.stop,streaming.session.stop,0.9998587
+change to train memory,device.memory.change,device.memory.change,0.99983835
+let's begin streaming my remote mic,streaming.session.start,streaming.session.start,0.99973935
+go ahead and connect to a video and start streaming,streaming.session.start,streaming.session.start,0.99982697
+more volume on hearing aid,device.volume.increase,device.volume.decrease,0.9997159
+can you change to quiet program,device.memory.change,device.memory.change,0.9998109
+let's cut the stream from the microphone,streaming.session.stop,streaming.session.stop,0.999846
+please raise up the volume,device.volume.increase,device.volume.increase,0.9992171
+turn off streaming from my tablet,streaming.session.stop,streaming.session.stop,0.99923563
+go ahead and cut the volume on my hearing aids,device.volume.mute,device.volume.decrease,0.9993454
+"hey, can you find my phone somewhere",find.phone.locate,find.phone.locate,0.9997355
+"quick, i lost my android in my car",find.phone.locate,find.phone.locate,0.99976116
+please stream audio from my tablet,streaming.session.start,streaming.session.start,0.99970376
+i need to disconnect from my music player,streaming.session.stop,streaming.session.stop,0.9998059
+where do i go to change a reminder notification,help.reminder.show,help.reminder.show,0.999911
+"i was wondering, how many reminders can i set",help.reminder.show,help.reminder.show,0.99991
+add a reminder to take my pills in an hour,reminders.task.create,reminders.task.create,0.9999318
+i'd like to understand how do i manage my reminders,help.reminder.show,help.reminder.show,0.9998972
+please change to mask mode,device.memory.change,device.memory.change,0.9994144
+could you please kill the volume on my right hearing aid,device.volume.mute,device.volume.decrease,0.9992785
+i want to end the connection to a podcast,streaming.session.stop,streaming.session.stop,0.99956053
+"hey, amplify my hearing aid",device.volume.increase,device.volume.increase,0.99972004
+change memory to meeting,device.memory.change,device.memory.change,0.99987656
+please setup reminder to take medicine at 1 p.m.,reminders.task.create,reminders.task.create,0.9998995
+i want you to cut the volume on my left ear hearing aid,device.volume.mute,device.volume.decrease,0.99936515
+can you please add a reminder to pick up groceries before i leave,reminders.task.create,reminders.task.create,0.9998856
+hey can you check my active reminder off my list,reminders.task.complete,reminders.task.complete,0.9998934
+dial up my hearing devices,device.volume.increase,device.volume.increase,0.9993923
+"hey, could you please kill the volume on my hearing aids",device.volume.mute,device.volume.decrease,0.9992598
+change memory to home,device.memory.change,device.memory.change,0.9998449
+show me how to clear my reminder settings,help.reminder.show,help.reminder.show,0.99994993
+can you set to school memory,device.memory.change,device.memory.change,0.99981785
+add a reminder to check my blood pressure in a couple of hours,reminders.task.create,reminders.task.create,0.9998878
+would you remind me to water the plants tonight,reminders.task.create,reminders.task.create,0.9997457
+please cut the stream from my meeting audio,streaming.session.stop,streaming.session.stop,0.9998595
+reminder completed.,reminders.task.complete,reminders.task.complete,0.9996127
+i'd like you to check my medication reminder off my list,reminders.task.complete,reminders.task.complete,0.99985087
+would you please shut off the sound on my hearing aid,device.volume.mute,device.volume.mute,0.99980533
+can you knock down the volume on the left aid,device.volume.decrease,device.volume.decrease,0.9998895
+would you cut the stream from my remote mic,streaming.session.stop,streaming.session.stop,0.99989426
+would you complete my reminder,reminders.task.complete,reminders.task.complete,0.9998918
+could you mark my last reminder as done,reminders.task.complete,reminders.task.complete,0.99993485
+"i'm curious, how many reminders can i set",help.reminder.show,help.reminder.show,0.9998881
+hey can you hook up my remote mic to my hearing aids,streaming.session.start,streaming.session.start,0.99983263
+show me how to unmute my reminders,help.reminder.show,reminders.task.complete,0.99986434
+listen to my tv,streaming.session.start,streaming.session.start,0.998871
+can you remind me to check my blood sugar in 10 minutes,reminders.task.create,reminders.task.create,0.9998541
+connect my hearing aids to my laptop,streaming.session.start,streaming.session.start,0.9997755
+where did i leave my smartphone around here,find.phone.locate,find.phone.locate,0.9993883
+quickly hook up phone calls to my hearing aids,streaming.session.start,streaming.session.start,0.9996062
+would you please connect to the tv and start streaming,streaming.session.start,streaming.session.start,0.9998376
+can you switch program to mute,device.memory.change,device.memory.change,0.99973094
+i need to cross off my alarm,reminders.task.complete,reminders.task.complete,0.9998652
+i want you to push the volume up on my left ear hearing aid,device.volume.increase,device.volume.increase,0.9998823
+i'd like you to put my devices on mute,device.volume.mute,device.volume.unmute,0.9993856
+would you turn the volume all the way down on the left aid,device.volume.mute,device.volume.decrease,0.99954134
+please set to worship program,device.memory.change,device.memory.change,0.99970824
+please remember to take medicine next thursday at 4 p.m.,reminders.task.create,reminders.task.create,0.999637
+kindly turn up my right aid,device.volume.increase,device.volume.increase,0.9997752
+would you mute the left aid,device.volume.mute,device.volume.mute,0.99975204
+please remind about party at 12 p.m. on friday,reminders.task.create,reminders.task.create,0.99978703
+help me remove a reminder on my phone,help.reminder.show,help.reminder.show,0.99992853
+could you check off my current reminder,reminders.task.complete,reminders.task.complete,0.99995
+go ahead and turn the sound back on for my right aid,device.volume.unmute,device.volume.unmute,0.9996173
+can you turn off the volume in my left hearing aid,device.volume.mute,device.volume.mute,0.99985963
+i need you to mark my last reminder as done,reminders.task.complete,reminders.task.complete,0.99989533
+could you please start listening to a video,streaming.session.start,streaming.session.start,0.9998801
+i need to turn off the connection to my music player,streaming.session.stop,streaming.session.stop,0.99979424
+change memory to speech,device.memory.change,device.memory.change,0.9998742
+is it possible to create reminders,help.reminder.show,help.reminder.show,0.99993545
+help me cut the volume on my hearing aids,device.volume.mute,device.volume.decrease,0.9994097
+i'm trying to kill the volume on my devices,device.volume.mute,device.volume.decrease,0.9992374
+let's listen to an audiobook through my hearing aids,streaming.session.start,streaming.session.start,0.99980086
+help me stream a phone call to my hearing aids,streaming.session.start,streaming.session.start,0.99989456
+help me locate my iphone in this room,find.phone.locate,find.phone.locate,0.99983037
+go ahead and stop the audio from my music player,streaming.session.stop,streaming.session.stop,0.9998122
+stop the audio from youtube,streaming.session.stop,streaming.session.stop,0.99962884
+please switch program to golf,device.memory.change,device.memory.change,0.99981564
+"hey, can you find my telephone nearby",find.phone.locate,find.phone.locate,0.9996612
+i need to boost the volume on my right ear hearing aid,device.volume.increase,device.volume.increase,0.999844
+"it's hard to hear the tv through my left hearing aid, please increase the volume",device.volume.increase,device.volume.mute,0.99916905
+can you remind me to pick up prescription today at 5 p.m.,reminders.task.create,reminders.task.create,0.99991614
+how can i adjust a task reminder,help.reminder.show,help.reminder.show,0.9999157
+hey can you find my cell phone around here,find.phone.locate,find.phone.locate,0.9997988
+"i want to hear youtube directly through my hearing aids, can you connect it",streaming.session.start,streaming.session.start,0.9995418
+i want you to stop listening to my meeting audio,streaming.session.stop,streaming.session.stop,0.99972814
+please turn down my right aid,device.volume.decrease,device.volume.decrease,0.9998928
+"hey, could you please mark my medication reminder as complete",reminders.task.complete,reminders.task.complete,0.9998963
+can you find my handset in the house,find.phone.locate,find.phone.locate,0.99988073
+i want to bring up the volume on my hearing devices,device.volume.increase,device.volume.increase,0.9997913
+go ahead and switch the sound back on for my hearing devices,device.volume.unmute,device.volume.unmute,0.9992143
+kindly raise the volume on my aids,device.volume.increase,device.volume.increase,0.9998924
+switch program to pub,device.memory.change,device.memory.change,0.99985045
+check this task off my list,reminders.task.complete,reminders.task.complete,0.99975973
+i would like to start audio streaming from a video,streaming.session.start,streaming.session.start,0.999909
+"turn my hearing aids back on, i need to hear people now",device.volume.unmute,device.volume.unmute,0.99900085
+how can i turn on a reminder,help.reminder.show,help.reminder.show,0.99995023
+quickly shut off the sound on my hearing devices,device.volume.mute,device.volume.mute,0.99964106
+can you please connect to my laptop and start streaming,streaming.session.start,streaming.session.start,0.99979514
+hey can you locate my smartphone somewhere,find.phone.locate,find.phone.locate,0.99979335
+please stop streaming from my remote microphone,streaming.session.stop,streaming.session.stop,0.9997068
+please amplify my left ear hearing aid,device.volume.increase,device.volume.increase,0.999829
+can you begin streaming a podcast,streaming.session.start,streaming.session.start,0.9997172
+please switch to music program,device.memory.change,device.memory.change,0.99986804
+go ahead and switch off the sound on my hearing devices,device.volume.mute,device.volume.mute,0.99960643
+i'd like you to turn off the sound on my hearing devices,device.volume.mute,device.volume.mute,0.9995784
+can you remind me to go to sleep,reminders.task.create,reminders.task.create,0.9998694
+could you track my handset somewhere,find.phone.locate,find.phone.locate,0.999504
+i want to cut the volume on my aids,device.volume.mute,device.volume.decrease,0.999311
+help me connect to youtube and start streaming,streaming.session.start,streaming.session.start,0.999557
+go ahead and amplify my left aid,device.volume.increase,device.volume.decrease,0.99972475
+"hey, i lost my android at home",find.phone.locate,find.phone.locate,0.999701
+would you please take my hearing device off mute,device.volume.unmute,device.volume.unmute,0.9996393
+walk me through how to check a task reminder,help.reminder.show,help.reminder.show,0.9999091
+please set memory to two,device.memory.change,device.memory.change,0.99988085
+can you please set a reminder to join the meeting every morning,reminders.task.create,reminders.task.create,0.99992603
+make my hearing aids silent,device.volume.mute,device.volume.mute,0.9994541
+it's too quiet turn it up,device.volume.increase,device.volume.increase,0.9997669
+schedule a reminder,reminders.task.create,help.reminder.show,0.9995308
+could you please create a reminder for at noon to read a book,reminders.task.create,reminders.task.create,0.9999346
+"hey, put my aids on mute",device.volume.mute,device.volume.mute,0.99943006
+would you please unlink the tv,streaming.session.stop,streaming.session.stop,0.9995702
+"quick, where did i leave my handset somewhere",find.phone.locate,find.phone.locate,0.9992616
+set a new reminder,reminders.task.create,help.reminder.show,0.99973285
+hey can you turn off streaming from an audiobook,streaming.session.stop,streaming.session.stop,0.9998716
+"quick, i can't find my iphone at home",find.phone.locate,find.phone.locate,0.99981636
+can you switch memory to master,device.memory.change,device.memory.change,0.99983615
+help me push the volume up on my hearing aid,device.volume.increase,device.volume.increase,0.99992657
+i need you to unmute both hearing aids,device.volume.unmute,device.volume.unmute,0.9996667
+go ahead and turn down my right hearing aid,device.volume.decrease,device.volume.decrease,0.99989736
+would you please check off my medication reminder,reminders.task.complete,reminders.task.complete,0.9999207
+can you new reminder about fitness,reminders.task.create,help.reminder.show,0.9998727
+i'd like to soften both my aids,device.volume.decrease,device.volume.decrease,0.99973947
+i want to turn the volume all the way down on my left hearing aid,device.volume.mute,device.volume.decrease,0.9995124
+i need you to take my hearing aid off mute,device.volume.unmute,device.volume.unmute,0.99948144
+"hey, could you please undo the mute on my devices",device.volume.unmute,device.volume.unmute,0.99982786
+i'm trying to unmute my left hearing aid,device.volume.unmute,device.volume.unmute,0.99952185
+i want to end the connection to a phone call,streaming.session.stop,streaming.session.stop,0.9996981
+i want to cut the volume on my hearing aids,device.volume.mute,device.volume.decrease,0.99926555
+remind about running at 6 a.m. on 7th december,reminders.task.create,reminders.task.create,0.99983925
+explain how to duplicate a reminder notification,help.reminder.show,help.reminder.show,0.9998818
+is it possible to change an alarm,help.reminder.show,help.reminder.show,0.99985564
+"quick, track my mobile phone in the living room",find.phone.locate,find.phone.locate,0.9998255
+hey can you raise the volume on my right ear hearing aid,device.volume.increase,device.volume.decrease,0.99991107
+i'm trying to increase my hearing aids volume,device.volume.increase,device.volume.increase,0.99985486
+i'm trying to mark my latest reminder finished,reminders.task.complete,reminders.task.complete,0.99992335
+"i'm in a noisy restaurant and my left aid is picking up too much sound, please lower the volume",device.volume.decrease,device.volume.decrease,0.9994904
+setting three,device.memory.change,device.memory.change,0.9986534
+could you turn up the volume on my left ear hearing aid,device.volume.increase,device.volume.increase,0.9998606
+can you stop streaming from my music player,streaming.session.stop,streaming.session.stop,0.99978983
+can you please turn off the connection to music,streaming.session.stop,streaming.session.stop,0.9998753
+i need to kill the volume on my device,device.volume.mute,device.volume.decrease,0.9993699
+let's push the volume up on the left aid,device.volume.increase,device.volume.increase,0.9998663
+i'd like to crank up my right aid,device.volume.increase,device.volume.increase,0.99963945
+could you cross off my latest reminder,reminders.task.complete,reminders.task.complete,0.99992394
+can you change to mute memory,device.memory.change,device.memory.change,0.9997257
+can you show me how to repeat a reminder,help.reminder.show,help.reminder.show,0.999956
+turn up my left aid,device.volume.increase,device.volume.increase,0.99975324
+hey can you where did i leave my smartphone in this room,find.phone.locate,find.phone.locate,0.9996383
+hey can you knock down the volume on my hearing aids,device.volume.decrease,device.volume.decrease,0.9999199
+"hey, could you please mute the hearing aids",device.volume.mute,device.volume.mute,0.9996333
+please set a reminder for first thing tomorrow to take my medication,reminders.task.create,reminders.task.create,0.9999217
+start listening to my laptop,streaming.session.start,streaming.session.start,0.9994681
+please help me locate my smartphone around here,find.phone.locate,find.phone.locate,0.9998045
+change program to crowd,device.memory.change,device.memory.change,0.9998903
+quickly check my current reminder off my list,reminders.task.complete,reminders.task.complete,0.9999066
+i'd like to finish my last reminder,reminders.task.complete,reminders.task.complete,0.9999092
+hey can you crank up my devices,device.volume.increase,device.volume.increase,0.9982924
+quickly close out the alarm,reminders.task.complete,reminders.task.complete,0.9996544
+i want you to lower the volume on both hearing aids,device.volume.decrease,device.volume.decrease,0.99982965
+"hey, where's my smartphone in the living room",find.phone.locate,find.phone.locate,0.9998158
+just stop streaming from my phone,streaming.session.stop,streaming.session.stop,0.9998148
+i would like to complete that reminder,reminders.task.complete,reminders.task.complete,0.9998755
+i want to turn up the volume on my hearing aid,device.volume.increase,device.volume.increase,0.9999052
+"hey, could you please connect my hearing aids to the radio",streaming.session.start,streaming.session.start,0.99959636
+is there a way to unmute a daily reminder,help.reminder.show,help.reminder.show,0.9998509
+would you turn my hearing devices off completely,device.volume.mute,device.volume.mute,0.9998118
+i'm trying to mark this task as complete,reminders.task.complete,reminders.task.complete,0.9997837
+remind me to pick up groceries in 10 minutes,reminders.task.create,reminders.task.create,0.9999053
+i'm trying to complete my active reminder,reminders.task.complete,reminders.task.complete,0.99990255
+could you connect to an audiobook and start streaming,streaming.session.start,streaming.session.start,0.99989593
+i'd like you to crank up my right ear hearing aid,device.volume.increase,device.volume.increase,0.9997743
+unmute my hearing device,device.volume.unmute,device.volume.unmute,0.9995983
+can you please decrease the volume on my hearing aids,device.volume.decrease,device.volume.decrease,0.9999427
+let's restore the sound on my hearing devices,device.volume.unmute,device.volume.unmute,0.9996205
+set to master memory,device.memory.change,device.memory.change,0.99973065
+can you crank up my right aid,device.volume.increase,device.volume.increase,0.9995601
+can you find my android,find.phone.locate,find.phone.locate,0.999615
+could you quiet down my aids,device.volume.decrease,device.volume.decrease,0.9998149
+"my right aid is way too quiet, please raise the volume",device.volume.increase,device.volume.decrease,0.9998402
+please switch off the sound on my hearing aids,device.volume.mute,device.volume.unmute,0.99937224
+just clear the alarm,reminders.task.complete,reminders.task.complete,0.9997634
+i'd like you to unlink my meeting audio,streaming.session.stop,streaming.session.stop,0.99956244
+i want you to turn down my left hearing aid,device.volume.decrease,device.volume.decrease,0.99991506
+please switch to auditorium,device.memory.change,device.memory.change,0.99960244
+i'm trying to turn my left ear hearing aid back on,device.volume.unmute,device.volume.unmute,0.9998967
+can you turn the volume back on for my hearing devices,device.volume.unmute,device.volume.unmute,0.9998922
+would you turn my left ear hearing aid back on,device.volume.unmute,device.volume.unmute,0.9998452
+could you amplify my hearing devices,device.volume.increase,device.volume.increase,0.99978656
+could you end the stream from music,streaming.session.stop,streaming.session.stop,0.9998531
+can you please end the connection to my meeting audio,streaming.session.stop,streaming.session.stop,0.99984103
+quickly turn off the volume on my device,device.volume.mute,device.volume.mute,0.9996939
+can you remind me for tomorrow,reminders.task.create,reminders.task.create,0.99986684
+hey can you i misplaced my phone,find.phone.locate,find.phone.locate,0.9994623
+i'm trying to louden both hearing aids,device.volume.increase,device.volume.decrease,0.99988455
+decrease the right hearing aid,device.volume.decrease,device.volume.decrease,0.99983037
+i want you to decrease the volume on the hearing aids,device.volume.decrease,device.volume.decrease,0.9999265
+set to restaurant program,device.memory.change,device.memory.change,0.9998346
+help me ease down the volume on my devices,device.volume.decrease,device.volume.increase,0.999939
+please change program to tinnitus,device.memory.change,device.memory.change,0.99982
+create a reminder to walk the dog in a couple of hours,reminders.task.create,reminders.task.create,0.9999059
+hey can you turn the volume all the way down on the left aid,device.volume.mute,device.volume.decrease,0.9993665
+"i need help, track my telephone in my car",find.phone.locate,find.phone.locate,0.99980026
+i'd like to cut the stream from my meeting audio,streaming.session.stop,streaming.session.stop,0.9998809
+can you switch to car,device.memory.change,device.memory.change,0.9997927
+let's start streaming from my remote microphone,streaming.session.start,streaming.session.start,0.9997914
+"ugh, help me find my phone in the living room",find.phone.locate,find.phone.locate,0.9998016
+i need you to crank up my hearing aids,device.volume.increase,device.volume.increase,0.9985476
+quickly take my devices off mute,device.volume.unmute,device.volume.unmute,0.99942523
+i need you to turn my hearing device back on,device.volume.unmute,device.volume.unmute,0.9993
+i'm trying to close out my active reminder,reminders.task.complete,reminders.task.complete,0.99990356
+the noise is unbearable,device.volume.decrease,device.volume.increase,0.9986674
+"hey, bring down the volume on my left hearing aid",device.volume.decrease,device.volume.decrease,0.9999207
+can you please set a reminder for tomorrow afternoon to drink water,reminders.task.create,reminders.task.create,0.9999603
+i'd like to understand what is the reminder feature for,help.reminder.show,help.reminder.show,0.999843
+can you switch to kitchen memory,device.memory.change,device.memory.change,0.99984014
+let's make my device quieter,device.volume.decrease,device.volume.increase,0.99978507
+change to car program,device.memory.change,device.memory.change,0.9998672
+can you noise setting,device.memory.change,device.memory.change,0.99946845
+can you show me how to reschedule a reminder notification,help.reminder.show,help.reminder.show,0.9998873
+remind me to water the plants at 5pm,reminders.task.create,reminders.task.create,0.999807
+please change to master,device.memory.change,device.memory.change,0.9995879
+how do i snooze my reminder settings,help.reminder.show,help.reminder.show,0.9998792
+remind me,reminders.task.create,reminders.task.create,0.9990911
+i want to hear the tv in my aids,streaming.session.start,streaming.session.start,0.9848125
+kindly turn the sound up on the right aid,device.volume.increase,device.volume.decrease,0.99988675
+set memory to worship,device.memory.change,device.memory.change,0.99966633
+let's undo the mute on my devices,device.volume.unmute,device.volume.unmute,0.99986446
+"help me out, track down my android in the kitchen",find.phone.locate,find.phone.locate,0.9997321
+i need you to knock down the volume on my right hearing aid,device.volume.decrease,device.volume.decrease,0.9998614
+i need to turn up the volume on both hearing aids,device.volume.increase,device.volume.decrease,0.99989444
+restore the sound on my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.99941885
+bring the volume down,device.volume.decrease,device.volume.increase,0.9995706
+i want to clear my alarm,reminders.task.complete,reminders.task.complete,0.9998938
+switch memory to number three,device.memory.change,device.memory.change,0.9998085
+"hey, hook up my laptop to my hearing aids",streaming.session.start,streaming.session.start,0.9993353
+quickly turn the volume all the way down on my aids,device.volume.mute,device.volume.decrease,0.9996802
+is it possible to check a daily reminder,help.reminder.show,help.reminder.show,0.99989295
+would you turn the volume back on for my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.99989104
+let's complete this reminder,reminders.task.complete,reminders.task.complete,0.9999062
+"please turn off all sound on my hearing devices, i need silence",device.volume.mute,device.volume.mute,0.9996341
+that's hurting my ears,device.volume.decrease,device.volume.increase,0.9979708
+i want you to check off my current reminder,reminders.task.complete,reminders.task.complete,0.99993944
+can you put the hearing aids on mute,device.volume.mute,device.volume.mute,0.99937034
+go ahead and stream the radio to my hearing aids,streaming.session.start,streaming.session.start,0.9994711
+help me understand what's the reminder feature,help.reminder.show,help.reminder.show,0.9999056
+go ahead and switch the sound back on for my devices,device.volume.unmute,device.volume.unmute,0.99900013
+could you set a reminder to pick up my prescription tomorrow afternoon,reminders.task.create,reminders.task.create,0.99994653
+i want to turn up the right aid,device.volume.increase,device.volume.increase,0.9998259
+just end the stream from my computer,streaming.session.stop,streaming.session.stop,0.9997314
+i'd like to stream audio from my laptop,streaming.session.start,streaming.session.start,0.9996945
+would you please stop the stream coming from an audiobook,streaming.session.stop,streaming.session.stop,0.9997715
+hey can you stop all sound on my aids,device.volume.mute,device.volume.mute,0.99982417
+i need you to check this reminder off my list,reminders.task.complete,reminders.task.complete,0.99991053
+i need to turn the volume back on for both my aids,device.volume.unmute,device.volume.unmute,0.99983144
+just stream a phone call to my hearing aids,streaming.session.start,streaming.session.start,0.99984986
+please remind about business meeting every monday at 4 p.m.,reminders.task.create,reminders.task.create,0.99980307
+help me rename a reminder notification,help.reminder.show,help.reminder.show,0.9999104
+change to crowd program,device.memory.change,device.memory.change,0.9998691
+could you boost the volume on my hearing aid,device.volume.increase,device.volume.increase,0.99978465
+"hey, could you please raise my right aid",device.volume.increase,device.volume.increase,0.9998172
+can you please turn my right ear hearing aid back on,device.volume.unmute,device.volume.unmute,0.99993
+kindly start listening to my meeting audio,streaming.session.start,streaming.session.start,0.9997296
+go ahead and end the connection to my phone,streaming.session.stop,streaming.session.stop,0.999706
+would you please put my right ear hearing aid on mute,device.volume.mute,device.volume.mute,0.9998909
+how do i cancel reminders,help.reminder.show,help.reminder.show,0.999872
+"hey, could you please turn off the sound on my left aid",device.volume.mute,device.volume.mute,0.9996249
+"it's too loud in here, can you turn down my left aid",device.volume.decrease,device.volume.decrease,0.9996266
+please schedule a reminder to refill my prescription every night,reminders.task.create,reminders.task.create,0.9999066
+"everyone in the room is talking too loud and my left hearing aid is picking it all up, lower the volume please",device.volume.decrease,device.volume.decrease,0.9994436
+please find my handset in the house,find.phone.locate,find.phone.locate,0.9998371
+could you please get the sound working again on my right ear hearing aid,device.volume.unmute,device.volume.unmute,0.999828
+i'd like you to check the task off my list,reminders.task.complete,reminders.task.complete,0.9997633
+quickly silence my left hearing aid,device.volume.mute,device.volume.mute,0.9995321
+could you cut the stream from my phone,streaming.session.stop,streaming.session.stop,0.99985415
+"hey, my phone is missing somewhere",find.phone.locate,find.phone.locate,0.9993323
+could you track down my phone in this room,find.phone.locate,find.phone.locate,0.9998282
+"ugh, can you find my iphone in the house",find.phone.locate,find.phone.locate,0.9998234
+i'm trying to mark my last reminder as done,reminders.task.complete,reminders.task.complete,0.99990016
+can you turn streaming on,streaming.session.start,streaming.session.stop,0.98755026
+would you please boost the volume on both my aids,device.volume.increase,device.volume.increase,0.9998211
+stop streaming from the microphone,streaming.session.stop,streaming.session.stop,0.9994957
+help me end the connection to my music player,streaming.session.stop,streaming.session.stop,0.9998645
+could you push the volume up on my right hearing aid,device.volume.increase,device.volume.increase,0.9999193
+please set to theater program,device.memory.change,device.memory.change,0.9998019
+could you please turn off streaming from my remote mic,streaming.session.stop,streaming.session.stop,0.99989486
+please unmute sound on hearing aids,device.volume.unmute,device.volume.unmute,0.9998161
+"hey, restore the sound on my hearing aids",device.volume.unmute,device.volume.unmute,0.9997297
+i need to finish that reminder,reminders.task.complete,reminders.task.complete,0.99990505
+"hey, could you please increase the volume on my hearing devices",device.volume.increase,device.volume.increase,0.99988437
+"quick, i can't find my android phone in the kitchen",find.phone.locate,find.phone.locate,0.9998093
+can you lost iphone,find.phone.locate,find.phone.locate,0.9985475
+i need you to clear my alarm,reminders.task.complete,reminders.task.complete,0.99988663
+hey can you restore the sound on my right hearing aid,device.volume.unmute,device.volume.unmute,0.9993278
+i want to decrease my left ear hearing aid volume,device.volume.decrease,device.volume.decrease,0.99994844
+where do i go to turn on the reminder feature,help.reminder.show,help.reminder.show,0.99991816
+go ahead and hook up a podcast to my hearing aids,streaming.session.start,streaming.session.start,0.9997394
+can you remember to watch,reminders.task.create,reminders.task.create,0.99933875
+can you please connect to the tv and start streaming,streaming.session.start,streaming.session.start,0.99979633
+"quick, track my iphone in the kitchen",find.phone.locate,find.phone.locate,0.99981093
+can you make sound on,device.volume.unmute,device.volume.unmute,0.9991526
+just switch the sound back on for my left aid,device.volume.unmute,device.volume.unmute,0.99928427
+can you please remind me to go to the gym in 10 minutes,reminders.task.create,reminders.task.create,0.99991345
+help me unmute an alarm,help.reminder.show,reminders.task.complete,0.9997451
+quickly turn the sound down on the hearing aids,device.volume.decrease,device.volume.decrease,0.9999235
+please remind me everyday to read a book at 6 p.m.,reminders.task.create,reminders.task.create,0.99982905
+"hey, search for my android in the kitchen",find.phone.locate,find.phone.locate,0.99982035
+can you start streaming,streaming.session.start,streaming.session.start,0.9993086
+i'd like to begin streaming the microphone,streaming.session.start,streaming.session.start,0.9998749
+can you louden my hearing aid,device.volume.increase,device.volume.decrease,0.99986017
+go ahead and end the connection to my ipad,streaming.session.stop,streaming.session.stop,0.99962914
+send the movie audio to my hearing aids,streaming.session.start,streaming.session.start,0.9982454
+i would like to set up a reminder,reminders.task.create,help.reminder.show,0.9999137
+wireless audio to aids,streaming.session.start,streaming.session.start,0.9894687
+i want to turn the sound back on for my right aid,device.volume.unmute,device.volume.unmute,0.9996886
+i'd like to increase my hearing device volume,device.volume.increase,device.volume.increase,0.99991703
+i need you to make my right aid softer,device.volume.decrease,device.volume.decrease,0.9998471
+hey can you locate my cellphone in the kitchen,find.phone.locate,find.phone.locate,0.9998623
+can you please stop the audio from my computer,streaming.session.stop,streaming.session.stop,0.9998569
+i can't find my phone around here,find.phone.locate,find.phone.locate,0.99972135
+let's mark my last reminder as done,reminders.task.complete,reminders.task.complete,0.99992716
+would you stop streaming from an audiobook,streaming.session.stop,streaming.session.stop,0.9997771
+"hey, turn off the volume on my hearing devices",device.volume.mute,device.volume.mute,0.9998075
+i need you to stop the stream coming from my remote mic,streaming.session.stop,streaming.session.stop,0.9994742
+can you end the connection to a podcast,streaming.session.stop,streaming.session.stop,0.9994984
+could you turn off the connection to my ipad,streaming.session.stop,streaming.session.stop,0.99984515
+"quick, track down my android in the kitchen",find.phone.locate,find.phone.locate,0.9997493
+can you please bring the sound back on the right aid,device.volume.unmute,device.volume.unmute,0.9999108
+i need to play music through my hearing aids,streaming.session.start,streaming.session.start,0.99959314
+i want to crank up my device,device.volume.increase,device.volume.increase,0.9984776
+i'd like you to dismiss my last reminder,reminders.task.complete,reminders.task.complete,0.99989486
+"one thing, how do i snooze a reminder",help.reminder.show,help.reminder.show,0.9998806
+complete my latest reminder,reminders.task.complete,reminders.task.complete,0.9998384
+just amplify my right aid,device.volume.increase,device.volume.increase,0.9997253
+where do i go to set my reminder settings,help.reminder.show,help.reminder.show,0.999868
+please switch memory to theater,device.memory.change,device.memory.change,0.9997853
+turn off the volume in my right hearing aid,device.volume.mute,device.volume.mute,0.99979496
+could you please mark the alarm as done,reminders.task.complete,reminders.task.complete,0.99983907
+i want some quiet,device.volume.decrease,device.volume.decrease,0.9993672
+please switch memory to work,device.memory.change,device.memory.change,0.9998067
+could you please drop the volume on my left ear hearing aid,device.volume.decrease,device.volume.decrease,0.99934804
+create a reminder to take medicine today at 8 p.m.,reminders.task.create,reminders.task.create,0.9998865
+let's check this task off my list,reminders.task.complete,reminders.task.complete,0.9998029
+i need to end the connection to a podcast,streaming.session.stop,streaming.session.stop,0.9995405
+set up streaming from an audiobook to my hearing aids,streaming.session.start,streaming.session.start,0.9977751
+help me raise my device,device.volume.increase,device.volume.increase,0.99920785
+please switch memory to worship,device.memory.change,device.memory.change,0.9997218
+can you please set a reminder to pay rent in an hour,reminders.task.create,reminders.task.create,0.9999041
+"hey, switch off the sound on my device",device.volume.mute,device.volume.mute,0.9996095
+could you put my aids on mute,device.volume.mute,device.volume.mute,0.9993395
+i need you to listen to the microphone through my hearing aids,streaming.session.start,streaming.session.start,0.999733
+"hey, could you please take my hearing device off mute",device.volume.unmute,device.volume.unmute,0.99983656
+is it possible to mute my reminder settings,help.reminder.show,help.reminder.show,0.99987125
+can you set up a reminder to pay rent this evening,reminders.task.create,reminders.task.create,0.99993116
+"quick, help me locate my telephone",find.phone.locate,find.phone.locate,0.99966395
+switch my hearing aid program to automatic program,device.memory.change,device.memory.change,0.99950206
+could you find my cellphone around here,find.phone.locate,find.phone.locate,0.9997945
+where do i go to mute a reminder notification,help.reminder.show,help.reminder.show,0.99991506
+i need you to louden the right aid,device.volume.increase,device.volume.decrease,0.99992836
+stop listening to a phone call,streaming.session.stop,streaming.session.stop,0.9996492
+"my left hearing aid is blasting way too loud, turn it down",device.volume.decrease,device.volume.decrease,0.9994632
+play the call through my hearing aids,streaming.session.start,streaming.session.start,0.99952453
+i want to turn the volume all the way down on my right ear hearing aid,device.volume.mute,device.volume.decrease,0.999501
+turn the sound level down,device.volume.decrease,device.volume.increase,0.9997585
+could you please dial up the left aid,device.volume.increase,device.volume.increase,0.9998883
+"hey, turn the sound up on my devices",device.volume.increase,device.volume.increase,0.99988264
+just unlink the television,streaming.session.stop,streaming.session.stop,0.9995965
+i want to turn my hearing aids off completely,device.volume.mute,device.volume.mute,0.9995546
+please mark my alarm as complete,reminders.task.complete,reminders.task.complete,0.9997953
+how do i change a daily reminder,help.reminder.show,help.reminder.show,0.99988806
+go ahead and connect my hearing aids to my ipad,streaming.session.start,streaming.session.start,0.9995799
+quickly put my left aid on mute,device.volume.mute,device.volume.mute,0.9998358
+let's begin streaming my tablet,streaming.session.start,streaming.session.start,0.99970174
+"hey, bring the sound back on the right aid",device.volume.unmute,device.volume.unmute,0.9997763
+please finish my reminder.,reminders.task.complete,reminders.task.complete,0.9998963
+"ugh, i misplaced my android phone",find.phone.locate,find.phone.locate,0.99963325
+"i was wondering, how do i view my reminders",help.reminder.show,help.reminder.show,0.9999026
+would you connect to my laptop and start streaming,streaming.session.start,streaming.session.start,0.99980074
+could you close out the task,reminders.task.complete,reminders.task.complete,0.99970704
+i need you to turn the volume back on for my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.9998907
+how can i turn off a task reminder,help.reminder.show,help.reminder.show,0.99989766
+"i was wondering, do reminders make a sound",help.reminder.show,reminders.task.complete,0.9998394
+"hey, could you please turn my devices off completely",device.volume.mute,device.volume.mute,0.9995576
+quickly stop the stream coming from the television,streaming.session.stop,streaming.session.stop,0.9997992
+go ahead and shut off the sound on my left aid,device.volume.mute,device.volume.unmute,0.99935156
+could you schedule a reminder to charge my phone when i get home,reminders.task.create,reminders.task.create,0.99988896
+"ugh, locate my android phone in the kitchen",find.phone.locate,find.phone.locate,0.999777
+can you switch memory to number two,device.memory.change,device.memory.change,0.99976206
+can you end the connection to my laptop,streaming.session.stop,streaming.session.stop,0.99911696
+"by the way, how do reminders show up",help.reminder.show,help.reminder.show,0.9998982
+"hey, stop the audio from the microphone",streaming.session.stop,streaming.session.stop,0.9998408
+turn the mute off,device.volume.unmute,device.volume.unmute,0.99939305
+tell me how to update a reminder,help.reminder.show,help.reminder.show,0.9999518
+go ahead and end the connection to my music player,streaming.session.stop,streaming.session.stop,0.99984324
+"hey, could you please play a phone call through my hearing aids",streaming.session.start,streaming.session.start,0.998648
+how do i adjust a task reminder,help.reminder.show,help.reminder.show,0.9999064
+please dismiss my reminder,reminders.task.complete,reminders.task.complete,0.9998326
+make a reminder to pick up my prescription in 15 minutes,reminders.task.create,reminders.task.create,0.9998904
+go ahead and drop the volume on both hearing aids,device.volume.decrease,device.volume.decrease,0.9992803
+how do i turn off a reminder notification,help.reminder.show,help.reminder.show,0.9999127
+can you please switch off the sound on both hearing aids,device.volume.mute,device.volume.mute,0.99940664
+stream the broadcast to my devices,streaming.session.start,streaming.session.start,0.9993227
+would you please stop the stream coming from the tv,streaming.session.stop,streaming.session.stop,0.99967116
+turn down the volume,device.volume.decrease,device.volume.decrease,0.99970776
+could you disconnect from an audiobook,streaming.session.stop,streaming.session.stop,0.99975204
+turn down the volume on the hearing aids,device.volume.decrease,device.volume.decrease,0.9998606
+i'm trying to unmute the hearing aids,device.volume.unmute,device.volume.unmute,0.9997147
+i need you to bump up the volume on my right hearing aid,device.volume.increase,device.volume.increase,0.999905
+can you max loudness,device.volume.increase,device.volume.increase,0.99962133
+"hey, turn up the volume on my device",device.volume.increase,device.volume.increase,0.9999137
+i'd like to set a reminder,reminders.task.create,help.reminder.show,0.99992275
+is there a way to customize a reminder notification,help.reminder.show,help.reminder.show,0.9998737
+"hey, help me find my mobile phone in the living room",find.phone.locate,find.phone.locate,0.9997918
+could you find my smartphone in the house,find.phone.locate,find.phone.locate,0.99988884
+please change to outdoors memory,device.memory.change,device.memory.change,0.99989647
+tell me how to clear a reminder notification,help.reminder.show,help.reminder.show,0.9999155
+please remind me to do homework on november 11 at 7 p.m.,reminders.task.create,reminders.task.create,0.999788
+i need you to stop all sound on both my aids,device.volume.mute,device.volume.mute,0.99974525
+can you set up a reminder to drink water before i leave,reminders.task.create,reminders.task.create,0.9998806
+can you remind me to call,reminders.task.create,reminders.task.create,0.999881
+could you create a reminder to clean the house when i get home,reminders.task.create,reminders.task.create,0.9998652
+i want to listen to my tablet through my hearing aids,streaming.session.start,streaming.session.start,0.9998743
+help me soften my devices,device.volume.decrease,device.volume.decrease,0.9997496
+"quick, where did i leave my iphone at home",find.phone.locate,find.phone.locate,0.9995733
+set memory to restaurant,device.memory.change,device.memory.change,0.99984807
+walk me through how to clear reminders,help.reminder.show,help.reminder.show,0.99994653
+kindly lower my hearing devices,device.volume.decrease,device.volume.decrease,0.99973726
+could you louden the hearing aids,device.volume.increase,device.volume.decrease,0.99982107
+can you remind me of an appointment,reminders.task.create,reminders.task.create,0.9998724
+could you please set a reminder for every morning to take a walk,reminders.task.create,reminders.task.create,0.99993604
+can you remind me to take my pills in 15 minutes,reminders.task.create,reminders.task.create,0.9998909
+can you bring the sound back on the left aid,device.volume.unmute,device.volume.unmute,0.999882
+kindly start streaming from phone calls,streaming.session.start,streaming.session.start,0.99973625
+where is my smartphone in the living room,find.phone.locate,find.phone.locate,0.9996957
+could you lower the volume on my left ear hearing aid,device.volume.decrease,device.volume.decrease,0.99991
+can you noise program,device.memory.change,device.memory.change,0.99967796
+can you remember to wake up tomorrow,reminders.task.create,reminders.task.complete,0.9994772
+"ugh, can you find my telephone at home",find.phone.locate,find.phone.locate,0.99975634
+please remember to take medicine,reminders.task.create,reminders.task.create,0.9981249
+i want to soften my left aid,device.volume.decrease,device.volume.decrease,0.9997827
+hey can you find my cellphone somewhere,find.phone.locate,find.phone.locate,0.9997927
+can you volume down right aid,device.volume.decrease,device.volume.decrease,0.9998655
+i'd like to close out my reminder,reminders.task.complete,reminders.task.complete,0.9999283
+turn the sound down on my hearing aid,device.volume.decrease,device.volume.decrease,0.99993885
+i'd like you to dial up my hearing devices,device.volume.increase,device.volume.increase,0.99966335
+please set program to mask,device.memory.change,device.memory.change,0.99973094
+would you please mark this reminder finished,reminders.task.complete,reminders.task.complete,0.9999256
+i'd like you to check off the task,reminders.task.complete,reminders.task.complete,0.9998437
+just turn the sound back on for both my aids,device.volume.unmute,device.volume.unmute,0.99948436
+just mark the alarm as done,reminders.task.complete,reminders.task.complete,0.99973696
+could you listen to my phone through my hearing aids,streaming.session.start,streaming.session.start,0.99975085
+would you please connect my hearing aids to a phone call,streaming.session.start,streaming.session.start,0.9998437
+track down my mobile,find.phone.locate,find.phone.locate,0.99931836
+i'd like you to make my hearing aids quieter,device.volume.decrease,device.volume.decrease,0.99976844
+how does one turn off reminders on my hearing aids,help.reminder.show,help.reminder.show,0.9998424
+i'm trying to turn the volume back on for my hearing device,device.volume.unmute,device.volume.unmute,0.99988353
+would you turn my hearing device back on,device.volume.unmute,device.volume.unmute,0.99962556
+could you please add a reminder to check the mail every night,reminders.task.create,reminders.task.create,0.9998967
+would you please turn off the sound on the left aid,device.volume.mute,device.volume.mute,0.9998163
+"quick, i lost my phone nearby",find.phone.locate,find.phone.locate,0.9997199
+could you put the left aid on mute,device.volume.mute,device.volume.mute,0.99956083
+kindly connect to my phone and start streaming,streaming.session.start,streaming.session.start,0.99975693
+could you create a reminder to read a book before i leave,reminders.task.create,reminders.task.create,0.9998985
+i want to clear the task,reminders.task.complete,reminders.task.complete,0.9997441
+can you show me how to set reminders,help.reminder.show,help.reminder.show,0.99994755
+would you please shut off the sound on my hearing aids,device.volume.mute,device.volume.mute,0.9995442
+i'd like you to turn the volume back on for my right hearing aid,device.volume.unmute,device.volume.unmute,0.99989486
+please hook up an audiobook to my hearing aids,streaming.session.start,streaming.session.start,0.9997048
+hey can you help me find my android in my car,find.phone.locate,find.phone.locate,0.99978524
+help me turn the volume all the way down on both my aids,device.volume.mute,device.volume.decrease,0.9994941
+can you make my aids listen to the remote microphone,streaming.session.start,streaming.session.start,0.9996087
+can you increase my right hearing aid volume,device.volume.increase,device.volume.increase,0.999933
+turn the volume down,device.volume.decrease,device.volume.decrease,0.99970925
+show me how to change a reminder on my phone,help.reminder.show,help.reminder.show,0.99991465
+can you turn off the sound on my left aid,device.volume.mute,device.volume.mute,0.9996012
+can you please hook up the microphone to my hearing aids,streaming.session.start,streaming.session.start,0.9997614
+could you please mark the alarm as complete,reminders.task.complete,reminders.task.complete,0.9997309
+would you please turn the volume back on for my hearing aid,device.volume.unmute,device.volume.unmute,0.99992657
+please set to school program,device.memory.change,device.memory.change,0.9998037
+"hey, could you please turn the volume all the way down on my right ear hearing aid",device.volume.mute,device.volume.decrease,0.99941987
+can you turn down my hearing aids,device.volume.decrease,device.volume.decrease,0.99989796
+can you program number one,device.memory.change,device.memory.change,0.999536
+show me how to change my reminder settings,help.reminder.show,help.reminder.show,0.9999344
+i would like to play the television through my hearing aids,streaming.session.start,streaming.session.start,0.99984074
+show me how to clear an alarm,help.reminder.show,reminders.task.complete,0.99986625
+please set a reminder for every night to take my pills,reminders.task.create,reminders.task.create,0.9999455
+can you make a reminder,reminders.task.create,help.reminder.show,0.9998395
+hey can you turn the sound back on for my aids,device.volume.unmute,device.volume.unmute,0.9992243
+i'm trying to silence my left aid,device.volume.mute,device.volume.mute,0.9998397
+quickly cut the stream from a podcast,streaming.session.stop,streaming.session.stop,0.9995877
+explain how to update a reminder notification,help.reminder.show,help.reminder.show,0.9999005
+lower the level,device.volume.decrease,device.volume.increase,0.9991646
+could you tone down my devices,device.volume.decrease,device.volume.increase,0.9997394
+can you set program to one,device.memory.change,device.memory.change,0.99977285
+remind me at noon,reminders.task.create,reminders.task.create,0.9996646
+"ugh, i lost my cell phone",find.phone.locate,find.phone.locate,0.99941957
+i want you to raise my right hearing aid,device.volume.increase,device.volume.increase,0.9997795
+how do i reschedule reminders on my hearing aids,help.reminder.show,help.reminder.show,0.9998893
+i need to stop all sound on my right aid,device.volume.mute,device.volume.mute,0.9998974
+could you louden my hearing devices,device.volume.increase,device.volume.decrease,0.9998343
+how does one check a task reminder,help.reminder.show,help.reminder.show,0.9998698
+i would like to mark this reminder as done,reminders.task.complete,reminders.task.complete,0.9999235
+can you please create a reminder to call my daughter next week,reminders.task.create,reminders.task.create,0.9999278
+kindly louden my hearing aid,device.volume.increase,device.volume.decrease,0.9998269
+could you connect my hearing aids to my computer,streaming.session.start,streaming.session.start,0.9998245
+i'd like you to decrease the volume on my left hearing aid,device.volume.decrease,device.volume.decrease,0.9998602
+"just wondering, can i set reminders on my hearing aids",help.reminder.show,help.reminder.show,0.9999294
+hey can you track my phone in this room,find.phone.locate,find.phone.locate,0.9998415
+could you turn the sound up on my left hearing aid,device.volume.increase,device.volume.increase,0.9999027
+can you unmute,device.volume.unmute,device.volume.unmute,0.9990491
+i want you to clear this reminder,reminders.task.complete,reminders.task.complete,0.9999457
+set up streaming from the television to my hearing aids,streaming.session.start,streaming.session.start,0.9973151
+could you schedule a reminder to call my son at noon,reminders.task.create,reminders.task.create,0.9999372
+set program to kitchen,device.memory.change,device.memory.change,0.9998522
+"help me out, track down my android phone in the house",find.phone.locate,find.phone.locate,0.99974686
+please mute the hearing aids,device.volume.mute,device.volume.mute,0.99941415
+my mobile phone is missing in the kitchen,find.phone.locate,find.phone.locate,0.99963033
+where do i go to clear a reminder,help.reminder.show,help.reminder.show,0.99991906
+quickly cross off my alarm,reminders.task.complete,reminders.task.complete,0.9998366
+make a reminder to walk the dog at 5pm,reminders.task.create,reminders.task.create,0.9998879
+i'm trying to turn the sound back on for my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.99971926
+i'd like to turn my right ear hearing aid back on,device.volume.unmute,device.volume.unmute,0.9998944
+i'm trying to increase the volume on the right aid,device.volume.increase,device.volume.decrease,0.99986655
+can you schedule appointment tomorrow,reminders.task.create,reminders.task.create,0.99945575
+kindly route a podcast through my hearing aids,streaming.session.start,streaming.session.start,0.9997863
+would you please shut off the sound on my devices,device.volume.mute,device.volume.mute,0.9996486
+could you end the connection to a phone call,streaming.session.stop,streaming.session.stop,0.9997909
+please change program to mute,device.memory.change,device.memory.change,0.9997442
+go ahead and turn the volume back on for my left ear hearing aid,device.volume.unmute,device.volume.unmute,0.99989897
+how do i unmute a reminder notification,help.reminder.show,help.reminder.show,0.9998629
+i want you to reduce the volume on my left hearing aid,device.volume.decrease,device.volume.decrease,0.9999297
+"quick, help me locate my mobile in the living room",find.phone.locate,find.phone.locate,0.9997997
+kindly turn off the connection to my tablet,streaming.session.stop,streaming.session.stop,0.9998282
+set to home program,device.memory.change,device.memory.change,0.99987036
+can you please ease down the volume on my left ear hearing aid,device.volume.decrease,device.volume.decrease,0.9998724
+i want to know how to delete a daily reminder,help.reminder.show,help.reminder.show,0.9999066
+let's mark the alarm as complete,reminders.task.complete,reminders.task.complete,0.9997313
+switch program to restaurant,device.memory.change,device.memory.change,0.99987614
+how does one resume reminders,help.reminder.show,help.reminder.show,0.99992925
+can you volume off right aid,device.volume.mute,device.volume.mute,0.9994026
+please set an alarm to take a break later today,reminders.task.create,reminders.task.create,0.99987394
+help me turn off the connection to the radio,streaming.session.stop,streaming.session.stop,0.99968976
+i need to ease down the volume on my right aid,device.volume.decrease,device.volume.increase,0.99987936
+i want to boost the volume on my right ear hearing aid,device.volume.increase,device.volume.increase,0.99982065
+please set to personal program,device.memory.change,device.memory.change,0.9998766
+just turn the left aid up a bit,device.volume.increase,device.volume.increase,0.99977934
+could you check that reminder off my list,reminders.task.complete,reminders.task.complete,0.99991953
+kindly raise the volume on my hearing device,device.volume.increase,device.volume.increase,0.9998819
+please stream my music player to my hearing aids,streaming.session.start,streaming.session.start,0.99976474
+i'm trying to cut the volume on my right hearing aid,device.volume.mute,device.volume.decrease,0.9992513
+can you track my mobile phone in the living room,find.phone.locate,find.phone.locate,0.9998303
+"hey, could you please turn down both hearing aids",device.volume.decrease,device.volume.decrease,0.99989384
+quickly take my left aid off mute,device.volume.unmute,device.volume.mute,0.9994625
+could you please push the volume up on my right aid,device.volume.increase,device.volume.increase,0.9998987
+hey can you search for my android around here,find.phone.locate,find.phone.locate,0.99969393
+help me locate my mobile in the house,find.phone.locate,find.phone.locate,0.99985963
+quickly turn the sound down on my device,device.volume.decrease,device.volume.decrease,0.999938
+i need you to raise the volume on my left ear hearing aid,device.volume.increase,device.volume.decrease,0.9998929
+could you schedule a reminder to stretch at 5pm,reminders.task.create,reminders.task.create,0.9999208
+please change to everyday program,device.memory.change,device.memory.change,0.9998805
+please turn my right ear hearing aid back on,device.volume.unmute,device.volume.unmute,0.99975926
+discover telephone,find.phone.locate,find.phone.locate,0.99676144
+schedule appointment tomorrow,reminders.task.create,reminders.task.create,0.9989394
+set memory to two,device.memory.change,device.memory.change,0.9998139
+kindly turn off the connection to a podcast,streaming.session.stop,streaming.session.stop,0.9998833
+switch my hearing aid program to office memory,device.memory.change,device.memory.change,0.99968785
+i'd like to stop streaming from youtube,streaming.session.stop,streaming.session.stop,0.99988574
+could you create a reminder for at noon to clean the house,reminders.task.create,reminders.task.create,0.9999221
+kindly check off the task,reminders.task.complete,reminders.task.complete,0.99982965
+unlink the tv,streaming.session.stop,streaming.session.stop,0.99963605
+would you please restore the sound on my right aid,device.volume.unmute,device.volume.unmute,0.9995032
+set up streaming from my phone to my hearing aids,streaming.session.start,streaming.session.start,0.99846566
+could you please route my remote mic through my hearing aids,streaming.session.start,streaming.session.start,0.9996919
+can you turn the volume back on for my aids,device.volume.unmute,device.volume.unmute,0.9996369
+just dial up my hearing device,device.volume.increase,device.volume.increase,0.9995201
+can you track down my mobile at home,find.phone.locate,find.phone.locate,0.99986476
+can you remind me to wash my car,reminders.task.create,reminders.task.create,0.99989945
+volume on,device.volume.unmute,device.volume.mute,0.9977563
+set a reminder to exercise today,reminders.task.create,reminders.task.create,0.9998657
+what's the way to rename my reminder settings,help.reminder.show,help.reminder.show,0.9998909
+i want to turn off the connection to my remote mic,streaming.session.stop,streaming.session.stop,0.9998964
+please find my android,find.phone.locate,find.phone.locate,0.99935806
+can you please kill the volume on both hearing aids,device.volume.mute,device.volume.mute,0.9992936
+i'd like to lower my devices,device.volume.decrease,device.volume.decrease,0.9998165
+i want you to stream my tablet to my hearing aids,streaming.session.start,streaming.session.start,0.9998825
+i'd like to lower the volume on my right hearing aid,device.volume.decrease,device.volume.decrease,0.99981815
+please add a reminder to pay rent on friday,reminders.task.create,reminders.task.create,0.9999265
+let's stop streaming from the radio,streaming.session.stop,streaming.session.stop,0.9998956
+please turn off the connection to my meeting audio,streaming.session.stop,streaming.session.stop,0.9998944
+kindly push the volume up on both my aids,device.volume.increase,device.volume.increase,0.99989194
+i'd like to increase my hearing aids volume,device.volume.increase,device.volume.increase,0.99987763
+change memory to automatic,device.memory.change,device.memory.change,0.9998599
+pub memory,device.memory.change,device.memory.change,0.99870676
+quickly cut the volume on both hearing aids,device.volume.mute,device.volume.mute,0.9991884
+"ugh, ring my mobile phone somewhere",find.phone.locate,find.phone.locate,0.99954206
+let's start audio streaming from my phone,streaming.session.start,streaming.session.start,0.9998421
+can you please reduce my right aid volume,device.volume.decrease,device.volume.decrease,0.9999157
+can you turn my right hearing aid on,device.volume.unmute,device.volume.unmute,0.9993334
+explain how to change reminders,help.reminder.show,help.reminder.show,0.9998863
+please change program to auditorium,device.memory.change,device.memory.change,0.9998662
+can you remind me to pick up my prescription at 5 p.m. on wednesday,reminders.task.create,reminders.task.create,0.99991024
+remember to wake up at 7 a.m.,reminders.task.create,reminders.task.create,0.9989883
+help me turn off the connection to my remote microphone,streaming.session.stop,streaming.session.stop,0.9995502
+could you please cross off my current reminder,reminders.task.complete,reminders.task.complete,0.99991924
+help me disconnect from my computer,streaming.session.stop,streaming.session.stop,0.9997259
+remind me to feed my cat please,reminders.task.create,reminders.task.create,0.99976915
+can you please switch the sound back on for the right aid,device.volume.unmute,device.volume.unmute,0.9994116
+i'd like you to turn off streaming from my remote mic,streaming.session.stop,streaming.session.stop,0.9998463
+unmute sound on hearing aids,device.volume.unmute,device.volume.unmute,0.99960935
+could you please schedule a reminder to feed the cat at 5pm,reminders.task.create,reminders.task.create,0.9998987
+hey can you i misplaced my mobile phone in the living room,find.phone.locate,find.phone.locate,0.9996195
+i want you to bring the sound back on my aids,device.volume.unmute,device.volume.unmute,0.9997441
+let's raise the volume on my right hearing aid,device.volume.increase,device.volume.decrease,0.9999208
+"ugh, where is my android phone nearby",find.phone.locate,find.phone.locate,0.99975914
+just lower my devices,device.volume.decrease,device.volume.decrease,0.9995713
+could you finish my current reminder,reminders.task.complete,reminders.task.complete,0.99995303
+can you set to noise memory,device.memory.change,device.memory.change,0.99982613
+help me make my hearing device softer,device.volume.decrease,device.volume.increase,0.9997771
+can you remind me to buy shoes in paris,reminders.task.create,reminders.task.create,0.99934393
+can you set program to car,device.memory.change,device.memory.change,0.99981326
+please remind me to call someone everyday at 4 p.m.,reminders.task.create,reminders.task.create,0.9998611
+could you take both my aids off mute,device.volume.unmute,device.volume.unmute,0.9996219
+can you switch memory to noise,device.memory.change,device.memory.change,0.99975204
+i'd like you to check this reminder off my list,reminders.task.complete,reminders.task.complete,0.9998721
+can you remind me of a meeting on the 27th of august,reminders.task.create,reminders.task.create,0.9998218
+can you please put my right ear hearing aid on mute,device.volume.mute,device.volume.mute,0.9998301
+i want to start audio streaming from my phone,streaming.session.start,streaming.session.start,0.999843
+please switch to golf,device.memory.change,device.memory.change,0.9996373
+remember to take medication today at 5 p.m.,reminders.task.create,reminders.task.create,0.9996198
+please decrease the loudness in my aids,device.volume.decrease,device.volume.increase,0.99989295
+"hey, could you please turn off streaming from youtube",streaming.session.stop,streaming.session.stop,0.99980956
+please stop streaming from youtube,streaming.session.stop,streaming.session.stop,0.9997734
+can you please stream the television to my hearing aids,streaming.session.start,streaming.session.start,0.99987507
+turn on my program for restaurant,device.memory.change,device.memory.change,0.99957246
+would you decrease my hearing devices volume,device.volume.decrease,device.volume.increase,0.9998542
+"ugh, where is my phone in my car",find.phone.locate,find.phone.locate,0.99962366
+let's increase the volume on my left ear hearing aid,device.volume.increase,device.volume.increase,0.99986684
+can you i'd like to stream now,streaming.session.start,streaming.session.start,0.9977003
+i'm trying to start audio streaming from my computer,streaming.session.start,streaming.session.start,0.9998178
+can you set to worship program,device.memory.change,device.memory.change,0.99972653
+just decrease the left aid volume,device.volume.decrease,device.volume.decrease,0.9998027
+would you please turn the volume all the way down on my right ear hearing aid,device.volume.mute,device.volume.decrease,0.99952143
+i would like to complete the task,reminders.task.complete,reminders.task.complete,0.9997354
+quickly turn the volume all the way down on the hearing aids,device.volume.mute,device.volume.decrease,0.9996821
+i need to turn down the volume on both hearing aids,device.volume.decrease,device.volume.decrease,0.9997546
+could you reduce the volume on my hearing aids,device.volume.decrease,device.volume.decrease,0.9999001
+latest reminder done.,reminders.task.complete,reminders.task.complete,0.99980396
+"ugh, help me locate my cell phone in the living room",find.phone.locate,find.phone.locate,0.9997944
+i need help understanding how do i use reminders,help.reminder.show,help.reminder.show,0.99993914
+can you please turn the volume all the way down on both hearing aids,device.volume.mute,device.volume.decrease,0.9993545
+please bring up the volume on my device,device.volume.increase,device.volume.increase,0.9995991
+would you please kill the volume on the hearing aids,device.volume.mute,device.volume.decrease,0.9995313
+help me close out my last reminder,reminders.task.complete,reminders.task.complete,0.9999343
+i'd like to stop listening to my remote mic,streaming.session.stop,streaming.session.stop,0.99988717
+"ugh, track my android phone in this room",find.phone.locate,find.phone.locate,0.99970055
+i want to finish the alarm,reminders.task.complete,reminders.task.complete,0.9998583
+"ugh, search for my mobile at home",find.phone.locate,find.phone.locate,0.9997082
+quickly get the sound working again on my hearing devices,device.volume.unmute,device.volume.unmute,0.9997661
+i want to end the stream from my phone,streaming.session.stop,streaming.session.stop,0.9999083
+i need you to disconnect my hearing aids from youtube,streaming.session.stop,streaming.session.stop,0.99961376
+could you turn off the sound on both my aids,device.volume.mute,device.volume.mute,0.9994841
+i'd like to reduce the volume on my aids,device.volume.decrease,device.volume.decrease,0.9999241
+i need to stop the audio from a video,streaming.session.stop,streaming.session.stop,0.9996694
+how do i rename a medication reminder,help.reminder.show,help.reminder.show,0.99991393
+let's cross off my reminder,reminders.task.complete,reminders.task.complete,0.9999156
+can you please stop the audio from my music player,streaming.session.stop,streaming.session.stop,0.9998965
+can you please set a reminder to drink water next monday,reminders.task.create,reminders.task.create,0.9999651
+"hey, turn up the volume on both my aids",device.volume.increase,device.volume.decrease,0.9999098
+could you set a reminder for before i leave to call the doctor,reminders.task.create,reminders.task.create,0.99990207
+can i unmute my reminders,help.reminder.show,reminders.task.complete,0.9998989
+would you mark my medication reminder as done,reminders.task.complete,reminders.task.complete,0.9999269
+turn the sound back on for my left aid,device.volume.unmute,device.volume.unmute,0.9996532
+please turn off the connection to the tv,streaming.session.stop,streaming.session.stop,0.9998653
+can you unlink the radio,streaming.session.stop,streaming.session.stop,0.99952894
+would you please end the stream from an audiobook,streaming.session.stop,streaming.session.stop,0.99988663
+please change program to kitchen,device.memory.change,device.memory.change,0.9998684
+i would like to kill the volume on my left hearing aid,device.volume.mute,device.volume.decrease,0.9994218
+hey can you turn my hearing aid off completely,device.volume.mute,device.volume.mute,0.99990845
+please make a reminder to go to my dentist appointment next week,reminders.task.create,reminders.task.create,0.9999106
+set setting to number two,device.memory.change,device.memory.change,0.9996881
+could you please create a reminder to check the mail this evening,reminders.task.create,reminders.task.create,0.9998548
+i want you to disconnect my hearing aids from phone calls,streaming.session.stop,streaming.session.stop,0.9997383
+would you turn off streaming from youtube,streaming.session.stop,streaming.session.stop,0.99987084
+kindly hook up music to my hearing aids,streaming.session.start,streaming.session.start,0.99967957
+could you turn the sound back on for my devices,device.volume.unmute,device.volume.unmute,0.9994689
+can you switch to telephone program,device.memory.change,device.memory.change,0.99981344
+could you tone down both my aids,device.volume.decrease,device.volume.decrease,0.999867
+"hey, could you please mark my alarm as done",reminders.task.complete,reminders.task.complete,0.9998426
+hush it up,device.volume.decrease,device.volume.increase,0.9969822
+unmute on,device.volume.unmute,device.volume.unmute,0.9983466
+remind me to workout tomorrow morning at 6,reminders.task.create,reminders.task.create,0.9998583
+could you please shut off the sound on the left aid,device.volume.mute,device.volume.mute,0.99960643
+increase the volume on my left aid,device.volume.increase,device.volume.decrease,0.9999214
+kindly increase the left aid volume,device.volume.increase,device.volume.decrease,0.9998321
+would you please turn my left hearing aid up a bit,device.volume.increase,device.volume.increase,0.9998692
+could you bring up the volume on my right hearing aid,device.volume.increase,device.volume.increase,0.9998958
+just shut off the sound on both hearing aids,device.volume.mute,device.volume.mute,0.9993526
+hey can you make my aids quieter,device.volume.decrease,device.volume.decrease,0.9998534
+"help me out, find my mobile phone in my car",find.phone.locate,find.phone.locate,0.9997922
+could you complete my current reminder,reminders.task.complete,reminders.task.complete,0.99994457
+could you please remind me to go to my doctor's appointment in 20 minutes,reminders.task.create,reminders.task.create,0.9998746
+kindly stream audio from my music player,streaming.session.start,streaming.session.start,0.9998182
+could you turn down the volume on my right hearing aid,device.volume.decrease,device.volume.decrease,0.9997898
+would you shut off the sound on my hearing aid,device.volume.mute,device.volume.mute,0.9997533
+explain how to set up a reminder,help.reminder.show,help.reminder.show,0.9998913
+remind me to run at 2 p.m. on halloween,reminders.task.create,reminders.task.create,0.9998907
+please switch memory to home,device.memory.change,device.memory.change,0.9998848
+can you add a reminder to check in with my nurse at 9am,reminders.task.create,reminders.task.create,0.9999308
+please set up a reminder to pay the bills this afternoon,reminders.task.create,reminders.task.create,0.99995214
+make voices stand out more,device.volume.increase,device.volume.decrease,0.9994759
+could you find my handset around here,find.phone.locate,find.phone.locate,0.99969137
+is it possible to enable a reminder on my phone,help.reminder.show,help.reminder.show,0.9999133
+"one thing, how do reminders work",help.reminder.show,help.reminder.show,0.9999171
+i want you to turn the sound down on the hearing aids,device.volume.decrease,device.volume.decrease,0.99981236
+i'd like to shut off the sound on the left aid,device.volume.mute,device.volume.mute,0.9996076
+help me take my right ear hearing aid off mute,device.volume.unmute,device.volume.mute,0.99954915
+please remind me to work out,reminders.task.create,reminders.task.create,0.9998469
+quickly switch the sound back on for both my aids,device.volume.unmute,device.volume.unmute,0.99938923
+show me how to use reminder,help.reminder.show,help.reminder.show,0.9999188
+can you make my aid silent,device.volume.mute,device.volume.mute,0.9994608
+would you please end the stream from a phone call,streaming.session.stop,streaming.session.stop,0.9998831
+i'd like you to stop listening to an audiobook,streaming.session.stop,streaming.session.stop,0.9998619
+would you start audio streaming from the microphone,streaming.session.start,streaming.session.start,0.99987656
+i want you to turn my devices up a bit,device.volume.increase,device.volume.increase,0.999577
+can you set to personal memory,device.memory.change,device.memory.change,0.99986345
+would you please hook up my laptop to my hearing aids,streaming.session.start,streaming.session.start,0.99972564
+"one thing, what is the reminder feature for",help.reminder.show,help.reminder.show,0.9998413
+can you please set a reminder to meditate this weekend,reminders.task.create,reminders.task.create,0.9999469
+kindly complete the reminder,reminders.task.complete,reminders.task.complete,0.9998246
+could you make a reminder to attend my appointment this afternoon,reminders.task.create,reminders.task.create,0.9999141
+quickly kill the volume on my hearing aids,device.volume.mute,device.volume.decrease,0.9995508
+can you restore the sound on my right ear hearing aid,device.volume.unmute,device.volume.mute,0.9994621
+hey can you track my android in the living room,find.phone.locate,find.phone.locate,0.9997664
+i need you to switch off the sound on my devices,device.volume.mute,device.volume.mute,0.99980736
+could you please mute the right aid,device.volume.mute,device.volume.mute,0.99979746
+please quiet down my hearing devices,device.volume.decrease,device.volume.decrease,0.9998255
+i need to route a podcast through my hearing aids,streaming.session.start,streaming.session.start,0.9995691
+i'd like to mark this task as done,reminders.task.complete,reminders.task.complete,0.99981314
+let's raise my hearing aids,device.volume.increase,device.volume.increase,0.99855036
+just soften my right ear hearing aid,device.volume.decrease,device.volume.decrease,0.9998607
+"hey, where did i leave my handset around here",find.phone.locate,find.phone.locate,0.99933094
+would you please turn both my aids off completely,device.volume.mute,device.volume.mute,0.99979013
+i want you to turn up the volume on my aids,device.volume.increase,device.volume.increase,0.9999222
+i'd like you to check the alarm off my list,reminders.task.complete,reminders.task.complete,0.99981475
+"ugh, find my cell phone in the house",find.phone.locate,find.phone.locate,0.9998319
+please change to theater memory,device.memory.change,device.memory.change,0.99984163
+how can i disable reminders on my hearing aids,help.reminder.show,help.reminder.show,0.9998805
+quickly start listening to my remote microphone,streaming.session.start,streaming.session.start,0.9995113
+"hey, tell me about reminders",help.reminder.show,help.reminder.show,0.9998837
+kindly turn the sound up on my hearing device,device.volume.increase,device.volume.increase,0.99994034
+could you please cut the volume on my device,device.volume.mute,device.volume.decrease,0.99921304
+i want you to play a phone call through my hearing aids,streaming.session.start,streaming.session.start,0.9990966
+change memory to four,device.memory.change,device.memory.change,0.99985284
+i'd like you to turn off streaming from my remote microphone,streaming.session.stop,streaming.session.stop,0.99981064
+can you track my mobile phone nearby,find.phone.locate,find.phone.locate,0.9998093
+i'm trying to bring down the volume on my hearing aids,device.volume.decrease,device.volume.decrease,0.9998985
+i need you to bring the sound back on my hearing devices,device.volume.unmute,device.volume.unmute,0.9999308
+can i change a task reminder,help.reminder.show,help.reminder.show,0.9998836
+change my hearing aid program to test one,device.memory.change,device.memory.change,0.99960315

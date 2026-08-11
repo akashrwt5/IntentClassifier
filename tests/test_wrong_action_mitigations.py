@@ -27,7 +27,22 @@ def engine():
         warnings.simplefilter("ignore")
         from nlu_engine import NLUEngine
 
-        eng = NLUEngine(model_name="en", language="en", semantic_enabled=False)
+        # No `semantic_enabled` override: the engine reads the pack's
+        # `semantic_rescue_enabled`, so these safety properties are asserted
+        # against the configuration that actually ships.
+        #
+        # This used to pin semantic_enabled=False. While Stage 3 was off in the
+        # pack that matched production, but once the pack enabled it the two
+        # polarity tests below were measuring a path no user would hit — and
+        # both of them fail on the Stage-2-only path:
+        #
+        #     "turn mute on"         -> Cmd.VolumeUnmute  FULFILL 0.49
+        #     "i need it more quiet" -> Cmd.VolumeIncrease FULFILL 0.60
+        #
+        # With Stage 3 they resolve to VolumeMute 0.83 and VolumeDecrease 0.82.
+        # A test that passes only because the risky stage is disabled is not
+        # evidence the property holds.
+        eng = NLUEngine(model_name="en", language="en")
     return eng
 
 

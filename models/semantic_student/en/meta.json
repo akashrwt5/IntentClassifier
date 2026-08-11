@@ -1,0 +1,15 @@
+{
+  "tag": "subw_vol5_s1",
+  "max_len": 32,
+  "threshold": 0.4,
+  "tokenizer": "subword",
+  "temperature": 0.68,
+  "vocab_size": 3000,
+  "seed": 1,
+  "teacher": "intfloat/e5-small-v2",
+  "init_embeddings": null,
+  "freeze_embeddings": false,
+  "synthetic_rows": 929,
+  "synthetic_text": true,
+  "source": "/Users/shuklam/IntentClassifier/new_semantic/models/en/student_subw_vol5_s1.onnx"
+}

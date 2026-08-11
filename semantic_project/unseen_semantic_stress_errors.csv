@@ -1,0 +1,37 @@
+text,intent,source,predicted_intent,correct
+put my hearing aids in the program for watching TV,device.memory.change,unseen_semantic_stress_test,streaming.session.start,False
+make the audio louder without changing the program,device.volume.increase,unseen_semantic_stress_test,device.memory.change,False
+make the audio less quiet,device.volume.increase,unseen_semantic_stress_test,device.volume.decrease,False
+turn it up but keep the same program,device.volume.increase,unseen_semantic_stress_test,device.memory.change,False
+shut off the audio output,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+make the audio stop,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+no sound from my hearing aids,device.volume.mute,unseen_semantic_stress_test,streaming.session.start,False
+stop what is playing through my hearing aids,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+stop the hearing aid output,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+no audio should come through,device.volume.mute,unseen_semantic_stress_test,streaming.session.start,False
+shut down the sound output,device.volume.mute,unseen_semantic_stress_test,device.volume.decrease,False
+stop the audio completely,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,False
+stop muting my hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.stop,False
+allow audio through the hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,False
+make the hearing aids audible,device.volume.unmute,unseen_semantic_stress_test,device.volume.increase,False
+switch off mute mode,device.volume.unmute,unseen_semantic_stress_test,device.volume.mute,False
+resume audio through my hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,False
+remove complete silence,device.volume.unmute,unseen_semantic_stress_test,device.volume.mute,False
+let me see my reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+tell me what I have scheduled,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+read out my reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+what reminders are waiting,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+see the reminders I have,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+let me check my reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+tell me my current reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+read my active reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+which reminders haven't been completed,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+give me my current reminder status,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+let me see saved reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,False
+show my outstanding reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+read my reminder list,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+list my outstanding reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.complete,False
+add something to my reminders,reminders.task.create,unseen_semantic_stress_test,help.reminder.show,False
+create an entry in my reminders,reminders.task.create,unseen_semantic_stress_test,help.reminder.show,False
+schedule something in reminders,reminders.task.create,unseen_semantic_stress_test,help.reminder.show,False
+add this task to reminders,reminders.task.create,unseen_semantic_stress_test,help.reminder.show,False

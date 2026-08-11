@@ -1,0 +1,12 @@
+{
+  "tag": "semfz_s1",
+  "temperature": 0.68,
+  "gate": 0.4,
+  "dev_rows": 1144,
+  "test_rows": 1107,
+  "test_ece_before": 0.20294423694798502,
+  "test_ece_after": 0.018656259247902443,
+  "ood_reject_before": 0.8308457711442786,
+  "ood_reject_after": 0.7910447761194029,
+  "note": "rank-preserving; argmax accuracy is unchanged by construction"
+}

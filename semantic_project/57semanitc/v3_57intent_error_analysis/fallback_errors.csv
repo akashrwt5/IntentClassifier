@@ -1,0 +1,846 @@
+row_number,text,true_intent,predicted_intent,true_id,predicted_id,correct,confidence
+62,what are the fall detections,Help_FallAlert,Default Fallback Intent,31,21,0,0.29159223610988666
+291,activity goal,Cmd.ActivityAerobics,Default Fallback Intent,0,21,0,0.2706658246370868
+384,calories standing,Cmd.ActivityStand,Default Fallback Intent,5,21,0,0.2008306252120169
+449,what's new in the app?,Help_WhatsNew,Default Fallback Intent,53,21,0,0.40245796521166427
+450,what's new in the app,Help_WhatsNew,Default Fallback Intent,53,21,0,0.40245796521166427
+456,what's new in this version of my app?,Help_WhatsNew,Default Fallback Intent,53,21,0,0.2797494853159754
+458,what's new in this version?,Help_WhatsNew,Default Fallback Intent,53,21,0,0.5078778331289413
+530,how do i perform a self-check?,Help_SelfCheck,Default Fallback Intent,46,21,0,0.23406946892454683
+534,when should i use self-check?,Help_SelfCheck,Default Fallback Intent,46,21,0,0.22571007421234118
+536,what if self-check says that my hearing aid is broken?,Help_SelfCheck,Default Fallback Intent,46,21,0,0.3794698630332446
+560,how often should i use self-check?,Help_SelfCheck,Default Fallback Intent,46,21,0,0.35792609712115586
+868,schedule physical therapy appointment tomorrow morning 8:40 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.4223947126343176
+878,remember to watch,reminders.add,Default Fallback Intent,55,21,0,0.39978888557415004
+879,remember to wash the car in 4 hours,reminders.add,Default Fallback Intent,55,21,0,0.5526933880591195
+882,remember to wake up at 7 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.6692323554033996
+883,remember to wake up at 6 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.6599655458189311
+885,remember to turn the lights on at 8 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.5956487381526719
+893,don't let me forget,reminders.add,Default Fallback Intent,55,21,0,0.2686305768779065
+930,remind me to get groceries every month on the 15th at 1 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.7866715359828772
+944,remind me at 7 p.m. on november 11 to do homework,reminders.add,Default Fallback Intent,55,21,0,0.38230381680903097
+952,remind me at 1 p.m. that i have to eat,reminders.add,Default Fallback Intent,55,21,0,0.675903972034039
+978,remind me of blood brothers,reminders.add,Default Fallback Intent,55,21,0,0.5471989677379577
+996,remind about business meeting every monday at 4 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.5380758238442394
+998,remind about running at 6 a.m. on 7th december,reminders.add,Default Fallback Intent,55,21,0,0.36030897077537144
+999,remind me to wake up at 7 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.3356323288676648
+1009,new reminder about washing car,reminders.add,Default Fallback Intent,55,21,0,0.42294684139550653
+1022,remind me 10:30 p.m. to close the restaurant,reminders.add,Default Fallback Intent,55,21,0,0.2520556934199062
+1148,how to set calendar event,Help_Reminder,Default Fallback Intent,44,21,0,0.2771660561872726
+1346,what are all the features of health?,Help_Health,Default Fallback Intent,33,21,0,0.26978507313610756
+1355,tell me what how much do i owe you is in español,Cmd.TranslationStart,Default Fallback Intent,16,21,0,0.4519688674510349
+1375,minimum sound,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.2230216765189696
+1393,min sound,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.2230216765189696
+1502,is it ok to push the mold in deep?,Help_InsertDevice,Default Fallback Intent,39,21,0,0.7709922677486611
+1523,is it ok to push the mold in far?,Help_InsertDevice,Default Fallback Intent,39,21,0,0.5857432793395222
+1616,start recording for me,Cmd.TranscribeStart,Default Fallback Intent,15,21,0,0.3222681950978705
+1757,replay my message.,Cmd.ListenMessage,Default Fallback Intent,10,21,0,0.2143054107894077
+1839,got to getting a text message at boston,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.8207768543475781
+1840,ashes to ashes all fall down,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.17488894016445003
+1843,what are stock options,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.34632810147135584
+1845,electric car battery,Default Fallback Intent,Help_Battery,21,24,0,0.7667160222156109
+1846,car battery,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.8556315067657015
+1847,how do i dispose of a body,Default Fallback Intent,Help_ThriveScore,21,47,0,0.6123472512652965
+1848,what is the impact to the environment of an electric battery for a vehicle,Default Fallback Intent,Help_EdgeMode,21,30,0,0.2184858662685246
+1850,new delhi,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.4854284673848762
+1852,what's new in the world today,Default Fallback Intent,Help_WhatsNew,21,53,0,0.37072590093045726
+1853,where can i get my hearing checked,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.6505202339481181
+1854,how do i make chili,Default Fallback Intent,Help_FallAlert,21,31,0,0.13578499064278485
+1855,how do i make,Default Fallback Intent,Help_IntelliVoice,21,40,0,0.2573263895262623
+1856,how do i make chicken,Default Fallback Intent,Help_FallAlert,21,31,0,0.13578499064278485
+1857,how do i make eggs,Default Fallback Intent,Help_FallAlert,21,31,0,0.13578499064278485
+1858,how do i make lasagna,Default Fallback Intent,Help_FallAlert,21,31,0,0.13578499064278485
+1861,what should i do when i am there,Default Fallback Intent,Help_RemoteProgramming,21,45,0,0.37553435161613885
+1862,what should i see when i'm there,Default Fallback Intent,Help_Home,21,38,0,0.3575604683234032
+1863,how often should somebody exercise every week,Default Fallback Intent,Help_WhatsNew,21,53,0,0.3042102585664954
+1866,how do i know if i need hearing aids,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.30781391808404457
+1867,everyday is exciting,Default Fallback Intent,Help_Transcribe,21,49,0,0.2480590439951525
+1869,how do i tie my shoes,Default Fallback Intent,Help_Customize,21,27,0,0.7489521114307657
+1871,what time does falls park open,Default Fallback Intent,Help_HearShare,21,34,0,0.2567455699759046
+1872,tell me a joke i need to be cheered up,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.21403634276871833
+1873,should i tell him how i feel,Default Fallback Intent,Help_Customize,21,27,0,0.6887164723140561
+1874,what is my location,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.510376508868482
+1875,creating a demo with your capabilities,Default Fallback Intent,Help_DemoMode,21,28,0,0.4175642500930953
+1880,why isn't my heart mahira anaise bagri working,Default Fallback Intent,Help_HeartRate,21,36,0,0.7231492172553499
+1881,how do you fix your tv?,Default Fallback Intent,Cmd.StreamingStart,21,13,0,0.22502623173514974
+1883,when is memorial day,Default Fallback Intent,Help_Transcribe,21,49,0,0.27561611543909037
+1886,ask my house,Default Fallback Intent,Help_Customize,21,27,0,0.527828024597887
+1887,how do i get to swimsuits,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.36941836026416414
+1888,"hello, just a hearing aid the volume on my hearing aids. bye. bye.",Default Fallback Intent,Help_Volume,21,52,0,0.3944296564297645
+1889,take a look at a distance,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.4633596257400725
+1894,can you call my contact,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.5203887251987827
+1898,they are trying to reduce the temperature right now,Default Fallback Intent,Help_MemoryOptions,21,42,0,0.3290634994704098
+1899,david soul alert,Default Fallback Intent,Help_FallAlert,21,31,0,0.2558471876219211
+1902,can you put my phone on chris home,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.899130431645948
+1903,reset,Default Fallback Intent,Cmd.ActivityRun,21,4,0,0.24545247845238613
+1904,microphone,Default Fallback Intent,Cmd.StreamingStart,21,13,0,0.3837429380897002
+1905,how do i turn my hearing a song.,Default Fallback Intent,Help_ThriveScore,21,47,0,0.302239748640821
+1906,florist off screen,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.6226279089470944
+1908,phone phone phone phone phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.9505704719763763
+1909,the weather outside today,Default Fallback Intent,Help_Home,21,38,0,0.27762199085594164
+1910,don't make any noise for a minute,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.20445238710172506
+1912,how do i spell machine,Default Fallback Intent,Help_Customize,21,27,0,0.7912992849748006
+1914,how do i stop pandora from playing on my hearing aids,Default Fallback Intent,Help_Volume,21,52,0,0.6082289023151906
+1918,saturday,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.12534654890975896
+1920,nothing wrong with me,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.35322330504284805
+1921,friday,Default Fallback Intent,Help_HearShare,21,34,0,0.392407450521342
+1922,i don't remember i don't remember this being such a big fish,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.6184087684401898
+1923,to us number one hits,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.3920146546072262
+1924,turn off the kitchen light,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.576874504252099
+1925,so it goes back it goes back to the memory or in,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.5979330292805083
+1926,every morning,Default Fallback Intent,Help_MaskMode,21,41,0,0.3985523050601368
+1928,turn off cable,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.7200250262145198
+1929,iconic store,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.25747423561743155
+1930,basically,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+1932,hey find me a way to white oaks mall,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.18582366113554813
+1934,adjusted with my phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.9544683739423585
+1935,is my sign,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.3424317609471182
+1938,i hear the voice,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.22186335213879574
+1939,so where is brewster,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.36473154035911526
+1942,alexa learn my voice,Default Fallback Intent,Help_VoiceAssistant,21,51,0,0.17617946536706064
+1943,hey google,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.20829444142635922
+1945,how do i set it up for stereo,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.2326007244466244
+1946,any help you,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.7192947771991749
+1947,look up your nose real quick to,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.6131234224989474
+1948,fisher is jacking off in the car so it's in the closet,Default Fallback Intent,Help_Tinnitus,21,48,0,0.6386667702315719
+1951,nevermind,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+1953,what's on tv tonight on channel 3,Default Fallback Intent,Help_Transcribe,21,49,0,0.5658149414894806
+1954,turn the lights off,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.38351427333625515
+1955,android phone to listen to spotify,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.21528396514903678
+1956,i'm up,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.7414656807181044
+1957,turn on this is my life,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.6890314562896525
+1958,she goes,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.267257292313583
+1959,wednesday,Default Fallback Intent,Cmd.ActivityRun,21,4,0,0.30253771280670116
+1960,siri,Default Fallback Intent,Help_VoiceAssistant,21,51,0,0.2805754732621498
+1961,turn on the answer double tap slept here.,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.30581226554546986
+1963,turn the lights on,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.2975593350380411
+1964,phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.7846617379781139
+1966,don't tell me that's the problem,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.22611533198989256
+1967,how long does it hurt for the hearing aids in my ears,Default Fallback Intent,Help_InsertDevice,21,39,0,0.591440723591077
+1968,how can i find out what time it is,Default Fallback Intent,Help_AppSettings,21,23,0,0.1665519536801915
+1970,how everything's working for us,Default Fallback Intent,Help_DemoMode,21,28,0,0.2200262341377458
+1972,as far as far as cleaning up over there i went pretty,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.7709964921911542
+1974,what what's not working,Default Fallback Intent,Help_Home,21,38,0,0.24093570842705825
+1976,where can i find brain activity,Default Fallback Intent,Help_Customize,21,27,0,0.36518653567180775
+1979,dailly,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+1980,please call the karate program,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.4762983577246822
+1981,turn on light.,Default Fallback Intent,Help_WiCROS,21,54,0,0.5675036448407408
+1982,so she had it up when i come home,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5557513088504629
+1984,bank number to car,Default Fallback Intent,Help_SelfCheck,21,46,0,0.4706429228615962
+1990,the score of the minnesota twins game,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.24381835379394104
+1991,shelley my phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.9368985726495278
+1992,switch on ps4,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.35409138130209067
+1994,where can i find videos for the hearing aid for instructions,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.3441781516873805
+1997,riley's a manager connected scott.,Default Fallback Intent,Help_CleanCare,21,26,0,0.4310767752301595
+1999,elsa texas off huh,Default Fallback Intent,Help_CleanCare,21,26,0,0.4757940531500345
+2002,sentences with more,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.46139026370107067
+2003,pretty sure that's mine but i can't put it on now,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.3864288294569649
+2007,just finding duncan's,Default Fallback Intent,Help_CleanCare,21,26,0,0.5285555296843946
+2009,lay down here,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.3545730536109374
+2010,you need some help,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.32020558373169083
+2014,discover revelation,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.7007068575410826
+2015,i wish i could wake up,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.32703155707304327
+2017,these keeps doing this,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5504900568846011
+2018,somebody from motel in boise,Default Fallback Intent,Help_WhatsNew,21,53,0,0.674010169400893
+2020,pandora,Default Fallback Intent,Help_DemoMode,21,28,0,0.2780775208677982
+2021,he did just change it,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.42712152534673514
+2023,but i want to see,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.3632161339600565
+2025,i said other program,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.40315272788005246
+2026,remember how to do it,Default Fallback Intent,Help_Tinnitus,21,48,0,0.2862529670953075
+2029,no tv remote in fry's app,Default Fallback Intent,Cmd.StreamingStop,21,14,0,0.49408743361945434
+2030,smile so we're going to go to that,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.3294105328421543
+2032,the stage sign,Default Fallback Intent,Help_RemoteProgramming,21,45,0,0.14601053754448423
+2033,monday,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.2934302974638346
+2034,yearly,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+2035,hearing aids every time the stupid phone goes,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.310745090134687
+2038,sausages after using my location,Default Fallback Intent,Cmd.StreamingStart,21,13,0,0.23845396150583173
+2041,he forgot them and you need them let me know if i have a free afternoon i can drive over,Default Fallback Intent,Cmd.ActivityRun,21,4,0,0.42079343322453283
+2042,hearing aid,Default Fallback Intent,Help_CleanCare,21,26,0,0.31897463342454135
+2044,i'm walking and they didn't working,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.2628212192415571
+2049,fire on friday,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.3194261418802636
+2050,at home,Default Fallback Intent,Help_MaskMode,21,41,0,0.5155232065306021
+2051,how to connect my spies,Default Fallback Intent,Help_Accessories,21,22,0,0.612773358346466
+2052,more like this is,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.34851307516601876
+2053,what can i ask?,Default Fallback Intent,Help_AppSettings,21,23,0,0.32194668997577625
+2054,it smooths down is forced down,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.5648508108806342
+2056,i'm floating on the road,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.23679015682651655
+2057,when is the king and i playing,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.41610965234666064
+2060,phone a friend,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.5771076815764246
+2061,out of your phone okay,Default Fallback Intent,Cmd.ActivityCalories,21,1,0,0.6547977663431888
+2062,what is the weather in las vegas today,Default Fallback Intent,Help_Tinnitus,21,48,0,0.27499557511301087
+2068,talking about my daughter,Default Fallback Intent,Cmd.ActivityCalories,21,1,0,0.27149769882647035
+2069,tuesday,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.24991990896553942
+2070,live in your ear if there's a wire,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.2925606065889765
+2071,switch check out her,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.406404682796214
+2072,i need to program new stamping to my phone,Default Fallback Intent,Help_Tinnitus,21,48,0,0.17414314755042462
+2076,what is my friends score?,Default Fallback Intent,Help_ThriveScore,21,47,0,0.8445621122841767
+2077,how to adjust these,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.34022685631062227
+2079,alter metal plates myrtle beach storm,Default Fallback Intent,reminders.add,21,55,0,0.21710264108464647
+2081,wendy's double tapped it and has not worked,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.3383527631948448
+2082,lift device not registering,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.21553508450099207
+2083,lyrics,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+2084,what do i do to get my right,Default Fallback Intent,Help_Customize,21,27,0,0.512670185651935
+2085,right on,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.48912835183270686
+2087,sorry about this okay i got it,Default Fallback Intent,Cmd.ActivityRun,21,4,0,0.32140283764926014
+2089,exclusive 30 to 1 odds,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5807826719639076
+2095,walking down,Default Fallback Intent,Help_RemoteProgramming,21,45,0,0.33191057073146124
+2099,what is the best phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.6610277509896313
+2101,want to move up yeah i will,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.3808967132855691
+2102,is my phone an android phone?,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.93774219255749
+2106,and push it down for dramatics,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.47002690340406234
+2107,how do i turn off my headlights,Default Fallback Intent,Help_Home,21,38,0,0.24564437436576866
+2109,why won't the hearing aids?,Default Fallback Intent,Help_Pairing,21,43,0,0.5677937449854283
+2113,thanks for changing,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.5219450649602191
+2114,only if it's not a problem for cdl,Default Fallback Intent,Help_SelfCheck,21,46,0,0.7708648487195634
+2116,can't find bose,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.3321174867894825
+2117,i can't hear anything,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.33015346299122744
+2118,search genesis,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.6735027287751644
+2120,what was the indians score,Default Fallback Intent,Help_ThriveScore,21,47,0,0.6271971286928086
+2121,on north koreans office will the fuckers off here.,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.5311222803604723
+2122,turn off alarm,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.2909678576757027
+2125,fuck off,Default Fallback Intent,Help_CleanCare,21,26,0,0.24025817969103816
+2127,how do i clean a how to do subject,Default Fallback Intent,Help_CleanCare,21,26,0,0.6221311733173348
+2131,not screaming loud enough,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.5156656970298783
+2132,i cannot tell a lie,Default Fallback Intent,Help_Customize,21,27,0,0.556048319195445
+2135,how do i map a location to a map,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.4131673515179224
+2136,direction of the sound,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5445823753925114
+2137,i was down 17 grand earlier today,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3597479792500682
+2139,youtube videos,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.14157471381567516
+2140,how do i hook up my watch,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.19067222879865967
+2141,wow that's intense intense number,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.21099775779220703
+2142,and here's my heart it's closer to you,Default Fallback Intent,Help_HeartRate,21,36,0,0.4016853593900756
+2143,salsa on my left,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.4764653282217222
+2144,why is my left hearing aid,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.6616594473120219
+2145,onkyo receiver,Default Fallback Intent,Help_Translate,21,50,0,0.47783924916664905
+2146,address change,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.38122702255460994
+2147,i wonder if i put it in here somewhere,Default Fallback Intent,Help_InsertDevice,21,39,0,0.36175128407387463
+2149,alexa,Default Fallback Intent,Help_HearShare,21,34,0,0.14598122879779238
+2150,molesting hearing aids to cousin,Default Fallback Intent,Help_CleanCare,21,26,0,0.45535960135642206
+2153,why doesn't my drive app?,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.2676925677118066
+2154,going to call them in and see whether they want me to send this enormous,Default Fallback Intent,Help_InsertDevice,21,39,0,0.42574727226431874
+2155,what is the weather today,Default Fallback Intent,Help_WiCROS,21,54,0,0.20359152397894667
+2156,hearing aids,Default Fallback Intent,Help_Pairing,21,43,0,0.4039469498844237
+2157,i can't even hardly hear that,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5123576359495146
+2158,turn,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.3410454639098156
+2159,just curls up in your ears yet,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.8506616212822203
+2160,okay microphone,Default Fallback Intent,Help_CleanCare,21,26,0,0.2584422842580765
+2161,sweet car,Default Fallback Intent,Help_SelfCheck,21,46,0,0.21397558859449214
+2163,"yeah, i've been updated.",Default Fallback Intent,Help_IntelliVoice,21,40,0,0.4542032955381471
+2164,can come off,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.24905446076494028
+2165,hold on,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.32812657420899044
+2167,"stream, youtube music.",Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.211184939769905
+2168,how long do hearing aids last,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.1880419384212721
+2172,play i'm carrying it,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.30582684956293393
+2173,she's staying with my phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.47242383757443585
+2177,how do i connect alexa,Default Fallback Intent,Help_Accessories,21,22,0,0.4548932177177672
+2178,how do i check my radiator to see if it's working,Default Fallback Intent,Help_HearShare,21,34,0,0.4978041859716423
+2179,telephone audio input,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.37158498399217194
+2180,the left hearing aid,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.27293220741519447
+2182,the microphone,Default Fallback Intent,Cmd.StreamingStart,21,13,0,0.5136292720971184
+2183,show me the jury,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.31268098942836053
+2185,completely,Default Fallback Intent,Cmd.ActivityCycle,21,2,0,0.2373482945960966
+2187,i need a car battery,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.7251062633559896
+2188,what you can check in,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.39505166448566337
+2189,how do i fix my,Default Fallback Intent,Help_Customize,21,27,0,0.6526164485830414
+2192,my right hearing aid is at 0%,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.26675192981736306
+2193,why does one of your sound louder than the other,Default Fallback Intent,Help_Customize,21,27,0,0.4331314036869987
+2194,you can always add,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.2839189342254149
+2195,sunday,Default Fallback Intent,Help_IntelliVoice,21,40,0,0.17788442479319475
+2197,so that your hearing,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.48042745216962307
+2198,how do i use,Default Fallback Intent,Help_Customize,21,27,0,0.3301409313011374
+2199,so this is your hearing aids,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.39756494028496264
+2201,dawsonville quick,Default Fallback Intent,Help_MaskMode,21,41,0,0.3267726177323341
+2202,how do i set up the tv,Default Fallback Intent,Help_Accessories,21,22,0,0.5059215228298557
+2203,sound bar,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3119490944459311
+2204,"i'm just like oh, so that's the point that down.",Default Fallback Intent,Help_Customize,21,27,0,0.31052504221124855
+2205,monthly,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.6828309960309025
+2206,federal assistance up to my energy,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.39327889300157215
+2208,adidas women boots,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.36112568276767226
+2209,i can't hear the,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.427935177293707
+2210,do i look good,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.5554522742419277
+2211,but they live here i remember when jerry told me,Default Fallback Intent,Help_FallAlert,21,31,0,0.46375284871850503
+2213,what's the difference between an iphone and an android phone,Default Fallback Intent,Help_RemoteProgramming,21,45,0,0.27509663259957484
+2214,turn off tv,Default Fallback Intent,Cmd.StreamingStop,21,14,0,0.3838554271981771
+2215,where can i buy a phone,Default Fallback Intent,Help_MemoryOptions,21,42,0,0.223527526199781
+2216,your needs cut off.,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.8964801668532358
+2217,what i need to hear the question again,Default Fallback Intent,Cmd.StreamingStart,21,13,0,0.29053301664917847
+2218,how do i get to,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.33013248986060556
+2219,yeah just take a little off yeah,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.4392922854436694
+2220,braves score,Default Fallback Intent,Help_ThriveScore,21,47,0,0.856748537856029
+2222,how do i remove a sliver,Default Fallback Intent,Help_InsertDevice,21,39,0,0.242968978571103
+2225,debony logging up,Default Fallback Intent,Help_Health,21,33,0,0.36779675194462064
+2227,why would i need to worry about health guidelines,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.281839898749176
+2229,thunder message,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.461319998004673
+2232,text levitar,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.29028999659970556
+2236,why should i eat,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.460840993908041
+2237,why should i visit in poopy,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.7373533495198978
+2238,go back to a high,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.37823080248724894
+2239,tell me about english language,Default Fallback Intent,Help_RemoteProgramming,21,45,0,0.36803291665231835
+2240,tell me about amharic language,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.41566280873216715
+2245,write a program of research institute,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.305071527588122
+2247,right swift code of binary search,Default Fallback Intent,Cmd.ActivityCalories,21,1,0,0.4042830918601295
+2248,right,Default Fallback Intent,Help_SelfCheck,21,46,0,0.23193706161946082
+2249,write a program in switch,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.47244115822182137
+2252,what are the dining options in the clubhouse,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.5976155704926392
+2253,locate the nearest golf course,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.30679444208359147
+2254,locate the nearest park,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.3777683707440037
+2255,locate my wife,Default Fallback Intent,Help_Customize,21,27,0,0.4232824710489834
+2256,locate a restaurant,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.31773054541164125
+2257,locate,Default Fallback Intent,Help_Customize,21,27,0,0.21508489234866854
+2259,how do i relax at home,Default Fallback Intent,Help_Customize,21,27,0,0.36754776112701726
+2260,what is starkey hearing aids,Default Fallback Intent,Help_SelfCheck,21,46,0,0.3822597937014296
+2261,where's the current,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.6182595583479426
+2262,how can i go there,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.24968852255430293
+2278,how far have i biked?,Cmd.ActivityCycle,Default Fallback Intent,2,21,0,0.33565087874167726
+2679,change to personal,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.19637066651846563
+2682,change to car,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.2521405909992308
+2686,change to automatic,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.21298962695856555
+2688,change to golf,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.26750100818405964
+2692,change to master,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.25366375227172894
+2696,change to school,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.18084740659464676
+3099,can you calories standing,Cmd.ActivityStand,Default Fallback Intent,5,21,0,0.31418968791343227
+3113,can you play the microphone,Cmd.StreamingStart,Default Fallback Intent,13,21,0,0.3338728624698544
+3116,can you connect to remote,Cmd.StreamingStart,Default Fallback Intent,13,21,0,0.3092419424218665
+3145,can you tv steam,Cmd.StreamingStart,Default Fallback Intent,13,21,0,0.5758331947916453
+3160,can you turn streaming on,Cmd.StreamingStart,Default Fallback Intent,13,21,0,0.3514330542081441
+3161,can you streaming,Cmd.StreamingStart,Default Fallback Intent,13,21,0,0.44434833326655937
+3167,can you turn on streaming,Cmd.StreamingStart,Default Fallback Intent,13,21,0,0.5839085149059997
+3196,can you quick start,Help_WhatsNew,Default Fallback Intent,53,21,0,0.512564173143792
+3215,can you test hearing aids,Help_SelfCheck,Default Fallback Intent,46,21,0,0.28797828431735734
+3230,please please diagnose my hearing aids,Help_SelfCheck,Default Fallback Intent,46,21,0,0.2594318715263652
+3237,can you should my hearing aids get all check marks in self-check?,Help_SelfCheck,Default Fallback Intent,46,21,0,0.35050103231596896
+3255,can you make sound on,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.347041334726268
+3256,can you unmute,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.22894121826376246
+3291,can you unmute the aids,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.2609141409023473
+3353,can you telehear,Help_HearingCareAnywhereConnect,Default Fallback Intent,35,21,0,0.8230005496914199
+3446,please set an alarm for 15 minutes,reminders.add,Default Fallback Intent,55,21,0,0.37622662536466267
+3447,can you set an alarm for 15 minutes,reminders.add,Default Fallback Intent,55,21,0,0.5954248987720333
+3455,can you schedule appointment tomorrow,reminders.add,Default Fallback Intent,55,21,0,0.4269198358595243
+3456,please schedule physical therapy appointment tomorrow morning 8:40 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.43125629327776877
+3457,can you schedule physical therapy appointment tomorrow morning 8:40 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.6343744580547688
+3458,can you every year,reminders.add,Default Fallback Intent,55,21,0,0.47858057097340206
+3459,can you every month,reminders.add,Default Fallback Intent,55,21,0,0.7452598101382539
+3460,can you every week,reminders.add,Default Fallback Intent,55,21,0,0.6035615079314569
+3461,can you every day,reminders.add,Default Fallback Intent,55,21,0,0.2781332774483866
+3462,can you everyday,reminders.add,Default Fallback Intent,55,21,0,0.9065227160014678
+3468,please remember to work out,reminders.add,Default Fallback Intent,55,21,0,0.25730817638178405
+3469,please remember to watch,reminders.add,Default Fallback Intent,55,21,0,0.30597415264395667
+3470,can you remember to watch,reminders.add,Default Fallback Intent,55,21,0,0.5601538684518729
+3471,please remember to wash the car in 4 hours,reminders.add,Default Fallback Intent,55,21,0,0.5242174936520378
+3472,can you remember to wash the car in 4 hours,reminders.add,Default Fallback Intent,55,21,0,0.43657286306508886
+3474,can you remember to wash my car,reminders.add,Default Fallback Intent,55,21,0,0.5413139875549008
+3477,please remember to wake up at 7 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.49863668172483844
+3478,can you remember to wake up at 7 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.7468188073048285
+3479,please remember to wake up at 6 a.m.,reminders.add,Default Fallback Intent,55,21,0,0.4637693912756992
+3480,can you remember to vitamin d at 7 p.m. everyday,reminders.add,Default Fallback Intent,55,21,0,0.23937251504966459
+3482,can you remember to turn the lights on at 8 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.6641145695168337
+3483,please remember to turn off my phone everyday at 11 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.4401168839177807
+3484,can you remember to turn off my phone everyday at 11 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.6675267467321205
+3491,please remember to take medicine,reminders.add,Default Fallback Intent,55,21,0,0.3182764384379747
+3492,can you remember to take medicine,reminders.add,Default Fallback Intent,55,21,0,0.38399115595776695
+3493,please remember to take medication today at 5 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.19926864638937006
+3498,can you don't let me forget,reminders.add,Default Fallback Intent,55,21,0,0.29337246311521503
+3500,can you i want to be reminded,reminders.add,Default Fallback Intent,55,21,0,0.4064613741117977
+3579,can you remind me to get groceries every month on the 15th at 1 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.8433133586563155
+3600,can you remind me on the 27th of august tomy flight,reminders.add,Default Fallback Intent,55,21,0,0.3419815149610566
+3620,can you remind me at 1 p.m. that i have to eat,reminders.add,Default Fallback Intent,55,21,0,0.672261282647163
+3632,can you remind me of a meeting on the 27th of august,reminders.add,Default Fallback Intent,55,21,0,0.4106710509246907
+3659,can you remind me of appointment,reminders.add,Default Fallback Intent,55,21,0,0.40033374327239996
+3667,can you reminder to play with my cat everyday at 7 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.268435112864104
+3685,please new reminder about fitness,reminders.add,Default Fallback Intent,55,21,0,0.46636966369172034
+3688,can you remind me of blood brothers,reminders.add,Default Fallback Intent,55,21,0,0.6926370133194178
+3700,can you remind me i have a meeting,reminders.add,Default Fallback Intent,55,21,0,0.26654550242403924
+3705,can you set reminder about washing car,reminders.add,Default Fallback Intent,55,21,0,0.5592820765575187
+3724,please remind about business meeting every monday at 4 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.27936100706839917
+3725,can you remind about business meeting every monday at 4 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.796149512667774
+3746,can you new reminder about washing car,reminders.add,Default Fallback Intent,55,21,0,0.6924343151578697
+3750,can you remind me about exams every friday at 7 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.5853728186685878
+3770,please remind me 10:30 p.m. to close the restaurant,reminders.add,Default Fallback Intent,55,21,0,0.53974060117692
+3771,can you remind me 10:30 p.m. to close the restaurant,reminders.add,Default Fallback Intent,55,21,0,0.3906885989133962
+3782,can you add reminder with title washing car,reminders.add,Default Fallback Intent,55,21,0,0.525459889583424
+3790,please add reminder for meeting,reminders.add,Default Fallback Intent,55,21,0,0.5254076450908856
+3791,can you add reminder for meeting,reminders.add,Default Fallback Intent,55,21,0,0.5782853977426116
+3866,please i don’t hear a difference when i change my balance control,Help_WiCROS,Default Fallback Intent,54,21,0,0.31412752654627035
+3868,can you receiver,Help_WiCROS,Default Fallback Intent,54,21,0,0.24573128506971786
+3871,please tell me what how much do i owe you would be in español,Cmd.TranslationStart,Default Fallback Intent,16,21,0,0.43904363114133904
+3873,please tell me what how much do i owe you is in español,Cmd.TranslationStart,Default Fallback Intent,16,21,0,0.5512904768460807
+3874,can you tell me what how much do i owe you is in español,Cmd.TranslationStart,Default Fallback Intent,16,21,0,0.5161091211125779
+3882,can you start translating in french,Cmd.TranslationStart,Default Fallback Intent,16,21,0,0.4344775972846751
+3901,can you minimum sound,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.549498073796056
+3910,can you lower the level of my hearing aids,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.282357873382015
+3928,can you min sound,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.549498073796056
+3958,can you decrease hearing,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.5420809717518446
+4011,can you should my hearing aid look like the one in the video?,Help_InsertDevice,Default Fallback Intent,39,21,0,0.4166059658434856
+4041,can you silence,Cmd.VolumeMute,Default Fallback Intent,19,21,0,0.40478997378059184
+4062,can you mute,Cmd.VolumeMute,Default Fallback Intent,19,21,0,0.38356253059797635
+4075,can you wax build up,Help_CleanCare,Default Fallback Intent,26,21,0,0.47440784773766514
+4106,can you start recording,Cmd.TranscribeStart,Default Fallback Intent,15,21,0,0.501415276146284
+4196,please ashes to ashes all fall down,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.23536223358847394
+4197,can you ashes to ashes all fall down,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.24109819242496552
+4198,please electric car battery,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.30622416509550227
+4200,can you car battery,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.7747873989420578
+4204,please i'm in butterbrodt new delhi,Default Fallback Intent,Help_WhatsNew,21,53,0,0.39975448067707625
+4205,can you i'm in butterbrodt new delhi,Default Fallback Intent,Help_WhatsNew,21,53,0,0.4959131443158125
+4211,please everyday is exciting,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.37954881921654327
+4215,please i'd like to know how far it is to the moon,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.6474251056028725
+4219,can you should i tell him how i feel,Default Fallback Intent,Help_AppSettings,21,23,0,0.43445562594035425
+4220,please creating a demo with your capabilities,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.4036687910834245
+4233,can you am i close enough to the car,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.4674836583658176
+4237,please ask my house,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.44791283319397523
+4238,can you ask my house,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.35758502887721827
+4239,"please hello, just a hearing aid the volume on my hearing aids. bye. bye.",Default Fallback Intent,Help_SelfCheck,21,46,0,0.3538215004524345
+4240,"can you hello, just a hearing aid the volume on my hearing aids. bye. bye.",Default Fallback Intent,Help_SelfCheck,21,46,0,0.44565472481436574
+4252,please they are trying to reduce the temperature right now,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23183000204201648
+4254,can you david soul alert,Default Fallback Intent,Help_FallAlert,21,31,0,0.3591703657566782
+4259,please florist off screen,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.34307511335287255
+4260,can you florist off screen,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.24818415434833357
+4261,please amazon screen is dark,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.32955422963160225
+4264,please phone phone phone phone phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.920109403749366
+4265,please bustling hearing aid,Default Fallback Intent,Help_Pairing,21,43,0,0.1467325672257589
+4267,please the weather outside today,Default Fallback Intent,Help_WiCROS,21,54,0,0.26051373294937574
+4268,can you the weather outside today,Default Fallback Intent,Help_Home,21,38,0,0.33197808453193683
+4279,please turn off toshiba,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.5498474375757485
+4281,please nothing wrong with me,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.26764324690747104
+4286,please turn off the kitchen light,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.6079403761143908
+4287,can you turn off the kitchen light,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.6194643871678209
+4288,please so it goes back it goes back to the memory or in,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.4746642709428292
+4289,can you so it goes back it goes back to the memory or in,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.42035655208056044
+4291,can you i need to,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.517831947950583
+4294,please turn off cable,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.40780938736580896
+4295,can you turn off cable,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.5114961543169056
+4298,please saab wanted control,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3052574322419155
+4302,please check them off like pink lady,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.38754378201752687
+4303,please adjusted with my phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.7953461695659954
+4304,can you adjusted with my phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.7346433204993876
+4307,please i hear the voice,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.4867045075271847
+4309,please so where is brewster,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3569569546822366
+4310,can you so where is brewster,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.44377624983088
+4315,can you alexa learn my voice,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.1609447941977928
+4320,please look up your nose real quick to,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.43811274855848603
+4321,can you look up your nose real quick to,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.37597975856767457
+4322,please fisher is jacking off in the car so it's in the closet,Default Fallback Intent,Help_Tinnitus,21,48,0,0.6523402401234383
+4323,can you fisher is jacking off in the car so it's in the closet,Default Fallback Intent,Help_Tinnitus,21,48,0,0.5617012874876366
+4331,can you turn the lights off,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.57354579692863
+4332,please android phone to listen to spotify,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.7895039376322708
+4334,can you i'm up,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.3927710323314719
+4335,please turn on this is my life,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.21330683264827605
+4336,can you turn on this is my life,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.20898979278161225
+4338,can you wednesday,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.5097268680492903
+4339,can you siri,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.5126829862365412
+4340,please turn on the answer double tap slept here.,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.48529079379394896
+4341,can you turn on the answer double tap slept here.,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.7169620731104345
+4344,please turn the lights on,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.9057083085398078
+4346,can you phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.91988757166742
+4353,please i seen some of the models out there and they lose,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5031015686166451
+4357,please as far as far as cleaning up over there i went pretty,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.36045625143954846
+4363,can you please call the karate program,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.4473732635850302
+4364,please turn on light.,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.3251136253510511
+4368,please s&s side working,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.39446509643934624
+4370,please bank number to car,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.47714766336907555
+4380,can you the score of the minnesota twins game,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.46077153003289245
+4381,please shelley my phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.949204504901069
+4382,can you shelley my phone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.9126853738177969
+4383,please switch on ps4,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.484268853032929
+4384,can you switch on ps4,Default Fallback Intent,Help_AppSettings,21,23,0,0.3685718260150161
+4385,please just like siri,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.1997305200124606
+4386,can you just like siri,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.23861939694340728
+4398,please sentences with more,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5804724254828569
+4401,can you pretty sure that's mine but i can't put it on now,Default Fallback Intent,Help_Transcribe,21,49,0,0.3315852649611092
+4407,please you need some help,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.5875941751686379
+4408,can you you need some help,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.5085274837206882
+4419,please somebody from motel in boise,Default Fallback Intent,Help_WhatsNew,21,53,0,0.6234274669775615
+4420,can you somebody from motel in boise,Default Fallback Intent,Help_WhatsNew,21,53,0,0.28076976494919775
+4425,please he did just change it,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.3878479362688673
+4429,please but i want to see,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.302176830616308
+4430,can you but i want to see,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.23038021756101223
+4433,please i said other program,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.37582522727359713
+4436,can you remember how to do it,Default Fallback Intent,reminders.complete,21,56,0,0.2336687565025289
+4438,can you alexa turn off porch light,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.2239644194067685
+4440,please shake it off,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.5041621307913708
+4443,can you return to initial settings,Default Fallback Intent,Help_AppSettings,21,23,0,0.5262161234264376
+4451,can you the stage sign,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.6586472913612661
+4454,please hearing aids every time the stupid phone goes,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.19328730618011639
+4455,can you hearing aids every time the stupid phone goes,Default Fallback Intent,Help_Pairing,21,43,0,0.23279579046167853
+4460,please sausages after using my location,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.32766786514274204
+4461,can you sausages after using my location,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.1755094129947438
+4464,please first washing machine,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.4086199852895992
+4470,please i'm walking and they didn't working,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.22952038861460594
+4478,please more like this is,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5263734195845565
+4479,can you more like this is,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.46716413079396557
+4480,please it smooths down is forced down,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.6491684137902552
+4481,can you it smooths down is forced down,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.4324575147830134
+4483,please i'm floating on the road,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.31294144489246317
+4485,can you google,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.4431609429916235
+4489,can you phone a friend,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.6577696606086773
+4499,please turn the engine off of,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.7306208268654636
+4501,please talking about my daughter,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.361224080394009
+4502,can you talking about my daughter,Default Fallback Intent,Help_Home,21,38,0,0.2014299421455707
+4503,can you tuesday,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.40337527208733126
+4504,please live in your ear if there's a wire,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.5485774828571626
+4506,please switch check out her,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.41692270970431594
+4516,please or put on 6-month cleaning,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.5761705559903578
+4517,can you or put on 6-month cleaning,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.5446248980217061
+4522,please find my song,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.8069741003910906
+4523,can you find my song,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.5538697838167511
+4524,please alter metal plates myrtle beach storm,Default Fallback Intent,reminders.add,21,55,0,0.3566694124330604
+4525,can you alter metal plates myrtle beach storm,Default Fallback Intent,reminders.add,21,55,0,0.5448443320232668
+4527,please wendy's double tapped it and has not worked,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.4338510211119072
+4541,can you score of the twins game,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.38318135368350004
+4549,can you just didn't you didn't hit the ground but will check it,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.424945122181482
+4552,can you walking down,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3565677498433471
+4560,can you want to move up yeah i will,Default Fallback Intent,Help_RemoteProgramming,21,45,0,0.2327372992852151
+4566,please stop listening please ask you a question,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.4659284799805058
+4567,can you stop listening please ask you a question,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.5046926980622818
+4568,please and push it down for dramatics,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3244547129486188
+4570,can you sometimes it's okay to take a day off,Default Fallback Intent,Help_Pairing,21,43,0,0.3603847789203059
+4572,please provincial hearing this is waiting to see how can i help you,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.36997857023356784
+4574,please turn on wi-fi,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.556374593519135
+4576,please open it up,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.47874160601044347
+4578,please thanks for changing,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.44761133895647987
+4579,can you thanks for changing,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.5193930352508381
+4580,please only if it's not a problem for cdl,Default Fallback Intent,Help_SelfCheck,21,46,0,0.7090114161525711
+4581,can you only if it's not a problem for cdl,Default Fallback Intent,Help_Transcribe,21,49,0,0.3020369198319161
+4585,please can't find bose,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.8387706979370237
+4586,please i can't hear anything,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.47655686015786813
+4587,can you i can't hear anything,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.40260613800849193
+4590,can you set to tight,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.5590520614956955
+4592,please on north koreans office will the fuckers off here.,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.3722324708640024
+4593,can you on north koreans office will the fuckers off here.,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.3887056355174531
+4596,can you i got a ton of recommendation completely wireless,Default Fallback Intent,Help_HeartRate,21,36,0,0.18459502503978648
+4602,please not screaming loud enough,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.608244241546007
+4603,can you not screaming loud enough,Default Fallback Intent,Help_Home,21,38,0,0.3363307941768372
+4608,please direction of the sound,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.369000724330791
+4612,can you youtube videos,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.24710034813487725
+4615,can you wow that's intense intense number,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.4411815290028628
+4618,can you onkyo receiver,Default Fallback Intent,Help_WiCROS,21,54,0,0.3840644909515314
+4619,can you address change,Default Fallback Intent,Help_AppSettings,21,23,0,0.29107632914378817
+4622,can you alexa,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.3938317478227882
+4623,please molesting hearing aids to cousin,Default Fallback Intent,Help_CleanCare,21,26,0,0.6093825647670198
+4634,please i can't even hardly hear that,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.4287478288761807
+4637,please i said i'll shut up,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.2859745876545386
+4639,please just curls up in your ears yet,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5618133678766114
+4640,can you just curls up in your ears yet,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5361982170111179
+4649,please i give up,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.8601656910582232
+4650,can you i give up,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.6914874224956099
+4652,please so do i unable to caesar,Default Fallback Intent,Help_Customize,21,27,0,0.314720850703048
+4658,please play i'm carrying it,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.3637316684730055
+4659,can you play i'm carrying it,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.40495504403102867
+4662,please all pre-program settings change when once changed,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.4672283022777255
+4663,can you all pre-program settings change when once changed,Default Fallback Intent,Help_AppSettings,21,23,0,0.6740081558778804
+4672,please telephone audio input,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.23922760238089724
+4673,can you telephone audio input,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.4122101316255141
+4674,please the left hearing aid,Default Fallback Intent,Help_Pairing,21,43,0,0.25041985714495946
+4680,can you show me the jury,Default Fallback Intent,Help_AppSettings,21,23,0,0.516482911385022
+4684,please i need a car battery,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.38931340111374757
+4685,can you i need a car battery,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.6460666224958737
+4686,please on a good day,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.4406224837067926
+4687,can you on a good day,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.6744211986249894
+4690,please my right hearing aid is at 0%,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.40850498412725245
+4691,can you my right hearing aid is at 0%,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.4070744760702657
+4693,can you you can always add,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.5396545877697235
+4694,can you sunday,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.45133734387287455
+4697,please so that your hearing,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.3648240816864297
+4699,please so this is your hearing aids,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3113235949391032
+4700,can you so this is your hearing aids,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.39704254674805517
+4702,please turn body off,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.6058927151932002
+4704,can you sound bar,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5579887274065015
+4710,please adidas women boots,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3964994447035528
+4712,please i can't hear the,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.5289920032788746
+4713,can you i can't hear the,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.4282382703811028
+4714,can you but they live here i remember when jerry told me,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.612267941771429
+4716,please turn off tv,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.6760789746851724
+4717,can you turn off tv,Default Fallback Intent,Cmd.StreamingStop,21,14,0,0.542242732377189
+4720,can you who has the best chinese food in sioux falls,Default Fallback Intent,Help_InsertDevice,21,39,0,0.4264398230781548
+4723,please debony logging up,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.3138066211474966
+4724,can you debony logging up,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.41659539471918544
+4729,please to take lipitor,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.3460796651524946
+4735,please go back to a high,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.5839136657564572
+4747,can you write a program in switch,Default Fallback Intent,Cmd.MemoryChange,21,11,0,0.6452359421241988
+4754,please locate my wife,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.39124284266096737
+4755,can you locate my wife,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.2644243096839794
+4756,please locate a restaurant,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.36428820165687664
+4758,can you locate,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.32923819442776214
+4759,please locate a bowling alley nearby,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.4359611746309638
+4761,please where's the current,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.2999797907060864
+4762,please ek divas jam to send the money,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.31035167771399347
+4783,can you go to personal,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.30333460267001683
+4784,please go to restaurant,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.24886249424064047
+4786,can you go to meeting,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.31258764407709044
+5401,can you auditorium memory,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.3484011327493422
+5406,can you automatic memory,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.25189283590111095
+5408,can you golf memory,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.24246871625671382
+5410,can you home memory,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.505899669757246
+5422,can you personal program,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.3939800477972489
+5426,can you car program,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.39181000512889175
+5427,can you auditorium program,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.4035834605186659
+5430,can you automatic program,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.35407369220550183
+5432,can you golf program,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.33954343600039055
+5434,can you home program,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.5024591961499042
+5435,can you kitchen program,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.32657397156738677
+5445,can you train program,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.36975953103419473
+5448,can you personal setting,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.2881702631030599
+5451,can you meeting setting,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.25508906083004057
+5460,can you home setting,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.30940158567300435
+5467,can you speech setting,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.3316020269140259
+5470,can you train setting,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.3417679934857088
+5602,can you program one,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.5160545593656518
+5604,can you setting one,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.3415591760034133
+5656,can you program four,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.42702023900006986
+5824,alexa not connecting,Default Fallback Intent,Help_Translate,21,50,0,0.3323863316916803
+5971,give me a demonstration,Help_DemoMode,Default Fallback Intent,28,21,0,0.5290139545044958
+5972,what does self-check test?,Help_SelfCheck,Default Fallback Intent,46,21,0,0.6446612263112624
+6017,can you set reminders,reminders.add,Default Fallback Intent,55,21,0,0.28546234794506103
+6026,can you set reminders for me,reminders.add,Default Fallback Intent,55,21,0,0.30014846802816314
+6027,as long as you hear the noise,Default Fallback Intent,Cmd.VolumeMute,21,19,0,0.2997837243700425
+6035,what's different about kind?,Help_WhatsNew,Default Fallback Intent,53,21,0,0.262480562024502
+6056,best iphone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.25271639593649087
+6099,can you fix my ear pieces,Help_SelfCheck,Default Fallback Intent,46,21,0,0.37568172220708246
+6122,check cashing,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.4345921487542063
+6180,different kind of needs,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.16597173307757834
+6201,how do i activate the default settings on the hearing aids,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.8483039020876849
+6226,how do i set up the automatic car memory,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.7623806395732682
+6244,remember to vitamin d at 7 p.m. every day,reminders.add,Default Fallback Intent,55,21,0,0.296304576027357
+6246,where is the mask setting on my hearing aids,Default Fallback Intent,Help_MaskMode,21,41,0,0.7556802976448173
+6248,i want to turn on the right stream boost,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.38663873897530904
+6255,remember to wash the car,reminders.add,Default Fallback Intent,55,21,0,0.544486036402119
+6258,how do i open the data log,Default Fallback Intent,Cmd.ActivityStand,21,5,0,0.4045646034868222
+6267,hearing aid device settings,Default Fallback Intent,Help_CleanCare,21,26,0,0.13908905605345143
+6274,do i have charleston,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.20269142083749553
+6285,get down south,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.5131484667169111
+6288,give me so much i don't know it's another problem,Default Fallback Intent,Help_Tinnitus,21,48,0,0.15886076177306596
+6297,here on this,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.7272521801693548
+6298,turn on bluetooth,Help_Pairing,Default Fallback Intent,43,21,0,0.25405858370950146
+6304,how do i change,Default Fallback Intent,Help_AppSettings,21,23,0,0.7652928053204067
+6305,how do i down cls,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.31502502502412333
+6308,how do i stop my phone ringing in my,Default Fallback Intent,Help_Tinnitus,21,48,0,0.8710744476406429
+6309,how do i turn,Default Fallback Intent,Help_Home,21,38,0,0.3746385332102065
+6318,i can't hear him so it's good,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.44949326394188527
+6319,i can't hear you my left hearing aid does not show up on my,Default Fallback Intent,Help_SelfCheck,21,46,0,0.7258600644956227
+6327,reminder to play with my cat every workday at 7 p.m.,reminders.add,Default Fallback Intent,55,21,0,0.6181997260132815
+6349,location,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.55002150119944
+6352,max burger,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.8007374098097866
+6353,my hearing aids,Default Fallback Intent,Help_SelfCheck,21,46,0,0.3390150933074737
+6354,my left hearing aids,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.3349854115251388
+6355,my telephone my,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.9760367903769759
+6358,pretty much every year,Default Fallback Intent,Cmd.SendMessage,21,12,0,0.2832001466875313
+6361,rain. the the app me,Default Fallback Intent,Help_AppSettings,21,23,0,0.6312915048900952
+6362,scan options,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.62449908570113
+6363,seto,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+6364,she doesn't have a skin check,Default Fallback Intent,Help_SelfCheck,21,46,0,0.36817313201799357
+6365,she keeps talking to me,Default Fallback Intent,Help_Home,21,38,0,0.2853772742815218
+6366,since my letter needs to be updated,Default Fallback Intent,Help_Pairing,21,43,0,0.40241433640754926
+6368,take,Default Fallback Intent,Help_FallAlert,21,31,0,0.23646401119531793
+6369,take me to amazon,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.22633825164881338
+6371,there's an! over my right hearing aid,Default Fallback Intent,Help_Pairing,21,43,0,0.2180117320599709
+6372,thursday,Default Fallback Intent,Help_IntelliVoice,21,40,0,0.19395767145580786
+6373,"tony's office, i myself india.",Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.36340065058591103
+6374,too many things back there,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.25902810952219846
+6378,when using my iphone,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.9831130123992078
+6379,where is,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.6336560954056153
+6380,where's my son,Default Fallback Intent,Help_IntelliVoice,21,40,0,0.3536595680001021
+6381,where's the nearest oil change,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.5262234221408135
+6382,you can't keep it in okay remind me of your nice,Default Fallback Intent,reminders.add,21,55,0,0.6413707500673962
+6390,its laud here,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.34236647773054635
+6392,its too lound,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.6811721285230187
+6438,push to talk,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.36415566730025345
+6459,shoot a message,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.438781915384121
+6492,could you compose a message,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.7251365907437064
+6506,the tv is hard to hear,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.2855527363340321
+6510,turn things up a notch,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.6300590967235459
+6513,everyone is mumbling,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.4804771309002047
+6517,the sound isn't strong enough,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.40163651427264546
+6530,this is barely audible,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.5995629735817475
+6536,can you soften things a little?,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.8636615285821647
+6538,it's blasting in my ears,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.3706945664110743
+6545,it's uncomfortably loud,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.47352254985489617
+6559,use the profile for noisy places,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.37488836139595777
+6562,i'm outdoors now,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.27953843966190406
+6567,use the outdoor profile,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.5807085255472743
+6571,switch listening modes,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.1195365367693793
+6575,change the active profile,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.3495098050953036
+6592,how much juice is left?,Cmd.BatteryLevel,Default Fallback Intent,8,21,0,0.25927714851298694
+6593,how much juice is left,Cmd.BatteryLevel,Default Fallback Intent,8,21,0,0.25927714851298694
+6594,are the batteries healthy?,Cmd.BatteryLevel,Default Fallback Intent,8,21,0,0.30377892024341757
+6595,what percentage remains?,Cmd.BatteryLevel,Default Fallback Intent,8,21,0,0.44023338105660664
+6616,can you keep track of this for me?,reminders.add,Default Fallback Intent,55,21,0,0.34695270324001404
+6619,help me remember this evening,reminders.add,Default Fallback Intent,55,21,0,0.449266888918518
+6624,i need a prompt later,reminders.add,Default Fallback Intent,55,21,0,0.2836890490952227
+6625,remember this for me,reminders.add,Default Fallback Intent,55,21,0,0.3198054768439546
+6632,keep this on my radar,reminders.add,Default Fallback Intent,55,21,0,0.7137637686147206
+6633,remind me when the time comes,reminders.add,Default Fallback Intent,55,21,0,0.2572551018351884
+6650,i want to reach someone,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.35086379660204053
+6655,record something for another person,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.22116058890878076
+6678,i need some assistance,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.22331866541493545
+6682,i'm stuck,Help_Home,Default Fallback Intent,38,21,0,0.4506244083185759
+6683,can you walk me through it?,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.33166685349567443
+6685,help me understand this,Default Fallback Intent,Help_HeartRate,21,36,0,0.3594015360404134
+6689,assist me,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.2981394315672684
+6690,i'm confused,Help_Home,Default Fallback Intent,38,21,0,0.4506244083185759
+6693,give me some help,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.35649912659766153
+6694,walk me through the process,Default Fallback Intent,Cmd.BatteryLevel,21,8,0,0.6487283421784601
+6697,i need directions,Help_Home,Default Fallback Intent,38,21,0,0.2606029333610269
+6699,who is the prime minister of india?,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.290187970445934
+6700,how tall is mount everest?,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.356131151787499
+6701,how tall is mount everest,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.356131151787499
+6704,how old is tom cruise?,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.3362186977747461
+6707,write a poem,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.3814544128542918
+6708,who invented the telephone?,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.3179309881914114
+6709,tell me today's news,Default Fallback Intent,Help_Customize,21,27,0,0.2827432933800748
+6710,book me a flight,Default Fallback Intent,Cmd.ActivityStand,21,5,0,0.28654261886387067
+6718,find me a hotel,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.42074017874852127
+6719,how do rockets work?,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.3724792645822483
+6728,the sound keeps dropping out,Help_DeviceSettings,Default Fallback Intent,29,21,0,0.32101953515307585
+6732,how do i cook rice,Default Fallback Intent,Help_AppSettings,21,23,0,0.15544390492583995
+6735,how do i fix my car,Default Fallback Intent,Help_ThriveScore,21,47,0,0.41543290455469334
+6740,amplify things for me,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.3687902719663437
+6743,everyone has to say things twice for me,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.550999772485297
+6769,i could use a hand with this app,Help_Home,Default Fallback Intent,38,21,0,0.262207770190197
+6770,none of this app makes sense,Help_Home,Default Fallback Intent,38,21,0,0.32762950273222013
+6780,don't let me forget this,reminders.add,Default Fallback Intent,55,21,0,0.2607189185515419
+6876,how does telehear work,Help_HearingCareAnywhereConnect,Default Fallback Intent,35,21,0,0.20559502398861754
+7009,what is noise induced hearing loss,Help_Tinnitus,Default Fallback Intent,48,21,0,0.32234922831482543
+7016,i'm missing half the conversation,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.2709292741175707
+7019,bump it up a little,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.5023394308157549
+7025,sound feels weak,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.47545195983593136
+7033,people sound muffled and faint,Cmd.VolumeIncrease,Default Fallback Intent,18,21,0,0.512862721741778
+7048,soften things up,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.3991297426254128
+7056,the noise level is too high,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.323811937787252
+7077,mute it entirely,Cmd.VolumeMute,Default Fallback Intent,19,21,0,0.40899184048104464
+7100,reactivate the sound,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.21807518293573427
+7101,sound back please,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.3491906241318145
+7102,undo the mute,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.4457244526770004
+7106,re-enable the audio,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.2847572282789702
+7111,i can hear now turn it on,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.2758986823510581
+7128,end the mute let me hear,Cmd.VolumeUnmute,Default Fallback Intent,20,21,0,0.2767295282713182
+7130,i'm sitting down in a crowded diner,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.3406085353615345
+7136,tune for this windy weather,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.35930123660897006
+7141,set it up for a concert hall,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.6677342136854199
+7146,i'm in a loud cafeteria now,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.7609105735280312
+7149,load my driving profile,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.48982556866899807
+7151,i'm about to join a phone call,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.34383277966426323
+7152,change to the comfortable indoor mode,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.3333273317961019
+7153,i'm in a big echoey room now,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.884883135680942
+7159,i'm now seated in a loud coffee shop,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.8714974507361303
+7176,battery level please,Cmd.BatteryLevel,Default Fallback Intent,8,21,0,0.34300084525324115
+7236,start tracking my jog,Cmd.ActivityRun,Default Fallback Intent,4,21,0,0.45415479134119713
+7241,record the miles i ran,Cmd.ActivityRun,Default Fallback Intent,4,21,0,0.49900764208646836
+7264,going for a walk track it for me,Cmd.ActivityWalk,Default Fallback Intent,7,21,0,0.17371438290316357
+7265,start tracking this stroll,Cmd.ActivityWalk,Default Fallback Intent,7,21,0,0.3415618966072853
+7363,play the text i just got,Cmd.ListenMessage,Default Fallback Intent,10,21,0,0.3385763169438363
+7370,what texts came in for me,Cmd.ListenMessage,Default Fallback Intent,10,21,0,0.41275365927706237
+7371,read my new texts aloud,Cmd.ListenMessage,Default Fallback Intent,10,21,0,0.3354621266815611
+7380,tell me what people texted,Cmd.ListenMessage,Default Fallback Intent,10,21,0,0.2888757692381341
+7403,start transcribing this,Cmd.TranscribeStart,Default Fallback Intent,15,21,0,0.4564302877325461
+7420,write out what folks are saying,Cmd.TranscribeStart,Default Fallback Intent,15,21,0,0.3681564227788251
+7428,start translating to spanish,Cmd.TranslationStart,Default Fallback Intent,16,21,0,0.28105617997820725
+7463,buzz me when it's time,reminders.add,Default Fallback Intent,55,21,0,0.17672354487083006
+7464,notify me when the time comes,reminders.add,Default Fallback Intent,55,21,0,0.2715450966715357
+7467,poke me when the time arrives,reminders.add,Default Fallback Intent,55,21,0,0.39779080803714545
+7475,that one's finished,reminders.complete,Default Fallback Intent,56,21,0,0.7894895913381123
+7477,that task is taken care of,reminders.complete,Default Fallback Intent,56,21,0,0.4765266487425297
+7516,adjust each ear's volume separately,Help_Volume,Default Fallback Intent,52,21,0,0.1853502808349245
+7541,can i rename my memories,Help_MemoryOptions,Default Fallback Intent,42,21,0,0.3660154350075394
+7560,how to set up bluetooth,Help_Pairing,Default Fallback Intent,43,21,0,0.3494017033470985
+7593,what gadgets are compatible,Help_Accessories,Default Fallback Intent,22,21,0,0.4554047231566364
+7597,can i use a clip on microphone,Help_Accessories,Default Fallback Intent,22,21,0,0.40475112378991784
+7603,what extra mics are supported,Help_Accessories,Default Fallback Intent,22,21,0,0.3879240224107969
+7648,this ear ringing is driving me crazy,Help_Tinnitus,Default Fallback Intent,48,21,0,0.27106749507917444
+7660,where is the device test,Help_SelfCheck,Default Fallback Intent,46,21,0,0.32713920464998125
+7685,the audio keeps cutting out what do i do,Help_DeviceSettings,Default Fallback Intent,29,21,0,0.3105658636825791
+7713,sort out my device audio,Help_DeviceSettings,Default Fallback Intent,29,21,0,0.20043483743351498
+7717,the sound keeps cutting in and out,Help_DeviceSettings,Default Fallback Intent,29,21,0,0.32483127779496085
+7813,my device won't sit properly,Help_InsertDevice,Default Fallback Intent,39,21,0,0.3538057662820115
+7818,my device keeps falling out of my ear,Help_InsertDevice,Default Fallback Intent,39,21,0,0.2556761045302184
+7821,my aid keeps popping out,Help_InsertDevice,Default Fallback Intent,39,21,0,0.30523107001709204
+7846,is it safe to get my aids wet,Help_CleanCare,Default Fallback Intent,26,21,0,0.38528857186454096
+7882,what got added recently,Help_WhatsNew,Default Fallback Intent,53,21,0,0.3170057690457666
+7883,any new updates to know about,Help_WhatsNew,Default Fallback Intent,53,21,0,0.2628717542431947
+7884,what's been updated lately,Help_WhatsNew,Default Fallback Intent,53,21,0,0.46644163203238564
+7886,show recent changes,Help_WhatsNew,Default Fallback Intent,53,21,0,0.5845979166899857
+7887,what improvements are new,Help_WhatsNew,Default Fallback Intent,53,21,0,0.33890551703688676
+7890,catch me up on new stuff,Help_WhatsNew,Default Fallback Intent,53,21,0,0.5167738938471689
+7911,i need a hand getting going,Help_Home,Default Fallback Intent,38,21,0,0.20686609241116066
+7919,should i use rechargeable or disposable batteries,Help_Battery,Default Fallback Intent,24,21,0,0.48811024164254113
+8006,what's on the health dashboard,Help_Health,Default Fallback Intent,33,21,0,0.34248093122604134
+8085,reduce wind noise in tough conditions,Help_EdgeMode,Default Fallback Intent,30,21,0,0.37335693025058975
+8100,recommend me a book,Default Fallback Intent,Help_HearShare,21,34,0,0.42294277298880184
+8101,how do i bake bread,Default Fallback Intent,Help_HeartRate,21,36,0,0.30744965662460816
+8102,what's the score of the match,Default Fallback Intent,Help_ThriveScore,21,47,0,0.4781072947368208
+8107,what should i watch tonight,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.16786436832710352
+8108,who is the president,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.37255188343765167
+8111,plan my vacation,Default Fallback Intent,Help_Customize,21,27,0,0.39573976590473114
+8112,what should i wear today,Default Fallback Intent,Help_Health,21,33,0,0.48747750970196707
+8113,how do i make coffee,Default Fallback Intent,Help_FallAlert,21,31,0,0.13578499064278485
+8115,tell me about the news,Default Fallback Intent,Help_Customize,21,27,0,0.283117171545492
+8116,how far is the nearest store,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.8021698017403203
+8118,it's too loud in here,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.3649092629341044
+8140,i'm in the car now,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.7197240987504581
+8142,apply wind noise reduction,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.6950946716731917
+8162,save this for me please,reminders.add,Default Fallback Intent,55,21,0,0.4967677813333073
+8165,help me remember to do that,reminders.add,Default Fallback Intent,55,21,0,0.23853153542149777
+8169,keep this in mind for me,reminders.add,Default Fallback Intent,55,21,0,0.4598813123186694
+8175,text someone for me,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.2982091425906497
+8181,transmit a message,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.438781915384121
+8211,what's the overview,Help_Home,Default Fallback Intent,38,21,0,0.2133341930491434
+8235,muffle it a bit,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.29733886355784017
+8242,power level status,Cmd.BatteryLevel,Default Fallback Intent,8,21,0,0.3431021429731245
+8260,is there a tutorial,Help_Home,Default Fallback Intent,38,21,0,0.555734902543982
+8285,text a family member,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.261493601957059
+8287,dispatch a message,Cmd.SendMessage,Default Fallback Intent,12,21,0,0.438781915384121
+8311,enable direct audio,Cmd.StreamingStart,Default Fallback Intent,13,21,0,0.3610087074340972
+8317,this is blasting my eardrums,Cmd.VolumeDecrease,Default Fallback Intent,17,21,0,0.5049811398955589
+8323,i'm at a noisy restaurant now,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.5614523196127621
+8324,shift into the outdoor profile,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.444366869489668
+8328,i'm settling in for tv time,Cmd.MemoryChange,Default Fallback Intent,11,21,0,0.46364317558396295
+8332,are these almost dead,Cmd.BatteryLevel,Default Fallback Intent,8,21,0,0.7557019147018486
+8347,make sure i remember to take my meds,reminders.add,Default Fallback Intent,55,21,0,0.3044127250638392
+8353,hello,Default Fallback Intent,Cmd.ActivityRun,21,4,0,0.4112009518806461
+8355,hey,Default Fallback Intent,Help_HearShare,21,34,0,0.3230931650821318
+8356,hey there,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.15052450429789854
+8358,hi there,Default Fallback Intent,Cmd.VolumeIncrease,21,18,0,0.35372454064374814
+8359,heya,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8360,howdy,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8361,hiya,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8362,well hello,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.30136239499716133
+8363,hello hello,Default Fallback Intent,reminders.add,21,55,0,0.3011293155108662
+8364,good morning,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.1293978636384199
+8365,good afternoon,Default Fallback Intent,Cmd.VolumeUnmute,21,20,0,0.33863049669847134
+8366,good evening,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.7448979968120376
+8367,good day,Default Fallback Intent,Help_Pairing,21,43,0,0.37284773603840293
+8368,morning,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.13582672303841758
+8369,greetings,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8370,yo,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8372,hello again,Default Fallback Intent,reminders.add,21,55,0,0.28863405562033045
+8375,how are you today,Default Fallback Intent,Cmd.ActivityCalories,21,1,0,0.25960209040509014
+8377,how is it going,Default Fallback Intent,Cmd.TranscribeStart,21,15,0,0.2884380691862086
+8378,how are things,Default Fallback Intent,Help_Customize,21,27,0,0.28930595093405265
+8379,how do you do,Default Fallback Intent,Help_HeartRateRecovery,21,37,0,0.3003323621605285
+8381,sup,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8382,how's your day going,Default Fallback Intent,Help_SelfCheck,21,46,0,0.3053959569952193
+8386,how's everything,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.48155725730232857
+8388,good to see you,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.2661460147660288
+8390,what's new,Default Fallback Intent,Help_WhatsNew,21,53,0,0.7942737702136345
+8391,how's life,Default Fallback Intent,Cmd.VolumeDecrease,21,17,0,0.25921874074221385
+8392,bye,Default Fallback Intent,Help_IntelliVoice,21,40,0,0.4901642103139564
+8393,goodbye,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8394,bye bye,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.1690240163143965
+8398,take care,Default Fallback Intent,Help_DemoMode,21,28,0,0.2150669547813392
+8399,good night,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.4057223508432895
+8400,goodnight,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8402,have a good one,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.6499369387646049
+8403,thanks,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.5371259768444384
+8405,thanks a lot,Default Fallback Intent,Help_SelfCheck,21,46,0,0.2615656291165366
+8406,thank you so much,Default Fallback Intent,Cmd.ListenMessage,21,10,0,0.4800677009108321
+8407,thanks so much,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.24961935961907566
+8408,cheers,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8409,much appreciated,Default Fallback Intent,Cmd.TranslationStart,21,16,0,0.34067423179057776
+8413,wanted to say hello,Default Fallback Intent,Cmd.StreamingStart,21,13,0,0.17726233018935766
+8416,can you help me,Default Fallback Intent,Cmd.FindMyPhone,21,9,0,0.31262087133431543
+8418,can you help,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.514472498795274
+8419,help me please,Default Fallback Intent,Help_WiCROS,21,54,0,0.27449309400947736
+8420,please help me,Default Fallback Intent,Help_FindMyHearingAids,21,32,0,0.4086144546293723
+8421,i need help,Default Fallback Intent,Help_Customize,21,27,0,0.4822933167777744
+8423,i could use some help,Default Fallback Intent,Help_DeviceSettings,21,29,0,0.5188104652196837
+8424,what is up,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.24319884267673003
+8430,wassup,Default Fallback Intent,Help_HearingCareAnywhereConnect,21,35,0,0.23379808152576004
+8431,what's good,Default Fallback Intent,Help_Translate,21,50,0,0.37870223202582826

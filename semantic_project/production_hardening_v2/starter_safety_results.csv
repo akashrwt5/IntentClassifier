@@ -1,0 +1,26 @@
+text,expected,raw_prediction,confidence,margin,entropy,final,decision,correct,is_ood
+make it louder,device.volume.increase,device.volume.increase,0.9942445158958435,0.9927777836564928,0.019981641322374344,device.volume.increase,ACCEPT,True,False
+it's quieter can you make it a little louder,device.volume.increase,device.volume.increase,0.990993320941925,0.9882114883512259,0.02926040254533291,device.volume.increase,ACCEPT,True,False
+the audio is quiet but don't mute it make it louder,device.volume.increase,device.volume.mute,0.9302175641059875,0.8846588805317879,0.14454950392246246,defaultFallbackIntent,REJECT,False,False
+make it quieter,device.volume.decrease,device.volume.decrease,0.9927181005477905,0.9913562377914786,0.024644678458571434,device.volume.decrease,ACCEPT,True,False
+the audio is loud but keep it on just lower it,device.volume.decrease,device.volume.decrease,0.9820277690887451,0.9787667009513825,0.05426671355962753,device.volume.decrease,ACCEPT,True,False
+mute it,device.volume.mute,device.volume.mute,0.8870313763618469,0.8445390984416008,0.23089788854122162,defaultFallbackIntent,REJECT,False,False
+i can still hear it make it completely silent,device.volume.mute,device.volume.mute,0.9833897948265076,0.9802298629656434,0.050283823162317276,device.volume.mute,ACCEPT,True,False
+turn off,device.volume.mute,device.volume.mute,0.7188706994056702,0.6025921404361725,0.45372480154037476,defaultFallbackIntent,REJECT,False,False
+unmute it,device.volume.unmute,device.volume.unmute,0.9884476065635681,0.9863776424899697,0.036620430648326874,device.volume.unmute,ACCEPT,True,False
+turn the sound back on,device.volume.unmute,device.volume.unmute,0.992522656917572,0.9911777541274205,0.025367189198732376,device.volume.unmute,ACCEPT,True,False
+i need to go to airport tomorrow,reminders.task.create,reminders.task.create,0.9625231623649597,0.9520676769316196,0.10016918927431107,defaultFallbackIntent,REJECT,False,False
+i need to go to airport tommorow,reminders.task.create,reminders.task.create,0.9066240787506104,0.8817264419049025,0.20919297635555267,defaultFallbackIntent,REJECT,False,False
+where can i find my phone,find.phone.locate,find.phone.locate,0.9800907969474792,0.975022685714066,0.058764003217220306,find.phone.locate,ACCEPT,True,False
+please show the reminders i have,help.reminder.show,help.reminder.show,0.9666260480880737,0.9565711282193661,0.08728094398975372,defaultFallbackIntent,REJECT,False,False
+mark that reminder as completed,reminders.task.complete,reminders.task.complete,0.9918684959411621,0.9898648294620216,0.02710418961942196,reminders.task.complete,ACCEPT,True,False
+please start the streaming session,streaming.session.start,streaming.session.start,0.9830536246299744,0.9806958818808198,0.051931239664554596,streaming.session.start,ACCEPT,True,False
+please stop the streaming session,streaming.session.stop,streaming.session.stop,0.9908027648925781,0.9892654984723777,0.03038429655134678,streaming.session.stop,ACCEPT,True,False
+who is the prime minister of India,defaultFallbackIntent,find.phone.locate,0.4616887867450714,0.19726666808128357,0.6692422032356262,defaultFallbackIntent,REJECT,True,True
+what is the capital of France,defaultFallbackIntent,device.volume.increase,0.9651157855987549,0.9565611537545919,0.09450802952051163,defaultFallbackIntent,REJECT,True,True
+what is the weather today,defaultFallbackIntent,device.volume.decrease,0.8446925282478333,0.7285686433315277,0.24922746419906616,defaultFallbackIntent,REJECT,True,True
+tell me a joke,defaultFallbackIntent,device.memory.change,0.9243773818016052,0.8961342554539442,0.17001362144947052,defaultFallbackIntent,REJECT,True,True
+book a hotel for tomorrow,defaultFallbackIntent,device.memory.change,0.9685034155845642,0.9618376703001559,0.08628282696008682,defaultFallbackIntent,REJECT,True,True
+play music,defaultFallbackIntent,streaming.session.start,0.9618011116981506,0.9530594674870372,0.10165385901927948,defaultFallbackIntent,REJECT,True,True
+jkakjhdjkhd,defaultFallbackIntent,streaming.session.stop,0.4411088824272156,0.274816557765007,0.6875581741333008,defaultFallbackIntent,REJECT,True,True
+asdfghjkl,defaultFallbackIntent,streaming.session.stop,0.4411088824272156,0.274816557765007,0.6875581741333008,defaultFallbackIntent,REJECT,True,True

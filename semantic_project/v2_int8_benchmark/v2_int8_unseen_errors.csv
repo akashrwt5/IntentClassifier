@@ -1,0 +1,29 @@
+text,intent,predicted,confidence,correct
+move my hearing aids to the music profile,device.memory.change,streaming.session.start,0.7222520875790205,False
+select my music hearing profile,device.memory.change,streaming.session.start,0.8890282107771093,False
+I want the volume reduced,device.volume.decrease,device.volume.increase,0.9300540513632218,False
+make the audio more comfortable by lowering it,device.volume.decrease,device.volume.increase,0.9239077036502557,False
+quiet the audio somewhat,device.volume.decrease,streaming.session.stop,0.5768332896963185,False
+give me a stronger listening level,device.volume.increase,device.volume.decrease,0.6149201158765961,False
+make the audio less quiet,device.volume.increase,device.volume.decrease,0.9910132729635577,False
+strengthen the sound coming through,device.volume.increase,device.volume.mute,0.31933470876037906,False
+shut off the audio output,device.volume.mute,streaming.session.stop,0.6100130062479487,False
+make the audio stop,device.volume.mute,streaming.session.stop,0.8963404773943947,False
+stop hearing anything through the devices,device.volume.mute,streaming.session.stop,0.4745257944472769,False
+stop the hearing aid output,device.volume.mute,streaming.session.stop,0.5867945708818962,False
+no audio should come through,device.volume.mute,streaming.session.stop,0.3217734053692821,False
+shut down the sound output,device.volume.mute,device.volume.decrease,0.9893240681743468,False
+stop the audio completely,device.volume.mute,streaming.session.stop,0.7439392922741851,False
+give me zero sound,device.volume.mute,streaming.session.start,0.4702653611297281,False
+stop muting my hearing aids,device.volume.unmute,streaming.session.stop,0.7121612008362473,False
+allow audio through the hearing aids,device.volume.unmute,streaming.session.start,0.9336727096621842,False
+make the hearing aids audible,device.volume.unmute,device.volume.increase,0.4480443261288727,False
+switch off mute mode,device.volume.unmute,device.memory.change,0.707657071752848,False
+enable the device output,device.volume.unmute,device.memory.change,0.28341229587466654,False
+remove complete silence,device.volume.unmute,reminders.task.complete,0.6599012486819094,False
+tell me what I have scheduled,help.reminder.show,reminders.task.create,0.30950641428312703,False
+give me a list of reminders,help.reminder.show,reminders.task.create,0.7676060698059821,False
+give me my current reminder status,help.reminder.show,reminders.task.create,0.5843665281122762,False
+establish the audio stream,streaming.session.start,streaming.session.stop,0.5639986086415587,False
+break the current audio connection,streaming.session.stop,streaming.session.start,0.7823521358723925,False
+break the streaming link,streaming.session.stop,streaming.session.start,0.97813196564273,False

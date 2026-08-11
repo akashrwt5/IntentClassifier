@@ -1,0 +1,190 @@
+intent,text,source,status
+Cmd.BatteryLevel,check my battery,curated_production_candidate,REVIEW_REQUIRED
+Cmd.BatteryLevel,check the battery,curated_production_candidate,REVIEW_REQUIRED
+Cmd.BatteryLevel,how much battery do I have,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.BatteryLevel,how much battery is left,curated_production_candidate,REVIEW_REQUIRED
+Cmd.BatteryLevel,show battery level,curated_production_candidate,REVIEW_REQUIRED
+Cmd.BatteryLevel,tell me the battery level,curated_production_candidate,REVIEW_REQUIRED
+Cmd.BatteryLevel,what is the battery level,curated_production_candidate,REVIEW_REQUIRED
+Cmd.BatteryLevel,what's the battery level,curated_production_candidate,REVIEW_REQUIRED
+Cmd.FindMyPhone,find my phone,curated_production_candidate,REVIEW_REQUIRED
+Cmd.FindMyPhone,find the phone,curated_production_candidate,REVIEW_REQUIRED
+Cmd.FindMyPhone,help me find my phone,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.FindMyPhone,locate my phone,curated_production_candidate,REVIEW_REQUIRED
+Cmd.FindMyPhone,locate the phone,curated_production_candidate,REVIEW_REQUIRED
+Cmd.FindMyPhone,where is my phone,curated_production_candidate,REVIEW_REQUIRED
+Cmd.ListenMessage,hear my message,curated_production_candidate,REVIEW_REQUIRED
+Cmd.ListenMessage,listen to my message,curated_production_candidate,REVIEW_REQUIRED
+Cmd.ListenMessage,listen to the message,curated_production_candidate,REVIEW_REQUIRED
+Cmd.ListenMessage,play my message,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.ListenMessage,read my message,curated_production_candidate,REVIEW_REQUIRED
+Cmd.ListenMessage,read the message,curated_production_candidate,REVIEW_REQUIRED
+Cmd.MemoryChange,change memory,curated_production_candidate,REVIEW_REQUIRED
+Cmd.MemoryChange,change my memory,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.MemoryChange,change the memory,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.MemoryChange,change to another memory,curated_production_candidate,REVIEW_REQUIRED
+Cmd.MemoryChange,switch memory,curated_production_candidate,REVIEW_REQUIRED
+Cmd.MemoryChange,switch the memory,curated_production_candidate,REVIEW_REQUIRED
+Cmd.MemoryChange,switch to another memory,curated_production_candidate,REVIEW_REQUIRED
+Cmd.SendMessage,can you send this message,curated_production_candidate,REVIEW_REQUIRED
+Cmd.SendMessage,please send the message,curated_production_candidate,REVIEW_REQUIRED
+Cmd.SendMessage,send a message,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.SendMessage,send it,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.SendMessage,send my message,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.SendMessage,send the message,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.SendMessage,send this,curated_production_candidate,REVIEW_REQUIRED
+Cmd.SendMessage,send this message,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStart,begin streaming,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStart,begin the stream,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStart,can you start streaming,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.StreamingStart,start streaming,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.StreamingStart,start streaming now,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStart,start the stream,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStart,stream now,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStart,turn streaming on,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.StreamingStop,can you stop streaming,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStop,end streaming,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.StreamingStop,end the stream,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStop,stop streaming,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.StreamingStop,stop the stream,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStop,stop the streaming,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStop,streaming off,curated_production_candidate,REVIEW_REQUIRED
+Cmd.StreamingStop,turn streaming off,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.TranscribeStart,begin transcription,curated_production_candidate,REVIEW_REQUIRED
+Cmd.TranscribeStart,start the transcription,curated_production_candidate,REVIEW_REQUIRED
+Cmd.TranscribeStart,start transcribing,curated_production_candidate,REVIEW_REQUIRED
+Cmd.TranscribeStart,start transcription,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.TranscribeStart,transcribe this,curated_production_candidate,REVIEW_REQUIRED
+Cmd.TranscribeStart,turn transcription on,curated_production_candidate,REVIEW_REQUIRED
+Cmd.TranslationStart,begin translation,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.TranslationStart,start the translation,curated_production_candidate,REVIEW_REQUIRED
+Cmd.TranslationStart,start translating,curated_production_candidate,REVIEW_REQUIRED
+Cmd.TranslationStart,start translation,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.TranslationStart,translate this,curated_production_candidate,REVIEW_REQUIRED
+Cmd.TranslationStart,turn translation on,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,can you make it quieter,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,decrease the volume,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeDecrease,decrease volume,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeDecrease,it's too loud,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,lower the volume,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeDecrease,lower volume,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,make it a little quieter,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,make it much quieter,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,make it quieter,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeDecrease,make the volume quieter,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,please make it quieter,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,quieter please,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,turn it down,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeDecrease,turn the volume down,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeDecrease,volume down,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeIncrease,can you make it louder,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeIncrease,increase the volume,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeIncrease,increase volume,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeIncrease,it's too quiet,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeIncrease,louder please,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeIncrease,make it a little louder,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeIncrease,make it louder,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeIncrease,make it much louder,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeIncrease,make the volume louder,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeIncrease,please make it louder,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeIncrease,raise the volume,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeIncrease,raise volume,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeIncrease,turn it up,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeIncrease,turn the volume up,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeIncrease,volume up,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,make it silent,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,make the sound silent,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,mute,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeMute,mute it,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,mute the volume,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,no sound,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,quiet please,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,silence it,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,silence the volume,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,stop sound,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,stop the sound,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,turn off the sound,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeMute,turn the audio off,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeMute,turn the sound off,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeUnmute,bring the sound back,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeUnmute,restore the sound,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeUnmute,restore the volume,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeUnmute,turn sound back on,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeUnmute,turn the audio on,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeUnmute,turn the sound on,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeUnmute,turn volume back on,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeUnmute,unmute,curated_production_candidate,ALREADY_IN_TRAIN
+Cmd.VolumeUnmute,unmute it,curated_production_candidate,REVIEW_REQUIRED
+Cmd.VolumeUnmute,unmute the volume,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,book me a flight,curated_production_candidate,ALREADY_IN_TRAIN
+Default Fallback Intent,call my friend,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,go to the airport tomorrow at 9 pm,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,open the camera,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,play some music,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,send an email,curated_production_candidate,ALREADY_IN_TRAIN
+Default Fallback Intent,show me a funny video,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,take me to the airport,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,turn off my phone,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,turn off the lights,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,turn off the television,curated_production_candidate,REVIEW_REQUIRED
+Default Fallback Intent,what is the weather,curated_production_candidate,REVIEW_REQUIRED
+Help_AppSettings,help with app settings,curated_production_candidate,REVIEW_REQUIRED
+Help_AppSettings,how can I change app settings,curated_production_candidate,REVIEW_REQUIRED
+Help_AppSettings,how do I change app settings,curated_production_candidate,REVIEW_REQUIRED
+Help_AppSettings,where are the app settings,curated_production_candidate,REVIEW_REQUIRED
+Help_Battery,help with battery,curated_production_candidate,REVIEW_REQUIRED
+Help_Battery,how can I check the battery,curated_production_candidate,REVIEW_REQUIRED
+Help_Battery,how do I check the battery,curated_production_candidate,REVIEW_REQUIRED
+Help_Battery,where can I see the battery level,curated_production_candidate,REVIEW_REQUIRED
+Help_DeviceSettings,help with device settings,curated_production_candidate,ALREADY_IN_TRAIN
+Help_DeviceSettings,how can I change device settings,curated_production_candidate,REVIEW_REQUIRED
+Help_DeviceSettings,how do I change device settings,curated_production_candidate,REVIEW_REQUIRED
+Help_DeviceSettings,where are the device settings,curated_production_candidate,REVIEW_REQUIRED
+Help_FindMyHearingAids,help me find my hearing aids,curated_production_candidate,ALREADY_IN_TRAIN
+Help_FindMyHearingAids,how can I locate my hearing aids,curated_production_candidate,REVIEW_REQUIRED
+Help_FindMyHearingAids,how do I find my hearing aids,curated_production_candidate,REVIEW_REQUIRED
+Help_FindMyHearingAids,where are my hearing aids,curated_production_candidate,REVIEW_REQUIRED
+Help_Pairing,help me pair my hearing aids,curated_production_candidate,REVIEW_REQUIRED
+Help_Pairing,help with pairing,curated_production_candidate,REVIEW_REQUIRED
+Help_Pairing,how can I pair my hearing aids,curated_production_candidate,REVIEW_REQUIRED
+Help_Pairing,how do I connect my hearing aids,curated_production_candidate,ALREADY_IN_TRAIN
+Help_Pairing,how do I pair my hearing aids,curated_production_candidate,ALREADY_IN_TRAIN
+Help_Reminder,help with reminders,curated_production_candidate,ALREADY_IN_TRAIN
+Help_Reminder,how can I create a reminder,curated_production_candidate,REVIEW_REQUIRED
+Help_Reminder,how do I set a reminder,curated_production_candidate,REVIEW_REQUIRED
+Help_Reminder,how do reminders work,curated_production_candidate,ALREADY_IN_TRAIN
+Help_SelfCheck,help with self check,curated_production_candidate,ALREADY_IN_TRAIN
+Help_SelfCheck,how can I run a self check,curated_production_candidate,REVIEW_REQUIRED
+Help_SelfCheck,how do I run a self check,curated_production_candidate,REVIEW_REQUIRED
+Help_SelfCheck,how does self check work,curated_production_candidate,REVIEW_REQUIRED
+Help_Transcribe,help with transcription,curated_production_candidate,ALREADY_IN_TRAIN
+Help_Transcribe,how can I transcribe,curated_production_candidate,REVIEW_REQUIRED
+Help_Transcribe,how do I transcribe,curated_production_candidate,REVIEW_REQUIRED
+Help_Transcribe,how does transcription work,curated_production_candidate,REVIEW_REQUIRED
+Help_Translate,help with translation,curated_production_candidate,REVIEW_REQUIRED
+Help_Translate,how can I translate,curated_production_candidate,REVIEW_REQUIRED
+Help_Translate,how do I translate,curated_production_candidate,REVIEW_REQUIRED
+Help_Translate,how does translation work,curated_production_candidate,REVIEW_REQUIRED
+Help_VoiceAssistant,help with voice assistant,curated_production_candidate,REVIEW_REQUIRED
+Help_VoiceAssistant,how can I use the voice assistant,curated_production_candidate,REVIEW_REQUIRED
+Help_VoiceAssistant,how do I use the voice assistant,curated_production_candidate,REVIEW_REQUIRED
+Help_Volume,help me with volume,curated_production_candidate,REVIEW_REQUIRED
+Help_Volume,help with volume,curated_production_candidate,REVIEW_REQUIRED
+Help_Volume,how can I change the volume,curated_production_candidate,REVIEW_REQUIRED
+Help_Volume,how do I adjust the volume,curated_production_candidate,ALREADY_IN_TRAIN
+Help_Volume,how do I change the volume,curated_production_candidate,REVIEW_REQUIRED
+reminders.add,add a reminder,curated_production_candidate,ALREADY_IN_TRAIN
+reminders.add,create a reminder,curated_production_candidate,ALREADY_IN_TRAIN
+reminders.add,make a reminder,curated_production_candidate,ALREADY_IN_TRAIN
+reminders.add,please remind me,curated_production_candidate,REVIEW_REQUIRED
+reminders.add,remember this for me,curated_production_candidate,ALREADY_IN_TRAIN
+reminders.add,remind me,curated_production_candidate,ALREADY_IN_TRAIN
+reminders.add,remind me about this,curated_production_candidate,REVIEW_REQUIRED
+reminders.add,set a reminder,curated_production_candidate,ALREADY_IN_TRAIN
+reminders.add,set me a reminder,curated_production_candidate,REVIEW_REQUIRED
+reminders.complete,complete my reminder,curated_production_candidate,ALREADY_IN_TRAIN
+reminders.complete,complete the reminder,curated_production_candidate,ALREADY_IN_TRAIN
+reminders.complete,done with the reminder,curated_production_candidate,REVIEW_REQUIRED
+reminders.complete,finish the reminder,curated_production_candidate,REVIEW_REQUIRED
+reminders.complete,mark my reminder as done,curated_production_candidate,REVIEW_REQUIRED
+reminders.complete,mark the reminder complete,curated_production_candidate,REVIEW_REQUIRED

@@ -1,0 +1,49 @@
+text,intent,predicted_intent,correct
+it's quieter can you make it a little louder,device.volume.increase,device.volume.increase,True
+it is quieter can you make it louder,device.volume.increase,device.volume.increase,True
+it's quiet please make it louder,device.volume.increase,device.volume.increase,True
+the sound is quieter now turn it up,device.volume.increase,device.volume.increase,True
+the sound got quieter make it louder,device.volume.increase,device.volume.increase,True
+the volume is lower can you turn it up,device.volume.increase,device.volume.increase,True
+the volume is low please increase it,device.volume.increase,device.volume.increase,True
+it sounds too quiet please turn it up,device.volume.increase,device.volume.increase,True
+it became quieter I want it louder,device.volume.increase,device.volume.increase,True
+things sound quiet make them louder,device.volume.increase,device.volume.increase,True
+the sound is too soft increase the volume,device.volume.increase,device.volume.increase,True
+it is not loud enough turn it up,device.volume.increase,device.volume.increase,True
+the audio got lower make it louder,device.volume.increase,device.volume.increase,True
+it sounds low please make it a bit louder,device.volume.increase,device.volume.increase,True
+the hearing aids sound quiet turn them up,device.volume.increase,device.volume.increase,True
+can you make it louder because it sounds quiet,device.volume.increase,device.volume.increase,True
+it's louder can you make it a little quieter,device.volume.decrease,device.volume.decrease,True
+it is louder can you make it quieter,device.volume.decrease,device.volume.decrease,True
+it's loud please make it quieter,device.volume.decrease,device.volume.decrease,True
+the sound is louder now turn it down,device.volume.decrease,device.volume.decrease,True
+the sound got louder make it quieter,device.volume.decrease,device.volume.decrease,True
+the volume is higher can you turn it down,device.volume.decrease,device.volume.decrease,True
+the volume is high please lower it,device.volume.decrease,device.volume.decrease,True
+it sounds too loud please turn it down,device.volume.decrease,device.volume.decrease,True
+it became louder I want it quieter,device.volume.decrease,device.volume.decrease,True
+things sound loud make them quieter,device.volume.decrease,device.volume.decrease,True
+the sound is too strong lower the volume,device.volume.decrease,device.volume.decrease,True
+it is too loud turn it down a little,device.volume.decrease,device.volume.decrease,True
+the audio got higher make it quieter,device.volume.decrease,device.volume.decrease,True
+it sounds loud please make it a bit quieter,device.volume.decrease,device.volume.decrease,True
+the hearing aids sound loud turn them down,device.volume.decrease,device.volume.decrease,True
+can you make it quieter because it sounds loud,device.volume.decrease,device.volume.decrease,True
+it's still audible make it completely silent,device.volume.mute,device.volume.mute,True
+the sound is quiet but I want it completely off,device.volume.mute,device.volume.mute,True
+it is still making sound turn everything off,device.volume.mute,device.volume.mute,True
+lower the sound all the way until it is silent,device.volume.mute,device.volume.mute,True
+I can still hear it please mute it,device.volume.mute,device.volume.mute,True
+the volume is low but make it completely silent,device.volume.mute,device.volume.mute,True
+make the hearing aids completely silent,device.volume.mute,device.volume.mute,True
+turn all sound off even though it is already quiet,device.volume.mute,device.volume.mute,True
+it's silent turn the sound back on,device.volume.unmute,device.volume.unmute,True
+it is muted can you restore the sound,device.volume.unmute,device.volume.unmute,True
+there is no sound please turn it back on,device.volume.unmute,device.volume.unmute,True
+the hearing aids are silent bring the sound back,device.volume.unmute,device.volume.unmute,True
+it is completely quiet unmute it,device.volume.unmute,device.volume.unmute,True
+the sound is off please restore it,device.volume.unmute,device.volume.unmute,True
+nothing is audible turn the sound back on,device.volume.unmute,device.volume.unmute,True
+I cannot hear any sound please unmute,device.volume.unmute,device.volume.unmute,True

@@ -1,0 +1,74 @@
+# V6 EXACT LOCKED 57-INTENT TEST
+
+Accuracy   : 98.2206%
+Macro F1   : 97.4720%
+Weighted F1: 98.2134%
+Rows       : 1686
+Embedding time : 2.2693 sec
+Classifier time: 0.0071 sec
+Rows/sec       : 740.64
+
+Classification report:
+                                 precision    recall  f1-score   support
+
+           Cmd.ActivityAerobics     1.0000    0.8889    0.9412         9
+           Cmd.ActivityCalories     1.0000    1.0000    1.0000         9
+              Cmd.ActivityCycle     1.0000    1.0000    1.0000        10
+           Cmd.ActivityExercise     0.9167    1.0000    0.9565        11
+                Cmd.ActivityRun     1.0000    1.0000    1.0000        12
+              Cmd.ActivityStand     1.0000    0.9167    0.9565        12
+               Cmd.ActivityStep     0.9231    1.0000    0.9600        12
+               Cmd.ActivityWalk     1.0000    1.0000    1.0000        11
+               Cmd.BatteryLevel     0.9565    0.9565    0.9565        23
+                Cmd.FindMyPhone     1.0000    1.0000    1.0000        21
+              Cmd.ListenMessage     0.9412    0.9412    0.9412        17
+               Cmd.MemoryChange     1.0000    0.9969    0.9984       320
+                Cmd.SendMessage     0.9688    1.0000    0.9841        31
+             Cmd.StreamingStart     0.9730    1.0000    0.9863        36
+              Cmd.StreamingStop     1.0000    1.0000    1.0000        12
+            Cmd.TranscribeStart     1.0000    1.0000    1.0000        10
+           Cmd.TranslationStart     0.9286    1.0000    0.9630        13
+             Cmd.VolumeDecrease     0.9434    0.9804    0.9615        51
+             Cmd.VolumeIncrease     1.0000    0.9535    0.9762        43
+                 Cmd.VolumeMute     1.0000    0.9000    0.9474        20
+               Cmd.VolumeUnmute     0.9545    0.9545    0.9545        22
+        Default Fallback Intent     0.9793    0.9916    0.9854       238
+               Help_Accessories     1.0000    1.0000    1.0000        26
+               Help_AppSettings     1.0000    0.8889    0.9412         9
+                   Help_Battery     1.0000    0.8889    0.9412         9
+          Help_ChangingMemories     0.9615    0.9259    0.9434        27
+                 Help_CleanCare     1.0000    1.0000    1.0000        11
+                 Help_Customize     1.0000    0.9091    0.9524        11
+                  Help_DemoMode     1.0000    1.0000    1.0000         9
+            Help_DeviceSettings     0.9600    0.9231    0.9412        26
+                  Help_EdgeMode     0.9167    1.0000    0.9565        11
+                 Help_FallAlert     1.0000    1.0000    1.0000        23
+         Help_FindMyHearingAids     0.9783    1.0000    0.9890        45
+                    Help_Health     1.0000    1.0000    1.0000        10
+                 Help_HearShare     1.0000    0.9286    0.9630        14
+Help_HearingCareAnywhereConnect     1.0000    0.8889    0.9412         9
+                 Help_HeartRate     1.0000    1.0000    1.0000        10
+         Help_HeartRateRecovery     1.0000    1.0000    1.0000         9
+                      Help_Home     0.8696    0.9524    0.9091        21
+              Help_InsertDevice     1.0000    0.9167    0.9565        12
+              Help_IntelliVoice     1.0000    1.0000    1.0000        19
+                  Help_MaskMode     1.0000    1.0000    1.0000        10
+             Help_MemoryOptions     0.8947    1.0000    0.9444        17
+                   Help_Pairing     1.0000    0.9556    0.9773        45
+                  Help_Reminder     1.0000    0.9000    0.9474        10
+         Help_RemoteProgramming     0.9615    1.0000    0.9804        25
+                 Help_SelfCheck     0.9565    1.0000    0.9778        22
+               Help_ThriveScore     1.0000    1.0000    1.0000        21
+                  Help_Tinnitus     1.0000    1.0000    1.0000        38
+                Help_Transcribe     1.0000    1.0000    1.0000        14
+                 Help_Translate     1.0000    0.9231    0.9600        13
+            Help_VoiceAssistant     1.0000    1.0000    1.0000        11
+                    Help_Volume     0.9667    1.0000    0.9831        29
+                  Help_WhatsNew     0.9231    0.8571    0.8889        14
+                    Help_WiCROS     1.0000    1.0000    1.0000         9
+                  reminders.add     0.9930    1.0000    0.9965       141
+             reminders.complete     1.0000    1.0000    1.0000        13
+
+                       accuracy                         0.9822      1686
+                      macro avg     0.9801    0.9708    0.9747      1686
+                   weighted avg     0.9828    0.9822    0.9821      1686

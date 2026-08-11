@@ -1,0 +1,103 @@
+{
+  "tag": "unkaug_s1",
+  "threshold": 0.4,
+  "tokenizer": "word",
+  "max_len": 24,
+  "vocab_size": 1982,
+  "intents": 57,
+  "static_shape": [
+    1,
+    24
+  ],
+  "dynamic_axes": false,
+  "output": "logits",
+  "fp32_mb": 0.9516,
+  "int8_mb": 0.3533,
+  "parity": {
+    "fp32": {
+      "max_abs_logit_delta": 4.291534423828125e-06,
+      "argmax_mismatches": 0,
+      "gate_disagreements": 0,
+      "flips": []
+    },
+    "int8": {
+      "max_abs_logit_delta": 0.19234657287597656,
+      "argmax_mismatches": 10,
+      "gate_disagreements": 9,
+      "flips": [
+        {
+          "text": "can you turn on this is my life",
+          "ref": "Cmd.VolumeUnmute",
+          "quant": "Help_SelfCheck",
+          "ref_margin": 0.0048,
+          "ref_confidence": 0.1187
+        },
+        {
+          "text": "please all pre-program settings change when once changed",
+          "ref": "Cmd.MemoryChange",
+          "quant": "Default Fallback Intent",
+          "ref_margin": 0.0063,
+          "ref_confidence": 0.1593
+        },
+        {
+          "text": "reach out to my family for me",
+          "ref": "Cmd.ActivityExercise",
+          "quant": "Cmd.SendMessage",
+          "ref_margin": 0.0006,
+          "ref_confidence": 0.1944
+        },
+        {
+          "text": "activate another hearing program",
+          "ref": "Cmd.SendMessage",
+          "quant": "Cmd.MemoryChange",
+          "ref_margin": 0.0116,
+          "ref_confidence": 0.1853
+        },
+        {
+          "text": "select my music hearing profile",
+          "ref": "Cmd.StreamingStop",
+          "quant": "Help_Transcribe",
+          "ref_margin": 0.0016,
+          "ref_confidence": 0.0765
+        },
+        {
+          "text": "I want audio again",
+          "ref": "Cmd.VolumeUnmute",
+          "quant": "Cmd.StreamingStart",
+          "ref_margin": 0.0014,
+          "ref_confidence": 0.1173
+        },
+        {
+          "text": "what is on my reminder list",
+          "ref": "reminders.complete",
+          "quant": "Help_Reminder",
+          "ref_margin": 0.002,
+          "ref_confidence": 0.155
+        },
+        {
+          "text": "start a connection for media sound",
+          "ref": "Cmd.StreamingStop",
+          "quant": "Cmd.TranscribeStart",
+          "ref_margin": 0.0019,
+          "ref_confidence": 0.1357
+        },
+        {
+          "text": "how do i meet people in a new city",
+          "ref": "Help_WhatsNew",
+          "quant": "Help_RemoteProgramming",
+          "ref_margin": 0.0058,
+          "ref_confidence": 0.3304
+        },
+        {
+          "text": "how long does rice take to cook",
+          "ref": "Cmd.ActivityWalk",
+          "quant": "Help_Battery",
+          "ref_margin": 0.0113,
+          "ref_confidence": 0.112
+        }
+      ]
+    }
+  },
+  "synthetic_text": true,
+  "synthetic_rows": 921
+}

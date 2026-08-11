@@ -1,0 +1,20 @@
+{
+  "semfz_s1": {
+    "vocab": 8000,
+    "mb": 2.492,
+    "backend": "onnx",
+    "oov": 0.2424,
+    "stress": 0.6832,
+    "locked": 0.7651,
+    "ood": 0.8437
+  },
+  "leanfz_s1": {
+    "vocab": 2500,
+    "mb": 0.934,
+    "backend": "pytorch",
+    "oov": 0.0606,
+    "stress": 0.4478,
+    "locked": 0.6501,
+    "ood": 0.9355
+  }
+}

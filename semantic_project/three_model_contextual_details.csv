@@ -1,0 +1,97 @@
+model,text,expected,predicted,confidence,correct
+Current INT8,the audio seems a bit soft could you raise it now,device.volume.increase,device.volume.increase,0.9954008460044861,True
+Current INT8,I can hear it but it is weaker than before please turn it up,device.volume.increase,device.volume.increase,0.982231080532074,True
+Current INT8,the sound dropped a little can you increase the volume,device.volume.increase,device.volume.increase,0.9966390132904053,True
+Current INT8,everything sounds low right now make it louder,device.volume.increase,device.volume.increase,0.9977595806121826,True
+Current INT8,I want more volume because this is too quiet,device.volume.increase,device.volume.increase,0.8465480208396912,True
+Current INT8,the hearing aids are sounding faint please raise them,device.volume.increase,device.volume.increase,0.9922685027122498,True
+Current INT8,it got softer than I expected increase the sound,device.volume.increase,device.volume.decrease,0.9578039646148682,False
+Current INT8,can you turn the audio higher it is barely loud enough,device.volume.increase,device.volume.increase,0.909493625164032,True
+Current INT8,the audio is stronger than I need please lower it,device.volume.decrease,device.volume.decrease,0.9840266704559326,True
+Current INT8,I can hear it fine but it is a little too loud turn it down,device.volume.decrease,device.volume.decrease,0.9959558844566345,True
+Current INT8,the sound increased too much reduce the volume,device.volume.decrease,device.volume.decrease,0.9950371384620667,True
+Current INT8,everything is loud right now make it softer,device.volume.decrease,device.volume.decrease,0.9858529567718506,True
+Current INT8,I want less volume because this is too strong,device.volume.decrease,device.volume.decrease,0.9779520034790039,True
+Current INT8,the hearing aids are sounding intense please lower them,device.volume.decrease,device.volume.decrease,0.9622828364372253,True
+Current INT8,it became louder than I wanted decrease the sound,device.volume.decrease,device.volume.decrease,0.5011408925056458,True
+Current INT8,can you turn the audio lower it is more than enough,device.volume.decrease,device.volume.decrease,0.9795589447021484,True
+Current INT8,I can still hear the audio please make it totally silent,device.volume.mute,device.volume.mute,0.77679842710495,True
+Current INT8,there is some sound left turn all of it off,device.volume.mute,device.volume.mute,0.9963216781616211,True
+Current INT8,I don't want any audio at all make it silent,device.volume.mute,device.volume.mute,0.9873877167701721,True
+Current INT8,stop all sound from the hearing aids,device.volume.mute,device.volume.mute,0.9849295020103455,True
+Current INT8,the volume is low but I need complete silence,device.volume.mute,device.volume.mute,0.5656277537345886,True
+Current INT8,make sure nothing is audible,device.volume.mute,device.volume.increase,0.6957534551620483,False
+Current INT8,shut off the hearing aid sound completely,device.volume.mute,device.volume.mute,0.9989649057388306,True
+Current INT8,I want zero sound right now,device.volume.mute,device.volume.mute,0.5959517955780029,True
+Current INT8,I want the audio back please restore it,device.volume.unmute,device.volume.unmute,0.9932833909988403,True
+Current INT8,there is no sound now can you enable it again,device.volume.unmute,device.volume.unmute,0.9978418350219727,True
+Current INT8,the hearing aids are quiet because they are muted bring sound back,device.volume.unmute,device.volume.unmute,0.988288402557373,True
+Current INT8,restore audio so I can hear again,device.volume.unmute,device.volume.unmute,0.9959850311279297,True
+Current INT8,please enable the hearing aid sound,device.volume.unmute,device.volume.unmute,0.7004290819168091,True
+Current INT8,turn the audio back on after muting it,device.volume.unmute,device.volume.unmute,0.9990381002426147,True
+Current INT8,I need the sound restored,device.volume.unmute,device.volume.increase,0.873832643032074,False
+Current INT8,unmute the hearing aids so audio returns,device.volume.unmute,device.volume.unmute,0.9962085485458374,True
+V5 Medium,the audio seems a bit soft could you raise it now,device.volume.increase,device.volume.increase,0.9879721999168396,True
+V5 Medium,I can hear it but it is weaker than before please turn it up,device.volume.increase,device.volume.increase,0.9762464165687561,True
+V5 Medium,the sound dropped a little can you increase the volume,device.volume.increase,device.volume.increase,0.9936140179634094,True
+V5 Medium,everything sounds low right now make it louder,device.volume.increase,device.volume.increase,0.9943918585777283,True
+V5 Medium,I want more volume because this is too quiet,device.volume.increase,device.volume.decrease,0.528059184551239,False
+V5 Medium,the hearing aids are sounding faint please raise them,device.volume.increase,device.volume.increase,0.993766188621521,True
+V5 Medium,it got softer than I expected increase the sound,device.volume.increase,device.volume.increase,0.9664471745491028,True
+V5 Medium,can you turn the audio higher it is barely loud enough,device.volume.increase,device.volume.increase,0.9904851317405701,True
+V5 Medium,the audio is stronger than I need please lower it,device.volume.decrease,device.volume.decrease,0.9949057102203369,True
+V5 Medium,I can hear it fine but it is a little too loud turn it down,device.volume.decrease,device.volume.decrease,0.9976109266281128,True
+V5 Medium,the sound increased too much reduce the volume,device.volume.decrease,device.volume.decrease,0.9770918488502502,True
+V5 Medium,everything is loud right now make it softer,device.volume.decrease,device.volume.decrease,0.9940740466117859,True
+V5 Medium,I want less volume because this is too strong,device.volume.decrease,device.volume.decrease,0.9961887001991272,True
+V5 Medium,the hearing aids are sounding intense please lower them,device.volume.decrease,device.volume.decrease,0.9562208652496338,True
+V5 Medium,it became louder than I wanted decrease the sound,device.volume.decrease,device.volume.increase,0.8754051327705383,False
+V5 Medium,can you turn the audio lower it is more than enough,device.volume.decrease,device.volume.decrease,0.9927523136138916,True
+V5 Medium,I can still hear the audio please make it totally silent,device.volume.mute,device.volume.mute,0.867824912071228,True
+V5 Medium,there is some sound left turn all of it off,device.volume.mute,device.volume.mute,0.9920742511749268,True
+V5 Medium,I don't want any audio at all make it silent,device.volume.mute,device.volume.mute,0.9967086315155029,True
+V5 Medium,stop all sound from the hearing aids,device.volume.mute,device.volume.mute,0.997050404548645,True
+V5 Medium,the volume is low but I need complete silence,device.volume.mute,device.volume.mute,0.6410266160964966,True
+V5 Medium,make sure nothing is audible,device.volume.mute,reminders.task.create,0.9526116847991943,False
+V5 Medium,shut off the hearing aid sound completely,device.volume.mute,device.volume.mute,0.998055100440979,True
+V5 Medium,I want zero sound right now,device.volume.mute,device.volume.unmute,0.5993145108222961,False
+V5 Medium,I want the audio back please restore it,device.volume.unmute,device.volume.unmute,0.9696229696273804,True
+V5 Medium,there is no sound now can you enable it again,device.volume.unmute,device.volume.unmute,0.9896140694618225,True
+V5 Medium,the hearing aids are quiet because they are muted bring sound back,device.volume.unmute,device.volume.unmute,0.9813448190689087,True
+V5 Medium,restore audio so I can hear again,device.volume.unmute,device.volume.unmute,0.9979017972946167,True
+V5 Medium,please enable the hearing aid sound,device.volume.unmute,device.volume.unmute,0.9702963829040527,True
+V5 Medium,turn the audio back on after muting it,device.volume.unmute,device.volume.unmute,0.9989263415336609,True
+V5 Medium,I need the sound restored,device.volume.unmute,device.volume.mute,0.3314034342765808,False
+V5 Medium,unmute the hearing aids so audio returns,device.volume.unmute,device.volume.unmute,0.9976723790168762,True
+V5 Large,the audio seems a bit soft could you raise it now,device.volume.increase,device.volume.increase,0.9975940585136414,True
+V5 Large,I can hear it but it is weaker than before please turn it up,device.volume.increase,device.volume.increase,0.9909058809280396,True
+V5 Large,the sound dropped a little can you increase the volume,device.volume.increase,device.volume.increase,0.9948979020118713,True
+V5 Large,everything sounds low right now make it louder,device.volume.increase,device.volume.increase,0.9949389696121216,True
+V5 Large,I want more volume because this is too quiet,device.volume.increase,device.volume.decrease,0.9572556018829346,False
+V5 Large,the hearing aids are sounding faint please raise them,device.volume.increase,device.volume.increase,0.9963692426681519,True
+V5 Large,it got softer than I expected increase the sound,device.volume.increase,device.volume.increase,0.9957306981086731,True
+V5 Large,can you turn the audio higher it is barely loud enough,device.volume.increase,device.volume.increase,0.9945992231369019,True
+V5 Large,the audio is stronger than I need please lower it,device.volume.decrease,device.volume.decrease,0.9857646822929382,True
+V5 Large,I can hear it fine but it is a little too loud turn it down,device.volume.decrease,device.volume.decrease,0.995236873626709,True
+V5 Large,the sound increased too much reduce the volume,device.volume.decrease,device.volume.decrease,0.9120625853538513,True
+V5 Large,everything is loud right now make it softer,device.volume.decrease,device.volume.decrease,0.9889189600944519,True
+V5 Large,I want less volume because this is too strong,device.volume.decrease,device.volume.decrease,0.9767797589302063,True
+V5 Large,the hearing aids are sounding intense please lower them,device.volume.decrease,device.volume.decrease,0.903512179851532,True
+V5 Large,it became louder than I wanted decrease the sound,device.volume.decrease,device.volume.mute,0.5039915442466736,False
+V5 Large,can you turn the audio lower it is more than enough,device.volume.decrease,device.volume.decrease,0.9771091341972351,True
+V5 Large,I can still hear the audio please make it totally silent,device.volume.mute,device.volume.mute,0.9871991276741028,True
+V5 Large,there is some sound left turn all of it off,device.volume.mute,device.volume.mute,0.9976128339767456,True
+V5 Large,I don't want any audio at all make it silent,device.volume.mute,device.volume.mute,0.9974627494812012,True
+V5 Large,stop all sound from the hearing aids,device.volume.mute,device.volume.mute,0.9927539229393005,True
+V5 Large,the volume is low but I need complete silence,device.volume.mute,device.volume.mute,0.8960400819778442,True
+V5 Large,make sure nothing is audible,device.volume.mute,reminders.task.create,0.9219232201576233,False
+V5 Large,shut off the hearing aid sound completely,device.volume.mute,device.volume.mute,0.9984020590782166,True
+V5 Large,I want zero sound right now,device.volume.mute,device.volume.unmute,0.9254690408706665,False
+V5 Large,I want the audio back please restore it,device.volume.unmute,device.volume.unmute,0.998374342918396,True
+V5 Large,there is no sound now can you enable it again,device.volume.unmute,device.volume.unmute,0.9992648959159851,True
+V5 Large,the hearing aids are quiet because they are muted bring sound back,device.volume.unmute,device.volume.unmute,0.9793397188186646,True
+V5 Large,restore audio so I can hear again,device.volume.unmute,device.volume.unmute,0.9935634136199951,True
+V5 Large,please enable the hearing aid sound,device.volume.unmute,device.volume.unmute,0.5984148383140564,True
+V5 Large,turn the audio back on after muting it,device.volume.unmute,device.volume.unmute,0.9994818568229675,True
+V5 Large,I need the sound restored,device.volume.unmute,device.volume.mute,0.8028340339660645,False
+V5 Large,unmute the hearing aids so audio returns,device.volume.unmute,device.volume.unmute,0.9629611968994141,True

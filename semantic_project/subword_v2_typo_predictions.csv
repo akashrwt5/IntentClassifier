@@ -1,0 +1,14 @@
+text,expected,predicted,confidence,correct
+tomorrow,reminders.task.create,reminders.task.create,0.9954028,True
+tommorow,reminders.task.create,reminders.task.create,0.97151595,True
+tomorow,reminders.task.create,device.volume.mute,0.4303244,False
+tomorroe,reminders.task.create,device.volume.unmute,0.25808027,False
+louder,device.volume.increase,device.volume.increase,0.9974769,True
+loudar,device.volume.increase,device.volume.increase,0.9552006,True
+quieter,device.volume.decrease,device.volume.decrease,0.9977913,True
+quiter,device.volume.decrease,device.volume.decrease,0.99493545,True
+quietter,device.volume.decrease,device.volume.decrease,0.98246795,True
+mute,device.volume.mute,device.volume.mute,0.9038597,True
+mutt,device.volume.mute,device.volume.mute,0.9069901,True
+unmute,device.volume.unmute,device.volume.unmute,0.9984932,True
+unmut,device.volume.unmute,device.volume.unmute,0.9990633,True

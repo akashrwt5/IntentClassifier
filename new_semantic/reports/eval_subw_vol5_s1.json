@@ -1,0 +1,115 @@
+{
+  "locked": {
+    "rows": 1686,
+    "accuracy": 0.8932,
+    "macro_recall": 0.8936,
+    "mean_confidence": 0.6726,
+    "worst_classes": [
+      {
+        "intent": "Help_HearingCareAnywhereConnect",
+        "recall": 0.556,
+        "n": 9
+      },
+      {
+        "intent": "Help_Battery",
+        "recall": 0.667,
+        "n": 9
+      },
+      {
+        "intent": "Help_Customize",
+        "recall": 0.727,
+        "n": 11
+      },
+      {
+        "intent": "Help_VoiceAssistant",
+        "recall": 0.727,
+        "n": 11
+      },
+      {
+        "intent": "Help_DeviceSettings",
+        "recall": 0.731,
+        "n": 26
+      },
+      {
+        "intent": "Default Fallback Intent",
+        "recall": 0.735,
+        "n": 238
+      },
+      {
+        "intent": "Cmd.BatteryLevel",
+        "recall": 0.739,
+        "n": 23
+      },
+      {
+        "intent": "Cmd.StreamingStop",
+        "recall": 0.75,
+        "n": 12
+      }
+    ]
+  },
+  "stress": {
+    "rows": 565,
+    "accuracy": 0.8265,
+    "macro_recall": 0.8282,
+    "mean_confidence": 0.4495,
+    "worst_classes": [
+      {
+        "intent": "Help_Reminder",
+        "recall": 0.685,
+        "n": 54
+      },
+      {
+        "intent": "Cmd.VolumeUnmute",
+        "recall": 0.712,
+        "n": 52
+      },
+      {
+        "intent": "Cmd.StreamingStop",
+        "recall": 0.712,
+        "n": 52
+      },
+      {
+        "intent": "Cmd.MemoryChange",
+        "recall": 0.717,
+        "n": 53
+      },
+      {
+        "intent": "Cmd.VolumeIncrease",
+        "recall": 0.783,
+        "n": 46
+      },
+      {
+        "intent": "Cmd.VolumeMute",
+        "recall": 0.811,
+        "n": 53
+      },
+      {
+        "intent": "Cmd.VolumeDecrease",
+        "recall": 0.904,
+        "n": 52
+      },
+      {
+        "intent": "Cmd.StreamingStart",
+        "recall": 0.907,
+        "n": 54
+      }
+    ]
+  },
+  "ood": {
+    "rows": 403,
+    "fallback_rate": 0.4541,
+    "escaped": 220,
+    "escaped_into": {
+      "Help_Home": 28,
+      "reminders.add": 14,
+      "Cmd.TranslationStart": 10,
+      "Help_WiCROS": 9,
+      "Help_WhatsNew": 9,
+      "Help_InsertDevice": 9,
+      "Help_CleanCare": 8,
+      "Help_DeviceSettings": 8,
+      "Cmd.ListenMessage": 7,
+      "Cmd.TranscribeStart": 5
+    }
+  }
+}

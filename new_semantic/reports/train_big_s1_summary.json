@@ -1,0 +1,119 @@
+{
+  "tag": "big_s1",
+  "seed": 1,
+  "train_csv": "/Users/shuklam/IntentClassifier/new_semantic/data/en/train.csv",
+  "train_rows": 23989,
+  "intents": 57,
+  "vocab_size": 8000,
+  "embed_dim": 96,
+  "init_embeddings": "models/en/embed_init_bge96.npz",
+  "freeze_embeddings": true,
+  "tokenizer": "word",
+  "max_len": 24,
+  "student_params": 898585,
+  "student_mb_fp32": 3.594,
+  "teacher": "BAAI/bge-small-en-v1.5",
+  "embedding_teacher": "BAAI/bge-small-en-v1.5",
+  "class_weights": true,
+  "fallback_weight_floor": 3.0,
+  "fallback_oversample": 1,
+  "unk_aug_fraction": 0.04,
+  "unk_robust_fraction": null,
+  "synthetic_fallback_rows": 921,
+  "synthetic_in_scope_rows": 0,
+  "synthetic_rows": 921,
+  "synthetic_text": true,
+  "fallback_share_before": 0.0396,
+  "fallback_share_after": 0.0751,
+  "rows_after_augmentation": 24910,
+  "best_epoch": 7,
+  "best_val_macro_recall": 0.9353,
+  "checkpoint": "/Users/shuklam/IntentClassifier/new_semantic/models/en/student_big_s1.pt",
+  "leak_guard": "passed",
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 1.3620591350348599,
+      "val_acc": 0.8354294888948355,
+      "val_macro_recall": 0.8239972446221744
+    },
+    {
+      "epoch": 2,
+      "loss": 0.6482945662665079,
+      "val_acc": 0.9162429756489162,
+      "val_macro_recall": 0.874664169635047
+    },
+    {
+      "epoch": 3,
+      "loss": 0.5346937648144113,
+      "val_acc": 0.9392560877709393,
+      "val_macro_recall": 0.9122585711218688
+    },
+    {
+      "epoch": 4,
+      "loss": 0.46833085834261884,
+      "val_acc": 0.9421996253679422,
+      "val_macro_recall": 0.9159083443410893
+    },
+    {
+      "epoch": 5,
+      "loss": 0.41992007052323904,
+      "val_acc": 0.9494246721969494,
+      "val_macro_recall": 0.929730429299407
+    },
+    {
+      "epoch": 6,
+      "loss": 0.3889803848711841,
+      "val_acc": 0.9440727856569441,
+      "val_macro_recall": 0.9152634278521122
+    },
+    {
+      "epoch": 7,
+      "loss": 0.36505040005747097,
+      "val_acc": 0.960931228257961,
+      "val_macro_recall": 0.9352837431430328
+    },
+    {
+      "epoch": 8,
+      "loss": 0.3444913309740733,
+      "val_acc": 0.962001605565962,
+      "val_macro_recall": 0.9252199037450614
+    },
+    {
+      "epoch": 9,
+      "loss": 0.33802652700119706,
+      "val_acc": 0.9601284452769602,
+      "val_macro_recall": 0.9276185496153567
+    },
+    {
+      "epoch": 10,
+      "loss": 0.3176388482013381,
+      "val_acc": 0.9611988225849611,
+      "val_macro_recall": 0.9301734980739674
+    },
+    {
+      "epoch": 11,
+      "loss": 0.31599326557423696,
+      "val_acc": 0.968959058067969,
+      "val_macro_recall": 0.9294125704210545
+    },
+    {
+      "epoch": 12,
+      "loss": 0.30420979085456895,
+      "val_acc": 0.9670858977789671,
+      "val_macro_recall": 0.9223546260896064
+    },
+    {
+      "epoch": 13,
+      "loss": 0.2986432391117854,
+      "val_acc": 0.9681562750869681,
+      "val_macro_recall": 0.913241836800172
+    },
+    {
+      "epoch": 14,
+      "loss": 0.29044547587274067,
+      "val_acc": 0.9652127374899652,
+      "val_macro_recall": 0.9291452396340197
+    }
+  ]
+}

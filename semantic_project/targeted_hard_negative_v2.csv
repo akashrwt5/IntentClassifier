@@ -1,0 +1,112 @@
+text,intent,source
+change the hearing program to the TV setting,device.memory.change,targeted_hard_negative_v2
+switch to the television hearing program,device.memory.change,targeted_hard_negative_v2
+select my TV listening program,device.memory.change,targeted_hard_negative_v2
+put the hearing aids into the TV program,device.memory.change,targeted_hard_negative_v2
+change the active program to the one for television,device.memory.change,targeted_hard_negative_v2
+move my hearing aids to the TV memory,device.memory.change,targeted_hard_negative_v2
+activate the television listening memory,device.memory.change,targeted_hard_negative_v2
+choose the TV hearing setting,device.memory.change,targeted_hard_negative_v2
+switch the current hearing memory to TV,device.memory.change,targeted_hard_negative_v2
+select another hearing program for watching television,device.memory.change,targeted_hard_negative_v2
+"change the program, not the volume",device.memory.change,targeted_hard_negative_v2
+switch hearing programs while keeping the volume the same,device.memory.change,targeted_hard_negative_v2
+make the sound louder without changing the hearing program,device.volume.increase,targeted_hard_negative_v2
+raise the volume while staying on the same program,device.volume.increase,targeted_hard_negative_v2
+turn up the hearing aids but keep the current program,device.volume.increase,targeted_hard_negative_v2
+increase the volume only,device.volume.increase,targeted_hard_negative_v2
+make the audio stronger without switching programs,device.volume.increase,targeted_hard_negative_v2
+raise what I hear and leave the program unchanged,device.volume.increase,targeted_hard_negative_v2
+"boost the sound level, not the hearing setting",device.volume.increase,targeted_hard_negative_v2
+turn the volume up while keeping the same memory,device.volume.increase,targeted_hard_negative_v2
+make the current audio louder without changing modes,device.volume.increase,targeted_hard_negative_v2
+increase loudness but keep my current hearing program,device.volume.increase,targeted_hard_negative_v2
+turn up the sound only,device.volume.increase,targeted_hard_negative_v2
+raise the listening level without changing the program,device.volume.increase,targeted_hard_negative_v2
+make the sound quieter but keep it audible,device.volume.decrease,targeted_hard_negative_v2
+lower the volume without muting the hearing aids,device.volume.decrease,targeted_hard_negative_v2
+reduce the sound level and leave audio on,device.volume.decrease,targeted_hard_negative_v2
+turn the hearing aids down but do not silence them,device.volume.decrease,targeted_hard_negative_v2
+make it less loud while keeping sound available,device.volume.decrease,targeted_hard_negative_v2
+"decrease the volume, not the hearing program",device.volume.decrease,targeted_hard_negative_v2
+lower the listening level without turning audio off,device.volume.decrease,targeted_hard_negative_v2
+reduce the loudness but keep hearing aid output active,device.volume.decrease,targeted_hard_negative_v2
+make the audio softer while it remains audible,device.volume.decrease,targeted_hard_negative_v2
+turn down the sound without muting,device.volume.decrease,targeted_hard_negative_v2
+bring the volume down and keep the audio on,device.volume.decrease,targeted_hard_negative_v2
+"make the current sound quieter, not silent",device.volume.decrease,targeted_hard_negative_v2
+make the hearing aids completely silent,device.volume.mute,targeted_hard_negative_v2
+turn all hearing aid sound off,device.volume.mute,targeted_hard_negative_v2
+stop every sound coming through the hearing aids,device.volume.mute,targeted_hard_negative_v2
+silence the hearing aid output completely,device.volume.mute,targeted_hard_negative_v2
+make there be zero audio from the devices,device.volume.mute,targeted_hard_negative_v2
+"turn off the sound entirely, not just lower it",device.volume.mute,targeted_hard_negative_v2
+stop all audible output from the hearing aids,device.volume.mute,targeted_hard_negative_v2
+make the devices produce no sound at all,device.volume.mute,targeted_hard_negative_v2
+completely silence the current hearing output,device.volume.mute,targeted_hard_negative_v2
+shut off all audio from the hearing aids,device.volume.mute,targeted_hard_negative_v2
+turn the hearing aid audio fully off,device.volume.mute,targeted_hard_negative_v2
+make the output totally silent,device.volume.mute,targeted_hard_negative_v2
+restore sound after the hearing aids were muted,device.volume.unmute,targeted_hard_negative_v2
+bring back audio from the hearing aids,device.volume.unmute,targeted_hard_negative_v2
+turn sound back on after muting,device.volume.unmute,targeted_hard_negative_v2
+remove the mute and restore the previous audio,device.volume.unmute,targeted_hard_negative_v2
+make the muted hearing aids audible again,device.volume.unmute,targeted_hard_negative_v2
+resume sound after complete silence,device.volume.unmute,targeted_hard_negative_v2
+restore the hearing aid output after mute,device.volume.unmute,targeted_hard_negative_v2
+cancel mute and let sound through again,device.volume.unmute,targeted_hard_negative_v2
+turn audio back on without increasing the volume,device.volume.unmute,targeted_hard_negative_v2
+unmute the devices and restore audio,device.volume.unmute,targeted_hard_negative_v2
+bring back the sound that was muted,device.volume.unmute,targeted_hard_negative_v2
+allow hearing aid audio again after silence,device.volume.unmute,targeted_hard_negative_v2
+show me the reminders I already have,help.reminder.show,targeted_hard_negative_v2
+list the reminders currently saved,help.reminder.show,targeted_hard_negative_v2
+what reminders are already on my list,help.reminder.show,targeted_hard_negative_v2
+display my existing reminders,help.reminder.show,targeted_hard_negative_v2
+let me view the reminders I have saved,help.reminder.show,targeted_hard_negative_v2
+which reminders are currently in the list,help.reminder.show,targeted_hard_negative_v2
+read the reminders that already exist,help.reminder.show,targeted_hard_negative_v2
+show my saved reminder entries,help.reminder.show,targeted_hard_negative_v2
+tell me which reminders are currently stored,help.reminder.show,targeted_hard_negative_v2
+view my existing reminder tasks,help.reminder.show,targeted_hard_negative_v2
+list what is already in my reminders,help.reminder.show,targeted_hard_negative_v2
+show the reminder entries I have now,help.reminder.show,targeted_hard_negative_v2
+what reminders are currently saved,help.reminder.show,targeted_hard_negative_v2
+open the list of reminders I already created,help.reminder.show,targeted_hard_negative_v2
+give me my existing reminder list,help.reminder.show,targeted_hard_negative_v2
+show the reminders that are on file,help.reminder.show,targeted_hard_negative_v2
+add a new item to my reminders,reminders.task.create,targeted_hard_negative_v2
+create a new reminder entry,reminders.task.create,targeted_hard_negative_v2
+put a new task into my reminder list,reminders.task.create,targeted_hard_negative_v2
+schedule a new reminder,reminders.task.create,targeted_hard_negative_v2
+add another reminder to the list,reminders.task.create,targeted_hard_negative_v2
+make a reminder that does not exist yet,reminders.task.create,targeted_hard_negative_v2
+create a reminder for a new task,reminders.task.create,targeted_hard_negative_v2
+add this task as a new reminder,reminders.task.create,targeted_hard_negative_v2
+set up a new reminder entry,reminders.task.create,targeted_hard_negative_v2
+put a new reminder on my schedule,reminders.task.create,targeted_hard_negative_v2
+create an additional reminder,reminders.task.create,targeted_hard_negative_v2
+schedule this as a reminder,reminders.task.create,targeted_hard_negative_v2
+add a fresh reminder to my list,reminders.task.create,targeted_hard_negative_v2
+make a new reminder for this task,reminders.task.create,targeted_hard_negative_v2
+create a reminder rather than viewing existing ones,reminders.task.create,targeted_hard_negative_v2
+start streaming audio to my hearing aids,streaming.session.start,targeted_hard_negative_v2
+begin sending media sound to the hearing aids,streaming.session.start,targeted_hard_negative_v2
+connect my hearing aids to the audio source,streaming.session.start,targeted_hard_negative_v2
+start the audio stream,streaming.session.start,targeted_hard_negative_v2
+begin an audio streaming session,streaming.session.start,targeted_hard_negative_v2
+send phone audio to my hearing aids,streaming.session.start,targeted_hard_negative_v2
+start routing media audio to the devices,streaming.session.start,targeted_hard_negative_v2
+connect for audio streaming,streaming.session.start,targeted_hard_negative_v2
+begin streaming the current media,streaming.session.start,targeted_hard_negative_v2
+start the media audio connection,streaming.session.start,targeted_hard_negative_v2
+stop the active audio stream,streaming.session.stop,targeted_hard_negative_v2
+end the current streaming session,streaming.session.stop,targeted_hard_negative_v2
+disconnect the media audio connection,streaming.session.stop,targeted_hard_negative_v2
+stop sending streamed audio to my hearing aids,streaming.session.stop,targeted_hard_negative_v2
+end audio streaming now,streaming.session.stop,targeted_hard_negative_v2
+disconnect the current streaming source,streaming.session.stop,targeted_hard_negative_v2
+stop the active media stream,streaming.session.stop,targeted_hard_negative_v2
+close the streaming connection,streaming.session.stop,targeted_hard_negative_v2
+terminate the audio streaming session,streaming.session.stop,targeted_hard_negative_v2
+disconnect streamed audio from the hearing aids,streaming.session.stop,targeted_hard_negative_v2

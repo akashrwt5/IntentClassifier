@@ -1,0 +1,39 @@
+{
+  "test_accuracy": 0.9931972789115646,
+  "top_confusions": [
+    {
+      "gold": "device.volume.decrease",
+      "predicted": "device.volume.increase",
+      "count": 4
+    },
+    {
+      "gold": "device.volume.unmute",
+      "predicted": "device.volume.mute",
+      "count": 4
+    },
+    {
+      "gold": "help.reminder.show",
+      "predicted": "reminders.task.create",
+      "count": 3
+    },
+    {
+      "gold": "device.volume.mute",
+      "predicted": "device.volume.unmute",
+      "count": 2
+    },
+    {
+      "gold": "streaming.session.start",
+      "predicted": "device.volume.unmute",
+      "count": 2
+    }
+  ],
+  "hard_accuracy": 1.0,
+  "antonym_pairs": "4/4",
+  "oos_rejection": 0.8809523809523809,
+  "latency_ms": {
+    "mean": 0.7750408089486882,
+    "p50": 0.8152710070135072,
+    "p95": 1.0435271098685917
+  },
+  "model_mb": 23.96179
+}

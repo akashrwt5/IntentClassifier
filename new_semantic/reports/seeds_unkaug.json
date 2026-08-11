@@ -1,0 +1,36 @@
+{
+  "name": "unkaug",
+  "n_seeds": 3,
+  "locked acc": {
+    "mean": 0.8891,
+    "sd": 0.0036,
+    "min": 0.8867,
+    "max": 0.8932
+  },
+  "macro recall": {
+    "mean": 0.8635,
+    "sd": 0.0045,
+    "min": 0.8592,
+    "max": 0.8681
+  },
+  "stress acc": {
+    "mean": 0.7422,
+    "sd": 0.0037,
+    "min": 0.7381,
+    "max": 0.7451
+  },
+  "OOD raw": {
+    "mean": 0.8586,
+    "sd": 0.0224,
+    "min": 0.8362,
+    "max": 0.8809
+  },
+  "OOD reject@best": {
+    "mean": 0.9313,
+    "sd": 0.0127
+  },
+  "in-scope@best": {
+    "mean": 0.8614,
+    "sd": 0.0037
+  }
+}

@@ -1,0 +1,37 @@
+text,intent,v6_prediction,v6_confidence,v6_top2,v6_top2_confidence,v6_top3,v6_top3_confidence,v6_correct,v7_prediction,v7_confidence,v7_top2,v7_top2_confidence,v7_top3,v7_top3_confidence,v7_correct,change_category
+buzz my phone so i hear it,Cmd.FindMyPhone,21,0.79109377,9,0.058573358,10,0.018671282,False,Cmd.FindMyPhone,0.24036305,Cmd.VolumeIncrease,0.1311492,Cmd.StreamingStart,0.11052283,True,FIXED_BY_V7
+restore my profile after reinstalling,Help_HearingCareAnywhereConnect,21,0.60337955,38,0.07621066,23,0.046758454,False,Help_HearingCareAnywhereConnect,0.23793837,Default Fallback Intent,0.2196829,Help_AppSettings,0.0977585,True,FIXED_BY_V7
+when will these die on me,Cmd.BatteryLevel,21,0.4052766,8,0.10368918,29,0.08994698,False,Cmd.BatteryLevel,0.21319696,Help_DeviceSettings,0.11594665,Help_CleanCare,0.09593557,True,FIXED_BY_V7
+tell me how much runtime is left,Cmd.BatteryLevel,8,0.1425032,42,0.1327945,27,0.1070885,False,Cmd.BatteryLevel,0.4409805,Help_MemoryOptions,0.08902722,Help_Customize,0.07189105,True,FIXED_BY_V7
+my grandkids sound like whispers,Cmd.VolumeIncrease,21,0.6789044,17,0.026652975,27,0.025695689,False,Cmd.VolumeIncrease,0.22301248,Help_DeviceSettings,0.10535848,Default Fallback Intent,0.095057525,True,FIXED_BY_V7
+what add-ons are compatible,Help_Accessories,29,0.25308025,23,0.2169453,28,0.08023648,False,Help_Accessories,0.4147566,Help_AppSettings,0.15146784,Help_DeviceSettings,0.12563543,True,FIXED_BY_V7
+how long have i been on my feet,Cmd.ActivityStand,6,0.26135993,7,0.097431235,5,0.07781512,False,Cmd.ActivityStand,0.2994882,Cmd.ActivityStep,0.18971677,Help_Health,0.07811899,True,FIXED_BY_V7
+how should i store my aids overnight,Help_CleanCare,32,0.2888495,21,0.16120408,26,0.12828638,False,Help_CleanCare,0.35617444,Help_FindMyHearingAids,0.18929833,Help_InsertDevice,0.12906349,True,FIXED_BY_V7
+are my aids running low,Cmd.BatteryLevel,29,0.2576035,8,0.20777534,24,0.069178626,False,Cmd.BatteryLevel,0.40390423,Help_DeviceSettings,0.21404354,Help_Battery,0.052591346,True,FIXED_BY_V7
+how do i change the speech focus,Help_Customize,40,0.20443422,11,0.17665406,25,0.10212856,False,Help_Customize,0.375225,Help_IntelliVoice,0.1569694,Help_ChangingMemories,0.064516746,True,FIXED_BY_V7
+how do i access my hearing aid programs?,Help_ChangingMemories,42,0.32577753,25,0.31213233,23,0.13357197,False,Help_ChangingMemories,0.5084066,Help_MemoryOptions,0.2251821,Help_AppSettings,0.10979482,True,FIXED_BY_V7
+reset the hearing aids,Default Fallback Intent,21,0.90990275,19,0.036365297,56,0.006614565,False,Default Fallback Intent,0.31796443,Cmd.VolumeMute,0.2551743,Cmd.VolumeUnmute,0.10791185,True,FIXED_BY_V7
+should i plug them in soon,Cmd.BatteryLevel,21,0.57632834,8,0.1263211,43,0.050427508,False,Cmd.BatteryLevel,0.39367428,Help_Pairing,0.13065016,Default Fallback Intent,0.08084735,True,FIXED_BY_V7
+fire off a text,Cmd.SendMessage,21,0.8869615,10,0.033336334,12,0.020032717,False,Cmd.SendMessage,0.24208331,Cmd.ListenMessage,0.18150406,Default Fallback Intent,0.16814806,True,FIXED_BY_V7
+how to wear my hearing aid correctly,Help_InsertDevice,21,0.69242686,39,0.06436646,41,0.051060762,False,Help_InsertDevice,0.37763622,Default Fallback Intent,0.34195808,Help_MaskMode,0.046209205,True,FIXED_BY_V7
+switch on translate mode,Cmd.TranslationStart,16,0.29104936,50,0.2126861,21,0.17308536,False,Cmd.TranslationStart,0.47148982,Help_Translate,0.20358804,Cmd.StreamingStart,0.06119033,True,FIXED_BY_V7
+personalise my listening experience,Help_Customize,11,0.45522985,18,0.09212079,42,0.0695309,False,Help_Customize,0.3940936,Cmd.MemoryChange,0.20446944,Cmd.VolumeIncrease,0.08268978,True,FIXED_BY_V7
+show my daily wellness rating,Help_ThriveScore,33,0.5416288,47,0.26076323,36,0.027363956,False,Help_ThriveScore,0.43535918,Help_Health,0.4126673,Help_HeartRate,0.026757687,True,FIXED_BY_V7
+where do i buy new batteries,Help_Battery,21,0.71924764,8,0.10200892,24,0.09866622,False,Help_Battery,0.4132981,Default Fallback Intent,0.32939228,Cmd.BatteryLevel,0.14211865,True,FIXED_BY_V7
+why can't i hear people in masks,Help_MaskMode,21,0.63035566,41,0.26558977,46,0.011162026,False,Help_MaskMode,0.5097703,Default Fallback Intent,0.28482977,Help_InsertDevice,0.018023899,True,FIXED_BY_V7
+how can i use my voice to do things,Help_VoiceAssistant,51,0.38056847,40,0.3132857,49,0.063359715,False,Help_VoiceAssistant,0.5216705,Help_IntelliVoice,0.25499174,Help_Transcribe,0.048554264,True,FIXED_BY_V7
+text a contact with my news,Cmd.SendMessage,21,0.9536484,12,0.02386498,10,0.0049639237,False,Cmd.SendMessage,0.6839454,Default Fallback Intent,0.18941063,Cmd.ListenMessage,0.028304592,True,FIXED_BY_V7
+i just walked into church,Cmd.MemoryChange,21,0.776622,11,0.15852693,7,0.004528726,False,Cmd.MemoryChange,0.7288074,Default Fallback Intent,0.14521842,Cmd.VolumeIncrease,0.00960448,True,FIXED_BY_V7
+what features are available,Help_Home,53,0.4610666,38,0.34864372,23,0.0434542,False,Help_Home,0.47751978,Help_WhatsNew,0.39155218,Help_AppSettings,0.025711766,True,FIXED_BY_V7
+fix the declining sound on my aids,Help_DeviceSettings,52,0.41400322,29,0.243485,48,0.14554232,False,Help_DeviceSettings,0.4050042,Help_Volume,0.34250435,Help_Tinnitus,0.105752565,True,FIXED_BY_V7
+point me in the right direction,Help_Home,21,0.93437153,38,0.0402317,53,0.001983237,False,Help_Home,0.56647086,Default Fallback Intent,0.33964857,Help_WhatsNew,0.011150838,True,FIXED_BY_V7
+cut all the sound,Cmd.VolumeMute,19,0.44708115,17,0.43589172,14,0.059517603,False,Cmd.VolumeMute,0.5187129,Cmd.VolumeDecrease,0.3821063,Cmd.StreamingStop,0.05945876,True,FIXED_BY_V7
+explain my recovery score,Help_HeartRateRecovery,37,0.61197925,47,0.2650813,33,0.012083847,False,Help_HeartRateRecovery,0.78420043,Help_ThriveScore,0.14820163,Help_Health,0.007694489,True,FIXED_BY_V7
+conversations are slipping past me,Cmd.VolumeIncrease,21,0.29283568,17,0.22550689,18,0.04277934,False,Cmd.VolumeIncrease,0.33752334,Cmd.VolumeDecrease,0.23497985,Help_DeviceSettings,0.074231006,True,FIXED_BY_V7
+connect with my hearing care professional,Help_HearingCareAnywhereConnect,45,0.7219486,35,0.17589153,51,0.012477931,False,Help_HearingCareAnywhereConnect,0.47959486,Help_RemoteProgramming,0.4326071,Help_VoiceAssistant,0.012825813,True,FIXED_BY_V7
+the sound is cutting in and out,Help_DeviceSettings,21,0.5016163,29,0.24745873,17,0.04223984,False,Help_DeviceSettings,0.64212716,Cmd.VolumeDecrease,0.078013465,Help_Customize,0.04735517,True,FIXED_BY_V7
+none of this makes sense to me,Help_Home,21,0.95496863,38,0.017344255,53,0.0020801895,False,Help_Home,0.44838527,Default Fallback Intent,0.38510925,Help_WhatsNew,0.018718215,True,FIXED_BY_V7
+too much wind noise outside,Help_EdgeMode,21,0.69674873,17,0.08516579,30,0.05127076,False,Help_EdgeMode,0.3930802,Cmd.VolumeDecrease,0.25390118,Cmd.MemoryChange,0.07517579,True,FIXED_BY_V7
+turn mute on,Cmd.VolumeMute,21,0.82697904,19,0.07544562,20,0.036488146,False,Cmd.VolumeMute,0.43595967,Cmd.VolumeUnmute,0.38152233,Default Fallback Intent,0.059365,True,FIXED_BY_V7
+notification settings for the app,Help_AppSettings,21,0.55865693,29,0.19915764,23,0.094010524,False,Help_AppSettings,0.31325716,Help_DeviceSettings,0.27969676,Default Fallback Intent,0.20588368,True,FIXED_BY_V7
+my body and brain score,Help_ThriveScore,21,0.8770977,47,0.095667094,11,0.0032213088,False,Help_ThriveScore,0.5270219,Default Fallback Intent,0.37719226,Cmd.MemoryChange,0.021133965,True,FIXED_BY_V7

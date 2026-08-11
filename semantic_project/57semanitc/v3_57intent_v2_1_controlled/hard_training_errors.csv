@@ -1,0 +1,416 @@
+text,intent,true_id,pred_id,true_intent,pred_intent,confidence
+can you activity goal,Cmd.ActivityAerobics,0,18,Cmd.ActivityAerobics,Cmd.VolumeIncrease,0.4043860137462616
+track my dance workout,Cmd.ActivityAerobics,0,3,Cmd.ActivityAerobics,Cmd.ActivityExercise,0.47430717945098877
+how many calories did i burn yesterday,Cmd.ActivityCalories,1,3,Cmd.ActivityCalories,Cmd.ActivityExercise,0.26614895462989807
+start a bike workout,Cmd.ActivityCycle,2,3,Cmd.ActivityCycle,Cmd.ActivityExercise,0.2910931408405304
+how many minutes have i been cycling,Cmd.ActivityCycle,2,4,Cmd.ActivityCycle,Cmd.ActivityRun,0.3890917897224426
+i'm heading out on the bike,Cmd.ActivityCycle,2,41,Cmd.ActivityCycle,Help_MaskMode,0.5691341757774353
+please have i biked an hour?,Cmd.ActivityCycle,2,5,Cmd.ActivityCycle,Cmd.ActivityStand,0.6300873160362244
+start logging my training,Cmd.ActivityExercise,3,4,Cmd.ActivityExercise,Cmd.ActivityRun,0.2238265424966812
+how long have i been exercising?,Cmd.ActivityExercise,3,2,Cmd.ActivityExercise,Cmd.ActivityCycle,0.39165377616882324
+how long have i danced,Cmd.ActivityExercise,3,2,Cmd.ActivityExercise,Cmd.ActivityCycle,0.5130090713500977
+how many minutes have i exercised this week,Cmd.ActivityExercise,3,4,Cmd.ActivityExercise,Cmd.ActivityRun,0.5652472972869873
+log this running workout,Cmd.ActivityRun,4,3,Cmd.ActivityRun,Cmd.ActivityExercise,0.30517691373825073
+begin a run,Cmd.ActivityRun,4,17,Cmd.ActivityRun,Cmd.VolumeDecrease,0.31309905648231506
+begin my running workout,Cmd.ActivityRun,4,7,Cmd.ActivityRun,Cmd.ActivityWalk,0.31351953744888306
+record the miles i ran,Cmd.ActivityRun,4,18,Cmd.ActivityRun,Cmd.VolumeIncrease,0.42694753408432007
+how far have i ran?,Cmd.ActivityRun,4,2,Cmd.ActivityRun,Cmd.ActivityCycle,0.4746576249599457
+how many calories have i burned while running?,Cmd.ActivityRun,4,1,Cmd.ActivityRun,Cmd.ActivityCalories,0.48604804277420044
+am i meeting my stand goal,Cmd.ActivityStand,5,3,Cmd.ActivityStand,Cmd.ActivityExercise,0.4527975916862488
+how am i doing on steps,Cmd.ActivityStep,6,50,Cmd.ActivityStep,Help_Translate,0.14507262408733368
+can you calories steps,Cmd.ActivityStep,6,1,Cmd.ActivityStep,Cmd.ActivityCalories,0.5235068202018738
+start tracking this stroll,Cmd.ActivityWalk,7,4,Cmd.ActivityWalk,Cmd.ActivityRun,0.3990000784397125
+can i get through today?,Cmd.BatteryLevel,8,22,Cmd.BatteryLevel,Help_Accessories,0.23287338018417358
+how charged are my aids,Cmd.BatteryLevel,8,32,Cmd.BatteryLevel,Help_FindMyHearingAids,0.27931883931159973
+how much life is left in the hearing aid batteries,Cmd.BatteryLevel,8,24,Cmd.BatteryLevel,Help_Battery,0.39155861735343933
+what percentage remains?,Cmd.BatteryLevel,8,21,Cmd.BatteryLevel,Default Fallback Intent,0.4500594735145569
+what's the condition of my batteries,Cmd.BatteryLevel,8,24,Cmd.BatteryLevel,Help_Battery,0.45812612771987915
+how long will the battery last,Cmd.BatteryLevel,8,24,Cmd.BatteryLevel,Help_Battery,0.47514447569847107
+will they survive the evening?,Cmd.BatteryLevel,8,21,Cmd.BatteryLevel,Default Fallback Intent,0.5198642611503601
+is it time to change my batteries,Cmd.BatteryLevel,8,24,Cmd.BatteryLevel,Help_Battery,0.5543992519378662
+have i got enough battery for the day,Cmd.BatteryLevel,8,24,Cmd.BatteryLevel,Help_Battery,0.5548083782196045
+how many hours of charge remain,Cmd.BatteryLevel,8,21,Cmd.BatteryLevel,Default Fallback Intent,0.5793820023536682
+misplaced telephone,Cmd.FindMyPhone,9,5,Cmd.FindMyPhone,Cmd.ActivityStand,0.20037899911403656
+track down my mobile,Cmd.FindMyPhone,9,4,Cmd.FindMyPhone,Cmd.ActivityRun,0.21547435224056244
+can you recover iphone,Cmd.FindMyPhone,9,21,Cmd.FindMyPhone,Default Fallback Intent,0.436708927154541
+find my cell for me,Cmd.FindMyPhone,9,21,Cmd.FindMyPhone,Default Fallback Intent,0.51589435338974
+can you listen again.,Cmd.ListenMessage,10,21,Cmd.ListenMessage,Default Fallback Intent,0.3884311020374298
+can you let me hear it.,Cmd.ListenMessage,10,20,Cmd.ListenMessage,Cmd.VolumeUnmute,0.39259639382362366
+apply wind noise reduction,Cmd.MemoryChange,11,18,Cmd.MemoryChange,Cmd.VolumeIncrease,0.16333582997322083
+set my aids for a party,Cmd.MemoryChange,11,12,Cmd.MemoryChange,Cmd.SendMessage,0.16980652511119843
+set my aids for a noisy party,Cmd.MemoryChange,11,40,Cmd.MemoryChange,Help_IntelliVoice,0.17610697448253632
+dial in the mode for traffic noise,Cmd.MemoryChange,11,35,Cmd.MemoryChange,Help_HearingCareAnywhereConnect,0.19513332843780518
+set the hearing aids differently,Cmd.MemoryChange,11,29,Cmd.MemoryChange,Help_DeviceSettings,0.21691517531871796
+i'm in a big echoey room now,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.23168055713176727
+help me hear better in this crowd,Cmd.MemoryChange,11,55,Cmd.MemoryChange,reminders.add,0.251666396856308
+activate the noisy environment setting,Cmd.MemoryChange,11,10,Cmd.MemoryChange,Cmd.ListenMessage,0.26051196455955505
+use a different listening setup,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.2778022587299347
+adjust my aids for this loud place,Cmd.MemoryChange,11,53,Cmd.MemoryChange,Help_WhatsNew,0.28291836380958557
+this setting doesn't suit this place,Cmd.MemoryChange,11,38,Cmd.MemoryChange,Help_Home,0.32342633605003357
+i'm outdoors now,Cmd.MemoryChange,11,13,Cmd.MemoryChange,Cmd.StreamingStart,0.34719884395599365
+load my driving profile,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.37236928939819336
+i'm at the gym now,Cmd.MemoryChange,11,56,Cmd.MemoryChange,reminders.complete,0.4386238753795624
+set my hearing for a busy street,Cmd.MemoryChange,11,55,Cmd.MemoryChange,reminders.add,0.4531594216823578
+i'm in the car now,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.4609098434448242
+please go to meeting,Cmd.MemoryChange,11,15,Cmd.MemoryChange,Cmd.TranscribeStart,0.5368905067443848
+i just sat down somewhere really loud,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.5376984477043152
+can you go to meeting,Cmd.MemoryChange,11,15,Cmd.MemoryChange,Cmd.TranscribeStart,0.5396426320075989
+select a different memory,Cmd.MemoryChange,11,42,Cmd.MemoryChange,Help_MemoryOptions,0.5905893445014954
+choose a different memory,Cmd.MemoryChange,11,42,Cmd.MemoryChange,Help_MemoryOptions,0.5905893445014954
+i'm about to join a phone call,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.6068209409713745
+use the outdoor profile,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.6418574452400208
+i just took a seat in a noisy cafe,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.6727716326713562
+i'm now seated in a loud coffee shop,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.7125765085220337
+i'm settling in for tv time,Cmd.MemoryChange,11,13,Cmd.MemoryChange,Cmd.StreamingStart,0.7215710282325745
+i'm getting in the car now,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.7323911786079407
+mask mode,Cmd.MemoryChange,11,41,Cmd.MemoryChange,Help_MaskMode,0.7918080687522888
+set it up for a concert hall,Cmd.MemoryChange,11,21,Cmd.MemoryChange,Default Fallback Intent,0.8583759069442749
+tell my son i said hello,Cmd.SendMessage,12,6,Cmd.SendMessage,Cmd.ActivityStep,0.13923931121826172
+let someone know i am running late,Cmd.SendMessage,12,21,Cmd.SendMessage,Default Fallback Intent,0.3420393764972687
+let my friend know i'm on my way,Cmd.SendMessage,12,10,Cmd.SendMessage,Cmd.ListenMessage,0.37845271825790405
+message my husband,Cmd.SendMessage,12,10,Cmd.SendMessage,Cmd.ListenMessage,0.5904327630996704
+wireless hearing aid connection,Cmd.StreamingStart,13,43,Cmd.StreamingStart,Help_Pairing,0.19535911083221436
+use the audio streamer,Cmd.StreamingStart,13,14,Cmd.StreamingStart,Cmd.StreamingStop,0.24191179871559143
+transmit the sound wirelessly,Cmd.StreamingStart,13,18,Cmd.StreamingStart,Cmd.VolumeIncrease,0.3007374107837677
+use hearing aid streaming,Cmd.StreamingStart,13,46,Cmd.StreamingStart,Help_SelfCheck,0.3031104803085327
+i want direct audio,Cmd.StreamingStart,13,19,Cmd.StreamingStart,Cmd.VolumeMute,0.35328713059425354
+stream the phone call,Cmd.StreamingStart,13,14,Cmd.StreamingStart,Cmd.StreamingStop,0.3830256462097168
+tv steam,Cmd.StreamingStart,13,21,Cmd.StreamingStart,Default Fallback Intent,0.41023361682891846
+stream the podcast,Cmd.StreamingStart,13,14,Cmd.StreamingStart,Cmd.StreamingStop,0.4784136414527893
+send the sound to my aids,Cmd.StreamingStart,13,20,Cmd.StreamingStart,Cmd.VolumeUnmute,0.49026450514793396
+stream from the microphone,Cmd.StreamingStart,13,14,Cmd.StreamingStart,Cmd.StreamingStop,0.5147222876548767
+turn streaming on,Cmd.StreamingStart,13,14,Cmd.StreamingStart,Cmd.StreamingStop,0.5410030484199524
+stream the music,Cmd.StreamingStart,13,14,Cmd.StreamingStart,Cmd.StreamingStop,0.5624836087226868
+play the audio directly in my ears,Cmd.StreamingStart,13,19,Cmd.StreamingStart,Cmd.VolumeMute,0.5687432289123535
+can you play the microphone,Cmd.StreamingStart,13,10,Cmd.StreamingStart,Cmd.ListenMessage,0.6072163581848145
+can you stream from the remote mic,Cmd.StreamingStart,13,22,Cmd.StreamingStart,Help_Accessories,0.6417000889778137
+shut off the streamed sound,Cmd.StreamingStop,14,19,Cmd.StreamingStop,Cmd.VolumeMute,0.23214808106422424
+i'm done with the stream,Cmd.StreamingStop,14,13,Cmd.StreamingStop,Cmd.StreamingStart,0.4510863423347473
+cut the tv connection to my aids,Cmd.StreamingStop,14,13,Cmd.StreamingStop,Cmd.StreamingStart,0.614274263381958
+i'm finished listening to the stream,Cmd.StreamingStop,14,13,Cmd.StreamingStop,Cmd.StreamingStart,0.7849131226539612
+turn speech into text,Cmd.TranscribeStart,15,9,Cmd.TranscribeStart,Cmd.FindMyPhone,0.25037795305252075
+start captioning,Cmd.TranscribeStart,15,21,Cmd.TranscribeStart,Default Fallback Intent,0.3066634237766266
+open transcription,Cmd.TranscribeStart,15,18,Cmd.TranscribeStart,Cmd.VolumeIncrease,0.3404501676559448
+what is good morning in russian,Cmd.TranslationStart,16,17,Cmd.TranslationStart,Cmd.VolumeDecrease,0.18010631203651428
+start translating what they say,Cmd.TranslationStart,16,15,Cmd.TranslationStart,Cmd.TranscribeStart,0.2678408622741699
+they don't speak english help me understand them,Cmd.TranslationStart,16,21,Cmd.TranslationStart,Default Fallback Intent,0.27285194396972656
+tell me what how much do i owe you is in español,Cmd.TranslationStart,16,21,Cmd.TranslationStart,Default Fallback Intent,0.4389297068119049
+please translate for russian,Cmd.TranslationStart,16,50,Cmd.TranslationStart,Help_Translate,0.45439794659614563
+i can't understand this foreign language,Cmd.TranslationStart,16,21,Cmd.TranslationStart,Default Fallback Intent,0.45514801144599915
+i can't take how loud this is,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.1588836908340454
+my ears are taking a beating,Cmd.VolumeDecrease,17,8,Cmd.VolumeDecrease,Cmd.BatteryLevel,0.19944031536579132
+quiet it please,Cmd.VolumeDecrease,17,21,Cmd.VolumeDecrease,Default Fallback Intent,0.2136450558900833
+muffle it a bit,Cmd.VolumeDecrease,17,21,Cmd.VolumeDecrease,Default Fallback Intent,0.26707565784454346
+can you soften things a little?,Cmd.VolumeDecrease,17,21,Cmd.VolumeDecrease,Default Fallback Intent,0.28381145000457764
+can you min sound,Cmd.VolumeDecrease,17,19,Cmd.VolumeDecrease,Cmd.VolumeMute,0.3031426668167114
+make it softer please,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.304121196269989
+quiet my hearing aids,Cmd.VolumeDecrease,17,19,Cmd.VolumeDecrease,Cmd.VolumeMute,0.3092043995857239
+everything is coming in too hot,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.31381160020828247
+make the sound quieter,Cmd.VolumeDecrease,17,20,Cmd.VolumeDecrease,Cmd.VolumeUnmute,0.3211402893066406
+please quiet my hearing aids,Cmd.VolumeDecrease,17,19,Cmd.VolumeDecrease,Cmd.VolumeMute,0.3791603744029999
+give me a little quiet,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.3839923143386841
+drop the sound in my hearing aid,Cmd.VolumeDecrease,17,19,Cmd.VolumeDecrease,Cmd.VolumeMute,0.3940260410308838
+please make the hearing aids quieter,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.39821651577949524
+can you make sound quieter,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.41673266887664795
+gentle on the volume,Cmd.VolumeDecrease,17,20,Cmd.VolumeDecrease,Cmd.VolumeUnmute,0.45289069414138794
+decrease volume in my hearing aids,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.47144079208374023
+get that volume out of my ear,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.47279074788093567
+can you make volume lower,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.4887261390686035
+speech is too sharp,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.5100683569908142
+this is blasting my eardrums,Cmd.VolumeDecrease,17,21,Cmd.VolumeDecrease,Default Fallback Intent,0.6387518644332886
+hush it up,Cmd.VolumeDecrease,17,18,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.6858757138252258
+i keep missing words,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.23230747878551483
+i'm struggling to hear people,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.2342991828918457
+i need stronger audio,Cmd.VolumeIncrease,18,19,Cmd.VolumeIncrease,Cmd.VolumeMute,0.2705640494823456
+the sound isn't strong enough,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.2847086191177368
+people sound far away,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.29186704754829407
+help me hear better,Cmd.VolumeIncrease,18,15,Cmd.VolumeIncrease,Cmd.TranscribeStart,0.31829264760017395
+make voices stand out more,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.32976260781288147
+boost the sound a little,Cmd.VolumeIncrease,18,20,Cmd.VolumeIncrease,Cmd.VolumeUnmute,0.34180325269699097
+can you maximum sound,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.3505864441394806
+i have to ask people to repeat themselves,Cmd.VolumeIncrease,18,10,Cmd.VolumeIncrease,Cmd.ListenMessage,0.36204245686531067
+i can't hear the speaker well,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.3692706525325775
+please turn my right hearing aid up,Cmd.VolumeIncrease,18,46,Cmd.VolumeIncrease,Help_SelfCheck,0.39488551020622253
+the tv is on but i miss what they say,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.4312368929386139
+louder please,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.44054412841796875
+i'm missing half the conversation,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.4442145526409149
+please more volume on hearing aid,Cmd.VolumeIncrease,18,20,Cmd.VolumeIncrease,Cmd.VolumeUnmute,0.461009681224823
+can you increase the left hearing aid,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.46546730399131775
+increase what i'm hearing,Cmd.VolumeIncrease,18,15,Cmd.VolumeIncrease,Cmd.TranscribeStart,0.4875621497631073
+max sound,Cmd.VolumeIncrease,18,20,Cmd.VolumeIncrease,Cmd.VolumeUnmute,0.5024887919425964
+the volume is too low,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.5068362355232239
+amplify things for me,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.5113654732704163
+everything is too low,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.5342258214950562
+the voices are hard to hear,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.5378167629241943
+increase how loud it is,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.5679939389228821
+this is barely audible,Cmd.VolumeIncrease,18,21,Cmd.VolumeIncrease,Default Fallback Intent,0.6336581707000732
+the sound is too low,Cmd.VolumeIncrease,18,17,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.6688294410705566
+i need complete silence now,Cmd.VolumeMute,19,20,Cmd.VolumeMute,Cmd.VolumeUnmute,0.21057827770709991
+take everything to silence,Cmd.VolumeMute,19,18,Cmd.VolumeMute,Cmd.VolumeIncrease,0.2518557012081146
+stop all audio,Cmd.VolumeMute,19,14,Cmd.VolumeMute,Cmd.StreamingStop,0.26289206743240356
+can you silence,Cmd.VolumeMute,19,15,Cmd.VolumeMute,Cmd.TranscribeStart,0.277333527803421
+silence,Cmd.VolumeMute,19,18,Cmd.VolumeMute,Cmd.VolumeIncrease,0.28348037600517273
+mute it entirely,Cmd.VolumeMute,19,21,Cmd.VolumeMute,Default Fallback Intent,0.30148643255233765
+mute right now,Cmd.VolumeMute,19,20,Cmd.VolumeMute,Cmd.VolumeUnmute,0.37285059690475464
+mute,Cmd.VolumeMute,19,20,Cmd.VolumeMute,Cmd.VolumeUnmute,0.4568098187446594
+zero volume please,Cmd.VolumeMute,19,18,Cmd.VolumeMute,Cmd.VolumeIncrease,0.607536792755127
+can you mute on,Cmd.VolumeMute,19,20,Cmd.VolumeMute,Cmd.VolumeUnmute,0.626693844795227
+enable right hearing aid,Cmd.VolumeUnmute,20,19,Cmd.VolumeUnmute,Cmd.VolumeMute,0.20146146416664124
+return the sound to my aids,Cmd.VolumeUnmute,20,19,Cmd.VolumeUnmute,Cmd.VolumeMute,0.33681604266166687
+mute off,Cmd.VolumeUnmute,20,19,Cmd.VolumeUnmute,Cmd.VolumeMute,0.43638038635253906
+can you turn mute off,Cmd.VolumeUnmute,20,19,Cmd.VolumeUnmute,Cmd.VolumeMute,0.4779852628707886
+please turn mute off,Cmd.VolumeUnmute,20,19,Cmd.VolumeUnmute,Cmd.VolumeMute,0.6391444802284241
+alexa,Default Fallback Intent,21,16,Default Fallback Intent,Cmd.TranslationStart,0.10355208814144135
+how do i connect alexa,Default Fallback Intent,21,42,Default Fallback Intent,Help_MemoryOptions,0.13213185966014862
+how do i stop my phone ringing in my,Default Fallback Intent,21,39,Default Fallback Intent,Help_InsertDevice,0.13562753796577454
+i need help,Default Fallback Intent,21,51,Default Fallback Intent,Help_VoiceAssistant,0.1424279659986496
+how do i stop pandora from playing on my hearing aids,Default Fallback Intent,21,22,Default Fallback Intent,Help_Accessories,0.1483217030763626
+how to use streamboost,Default Fallback Intent,21,40,Default Fallback Intent,Help_IntelliVoice,0.1500578671693802
+how do i tie my shoes,Default Fallback Intent,21,33,Default Fallback Intent,Help_Health,0.15603744983673096
+since you're coming up pretty soon,Default Fallback Intent,21,18,Default Fallback Intent,Cmd.VolumeIncrease,0.16326788067817688
+what is my location,Default Fallback Intent,21,0,Default Fallback Intent,Cmd.ActivityAerobics,0.16459068655967712
+hello again,Default Fallback Intent,21,9,Default Fallback Intent,Cmd.FindMyPhone,0.16517987847328186
+help me please,Default Fallback Intent,21,49,Default Fallback Intent,Help_Transcribe,0.16612303256988525
+please not screaming loud enough,Default Fallback Intent,21,17,Default Fallback Intent,Cmd.VolumeDecrease,0.16963039338588715
+i'm up,Default Fallback Intent,21,0,Default Fallback Intent,Cmd.ActivityAerobics,0.17273786664009094
+how to connect my spies,Default Fallback Intent,21,2,Default Fallback Intent,Cmd.ActivityCycle,0.17621049284934998
+how do i activate the default settings on the hearing aids,Default Fallback Intent,21,45,Default Fallback Intent,Help_RemoteProgramming,0.17892102897167206
+can you since you're coming up pretty soon,Default Fallback Intent,21,26,Default Fallback Intent,Help_CleanCare,0.1876952350139618
+how often should somebody exercise every week,Default Fallback Intent,21,2,Default Fallback Intent,Cmd.ActivityCycle,0.18832604587078094
+so she had it up when i come home,Default Fallback Intent,21,24,Default Fallback Intent,Help_Battery,0.20090271532535553
+what can i ask?,Default Fallback Intent,21,38,Default Fallback Intent,Help_Home,0.20107026398181915
+how do i turn my hearing a song.,Default Fallback Intent,21,34,Default Fallback Intent,Help_HearShare,0.20190668106079102
+i need to program new stamping to my phone,Default Fallback Intent,21,42,Default Fallback Intent,Help_MemoryOptions,0.20214031636714935
+adjusted with my phone,Default Fallback Intent,21,33,Default Fallback Intent,Help_Health,0.2024727314710617
+please locate my wife,Default Fallback Intent,21,11,Default Fallback Intent,Cmd.MemoryChange,0.20495347678661346
+can you wednesday,Default Fallback Intent,21,20,Default Fallback Intent,Cmd.VolumeUnmute,0.20588453114032745
+adidas women boots,Default Fallback Intent,21,9,Default Fallback Intent,Cmd.FindMyPhone,0.20606400072574615
+how do i set up the automatic car memory,Default Fallback Intent,21,42,Default Fallback Intent,Help_MemoryOptions,0.20618121325969696
+hearing aids,Default Fallback Intent,21,46,Default Fallback Intent,Help_SelfCheck,0.2101997584104538
+alexa learn my voice,Default Fallback Intent,21,40,Default Fallback Intent,Help_IntelliVoice,0.21115100383758545
+who won the game last night,Default Fallback Intent,21,26,Default Fallback Intent,Help_CleanCare,0.21344761550426483
+right on,Default Fallback Intent,21,20,Default Fallback Intent,Cmd.VolumeUnmute,0.2137775868177414
+why would i need to worry about health guidelines,Default Fallback Intent,21,45,Default Fallback Intent,Help_RemoteProgramming,0.2140503227710724
+i'm walking and they didn't working,Default Fallback Intent,21,7,Default Fallback Intent,Cmd.ActivityWalk,0.21579529345035553
+she keeps talking to me,Default Fallback Intent,21,10,Default Fallback Intent,Cmd.ListenMessage,0.21972645819187164
+please the left hearing aid,Default Fallback Intent,21,19,Default Fallback Intent,Cmd.VolumeMute,0.2202645093202591
+"can you hello, just a hearing aid the volume on my hearing aids. bye. bye.",Default Fallback Intent,21,39,Default Fallback Intent,Help_InsertDevice,0.22563965618610382
+friday,Default Fallback Intent,21,8,Default Fallback Intent,Cmd.BatteryLevel,0.22674711048603058
+sunday,Default Fallback Intent,21,18,Default Fallback Intent,Cmd.VolumeIncrease,0.23915116488933563
+yeah just take a little off yeah,Default Fallback Intent,21,47,Default Fallback Intent,Help_ThriveScore,0.24133212864398956
+can you the left hearing aid,Default Fallback Intent,21,20,Default Fallback Intent,Cmd.VolumeUnmute,0.24301597476005554
+how do i open the data log,Default Fallback Intent,21,52,Default Fallback Intent,Help_Volume,0.24652045965194702
+siri,Default Fallback Intent,21,51,Default Fallback Intent,Help_VoiceAssistant,0.24966633319854736
+how do i relax at home,Default Fallback Intent,21,22,Default Fallback Intent,Help_Accessories,0.25193697214126587
+right,Default Fallback Intent,21,55,Default Fallback Intent,reminders.add,0.2536383271217346
+monthly,Default Fallback Intent,21,10,Default Fallback Intent,Cmd.ListenMessage,0.25367429852485657
+what should i see when i'm there,Default Fallback Intent,21,38,Default Fallback Intent,Help_Home,0.25388407707214355
+please saab wanted control,Default Fallback Intent,21,54,Default Fallback Intent,Help_WiCROS,0.2580747604370117
+to us number one hits,Default Fallback Intent,21,11,Default Fallback Intent,Cmd.MemoryChange,0.2619812786579132
+i can't hear you my left hearing aid does not show up on my,Default Fallback Intent,21,46,Default Fallback Intent,Help_SelfCheck,0.26511842012405396
+"hello, just a hearing aid the volume on my hearing aids. bye. bye.",Default Fallback Intent,21,39,Default Fallback Intent,Help_InsertDevice,0.2686837911605835
+that works to change it,Default Fallback Intent,21,11,Default Fallback Intent,Cmd.MemoryChange,0.2708708345890045
+just like siri,Default Fallback Intent,21,8,Default Fallback Intent,Cmd.BatteryLevel,0.27126991748809814
+what's the difference between an iphone and an android phone,Default Fallback Intent,21,53,Default Fallback Intent,Help_WhatsNew,0.27392610907554626
+locate my wife,Default Fallback Intent,21,12,Default Fallback Intent,Cmd.SendMessage,0.2752259075641632
+can you open it up,Default Fallback Intent,21,18,Default Fallback Intent,Cmd.VolumeIncrease,0.27826282382011414
+can you sound bar,Default Fallback Intent,21,20,Default Fallback Intent,Cmd.VolumeUnmute,0.2805013656616211
+federal assistance up to my energy,Default Fallback Intent,21,10,Default Fallback Intent,Cmd.ListenMessage,0.28271496295928955
+pandora,Default Fallback Intent,21,15,Default Fallback Intent,Cmd.TranscribeStart,0.2857531011104584
+could you help me,Default Fallback Intent,21,32,Default Fallback Intent,Help_FindMyHearingAids,0.28656044602394104
+hearing aid device settings,Default Fallback Intent,21,42,Default Fallback Intent,Help_MemoryOptions,0.28785863518714905
+where can i find brain activity,Default Fallback Intent,21,49,Default Fallback Intent,Help_Transcribe,0.28857484459877014
+can you the microphone,Default Fallback Intent,21,13,Default Fallback Intent,Cmd.StreamingStart,0.2886197566986084
+i want to turn on the right stream boost,Default Fallback Intent,21,13,Default Fallback Intent,Cmd.StreamingStart,0.289509654045105
+is my sign,Default Fallback Intent,21,9,Default Fallback Intent,Cmd.FindMyPhone,0.2906310260295868
+bye,Default Fallback Intent,21,15,Default Fallback Intent,Cmd.TranscribeStart,0.29077208042144775
+what do i do to get my right,Default Fallback Intent,21,22,Default Fallback Intent,Help_Accessories,0.2910833954811096
+why won't the hearing aids?,Default Fallback Intent,21,43,Default Fallback Intent,Help_Pairing,0.2948814928531647
+what did you say,Default Fallback Intent,21,16,Default Fallback Intent,Cmd.TranslationStart,0.29542461037635803
+the microphone,Default Fallback Intent,21,13,Default Fallback Intent,Cmd.StreamingStart,0.29679369926452637
+can you she goes,Default Fallback Intent,21,3,Default Fallback Intent,Cmd.ActivityExercise,0.29704350233078003
+so where is brewster,Default Fallback Intent,21,15,Default Fallback Intent,Cmd.TranscribeStart,0.2985941767692566
+give me a recipe for dinner,Default Fallback Intent,21,18,Default Fallback Intent,Cmd.VolumeIncrease,0.29923415184020996
+wednesday,Default Fallback Intent,21,9,Default Fallback Intent,Cmd.FindMyPhone,0.3024906516075134
+ask my house,Default Fallback Intent,21,0,Default Fallback Intent,Cmd.ActivityAerobics,0.30535972118377686
+write a program in switch,Default Fallback Intent,21,11,Default Fallback Intent,Cmd.MemoryChange,0.30713003873825073
+where can i get my hearing checked,Default Fallback Intent,21,27,Default Fallback Intent,Help_Customize,0.3074260652065277
+turn off alarm,Default Fallback Intent,21,17,Default Fallback Intent,Cmd.VolumeDecrease,0.3089592754840851
+thanks for changing,Default Fallback Intent,21,9,Default Fallback Intent,Cmd.FindMyPhone,0.31253936886787415
+please thanks for changing,Default Fallback Intent,21,9,Default Fallback Intent,Cmd.FindMyPhone,0.31429368257522583
+please he forgot them and you need them let me know if i have a free afternoon i can drive over,Default Fallback Intent,21,50,Default Fallback Intent,Help_Translate,0.317716509103775
+can you so where is brewster,Default Fallback Intent,21,15,Default Fallback Intent,Cmd.TranscribeStart,0.31817305088043213
+explain the accessory options,Help_Accessories,22,38,Help_Accessories,Help_Home,0.266130656003952
+what hardware can i add,Help_Accessories,22,29,Help_Accessories,Help_DeviceSettings,0.30617859959602356
+what gadgets are compatible,Help_Accessories,22,21,Help_Accessories,Default Fallback Intent,0.347612589597702
+how do i adjust the volume on my accessories?,Help_Accessories,22,52,Help_Accessories,Help_Volume,0.6442099213600159
+how do i adjust the volume on my accessory?,Help_Accessories,22,52,Help_Accessories,Help_Volume,0.7862388491630554
+where do i manage app options,Help_AppSettings,23,27,Help_AppSettings,Help_Customize,0.2774701714515686
+can i switch back after i change the mode?,Help_AppSettings,23,29,Help_AppSettings,Help_DeviceSettings,0.539715051651001
+my hearing aid won't charge,Help_Battery,24,8,Help_Battery,Cmd.BatteryLevel,0.28612077236175537
+the charger isn't working,Help_Battery,24,21,Help_Battery,Default Fallback Intent,0.7731600403785706
+how do i move between settings,Help_ChangingMemories,25,23,Help_ChangingMemories,Help_AppSettings,0.25253695249557495
+what's the way to change my program,Help_ChangingMemories,25,11,Help_ChangingMemories,Cmd.MemoryChange,0.31460583209991455
+do i have a normal memory,Help_ChangingMemories,25,42,Help_ChangingMemories,Help_MemoryOptions,0.36660563945770264
+what memory and i currently in?,Help_ChangingMemories,25,42,Help_ChangingMemories,Help_MemoryOptions,0.37944117188453674
+what's the way to change between settings,Help_ChangingMemories,25,23,Help_ChangingMemories,Help_AppSettings,0.4057069420814514
+please where's the button for memory?,Help_ChangingMemories,25,11,Help_ChangingMemories,Cmd.MemoryChange,0.4746984541416168
+can i go to a different program?,Help_ChangingMemories,25,42,Help_ChangingMemories,Help_MemoryOptions,0.4862852990627289
+where's the button for memory?,Help_ChangingMemories,25,11,Help_ChangingMemories,Cmd.MemoryChange,0.4863663911819458
+please where's the memory button?,Help_ChangingMemories,25,11,Help_ChangingMemories,Cmd.MemoryChange,0.5450490713119507
+can you memory button,Help_ChangingMemories,25,11,Help_ChangingMemories,Cmd.MemoryChange,0.6920927166938782
+can i go to a different hearing aid memory?,Help_ChangingMemories,25,42,Help_ChangingMemories,Help_MemoryOptions,0.8160475492477417
+cleaning and care help,Help_CleanCare,26,35,Help_CleanCare,Help_HearingCareAnywhereConnect,0.3439944088459015
+how do i look after my hearing aids,Help_CleanCare,26,29,Help_CleanCare,Help_DeviceSettings,0.3477696180343628
+tips for cleaning my aids,Help_CleanCare,26,50,Help_CleanCare,Help_Translate,0.3540860116481781
+where is the equalizer,Help_Customize,27,25,Help_Customize,Help_ChangingMemories,0.1657029539346695
+can you my hearing aids have too much treble,Help_Customize,27,29,Help_Customize,Help_DeviceSettings,0.2004462480545044
+how do i increase the bass,Help_Customize,27,52,Help_Customize,Help_Volume,0.23385106027126312
+how do i use the equalizer,Help_Customize,27,29,Help_Customize,Help_DeviceSettings,0.34236934781074524
+can i adjust settings for my taste,Help_Customize,27,45,Help_Customize,Help_RemoteProgramming,0.3503972291946411
+can i use the equalizer to customize my memory,Help_Customize,27,42,Help_Customize,Help_MemoryOptions,0.3736667037010193
+where do i tweak my sound settings,Help_Customize,27,23,Help_Customize,Help_AppSettings,0.4215437173843384
+give me a demonstration,Help_DemoMode,28,12,Help_DemoMode,Cmd.SendMessage,0.3353918492794037
+beep change,Help_DeviceSettings,29,8,Help_DeviceSettings,Cmd.BatteryLevel,0.17430992424488068
+can you beep change,Help_DeviceSettings,29,11,Help_DeviceSettings,Cmd.MemoryChange,0.21831078827381134
+how do i enable the auto car feature,Help_DeviceSettings,29,21,Help_DeviceSettings,Default Fallback Intent,0.2265615016222
+how do i activate default setting on the hearing aids,Help_DeviceSettings,29,27,Help_DeviceSettings,Help_Customize,0.25717049837112427
+help me fix my aid settings,Help_DeviceSettings,29,27,Help_DeviceSettings,Help_Customize,0.2696097791194916
+how do i switch to a different memory when streaming,Help_DeviceSettings,29,42,Help_DeviceSettings,Help_MemoryOptions,0.269780695438385
+can i activate default setting on the hearing aids,Help_DeviceSettings,29,39,Help_DeviceSettings,Help_InsertDevice,0.27255478501319885
+my hearing aids keep cutting out,Help_DeviceSettings,29,46,Help_DeviceSettings,Help_SelfCheck,0.277892142534256
+how do i change options for notification on my hearing aid?,Help_DeviceSettings,29,21,Help_DeviceSettings,Default Fallback Intent,0.2805371880531311
+can you find the product name hearing aids starkly,Help_DeviceSettings,29,21,Help_DeviceSettings,Default Fallback Intent,0.2848791778087616
+please help with device settings,Help_DeviceSettings,29,23,Help_DeviceSettings,Help_AppSettings,0.2849918007850647
+please i need help with my settings,Help_DeviceSettings,29,23,Help_DeviceSettings,Help_AppSettings,0.2991560399532318
+sort out my device audio,Help_DeviceSettings,29,2,Help_DeviceSettings,Cmd.ActivityCycle,0.3146510422229767
+help with device settings,Help_DeviceSettings,29,42,Help_DeviceSettings,Help_MemoryOptions,0.3257940709590912
+my aids keep glitching,Help_DeviceSettings,29,26,Help_DeviceSettings,Help_CleanCare,0.3394952416419983
+i need help with my settings,Help_DeviceSettings,29,23,Help_DeviceSettings,Help_AppSettings,0.3830222189426422
+please find the product name hearing aids starkly,Help_DeviceSettings,29,21,Help_DeviceSettings,Default Fallback Intent,0.39523735642433167
+how do i change tone?,Help_DeviceSettings,29,25,Help_DeviceSettings,Help_ChangingMemories,0.3984246551990509
+how do i add an automatic phone program?,Help_DeviceSettings,29,25,Help_DeviceSettings,Help_ChangingMemories,0.42354023456573486
+how do i change the automatic settings?,Help_DeviceSettings,29,23,Help_DeviceSettings,Help_AppSettings,0.4388980269432068
+how do i set up auto streaming,Help_DeviceSettings,29,22,Help_DeviceSettings,Help_Accessories,0.45206907391548157
+troubleshoot my hearing aid sound,Help_DeviceSettings,29,20,Help_DeviceSettings,Cmd.VolumeUnmute,0.4626748561859131
+can you tone change,Help_DeviceSettings,29,11,Help_DeviceSettings,Cmd.MemoryChange,0.5224133133888245
+can you i need help with my settings,Help_DeviceSettings,29,45,Help_DeviceSettings,Help_RemoteProgramming,0.5353837013244629
+how do i fix poor sound quality,Help_DeviceSettings,29,27,Help_DeviceSettings,Help_Customize,0.6317620277404785
+there's too much wind noise what setting helps,Help_EdgeMode,30,17,Help_EdgeMode,Cmd.VolumeDecrease,0.14781123399734497
+will it notice if i take a tumble,Help_FallAlert,31,21,Help_FallAlert,Default Fallback Intent,0.32335740327835083
+how can the app help me find my aids,Help_FindMyHearingAids,32,23,Help_FindMyHearingAids,Help_AppSettings,0.2536993622779846
+help me track them,Help_FindMyHearingAids,32,50,Help_FindMyHearingAids,Help_Translate,0.26262447237968445
+show me where they are,Help_FindMyHearingAids,32,21,Help_FindMyHearingAids,Default Fallback Intent,0.2818286716938019
+show the last known location of my aids,Help_FindMyHearingAids,32,26,Help_FindMyHearingAids,Help_CleanCare,0.32081058621406555
+how do i search for my hearing aids in the app,Help_FindMyHearingAids,32,43,Help_FindMyHearingAids,Help_Pairing,0.33248370885849
+help me locate one device,Help_FindMyHearingAids,32,48,Help_FindMyHearingAids,Help_Tinnitus,0.3794616758823395
+help me recover them,Help_FindMyHearingAids,32,21,Help_FindMyHearingAids,Default Fallback Intent,0.3853549361228943
+locate my missing earpiece,Help_FindMyHearingAids,32,9,Help_FindMyHearingAids,Cmd.FindMyPhone,0.4116861820220947
+find my equipment,Help_FindMyHearingAids,32,9,Help_FindMyHearingAids,Cmd.FindMyPhone,0.5114542245864868
+track down my hearing aids,Help_FindMyHearingAids,32,29,Help_FindMyHearingAids,Help_DeviceSettings,0.5262035727500916
+can you make them ring?,Help_FindMyHearingAids,32,21,Help_FindMyHearingAids,Default Fallback Intent,0.5425552129745483
+track my wellness,Help_Health,33,1,Help_Health,Cmd.ActivityCalories,0.28026139736175537
+what are all the features of health?,Help_Health,33,38,Help_Health,Help_Home,0.28329741954803467
+guide me to my wellness data,Help_Health,33,34,Help_Health,Help_HearShare,0.3304096460342407
+where is my activity overview,Help_Health,33,54,Help_Health,Help_WiCROS,0.45828503370285034
+let a family member listen in,Help_HearShare,34,12,Help_HearShare,Cmd.SendMessage,0.21282711625099182
+can my spouse hear through my aids,Help_HearShare,34,26,Help_HearShare,Help_CleanCare,0.2157127857208252
+how do i add caregiver?,Help_HearShare,34,29,Help_HearShare,Help_DeviceSettings,0.2684047222137451
+stream my hearing to someone else,Help_HearShare,34,13,Help_HearShare,Cmd.StreamingStart,0.2689814567565918
+what does shared listening do,Help_HearShare,34,31,Help_HearShare,Help_FallAlert,0.3149382472038269
+can two people listen together,Help_HearShare,34,10,Help_HearShare,Cmd.ListenMessage,0.7550952434539795
+how do i sync my aid to the app?,Help_HearingCareAnywhereConnect,35,43,Help_HearingCareAnywhereConnect,Help_Pairing,0.22811587154865265
+help for tele here,Help_HearingCareAnywhereConnect,35,45,Help_HearingCareAnywhereConnect,Help_RemoteProgramming,0.244942769408226
+how do i link with my hearing professional,Help_HearingCareAnywhereConnect,35,43,Help_HearingCareAnywhereConnect,Help_Pairing,0.287894070148468
+guide me on connecting with my clinician,Help_HearingCareAnywhereConnect,35,45,Help_HearingCareAnywhereConnect,Help_RemoteProgramming,0.29008424282073975
+how do i get new settings from my audiologist,Help_HearingCareAnywhereConnect,35,23,Help_HearingCareAnywhereConnect,Help_AppSettings,0.3405994474887848
+how do i restore the settings in my aids?,Help_HearingCareAnywhereConnect,35,27,Help_HearingCareAnywhereConnect,Help_Customize,0.34487277269363403
+can my audiologist adjust my settings remotely,Help_HearingCareAnywhereConnect,35,45,Help_HearingCareAnywhereConnect,Help_RemoteProgramming,0.5740165710449219
+how do i sync my hearing aids to the app?,Help_HearingCareAnywhereConnect,35,43,Help_HearingCareAnywhereConnect,Help_Pairing,0.7375686764717102
+how do i sync my thrive app settings?,Help_HearingCareAnywhereConnect,35,23,Help_HearingCareAnywhereConnect,Help_AppSettings,0.780610203742981
+how do i backup the data in my aid?,Help_HearingCareAnywhereConnect,35,39,Help_HearingCareAnywhereConnect,Help_InsertDevice,0.8148163557052612
+telehear,Help_HearingCareAnywhereConnect,35,21,Help_HearingCareAnywhereConnect,Default Fallback Intent,0.8844526410102844
+can you telehear,Help_HearingCareAnywhereConnect,35,21,Help_HearingCareAnywhereConnect,Default Fallback Intent,0.9648280739784241
+where do i find my pulse readings,Help_HeartRate,36,35,Help_HeartRate,Help_HearingCareAnywhereConnect,0.21030111610889435
+how do i see how fast my heart recovers,Help_HeartRateRecovery,37,36,Help_HeartRateRecovery,Help_HeartRate,0.5207753777503967
+can you guide me?,Help_Home,38,21,Help_Home,Default Fallback Intent,0.18396373093128204
+i need support,Help_Home,38,17,Help_Home,Cmd.VolumeDecrease,0.20774175226688385
+how do i access settings,Help_Home,38,35,Help_Home,Help_HearingCareAnywhereConnect,0.2163112610578537
+help me find my way around,Help_Home,38,47,Help_Home,Help_ThriveScore,0.22483807802200317
+i don't get how any of this works,Help_Home,38,53,Help_Home,Help_WhatsNew,0.23689240217208862
+where should i start,Help_Home,38,49,Help_Home,Help_Transcribe,0.24292650818824768
+is there a tutorial,Help_Home,38,21,Help_Home,Default Fallback Intent,0.24707594513893127
+i'm stuck,Help_Home,38,21,Help_Home,Default Fallback Intent,0.2610296607017517
+i'm confused,Help_Home,38,21,Help_Home,Default Fallback Intent,0.2610296607017517
+take me on a tour,Help_Home,38,21,Help_Home,Default Fallback Intent,0.27635976672172546
+this is all confusing to me,Help_Home,38,21,Help_Home,Default Fallback Intent,0.2777257263660431
+i'm completely lost in here,Help_Home,38,11,Help_Home,Cmd.MemoryChange,0.28849199414253235
+help me figure out the app,Help_Home,38,23,Help_Home,Help_AppSettings,0.3127165734767914
+what can i control here,Help_Home,38,54,Help_Home,Help_WiCROS,0.3242771029472351
+how can i use my hearing aids,Help_Home,38,28,Help_Home,Help_DemoMode,0.3416981101036072
+show me how this works,Help_Home,38,15,Help_Home,Cmd.TranscribeStart,0.3452526330947876
+i need directions,Help_Home,38,21,Help_Home,Default Fallback Intent,0.352190226316452
+i need some guidance,Help_Home,38,21,Help_Home,Default Fallback Intent,0.39819586277008057
+give me an overview of the app,Help_Home,38,53,Help_Home,Help_WhatsNew,0.7109588980674744
+what does the hearing aid look like when it is in my ear?,Help_InsertDevice,39,48,Help_InsertDevice,Help_Tinnitus,0.322763592004776
+help putting in my hearing aids,Help_InsertDevice,39,48,Help_InsertDevice,Help_Tinnitus,0.4175504744052887
+what does the smart speech mode do,Help_IntelliVoice,40,30,Help_IntelliVoice,Help_EdgeMode,0.38784414529800415
+how to setup geotagging,Help_MemoryOptions,42,21,Help_MemoryOptions,Default Fallback Intent,0.22470998764038086
+can i reset a memory,Help_MemoryOptions,42,11,Help_MemoryOptions,Cmd.MemoryChange,0.3586622476577759
+i don't like my current hearing aid settings,Help_MemoryOptions,42,45,Help_MemoryOptions,Help_RemoteProgramming,0.36564770340919495
+please i don't like my current hearing aid settings,Help_MemoryOptions,42,45,Help_MemoryOptions,Help_RemoteProgramming,0.5184356570243835
+can you i don't like my current hearing aid settings,Help_MemoryOptions,42,45,Help_MemoryOptions,Help_RemoteProgramming,0.6404642462730408
+how do i sync these together,Help_Pairing,43,38,Help_Pairing,Help_Home,0.2647927403450012
+how to set up bluetooth,Help_Pairing,43,34,Help_Pairing,Help_HearShare,0.38968589901924133
+my iphone is not recognizing my left hearing aids,Help_Pairing,43,46,Help_Pairing,Help_SelfCheck,0.45088282227516174
+how do i link two,Help_Pairing,43,21,Help_Pairing,Default Fallback Intent,0.4610690474510193
+how do i ask for a remote fitting,Help_RemoteProgramming,45,21,Help_RemoteProgramming,Default Fallback Intent,0.2294643223285675
+why can't i submit another help request?,Help_RemoteProgramming,45,48,Help_RemoteProgramming,Help_Tinnitus,0.28517401218414307
+how do remote updates to my aids work,Help_RemoteProgramming,45,46,Help_RemoteProgramming,Help_SelfCheck,0.3146142065525055
+where are my new settings?,Help_RemoteProgramming,45,35,Help_RemoteProgramming,Help_HearingCareAnywhereConnect,0.40521976351737976
+troubleshoot my hearing aids,Help_SelfCheck,46,19,Help_SelfCheck,Cmd.VolumeMute,0.14670351147651672
+please trying to get my hearing age to work,Help_SelfCheck,46,21,Help_SelfCheck,Default Fallback Intent,0.22114340960979462
+how to run diagnostics on my aids,Help_SelfCheck,46,26,Help_SelfCheck,Help_CleanCare,0.28452885150909424
+why isn't my hearing aid on my right ear,Help_SelfCheck,46,39,Help_SelfCheck,Help_InsertDevice,0.28844597935676575
+where is self-check?,Help_SelfCheck,46,21,Help_SelfCheck,Default Fallback Intent,0.4786665737628937
+how do i perform a self-check?,Help_SelfCheck,46,21,Help_SelfCheck,Default Fallback Intent,0.5035147666931152
+show help guide for kind,Help_ThriveScore,47,40,Help_ThriveScore,Help_IntelliVoice,0.31959450244903564
+where's my combined body and brain rating,Help_ThriveScore,47,21,Help_ThriveScore,Default Fallback Intent,0.42130863666534424
+help the ringing won't stop,Help_Tinnitus,48,24,Help_Tinnitus,Help_Battery,0.14464084804058075
+explain how the aids help with ringing,Help_Tinnitus,48,25,Help_Tinnitus,Help_ChangingMemories,0.1848859041929245
+the ringing in my ears is unbearable,Help_Tinnitus,48,26,Help_Tinnitus,Help_CleanCare,0.2865241765975952
+the masking sound feature help,Help_Tinnitus,48,29,Help_Tinnitus,Help_DeviceSettings,0.31711065769195557
+how do i turn on the soothing sound,Help_Tinnitus,48,27,Help_Tinnitus,Help_Customize,0.3190127909183502
+how do i use the masking noise,Help_Tinnitus,48,27,Help_Tinnitus,Help_Customize,0.43978413939476013
+help for the constant ringing,Help_Tinnitus,48,21,Help_Tinnitus,Default Fallback Intent,0.4916979968547821
+the constant ringing is maddening,Help_Tinnitus,48,29,Help_Tinnitus,Help_DeviceSettings,0.5737428069114685
+how do i view a transcript,Help_Transcribe,49,34,Help_Transcribe,Help_HearShare,0.20292000472545624
+is there a way to caption conversations,Help_Transcribe,49,47,Help_Transcribe,Help_ThriveScore,0.32667088508605957
+tell me about live captions,Help_Transcribe,49,15,Help_Transcribe,Cmd.TranscribeStart,0.33217278122901917
+help understanding transcription,Help_Transcribe,49,40,Help_Transcribe,Help_IntelliVoice,0.3383719325065613
+help setting up voice control,Help_VoiceAssistant,51,40,Help_VoiceAssistant,Help_IntelliVoice,0.41436880826950073
+where are the loudness settings,Help_Volume,52,23,Help_Volume,Help_AppSettings,0.1934288740158081
+where do i find the mute button,Help_Volume,52,9,Help_Volume,Cmd.FindMyPhone,0.25030282139778137
+set independent loudness per side,Help_Volume,52,17,Help_Volume,Cmd.VolumeDecrease,0.3136199414730072
+how do i turn my hearing aids off?,Help_Volume,52,46,Help_Volume,Help_SelfCheck,0.6042298674583435
+get started,Help_WhatsNew,53,21,Help_WhatsNew,Default Fallback Intent,0.1902954876422882
+what's been updated lately,Help_WhatsNew,53,21,Help_WhatsNew,Default Fallback Intent,0.3616759777069092
+schedule appointment,reminders.add,55,19,reminders.add,Cmd.VolumeMute,0.12992309033870697
+schedule physical therapy appointment tomorrow morning 8:40 a.m.,reminders.add,55,48,reminders.add,Help_Tinnitus,0.20624539256095886
+do not let me forget,reminders.add,55,11,reminders.add,Cmd.MemoryChange,0.2108001857995987
+help me keep track of this,reminders.add,55,21,reminders.add,Default Fallback Intent,0.23384715616703033
+keep this on my radar,reminders.add,55,11,reminders.add,Cmd.MemoryChange,0.2528954744338989
+i need a prompt later,reminders.add,55,21,reminders.add,Default Fallback Intent,0.3419314920902252
+i might forget this,reminders.add,55,15,reminders.add,Cmd.TranscribeStart,0.3492725193500519
+put a reminder for my checkup,reminders.add,55,56,reminders.add,reminders.complete,0.37905892729759216
+can you remember to watch,reminders.add,55,21,reminders.add,Default Fallback Intent,0.4555536210536957
+i would like to set a reminder,reminders.add,55,44,reminders.add,Help_Reminder,0.4585907459259033
+can you remember to wake up at 7 a.m.,reminders.add,55,21,reminders.add,Default Fallback Intent,0.47332295775413513
+jot that down as a reminder,reminders.add,55,56,reminders.add,reminders.complete,0.5088788270950317
+can i make a reminder,reminders.add,55,44,reminders.add,Help_Reminder,0.5196133852005005
+can you remember to turn off my phone everyday at 11 p.m.,reminders.add,55,21,reminders.add,Default Fallback Intent,0.5414288640022278
+poke me when the time arrives,reminders.add,55,21,reminders.add,Default Fallback Intent,0.542660117149353
+i want to be reminded,reminders.add,55,21,reminders.add,Default Fallback Intent,0.6053532958030701
+buzz me when it's time,reminders.add,55,21,reminders.add,Default Fallback Intent,0.6068874597549438
+can you i want to be reminded,reminders.add,55,21,reminders.add,Default Fallback Intent,0.8745455741882324
+that one's finished,reminders.complete,56,21,reminders.complete,Default Fallback Intent,0.44206762313842773

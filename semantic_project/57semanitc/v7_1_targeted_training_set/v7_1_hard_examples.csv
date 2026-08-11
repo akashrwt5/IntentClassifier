@@ -1,0 +1,56 @@
+text,intent
+are my hearing aids getting low?,Cmd.BatteryLevel
+got enough battery for a movie,Cmd.BatteryLevel
+what is memory,Help_ChangingMemories
+how do different memories work,Help_ChangingMemories
+where do i go to do things,Help_Home
+how do i navigate,Help_Home
+break it down for me,Help_Home
+i could use an introduction,Help_Home
+i could use a hand figuring this out,Help_Home
+can you explain?,Help_Home
+where what is the home,Help_Home
+do i put the earmold in first,Help_InsertDevice
+the dome won't stay put,Help_InsertDevice
+where is my crowd settings,Help_MemoryOptions
+can i set a favourite program,Help_MemoryOptions
+i took my pills you can clear that,reminders.complete
+tick off my reminder,reminders.complete
+i did it cross it off,reminders.complete
+that's handled cross it off,reminders.complete
+how can i get the left hearing aid?,Help_SelfCheck
+how do i know if my microphone is working?,Help_SelfCheck
+turn on hearing aids,Cmd.VolumeUnmute
+can you show me the quick guide,Help_WhatsNew
+can you show me a quick start guide,Help_WhatsNew
+show me a quick start guide,Help_WhatsNew
+tone change,Help_DeviceSettings
+my aid keeps cutting out,Help_DeviceSettings
+everything sounds muffled,Help_DeviceSettings
+how do i see my biking goals?,Help_Health
+view my body and brain health,Help_Health
+what level am i hearing aids,Default Fallback Intent
+load my normal configuration,Cmd.MemoryChange
+how do i turn my radio music,Default Fallback Intent
+log the miles i just covered,Cmd.ActivityRun
+what add-ons are available,Help_Accessories
+the television is blaring and i still miss the words,Help_Customize
+how do i change to basic mode,Help_AppSettings
+how do i change my phone contact,Help_FallAlert
+how do i tune,Default Fallback Intent
+the noise is unbearable right now,Help_EdgeMode
+why can't i hear anything through,Help_Pairing
+cut every bit of sound,Cmd.VolumeMute
+can only connect,Default Fallback Intent
+remote appointment with my audiologist,Help_HearingCareAnywhereConnect
+my overall score for the day,Help_ThriveScore
+i want less bass in my left aid,Help_Customize
+switch to advanced mode in the app,Help_AppSettings
+its lowd,Cmd.VolumeDecrease
+reduce the background noise level,Help_EdgeMode
+not a peep please,Cmd.VolumeMute
+kill the noise completely,Help_EdgeMode
+rechargeable or disposable which is better,Help_Battery
+microphone icon,Help_VoiceAssistant
+patch the sound through to me,Cmd.StreamingStart
+there's a constant buzzing in my head,Help_Tinnitus

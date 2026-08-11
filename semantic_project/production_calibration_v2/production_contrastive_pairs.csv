@@ -1,0 +1,9 @@
+text,expected_intent
+the audio is quiet but don't mute it make it louder,device.volume.increase
+the audio is loud but don't mute it make it quieter,device.volume.decrease
+"I said louder, not silent",device.volume.increase
+"I said quieter, not silent",device.volume.decrease
+turn the sound back on,device.volume.unmute
+turn the sound completely off,device.volume.mute
+start streaming,streaming.session.start
+stop streaming,streaming.session.stop

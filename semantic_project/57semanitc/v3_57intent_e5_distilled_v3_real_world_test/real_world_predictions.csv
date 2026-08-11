@@ -1,0 +1,50 @@
+text,expected,prediction,confidence,correct,top2,top2_confidence,top3,top3_confidence
+make it a little louder,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.9747368693351746,True,Cmd.VolumeDecrease,0.009830133989453316,Cmd.VolumeUnmute,0.004866807721555233
+can you turn the volume up,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.986255407333374,True,Cmd.VolumeUnmute,0.00265332730486989,Cmd.VolumeDecrease,0.0022673835046589375
+it's too quiet,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.9459314346313477,False,Cmd.VolumeIncrease,0.027608690783381462,Cmd.VolumeMute,0.011782032437622547
+increase the sound please,Cmd.VolumeIncrease,Cmd.VolumeIncrease,0.9859469532966614,True,Cmd.StreamingStart,0.0022359469439834356,Cmd.VolumeUnmute,0.0014265489298850298
+make this softer,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.926354706287384,True,Default Fallback Intent,0.008340508677065372,Cmd.VolumeUnmute,0.007942263036966324
+it's too loud for me,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.9653920531272888,True,Cmd.VolumeIncrease,0.01758071780204773,Default Fallback Intent,0.0029621704015880823
+turn the volume down a bit,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.9857903718948364,True,Cmd.VolumeIncrease,0.002087170723825693,Help_Volume,0.0019570502918213606
+lower the sound,Cmd.VolumeDecrease,Cmd.VolumeDecrease,0.8913545608520508,True,Cmd.VolumeIncrease,0.034920014441013336,Cmd.VolumeMute,0.03268825262784958
+mute my hearing aids,Cmd.VolumeMute,Cmd.VolumeMute,0.9714792966842651,True,Cmd.VolumeUnmute,0.009133599698543549,Help_Volume,0.0019781270530074835
+please mute the sound,Cmd.VolumeMute,Cmd.VolumeMute,0.801898181438446,True,Cmd.VolumeUnmute,0.13483363389968872,Cmd.VolumeDecrease,0.03337801247835159
+unmute the hearing aids,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.9552184343338013,True,Cmd.VolumeMute,0.008869028650224209,Cmd.VolumeIncrease,0.006844571325927973
+turn the sound back on,Cmd.VolumeUnmute,Cmd.VolumeUnmute,0.9801242351531982,True,Cmd.VolumeDecrease,0.004532927647233009,Default Fallback Intent,0.0028370474465191364
+switch to another memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9831563830375671,True,Help_ChangingMemories,0.013555612415075302,Help_MemoryOptions,0.0004931229632347822
+change my hearing program,Cmd.MemoryChange,Cmd.MemoryChange,0.9899818301200867,True,Help_ChangingMemories,0.006043868139386177,Help_MemoryOptions,0.000784912845119834
+move to the next memory,Cmd.MemoryChange,Cmd.MemoryChange,0.9913172721862793,True,Help_MemoryOptions,0.0023439896758645773,Default Fallback Intent,0.001472502015531063
+can I change the memory,Cmd.MemoryChange,Help_ChangingMemories,0.4603651463985443,False,Help_MemoryOptions,0.2601308524608612,Cmd.MemoryChange,0.17580875754356384
+where is my phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.9841769933700562,True,Default Fallback Intent,0.004153294023126364,Help_FindMyHearingAids,0.001868153573013842
+help me find my phone,Cmd.FindMyPhone,Cmd.FindMyPhone,0.9747645258903503,True,Default Fallback Intent,0.011777217499911785,Help_FindMyHearingAids,0.0028574757743626833
+locate my phone please,Cmd.FindMyPhone,Cmd.FindMyPhone,0.9736558794975281,True,Default Fallback Intent,0.008031266741454601,Help_FindMyHearingAids,0.007837816141545773
+start streaming,Cmd.StreamingStart,Cmd.StreamingStart,0.9618139863014221,True,Cmd.StreamingStop,0.00960548035800457,Help_Accessories,0.008333932608366013
+begin streaming now,Cmd.StreamingStart,Cmd.StreamingStart,0.7602818608283997,True,Cmd.StreamingStop,0.14563775062561035,Help_Accessories,0.02364492416381836
+stream audio from my phone,Cmd.StreamingStart,Cmd.StreamingStart,0.9676861763000488,True,Cmd.StreamingStop,0.01100024115294218,Default Fallback Intent,0.0037009119987487793
+stop streaming,Cmd.StreamingStop,Cmd.StreamingStop,0.9915887713432312,True,Cmd.VolumeDecrease,0.001052648527547717,Cmd.VolumeMute,0.0010035495506599545
+end the audio stream,Cmd.StreamingStop,Cmd.StreamingStop,0.9318107962608337,True,Cmd.StreamingStart,0.04396475851535797,Cmd.VolumeDecrease,0.006370145361870527
+what is my battery level,Cmd.BatteryLevel,Cmd.BatteryLevel,0.9617105722427368,True,Help_Battery,0.021398305892944336,Help_SelfCheck,0.0009517153375782073
+how much battery is left,Cmd.BatteryLevel,Cmd.BatteryLevel,0.9808783531188965,True,Help_Battery,0.008305510506033897,Default Fallback Intent,0.0008741855272091925
+check the battery,Cmd.BatteryLevel,Cmd.BatteryLevel,0.9646325707435608,True,Default Fallback Intent,0.01174864824861288,Help_Battery,0.007300243247300386
+send a message,Cmd.SendMessage,Cmd.SendMessage,0.982203483581543,True,Default Fallback Intent,0.0041463966481387615,Cmd.ListenMessage,0.002368747489526868
+message my friend,Cmd.SendMessage,Cmd.SendMessage,0.9649699330329895,True,Default Fallback Intent,0.01079765148460865,Cmd.ListenMessage,0.005525034386664629
+send this message,Cmd.SendMessage,Cmd.SendMessage,0.9623973965644836,True,Cmd.ListenMessage,0.010798689909279346,Default Fallback Intent,0.008314196951687336
+start transcribing,Cmd.TranscribeStart,Cmd.TranscribeStart,0.8699045777320862,True,Cmd.ActivityCycle,0.0186590775847435,Cmd.VolumeIncrease,0.015530739910900593
+begin transcription,Cmd.TranscribeStart,Cmd.TranscribeStart,0.918921172618866,True,Help_Transcribe,0.026884913444519043,Cmd.TranslationStart,0.0074555231258273125
+start translating,Cmd.TranslationStart,Cmd.TranslationStart,0.9416146874427795,True,Cmd.TranscribeStart,0.01662285439670086,Help_Translate,0.005014158319681883
+begin translation,Cmd.TranslationStart,Cmd.TranslationStart,0.9732351899147034,True,Help_Translate,0.012409758754074574,Cmd.TranscribeStart,0.002971963956952095
+add a reminder,reminders.add,reminders.add,0.9913971424102783,True,Help_Reminder,0.0021586152724921703,reminders.complete,0.0014768047258257866
+remind me tomorrow,reminders.add,reminders.add,0.9953470826148987,True,Help_Reminder,0.0005133657832629979,reminders.complete,0.0005015875212848186
+create a reminder for me,reminders.add,reminders.add,0.9858600497245789,True,Help_Reminder,0.007013799622654915,reminders.complete,0.00213787448592484
+complete my reminder,reminders.complete,reminders.complete,0.9772039651870728,True,reminders.add,0.006677811034023762,Help_Reminder,0.004911499563604593
+mark the reminder as done,reminders.complete,reminders.complete,0.9415977597236633,True,reminders.add,0.036458056420087814,Help_Reminder,0.002670125337317586
+send an email,Default Fallback Intent,Default Fallback Intent,0.5047112107276917,True,Cmd.SendMessage,0.42456403374671936,reminders.add,0.017956996336579323
+turn on bluetooth,Default Fallback Intent,Default Fallback Intent,0.7025182843208313,True,Help_Pairing,0.1806446611881256,Cmd.FindMyPhone,0.01566675677895546
+connect to wifi,Default Fallback Intent,Default Fallback Intent,0.9698883295059204,True,Help_Pairing,0.004078806843608618,Cmd.MemoryChange,0.003627579193562269
+play some music,Default Fallback Intent,Default Fallback Intent,0.8685684204101562,True,Cmd.MemoryChange,0.036134716123342514,Help_WiCROS,0.010206754319369793
+what is the weather,Default Fallback Intent,Default Fallback Intent,0.9829260110855103,True,Help_Home,0.0021223819348961115,Cmd.MemoryChange,0.0016007423400878906
+tell me a joke,Default Fallback Intent,Default Fallback Intent,0.9896430969238281,True,reminders.add,0.001586161321029067,Cmd.SendMessage,0.0008727807435207069
+open instagram,Default Fallback Intent,Default Fallback Intent,0.9646850824356079,True,Cmd.TranscribeStart,0.005885955411940813,Cmd.TranslationStart,0.0034433992113918066
+call my friend,Default Fallback Intent,Default Fallback Intent,0.9865660071372986,True,Cmd.SendMessage,0.0031606664415448904,reminders.add,0.0017006970010697842
+what should I eat tonight,Default Fallback Intent,Default Fallback Intent,0.9378505349159241,True,reminders.add,0.006617678329348564,Cmd.SendMessage,0.005236070603132248
+I don't know what I want,Default Fallback Intent,Default Fallback Intent,0.8241479396820068,True,Help_Home,0.12072082608938217,Help_FindMyHearingAids,0.004605448804795742

@@ -1,0 +1,79 @@
+E5-SMALL-V2 57-INTENT BASELINE
+==============================================================================
+
+Model: intfloat/e5-small-v2
+Dataset: /Users/shuklam/IntentClassifier/semantic_project/57semanitc/train.csv
+Total rows: 8430
+Intents: 57
+Train rows: 6744
+Validation rows: 1686
+Embedding dimension: 384
+Accuracy: 88.4342%
+Train time: 0.1801 sec
+Validation inference time: 0.0004 sec
+
+Classification report:
+
+                                 precision    recall  f1-score   support
+
+           Cmd.ActivityAerobics       1.00      1.00      1.00         9
+           Cmd.ActivityCalories       1.00      1.00      1.00         9
+              Cmd.ActivityCycle       0.90      1.00      0.95         9
+           Cmd.ActivityExercise       0.73      1.00      0.85        11
+                Cmd.ActivityRun       1.00      1.00      1.00        12
+              Cmd.ActivityStand       1.00      0.92      0.96        12
+               Cmd.ActivityStep       0.92      1.00      0.96        12
+               Cmd.ActivityWalk       0.85      1.00      0.92        11
+               Cmd.BatteryLevel       0.88      1.00      0.94        23
+                Cmd.FindMyPhone       0.75      1.00      0.86        21
+              Cmd.ListenMessage       0.85      1.00      0.92        17
+               Cmd.MemoryChange       0.98      0.91      0.94       320
+                Cmd.SendMessage       0.88      0.97      0.92        31
+             Cmd.StreamingStart       0.92      0.97      0.95        36
+              Cmd.StreamingStop       0.92      1.00      0.96        12
+            Cmd.TranscribeStart       0.69      0.90      0.78        10
+           Cmd.TranslationStart       0.92      0.92      0.92        13
+             Cmd.VolumeDecrease       0.73      0.80      0.77        51
+             Cmd.VolumeIncrease       0.76      0.79      0.77        43
+                 Cmd.VolumeMute       0.70      0.95      0.81        20
+               Cmd.VolumeUnmute       0.71      0.68      0.70        22
+        Default Fallback Intent       0.94      0.69      0.80       238
+               Help_Accessories       0.83      0.96      0.89        26
+               Help_AppSettings       0.64      1.00      0.78         9
+                   Help_Battery       0.80      0.80      0.80        10
+          Help_ChangingMemories       0.93      0.96      0.95        27
+                 Help_CleanCare       0.79      1.00      0.88        11
+                 Help_Customize       0.79      1.00      0.88        11
+                  Help_DemoMode       1.00      1.00      1.00         9
+            Help_DeviceSettings       0.85      0.65      0.74        26
+                  Help_EdgeMode       1.00      0.91      0.95        11
+                 Help_FallAlert       0.92      1.00      0.96        23
+         Help_FindMyHearingAids       0.96      0.98      0.97        45
+                    Help_Health       0.67      0.80      0.73        10
+                 Help_HearShare       1.00      0.93      0.96        14
+Help_HearingCareAnywhereConnect       0.44      0.78      0.56         9
+                 Help_HeartRate       1.00      1.00      1.00        10
+         Help_HeartRateRecovery       1.00      1.00      1.00         9
+                      Help_Home       0.57      0.81      0.67        21
+              Help_InsertDevice       0.63      1.00      0.77        12
+              Help_IntelliVoice       0.95      1.00      0.97        19
+                  Help_MaskMode       0.77      1.00      0.87        10
+             Help_MemoryOptions       0.70      0.94      0.80        17
+                   Help_Pairing       0.91      0.96      0.93        45
+                  Help_Reminder       0.50      0.90      0.64        10
+         Help_RemoteProgramming       1.00      0.72      0.84        25
+                 Help_SelfCheck       0.83      0.91      0.87        22
+               Help_ThriveScore       0.91      0.95      0.93        21
+                  Help_Tinnitus       0.95      0.97      0.96        38
+                Help_Transcribe       0.93      0.93      0.93        14
+                 Help_Translate       0.93      1.00      0.96        13
+            Help_VoiceAssistant       1.00      1.00      1.00        11
+                    Help_Volume       0.90      0.90      0.90        29
+                  Help_WhatsNew       0.78      1.00      0.88        14
+                    Help_WiCROS       0.89      0.89      0.89         9
+                  reminders.add       0.99      0.89      0.94       141
+             reminders.complete       0.93      1.00      0.96        13
+
+                       accuracy                           0.88      1686
+                      macro avg       0.85      0.93      0.88      1686
+                   weighted avg       0.90      0.88      0.89      1686

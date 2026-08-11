@@ -1,0 +1,28 @@
+text,intent,source,predicted_intent,confidence,correct
+move my hearing aids to the music profile,device.memory.change,unseen_semantic_stress_test,streaming.session.start,0.723565936088562,False
+select my music hearing profile,device.memory.change,unseen_semantic_stress_test,streaming.session.start,0.8877307176589966,False
+I want the volume reduced,device.volume.decrease,unseen_semantic_stress_test,device.volume.increase,0.934565007686615,False
+make the audio more comfortable by lowering it,device.volume.decrease,unseen_semantic_stress_test,device.volume.increase,0.9253514409065247,False
+quiet the audio somewhat,device.volume.decrease,unseen_semantic_stress_test,streaming.session.stop,0.5748370289802551,False
+give me a stronger listening level,device.volume.increase,unseen_semantic_stress_test,device.volume.decrease,0.6172552704811096,False
+make the audio less quiet,device.volume.increase,unseen_semantic_stress_test,device.volume.decrease,0.9911683797836304,False
+strengthen the sound coming through,device.volume.increase,unseen_semantic_stress_test,device.volume.mute,0.3010689914226532,False
+shut off the audio output,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,0.6102584600448608,False
+make the audio stop,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,0.8960452675819397,False
+stop hearing anything through the devices,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,0.47161030769348145,False
+stop the hearing aid output,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,0.593681275844574,False
+no audio should come through,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,0.32775378227233887,False
+shut down the sound output,device.volume.mute,unseen_semantic_stress_test,device.volume.decrease,0.9890629649162292,False
+stop the audio completely,device.volume.mute,unseen_semantic_stress_test,streaming.session.stop,0.7486912608146667,False
+give me zero sound,device.volume.mute,unseen_semantic_stress_test,streaming.session.start,0.46194764971733093,False
+stop muting my hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.stop,0.699009358882904,False
+allow audio through the hearing aids,device.volume.unmute,unseen_semantic_stress_test,streaming.session.start,0.9331563711166382,False
+make the hearing aids audible,device.volume.unmute,unseen_semantic_stress_test,device.volume.increase,0.45740559697151184,False
+switch off mute mode,device.volume.unmute,unseen_semantic_stress_test,device.memory.change,0.7144532203674316,False
+remove complete silence,device.volume.unmute,unseen_semantic_stress_test,reminders.task.complete,0.6587806940078735,False
+tell me what I have scheduled,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,0.32820650935173035,False
+give me a list of reminders,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,0.7721720337867737,False
+give me my current reminder status,help.reminder.show,unseen_semantic_stress_test,reminders.task.create,0.5855504870414734,False
+establish the audio stream,streaming.session.start,unseen_semantic_stress_test,streaming.session.stop,0.564506471157074,False
+break the current audio connection,streaming.session.stop,unseen_semantic_stress_test,streaming.session.start,0.7814589142799377,False
+break the streaming link,streaming.session.stop,unseen_semantic_stress_test,streaming.session.start,0.9782624244689941,False

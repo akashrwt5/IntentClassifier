@@ -1,0 +1,233 @@
+{
+  "tag": "domfz_s1",
+  "seed": 1,
+  "train_csv": "/Users/shuklam/IntentClassifier/new_semantic/data/en/train.csv",
+  "train_rows": 23989,
+  "intents": 57,
+  "vocab_size": 8000,
+  "embed_dim": 64,
+  "init_embeddings": "models/en/embed_init_domain.npz",
+  "freeze_embeddings": true,
+  "tokenizer": "word",
+  "max_len": 24,
+  "student_params": 582777,
+  "student_mb_fp32": 2.331,
+  "teacher": "intfloat/e5-small-v2",
+  "embedding_teacher": "intfloat/e5-small-v2",
+  "class_weights": true,
+  "fallback_weight_floor": 3.0,
+  "fallback_oversample": 1,
+  "unk_aug_fraction": 0.04,
+  "unk_robust_fraction": null,
+  "synthetic_fallback_rows": 921,
+  "synthetic_in_scope_rows": 0,
+  "synthetic_rows": 921,
+  "synthetic_text": true,
+  "fallback_share_before": 0.0396,
+  "fallback_share_after": 0.0751,
+  "rows_after_augmentation": 24910,
+  "best_epoch": 26,
+  "best_val_macro_recall": 0.9358,
+  "checkpoint": "/Users/shuklam/IntentClassifier/new_semantic/models/en/student_domfz_s1.pt",
+  "leak_guard": "passed",
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 1.7701057260294994,
+      "val_acc": 0.7990366604227991,
+      "val_macro_recall": 0.7259286785716857
+    },
+    {
+      "epoch": 2,
+      "loss": 0.8972840072160744,
+      "val_acc": 0.8924270805458925,
+      "val_macro_recall": 0.8433694970284201
+    },
+    {
+      "epoch": 3,
+      "loss": 0.6858086568045328,
+      "val_acc": 0.9277495317099278,
+      "val_macro_recall": 0.8924428943162397
+    },
+    {
+      "epoch": 4,
+      "loss": 0.5994306212089148,
+      "val_acc": 0.9368477388279368,
+      "val_macro_recall": 0.9011735412122938
+    },
+    {
+      "epoch": 5,
+      "loss": 0.537118248731257,
+      "val_acc": 0.9443403799839444,
+      "val_macro_recall": 0.8958359373418543
+    },
+    {
+      "epoch": 6,
+      "loss": 0.49445142408451404,
+      "val_acc": 0.9494246721969494,
+      "val_macro_recall": 0.8975172839696325
+    },
+    {
+      "epoch": 7,
+      "loss": 0.4678046708724585,
+      "val_acc": 0.9542413700829543,
+      "val_macro_recall": 0.9188257788459616
+    },
+    {
+      "epoch": 8,
+      "loss": 0.44262257433799373,
+      "val_acc": 0.9143698153599144,
+      "val_macro_recall": 0.8633063286604219
+    },
+    {
+      "epoch": 9,
+      "loss": 0.42634643722011384,
+      "val_acc": 0.9593256622959593,
+      "val_macro_recall": 0.9217694019687501
+    },
+    {
+      "epoch": 10,
+      "loss": 0.4065028727054596,
+      "val_acc": 0.9542413700829543,
+      "val_macro_recall": 0.9157429315215746
+    },
+    {
+      "epoch": 11,
+      "loss": 0.40133807637605323,
+      "val_acc": 0.9595932566229596,
+      "val_macro_recall": 0.9141535971023825
+    },
+    {
+      "epoch": 12,
+      "loss": 0.3883027561816825,
+      "val_acc": 0.9622691998929622,
+      "val_macro_recall": 0.9111695207679233
+    },
+    {
+      "epoch": 13,
+      "loss": 0.37457028013395977,
+      "val_acc": 0.9558469360449559,
+      "val_macro_recall": 0.9086413812269832
+    },
+    {
+      "epoch": 14,
+      "loss": 0.3657994548599404,
+      "val_acc": 0.964945143162965,
+      "val_macro_recall": 0.9264133783577567
+    },
+    {
+      "epoch": 15,
+      "loss": 0.3557807907282588,
+      "val_acc": 0.9633395772009633,
+      "val_macro_recall": 0.9212078721472055
+    },
+    {
+      "epoch": 16,
+      "loss": 0.3527107369827937,
+      "val_acc": 0.9606636339309607,
+      "val_macro_recall": 0.9188401257909705
+    },
+    {
+      "epoch": 17,
+      "loss": 0.35214332589902075,
+      "val_acc": 0.9673534921059673,
+      "val_macro_recall": 0.9240900695493384
+    },
+    {
+      "epoch": 18,
+      "loss": 0.3409867679857346,
+      "val_acc": 0.9660155204709661,
+      "val_macro_recall": 0.9201161138409977
+    },
+    {
+      "epoch": 19,
+      "loss": 0.33233182509261444,
+      "val_acc": 0.9673534921059673,
+      "val_macro_recall": 0.9225456588244971
+    },
+    {
+      "epoch": 20,
+      "loss": 0.3335542797324169,
+      "val_acc": 0.9636071715279636,
+      "val_macro_recall": 0.9280072921617277
+    },
+    {
+      "epoch": 21,
+      "loss": 0.33537574543292265,
+      "val_acc": 0.9670858977789671,
+      "val_macro_recall": 0.9195180074181947
+    },
+    {
+      "epoch": 22,
+      "loss": 0.3238166868686676,
+      "val_acc": 0.9654803318169655,
+      "val_macro_recall": 0.9172541216813014
+    },
+    {
+      "epoch": 23,
+      "loss": 0.32080863416194916,
+      "val_acc": 0.9590580679689591,
+      "val_macro_recall": 0.9174095509515912
+    },
+    {
+      "epoch": 24,
+      "loss": 0.3178722849452352,
+      "val_acc": 0.9668183034519668,
+      "val_macro_recall": 0.9312909499243074
+    },
+    {
+      "epoch": 25,
+      "loss": 0.3205029030880296,
+      "val_acc": 0.9617340112389617,
+      "val_macro_recall": 0.9201397463919426
+    },
+    {
+      "epoch": 26,
+      "loss": 0.30912115649286526,
+      "val_acc": 0.9732405672999732,
+      "val_macro_recall": 0.9358152795603312
+    },
+    {
+      "epoch": 27,
+      "loss": 0.31046957531607294,
+      "val_acc": 0.9670858977789671,
+      "val_macro_recall": 0.9237075159005343
+    },
+    {
+      "epoch": 28,
+      "loss": 0.30746178526476203,
+      "val_acc": 0.9638747658549639,
+      "val_macro_recall": 0.9091757127842175
+    },
+    {
+      "epoch": 29,
+      "loss": 0.30624301641820423,
+      "val_acc": 0.9673534921059673,
+      "val_macro_recall": 0.9338083639828686
+    },
+    {
+      "epoch": 30,
+      "loss": 0.3028333775968437,
+      "val_acc": 0.9673534921059673,
+      "val_macro_recall": 0.9326018926864931
+    },
+    {
+      "epoch": 31,
+      "loss": 0.30532635927918444,
+      "val_acc": 0.9684238694139684,
+      "val_macro_recall": 0.9182940342386885
+    },
+    {
+      "epoch": 32,
+      "loss": 0.30237166619444467,
+      "val_acc": 0.9713674070109714,
+      "val_macro_recall": 0.9251230299897433
+    },
+    {
+      "epoch": 33,
+      "loss": 0.29847257736935673,
+      "val_acc": 0.964945143162965,
+      "val_macro_recall": 0.9086965789075794
+    }
+  ]
+}

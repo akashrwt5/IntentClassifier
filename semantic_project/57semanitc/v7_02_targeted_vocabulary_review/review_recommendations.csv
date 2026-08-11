@@ -1,0 +1,12 @@
+cluster,true_intent,action,reason
+battery_vs_oos,Cmd.BatteryLevel,REVIEW,"Add/retain vocabulary around remaining battery, battery running low, charging soon, and runtime."
+battery_vs_device_settings,Cmd.BatteryLevel,REVIEW,Strengthen explicit battery-state wording so it separates from generic device settings.
+home_vs_oos,Help_Home,REVIEW,Home/help navigation examples are currently broad and can look like OOD/general assistance.
+changing_memories_vs_memory_options,Help_ChangingMemories,REVIEW,Separate changing/selecting programs or memories from asking what memory options are.
+reminder_completion_vs_oos,reminders.complete,REVIEW,Natural completion phrases such as 'cross it off' need stronger representation.
+whatsnew_vs_home,Help_WhatsNew,REVIEW,Quick-start/guide language overlaps with Home/help.
+insert_device_vs_oos,Help_InsertDevice,REVIEW,Wearing/inserting/dome/earmold vocabulary needs clearer coverage.
+edge_mode_vs_volume,Help_EdgeMode,REVIEW,Noise-reduction/background-noise wording overlaps with volume commands.
+care_anywhere_vs_remote_programming,Help_HearingCareAnywhereConnect,REVIEW,Professional/audiologist connection terminology overlaps with remote programming.
+mute_vs_volume_decrease,Cmd.VolumeMute,REVIEW,Zero-sound/cut-all-sound wording must be separated from merely lowering volume.
+send_message_vs_oos,Cmd.SendMessage,REVIEW,"Natural messaging verbs such as text, send, fire off a text need stronger coverage."

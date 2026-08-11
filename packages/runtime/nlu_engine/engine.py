@@ -150,6 +150,30 @@ class NLUEngine:
     DEFAULT_AGREEMENT_THRESHOLD = 0.50
     AGREEMENT_THRESHOLD = DEFAULT_AGREEMENT_THRESHOLD  # back-compat alias
 
+    # --- Stage-2 backstop -------------------------------------------------
+    # When Stage 3 declines a turn, this engine used to drop straight to GENAI,
+    # discarding the TF-IDF prediction that triggered the handover. Measured on
+    # the handover subset (new_semantic/reports/DECISION.md, "Cascade
+    # correction"), that is strictly worse than keeping it:
+    #
+    #     stress accuracy on the handover rows   Stage 2 0.6923   Stage 3 0.3632
+    #
+    # The pipeline was replacing a 0.69 signal with a 0.36 one. With the
+    # backstop the two stages compete instead: the more confident model answers,
+    # and the turn is accepted if EITHER clears its own bar.
+    #
+    #     answer = argmax over the more confident of (TF-IDF, semantic)
+    #     accept = sem_conf >= semantic_threshold  OR  tfidf_conf >= backstop
+    #
+    # End-to-end on the held-out TEST half, mean of 3 seeds:
+    #     previous policy   stress 0.6856   OOD reject 0.9088
+    #     with backstop     stress 0.8298   OOD reject 0.8590
+    #
+    # 0.0 DISABLES it and restores the previous behaviour exactly. It is off by
+    # default because the measurement is English-only; `language_packs/en`
+    # enables it. Any pack that wants it sets `stage2_backstop_confidence`.
+    DEFAULT_STAGE2_BACKSTOP_CONFIDENCE = 0.0
+
     def __init__(self, schema_path: Path | None = None, model_name: str | None = None,
                  language: str = "en", semantic_enabled: bool | None = None,
                  pack=None, backend=None):
@@ -162,7 +186,7 @@ class NLUEngine:
         self.pack = pack
         self.backend = backend
         self.language = (getattr(pack, "language", None) or language)
-        if not schema_path: 
+        if not schema_path:
             schema_path = BASE_DIR / "language_packs" / self.language / "nlu_schema.json"
             if not schema_path.exists():
                 schema_path = BASE_DIR / "language_packs" / "en" / "nlu_schema.json"
@@ -185,6 +209,11 @@ class NLUEngine:
         # ratio without a ceiling gets the strict behaviour rather than a
         # silently disabled guard.
         self._oov_bypass_confidence = self.schema.get("oov_bypass_confidence", 1.01)
+        # Minimum TF-IDF confidence for its answer to survive a declined
+        # semantic rescue instead of being dropped for GENAI. See
+        # DEFAULT_STAGE2_BACKSTOP_CONFIDENCE. 0.0 = off (previous behaviour).
+        self._stage2_backstop = float(self.schema.get(
+            "stage2_backstop_confidence", self.DEFAULT_STAGE2_BACKSTOP_CONFIDENCE))
         self.affirmative = set(self.schema.get("affirmative", []))
         self.negative = set(self.schema.get("negative", []))
         # Explicit cancellation cues, honoured while a slot-filling flow is
@@ -273,7 +302,7 @@ class NLUEngine:
             # Once fully pack-fed, the pack manifest will name its own semantic
             # artifact (e.g. models.semantic_head.<lang>.artifact) and this
             # hardcoded path inference will disappear — see nlu_langpack.
-            self.semantic = self._load_semantic(self.semantic_threshold)
+            self.semantic = self._load_semantic(self.semantic_threshold, self.language)
         self._assert_label_schema_parity()
 
     def _resolve_semantic_flag(self, param: bool | None) -> bool:
@@ -520,15 +549,35 @@ class NLUEngine:
         return IntentClassifier(**kwargs)
 
     @staticmethod
-    def _load_semantic(threshold: float):
+    def _load_semantic(threshold: float, language: str = "en"):
         """
         Construct the semantic stage. Returns None when its artifacts are
         absent (graceful degradation to TF-IDF only). An out-of-memory failure
         is surfaced loudly rather than silently swallowed so a low-memory
         device that loses the semantic stage is visible in telemetry.
+
+        TWO BACKENDS, in order:
+
+          1. `models/semantic_student/<lang>/` — the distilled single-file
+             student (~1-2.5 MB). Preferred when installed.
+          2. MiniLM encoder + LogReg head (~23 MB) — the original stage.
+
+        The student is NOT a drop-in for the MiniLM code path: different
+        tokenizer, different artifact count, no separate embedding step. That
+        is why it is a separate class rather than a flag, and why this picks
+        between them here instead of inside SemanticFallback.
         """
         try:
-            from .semantic import SemanticFallback
+            from .semantic import STUDENT_DIR, SemanticFallback, StudentSemantic
+
+            student_dir = STUDENT_DIR / language
+            if (student_dir / "student.onnx").exists():
+                stage = StudentSemantic(student_dir, threshold=threshold)
+                logger.info("nlu.semantic.backend", extra={"nlu": {
+                    "backend": "student", "dir": str(student_dir),
+                    "intents": len(stage.labels), "vocab": len(stage.vocab),
+                    "threshold": stage.threshold}})
+                return stage
             return SemanticFallback(threshold=threshold)
         except FileNotFoundError:
             logger.warning("nlu.semantic.unavailable",
@@ -1131,9 +1180,18 @@ class NLUEngine:
 
         if intent == "Default Fallback Intent" or conf < fire_bar:
             # Stage 3: semantic rescue via MiniLM when TF-IDF is uncertain
+            sem_conf = 0.0
             if self.semantic is not None:
                 sem_intent, sem_conf = self.semantic.classify(text)
-                if sem_intent != "Default Fallback Intent":
+                if sem_intent == "Default Fallback Intent":
+                    sem_conf = 0.0
+                elif self._stage2_backstop > 0.0 and conf > sem_conf:
+                    # Backstop, max-confidence arm: TF-IDF is the stronger
+                    # signal here, so the semantic answer must not overrule it.
+                    # Fall through to the backstop below rather than returning a
+                    # rescue the evidence does not support.
+                    pass
+                else:
                     # Two ways to accept a rescue:
                     #   1. Standard: the head clears the absolute softmax floor.
                     #   2. Agreement gate: TF-IDF and the head INDEPENDENTLY land
@@ -1159,6 +1217,21 @@ class NLUEngine:
                             result.tfidf_intent       = intent
                             result.tfidf_confidence   = conf
                             return result
+            # Stage-2 backstop: the semantic stage declined (or was absent, or
+            # was the weaker signal). Before dropping the turn, keep TF-IDF's own
+            # answer if it cleared the backstop bar. Without this the engine
+            # discards a prediction it already has and that measures BETTER than
+            # the semantic stage on exactly these rows — see
+            # DEFAULT_STAGE2_BACKSTOP_CONFIDENCE.
+            if (self._stage2_backstop > 0.0
+                    and intent != "Default Fallback Intent"
+                    and conf >= self._stage2_backstop
+                    and cfg is not None):
+                logger.info("nlu.stage2_backstop", extra={"nlu": {
+                    "intent": intent, "confidence": round(conf, 3),
+                    "semantic_confidence": round(sem_conf, 3)}})
+                return self._fulfill_intent(session, intent, conf, cfg, text, now)
+
             # Below the fire threshold and not rescued: the fallback intent.
             # There is no confirmation tier under the threshold — see __init__.
             return self._genai_fallback(conf)

@@ -86,3 +86,18 @@ test-venv/
 
 # Local scratch pipeline runners (never committed; regenerate as needed)
 run_pipeline*.sh
+
+# Large model artifacts (generated locally, do not commit)
+semantic_project/**/*.pt
+semantic_project/**/*.safetensors
+semantic_project/**/*.onnx
+semantic_project/**/*.onnx.data
+semantic_project/**/*.npy
+semantic_project/**/*.json
+semantic_project/**/*.pkl
+new_semantic/models/**/*.pt
+new_semantic/models/**/*.onnx
+new_semantic/models/**/*.npz
+multilingual/models/**/*.onnx
+multilingual/models/**/*.pkl
+multilingual/models/**/*.json
