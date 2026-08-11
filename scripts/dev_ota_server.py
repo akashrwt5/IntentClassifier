@@ -10,6 +10,7 @@ from typing import Dict, Any, Optional
 import httpx
 import uvicorn
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from packaging.version import Version, InvalidVersion
@@ -26,6 +27,15 @@ app = FastAPI(
     title="Development OTA NLU Server",
     description="A Backend-for-Frontend (BFF) proxy to serve NLU bundles from GitHub Releases securely.",
     version="1.0.0"
+)
+
+# Enable CORS for Swagger UI and external testing
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Configuration
