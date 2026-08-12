@@ -221,14 +221,14 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             continue
         if not cml.exists():
             return _fail(f"coreml artifact not found: {cml}")
-        cml_dst = staged / "models" / "intent" / lang / "iOS" / dst_name
+        cml_dst = staged / "models" / "intent" / lang / dst_name
         cml_dst.parent.mkdir(parents=True, exist_ok=True)
         if cml_dst.exists():
             shutil.rmtree(cml_dst)
         shutil.copytree(cml, cml_dst)
-        refreshed.append(f"models/intent/{lang}/iOS/{dst_name}")
+        refreshed.append(f"models/intent/{lang}/{dst_name}")
         entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
-        entry[key] = f"models/intent/{lang}/iOS/{dst_name}"
+        entry[key] = f"models/intent/{lang}/{dst_name}"
 
     # TFLite rides in the bundle the same way CoreML does: as a sibling
     # reference on the intent entry (tflite_artifact / tflite_int8_artifact), NOT
@@ -241,12 +241,12 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             continue
         if not tfl.exists():
             return _fail(f"tflite artifact not found: {tfl}")
-        tfl_dst = intent_dir / "tflite" / dest
+        tfl_dst = intent_dir / dest
         tfl_dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(tfl, tfl_dst)
-        refreshed.append(f"models/intent/{lang}/tflite/{dest}")
+        refreshed.append(f"models/intent/{lang}/{dest}")
         entry = manifest.setdefault("models", {}).setdefault("intent", {}).setdefault(lang, {})
-        entry[key] = f"models/intent/{lang}/tflite/{dest}"
+        entry[key] = f"models/intent/{lang}/{dest}"
 
     if report is not None:
         if not report.exists():
@@ -261,32 +261,77 @@ def assemble(src: Path, version: str, out_dir: Path, *,
     (staged / "bundle.json").write_text(json.dumps(manifest, indent=2) + "\n",
                                         encoding="utf-8")
 
-    # Package + sign via the compiler — the single path that produces a .nlu.
-    nlu_out = out_dir / f"pack-{lang}-v{version}.nlu"
-    cmd = [sys.executable, "-m", "nlu_compiler.build", str(staged),
-           "--out", str(nlu_out), "--channel", channel]
-    if key_id:
-        cmd += ["--key-id", key_id]
-    env = {"PYTHONPATH": str(BUILDTIME)}
-    proc = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True,
-                          env={**__import__("os").environ, **env})
-    if proc.returncode != 0:
-        print(proc.stdout, proc.stderr, file=sys.stderr)
-        # Stage 8 compares labels.json against the intent set compiled from the
-        # source bundle's capabilities. A mismatch here is almost never a labels
-        # problem — it means the SOURCE BUNDLE is not this product's content, and
-        # the dump is 57 names long, so say what it means.
-        if "LABEL_INTENT_MISMATCH" in (proc.stdout + proc.stderr):
-            print(
-                "\nHINT: the trained model's label space does not match the intent "
-                "set compiled from --src. If --src is spec/examples/3.0/minimal or "
-                "full, that is expected: those are GOLDEN TEST FIXTURES (1-2 "
-                "capabilities, 2 intents), not this product's content, which has "
-                "12 capabilities and 57 intents under content/capabilities/. "
-                "Building a real pack needs a content->bundle compiler "
-                "(content/capabilities/ -> spec/bundle/3.0 tree); none exists yet. "
-                "Until it does, a pack assembled from a fixture proves the "
-                "pipeline, not the product.", file=sys.stderr)
+    def build_slice(suffix: str, mod_func) -> Path:
+        staged_slice = out_dir / f"staged_tmp_{suffix}"
+        if staged_slice.exists():
+            shutil.rmtree(staged_slice)
+        shutil.copytree(staged, staged_slice)
+
+        slice_manifest = json.loads((staged_slice / "bundle.json").read_text(encoding="utf-8"))
+        mod_func(staged_slice, slice_manifest)
+        (staged_slice / "bundle.json").write_text(json.dumps(slice_manifest, indent=2) + "\n", encoding="utf-8")
+
+        nlu_out = out_dir / f"pack-{lang}-v{version}-{suffix}.nlu"
+        cmd = [sys.executable, "-m", "nlu_compiler.build", str(staged_slice),
+               "--out", str(nlu_out), "--channel", channel]
+        if key_id:
+            cmd += ["--key-id", key_id]
+        env = {"PYTHONPATH": str(BUILDTIME)}
+        proc = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True,
+                              env={**__import__("os").environ, **env})
+        if proc.returncode != 0:
+            print(proc.stdout, proc.stderr, file=sys.stderr)
+            if "LABEL_INTENT_MISMATCH" in (proc.stdout + proc.stderr):
+                print("\nHINT: LABEL_INTENT_MISMATCH detected.", file=sys.stderr)
+            raise RuntimeError(f"nlu_compiler.build failed for {suffix}")
+
+        shutil.rmtree(staged_slice)
+        return nlu_out
+
+    def mod_universal(s_dir, s_man):
+        pass
+
+    def mod_ios(s_dir, s_man):
+        for t in ["model.tflite", "model_int8.tflite"]:
+            f = s_dir / "models" / "intent" / lang / t
+            if f.exists():
+                f.unlink()
+        onnx_file = s_dir / "models" / "intent" / lang / "model.onnx"
+        if onnx_file.exists():
+            onnx_file.unlink()
+
+        intent = s_man.get("models", {}).get("intent", {}).get(lang, {})
+        for key in ["tflite_artifact", "tflite_int8_artifact"]:
+            intent.pop(key, None)
+
+    def mod_android(s_dir, s_man):
+        for cml in [
+            "IntentClassifier.mlpackage",
+            "IntentClassifier.mlmodelc",
+            "IntentClassifier_full.mlpackage",
+            "IntentClassifier_full.mlmodelc",
+        ]:
+            cml_path = s_dir / "models" / "intent" / lang / cml
+            if cml_path.exists():
+                if cml_path.is_dir():
+                    shutil.rmtree(cml_path)
+                else:
+                    cml_path.unlink()
+
+        intent = s_man.get("models", {}).get("intent", {}).get(lang, {})
+        for key in ["coreml_artifact", "coreml_compiled_artifact", "coreml_full_artifact", "coreml_full_compiled_artifact", "temperature_coreml", "temperature_coreml_full"]:
+            intent.pop(key, None)
+
+        for w in ["intent_classifier_weights.json", "intent_classifier_weights_full.json"]:
+            w_file = s_dir / "models" / "intent" / lang / w
+            if w_file.exists():
+                w_file.unlink()
+
+    try:
+        nlu_universal = build_slice("universal", mod_universal)
+        nlu_ios = build_slice("ios", mod_ios)
+        nlu_android = build_slice("android", mod_android)
+    except RuntimeError:
         return _fail("nlu_compiler.build failed")
 
     print(f"language     : {lang}")
@@ -294,8 +339,9 @@ def assemble(src: Path, version: str, out_dir: Path, *,
     print(f"channel      : {channel}")
     for r in refreshed:
         print(f"refreshed    : {r}")
-    print(proc.stdout.strip())
-    print(f"\nassembled: {nlu_out.relative_to(REPO) if nlu_out.is_relative_to(REPO) else nlu_out}")
+    print(f"\nassembled universal: {nlu_universal}")
+    print(f"assembled ios:       {nlu_ios}")
+    print(f"assembled android:   {nlu_android}")
     return 0
 
 
