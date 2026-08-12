@@ -15,89 +15,89 @@
   "int8_mb": 0.7386,
   "parity": {
     "fp32": {
-      "max_abs_logit_delta": 5.7220458984375e-06,
+      "max_abs_logit_delta": 4.291534423828125e-06,
       "argmax_mismatches": 0,
       "gate_disagreements": 0,
       "flips": []
     },
     "int8": {
-      "max_abs_logit_delta": 0.27064990997314453,
+      "max_abs_logit_delta": 0.2699716091156006,
       "argmax_mismatches": 12,
-      "gate_disagreements": 17,
+      "gate_disagreements": 13,
       "flips": [
         {
-          "text": "please where's my phone",
-          "ref": "Default Fallback Intent",
-          "quant": "Cmd.FindMyPhone",
-          "ref_margin": 0.0157,
-          "ref_confidence": 0.3532
-        },
-        {
-          "text": "is the application of sound",
-          "ref": "Help_WhatsNew",
-          "quant": "Help_Customize",
-          "ref_margin": 0.0048,
-          "ref_confidence": 0.2696
-        },
-        {
-          "text": "open my reminder list",
+          "text": "trader reminder",
           "ref": "reminders.add",
           "quant": "reminders.complete",
-          "ref_margin": 0.0154,
-          "ref_confidence": 0.1579
+          "ref_margin": 0.0036,
+          "ref_confidence": 0.1769
         },
         {
-          "text": "list all current reminder tasks",
+          "text": "repair the audio on my hearing aids",
+          "ref": "Cmd.VolumeUnmute",
+          "quant": "Cmd.VolumeMute",
+          "ref_margin": 0.0048,
+          "ref_confidence": 0.1563
+        },
+        {
+          "text": "bring me some quiet",
+          "ref": "Cmd.VolumeIncrease",
+          "quant": "Cmd.VolumeDecrease",
+          "ref_margin": 0.0001,
+          "ref_confidence": 0.1267
+        },
+        {
+          "text": "which reminders haven't been completed",
           "ref": "reminders.complete",
           "quant": "Help_Reminder",
-          "ref_margin": 0.0012,
-          "ref_confidence": 0.201
-        },
-        {
-          "text": "roll a dice",
-          "ref": "Default Fallback Intent",
-          "quant": "Cmd.VolumeDecrease",
           "ref_margin": 0.0013,
-          "ref_confidence": 0.2137
+          "ref_confidence": 0.1987
         },
         {
-          "text": "what are the side effects of aspirin on hearing",
-          "ref": "Help_Home",
-          "quant": "Help_WhatsNew",
-          "ref_margin": 0.0026,
-          "ref_confidence": 0.1756
-        },
-        {
-          "text": "what does serendipity mean",
-          "ref": "Help_Home",
-          "quant": "Help_Transcribe",
-          "ref_margin": 0.0,
-          "ref_confidence": 0.1056
-        },
-        {
-          "text": "what is the difference between mono and stereo",
+          "text": "mark that item complete",
           "ref": "Default Fallback Intent",
-          "quant": "Help_ChangingMemories",
-          "ref_margin": 0.0113,
-          "ref_confidence": 0.3467
+          "quant": "reminders.complete",
+          "ref_margin": 0.0004,
+          "ref_confidence": 0.2794
+        },
+        {
+          "text": "what vaccines do i need for africa",
+          "ref": "Cmd.ActivityCycle",
+          "quant": "Default Fallback Intent",
+          "ref_margin": 0.0065,
+          "ref_confidence": 0.1253
+        },
+        {
+          "text": "who is the richest person in the world",
+          "ref": "Help_HearShare",
+          "quant": "Default Fallback Intent",
+          "ref_margin": 0.0032,
+          "ref_confidence": 0.2044
         },
         {
           "text": "who plays iron man in avengers",
-          "ref": "Default Fallback Intent",
-          "quant": "Cmd.StreamingStart",
-          "ref_margin": 0.0064,
-          "ref_confidence": 0.0747
+          "ref": "Cmd.TranslationStart",
+          "quant": "Cmd.VolumeUnmute",
+          "ref_margin": 0.0029,
+          "ref_confidence": 0.0773
         },
         {
-          "text": "what is the cube root of twenty seven",
+          "text": "what is sine of thirty degrees",
+          "ref": "Help_CleanCare",
+          "quant": "Help_RemoteProgramming",
+          "ref_margin": 0.0023,
+          "ref_confidence": 0.1315
+        },
+        {
+          "text": "what is the difference between a roth ira and a traditional ira",
           "ref": "Default Fallback Intent",
-          "quant": "Help_WhatsNew",
-          "ref_margin": 0.0053,
-          "ref_confidence": 0.1832
+          "quant": "Help_WiCROS",
+          "ref_margin": 0.0088,
+          "ref_confidence": 0.1295
         }
       ]
     }
   },
   "synthetic_text": true,
-  "synthetic_rows": 10422
+  "synthetic_rows": 8830
 }
