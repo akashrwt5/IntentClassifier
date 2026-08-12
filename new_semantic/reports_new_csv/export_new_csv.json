@@ -1,0 +1,103 @@
+{
+  "tag": "new_csv",
+  "threshold": 0.4,
+  "tokenizer": "word",
+  "max_len": 24,
+  "vocab_size": 12011,
+  "intents": 57,
+  "static_shape": [
+    1,
+    24
+  ],
+  "dynamic_axes": false,
+  "output": "logits",
+  "fp32_mb": 3.5192,
+  "int8_mb": 0.9953,
+  "parity": {
+    "fp32": {
+      "max_abs_logit_delta": 2.86102294921875e-06,
+      "argmax_mismatches": 0,
+      "gate_disagreements": 0,
+      "flips": []
+    },
+    "int8": {
+      "max_abs_logit_delta": 0.2643604278564453,
+      "argmax_mismatches": 12,
+      "gate_disagreements": 7,
+      "flips": [
+        {
+          "text": "please connect me to my audiologist",
+          "ref": "Help_HearingCareAnywhereConnect",
+          "quant": "Help_RemoteProgramming",
+          "ref_margin": 0.0017,
+          "ref_confidence": 0.4127
+        },
+        {
+          "text": "change the program for my hearing aids",
+          "ref": "Help_ChangingMemories",
+          "quant": "Cmd.MemoryChange",
+          "ref_margin": 0.0014,
+          "ref_confidence": 0.2589
+        },
+        {
+          "text": "switch my devices to another listening mode",
+          "ref": "Help_ChangingMemories",
+          "quant": "Help_HearShare",
+          "ref_margin": 0.0088,
+          "ref_confidence": 0.1962
+        },
+        {
+          "text": "change the current listening profile",
+          "ref": "Cmd.MemoryChange",
+          "quant": "Help_ChangingMemories",
+          "ref_margin": 0.0126,
+          "ref_confidence": 0.2248
+        },
+        {
+          "text": "define photosynthesis",
+          "ref": "Help_Health",
+          "quant": "Cmd.StreamingStop",
+          "ref_margin": 0.0037,
+          "ref_confidence": 0.088
+        },
+        {
+          "text": "how do i treat a sprained ankle",
+          "ref": "Help_AppSettings",
+          "quant": "Help_MemoryOptions",
+          "ref_margin": 0.0002,
+          "ref_confidence": 0.0623
+        },
+        {
+          "text": "maybe",
+          "ref": "Cmd.ActivityAerobics",
+          "quant": "Cmd.VolumeIncrease",
+          "ref_margin": 0.0009,
+          "ref_confidence": 0.0836
+        },
+        {
+          "text": "what ingredients go into guacamole",
+          "ref": "Help_EdgeMode",
+          "quant": "Default Fallback Intent",
+          "ref_margin": 0.0036,
+          "ref_confidence": 0.0663
+        },
+        {
+          "text": "what is blockchain",
+          "ref": "Help_EdgeMode",
+          "quant": "Help_Customize",
+          "ref_margin": 0.0067,
+          "ref_confidence": 0.0839
+        },
+        {
+          "text": "how do i apply for a mortgage",
+          "ref": "Help_VoiceAssistant",
+          "quant": "Default Fallback Intent",
+          "ref_margin": 0.0075,
+          "ref_confidence": 0.143
+        }
+      ]
+    }
+  },
+  "synthetic_text": false,
+  "synthetic_rows": 0
+}

@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent
 
 # ---------------------------------------------------------------- data
 DATA = ROOT / "data"
-TRAIN_CSV = DATA / "en" / "train.csv"
+TRAIN_CSV = ROOT.parent / "complete_csv.csv"
 LABELS_JSON = DATA / "en" / "labels.json"
 
 LOCKED_TEST = DATA / "eval" / "locked_test_en.csv"
@@ -20,8 +20,8 @@ OOD_TEST = DATA / "eval" / "ood_test_en.csv"
 # recognises them. Never train on it; never quote it as headline accuracy.
 OOV_TEST = DATA / "eval" / "oov_test_en.csv"
 
-MODELS = ROOT / "models" / "en"
-REPORTS = ROOT / "reports"
+MODELS = ROOT / "models_new_csv" / "en"
+REPORTS = ROOT / "reports_new_csv"
 
 FALLBACK_INTENT = "Default Fallback Intent"
 

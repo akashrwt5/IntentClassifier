@@ -35,6 +35,36 @@ def main():
         if file_path.name == "complete_csv.csv":
             continue
 
+        if "eval" in file_path.parts:
+            skipped_files.append(f"{file_path} (Skipped eval data)")
+            continue
+
+        lower_path = str(file_path).lower()
+        if any(
+            x in lower_path
+            for x in [
+                "danish",
+                "french",
+                "german",
+                "spanish",
+                "italian",
+                "dutch",
+                "fr_label",
+                "da_label",
+                "de_label",
+                "multilingual",
+                "language_packs",
+                "/fr/",
+                "/da/",
+                "/de/",
+                "/es/",
+                "/it/",
+                "/nl/",
+            ]
+        ):
+            skipped_files.append(f"{file_path} (Skipped non-English)")
+            continue
+
         try:
             df = pd.read_csv(file_path)
 
@@ -95,6 +125,30 @@ def main():
         combined_df = combined_df.drop_duplicates(subset=["text"], keep=False)
 
     print(f"Total rows after deduplication and conflict resolution: {len(combined_df)}")
+
+    # Remove data leak: filter out any texts present in eval datasets
+    import re, unicodedata
+
+    _TOKEN_RE = re.compile(r"[a-z0-9]+(?:'[a-z0-9]+)?")
+
+    def _token_key(text):
+        t = unicodedata.normalize("NFKD", str(text)).replace("’", "'")
+        return " ".join(_TOKEN_RE.findall(t.lower()))
+
+    eval_texts = set()
+    for eval_file in Path("new_semantic/data/eval").glob("*.csv"):
+        try:
+            eval_df = pd.read_csv(eval_file)
+            if "text" in eval_df.columns:
+                eval_texts.update(eval_df["text"].dropna().apply(_token_key).tolist())
+        except Exception:
+            pass
+    if eval_texts:
+        before_leak = len(combined_df)
+        combined_df = combined_df[~combined_df["text"].apply(_token_key).isin(eval_texts)]
+        print(
+            f"Removed {before_leak - len(combined_df)} rows that were in eval datasets (data leak)."
+        )
 
     output_file = "complete_csv.csv"
     combined_df.to_csv(output_file, index=False)
