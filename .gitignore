@@ -102,3 +102,10 @@ multilingual/models/**/*.onnx
 multilingual/models/**/*.pkl
 multilingual/models/**/*.json
 complete_csv.csv
+
+# Raw Dialogflow seed export: real production ASR transcripts containing
+# customer PII. This repository is public - keep these local only.
+scripts/semantic_compression/dialogflow-en-dataset/
+
+# Scratch area used when files need removing but rm is unavailable.
+**/_to_delete/

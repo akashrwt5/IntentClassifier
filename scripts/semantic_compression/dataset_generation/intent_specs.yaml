@@ -1,0 +1,1829 @@
+meta:
+  generated_by: bootstrap_specs.py
+  intent_count: 57
+  sources:
+    assistant-session (claude-opus-5), pending human review: 56
+    human (from blueprint, for privacy): 1
+  note: Derived from legacy Dialogflow seeds. REQUIRES HUMAN REVIEW before Stage 1 generation;
+    these specs are the source of truth for every downstream label. See `sources` for provenance.
+intents:
+- name: Default Fallback Intent
+  business_description: 'Catch-all for any utterance the assistant must not act on: input
+    that is out of scope for the hearing aids, and in-scope observations that describe a state
+    without requesting a change. Routing here produces a clarification rather than a device
+    action, so it is the safe default whenever intent is uncertain.'
+  trigger_conditions:
+  - Greetings, small talk, thanks, and conversational filler directed at the assistant.
+  - Requests about the outside world - weather, sports, news, shopping, general knowledge,
+    navigation.
+  - Commands aimed at a different product entirely - TV, phone, smart-home devices, another
+    voice assistant, music services.
+  - Pure observations about the hearing aids that request no change ("it sounds quiet today",
+    "the left one feels loose") - the user is describing, not asking.
+  - Speech captured incidentally rather than addressed to the assistant - fragments of conversation
+    with another person, background dialogue, unintelligible ASR output.
+  - Requests for a hearing-aid capability the product does not have.
+  - Any utterance where the intent remains genuinely ambiguous after the Section 7 precedence
+    rules have been applied.
+  do_not_trigger:
+  - An actionable in-scope command, however indirectly phrased. "I'm struggling to hear people"
+    is Cmd.VolumeIncrease, not Fallback - an implicit request is still a request.
+  - An observation that is followed by an actionable command. Per the compound precedence
+    rule the command decides the label, so "it's quieter today, make it louder" is Cmd.VolumeIncrease.
+  - A genuine how-to question about a supported feature. Those belong to the matching Help_*
+    intent, not here.
+  - An in-scope command that merely arrives garbled by ASR. Degraded transcription of a real
+    command is still that command, as long as the intent is recoverable.
+  - A negated command that supplies a replacement action. "Don't turn it up, turn it down"
+    is Cmd.VolumeDecrease by last-explicit-command precedence.
+  boundary_cases:
+  - Uncertainty always resolves here. Fallback is the intended destination for ambiguity,
+    never a failure state - False Accepts are costlier than False Rejects for these users,
+    so the tie goes to inaction.
+  - Observation versus command is the decisive test. If nothing in the utterance asks for
+    a change, it is Fallback regardless of how much in-scope vocabulary it contains.
+  - A bare negation that cancels without replacing ("no, forget it", "cancel that") is Fallback.
+  - An in-scope topic aimed at the wrong device stays here. "Turn the TV up" mentions volume
+    but is not a hearing-aid request.
+  - Where an utterance is unintelligible, prefer Fallback over guessing the nearest command,
+    even when a few tokens match one.
+  neighbor_intents:
+  - Cmd.VolumeIncrease
+  - Cmd.VolumeDecrease
+  - Cmd.StreamingStart
+  - Cmd.EdgeModeIncrease
+  - reminders.add
+  - Help_Volume
+  positive_example: The left one has been sounding a bit quiet today.
+  hard_negative_example: It's quieter today, make it louder.
+  intent_family: Fallback
+  _provenance:
+    model: human (from blueprint, for privacy)
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.VolumeIncrease
+  business_description: Raise the amplification of the hearing aids, either on both sides
+    or on one named side. The user wants sound to be LOUDER.
+  trigger_conditions:
+  - User asks for the hearing aids to be louder, by any phrasing.
+  - User states that what they are hearing is too quiet, too soft or too low and wants that
+    corrected.
+  - User asks for volume to be raised on one specific side or ear.
+  - User asks for maximum or full volume.
+  - User expresses a personal need for more loudness ("I need more volume").
+  do_not_trigger:
+  - Difficulty understanding speech that is attributed to the ENVIRONMENT - background noise,
+    wind, a crowded room, a distant speaker. That is Cmd.EdgeModeIncrease; raising volume
+    amplifies the noise too.
+  - Any request to raise the volume of a TV, phone, streamer, or other device that is not
+    the hearing aids.
+  - Any request about the loudness of the tinnitus masker or white noise feature, which is
+    Help_Tinnitus.
+  - Questions asking HOW to change volume rather than asking for the change. Those are Help_Volume.
+  - An observation that says nothing is being requested ("it sounds quiet today"), which is
+    Fallback.
+  boundary_cases:
+  - Loudness words decide this intent. If the utterance references volume, loudness, quietness,
+    softness or "turn it up", it is this intent even when noise is also mentioned.
+  - An unqualified complaint about hearing difficulty with no loudness word and no environmental
+    cue ("I can't hear") is genuinely ambiguous against Cmd.EdgeModeIncrease. Route to Fallback
+    rather than guessing; a wrong guess changes the device.
+  - Per the compound rule, an observation followed by a request resolves here ("it's too quiet,
+    turn it up").
+  - Side-specific requests stay here; the side is a slot, not a different intent.
+  neighbor_intents:
+  - Cmd.VolumeDecrease
+  - Cmd.VolumeUnmute
+  - Cmd.EdgeModeIncrease
+  - Help_Volume
+  - Cmd.StreamingStart
+  - Default Fallback Intent
+  positive_example: Could you make my hearing aids a bit louder please?
+  hard_negative_example: How do I make my hearing aids louder?
+  intent_family: AudioControl
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.VolumeDecrease
+  business_description: Lower the amplification of the hearing aids, either on both sides
+    or on one named side. The user wants sound to be QUIETER but still audible.
+  trigger_conditions:
+  - User asks for the hearing aids to be quieter or softer, by any phrasing.
+  - User states that what they are hearing is too loud and wants that corrected.
+  - User asks for volume to be lowered on one specific side or ear.
+  - User asks for minimum volume without asking for silence.
+  do_not_trigger:
+  - Requests for complete silence or muting. Minimum volume is not mute - that is Cmd.VolumeMute.
+  - Complaints that sound is harsh, tinny or over-processed rather than too loud, which are
+    Cmd.EdgeModeDecrease.
+  - Requests to lower the volume of a TV, phone or streamer.
+  - Questions asking HOW to lower volume, which are Help_Volume.
+  - A bare observation that something was loud, with no request to change it.
+  boundary_cases:
+  - The words minimum and mute mark different endpoints. Only explicit silence, muting or
+    turning sound off maps to Cmd.VolumeMute.
+  - Words like tinny or over-processed describe sound quality, not loudness, and belong to
+    Cmd.EdgeModeDecrease.
+  - Under the conflicting-command rule the last explicit command wins, so "turn it up, no,
+    turn it down" resolves here.
+  neighbor_intents:
+  - Cmd.VolumeIncrease
+  - Cmd.VolumeMute
+  - Cmd.EdgeModeDecrease
+  - Help_Volume
+  - Default Fallback Intent
+  positive_example: That's a bit much, bring it down a little.
+  hard_negative_example: It sounds tinny.
+  intent_family: AudioControl
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.VolumeMute
+  business_description: Silence the hearing aids completely, on both sides or on one named
+    side. The endpoint is no sound, not merely low sound.
+  trigger_conditions:
+  - User asks for silence, muting, or for the sound to be turned off.
+  - User asks to turn off one specific hearing aid or one side's sound.
+  - User asks for the volume to be switched off entirely.
+  do_not_trigger:
+  - Requests merely to reduce loudness, however strongly worded, which are Cmd.VolumeDecrease.
+  - Requests to stop streaming audio from a TV or remote microphone, which are Cmd.StreamingStop
+    - the aids keep working normally afterwards.
+  - Requests to power the hearing aids off as devices, which are not a supported voice capability
+    and are Help_Volume or Fallback.
+  - Questions asking how to mute, which are Help_Volume.
+  boundary_cases:
+  - Muting silences amplification; it does not power down the device or end a stream. Utterances
+    about stopping a stream go to Cmd.StreamingStop.
+  - The phrase "turn it off" is ambiguous between muting and ending a stream. Resolve by the
+    object - "turn the sound off" is this intent, "turn the TV streaming off" is Cmd.StreamingStop.
+    With no object, use Fallback.
+  - Side-specific muting stays here.
+  neighbor_intents:
+  - Cmd.VolumeUnmute
+  - Cmd.VolumeDecrease
+  - Cmd.StreamingStop
+  - Help_Volume
+  - Default Fallback Intent
+  positive_example: Silence my hearing aids for a moment.
+  hard_negative_example: Stop streaming from the TV.
+  intent_family: AudioControl
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.VolumeUnmute
+  business_description: Restore sound after the hearing aids have been muted, on both sides
+    or on one named side.
+  trigger_conditions:
+  - User asks to unmute, unsilence, or turn the sound back on.
+  - User asks to turn a specific hearing aid or side back on.
+  - User asks for the volume to be switched on again.
+  do_not_trigger:
+  - Requests to make already-audible sound louder, which are Cmd.VolumeIncrease.
+  - Requests to begin streaming from a TV or remote microphone, which are Cmd.StreamingStart.
+  - Questions asking how to unmute, which are Help_Volume.
+  boundary_cases:
+  - This intent restores a previous state; it does not set a level. A request that names a
+    level or direction is Cmd.VolumeIncrease.
+  - The phrase "turn it on" is ambiguous between unmuting and starting a stream. Resolve by
+    the object; with no object, use Fallback.
+  neighbor_intents:
+  - Cmd.VolumeMute
+  - Cmd.VolumeIncrease
+  - Cmd.StreamingStart
+  - Help_Volume
+  - Default Fallback Intent
+  positive_example: Turn my hearing aids back on, please.
+  hard_negative_example: Turn on the TV streaming.
+  intent_family: AudioControl
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.EdgeModeIncrease
+  business_description: Apply or strengthen Edge Mode - the adaptive processing that improves
+    speech clarity in difficult listening environments. The user is struggling to UNDERSTAND,
+    not merely to hear loudly enough.
+  trigger_conditions:
+  - User asks to activate, add or increase Edge Mode or adaptive tuning.
+  - User reports difficulty understanding speech because of the environment - background noise,
+    wind, a restaurant, road noise, a crowd.
+  - User asks to focus on a particular speaker or on the people near them.
+  - User expresses general trouble following speech or making out what someone is saying.
+  - User asks for voices to be made clearer.
+  do_not_trigger:
+  - Requests framed purely in terms of loudness - louder, quieter, volume, too soft. Those
+    are Cmd.VolumeIncrease.
+  - Requests to reduce or switch off Edge Mode, which are Cmd.EdgeModeDecrease or Cmd.EdgeModeDeactivate.
+  - Questions asking what Edge Mode is or how to use it, which are Help_EdgeMode.
+  - Requests to change equalizer or noise settings within a memory, which are Help_Customize.
+  boundary_cases:
+  - Environmental cues decide this intent. Wind, noise, a crowd, a named speaker, or any mention
+    of understanding or clarity resolves here even when the phrasing is indirect.
+  - Loudness words override. If the user says "louder" or "too quiet", it is Cmd.VolumeIncrease
+    regardless of any noise mentioned.
+  - A bare complaint with neither loudness word nor environmental cue ("I can't hear") is
+    ambiguous against Cmd.VolumeIncrease and goes to Fallback. This must be applied identically
+    in both specs.
+  - Pure observations about the environment with no implied request ("it's noisy in here")
+    remain Fallback.
+  neighbor_intents:
+  - Cmd.EdgeModeDecrease
+  - Cmd.EdgeModeDeactivate
+  - Cmd.VolumeIncrease
+  - Help_EdgeMode
+  - Help_Customize
+  - Default Fallback Intent
+  positive_example: I can't follow what she's saying, it's so noisy in here.
+  hard_negative_example: How do I improve my hearing with Edge Mode?
+  intent_family: EdgeMode
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.EdgeModeDecrease
+  business_description: Reduce the strength of Edge Mode processing while leaving it active.
+    The user finds the current processing excessive or unnatural.
+  trigger_conditions:
+  - User asks for less Edge Mode, or to lower, reduce or turn down adaptive tuning.
+  - User reports that Edge Mode is too strong or that there is too much of it.
+  - User complains that the sound has become tinny, harsh or artificial.
+  - User asks to decrease the comfort or communication aspect of Edge Mode.
+  do_not_trigger:
+  - Requests to switch Edge Mode off entirely, which are Cmd.EdgeModeDeactivate.
+  - Requests to make sound quieter, which are Cmd.VolumeDecrease - loudness and processing
+    strength are different controls.
+  - Questions asking how to adjust Edge Mode, which are Help_EdgeMode.
+  boundary_cases:
+  - Less is not off. Only an explicit stop, end, cancel or off maps to Cmd.EdgeModeDeactivate.
+  - Sound-quality complaints (tinny, harsh, processed, unnatural) resolve here rather than
+    to Cmd.VolumeDecrease, which is purely about loudness.
+  neighbor_intents:
+  - Cmd.EdgeModeIncrease
+  - Cmd.EdgeModeDeactivate
+  - Cmd.VolumeDecrease
+  - Help_EdgeMode
+  - Default Fallback Intent
+  positive_example: There's too much edge mode, ease it back a bit.
+  hard_negative_example: Turn edge mode off completely.
+  intent_family: EdgeMode
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.EdgeModeDeactivate
+  business_description: Switch Edge Mode off entirely and return the hearing aids to their
+    previous program.
+  trigger_conditions:
+  - User asks to turn off, stop, end, cancel or deactivate Edge Mode or adaptive tuning.
+  - User asks to return to normal listening after Edge Mode was engaged.
+  do_not_trigger:
+  - Requests merely to soften Edge Mode, which are Cmd.EdgeModeDecrease.
+  - Requests to mute the hearing aids, which are Cmd.VolumeMute - Edge Mode ending does not
+    silence anything.
+  - Requests to switch to a different saved memory or program, which are Help_ChangingMemories.
+  boundary_cases:
+  - Only an explicit termination resolves here. Any wording that implies a remaining amount
+    ("less", "not so much") is Cmd.EdgeModeDecrease.
+  - Under the negation rule, cancelling Edge Mode without naming a replacement resolves here
+    rather than to Fallback, because the seed evidence establishes deactivation as a supported
+    action.
+  neighbor_intents:
+  - Cmd.EdgeModeDecrease
+  - Cmd.EdgeModeIncrease
+  - Cmd.VolumeMute
+  - Help_EdgeMode
+  - Default Fallback Intent
+  positive_example: That's enough, cancel edge mode.
+  hard_negative_example: Give me a little less edge mode.
+  intent_family: EdgeMode
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.StreamingStart
+  business_description: Begin routing audio from an external source - a TV streamer or a remote
+    microphone - directly into the hearing aids.
+  trigger_conditions:
+  - User asks to start streaming, or to stream from the TV or remote microphone.
+  - User asks the hearing aids to listen to or pick up an external source.
+  - User expresses a wish to hear a presenter, speaker or TV through their aids.
+  - User asks to connect to the remote microphone for listening.
+  do_not_trigger:
+  - Requests to raise hearing-aid volume, which are Cmd.VolumeIncrease - streaming changes
+    the audio SOURCE, not the level.
+  - Requests to unmute the aids, which are Cmd.VolumeUnmute.
+  - Questions about how to set up, pair or rename an accessory, which are Help_Accessories.
+  - Questions about how streaming works, which are Help_Accessories.
+  - Requests to pair hearing aids to a phone over Bluetooth, which are Help_Pairing.
+  boundary_cases:
+  - Streaming changes what the aids listen to. Any request about how loud that is belongs
+    to the AudioControl family instead.
+  - Naming an accessory does not by itself make an utterance this intent; a how-to question
+    about the same accessory is Help_Accessories.
+  - Ambiguous turn-it-on requests with no named source go to Fallback.
+  neighbor_intents:
+  - Cmd.StreamingStop
+  - Cmd.VolumeUnmute
+  - Help_Accessories
+  - Help_Pairing
+  - Default Fallback Intent
+  positive_example: Let me hear the TV through my aids.
+  hard_negative_example: How do I start streaming from my TV streamer?
+  intent_family: Streaming
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.StreamingStop
+  business_description: Stop routing external audio into the hearing aids and return them
+    to ambient listening.
+  trigger_conditions:
+  - User asks to stop, end, quit or disconnect streaming.
+  - User asks to stop listening to the TV or the remote microphone.
+  - User asks to turn off streaming from a named accessory.
+  do_not_trigger:
+  - Requests to mute or silence the hearing aids, which are Cmd.VolumeMute - ending a stream
+    leaves the aids hearing the room normally.
+  - Requests to lower the volume, which are Cmd.VolumeDecrease.
+  - Questions about unpairing or removing an accessory, which are Help_Accessories.
+  boundary_cases:
+  - Ending a stream and muting are different outcomes. Resolve by the object of the request;
+    where no object is named, use Fallback.
+  - Turning off the TV itself is out of scope and maps to Fallback.
+  neighbor_intents:
+  - Cmd.StreamingStart
+  - Cmd.VolumeMute
+  - Help_Accessories
+  - Default Fallback Intent
+  positive_example: I'm done with the TV, disconnect it.
+  hard_negative_example: Mute my hearing aids.
+  intent_family: Streaming
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.TranscribeStart
+  business_description: Begin live speech-to-text transcription of the current conversation.
+  trigger_conditions:
+  - User asks to start transcribing, transcription, or captioning.
+  - User asks for the conversation or meeting to be written down.
+  - User asks to start recording in the sense of capturing what is said as text.
+  do_not_trigger:
+  - Requests to STOP transcribing or recording. No stop intent exists in this taxonomy, so
+    those go to Fallback.
+  - Requests to translate between languages, which are Cmd.TranslationStart.
+  - Questions about what transcribe does or where to find it, which are Help_Transcribe.
+  - Requests to set a reminder about a meeting, which are reminders.add.
+  boundary_cases:
+  - The seed file for this intent contains a mislabelled stop-recording utterance. Start and
+    stop are different actions; only starting resolves here.
+  - Transcription renders speech as text in the same language; anything naming a target language
+    is Cmd.TranslationStart.
+  neighbor_intents:
+  - Cmd.TranslationStart
+  - Help_Transcribe
+  - reminders.add
+  - Default Fallback Intent
+  positive_example: Write down this conversation for me.
+  hard_negative_example: What does transcribe do?
+  intent_family: SpeechServices
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.TranslationStart
+  business_description: Begin translation, either by starting the translation feature for
+    a named language or by asking for a specific phrase to be translated.
+  trigger_conditions:
+  - User asks to start, open or begin translation, with or without naming a language.
+  - User asks how to say a specific phrase in a named language.
+  - User asks what a specific word or phrase is in a named language.
+  - User asks to translate into a named language.
+  do_not_trigger:
+  - Requests to transcribe speech in the same language, which are Cmd.TranscribeStart.
+  - Questions about which languages are supported or how translation works, which are Help_Translate.
+  - Requests to translate content that is not speech, which are not supported and map to Fallback.
+  boundary_cases:
+  - A question form does not make an utterance a Question type. Asking how to say something
+    in another language is a request for the assistant to ACT, so it resolves here.
+  - Asking which languages are available is genuinely information-only and belongs to Help_Translate.
+  - A named target language is the strongest signal for this intent.
+  neighbor_intents:
+  - Cmd.TranscribeStart
+  - Help_Translate
+  - Default Fallback Intent
+  positive_example: How do I say take me to the hotel in Spanish?
+  hard_negative_example: What languages can the translate feature use?
+  intent_family: SpeechServices
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.BatteryLevel
+  business_description: Report the current remaining battery level of the hearing aids.
+  trigger_conditions:
+  - User asks how much battery or charge is left.
+  - User asks for the current battery level, life or percentage.
+  - User uses a bare battery-status phrase such as battery level or battery remaining.
+  do_not_trigger:
+  - Questions about HOW to charge or change a battery, which are Help_Battery.
+  - Questions about battery life expectancy, battery types or troubleshooting charging problems,
+    which are Help_Battery.
+  - Requests about the battery of a phone or accessory rather than the hearing aids.
+  boundary_cases:
+  - This intent reports a live value; Help_Battery explains a procedure. A how or why question
+    about batteries is always Help_Battery.
+  - A bare mention of the word battery with no verb resolves here, since the seed evidence
+    establishes terse status queries as normal usage.
+  neighbor_intents:
+  - Help_Battery
+  - Help_SelfCheck
+  - Default Fallback Intent
+  positive_example: How much battery have I got left?
+  hard_negative_example: How do I charge my hearing aid?
+  intent_family: DeviceStatus
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.FindMyPhone
+  business_description: Help the user locate their misplaced PHONE using the hearing aids.
+  trigger_conditions:
+  - User asks where their phone or telephone is.
+  - User reports that their phone is lost or missing.
+  - User asks the assistant to find, locate, detect or search for their phone.
+  - User names their phone by brand or type when asking to find it.
+  do_not_trigger:
+  - Requests to find the HEARING AIDS themselves, which are Help_FindMyHearingAids. This is
+    the only distinction that matters here.
+  - Requests to find any other object, which map to Fallback.
+  - Questions about Bluetooth pairing or connection to the phone, which are Help_Pairing.
+  boundary_cases:
+  - The object decides the intent. Phone, telephone, mobile, iPhone or Android resolve here;
+    aid, aids or hearing aids resolve to Help_FindMyHearingAids.
+  - Where the object is genuinely absent ("I can't find it"), use Fallback.
+  neighbor_intents:
+  - Help_FindMyHearingAids
+  - Help_Pairing
+  - Default Fallback Intent
+  positive_example: I've mislaid my phone again, can you find it?
+  hard_negative_example: I can't find my left hearing aid.
+  intent_family: DeviceLocate
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: reminders.add
+  business_description: Create a new reminder, optionally with a subject, a time, a date or
+    a recurrence.
+  trigger_conditions:
+  - User asks to add, set, create or schedule a reminder.
+  - User asks to be reminded about something, at a time, on a date, or repeatedly.
+  - User asks not to be allowed to forget something.
+  - User asks to remember something for them.
+  do_not_trigger:
+  - Questions asking HOW to set reminders, whether reminders exist, or where to find them.
+    Those are Help_Reminder.
+  - Requests to mark an existing reminder finished, which are reminders.complete.
+  - Requests to transcribe or record a conversation, which are Cmd.TranscribeStart.
+  - Statements merely mentioning a future event with no request to be reminded.
+  boundary_cases:
+  - Time, date and recurrence are slots, not separate intents. A reminder with no time still
+    resolves here.
+  - A reminder about a medical or personal matter is still just a reminder; the subject never
+    changes the intent.
+  - Asking whether the product can set reminders is a capability question and belongs to Help_Reminder.
+  neighbor_intents:
+  - reminders.complete
+  - Help_Reminder
+  - Cmd.TranscribeStart
+  - Default Fallback Intent
+  positive_example: Don't let me forget to pick up milk today.
+  hard_negative_example: Can I set reminders in my hearing aids?
+  intent_family: Reminders
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: reminders.complete
+  business_description: Mark an existing reminder as done.
+  trigger_conditions:
+  - User states that a reminder is complete, done or finished.
+  - User asks to complete, finish or mark off a reminder.
+  - User refers to their latest or last reminder as finished.
+  do_not_trigger:
+  - Requests to create a new reminder, which are reminders.add.
+  - Requests to delete, cancel or postpone a reminder, which are not supported actions and
+    map to Fallback.
+  - Questions about how reminders work, which are Help_Reminder.
+  boundary_cases:
+  - Completing and deleting are different outcomes. Only completion is supported; cancellation
+    or removal goes to Fallback.
+  - Under the negation rule, cancelling a reminder without replacement is Fallback, not this
+    intent.
+  neighbor_intents:
+  - reminders.add
+  - Help_Reminder
+  - Default Fallback Intent
+  positive_example: Mark my last reminder as done.
+  hard_negative_example: Delete that reminder.
+  intent_family: Reminders
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Reminder
+  business_description: Explain the reminders feature - what it is, whether it is available,
+    and how to create or manage reminders.
+  trigger_conditions:
+  - User asks how to set, create or manage reminders.
+  - User asks what reminders are or what the feature does.
+  - User asks whether the hearing aids or the app can set reminders.
+  - User asks for reminder help, a user guide, or where reminders live.
+  do_not_trigger:
+  - Any actual request to create a reminder, which is reminders.add.
+  - Any request to complete a reminder, which is reminders.complete.
+  - Questions about calendar apps outside this product.
+  boundary_cases:
+  - This is the Question side of the reminders pair. If the utterance would cause a reminder
+    to exist, it is reminders.add; if it would only produce an explanation, it is this intent.
+  - Capability questions ("can Thrive set reminders") are information requests and resolve
+    here.
+  neighbor_intents:
+  - reminders.add
+  - reminders.complete
+  - Help_Home
+  - Default Fallback Intent
+  positive_example: How do I set up a daily reminder?
+  hard_negative_example: Set a daily reminder for my tablets.
+  intent_family: Reminders
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ActivityWalk
+  business_description: Report the user's walking data - distance, duration, progress toward
+    the walking goal, or calories burned walking.
+  trigger_conditions:
+  - User asks how far or how long they have walked, over any period.
+  - User asks about progress toward, or the value of, their walking goal.
+  - User asks how much further they need to walk.
+  - User asks about calories burned while walking.
+  - User asks to see their walking history.
+  do_not_trigger:
+  - Requests to SET, change or edit a walking goal, which are Help_Activity.
+  - Questions about where in the app walking data is displayed, which are Help_Health.
+  - Queries naming a different activity, which belong to that activity's intent.
+  - Calorie queries with no activity named, which are Cmd.ActivityCalories.
+  boundary_cases:
+  - The named activity decides the intent; walking, walked and walk resolve here.
+  - Querying is a Command, configuring is Help_Activity, and locating the screen is Help_Health.
+    This split is identical across all eight activity intents.
+  - Standing and stepping are tracked separately and are not walking.
+  neighbor_intents:
+  - Cmd.ActivityStep
+  - Cmd.ActivityRun
+  - Cmd.ActivityStand
+  - Help_Activity
+  - Help_Health
+  - Default Fallback Intent
+  positive_example: How much have I walked this week?
+  hard_negative_example: How do I change my walking goal?
+  intent_family: ActivityTracking
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ActivityStep
+  business_description: Report the user's step count data - steps taken, progress toward the
+    step goal, distance covered, or calories burned from steps.
+  trigger_conditions:
+  - User asks how many steps they have taken, over any period.
+  - User asks about progress toward, or the value of, their step goal.
+  - User asks how many more steps are needed.
+  - User asks about calories burned from steps.
+  - User asks how much distance they have covered.
+  do_not_trigger:
+  - Requests to set up or edit a step goal, which are Help_Activity.
+  - Questions about where step data appears in the app, which are Help_Health.
+  - Queries about walking duration or distance rather than step count, which are Cmd.ActivityWalk.
+  - Calorie queries with no activity named, which are Cmd.ActivityCalories.
+  boundary_cases:
+  - The named activity decides the intent; steps and step count resolve here even though steps
+    are produced by walking.
+  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  neighbor_intents:
+  - Cmd.ActivityWalk
+  - Cmd.ActivityStand
+  - Help_Activity
+  - Help_Health
+  - Default Fallback Intent
+  positive_example: How many more steps do I need today?
+  hard_negative_example: How do I set up my step goal?
+  intent_family: ActivityTracking
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ActivityRun
+  business_description: Report the user's running or jogging data - distance, duration, progress
+    toward the running goal, or calories burned running.
+  trigger_conditions:
+  - User asks how far or how long they have run or jogged, over any period.
+  - User asks about progress toward, or the value of, their running goal.
+  - User asks how much more running is needed.
+  - User asks about calories burned while running or jogging.
+  do_not_trigger:
+  - Requests to set or change a running goal, which are Help_Activity.
+  - Questions about where running data appears, which are Help_Health.
+  - Queries naming walking rather than running, which are Cmd.ActivityWalk.
+  - Calorie queries with no activity named, which are Cmd.ActivityCalories.
+  boundary_cases:
+  - The named activity decides the intent; running and jogging both resolve here.
+  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  neighbor_intents:
+  - Cmd.ActivityWalk
+  - Cmd.ActivityExercise
+  - Cmd.ActivityCycle
+  - Help_Activity
+  - Default Fallback Intent
+  positive_example: How much more running do I need to do today?
+  hard_negative_example: How do I set my running goal?
+  intent_family: ActivityTracking
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ActivityCycle
+  business_description: Report the user's cycling or biking data - distance, duration, progress
+    toward the cycling goal, or calories burned cycling.
+  trigger_conditions:
+  - User asks how far or how long they have cycled, biked or ridden.
+  - User asks about progress toward, or the value of, their cycling goal.
+  - User asks how much further they must ride to meet the goal.
+  - User asks about calories burned while biking.
+  do_not_trigger:
+  - Requests to set or change a biking goal, which are Help_Activity.
+  - Questions about where cycling distance is displayed, which are Help_Health.
+  - Queries naming a different activity.
+  - Calorie queries with no activity named, which are Cmd.ActivityCalories.
+  boundary_cases:
+  - The named activity decides the intent; cycling, biking, bicycling and riding all resolve
+    here.
+  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  neighbor_intents:
+  - Cmd.ActivityRun
+  - Cmd.ActivityWalk
+  - Cmd.ActivityExercise
+  - Help_Activity
+  - Default Fallback Intent
+  positive_example: How far have I cycled this week?
+  hard_negative_example: Where can I see the distance that I biked?
+  intent_family: ActivityTracking
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ActivityStand
+  business_description: Report the user's standing data - time spent standing, progress toward
+    the stand goal, or calories burned standing.
+  trigger_conditions:
+  - User asks how long they have stood, over any period.
+  - User asks about progress toward, or the value of, their stand goal.
+  - User asks how much longer they need to stand.
+  - User asks about calories burned standing.
+  - User asks to see their standing history.
+  do_not_trigger:
+  - Requests to set or change a stand goal, which are Help_Activity.
+  - Questions about where standing data appears, which are Help_Health.
+  - Queries about walking or steps, which are separate intents.
+  boundary_cases:
+  - The named activity decides the intent; standing and stood resolve here.
+  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  neighbor_intents:
+  - Cmd.ActivityStep
+  - Cmd.ActivityWalk
+  - Help_Activity
+  - Help_Health
+  - Default Fallback Intent
+  positive_example: How close am I to my standing goal?
+  hard_negative_example: How do I change my stand goal?
+  intent_family: ActivityTracking
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ActivityAerobics
+  business_description: Report the user's aerobic activity data - duration, progress toward
+    the aerobics goal, or calories burned doing aerobics.
+  trigger_conditions:
+  - User asks how long they have been doing aerobics.
+  - User asks about progress toward, or the value of, their aerobics goal.
+  - User asks about calories burned doing aerobics.
+  - User asks about their general activity goal without naming a specific tracked activity.
+  do_not_trigger:
+  - Requests to set or change an aerobic goal, which are Help_Activity.
+  - Questions about where aerobic data appears, which are Help_Health.
+  - Queries naming a specific activity such as running or cycling.
+  boundary_cases:
+  - The named activity decides the intent; aerobics and aerobic resolve here.
+  - The seed evidence also places bare activity-goal queries here, so an unqualified activity
+    goal question resolves to this intent rather than to Cmd.ActivityExercise.
+  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  neighbor_intents:
+  - Cmd.ActivityExercise
+  - Cmd.ActivityCalories
+  - Help_Activity
+  - Help_Health
+  - Default Fallback Intent
+  positive_example: Have I reached my aerobics goal?
+  hard_negative_example: How do I change my aerobic goal?
+  intent_family: ActivityTracking
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ActivityExercise
+  business_description: Report the user's general exercise or workout data when no specific
+    tracked activity is named - duration, progress toward the exercise goal, or calories burned
+    working out.
+  trigger_conditions:
+  - User asks how long they have been exercising or working out.
+  - User asks about progress toward, or the value of, their exercise goal.
+  - User asks how much longer they need to exercise.
+  - User asks about calories burned exercising or working out.
+  do_not_trigger:
+  - Requests to set or change an exercise goal, which are Help_Activity.
+  - Questions about where exercise data appears, which are Help_Health.
+  - Queries naming a specific tracked activity - walking, running, cycling, standing, steps
+    or aerobics - which belong to those intents.
+  boundary_cases:
+  - This intent is the generic case. A named activity always wins over it.
+  - Exercise and working out are treated as the same concept.
+  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+    Note that a small number of progress-query utterances are mislabelled into Help_Activity
+    in the legacy seed data; the rule above overrides them.
+  neighbor_intents:
+  - Cmd.ActivityAerobics
+  - Cmd.ActivityRun
+  - Cmd.ActivityCalories
+  - Help_Activity
+  - Help_Health
+  - Default Fallback Intent
+  positive_example: How much longer do I need to work out today?
+  hard_negative_example: How do I set up my exercise goal?
+  intent_family: ActivityTracking
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ActivityCalories
+  business_description: Report total calories burned over a period when NO specific activity
+    is named.
+  trigger_conditions:
+  - User asks how many calories they have burned or used today.
+  - User asks for their calorie count for a period, with no activity named.
+  - User uses a bare calorie phrase such as calories burned today.
+  do_not_trigger:
+  - Calorie queries that name an activity - walking, running, cycling, standing, steps, aerobics
+    or exercise - which belong to that activity's intent.
+  - Questions about where calorie data appears in the app, which are Help_Health.
+  - Questions about how calories are calculated, which are Help_Health.
+  boundary_cases:
+  - The absence of a named activity is what defines this intent. Naming any tracked activity
+    moves the utterance to that activity's intent, which is the single most likely confusion
+    for this label.
+  - Querying is a Command, locating the screen is Help_Health.
+  neighbor_intents:
+  - Cmd.ActivityExercise
+  - Cmd.ActivityWalk
+  - Cmd.ActivityRun
+  - Help_Activity
+  - Help_Health
+  - Default Fallback Intent
+  positive_example: How many calories have I burned today?
+  hard_negative_example: How many calories have I burned while biking?
+  intent_family: ActivityTracking
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Volume
+  business_description: Explain how to control hearing-aid volume - adjusting, muting, unmuting,
+    per-side control - and help with volume problems.
+  trigger_conditions:
+  - User asks how to change, raise, lower, mute or unmute the volume.
+  - User asks how to adjust loudness on one side only.
+  - User asks where the volume control is or what it does.
+  - User reports a volume problem and wants it explained, such as getting no sound or the
+    volume dropping to nothing.
+  - User asks for help with volume changes.
+  do_not_trigger:
+  - Any direct request to change the volume now. Those are Cmd.VolumeIncrease, Cmd.VolumeDecrease,
+    Cmd.VolumeMute or Cmd.VolumeUnmute.
+  - Questions about the loudness of the tinnitus masker, which are Help_Tinnitus.
+  - Questions about accessory or TV streamer volume, which are Help_Accessories.
+  - Questions about equalizer or sound-tuning settings, which are Help_Customize.
+  boundary_cases:
+  - This is the highest-risk boundary in the taxonomy. An utterance beginning how, where,
+    why, what, or can I resolves here; an imperative or a stated need resolves to the matching
+    Cmd intent.
+  - Grammatical questions that request an ACTION are commands. "Can you make it louder?" is
+    Cmd.VolumeIncrease; "Can I make it louder?" is this intent.
+  - Where the two readings are genuinely balanced, prefer this intent over the command. Explaining
+    something unnecessarily is far cheaper than changing a device unbidden.
+  neighbor_intents:
+  - Cmd.VolumeIncrease
+  - Cmd.VolumeDecrease
+  - Cmd.VolumeMute
+  - Help_Tinnitus
+  - Help_Customize
+  - Default Fallback Intent
+  positive_example: How do I turn the volume down on just one aid?
+  hard_negative_example: Turn the volume down on my left aid.
+  intent_family: HelpAudio
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_EdgeMode
+  business_description: Explain what Edge Mode is and how to use it to improve hearing in
+    difficult environments.
+  trigger_conditions:
+  - User asks what Edge Mode is or what it does.
+  - User asks how to use, apply or adjust Edge Mode.
+  - User asks how to reduce noise or wind, or enhance voices, using Edge Mode.
+  - User asks how to save an Edge Mode setting.
+  do_not_trigger:
+  - Any direct request to apply, strengthen, reduce or switch off Edge Mode, which are the
+    Cmd.EdgeMode* intents.
+  - Complaints about the current listening environment, which are Cmd.EdgeModeIncrease.
+  - Questions about the equalizer or manual sound tuning, which are Help_Customize.
+  boundary_cases:
+  - Naming Edge Mode is not enough; the question form is what places an utterance here.
+  - A user describing a noisy environment is asking for action, not explanation, and belongs
+    to Cmd.EdgeModeIncrease.
+  - Where the reading is balanced, prefer this intent over the command.
+  neighbor_intents:
+  - Cmd.EdgeModeIncrease
+  - Cmd.EdgeModeDecrease
+  - Cmd.EdgeModeDeactivate
+  - Help_Customize
+  - Default Fallback Intent
+  positive_example: What does Edge Mode actually do?
+  hard_negative_example: Use edge mode to hear the speaker better.
+  intent_family: HelpAudio
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_IntelliVoice
+  business_description: Explain the IntelliVoice feature - what it is, what it does, when
+    to use it, and where to find it.
+  trigger_conditions:
+  - User asks what IntelliVoice is or what it does.
+  - User asks how to use or run IntelliVoice.
+  - User asks when they should use IntelliVoice.
+  - User asks where IntelliVoice is, or for its user guide.
+  - User asks whether their hearing aids support IntelliVoice.
+  do_not_trigger:
+  - Questions about Edge Mode, which are Help_EdgeMode.
+  - Questions about the voice assistant that responds to spoken commands, which are Help_VoiceAssistant.
+  - Direct requests to improve speech clarity now, which are Cmd.EdgeModeIncrease.
+  boundary_cases:
+  - IntelliVoice and the Thrive voice assistant are different features despite both containing
+    the word voice. Questions about talking TO the assistant are Help_VoiceAssistant.
+  - The seed data contains the variant spelling Intelligent Voice; it refers to the same feature.
+  neighbor_intents:
+  - Help_EdgeMode
+  - Help_VoiceAssistant
+  - Help_Customize
+  - Default Fallback Intent
+  positive_example: When should I use IntelliVoice?
+  hard_negative_example: How does the voice assistant work?
+  intent_family: HelpAudio
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_MaskMode
+  business_description: Explain Mask Mode - the setting that compensates for speech muffled
+    by face masks - including how to switch it on or off.
+  trigger_conditions:
+  - User asks what Mask Mode is or what it does.
+  - User asks how to enable, disable or find Mask Mode.
+  - User asks whether Mask Mode will help them.
+  - User asks for help with face-mask-related hearing problems.
+  do_not_trigger:
+  - Questions about Edge Mode or general noise reduction, which are Help_EdgeMode.
+  - Questions about adding mask as a saved memory, which are Help_MemoryOptions.
+  - Direct requests to improve clarity now, which are Cmd.EdgeModeIncrease.
+  boundary_cases:
+  - Even though this intent covers turning Mask Mode on and off, the seed evidence contains
+    only how-to phrasings; there is no Cmd intent for Mask Mode, so instructional requests
+    stay here.
+  - Creating a custom memory named mask is memory management and belongs to Help_MemoryOptions.
+  neighbor_intents:
+  - Help_EdgeMode
+  - Help_MemoryOptions
+  - Help_Customize
+  - Default Fallback Intent
+  positive_example: How do I turn Mask Mode on?
+  hard_negative_example: Add mask as a customized memory.
+  intent_family: HelpAudio
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Tinnitus
+  business_description: Explain the tinnitus masker feature - the therapeutic noise or white
+    noise the aids can play - and how to find and adjust its settings.
+  trigger_conditions:
+  - User asks how to adjust the tinnitus masker, tinnitus noise or white noise.
+  - User asks where tinnitus settings are in the app.
+  - User asks how to change tinnitus levels or programs.
+  - User asks what the ringing in their ears is.
+  - User asks whether the tinnitus feature can be turned off or changed.
+  do_not_trigger:
+  - Requests to change HEARING AID volume, which are the Cmd.Volume* intents. The tinnitus
+    masker has its own separate level.
+  - Questions about general hearing-aid volume control, which are Help_Volume.
+  - Requests to change to a different listening memory, which are Help_ChangingMemories.
+  boundary_cases:
+  - The object decides the intent. Loudness words attached to tinnitus, masker or white noise
+    resolve here; the same words attached to the aids or to sound generally resolve to the
+    volume intents.
+  - This is a clinically sensitive feature; where a request is ambiguous between adjusting
+    the masker and adjusting amplification, prefer this intent's explanation over a volume
+    command.
+  neighbor_intents:
+  - Help_Volume
+  - Cmd.VolumeIncrease
+  - Help_ChangingMemories
+  - Help_Customize
+  - Default Fallback Intent
+  positive_example: How do I turn up the tinnitus noise?
+  hard_negative_example: Turn up the volume in my hearing aids.
+  intent_family: HelpAudio
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Activity
+  business_description: Explain how to set up, change or edit activity goals - steps, walking,
+    running, biking, aerobics - and where activity distance is shown.
+  trigger_conditions:
+  - User asks how to set, set up, change or edit an activity goal.
+  - User asks how to calculate or where to see distance for a tracked activity.
+  - User uses a bare configuration phrase such as edit step goal or set up walking goal.
+  do_not_trigger:
+  - Any query for the user's actual progress or goal VALUE, which belongs to the matching
+    Cmd.Activity* intent. Configuring differs from querying.
+  - Questions about the Health screen as a whole, or about viewing health goals, which are
+    Help_Health.
+  - Questions about heart rate, which are Help_HeartRate.
+  boundary_cases:
+  - Setting versus reading is the whole distinction. Set, set up, change, edit and create
+    resolve here; how far, how long, how many and have I reached resolve to the Cmd.Activity*
+    intents.
+  - The legacy seed file for this intent contains a small number of progress-query utterances
+    that are mislabelled. The rule above overrides the seed data.
+  - Where the question is about finding a screen rather than changing a goal, prefer Help_Health.
+  neighbor_intents:
+  - Help_Health
+  - Cmd.ActivityStep
+  - Cmd.ActivityWalk
+  - Cmd.ActivityExercise
+  - Default Fallback Intent
+  positive_example: How do I change my walking goal?
+  hard_negative_example: How far have I walked today?
+  intent_family: HelpHealth
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Health
+  business_description: Explain the Health screen - what it shows, how to view health and
+    hearing goals, and how to change the period those goals are measured over.
+  trigger_conditions:
+  - User asks what the Health screen shows or what health features exist.
+  - User asks how to see their health, hearing, activity or interaction goals.
+  - User asks how to change a goal's period, such as from daily to weekly.
+  - User asks where in the app a particular health figure can be seen.
+  do_not_trigger:
+  - Any query for the actual value of tracked activity data, which belongs to the matching
+    Cmd.Activity* intent.
+  - Questions specifically about setting up an activity goal's target, which are Help_Activity.
+  - Questions about heart rate or heart rate recovery, which have their own intents.
+  - Questions about the Thrive score, which are Help_ThriveScore.
+  boundary_cases:
+  - This intent is about LOCATING and VIEWING; Help_Activity is about CONFIGURING a target;
+    the Cmd.Activity* intents return the data itself.
+  - Changing the measurement period is a Health screen concern and resolves here, not to Help_Activity.
+  - Where a question names heart rate, prefer the heart-rate intents.
+  neighbor_intents:
+  - Help_Activity
+  - Help_HeartRate
+  - Help_ThriveScore
+  - Help_FallAlert
+  - Cmd.ActivityStep
+  - Default Fallback Intent
+  positive_example: What does the Health screen show?
+  hard_negative_example: How do I set my step goal?
+  intent_family: HelpHealth
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_HeartRate
+  business_description: Explain the heart rate feature - what it is, how it works, how to
+    measure heart rate, and where to find it in the app.
+  trigger_conditions:
+  - User asks what heart rate is, or how the heart rate function works.
+  - User asks how to check, measure or monitor their heart rate.
+  - User asks where the heart rate feature is in the app.
+  - User asks whether the product can measure heart rate.
+  - User asks for their current heart rate.
+  do_not_trigger:
+  - Questions about heart rate RECOVERY, which are Help_HeartRateRecovery - a distinct measurement.
+  - Questions about the Health screen generally, which are Help_Health.
+  - Questions about activity or exercise data, which are the Cmd.Activity* intents.
+  boundary_cases:
+  - The word recovery moves an utterance to Help_HeartRateRecovery. Without it, heart rate
+    questions resolve here.
+  - No Cmd intent exists for reading heart rate, so a direct request for the current value
+    also resolves here rather than to Fallback.
+  neighbor_intents:
+  - Help_HeartRateRecovery
+  - Help_Health
+  - Help_ThriveScore
+  - Default Fallback Intent
+  positive_example: Where do I find my heart rate?
+  hard_negative_example: What is a normal heart rate recovery number?
+  intent_family: HelpHealth
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_HeartRateRecovery
+  business_description: Explain heart rate recovery - what the measurement means, how it is
+    calculated, how to access it, and what a good value looks like.
+  trigger_conditions:
+  - User asks what heart rate recovery is or means.
+  - User asks how heart rate recovery is measured or calculated.
+  - User asks how to find or access the heart rate recovery feature.
+  - User asks whether their heart rate recovery is good, or what a normal value is.
+  - User asks how to improve their heart rate recovery.
+  do_not_trigger:
+  - Questions about plain heart rate measurement, which are Help_HeartRate.
+  - Questions about the Health screen generally, which are Help_Health.
+  - Questions about the Thrive score, which are Help_ThriveScore.
+  boundary_cases:
+  - The word recovery is the deciding signal, and it is the only thing separating this intent
+    from Help_HeartRate.
+  - Interpretation questions about what a good value means resolve here rather than to a general
+    health intent.
+  neighbor_intents:
+  - Help_HeartRate
+  - Help_Health
+  - Help_ThriveScore
+  - Default Fallback Intent
+  positive_example: How is heart rate recovery calculated?
+  hard_negative_example: How do I measure my heart rate?
+  intent_family: HelpHealth
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_FallAlert
+  business_description: Explain the fall detection and alert feature - how it works, how to
+    set it up, how alert contacts are managed, and what the user will see or hear when an
+    alert is sent or cancelled.
+  trigger_conditions:
+  - User asks how fall detection or Fall Alert works.
+  - User asks how to set up fall detection or turn on automatic alerts.
+  - User asks how to add, change or manage alert contacts.
+  - User asks how to send or cancel a manual alert.
+  - User asks what they will hear or see when a fall is detected.
+  - User reports that Fall Alert is not working.
+  do_not_trigger:
+  - Questions about the Health screen or activity goals, which are Help_Health.
+  - Questions about locating misplaced hearing aids, which are Help_FindMyHearingAids.
+  - General device troubleshooting, which is Help_SelfCheck.
+  boundary_cases:
+  - This is a safety feature; where an utterance is ambiguous between this intent and a general
+    help intent, prefer this one, since an unanswered safety question is costlier than a redundant
+    explanation.
+  - An actual emergency in progress is out of scope for this assistant and maps to Fallback.
+  neighbor_intents:
+  - Help_Health
+  - Help_SelfCheck
+  - Help_DeviceSettings
+  - Default Fallback Intent
+  positive_example: How do I set up fall detection?
+  hard_negative_example: Where are my hearing aids?
+  intent_family: HelpHealth
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_ThriveScore
+  business_description: Explain the Thrive wellness score and its component scores - Body,
+    Brain, Kind and iPro - including how they are calculated and how to improve them.
+  trigger_conditions:
+  - User asks what the Thrive score or any component score means.
+  - User asks how a score is calculated.
+  - User asks how to improve or increase a score.
+  - User asks for help or information about a named score.
+  - User asks why they cannot reach a particular score value.
+  do_not_trigger:
+  - Questions about the Health screen or health goals generally, which are Help_Health.
+  - Questions about specific activity data, which are the Cmd.Activity* intents.
+  - Questions about heart rate measurements.
+  boundary_cases:
+  - A named score - Thrive, Body, Brain, Kind or iPro - is the deciding signal for this intent.
+  - Improving a score is an information request, not an action; there is no command that changes
+    a score.
+  neighbor_intents:
+  - Help_Health
+  - Help_HeartRate
+  - Help_Activity
+  - Default Fallback Intent
+  positive_example: How is the Thrive score calculated?
+  hard_negative_example: How do I see my health goals?
+  intent_family: HelpHealth
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_FindMyHearingAids
+  business_description: Help the user locate misplaced HEARING AIDS, including one specific
+    side.
+  trigger_conditions:
+  - User asks where their hearing aids or one named aid is.
+  - User reports that an aid is lost, missing or misplaced.
+  - User asks the assistant to find, locate or search for their aids.
+  - User asks how to search for their aids.
+  do_not_trigger:
+  - Requests to find the PHONE, which are Cmd.FindMyPhone. This is the only distinction that
+    matters here.
+  - Reports that an aid is not working rather than not found, which are Help_SelfCheck.
+  - Questions about pairing or connection, which are Help_Pairing.
+  boundary_cases:
+  - The object decides the intent. Aid, aids or hearing aids resolve here; phone, telephone
+    or a phone brand resolves to Cmd.FindMyPhone.
+  - Lost differs from broken. An aid that cannot be found is this intent; an aid that is found
+    but faulty is Help_SelfCheck.
+  - An aid that will not connect is Help_Pairing, not a location problem.
+  neighbor_intents:
+  - Cmd.FindMyPhone
+  - Help_SelfCheck
+  - Help_Pairing
+  - Default Fallback Intent
+  positive_example: I've misplaced my left hearing aid.
+  hard_negative_example: I can't find my phone.
+  intent_family: HelpFind
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Transcribe
+  business_description: Explain the Transcribe feature - live speech-to-text captioning -
+    what it does, how it works, where to find it, and whether transcripts are saved.
+  trigger_conditions:
+  - User asks what transcribe does or how it works.
+  - User asks where the transcribe or closed-captioning feature is.
+  - User asks whether transcripts or conversations are saved.
+  - User asks where they can see what someone is saying in real time.
+  - User asks for transcribe help or its user guide.
+  do_not_trigger:
+  - Any direct request to begin transcribing now, which is Cmd.TranscribeStart.
+  - Questions about translation between languages, which are Help_Translate.
+  - Questions about the voice assistant, which are Help_VoiceAssistant.
+  boundary_cases:
+  - Question form places an utterance here; an imperative places it in Cmd.TranscribeStart.
+  - Transcription keeps the original language. Any mention of another language moves the utterance
+    to the translate intents.
+  - Closed captioning and speech-to-text refer to this same feature.
+  neighbor_intents:
+  - Cmd.TranscribeStart
+  - Help_Translate
+  - Help_VoiceAssistant
+  - Default Fallback Intent
+  positive_example: Does transcribe save my conversations?
+  hard_negative_example: Start transcribing this conversation.
+  intent_family: HelpSpeechServices
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Translate
+  business_description: Explain the Translate feature - how it works, which languages are
+    supported, where to find it, and whether conversations are saved.
+  trigger_conditions:
+  - User asks what translate does or how the translation feature works.
+  - User asks which or how many languages are supported.
+  - User asks where the translation function is.
+  - User asks what happens if a language is not listed.
+  - User asks whether a translation feature exists at all.
+  - User asks how to talk to someone speaking another language.
+  do_not_trigger:
+  - Any request to translate a specific phrase, or to start translation for a named language,
+    which are Cmd.TranslationStart.
+  - Questions about transcription in one language, which are Help_Transcribe.
+  boundary_cases:
+  - Asking WHICH languages are available is information-only and resolves here; asking to
+    translate INTO one of them is Cmd.TranslationStart.
+  - A question naming a specific phrase to translate is a command regardless of its question
+    form.
+  neighbor_intents:
+  - Cmd.TranslationStart
+  - Help_Transcribe
+  - Help_VoiceAssistant
+  - Default Fallback Intent
+  positive_example: What translation languages are available?
+  hard_negative_example: How do I say good morning in Russian?
+  intent_family: HelpSpeechServices
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_VoiceAssistant
+  business_description: Explain the Thrive voice assistant itself - what it is, what it can
+    be asked to do, how to reach it, and whether it works without a phone.
+  trigger_conditions:
+  - User asks what the voice or virtual assistant is, or how it works.
+  - User asks what they can ask the assistant to do.
+  - User asks how to control their hearing aids by speaking.
+  - User asks where to find the assistant, or for its user guide.
+  - User asks whether the assistant works without the phone.
+  do_not_trigger:
+  - Questions about IntelliVoice, a sound-processing feature, which are Help_IntelliVoice.
+  - Questions about transcription or translation, which have their own intents.
+  - Any actual command directed at the assistant, which belongs to whichever intent that command
+    names.
+  boundary_cases:
+  - This intent is the assistant talking about itself. Any request that asks it to DO something
+    resolves to that action's intent instead.
+  - IntelliVoice is a different feature despite the shared word voice.
+  - Questions naming third-party assistants are out of scope and map to Fallback.
+  neighbor_intents:
+  - Help_IntelliVoice
+  - Help_Transcribe
+  - Help_Home
+  - Default Fallback Intent
+  positive_example: What can I ask Thrive Assistant to do?
+  hard_negative_example: What is IntelliVoice?
+  intent_family: HelpSpeechServices
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Pairing
+  business_description: Explain how to pair, connect, disconnect, sync or troubleshoot the
+    Bluetooth connection between the hearing aids and a phone, tablet or car.
+  trigger_conditions:
+  - User asks how to pair or connect hearing aids to a phone, tablet or car.
+  - User asks how to check whether the aids are paired or connected.
+  - User asks how to disconnect or unpair the aids from a device.
+  - User asks how to sync the aids, or reports that they will not sync.
+  - User reports that audio is not coming through the aids from the phone.
+  - User asks about connecting to more than one device at a time.
+  do_not_trigger:
+  - Questions about pairing an ACCESSORY such as a TV streamer or remote microphone, which
+    are Help_Accessories.
+  - Questions about connecting to the audiologist for remote adjustments, which are Help_RemoteProgramming.
+  - Questions about sharing data with family members, which are Help_HearShare.
+  - Requests to start streaming once already connected, which are Cmd.StreamingStart.
+  - Reports that an aid is faulty rather than unconnected, which are Help_SelfCheck.
+  boundary_cases:
+  - The other endpoint decides the intent. Phone, tablet or car resolves here; TV streamer
+    or remote mic resolves to Help_Accessories; the audiologist resolves to Help_RemoteProgramming.
+  - Not connecting differs from not working. A connection problem is this intent; a device
+    fault is Help_SelfCheck.
+  neighbor_intents:
+  - Help_Accessories
+  - Help_RemoteProgramming
+  - Help_SelfCheck
+  - Cmd.StreamingStart
+  - Default Fallback Intent
+  positive_example: Why won't my hearing aids sync with my phone?
+  hard_negative_example: How do I unpair my Remote Mic?
+  intent_family: HelpConnectivity
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_RemoteProgramming
+  business_description: Explain remote programming, also branded Hearing Care Anywhere or
+    TeleHear - how a hearing professional adjusts the aids remotely, how to request an adjustment,
+    and the cloud account it requires.
+  trigger_conditions:
+  - User asks how remote programming or remote adjustment works.
+  - User asks whether their professional can adjust their aids remotely.
+  - User asks how to request or submit an adjustment from their audiologist.
+  - User asks how to connect to, or contact, their hearing professional.
+  - User asks how to preview or compare settings sent by the professional.
+  - User asks about the cloud account, sign-in or data backup this feature requires.
+  - User refers to the feature by any of its brand names or by a garbled transcription of
+    them.
+  do_not_trigger:
+  - Questions about Bluetooth pairing to a phone, which are Help_Pairing.
+  - Questions about adjusting settings themselves, which are Help_Customize.
+  - Questions about sharing data with family, which are Help_HearShare.
+  boundary_cases:
+  - A hearing professional, audiologist or clinic on the other end is the deciding signal.
+  - The seed data contains many ASR corruptions of the brand names, such as tele hear, tally
+    here and telomere. Treat brand-name corruption as this intent when the surrounding context
+    is about professional adjustment.
+  - Self-service adjustment is Help_Customize; professional adjustment is this intent.
+  neighbor_intents:
+  - Help_Pairing
+  - Help_Customize
+  - Help_HearShare
+  - Help_DeviceSettings
+  - Default Fallback Intent
+  positive_example: Can my audiologist adjust my aids remotely?
+  hard_negative_example: How do I customize my hearing aid settings myself?
+  intent_family: HelpConnectivity
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_HearShare
+  business_description: Explain HearShare - sharing hearing-aid, activity and wellness data
+    with a family member or carer - including invitations and adding people.
+  trigger_conditions:
+  - User asks how to share their hearing aid, activity or wellness data.
+  - User asks how to set up or use HearShare.
+  - User asks how to invite or add another person.
+  - User asks whether a named relative can use HearShare.
+  - User asks whether an invitation was accepted.
+  do_not_trigger:
+  - Questions about connecting to a hearing professional, which are Help_RemoteProgramming.
+  - Questions about Bluetooth pairing, which are Help_Pairing.
+  - Questions about where the user's own health data is shown, which are Help_Health.
+  boundary_cases:
+  - A family member or carer as the recipient is the deciding signal; a clinician as the recipient
+    means Help_RemoteProgramming.
+  - Sharing data with a person differs from connecting a device; the latter is Help_Pairing.
+  neighbor_intents:
+  - Help_RemoteProgramming
+  - Help_Pairing
+  - Help_Health
+  - Default Fallback Intent
+  positive_example: How do I share my hearing information with my daughter?
+  hard_negative_example: How do I connect to my audiologist?
+  intent_family: HelpConnectivity
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Battery
+  business_description: Explain how to charge a rechargeable hearing aid or change a disposable
+    battery, including for specific device styles.
+  trigger_conditions:
+  - User asks how to charge their hearing aid or its battery.
+  - User asks how to change or replace a hearing aid battery.
+  - User asks whether they can change or charge the battery themselves.
+  - User asks about charging a specific hearing aid style such as RIC or ITC.
+  do_not_trigger:
+  - Requests for the CURRENT battery level, which are Cmd.BatteryLevel.
+  - Questions about cleaning the aids, which are Help_CleanCare.
+  - Questions about inserting the aids in the ear, which are Help_InsertDevice.
+  - Reports that an aid is not working, which are Help_SelfCheck.
+  boundary_cases:
+  - Procedure versus status is the distinction. How or can questions resolve here; a request
+    for the remaining level is Cmd.BatteryLevel.
+  - Battery style names such as RIC and ITC are slots, not separate intents.
+  neighbor_intents:
+  - Cmd.BatteryLevel
+  - Help_CleanCare
+  - Help_InsertDevice
+  - Help_SelfCheck
+  - Default Fallback Intent
+  positive_example: How do I change the battery in my hearing aid?
+  hard_negative_example: What is my battery level?
+  intent_family: HelpDeviceCare
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_CleanCare
+  business_description: Explain how to clean and care for hearing aids, including which tools
+    and substances are safe, and how to deal with earwax build-up.
+  trigger_conditions:
+  - User asks how to clean or wash their hearing aids.
+  - User asks whether water, soap or a particular substance is safe to use.
+  - User asks what tools are needed for cleaning.
+  - User asks how to remove or prevent wax build-up.
+  - User reports wax build-up in their aid.
+  do_not_trigger:
+  - Questions about charging or changing batteries, which are Help_Battery.
+  - Questions about inserting or removing the aids, which are Help_InsertDevice.
+  - Reports that an aid has stopped working, which are Help_SelfCheck, unless the user attributes
+    it to wax.
+  boundary_cases:
+  - Wax questions resolve here even when phrased as a malfunction, because the seed evidence
+    treats wax as a cleaning topic.
+  - Where a fault is described with no cleaning or wax context, prefer Help_SelfCheck.
+  neighbor_intents:
+  - Help_Battery
+  - Help_InsertDevice
+  - Help_SelfCheck
+  - Default Fallback Intent
+  positive_example: How do I get rid of wax build-up in my hearing aid?
+  hard_negative_example: Why doesn't my right hearing aid work?
+  intent_family: HelpDeviceCare
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_InsertDevice
+  business_description: Explain how to physically put hearing aids into the ears and take
+    them out, including how a correctly seated aid should look.
+  trigger_conditions:
+  - User asks how to insert, put on or take out their hearing aids.
+  - User asks how far the aid or earmold should go in.
+  - User asks what a correctly fitted aid should look like.
+  - User asks for a video or demonstration of insertion.
+  - User reports being unable to get an aid on or in.
+  do_not_trigger:
+  - Questions about cleaning, which are Help_CleanCare.
+  - Questions about charging, which are Help_Battery.
+  - Questions about the aids not working once inserted, which are Help_SelfCheck.
+  - Questions about locating a missing aid, which are Help_FindMyHearingAids.
+  boundary_cases:
+  - Physical fitting is the topic. A complaint about comfort or seating is this intent; a
+    complaint about sound or function is Help_SelfCheck.
+  - Left and right are slots, not separate intents.
+  neighbor_intents:
+  - Help_CleanCare
+  - Help_SelfCheck
+  - Help_Battery
+  - Default Fallback Intent
+  positive_example: Show me how to put my hearing aid in.
+  hard_negative_example: How do I clean my hearing aid?
+  intent_family: HelpDeviceCare
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_SelfCheck
+  business_description: Explain the self-check diagnostic and help with hearing aids that
+    are faulty, not detected, or performing poorly.
+  trigger_conditions:
+  - User asks how to run or interpret a self-check.
+  - User asks whether their aids are working properly or how to test them.
+  - User reports that an aid does not work, is faint, or has a problem.
+  - User reports that one aid is not being found by the app.
+  - User asks what a failed self-check or an X result means.
+  do_not_trigger:
+  - Reports that an aid is LOST rather than faulty, which are Help_FindMyHearingAids.
+  - Connection problems between aids and phone, which are Help_Pairing.
+  - Requests to raise volume because sound seems weak, which are Cmd.VolumeIncrease.
+  - Wax-related problems, which are Help_CleanCare.
+  boundary_cases:
+  - Broken differs from lost and from unconnected. A device fault is this intent; a missing
+    device is Help_FindMyHearingAids; a connection issue is Help_Pairing.
+  - A complaint that sound is too quiet is a volume request, not a fault report, unless the
+    user says the aid is not working.
+  - Where a fault report is ambiguous against a volume command, prefer this intent - diagnosing
+    is safer than amplifying.
+  neighbor_intents:
+  - Help_FindMyHearingAids
+  - Help_Pairing
+  - Help_CleanCare
+  - Cmd.VolumeIncrease
+  - Default Fallback Intent
+  positive_example: There's a problem with my left hearing aid.
+  hard_negative_example: My hearing aids are too quiet, turn them up.
+  intent_family: HelpDeviceCare
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Accessories
+  business_description: Explain hearing-aid accessories - TV streamer, remote microphone and
+    others - including pairing, renaming, removing them, and controlling their volume.
+  trigger_conditions:
+  - User asks how to use, set up or pair an accessory.
+  - User asks which accessories they have or are paired.
+  - User asks how to rename, delete or unpair an accessory.
+  - User asks how to change the volume of an accessory or the TV sound.
+  - User asks how to start streaming from an accessory.
+  - User asks for an accessory user manual or help guide.
+  do_not_trigger:
+  - Any direct request to start or stop streaming now, which are Cmd.StreamingStart and Cmd.StreamingStop.
+  - Questions about pairing the aids to a PHONE, which are Help_Pairing.
+  - Requests to change HEARING AID volume, which are the Cmd.Volume* intents.
+  boundary_cases:
+  - The named device decides the intent between this and Help_Pairing -- accessory here, phone
+    or car there.
+  - Question form separates this intent from the streaming commands; an imperative naming
+    an accessory is still a streaming command.
+  - Accessory volume is a separate control from hearing-aid volume.
+  neighbor_intents:
+  - Cmd.StreamingStart
+  - Cmd.StreamingStop
+  - Help_Pairing
+  - Help_Volume
+  - Default Fallback Intent
+  positive_example: How do I rename my TV streamer?
+  hard_negative_example: Start streaming from the TV.
+  intent_family: HelpDeviceCare
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_WiCROS
+  business_description: Explain CROS and WiCROS systems - the transmitter and receiver pair
+    used for single-sided hearing - and the balance control between them.
+  trigger_conditions:
+  - User asks what CROS, WiCROS or Bi-CROS is, or how they differ.
+  - User asks whether they have a CROS system.
+  - User asks what the transmitter or receiver is or does.
+  - User asks how to find, use or adjust the balance control.
+  - User asks how to change transmitter or receiver loudness.
+  - User asks whether balance settings persist across programs.
+  do_not_trigger:
+  - Requests to change ordinary hearing-aid volume, which are the Cmd.Volume* intents.
+  - Questions about general volume control, which are Help_Volume.
+  - Questions about changing programs or memories, which are Help_ChangingMemories.
+  boundary_cases:
+  - The words CROS, transmitter, receiver or balance control are the deciding signals.
+  - Balance is a CROS-specific control and is not the same as volume, even though both affect
+    loudness.
+  neighbor_intents:
+  - Help_Volume
+  - Help_ChangingMemories
+  - Help_DeviceSettings
+  - Default Fallback Intent
+  positive_example: How does the CROS balance feature work?
+  hard_negative_example: How do I change the volume on my hearing aids?
+  intent_family: HelpDeviceCare
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_AppSettings
+  business_description: Explain the app's own settings - where they are, how to change them,
+    and the difference between Basic and Advanced app modes.
+  trigger_conditions:
+  - User asks where app settings are or how to change them.
+  - User asks how to switch between Basic and Advanced mode.
+  - User asks what Basic or Advanced mode is, or what each offers.
+  - User asks which version of the app they are running.
+  - User asks whether a mode change can be reversed.
+  do_not_trigger:
+  - Questions about HEARING AID hardware settings such as firmware, serial number or double
+    tap, which are Help_DeviceSettings.
+  - Questions about sound tuning within a memory, which are Help_Customize.
+  - Questions about what is new in this version, which are Help_WhatsNew.
+  - Questions about the Home screen, which are Help_Home.
+  boundary_cases:
+  - The object of the setting decides the intent. The app itself resolves here; the hearing
+    aids resolve to Help_DeviceSettings.
+  - App version identification resolves here, but asking what CHANGED in that version is Help_WhatsNew.
+  neighbor_intents:
+  - Help_DeviceSettings
+  - Help_WhatsNew
+  - Help_Home
+  - Help_Customize
+  - Default Fallback Intent
+  positive_example: What's the difference between Basic and Advanced mode?
+  hard_negative_example: What's the firmware version of my aid?
+  intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_DeviceSettings
+  business_description: Explain hearing-aid hardware settings - firmware and serial number,
+    double tap sensitivity, notification playback, automatic streaming, Comfort Boost, automatic
+    telephone programs and data logging.
+  trigger_conditions:
+  - User asks where to find the hearing aid model, serial number or firmware version.
+  - User asks how to adjust double tap sensitivity or other tap controls.
+  - User asks how to play phone notifications through the aids.
+  - User asks how to set up automatic streaming or an automatic telephone program.
+  - User asks what Comfort Boost is or when to use it.
+  - User asks how to restore default settings on the aids.
+  - User asks about beeps, tones or the data log.
+  do_not_trigger:
+  - Questions about the app's own settings or modes, which are Help_AppSettings.
+  - Questions about the equalizer or sound tuning, which are Help_Customize.
+  - Questions about creating or switching memories, which are Help_MemoryOptions and Help_ChangingMemories.
+  - Questions about pairing, which are Help_Pairing.
+  boundary_cases:
+  - This intent covers device-level preferences that apply across all memories. A setting
+    that lives inside one memory is Help_Customize.
+  - Automatic streaming setup is a device preference; a request to stream right now is Cmd.StreamingStart.
+  neighbor_intents:
+  - Help_AppSettings
+  - Help_Customize
+  - Help_MemoryOptions
+  - Help_WiCROS
+  - Help_Pairing
+  - Default Fallback Intent
+  positive_example: The double tap is too sensitive, can I adjust it?
+  hard_negative_example: How do I access the app settings?
+  intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Customize
+  business_description: Explain how to fine-tune the SOUND of the hearing aids - the equalizer,
+    bass and treble, background, wind and machine noise, and speech focus.
+  trigger_conditions:
+  - User asks what the equalizer is, where it is, or how to use it.
+  - User asks how to customize or personalize hearing aid sound settings.
+  - User asks how to reduce background, wind or machine noise.
+  - User asks how to increase treble, high pitch or bass.
+  - User asks how to change the speech focus setting.
+  - User asks how to customize one side only.
+  do_not_trigger:
+  - Direct requests to change loudness now, which are the Cmd.Volume* intents.
+  - Direct requests to improve clarity now, which are Cmd.EdgeModeIncrease.
+  - Questions about creating or saving a memory, which are Help_MemoryOptions.
+  - Questions about device-level preferences, which are Help_DeviceSettings.
+  - Questions about the Edge Mode feature itself, which are Help_EdgeMode.
+  boundary_cases:
+  - This intent is manual, per-memory sound shaping; Edge Mode is automatic adaptive processing.
+    A question naming Edge Mode goes to Help_EdgeMode.
+  - Reducing noise via the equalizer is this intent; asking the aids to cope with noise right
+    now is Cmd.EdgeModeIncrease.
+  - Saving the result as a memory is Help_MemoryOptions.
+  neighbor_intents:
+  - Help_MemoryOptions
+  - Help_DeviceSettings
+  - Help_EdgeMode
+  - Help_Volume
+  - Default Fallback Intent
+  positive_example: How do I use the equalizer to turn down machine noise?
+  hard_negative_example: It's too noisy in here, help me hear him.
+  intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_ChangingMemories
+  business_description: Explain how to switch between existing hearing aid memories or programs,
+    using the app or the button on the aid.
+  trigger_conditions:
+  - User asks how to change, switch or access memories or programs.
+  - User asks how to move to a different program on the aids or in the app.
+  - User asks which memory they are currently in.
+  - User asks where the memory button is, or what the memory button does.
+  - User asks what a memory is.
+  - User asks how to return to the normal memory.
+  - User asks whether they have a particular memory available.
+  do_not_trigger:
+  - Questions about CREATING, saving, customizing or deleting a memory, which are Help_MemoryOptions.
+  - Questions about tuning sound within a memory, which are Help_Customize.
+  - Requests to switch to Edge Mode now, which are Cmd.EdgeModeIncrease.
+  boundary_cases:
+  - Switching between memories that already exist is this intent; bringing a new memory into
+    existence, or changing what a memory contains, is Help_MemoryOptions. This is the single
+    most likely confusion for this label.
+  - Asking what memory is currently active resolves here even though it is a status question,
+    since no command intent exists for it.
+  neighbor_intents:
+  - Help_MemoryOptions
+  - Help_Customize
+  - Cmd.EdgeModeIncrease
+  - Help_DeviceSettings
+  - Default Fallback Intent
+  positive_example: How do I switch to the Music memory?
+  hard_negative_example: How do I create a custom memory?
+  intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_MemoryOptions
+  business_description: Explain how to create, save, personalize, geotag, reset and delete
+    hearing aid memories.
+  trigger_conditions:
+  - User asks how to create, add or make a custom memory.
+  - User asks how to save settings into a memory.
+  - User asks how to delete or reset memories.
+  - User asks what geotagging is or how to tag a location to a memory.
+  - User asks what memory options are available.
+  - User reports that an expected memory is missing from their list.
+  do_not_trigger:
+  - Questions about SWITCHING to an existing memory, which are Help_ChangingMemories.
+  - Questions about the equalizer or sound tuning controls themselves, which are Help_Customize.
+  - Questions about Mask Mode as a feature, which are Help_MaskMode.
+  boundary_cases:
+  - Managing the set of memories is this intent; moving between them is Help_ChangingMemories.
+  - A request to add a named mode as a saved memory resolves here, even when that mode has
+    its own help intent.
+  - Saving equalizer changes is memory management; making those changes is Help_Customize.
+  neighbor_intents:
+  - Help_ChangingMemories
+  - Help_Customize
+  - Help_MaskMode
+  - Help_DeviceSettings
+  - Default Fallback Intent
+  positive_example: Can I create my own custom memory?
+  hard_negative_example: How do I change to a different memory?
+  intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_DemoMode
+  business_description: Explain demo mode - using or demonstrating the app without hearing
+    aids connected.
+  trigger_conditions:
+  - User asks what demo mode is or whether the app has one.
+  - User asks how to enable, access or use demo mode.
+  - User asks how to use or show the app without hearing aids connected.
+  - User asks to test drive or demonstrate the app or the aids.
+  - User asks how to see what the hearing aids can do.
+  do_not_trigger:
+  - Questions about app settings or modes such as Basic and Advanced, which are Help_AppSettings.
+  - Questions about what is new in the app, which are Help_WhatsNew.
+  - Questions about pairing aids that are not connecting, which are Help_Pairing.
+  boundary_cases:
+  - Demo mode is about operating WITHOUT aids. A user who wants their aids connected but cannot
+    connect them is Help_Pairing.
+  - Basic and Advanced are app modes, not demo mode.
+  neighbor_intents:
+  - Help_AppSettings
+  - Help_WhatsNew
+  - Help_Pairing
+  - Help_Home
+  - Default Fallback Intent
+  positive_example: Can I use the app without hearing aids connected?
+  hard_negative_example: Why won't my hearing aids connect?
+  intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_Home
+  business_description: Explain the Home or main screen - how to reach it, what it shows,
+    and what can be adjusted from it.
+  trigger_conditions:
+  - User asks where the Home or main screen is.
+  - User asks how to get to or back to the Home screen.
+  - User asks what is on the Home screen or what can be adjusted there.
+  - User asks for help with the main screen.
+  - User asks a broad orientation question about how to use the app or the hearing aids.
+  do_not_trigger:
+  - Questions about app settings, which are Help_AppSettings.
+  - Questions about what is new in the app, which are Help_WhatsNew.
+  - Questions about a specific feature, which belong to that feature's intent.
+  boundary_cases:
+  - This intent is the general orientation fallback WITHIN the help space. Where a specific
+    feature is named, that feature's intent always wins.
+  - A broad question with no feature named and no out-of-scope content resolves here rather
+    than to Fallback, since the user is asking about this product.
+  neighbor_intents:
+  - Help_AppSettings
+  - Help_WhatsNew
+  - Help_VoiceAssistant
+  - Default Fallback Intent
+  positive_example: What's on the Home screen?
+  hard_negative_example: Where do I find the app settings?
+  intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Help_WhatsNew
+  business_description: Explain what has changed in the current version of the app or hearing
+    aids, and provide the quick start or getting-started overview.
+  trigger_conditions:
+  - User asks what is new in the app, the version or the hearing aids.
+  - User asks what has changed or what is different about this version.
+  - User asks for a quick start guide, overview or summary of the app.
+  - User asks how to get started.
+  do_not_trigger:
+  - Questions about which app version is installed, which are Help_AppSettings.
+  - Questions about the Home screen, which are Help_Home.
+  - Questions about a specific feature's behaviour, which belong to that feature's intent.
+  boundary_cases:
+  - Identifying the version is Help_AppSettings; describing what that version changed is this
+    intent.
+  - Quick start and getting started resolve here, since the seed evidence groups onboarding
+    material with release information.
+  neighbor_intents:
+  - Help_AppSettings
+  - Help_Home
+  - Help_DemoMode
+  - Default Fallback Intent
+  positive_example: What's new in this version of the app?
+  hard_negative_example: Which version of the app am I using?
+  intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml

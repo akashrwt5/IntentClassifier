@@ -1,0 +1,379 @@
+# =============================================================================
+# NLU Super Dataset Generator -- Central Configuration
+# =============================================================================
+# Single source of truth for every tunable parameter in the generation
+# pipeline. Nothing in the Python scripts should hardcode a value that appears
+# here (Roadmap Phase 1).
+#
+# All relative paths are resolved against the directory containing THIS file.
+# =============================================================================
+
+version: 1
+
+paths:
+  seed_dir: "../dialogflow-en-dataset"
+  output_dir: "."
+  intent_specs: "intent_specs.yaml"
+  hand_authored_specs: "authored_specs.yaml"
+  specs_summary: "specs_summary.md"
+  seed_audit_report: "seed_audit_report.md"
+  checkpoint_dir: ".checkpoints"
+
+# -----------------------------------------------------------------------------
+# LLM settings
+# -----------------------------------------------------------------------------
+llm:
+  provider: openai
+  model: gpt-4o
+  temperature: 0.1
+  max_retries: 3
+  retry_backoff_seconds: 2.0
+  request_timeout_seconds: 90
+
+reproducibility:
+  # Fixes seed sampling so two runs show the LLM the same evidence.
+  # It does NOT make the LLM itself deterministic -- see llm.temperature.
+  random_seed: 20260812
+
+# -----------------------------------------------------------------------------
+# Seed sampling
+# -----------------------------------------------------------------------------
+# The legacy Dialogflow export is permutation-heavy: the first N lines of a file
+# are near-identical siblings ("increase the volume" / "increase the volume in
+# my aids" / "Increase volume in my hearing aids"). Slicing the head of the file
+# therefore shows the LLM the LEAST informative evidence available. We instead
+# greedily pick a maximally diverse subset.
+seed_sampling:
+  strategy: max_diversity        # max_diversity | head | random
+  max_seeds_per_intent: 18
+  min_tokens: 1
+  max_tokens: 25
+
+  # Farthest-point selection is attracted to outliers, and the logs do contain
+  # real ASR garbage filed under command intents -- one Cmd.VolumeIncrease seed
+  # is a mis-transcription carrying two unrelated personal names. (Examples are
+  # not quoted here: these are production transcripts and this repo is public.)
+  #
+  # DEFAULT OFF, deliberately. The rare-word heuristic below was measured
+  # against the corpus and its false positives are unacceptable: it withholds
+  # "Can you help me find my telephone please" (Cmd.FindMyPhone) and "why am I
+  # not getting any sound" (Help_Volume) -- precisely the polite/implicit
+  # phrasings this project exists to capture -- because it penalises lexical
+  # novelty, which is the signal we want. It also strips 89 out-of-scope lines
+  # from Default Fallback Intent, where chaotic junk IS the intent.
+  #
+  # `seed_audit.py` still reports what this heuristic WOULD flag, as review
+  # candidates for a human. Leaving one garbage line in an 18-phrase sample is
+  # cheaper than silently deleting good semantic evidence, and the system prompt
+  # already forbids inventing capabilities from a single odd utterance.
+  noise_guard:
+    enabled: false
+    max_hapax_tokens: 2
+    min_utterances_to_apply: 30
+
+# -----------------------------------------------------------------------------
+# Generation budgets (consumed by Phase 2/3 generator.py)
+# -----------------------------------------------------------------------------
+generation:
+  utterances_per_intent:
+    default: 120
+    overrides:
+      Default Fallback Intent: 400
+      Cmd.VolumeIncrease: 180
+      Cmd.VolumeDecrease: 180
+      Cmd.EdgeModeIncrease: 160
+      Cmd.EdgeModeDecrease: 160
+  hard_negatives_per_intent: 40
+  oos_ratio: 0.15
+  max_utterance_words: 20
+
+# -----------------------------------------------------------------------------
+# Deduplication (Phase 3, Stage 2)
+# -----------------------------------------------------------------------------
+deduplication:
+  # SCOPE IS THE LOAD-BEARING SETTING HERE. Read this before changing anything.
+  #
+  # A hard negative is, by construction, a pair with HIGH embedding similarity
+  # and DIFFERENT labels -- "turn it up" vs "how do I turn it up". That is
+  # exactly what a similarity threshold deletes. Running dedup across the whole
+  # pool would therefore destroy the Stage 3 output this project exists to
+  # create, and it would do so silently, leaving a clean-looking dataset with
+  # its decision boundaries stripped out.
+  #
+  # Dedup is therefore WITHIN-INTENT ONLY. Cross-intent similarity is a signal
+  # to keep, not noise to remove. If two utterances under different intents are
+  # near-identical, that is a taxonomy defect for `seed_audit.py` to report --
+  # not something the deduplicator should quietly resolve.
+  scope: within_intent            # within_intent | global (global is unsafe -- see above)
+
+  # The judge must be INDEPENDENT of the model being trained.
+  #
+  # This project distils BAAI/bge-small-en-v1.5 down to an L3 student
+  # (see colab_distillation_stage1.py). Deduplicating with bge-small, or with
+  # the student itself, is circular: "duplicate" would come to mean "duplicate
+  # according to the very model we are trying to improve", so the pairs it
+  # currently confuses -- the most valuable training signal we have -- would be
+  # the first ones deleted.
+  #
+  # A stronger, different-family model is used instead. Dedup runs once, offline,
+  # over roughly ten thousand short utterances, so its cost is irrelevant; only
+  # its judgement matters. (The earlier value here was all-MiniLM-L6-v2, which
+  # was a generic default and matched neither this stack nor this reasoning.)
+  embedding_model: "sentence-transformers/all-mpnet-base-v2"
+
+  # PLACEHOLDER -- must be calibrated before Stage 2 is trusted.
+  #
+  # This number was chosen by convention, not measured. Calibrate it against the
+  # ground truth we already have: `seed_audit.py` identifies 47 exact
+  # within-intent duplicates that SHOULD be caught, while the intents' own
+  # distinct utterances SHOULD NOT be. Pick the threshold that separates those
+  # two populations, and record the separation achieved.
+  near_duplicate_threshold: 0.92
+  calibrated: false
+
+  normalize_before_compare: true
+
+# -----------------------------------------------------------------------------
+# Taxonomy resolution
+# -----------------------------------------------------------------------------
+# The raw seed directory contains 63 .txt files but only 57 real intents.
+# Every rule below is evidence-backed -- run `python seed_audit.py` to
+# regenerate the report that justifies it.
+taxonomy:
+  fallback_intent: "Default Fallback Intent"
+
+  # Intents whose specification is authored directly in `authored_specs.yaml`
+  # and never sent to the LLM API. They are still validated by the same rules
+  # that gate generated specs, and all of them need HUMAN REVIEW before Stage 1.
+  #
+  # All 57 are currently listed. `Default Fallback Intent` is here for the
+  # privacy reason below; the other 56 were drafted in an assistant session,
+  # family by family, so that sibling boundaries are mutually consistent -- a
+  # per-intent API call cannot do that, because it never sees the sibling it
+  # must avoid overlapping with. Remove a name from this list to hand that
+  # intent back to the LLM bootstrapper.
+  #
+  # Default Fallback Intent is here for a privacy reason, not a quality one. Its
+  # 613 seeds are raw production ASR transcripts of real hearing-aid users,
+  # including ambient speech captured around them: a street address, a phone
+  # number, benefits and health details, personal names and private
+  # conversation. Sending any of it to a third-party API is a needless
+  # disclosure of customer data. (Not quoted here -- this repo is public.)
+  #
+  # Nothing is lost by hand-authoring it. Fallback's specification is generic by
+  # definition -- "anything out of scope, plus pure observations" -- so it does
+  # not need seed evidence to be written correctly. And the seed sampler makes
+  # the exposure worse than it looks: farthest-point selection actively seeks
+  # unusual outliers, and the PII-bearing lines are exactly those outliers.
+  hand_authored_intents:
+    - "Default Fallback Intent"
+    - "Cmd.VolumeIncrease"
+    - "Cmd.VolumeDecrease"
+    - "Cmd.VolumeMute"
+    - "Cmd.VolumeUnmute"
+    - "Cmd.EdgeModeIncrease"
+    - "Cmd.EdgeModeDecrease"
+    - "Cmd.EdgeModeDeactivate"
+    - "Cmd.StreamingStart"
+    - "Cmd.StreamingStop"
+    - "Cmd.TranscribeStart"
+    - "Cmd.TranslationStart"
+    - "Cmd.BatteryLevel"
+    - "Cmd.FindMyPhone"
+    - "reminders.add"
+    - "reminders.complete"
+    - "Help_Reminder"
+    - "Cmd.ActivityWalk"
+    - "Cmd.ActivityStep"
+    - "Cmd.ActivityRun"
+    - "Cmd.ActivityCycle"
+    - "Cmd.ActivityStand"
+    - "Cmd.ActivityAerobics"
+    - "Cmd.ActivityExercise"
+    - "Cmd.ActivityCalories"
+    - "Help_Volume"
+    - "Help_EdgeMode"
+    - "Help_IntelliVoice"
+    - "Help_MaskMode"
+    - "Help_Tinnitus"
+    - "Help_Activity"
+    - "Help_Health"
+    - "Help_HeartRate"
+    - "Help_HeartRateRecovery"
+    - "Help_FallAlert"
+    - "Help_ThriveScore"
+    - "Help_FindMyHearingAids"
+    - "Help_Transcribe"
+    - "Help_Translate"
+    - "Help_VoiceAssistant"
+    - "Help_Pairing"
+    - "Help_RemoteProgramming"
+    - "Help_HearShare"
+    - "Help_Battery"
+    - "Help_CleanCare"
+    - "Help_InsertDevice"
+    - "Help_SelfCheck"
+    - "Help_Accessories"
+    - "Help_WiCROS"
+    - "Help_AppSettings"
+    - "Help_DeviceSettings"
+    - "Help_Customize"
+    - "Help_ChangingMemories"
+    - "Help_MemoryOptions"
+    - "Help_DemoMode"
+    - "Help_Home"
+    - "Help_WhatsNew"
+
+  # Dialogflow ENTITY value lists, not intents. Their contents are bare slot
+  # values ("Normal", "Restaurant", "Outdoors"), not utterances. Feeding them to
+  # the spec bootstrapper invents three intents that do not exist.
+  exclude_files:
+    - "_EntityMemory"
+    - "_EntityRecurrence"
+    - "_EntityRemind"
+
+  # Stale/renamed exports of the same intent. Phrases are unioned into the
+  # target and the source name disappears from the taxonomy.
+  merge_intents:
+    "Help.Activity":
+      into: "Help_Activity"
+      reason: >-
+        Dot-variant of the same intent from an older export. 25 of its 29 unique
+        phrases already appear in Help_Activity; every other Help intent in the
+        taxonomy uses the underscore convention. Unioned to keep the 4 extra
+        phrases.
+
+  # Intents removed from the taxonomy entirely, with their seed files.
+  drop_intents:
+    "Cmd.Health":
+      reason: >-
+        Rollup PARENT intent, not a sibling. 155 of its 160 unique utterances
+        are drawn verbatim from the Cmd.Activity* children, leaving only 5 of
+        its own. Keeping it would train the classifier on an impossible
+        distinction (Cmd.Health vs Cmd.ActivityRun on identical text) and
+        produce exactly the contradictory labels the blueprint forbids.
+        Decision: keep the specific Cmd.Activity* intents; drop the parent.
+      orphaned_utterances_note: >-
+        5 utterances exist only under Cmd.Health and are dropped with it:
+        "have i walked an hour", "how many minutes have i been walking",
+        "how much further do i need to walk", "how long have i danced",
+        "how many steps have i walked". Revisit if generic activity queries
+        need coverage.
+    "Help_HearingCareAnywhereConnect":
+      reason: >-
+        Disabled in Dialogflow. All 72 of its unique utterances also appear
+        under Help_RemoteProgramming (100% subset, zero distinguishing phrase).
+      redistribute_seeds_to: null
+
+# -----------------------------------------------------------------------------
+# Intent families (Architecture Section 4)
+# -----------------------------------------------------------------------------
+# Generation-time scaffolding ONLY. Families are never runtime labels. They
+# scope hard-negative sampling so Stage 3 pulls confusable siblings rather than
+# random intents.
+families:
+  AudioControl:
+    - Cmd.VolumeIncrease
+    - Cmd.VolumeDecrease
+    - Cmd.VolumeMute
+    - Cmd.VolumeUnmute
+  EdgeMode:
+    - Cmd.EdgeModeIncrease
+    - Cmd.EdgeModeDecrease
+    - Cmd.EdgeModeDeactivate
+  Streaming:
+    - Cmd.StreamingStart
+    - Cmd.StreamingStop
+  SpeechServices:
+    - Cmd.TranscribeStart
+    - Cmd.TranslationStart
+  ActivityTracking:
+    - Cmd.ActivityAerobics
+    - Cmd.ActivityCalories
+    - Cmd.ActivityCycle
+    - Cmd.ActivityExercise
+    - Cmd.ActivityRun
+    - Cmd.ActivityStand
+    - Cmd.ActivityStep
+    - Cmd.ActivityWalk
+  DeviceStatus:
+    - Cmd.BatteryLevel
+  DeviceLocate:
+    - Cmd.FindMyPhone
+  Reminders:
+    - reminders.add
+    - reminders.complete
+    - Help_Reminder
+  HelpAudio:
+    - Help_Volume
+    - Help_IntelliVoice
+    - Help_MaskMode
+    - Help_EdgeMode
+    - Help_Tinnitus
+  HelpDeviceCare:
+    - Help_CleanCare
+    - Help_InsertDevice
+    - Help_SelfCheck
+    - Help_Battery
+    - Help_Accessories
+    - Help_WiCROS
+  HelpConnectivity:
+    - Help_Pairing
+    - Help_HearShare
+    - Help_RemoteProgramming
+  HelpAppSettings:
+    - Help_AppSettings
+    - Help_DeviceSettings
+    - Help_Customize
+    - Help_MemoryOptions
+    - Help_ChangingMemories
+    - Help_DemoMode
+    - Help_Home
+    - Help_WhatsNew
+  HelpHealth:
+    - Help_Health
+    - Help_HeartRate
+    - Help_HeartRateRecovery
+    - Help_FallAlert
+    - Help_ThriveScore
+    - Help_Activity
+  HelpSpeechServices:
+    - Help_Transcribe
+    - Help_Translate
+    - Help_VoiceAssistant
+  HelpFind:
+    - Help_FindMyHearingAids
+  Fallback:
+    - "Default Fallback Intent"
+
+# -----------------------------------------------------------------------------
+# High-risk cross-family boundaries
+# -----------------------------------------------------------------------------
+# Families group siblings, but the costliest confusion is CROSS-family:
+# "turn up the volume" (ExplicitCommand) vs "how do I turn up the volume?"
+# (Question). Misfiring the first as the second is a False Reject; misfiring
+# the second as the first is a False ACCEPT that physically changes the device.
+# FAR is the priority metric, so these pairs are always eligible for hard
+# negatives regardless of family.
+command_help_pairs:
+  Cmd.VolumeIncrease: Help_Volume
+  Cmd.VolumeDecrease: Help_Volume
+  Cmd.VolumeMute: Help_Volume
+  Cmd.VolumeUnmute: Help_Volume
+  Cmd.EdgeModeIncrease: Help_EdgeMode
+  Cmd.EdgeModeDecrease: Help_EdgeMode
+  Cmd.EdgeModeDeactivate: Help_EdgeMode
+  Cmd.TranscribeStart: Help_Transcribe
+  Cmd.TranslationStart: Help_Translate
+  Cmd.BatteryLevel: Help_Battery
+  Cmd.FindMyPhone: Help_FindMyHearingAids
+  reminders.add: Help_Reminder
+  reminders.complete: Help_Reminder
+  Cmd.ActivityRun: Help_Activity
+  Cmd.ActivityWalk: Help_Activity
+  Cmd.ActivityStep: Help_Activity
+  Cmd.ActivityCycle: Help_Activity
+  Cmd.ActivityStand: Help_Activity
+  Cmd.ActivityAerobics: Help_Activity
+  Cmd.ActivityExercise: Help_Activity
+  Cmd.ActivityCalories: Help_Activity
