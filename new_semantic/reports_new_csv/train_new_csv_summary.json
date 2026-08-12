@@ -2,112 +2,154 @@
   "tag": "new_csv",
   "seed": 42,
   "train_csv": "/Users/shuklam/IntentClassifier/complete_csv.csv",
-  "train_rows": 62045,
+  "train_rows": 37383,
   "intents": 57,
-  "vocab_size": 12011,
+  "vocab_size": 8000,
   "embed_dim": 64,
   "init_embeddings": "new_semantic/models_new_csv/en/embed_init_new_csv.npz",
   "freeze_embeddings": false,
   "tokenizer": "word",
   "max_len": 24,
-  "student_params": 839481,
-  "student_mb_fp32": 3.358,
+  "student_params": 582777,
+  "student_mb_fp32": 2.331,
   "teacher": "intfloat/e5-small-v2",
   "embedding_teacher": "intfloat/e5-small-v2",
   "class_weights": true,
-  "fallback_weight_floor": null,
+  "fallback_weight_floor": 3.0,
   "fallback_oversample": 1,
-  "unk_aug_fraction": null,
-  "unk_robust_fraction": null,
-  "synthetic_fallback_rows": 0,
-  "synthetic_in_scope_rows": 0,
-  "synthetic_rows": 0,
-  "synthetic_text": false,
-  "fallback_share_before": 0.0965,
-  "fallback_share_after": 0.0965,
-  "rows_after_augmentation": 62045,
-  "best_epoch": 6,
-  "best_val_macro_recall": 0.9137,
+  "unk_aug_fraction": 0.15,
+  "unk_robust_fraction": 0.15,
+  "synthetic_fallback_rows": 5272,
+  "synthetic_in_scope_rows": 5150,
+  "synthetic_rows": 10422,
+  "synthetic_text": true,
+  "fallback_share_before": 0.0597,
+  "fallback_share_after": 0.157,
+  "rows_after_augmentation": 47805,
+  "best_epoch": 13,
+  "best_val_macro_recall": 0.9164,
   "checkpoint": "/Users/shuklam/IntentClassifier/new_semantic/models_new_csv/en/student_new_csv.pt",
   "leak_guard": "passed",
   "history": [
     {
       "epoch": 1,
-      "loss": 1.082484720622079,
-      "val_acc": 0.8951326958203503,
-      "val_macro_recall": 0.8810453639115112
+      "loss": 1.0142709202361557,
+      "val_acc": 0.9143773532282806,
+      "val_macro_recall": 0.8754048180432915
     },
     {
       "epoch": 2,
-      "loss": 0.4956060403340088,
-      "val_acc": 0.919200601697647,
-      "val_macro_recall": 0.9069668871967956
+      "loss": 0.5066136746848904,
+      "val_acc": 0.9355738390740482,
+      "val_macro_recall": 0.9040748482917244
     },
     {
       "epoch": 3,
-      "loss": 0.3946451278489092,
-      "val_acc": 0.9229612119909746,
-      "val_macro_recall": 0.910427300875255
+      "loss": 0.41522047570291554,
+      "val_acc": 0.9366894435922466,
+      "val_macro_recall": 0.9073349978239793
     },
     {
       "epoch": 4,
-      "loss": 0.36366366510241144,
-      "val_acc": 0.9252175781669711,
-      "val_macro_recall": 0.9131270790242983
+      "loss": 0.3769379716436818,
+      "val_acc": 0.9421280156184633,
+      "val_macro_recall": 0.9118809391075913
     },
     {
       "epoch": 5,
-      "loss": 0.3502626446488406,
-      "val_acc": 0.9286558504351563,
-      "val_macro_recall": 0.9103635908432863
+      "loss": 0.35867630207688556,
+      "val_acc": 0.9450564774787338,
+      "val_macro_recall": 0.9099751225990492
     },
     {
       "epoch": 6,
-      "loss": 0.34180332875424957,
-      "val_acc": 0.9267218222843021,
-      "val_macro_recall": 0.9137017750393555
+      "loss": 0.3522380174330945,
+      "val_acc": 0.9431041695718868,
+      "val_macro_recall": 0.9076792008851998
     },
     {
       "epoch": 7,
-      "loss": 0.33818308796201435,
-      "val_acc": 0.9236058880412593,
-      "val_macro_recall": 0.9056510501127341
+      "loss": 0.34146522735274815,
+      "val_acc": 0.946869334820806,
+      "val_macro_recall": 0.9145610435135328
     },
     {
       "epoch": 8,
-      "loss": 0.3393356131872311,
-      "val_acc": 0.9287632964435372,
-      "val_macro_recall": 0.9094676607778659
+      "loss": 0.3374681944179835,
+      "val_acc": 0.9438014223957607,
+      "val_macro_recall": 0.9074215710683854
     },
     {
       "epoch": 9,
-      "loss": 0.3351541075666072,
-      "val_acc": 0.9283335124100139,
-      "val_macro_recall": 0.907390330547164
+      "loss": 0.33229956471320216,
+      "val_acc": 0.9458931808673825,
+      "val_macro_recall": 0.9136784379606004
     },
     {
       "epoch": 10,
-      "loss": 0.33157625909867644,
-      "val_acc": 0.929837756527345,
-      "val_macro_recall": 0.9068043922057551
+      "loss": 0.3332067877991394,
+      "val_acc": 0.9450564774787338,
+      "val_macro_recall": 0.9105944046029599
     },
     {
       "epoch": 11,
-      "loss": 0.3335397753675105,
-      "val_acc": 0.9323090147201032,
-      "val_macro_recall": 0.9054756018277297
+      "loss": 0.32961262612597747,
+      "val_acc": 0.9458931808673825,
+      "val_macro_recall": 0.906920074453958
     },
     {
       "epoch": 12,
-      "loss": 0.328920409768892,
-      "val_acc": 0.9282260664016332,
-      "val_macro_recall": 0.9046773735835792
+      "loss": 0.3313723471742006,
+      "val_acc": 0.9438014223957607,
+      "val_macro_recall": 0.9076162518825529
     },
     {
       "epoch": 13,
-      "loss": 0.32880766347014584,
-      "val_acc": 0.924250564091544,
-      "val_macro_recall": 0.9067410241609414
+      "loss": 0.3307346417656485,
+      "val_acc": 0.9475665876446799,
+      "val_macro_recall": 0.9163691256346242
+    },
+    {
+      "epoch": 14,
+      "loss": 0.32836843961439793,
+      "val_acc": 0.9446381257844094,
+      "val_macro_recall": 0.9047841410325917
+    },
+    {
+      "epoch": 15,
+      "loss": 0.32525174094820924,
+      "val_acc": 0.9474271370799052,
+      "val_macro_recall": 0.9129379247162399
+    },
+    {
+      "epoch": 16,
+      "loss": 0.323832336368051,
+      "val_acc": 0.9478454887742296,
+      "val_macro_recall": 0.9094454055409967
+    },
+    {
+      "epoch": 17,
+      "loss": 0.3221196518191751,
+      "val_acc": 0.945614279737833,
+      "val_macro_recall": 0.9099262834788285
+    },
+    {
+      "epoch": 18,
+      "loss": 0.3190690833817488,
+      "val_acc": 0.9493794449867522,
+      "val_macro_recall": 0.9091802432361157
+    },
+    {
+      "epoch": 19,
+      "loss": 0.3215873103659108,
+      "val_acc": 0.9465904336912564,
+      "val_macro_recall": 0.9021340956441407
+    },
+    {
+      "epoch": 20,
+      "loss": 0.3245606249046026,
+      "val_acc": 0.9471482359503556,
+      "val_macro_recall": 0.9036182870607771
     }
   ]
 }
