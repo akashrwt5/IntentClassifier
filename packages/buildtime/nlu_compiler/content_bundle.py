@@ -794,6 +794,7 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
 
     _write(out / "bundle.json", {
         "bundle_id": f"pack-{lang}-v{version}",
+        "version": version,
         "format_version": FORMAT_VERSION,
         "content_version": 1,
         "compiler_version": COMPILER_VERSION,
