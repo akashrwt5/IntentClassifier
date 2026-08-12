@@ -60,6 +60,16 @@ def main():
                 "/es/",
                 "/it/",
                 "/nl/",
+                "/nl.csv",
+                "/fr.csv",
+                "/da.csv",
+                "/de.csv",
+                "/es.csv",
+                "/it.csv",
+                "/ja.csv",
+                "/ko.csv",
+                "/pt.csv",
+                "/zh.csv",
             ]
         ):
             skipped_files.append(f"{file_path} (Skipped non-English)")

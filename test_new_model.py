@@ -67,7 +67,14 @@ def main():
 
             best_idx = np.argmax(probs)
             confidence = probs[best_idx]
-            predicted_intent = labels[best_idx]
+
+            # The production engine uses a confidence threshold (usually 0.40).
+            # If the best match is below the threshold, it is considered Out-Of-Domain.
+            THRESHOLD = 0.40
+            if confidence < THRESHOLD:
+                predicted_intent = "Default Fallback Intent"
+            else:
+                predicted_intent = labels[best_idx]
 
             print(f"Intent     : {predicted_intent}")
             print(f"Confidence : {confidence:.3f}")
