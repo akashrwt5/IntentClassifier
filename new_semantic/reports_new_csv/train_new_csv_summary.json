@@ -2,7 +2,7 @@
   "tag": "new_csv",
   "seed": 42,
   "train_csv": "/Users/shuklam/IntentClassifier/complete_csv.csv",
-  "train_rows": 31687,
+  "train_rows": 31699,
   "intents": 57,
   "vocab_size": 8000,
   "embed_dim": 64,
@@ -23,79 +23,79 @@
   "synthetic_in_scope_rows": 4383,
   "synthetic_rows": 8830,
   "synthetic_text": true,
-  "fallback_share_before": 0.0643,
-  "fallback_share_after": 0.1601,
-  "rows_after_augmentation": 40517,
+  "fallback_share_before": 0.0647,
+  "fallback_share_after": 0.1603,
+  "rows_after_augmentation": 40529,
   "best_epoch": 4,
-  "best_val_macro_recall": 0.8946,
+  "best_val_macro_recall": 0.8973,
   "checkpoint": "/Users/shuklam/IntentClassifier/new_semantic/models_new_csv/en/student_new_csv.pt",
   "leak_guard": "passed",
   "history": [
     {
       "epoch": 1,
-      "loss": 1.0442407663221713,
-      "val_acc": 0.9016123724909509,
-      "val_macro_recall": 0.8455853888193138
+      "loss": 1.0422309007909563,
+      "val_acc": 0.9072368421052631,
+      "val_macro_recall": 0.8469789052835451
     },
     {
       "epoch": 2,
-      "loss": 0.49117483783651283,
-      "val_acc": 0.9343534057255676,
-      "val_macro_recall": 0.8798161109509904
+      "loss": 0.4931762934834869,
+      "val_acc": 0.9302631578947368,
+      "val_macro_recall": 0.8815431274428667
     },
     {
       "epoch": 3,
-      "loss": 0.40267172323332895,
-      "val_acc": 0.9358341559723593,
-      "val_macro_recall": 0.8798509225208142
+      "loss": 0.4042343320669951,
+      "val_acc": 0.9398026315789474,
+      "val_macro_recall": 0.89122896074086
     },
     {
       "epoch": 4,
-      "loss": 0.3632820379954797,
-      "val_acc": 0.9417571569595261,
-      "val_macro_recall": 0.8946009603863186
+      "loss": 0.3633146304775167,
+      "val_acc": 0.9442434210526316,
+      "val_macro_recall": 0.8972817561536925
     },
     {
       "epoch": 5,
-      "loss": 0.34256911962120623,
-      "val_acc": 0.9438960184271142,
-      "val_macro_recall": 0.8934228496462532
+      "loss": 0.34545440519297566,
+      "val_acc": 0.9409539473684211,
+      "val_macro_recall": 0.8799466751243806
     },
     {
       "epoch": 6,
-      "loss": 0.3345526435860881,
-      "val_acc": 0.9427443237907206,
-      "val_macro_recall": 0.886435504543516
+      "loss": 0.33223379177075846,
+      "val_acc": 0.9430921052631579,
+      "val_macro_recall": 0.8923351236018529
     },
     {
       "epoch": 7,
-      "loss": 0.32443614922187947,
-      "val_acc": 0.9460348798947023,
-      "val_macro_recall": 0.888459917074166
+      "loss": 0.3285885222532131,
+      "val_acc": 0.9490131578947368,
+      "val_macro_recall": 0.8923403989289743
     },
     {
       "epoch": 8,
-      "loss": 0.3213812431803456,
-      "val_acc": 0.9425797959855216,
-      "val_macro_recall": 0.8848608615851692
+      "loss": 0.3192550671321374,
+      "val_acc": 0.9478618421052631,
+      "val_macro_recall": 0.8901075472567541
     },
     {
       "epoch": 9,
-      "loss": 0.3186448648020073,
-      "val_acc": 0.9491609081934848,
-      "val_macro_recall": 0.894309915006293
+      "loss": 0.3185179120964474,
+      "val_acc": 0.9452302631578947,
+      "val_macro_recall": 0.8897249624005032
     },
     {
       "epoch": 10,
-      "loss": 0.3148058630802013,
-      "val_acc": 0.9415926291543271,
-      "val_macro_recall": 0.8840330321857376
+      "loss": 0.31494485327491056,
+      "val_acc": 0.9455592105263158,
+      "val_macro_recall": 0.8830202380329291
     },
     {
       "epoch": 11,
-      "loss": 0.3183845416263298,
-      "val_acc": 0.9440605462323133,
-      "val_macro_recall": 0.8771759004286745
+      "loss": 0.31129642956786685,
+      "val_acc": 0.9476973684210527,
+      "val_macro_recall": 0.8906870610348916
     }
   ]
 }
