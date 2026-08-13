@@ -19,6 +19,7 @@ stay auditable instead of buried in code.
 from __future__ import annotations
 
 import csv
+import json
 import random
 import re
 import unicodedata
@@ -219,17 +220,50 @@ class SeedCorpus:
         return len(self.intents)
 
 
+def read_dialogflow_usersays(path: Path, *, collapse_templates: bool = True) -> list[str]:
+    """Read a Dialogflow ``*_usersays_*.json`` export.
+
+    These files carry more than the flat ``.txt`` export does: each utterance is
+    segmented, and segments tagged with a ``meta`` entity are slot fillers. That
+    structure exposes the permutation problem directly -- ``Cmd.MemoryChange``
+    ships 630 entries that are only 58 carrier templates crossed with 41 memory
+    names.
+
+    With ``collapse_templates`` (the default) one representative per template is
+    returned instead of every permutation. Feeding 18 permutations of the same
+    two templates to the spec writer would show it almost nothing; 18 distinct
+    templates show it the intent's actual shape. The slot vocabulary is supplied
+    separately, via ``taxonomy.slot_vocabularies``.
+    """
+    entries = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(entries, list):
+        raise SeedCorpusError(f"{path.name} is not a Dialogflow usersays array")
+
+    by_template: dict[str, str] = {}
+    plain: list[str] = []
+
+    for entry in entries:
+        segments = entry.get("data") or []
+        literal = normalize_utterance("".join(s.get("text", "") for s in segments))
+        if not literal:
+            continue
+        plain.append(literal)
+        template = normalize_utterance(
+            "".join("{slot}" if s.get("meta") else s.get("text", "") for s in segments)
+        )
+        by_template.setdefault(template, literal)
+
+    return list(by_template.values()) if collapse_templates else plain
+
+
 def _load_additional_sources(config: GeneratorConfig) -> dict[str, list[str]]:
     """Pull seed utterances for intents that have no ``.txt`` in the export.
 
-    The Dialogflow folder is an incomplete snapshot of the shipping taxonomy.
-    Three live intents -- ``Cmd.MemoryChange`` (the largest in the product),
-    ``Cmd.SendMessage`` and ``Cmd.ListenMessage`` -- have no seed file at all;
-    their utterances live in the training CSVs instead.
-
-    Sources are read live rather than copied into the seed folder, so no
-    production text is duplicated into a new file, and the CSVs stay the single
-    source for that data.
+    The flat ``.txt`` export is an incomplete snapshot of the taxonomy: three
+    shipping intents have no file in it at all. Their evidence comes from other
+    parts of the SAME Dialogflow export (``*_usersays_*.json``) and from the
+    curated PVA phrase workbook -- never from previously generated data, which
+    would make each pass a copy of the last.
     """
     sources = config.taxonomy.get("additional_seed_sources") or []
     collected: dict[str, list[str]] = {}
@@ -239,10 +273,23 @@ def _load_additional_sources(config: GeneratorConfig) -> dict[str, list[str]]:
         if not path.is_file():
             raise SeedCorpusError(f"additional_seed_sources path not found: {path}")
 
+        kind = str(source.get("format", "csv")).lower()
+
+        if kind == "dialogflow_usersays":
+            intent = str(source["intent"])
+            collected.setdefault(intent, []).extend(
+                read_dialogflow_usersays(
+                    path, collapse_templates=bool(source.get("collapse_templates", True))
+                )
+            )
+            continue
+
+        if kind != "csv":
+            raise SeedCorpusError(f"Unknown additional_seed_sources format: {kind!r}")
+
         wanted = set(source.get("intents") or [])
         text_col = source.get("text_column", "text")
         intent_col = source.get("intent_column", "intent")
-
         with path.open("r", encoding="utf-8-sig", newline="") as handle:
             for row in csv.DictReader(handle):
                 intent = (row.get(intent_col) or "").strip()

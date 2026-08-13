@@ -1,25 +1,25 @@
 # Seed Corpus Audit
 
-_Generated 2026-08-13 06:35 UTC by `seed_audit.py` from `dialogflow-en-dataset/`._
+_Generated 2026-08-13 17:30 UTC by `seed_audit.py` from `dialogflow-en-dataset/`._
 
 ## 1. Headline numbers
 
 | Metric | Value |
 |---|---|
-| Seed files on disk | 63 |
-| Excluded as entity lists | 3 |
+| Seed files on disk | 68 |
+| Excluded as entity lists | 6 |
 | Merged into another intent | 1 |
 | Dropped from taxonomy | 2 |
 | **Resolved intents** | **60** |
-| Raw non-empty lines | 3865 |
-| Unique utterances after normalisation | 5633 |
+| Raw non-empty lines | 4106 |
+| Unique utterances after normalisation | 3630 |
 
 ## 2. Encodings
 
 | Encoding | Files |
 |---|---|
 | `utf-16` | 61 |
-| `utf-8-sig` | 2 |
+| `utf-8-sig` | 7 |
 
 > Reading these with `encoding='utf-8'` raises `UnicodeDecodeError`. Any
 > caller that catches and skips on failure loses the intent silently.
@@ -29,7 +29,7 @@ _Generated 2026-08-13 06:35 UTC by `seed_audit.py` from `dialogflow-en-dataset/`
 | Codepoint | Occurrences |
 |---|---|
 | U+00A0 NO-BREAK SPACE | 2395 |
-| U+2019 RIGHT SINGLE QUOTATION MARK | 26 |
+| U+2019 RIGHT SINGLE QUOTATION MARK | 38 |
 | U+00F1 LATIN SMALL LETTER N WITH TILDE | 3 |
 
 > `U+00A0 NO-BREAK SPACE` is used as a word separator in parts of the
@@ -51,6 +51,7 @@ claims; at 100% the smaller intent has no distinguishing evidence.
 | `Cmd.ActivityWalk` | `Cmd.Health` | 23 | 100% |
 | `Cmd.ActivityCalories` | `Cmd.Health` | 10 | 100% |
 | `Cmd.ActivityStand` | `Cmd.Health` | 22 | 96% |
+| `_EntityMemory` | `_EntityMemoryFromUsersays` | 33 | 94% |
 | `Cmd.ActivityAerobics` | `Cmd.Health` | 12 | 92% |
 | `Cmd.ActivityStep` | `Cmd.Health` | 19 | 83% |
 | `Cmd.ActivityExercise` | `Cmd.Health` | 11 | 65% |
@@ -81,7 +82,10 @@ currently serves. Reconcile this BEFORE Stage 1 generation.
 
 **Excluded (entity value lists):**
 
+- `_ConfirmNo` — entity value list, not an intent
+- `_ConfirmYes` — entity value list, not an intent
 - `_EntityMemory` — entity value list, not an intent
+- `_EntityMemoryFromUsersays` — entity value list, not an intent
 - `_EntityRecurrence` — entity value list, not an intent
 - `_EntityRemind` — entity value list, not an intent
 
@@ -111,9 +115,9 @@ currently serves. Reconcile this BEFORE Stage 1 generation.
 | `Cmd.EdgeModeDecrease` | EdgeMode | 26 | 25 |
 | `Cmd.EdgeModeIncrease` | EdgeMode | 152 | 152 |
 | `Cmd.FindMyPhone` | DeviceLocate | 43 | 43 |
-| `Cmd.ListenMessage` | Messaging | 98 | 96 |
-| `Cmd.MemoryChange` | Memories | 1884 | 1884 |
-| `Cmd.SendMessage` | Messaging | 181 | 181 |
+| `Cmd.ListenMessage` | Messaging | 50 | 50 |
+| `Cmd.MemoryChange` | Memories | 58 | 58 |
+| `Cmd.SendMessage` | Messaging | 50 | 50 |
 | `Cmd.StreamingStart` | Streaming | 43 | 43 |
 | `Cmd.StreamingStop` | Streaming | 26 | 25 |
 | `Cmd.TranscribeStart` | SpeechServices | 16 | 16 |
@@ -169,18 +173,16 @@ lines to reach the LLM. The heuristic is *not* reliable enough to
 filter on: it penalises lexical novelty, which is the very signal this
 project wants. Treat the counts as a human review queue, not a verdict.
 
-131 phrases flagged across 25 intents.
+126 phrases flagged across 23 intents.
 
 | Intent | Flagged |
 |---|---:|
 | `Default Fallback Intent` | 89 |
 | `Help_SelfCheck` | 4 |
-| `Cmd.MemoryChange` | 3 |
 | `Help_Transcribe` | 3 |
 | `Help_Volume` | 3 |
 | `reminders.add` | 3 |
 | `Cmd.EdgeModeIncrease` | 2 |
-| `Cmd.SendMessage` | 2 |
 | `Cmd.StreamingStart` | 2 |
 | `Cmd.VolumeIncrease` | 2 |
 | `Help_DeviceSettings` | 2 |
@@ -188,7 +190,7 @@ project wants. Treat the counts as a human review queue, not a verdict.
 | `Help_Translate` | 2 |
 | `Cmd.ActivityRun` | 1 |
 | `Cmd.FindMyPhone` | 1 |
-| `Cmd.ListenMessage` | 1 |
+| `Cmd.MemoryChange` | 1 |
 | `Cmd.VolumeDecrease` | 1 |
 | `Help_ChangingMemories` | 1 |
 | `Help_FallAlert` | 1 |

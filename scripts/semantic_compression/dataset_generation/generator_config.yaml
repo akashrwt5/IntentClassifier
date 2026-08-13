@@ -339,31 +339,25 @@ taxonomy:
   # Dialogflow export is an incomplete snapshot: `Cmd.MemoryChange` is the
   # largest intent in the product (1,884 rows) and has no seed file at all.
   # Read live from the training CSVs so no production text is duplicated.
-  # SOURCE files only. `04_GENERATED_MASTER_training_data.csv` is the merge of
-  # 01 + 02 + 03, and 03 is 1,337 previously GENERATED augmented phrases.
-  # Seeding new generation from earlier generated output is circular: it
-  # inherits that pass's biases and errors, and it contradicts the premise of
-  # this project, which is that the legacy material is what we are replacing.
+  # Intents with no flat `.txt` in the export. Sources are restricted to the
+  # Dialogflow export itself and the curated PVA phrase workbook -- never the
+  # training CSVs, which contain 1,337 previously GENERATED augmented phrases.
+  # Seeding a generation pass from an earlier one is circular: it inherits that
+  # pass's biases and contradicts the premise that the legacy material is what
+  # we are replacing.
   #
-  # Restricting to 01 and 02 costs almost nothing -- of Cmd.MemoryChange's
-  # 1,884 rows, 1,842 are source or human-corrected and only 40 were generated.
+  # Cmd.SendMessage and Cmd.ListenMessage now have plain .txt seeds extracted
+  # from the workbook, so they need no entry here.
   additional_seed_sources:
-    - path: "../../../datasets/01_source_base_training_data.csv"
-      format: csv
-      text_column: text
-      intent_column: intent
-      intents:
-        - "Cmd.MemoryChange"
-        - "Cmd.SendMessage"
-        - "Cmd.ListenMessage"
-    - path: "../../../datasets/02_source_manual_corrections.csv"
-      format: csv
-      text_column: text
-      intent_column: intent
-      intents:
-        - "Cmd.MemoryChange"
-        - "Cmd.SendMessage"
-        - "Cmd.ListenMessage"
+    - path: "../dialogflow-en-dataset/Cmd.MemoryChange_usersays_en.json"
+      format: dialogflow_usersays
+      intent: "Cmd.MemoryChange"
+      # 630 entries, but only 58 carrier templates crossed with 41 memory
+      # names. Collapsing to one representative per template is the whole point:
+      # showing the spec writer 18 permutations of two templates teaches it
+      # almost nothing, while 18 distinct templates show the intent's shape.
+      # The slot values are supplied separately via slot_vocabularies.
+      collapse_templates: true
 
   # Dialogflow ENTITY value lists, not intents. Their contents are bare slot
   # values ("Normal", "Restaurant", "Outdoors"), not utterances. Feeding them to
@@ -377,12 +371,23 @@ taxonomy:
   #   _EntityRemind     -> reminders.add
   exclude_files:
     - "_EntityMemory"
+    - "_EntityMemoryFromUsersays"
     - "_EntityRecurrence"
     - "_EntityRemind"
+    # From the PVA workbook. These are confirmation-gate POLARITY data, not
+    # intents -- the engine's confirm gate owns that turn, not the classifier
+    # (see packages/buildtime/nlu_training/fit_confirm_gate.py). They belong in
+    # datasets/confirmation_fixtures.csv, and are kept here only so the seed
+    # folder holds the workbook intact.
+    - "_ConfirmYes"
+    - "_ConfirmNo"
 
   # Slot vocabularies, keyed by the intent that consumes them (Phase 2).
   slot_vocabularies:
-    Cmd.MemoryChange: ["_EntityMemory"]
+    # _EntityMemory has 38 values; the usersays export yields 41, including
+    # names the entity file omits. Both are listed so generation covers the
+    # union.
+    Cmd.MemoryChange: ["_EntityMemory", "_EntityMemoryFromUsersays"]
     reminders.add: ["_EntityRecurrence", "_EntityRemind"]
 
   # Stale/renamed exports of the same intent. Phrases are unioned into the
