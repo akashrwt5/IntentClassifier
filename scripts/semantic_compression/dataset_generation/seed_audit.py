@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import collections
 import datetime as dt
+import json
 import unicodedata
 from pathlib import Path
 
@@ -104,6 +105,31 @@ def _collisions(raw_lines: dict[str, list[str]]) -> list[tuple[str, str, int, fl
     return out
 
 
+def _runtime_labels(config: GeneratorConfig) -> set[str] | None:
+    """Load the label set the shipping app actually dispatches, if available.
+
+    Returns ``None`` when no runtime label file is configured or present, so
+    the audit still works standalone.
+    """
+    relative = config.raw.get("paths", {}).get("runtime_labels")
+    if not relative:
+        return None
+    path = (config.config_path.parent / relative).resolve()
+    if not path.is_file():
+        return None
+
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(data, dict) and isinstance(data.get("map"), dict):
+        return {str(v) for v in data["map"].values()}
+    if isinstance(data, dict) and isinstance(data.get("labels"), list):
+        return {str(x) for x in data["labels"]}
+    if isinstance(data, list):
+        return {str(x) for x in data}
+    if isinstance(data, dict):
+        return {str(k) for k in data}
+    return None
+
+
 def build_report(config: GeneratorConfig, *, include_phrases: bool = False) -> str:
     raw_lines, encodings, odd_chars = _raw_scan(config)
     corpus = load_seed_corpus(config)
@@ -169,6 +195,32 @@ def build_report(config: GeneratorConfig, *, include_phrases: bool = False) -> s
         lines.append(f"| `{left}` | `{right}` | {shared} | {pct:.0f}% |")
     if not shown:
         lines.append("| _none_ | | | |")
+
+    runtime = _runtime_labels(config)
+    if runtime is not None:
+        derived = set(corpus.intents)
+        missing = sorted(runtime - derived)
+        extra = sorted(derived - runtime)
+        lines += ["", "## 4b. Taxonomy vs the deployed label space", ""]
+        if not missing and not extra:
+            lines += [
+                f"✅ The {len(derived)} derived intents match the runtime label set exactly.",
+            ]
+        else:
+            lines += [
+                f"⚠️ **MISMATCH.** Derived {len(derived)} intents; runtime dispatches "
+                f"{len(runtime)}. They overlap on {len(derived & runtime)}.",
+                "",
+                "The seed folder is not the same thing as the shipping label space, and",
+                "the two have drifted. Training on the derived set alone would ship a",
+                "model whose outputs the app cannot dispatch, and would drop intents it",
+                "currently serves. Reconcile this BEFORE Stage 1 generation.",
+                "",
+                "| Direction | Intent |",
+                "|---|---|",
+            ]
+            lines += [f"| runtime only — no seeds, no spec | `{name}` |" for name in missing]
+            lines += [f"| derived only — runtime cannot dispatch | `{name}` |" for name in extra]
 
     lines += ["", "## 5. Applied taxonomy rules", ""]
     if corpus.excluded:

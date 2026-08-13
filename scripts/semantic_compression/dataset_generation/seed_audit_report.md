@@ -1,6 +1,6 @@
 # Seed Corpus Audit
 
-_Generated 2026-08-12 18:49 UTC by `seed_audit.py` from `dialogflow-en-dataset/`._
+_Generated 2026-08-13 06:35 UTC by `seed_audit.py` from `dialogflow-en-dataset/`._
 
 ## 1. Headline numbers
 
@@ -10,9 +10,9 @@ _Generated 2026-08-12 18:49 UTC by `seed_audit.py` from `dialogflow-en-dataset/`
 | Excluded as entity lists | 3 |
 | Merged into another intent | 1 |
 | Dropped from taxonomy | 2 |
-| **Resolved intents** | **57** |
+| **Resolved intents** | **60** |
 | Raw non-empty lines | 3865 |
-| Unique utterances after normalisation | 3472 |
+| Unique utterances after normalisation | 5633 |
 
 ## 2. Encodings
 
@@ -60,6 +60,23 @@ claims; at 100% the smaller intent has no distinguishing evidence.
 | `Cmd.Health` | `Help_Activity` | 2 | 8% |
 | `Cmd.Health` | `Help.Activity` | 2 | 7% |
 
+## 4b. Taxonomy vs the deployed label space
+
+⚠️ **MISMATCH.** Derived 60 intents; runtime dispatches 57. They overlap on 56.
+
+The seed folder is not the same thing as the shipping label space, and
+the two have drifted. Training on the derived set alone would ship a
+model whose outputs the app cannot dispatch, and would drop intents it
+currently serves. Reconcile this BEFORE Stage 1 generation.
+
+| Direction | Intent |
+|---|---|
+| runtime only — no seeds, no spec | `Help_HearingCareAnywhereConnect` |
+| derived only — runtime cannot dispatch | `Cmd.EdgeModeDeactivate` |
+| derived only — runtime cannot dispatch | `Cmd.EdgeModeDecrease` |
+| derived only — runtime cannot dispatch | `Cmd.EdgeModeIncrease` |
+| derived only — runtime cannot dispatch | `Help_Activity` |
+
 ## 5. Applied taxonomy rules
 
 **Excluded (entity value lists):**
@@ -94,6 +111,9 @@ claims; at 100% the smaller intent has no distinguishing evidence.
 | `Cmd.EdgeModeDecrease` | EdgeMode | 26 | 25 |
 | `Cmd.EdgeModeIncrease` | EdgeMode | 152 | 152 |
 | `Cmd.FindMyPhone` | DeviceLocate | 43 | 43 |
+| `Cmd.ListenMessage` | Messaging | 98 | 96 |
+| `Cmd.MemoryChange` | Memories | 1884 | 1884 |
+| `Cmd.SendMessage` | Messaging | 181 | 181 |
 | `Cmd.StreamingStart` | Streaming | 43 | 43 |
 | `Cmd.StreamingStop` | Streaming | 26 | 25 |
 | `Cmd.TranscribeStart` | SpeechServices | 16 | 16 |
@@ -107,7 +127,7 @@ claims; at 100% the smaller intent has no distinguishing evidence.
 | `Help_Activity` | HelpHealth | 57 | 29 |
 | `Help_AppSettings` | HelpAppSettings | 23 | 23 |
 | `Help_Battery` | HelpDeviceCare | 19 | 18 |
-| `Help_ChangingMemories` | HelpAppSettings | 92 | 91 |
+| `Help_ChangingMemories` | Memories | 92 | 91 |
 | `Help_CleanCare` | HelpDeviceCare | 25 | 25 |
 | `Help_Customize` | HelpAppSettings | 36 | 33 |
 | `Help_DemoMode` | HelpAppSettings | 31 | 28 |
@@ -123,7 +143,7 @@ claims; at 100% the smaller intent has no distinguishing evidence.
 | `Help_InsertDevice` | HelpDeviceCare | 30 | 30 |
 | `Help_IntelliVoice` | HelpAudio | 42 | 41 |
 | `Help_MaskMode` | HelpAudio | 18 | 16 |
-| `Help_MemoryOptions` | HelpAppSettings | 64 | 61 |
+| `Help_MemoryOptions` | Memories | 64 | 61 |
 | `Help_Pairing` | HelpConnectivity | 139 | 135 |
 | `Help_Reminder` | Reminders | 23 | 23 |
 | `Help_RemoteProgramming` | HelpConnectivity | 232 | 232 |
@@ -132,7 +152,7 @@ claims; at 100% the smaller intent has no distinguishing evidence.
 | `Help_Tinnitus` | HelpAudio | 130 | 129 |
 | `Help_Transcribe` | HelpSpeechServices | 37 | 35 |
 | `Help_Translate` | HelpSpeechServices | 43 | 43 |
-| `Help_VoiceAssistant` | HelpSpeechServices | 30 | 30 |
+| `Help_VoiceAssistant` | Messaging | 30 | 30 |
 | `Help_Volume` | HelpAudio | 122 | 121 |
 | `Help_WhatsNew` | HelpAppSettings | 37 | 37 |
 | `Help_WiCROS` | HelpDeviceCare | 34 | 34 |
@@ -149,16 +169,18 @@ lines to reach the LLM. The heuristic is *not* reliable enough to
 filter on: it penalises lexical novelty, which is the very signal this
 project wants. Treat the counts as a human review queue, not a verdict.
 
-125 phrases flagged across 22 intents.
+131 phrases flagged across 25 intents.
 
 | Intent | Flagged |
 |---|---:|
 | `Default Fallback Intent` | 89 |
 | `Help_SelfCheck` | 4 |
+| `Cmd.MemoryChange` | 3 |
 | `Help_Transcribe` | 3 |
 | `Help_Volume` | 3 |
 | `reminders.add` | 3 |
 | `Cmd.EdgeModeIncrease` | 2 |
+| `Cmd.SendMessage` | 2 |
 | `Cmd.StreamingStart` | 2 |
 | `Cmd.VolumeIncrease` | 2 |
 | `Help_DeviceSettings` | 2 |
@@ -166,6 +188,7 @@ project wants. Treat the counts as a human review queue, not a verdict.
 | `Help_Translate` | 2 |
 | `Cmd.ActivityRun` | 1 |
 | `Cmd.FindMyPhone` | 1 |
+| `Cmd.ListenMessage` | 1 |
 | `Cmd.VolumeDecrease` | 1 |
 | `Help_ChangingMemories` | 1 |
 | `Help_FallAlert` | 1 |

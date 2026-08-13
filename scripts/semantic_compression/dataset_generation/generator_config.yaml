@@ -17,6 +17,12 @@ paths:
   hand_authored_specs: "authored_specs.yaml"
   specs_summary: "specs_summary.md"
   seed_audit_report: "seed_audit_report.md"
+
+  # The DEPLOYED label space. The seed folder and the shipping model have
+  # drifted apart, so the audit cross-checks the taxonomy it derives against
+  # this file. Without it, a dataset can be generated for a label set the app
+  # cannot dispatch -- and nothing fails until integration.
+  runtime_labels: "../../../packages/runtime/nlu_engine/legacy_label_map.json"
   checkpoint_dir: ".checkpoints"
 
 # -----------------------------------------------------------------------------
@@ -142,6 +148,32 @@ deduplication:
 taxonomy:
   fallback_intent: "Default Fallback Intent"
 
+  # ---------------------------------------------------------------------------
+  # RUNTIME DELTA -- outstanding work outside this pipeline
+  # ---------------------------------------------------------------------------
+  # The derived taxonomy is 60 intents; the shipping label map
+  # (packages/runtime/nlu_engine/legacy_label_map.json) has 57. `seed_audit.py`
+  # section 4b reports the difference on every run. The remaining gap is all
+  # deliberate, but it is NOT yet reflected in the runtime:
+  #
+  #   ADD to the runtime label map + dispatch handlers:
+  #     Cmd.EdgeModeIncrease, Cmd.EdgeModeDecrease, Cmd.EdgeModeDeactivate
+  #       -- new intents; 193 seed utterances exist, 0 rows in the shipping
+  #          training data, no runtime label. Genuinely new capability.
+  #     Help_Activity
+  #       -- production folded this into Help_Health (30 of its 59 rows are
+  #          activity-goal questions). Decision: keep them separate, because
+  #          configuring a goal and locating a screen are different tasks.
+  #
+  #   REMOVE from the runtime label map + dispatch handlers:
+  #     Help_HearingCareAnywhereConnect
+  #       -- disabled in Dialogflow and a 100% seed subset of
+  #          Help_RemoteProgramming, but still shipped (55 rows). Decision:
+  #          finish the deprecation.
+  #
+  # Until this lands, a model trained on the 60 is NOT drop-in compatible with
+  # the current app.
+
   # Intents whose specification is authored directly in `authored_specs.yaml`
   # and never sent to the LLM API. They are still validated by the same rules
   # that gate generated specs, and all of them need HUMAN REVIEW before Stage 1.
@@ -223,14 +255,42 @@ taxonomy:
     - "Help_DemoMode"
     - "Help_Home"
     - "Help_WhatsNew"
+    - "Cmd.MemoryChange"
+    - "Cmd.SendMessage"
+    - "Cmd.ListenMessage"
+  # Intents that live in the shipping product but have NO seed .txt file. The
+  # Dialogflow export is an incomplete snapshot: `Cmd.MemoryChange` is the
+  # largest intent in the product (1,884 rows) and has no seed file at all.
+  # Read live from the training CSVs so no production text is duplicated.
+  additional_seed_sources:
+    - path: "../../../datasets/04_GENERATED_MASTER_training_data.csv"
+      format: csv
+      text_column: text
+      intent_column: intent
+      intents:
+        - "Cmd.MemoryChange"
+        - "Cmd.SendMessage"
+        - "Cmd.ListenMessage"
 
   # Dialogflow ENTITY value lists, not intents. Their contents are bare slot
   # values ("Normal", "Restaurant", "Outdoors"), not utterances. Feeding them to
   # the spec bootstrapper invents three intents that do not exist.
+  #
+  # They are NOT irrelevant, though -- each is the slot vocabulary for a real
+  # intent, and Phase 2 generation must cover those values or the synthetic
+  # data will miss the slot space the product actually uses:
+  #   _EntityMemory     -> Cmd.MemoryChange   (94% of its 1,884 rows use a value)
+  #   _EntityRecurrence -> reminders.add
+  #   _EntityRemind     -> reminders.add
   exclude_files:
     - "_EntityMemory"
     - "_EntityRecurrence"
     - "_EntityRemind"
+
+  # Slot vocabularies, keyed by the intent that consumes them (Phase 2).
+  slot_vocabularies:
+    Cmd.MemoryChange: ["_EntityMemory"]
+    reminders.add: ["_EntityRecurrence", "_EntityRemind"]
 
   # Stale/renamed exports of the same intent. Phrases are unioned into the
   # target and the source name disappears from the taxonomy.
@@ -300,6 +360,14 @@ families:
     - Cmd.BatteryLevel
   DeviceLocate:
     - Cmd.FindMyPhone
+  Messaging:
+    - Cmd.SendMessage
+    - Cmd.ListenMessage
+    - Help_VoiceAssistant
+  Memories:
+    - Cmd.MemoryChange
+    - Help_ChangingMemories
+    - Help_MemoryOptions
   Reminders:
     - reminders.add
     - reminders.complete
@@ -325,8 +393,6 @@ families:
     - Help_AppSettings
     - Help_DeviceSettings
     - Help_Customize
-    - Help_MemoryOptions
-    - Help_ChangingMemories
     - Help_DemoMode
     - Help_Home
     - Help_WhatsNew
@@ -340,7 +406,6 @@ families:
   HelpSpeechServices:
     - Help_Transcribe
     - Help_Translate
-    - Help_VoiceAssistant
   HelpFind:
     - Help_FindMyHearingAids
   Fallback:
@@ -356,6 +421,9 @@ families:
 # FAR is the priority metric, so these pairs are always eligible for hard
 # negatives regardless of family.
 command_help_pairs:
+  Cmd.MemoryChange: Help_ChangingMemories
+  Cmd.SendMessage: Help_VoiceAssistant
+  Cmd.ListenMessage: Help_VoiceAssistant
   Cmd.VolumeIncrease: Help_Volume
   Cmd.VolumeDecrease: Help_Volume
   Cmd.VolumeMute: Help_Volume

@@ -1,8 +1,8 @@
 meta:
   generated_by: bootstrap_specs.py
-  intent_count: 57
+  intent_count: 60
   sources:
-    assistant-session (claude-opus-5), pending human review: 56
+    assistant-session (claude-opus-5), pending human review: 59
     human (from blueprint, for privacy): 1
   note: Derived from legacy Dialogflow seeds. REQUIRES HUMAN REVIEW before Stage 1 generation;
     these specs are the source of truth for every downstream label. See `sources` for provenance.
@@ -34,6 +34,10 @@ intents:
     intent, not here.
   - An in-scope command that merely arrives garbled by ASR. Degraded transcription of a real
     command is still that command, as long as the intent is recoverable.
+  - An observation naming a LISTENING ENVIRONMENT for which the product has a memory ("I'm
+    outdoors now", "I've just walked into church"). The product's memories are environment-scoped,
+    so this is an implicit request to switch and belongs to Cmd.MemoryChange. This is the
+    single narrow exception to the observation rule below.
   - A negated command that supplies a replacement action. "Don't turn it up, turn it down"
     is Cmd.VolumeDecrease by last-explicit-command precedence.
   boundary_cases:
@@ -41,7 +45,11 @@ intents:
     never a failure state - False Accepts are costlier than False Rejects for these users,
     so the tie goes to inaction.
   - Observation versus command is the decisive test. If nothing in the utterance asks for
-    a change, it is Fallback regardless of how much in-scope vocabulary it contains.
+    a change, it is Fallback regardless of how much in-scope vocabulary it contains. The one
+    exception is a named listening environment, which is an implicit memory switch - see above.
+  - The exception is narrow and turns on WHAT is being observed. An environment ("it's noisy
+    in this restaurant" while naming a place the product has a memory for) leans to Cmd.MemoryChange;
+    the DEVICE's own state ("it sounds quiet today") stays here.
   - A bare negation that cancels without replacing ("no, forget it", "cancel that") is Fallback.
   - An in-scope topic aimed at the wrong device stays here. "Turn the TV up" mentions volume
     but is not a hearing-aid request.
@@ -1264,6 +1272,7 @@ intents:
   do_not_trigger:
   - Questions about IntelliVoice, a sound-processing feature, which are Help_IntelliVoice.
   - Questions about transcription or translation, which have their own intents.
+  - Any actual request to send or play a message, which are Cmd.SendMessage and Cmd.ListenMessage.
   - Any actual command directed at the assistant, which belongs to whichever intent that command
     names.
   boundary_cases:
@@ -1273,12 +1282,13 @@ intents:
   - Questions naming third-party assistants are out of scope and map to Fallback.
   neighbor_intents:
   - Help_IntelliVoice
+  - Cmd.SendMessage
+  - Cmd.ListenMessage
   - Help_Transcribe
-  - Help_Home
   - Default Fallback Intent
   positive_example: What can I ask Thrive Assistant to do?
   hard_negative_example: What is IntelliVoice?
-  intent_family: HelpSpeechServices
+  intent_family: Messaging
   _provenance:
     model: assistant-session (claude-opus-5), pending human review
     attempts: 0
@@ -1684,6 +1694,9 @@ intents:
   - User asks how to return to the normal memory.
   - User asks whether they have a particular memory available.
   do_not_trigger:
+  - Any actual request to switch memory now, which is Cmd.MemoryChange. That intent carries
+    1,884 utterances against this one's 91, so the Command reading is by far the more likely
+    and a false accept here is the costlier error.
   - Questions about CREATING, saving, customizing or deleting a memory, which are Help_MemoryOptions.
   - Questions about tuning sound within a memory, which are Help_Customize.
   - Requests to switch to Edge Mode now, which are Cmd.EdgeModeIncrease.
@@ -1693,15 +1706,18 @@ intents:
     most likely confusion for this label.
   - Asking what memory is currently active resolves here even though it is a status question,
     since no command intent exists for it.
+  - This is the product's highest-volume Command-versus-Question pair. An imperative or a
+    named environment is Cmd.MemoryChange; only a genuine how, where or what question resolves
+    here.
   neighbor_intents:
+  - Cmd.MemoryChange
   - Help_MemoryOptions
   - Help_Customize
   - Cmd.EdgeModeIncrease
-  - Help_DeviceSettings
   - Default Fallback Intent
   positive_example: How do I switch to the Music memory?
   hard_negative_example: How do I create a custom memory?
-  intent_family: HelpAppSettings
+  intent_family: Memories
   _provenance:
     model: assistant-session (claude-opus-5), pending human review
     attempts: 0
@@ -1727,13 +1743,13 @@ intents:
   - Saving equalizer changes is memory management; making those changes is Help_Customize.
   neighbor_intents:
   - Help_ChangingMemories
+  - Cmd.MemoryChange
   - Help_Customize
   - Help_MaskMode
-  - Help_DeviceSettings
   - Default Fallback Intent
   positive_example: Can I create my own custom memory?
   hard_negative_example: How do I change to a different memory?
-  intent_family: HelpAppSettings
+  intent_family: Memories
   _provenance:
     model: assistant-session (claude-opus-5), pending human review
     attempts: 0
@@ -1823,6 +1839,126 @@ intents:
   positive_example: What's new in this version of the app?
   hard_negative_example: Which version of the app am I using?
   intent_family: HelpAppSettings
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.MemoryChange
+  business_description: Switch the hearing aids to a different saved memory or program - Normal,
+    Restaurant, Outdoors, Car, Music, Television and the rest - either by naming it directly
+    or by describing the listening environment the user has just entered.
+  trigger_conditions:
+  - User asks to change, switch, go to or activate a named memory, program, profile or setting.
+  - User names a listening environment from the memory vocabulary and asks to be put into
+    it.
+  - User states which environment they have just entered or are currently in, where the product
+    has a memory for it.
+  - User asks to return to normal, default or automatic.
+  - User reports that the current program does not suit where they are.
+  do_not_trigger:
+  - Questions asking HOW to change memories, which are Help_ChangingMemories. This is the
+    highest-volume Command-versus- Question boundary in the product.
+  - Requests to CREATE, save, customize, geotag or delete a memory, which are Help_MemoryOptions.
+  - Complaints about hearing difficulty with no environment named and no program named, which
+    are Cmd.EdgeModeIncrease.
+  - Requests to change loudness, which belong to the AudioControl family.
+  - Observations about the DEVICE's state ("it sounds quiet today"), which are Fallback.
+  boundary_cases:
+  - A named environment or program is the deciding signal. This is the one place where a pure
+    observation IS an actionable command - "I'm outdoors now" and "I just walked into church"
+    are requests to switch memory, because the product's memories are environment-scoped.
+    This is a deliberate, evidence-backed exception to the general observation rule, and the
+    Fallback specification carries the matching carve-out.
+  - The exception is narrow. It applies only when the observation names a listening ENVIRONMENT.
+    An observation about the hearing aids themselves stays Fallback.
+  - Some seed utterances name a sound feature rather than a memory ("activate speech focus",
+    "apply wind noise reduction"). Treat those as this intent only when phrased as selecting
+    a setting; a description of struggling to hear is Cmd.EdgeModeIncrease.
+  - The memory name is a slot, not a separate intent. All values in the memory vocabulary
+    resolve here.
+  neighbor_intents:
+  - Help_ChangingMemories
+  - Help_MemoryOptions
+  - Cmd.EdgeModeIncrease
+  - Help_Customize
+  - Default Fallback Intent
+  positive_example: I've just sat down in a busy restaurant.
+  hard_negative_example: How do I change to a different memory?
+  intent_family: Memories
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.SendMessage
+  business_description: Record and send a voice or push-to-talk message, optionally to a named
+    recipient.
+  trigger_conditions:
+  - User asks to send a message, voice message, audio note, recording or voice clip.
+  - User asks to start or use push-to-talk.
+  - User asks to tell, message, ping or reach a named person or relation.
+  - User asks to pass along, forward or relay something to someone.
+  - User asks to let someone know something.
+  do_not_trigger:
+  - Requests to PLAY or hear a message, which are Cmd.ListenMessage.
+  - Requests to transcribe or record a conversation as text, which are Cmd.TranscribeStart
+    - that produces a transcript, not a sent message.
+  - Requests to set a reminder about contacting someone, which are reminders.add.
+  - Questions about what the voice assistant can do, which are Help_VoiceAssistant.
+  - Bare confirmations such as yes or cancel. Those are handled by the confirmation gate,
+    not by any intent.
+  boundary_cases:
+  - Direction decides this intent against Cmd.ListenMessage - outbound is this, inbound is
+    that.
+  - A recipient is a slot, not a separate intent; the request resolves here with or without
+    one.
+  - Recording to send differs from recording to transcribe. If the utterance implies another
+    person receives it, it is this intent.
+  - A user answering yes or no to a send confirmation is not classified here; the engine's
+    confirmation gate owns that turn.
+  neighbor_intents:
+  - Cmd.ListenMessage
+  - Cmd.TranscribeStart
+  - reminders.add
+  - Help_VoiceAssistant
+  - Default Fallback Intent
+  positive_example: Let my daughter know I'm on my way.
+  hard_negative_example: Play my last message.
+  intent_family: Messaging
+  _provenance:
+    model: assistant-session (claude-opus-5), pending human review
+    attempts: 0
+    source: authored_specs.yaml
+- name: Cmd.ListenMessage
+  business_description: Play back or read out messages the user has received - voice or push-to-talk
+    messages, and incoming texts read aloud.
+  trigger_conditions:
+  - User asks to play, replay, hear or listen to a message.
+  - User asks to have incoming texts or messages read aloud.
+  - User asks what messages or texts they have received.
+  - User asks who has messaged them, expecting the content played back.
+  - User asks to hear the last or latest message again.
+  do_not_trigger:
+  - Requests to SEND or record a message, which are Cmd.SendMessage.
+  - Requests to start live transcription of a conversation, which are Cmd.TranscribeStart.
+  - Requests to start streaming audio from a TV or microphone, which are Cmd.StreamingStart.
+  - Questions about the messaging feature itself, which are Help_VoiceAssistant.
+  boundary_cases:
+  - Direction decides this intent against Cmd.SendMessage - inbound is this, outbound is that.
+  - This intent covers both voice messages and texts read aloud; the medium is not a distinguishing
+    factor.
+  - Playing a received message differs from streaming live audio. A named message or sender
+    resolves here; a named external source is Cmd.StreamingStart.
+  - A bare "play it" with no other context resolves here, since the seed evidence establishes
+    terse replay requests as normal usage.
+  neighbor_intents:
+  - Cmd.SendMessage
+  - Cmd.TranscribeStart
+  - Cmd.StreamingStart
+  - Help_VoiceAssistant
+  - Default Fallback Intent
+  positive_example: Read me the latest message.
+  hard_negative_example: Send a message to my son.
+  intent_family: Messaging
   _provenance:
     model: assistant-session (claude-opus-5), pending human review
     attempts: 0

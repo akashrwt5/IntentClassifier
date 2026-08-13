@@ -1,6 +1,6 @@
 # Intent Specifications Summary
 
-57 intents. Provenance: 56 × assistant-session (claude-opus-5), pending human review, 1 × human (from blueprint, for privacy).
+60 intents. Provenance: 59 × assistant-session (claude-opus-5), pending human review, 1 × human (from blueprint, for privacy).
 
 > **Review these before Stage 1.** They are the source of truth for every
 > downstream label, so an error here is multiplied by the per-intent
@@ -27,12 +27,10 @@
 | `Cmd.EdgeModeIncrease` | EdgeMode | Apply or strengthen Edge Mode - the adaptive processing that improves speech clarity in difficult listening environments. The user is struggling to UNDERSTAND, not merely to hear loudly enough. | I can't follow what she's saying, it's so noisy in here. | How do I improve my hearing with Edge Mode? |
 | `Default Fallback Intent` | Fallback | Catch-all for any utterance the assistant must not act on: input that is out of scope for the hearing aids, and in-scope observations that describe a state without requesting a change. Routing here produces a clarification rather than a device action, so it is the safe default whenever intent is uncertain. | The left one has been sounding a bit quiet today. | It's quieter today, make it louder. |
 | `Help_AppSettings` | HelpAppSettings | Explain the app's own settings - where they are, how to change them, and the difference between Basic and Advanced app modes. | What's the difference between Basic and Advanced mode? | What's the firmware version of my aid? |
-| `Help_ChangingMemories` | HelpAppSettings | Explain how to switch between existing hearing aid memories or programs, using the app or the button on the aid. | How do I switch to the Music memory? | How do I create a custom memory? |
 | `Help_Customize` | HelpAppSettings | Explain how to fine-tune the SOUND of the hearing aids - the equalizer, bass and treble, background, wind and machine noise, and speech focus. | How do I use the equalizer to turn down machine noise? | It's too noisy in here, help me hear him. |
 | `Help_DemoMode` | HelpAppSettings | Explain demo mode - using or demonstrating the app without hearing aids connected. | Can I use the app without hearing aids connected? | Why won't my hearing aids connect? |
 | `Help_DeviceSettings` | HelpAppSettings | Explain hearing-aid hardware settings - firmware and serial number, double tap sensitivity, notification playback, automatic streaming, Comfort Boost, automatic telephone programs and data logging. | The double tap is too sensitive, can I adjust it? | How do I access the app settings? |
 | `Help_Home` | HelpAppSettings | Explain the Home or main screen - how to reach it, what it shows, and what can be adjusted from it. | What's on the Home screen? | Where do I find the app settings? |
-| `Help_MemoryOptions` | HelpAppSettings | Explain how to create, save, personalize, geotag, reset and delete hearing aid memories. | Can I create my own custom memory? | How do I change to a different memory? |
 | `Help_WhatsNew` | HelpAppSettings | Explain what has changed in the current version of the app or hearing aids, and provide the quick start or getting-started overview. | What's new in this version of the app? | Which version of the app am I using? |
 | `Help_EdgeMode` | HelpAudio | Explain what Edge Mode is and how to use it to improve hearing in difficult environments. | What does Edge Mode actually do? | Use edge mode to hear the speaker better. |
 | `Help_IntelliVoice` | HelpAudio | Explain the IntelliVoice feature - what it is, what it does, when to use it, and where to find it. | When should I use IntelliVoice? | How does the voice assistant work? |
@@ -57,7 +55,12 @@
 | `Help_ThriveScore` | HelpHealth | Explain the Thrive wellness score and its component scores - Body, Brain, Kind and iPro - including how they are calculated and how to improve them. | How is the Thrive score calculated? | How do I see my health goals? |
 | `Help_Transcribe` | HelpSpeechServices | Explain the Transcribe feature - live speech-to-text captioning - what it does, how it works, where to find it, and whether transcripts are saved. | Does transcribe save my conversations? | Start transcribing this conversation. |
 | `Help_Translate` | HelpSpeechServices | Explain the Translate feature - how it works, which languages are supported, where to find it, and whether conversations are saved. | What translation languages are available? | How do I say good morning in Russian? |
-| `Help_VoiceAssistant` | HelpSpeechServices | Explain the Thrive voice assistant itself - what it is, what it can be asked to do, how to reach it, and whether it works without a phone. | What can I ask Thrive Assistant to do? | What is IntelliVoice? |
+| `Cmd.MemoryChange` | Memories | Switch the hearing aids to a different saved memory or program - Normal, Restaurant, Outdoors, Car, Music, Television and the rest - either by naming it directly or by describing the listening environment the user has just entered. | I've just sat down in a busy restaurant. | How do I change to a different memory? |
+| `Help_ChangingMemories` | Memories | Explain how to switch between existing hearing aid memories or programs, using the app or the button on the aid. | How do I switch to the Music memory? | How do I create a custom memory? |
+| `Help_MemoryOptions` | Memories | Explain how to create, save, personalize, geotag, reset and delete hearing aid memories. | Can I create my own custom memory? | How do I change to a different memory? |
+| `Cmd.ListenMessage` | Messaging | Play back or read out messages the user has received - voice or push-to-talk messages, and incoming texts read aloud. | Read me the latest message. | Send a message to my son. |
+| `Cmd.SendMessage` | Messaging | Record and send a voice or push-to-talk message, optionally to a named recipient. | Let my daughter know I'm on my way. | Play my last message. |
+| `Help_VoiceAssistant` | Messaging | Explain the Thrive voice assistant itself - what it is, what it can be asked to do, how to reach it, and whether it works without a phone. | What can I ask Thrive Assistant to do? | What is IntelliVoice? |
 | `Help_Reminder` | Reminders | Explain the reminders feature - what it is, whether it is available, and how to create or manage reminders. | How do I set up a daily reminder? | Set a daily reminder for my tablets. |
 | `reminders.add` | Reminders | Create a new reminder, optionally with a subject, a time, a date or a recurrence. | Don't let me forget to pick up milk today. | Can I set reminders in my hearing aids? |
 | `reminders.complete` | Reminders | Mark an existing reminder as done. | Mark my last reminder as done. | Delete that reminder. |
@@ -83,6 +86,9 @@
 | `Cmd.EdgeModeDecrease` | Cmd.EdgeModeIncrease, Cmd.EdgeModeDeactivate, Cmd.VolumeDecrease, Help_EdgeMode, Default Fallback Intent |
 | `Cmd.EdgeModeIncrease` | Cmd.EdgeModeDecrease, Cmd.EdgeModeDeactivate, Cmd.VolumeIncrease, Help_EdgeMode, Help_Customize, Default Fallback Intent |
 | `Cmd.FindMyPhone` | Help_FindMyHearingAids, Help_Pairing, Default Fallback Intent |
+| `Cmd.ListenMessage` | Cmd.SendMessage, Cmd.TranscribeStart, Cmd.StreamingStart, Help_VoiceAssistant, Default Fallback Intent |
+| `Cmd.MemoryChange` | Help_ChangingMemories, Help_MemoryOptions, Cmd.EdgeModeIncrease, Help_Customize, Default Fallback Intent |
+| `Cmd.SendMessage` | Cmd.ListenMessage, Cmd.TranscribeStart, reminders.add, Help_VoiceAssistant, Default Fallback Intent |
 | `Cmd.StreamingStart` | Cmd.StreamingStop, Cmd.VolumeUnmute, Help_Accessories, Help_Pairing, Default Fallback Intent |
 | `Cmd.StreamingStop` | Cmd.StreamingStart, Cmd.VolumeMute, Help_Accessories, Default Fallback Intent |
 | `Cmd.TranscribeStart` | Cmd.TranslationStart, Help_Transcribe, reminders.add, Default Fallback Intent |
@@ -96,7 +102,7 @@
 | `Help_Activity` | Help_Health, Cmd.ActivityStep, Cmd.ActivityWalk, Cmd.ActivityExercise, Default Fallback Intent |
 | `Help_AppSettings` | Help_DeviceSettings, Help_WhatsNew, Help_Home, Help_Customize, Default Fallback Intent |
 | `Help_Battery` | Cmd.BatteryLevel, Help_CleanCare, Help_InsertDevice, Help_SelfCheck, Default Fallback Intent |
-| `Help_ChangingMemories` | Help_MemoryOptions, Help_Customize, Cmd.EdgeModeIncrease, Help_DeviceSettings, Default Fallback Intent |
+| `Help_ChangingMemories` | Cmd.MemoryChange, Help_MemoryOptions, Help_Customize, Cmd.EdgeModeIncrease, Default Fallback Intent |
 | `Help_CleanCare` | Help_Battery, Help_InsertDevice, Help_SelfCheck, Default Fallback Intent |
 | `Help_Customize` | Help_MemoryOptions, Help_DeviceSettings, Help_EdgeMode, Help_Volume, Default Fallback Intent |
 | `Help_DemoMode` | Help_AppSettings, Help_WhatsNew, Help_Pairing, Help_Home, Default Fallback Intent |
@@ -112,7 +118,7 @@
 | `Help_InsertDevice` | Help_CleanCare, Help_SelfCheck, Help_Battery, Default Fallback Intent |
 | `Help_IntelliVoice` | Help_EdgeMode, Help_VoiceAssistant, Help_Customize, Default Fallback Intent |
 | `Help_MaskMode` | Help_EdgeMode, Help_MemoryOptions, Help_Customize, Default Fallback Intent |
-| `Help_MemoryOptions` | Help_ChangingMemories, Help_Customize, Help_MaskMode, Help_DeviceSettings, Default Fallback Intent |
+| `Help_MemoryOptions` | Help_ChangingMemories, Cmd.MemoryChange, Help_Customize, Help_MaskMode, Default Fallback Intent |
 | `Help_Pairing` | Help_Accessories, Help_RemoteProgramming, Help_SelfCheck, Cmd.StreamingStart, Default Fallback Intent |
 | `Help_Reminder` | reminders.add, reminders.complete, Help_Home, Default Fallback Intent |
 | `Help_RemoteProgramming` | Help_Pairing, Help_Customize, Help_HearShare, Help_DeviceSettings, Default Fallback Intent |
@@ -121,7 +127,7 @@
 | `Help_Tinnitus` | Help_Volume, Cmd.VolumeIncrease, Help_ChangingMemories, Help_Customize, Default Fallback Intent |
 | `Help_Transcribe` | Cmd.TranscribeStart, Help_Translate, Help_VoiceAssistant, Default Fallback Intent |
 | `Help_Translate` | Cmd.TranslationStart, Help_Transcribe, Help_VoiceAssistant, Default Fallback Intent |
-| `Help_VoiceAssistant` | Help_IntelliVoice, Help_Transcribe, Help_Home, Default Fallback Intent |
+| `Help_VoiceAssistant` | Help_IntelliVoice, Cmd.SendMessage, Cmd.ListenMessage, Help_Transcribe, Default Fallback Intent |
 | `Help_Volume` | Cmd.VolumeIncrease, Cmd.VolumeDecrease, Cmd.VolumeMute, Help_Tinnitus, Help_Customize, Default Fallback Intent |
 | `Help_WhatsNew` | Help_AppSettings, Help_Home, Help_DemoMode, Default Fallback Intent |
 | `Help_WiCROS` | Help_Volume, Help_ChangingMemories, Help_DeviceSettings, Default Fallback Intent |

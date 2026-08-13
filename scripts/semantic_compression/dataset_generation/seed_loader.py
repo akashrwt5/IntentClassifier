@@ -18,6 +18,7 @@ stay auditable instead of buried in code.
 
 from __future__ import annotations
 
+import csv
 import random
 import re
 import unicodedata
@@ -218,6 +219,42 @@ class SeedCorpus:
         return len(self.intents)
 
 
+def _load_additional_sources(config: GeneratorConfig) -> dict[str, list[str]]:
+    """Pull seed utterances for intents that have no ``.txt`` in the export.
+
+    The Dialogflow folder is an incomplete snapshot of the shipping taxonomy.
+    Three live intents -- ``Cmd.MemoryChange`` (the largest in the product),
+    ``Cmd.SendMessage`` and ``Cmd.ListenMessage`` -- have no seed file at all;
+    their utterances live in the training CSVs instead.
+
+    Sources are read live rather than copied into the seed folder, so no
+    production text is duplicated into a new file, and the CSVs stay the single
+    source for that data.
+    """
+    sources = config.taxonomy.get("additional_seed_sources") or []
+    collected: dict[str, list[str]] = {}
+
+    for source in sources:
+        path = (config.config_path.parent / source["path"]).resolve()
+        if not path.is_file():
+            raise SeedCorpusError(f"additional_seed_sources path not found: {path}")
+
+        wanted = set(source.get("intents") or [])
+        text_col = source.get("text_column", "text")
+        intent_col = source.get("intent_column", "intent")
+
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            for row in csv.DictReader(handle):
+                intent = (row.get(intent_col) or "").strip()
+                if wanted and intent not in wanted:
+                    continue
+                utterance = normalize_utterance(row.get(text_col) or "")
+                if utterance:
+                    collected.setdefault(intent, []).append(utterance)
+
+    return collected
+
+
 def load_seed_corpus(config: GeneratorConfig) -> SeedCorpus:
     """Read the seed directory and apply every taxonomy rule from the config."""
     seed_dir = config.seed_dir
@@ -251,6 +288,13 @@ def load_seed_corpus(config: GeneratorConfig) -> SeedCorpus:
             corpus.merged[intent] = target
 
         staged.setdefault(target, []).extend(lines)
+
+    for intent, lines in _load_additional_sources(config).items():
+        if intent in drop_rules or intent in excluded:
+            continue
+        staged.setdefault(intent, []).extend(lines)
+        corpus.raw_counts[intent] = corpus.raw_counts.get(intent, 0) + len(lines)
+        corpus.encodings.setdefault(intent, "csv")
 
     for merge_source, merge_target in corpus.merged.items():
         if merge_target not in staged:
