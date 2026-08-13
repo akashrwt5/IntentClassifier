@@ -27,6 +27,56 @@ from seed_loader import GeneratorConfig, SeedCorpusError
 
 SUPPORTED_PROVIDERS = ("openai", "anthropic", "google")
 
+#: Model-name prefixes that REJECT the ``temperature`` parameter outright,
+#: returning "Unsupported parameter: 'temperature' is not supported with this
+#: model." rather than ignoring it. OpenAI's reasoning families removed manual
+#: sampling control in favour of internal self-adjustment, so passing the
+#: parameter is a hard 400 and would fail every call in the run.
+#:
+#: This matters more here than in most pipelines: temperature is the primary
+#: lever for the output variability this project exists to maximise, so a model
+#: that removes it is a real design trade-off, not just a config detail.
+NO_TEMPERATURE_PREFIXES: tuple[str, ...] = ("gpt-5", "o1", "o3", "o4")
+
+#: Families that DO accept temperature despite matching a prefix above.
+#: ``gpt-5-chat`` is the chat-tuned variant. ``gpt-5.1`` accepts temperature
+#: whenever ``reasoning_effort`` is ``none`` -- which is its default when the
+#: parameter is omitted, as it is here.
+#:
+#: The distinction is easy to get wrong: a naive ``"gpt-5" in model`` check
+#: matches ``gpt-5.1`` too and silently strips a parameter that model does
+#: accept. That exact bug is open against LiteLLM (BerriAI/litellm#17005), so
+#: the prefixes are anchored with an explicit boundary rather than a substring.
+TEMPERATURE_EXCEPTIONS: tuple[str, ...] = ("gpt-5-chat", "gpt-5.1", "gpt-5.2")
+
+
+def supports_temperature(model: str) -> bool:
+    """Whether ``model`` accepts a ``temperature`` argument.
+
+    Matching is on a version boundary, so ``gpt-5`` and ``gpt-5-mini`` are
+    treated as reasoning models while ``gpt-5.1`` is not.
+    """
+    name = model.lower()
+    if any(name.startswith(x) for x in TEMPERATURE_EXCEPTIONS):
+        return True
+    for prefix in NO_TEMPERATURE_PREFIXES:
+        if name == prefix or name.startswith(prefix + "-"):
+            return False
+    return True
+
+
+def temperature_kwargs(llm_cfg: dict[str, Any]) -> dict[str, Any]:
+    """Build the temperature kwarg, omitting it where the model rejects it.
+
+    Set ``llm.temperature: null`` in the config to omit it explicitly.
+    """
+    configured = llm_cfg.get("temperature")
+    if configured is None:
+        return {}
+    if not supports_temperature(str(llm_cfg["model"])):
+        return {}
+    return {"temperature": float(configured)}
+
 
 @dataclass
 class Rejection:
@@ -51,15 +101,38 @@ class GenerationOutcome:
         return self.value is not None
 
 
-def build_structured_llm(config: GeneratorConfig, schema: type[BaseModel]) -> Any:
+def resolve_llm_config(config: GeneratorConfig, stage: str | None = None) -> dict[str, Any]:
+    """Merge ``llm`` with any per-stage override block.
+
+    Spec authoring and dataset generation want OPPOSITE settings from the same
+    config file. Bootstrapping a specification is a precision task -- one right
+    answer, low temperature. Generating 7,680 utterances is the reverse: the
+    entire objective is variability, and a low temperature there produces the
+    repetitive near-duplicate output this project exists to eliminate.
+
+    So ``generation.llm_overrides`` layers on top of ``llm`` rather than either
+    stage silently inheriting a value tuned for the other.
+    """
+    merged = dict(config.llm)
+    if stage:
+        overrides = (config.raw.get(stage) or {}).get("llm_overrides") or {}
+        merged.update(overrides)
+    return merged
+
+
+def build_structured_llm(
+    config: GeneratorConfig,
+    schema: type[BaseModel],
+    *,
+    stage: str | None = None,
+) -> Any:
     """Return a LangChain runnable that emits ``schema``.
 
     Imported lazily so ``--dry-run`` works with no provider SDK installed.
     """
-    llm_cfg = config.llm
+    llm_cfg = resolve_llm_config(config, stage)
     provider = str(llm_cfg.get("provider", "openai")).lower()
-    model = llm_cfg["model"]
-    temperature = float(llm_cfg.get("temperature", 0.7))
+    model = str(llm_cfg["model"])
     timeout = llm_cfg.get("request_timeout_seconds", 90)
 
     if provider not in SUPPORTED_PROVIDERS:
@@ -67,18 +140,21 @@ def build_structured_llm(config: GeneratorConfig, schema: type[BaseModel]) -> An
             f"llm.provider must be one of {SUPPORTED_PROVIDERS}, got {provider!r}"
         )
 
+    kwargs: dict[str, Any] = {"model": model, "timeout": timeout}
+    kwargs.update(temperature_kwargs(llm_cfg))
+
     if provider == "openai":
         from langchain_openai import ChatOpenAI
 
-        llm: Any = ChatOpenAI(model=model, temperature=temperature, timeout=timeout)
+        llm: Any = ChatOpenAI(**kwargs)
     elif provider == "anthropic":
         from langchain_anthropic import ChatAnthropic
 
-        llm = ChatAnthropic(model=model, temperature=temperature, timeout=timeout)
+        llm = ChatAnthropic(**kwargs)
     else:
         from langchain_google_genai import ChatGoogleGenerativeAI
 
-        llm = ChatGoogleGenerativeAI(model=model, temperature=temperature, timeout=timeout)
+        llm = ChatGoogleGenerativeAI(**kwargs)
 
     return llm.with_structured_output(schema)
 

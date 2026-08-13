@@ -29,8 +29,20 @@ paths:
 # LLM settings
 # -----------------------------------------------------------------------------
 llm:
-  provider: openai
+  provider: openai              # openai | anthropic | google
   model: gpt-4o
+
+  # Set to null to omit the parameter entirely.
+  #
+  # NOTE for GPT-5 / o-series: those models REJECT this parameter outright
+  # ("Unsupported parameter: 'temperature' is not supported with this model"),
+  # so `llm_client` drops it automatically for them -- passing it would 400
+  # every call in the run. `gpt-5-chat-latest` is the exception and accepts it.
+  #
+  # That auto-drop keeps the run working, but it does not restore the control.
+  # Temperature is the main lever for the output variability this project
+  # exists to maximise, so on a reasoning model the avoid-list is doing that
+  # job alone. Worth measuring before committing a full Stage 1 to one.
   temperature: 0.1
   max_retries: 3
   retry_backoff_seconds: 2.0
@@ -114,6 +126,19 @@ generation:
     Easy: 0.35
     Medium: 0.40
     Hard: 0.25
+
+  # Generation-stage LLM overrides, layered on top of the top-level `llm:`.
+  #
+  # This block exists because the two stages want OPPOSITE settings. Authoring
+  # a specification is a precision task -- there is one right answer, so
+  # temperature 0.1 is correct there. Generating utterances is the reverse:
+  # variability IS the deliverable, and running this stage at 0.1 would produce
+  # exactly the repetitive near-duplicate output Section 1 exists to eliminate.
+  #
+  # Without this override the generator would silently inherit the
+  # spec-authoring temperature and quietly defeat the purpose of the project.
+  llm_overrides:
+    temperature: 0.9
 
 # -----------------------------------------------------------------------------
 # Deduplication (Phase 3, Stage 2)

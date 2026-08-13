@@ -412,7 +412,7 @@ def main() -> int:
 
     chain = ChatPromptTemplate.from_messages(
         [("system", SYSTEM_PROMPT), ("human", HUMAN_PROMPT)]
-    ) | build_structured_llm(config, GeneratedBatch)
+    ) | build_structured_llm(config, GeneratedBatch, stage="generation")
 
     mix = _difficulty_mix(config)
     failures: list[str] = []
