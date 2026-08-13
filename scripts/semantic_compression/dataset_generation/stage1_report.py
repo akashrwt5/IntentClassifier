@@ -251,6 +251,72 @@ def build_report(config: GeneratorConfig, only: list[str] | None = None) -> str:
 
     lines += [
         "",
+        "## 1b. Saturation — is the budget right?",
+        "",
+        "Two signals, both taken in generation order.",
+        "",
+        "`new vocab per quarter` is how many previously-unseen words each",
+        "quarter contributed. A generator with semantic room left keeps",
+        "introducing vocabulary; one that has run dry recycles it.",
+        "",
+        "`last-quarter redundancy` is the share of the final quarter that",
+        "restates something from the first three.",
+        "",
+        "Together these answer the budget question empirically rather than by",
+        "guesswork. Note that mean pairwise distance does NOT work here -- on",
+        "short utterances it sits near 1.0 and barely moves, so it reads",
+        "saturated whatever the truth is.",
+        "",
+        "| Intent | n | new vocab per quarter | last-quarter redundancy | read |",
+        "|---|---:|---|---:|---|",
+    ]
+    for intent in sorted(gen_texts):
+        texts = gen_texts[intent]
+        if len(texts) < 8:
+            lines.append(f"| `{intent}` | {len(texts)} | — | — | too few to judge |")
+            continue
+
+        # New vocabulary contributed by each quarter. A generator still finding
+        # semantic room keeps introducing words; one that has run dry recycles.
+        cuts = [max(1, int(len(texts) * f)) for f in (0.25, 0.50, 0.75, 1.0)]
+        seen: set[str] = set()
+        fresh: list[int] = []
+        previous = 0
+        for cut in cuts:
+            for text in texts[previous:cut]:
+                seen |= _tokens(text)
+            fresh.append(len(seen))
+            previous = cut
+        added = [fresh[0]] + [fresh[i] - fresh[i - 1] for i in range(1, 4)]
+
+        # How much of the final quarter merely restates earlier material.
+        tail = texts[cuts[2] :]
+        head_sets = [_tokens(t) for t in texts[: cuts[2]]]
+        echoed = 0
+        for text in tail:
+            ts = _tokens(text)
+            for hs in head_sets:
+                union = len(ts | hs)
+                if union and len(ts & hs) / union >= 0.5:
+                    echoed += 1
+                    break
+        redundancy = echoed / len(tail) if tail else 0.0
+
+        growth = added[3] / added[0] if added[0] else 0.0
+        if redundancy >= 0.5 or growth < 0.25:
+            read = "saturated — budget is enough"
+        elif redundancy >= 0.3 or growth < 0.5:
+            read = "levelling off"
+        else:
+            read = "**still climbing — raise budget**"
+
+        lines.append(
+            f"| `{intent}` | {len(texts)} | {' → '.join(str(a) for a in added)} "
+            f"| {redundancy:.0%} | {read} |"
+        )
+
+    lines += [
+        "",
         "## 2. Internal redundancy",
         "",
         "Share of utterances that overlap another in the same intent by ≥75% of",

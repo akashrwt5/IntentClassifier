@@ -93,13 +93,43 @@ seed_sampling:
 # Generation budgets (consumed by Phase 2/3 generator.py)
 # -----------------------------------------------------------------------------
 generation:
+  # STARTING budgets, to be corrected by measurement -- `stage1_report.py`
+  # section 1b reports whether each intent saturated or was cut short, and
+  # these should be revised from that rather than argued about.
+  #
+  # The first draft of this block was round numbers, and comparing it against
+  # the shipping training set showed it was wrong in a systematic direction:
+  # a flat 120 cut Default Fallback Intent from 1,308 rows to 400 and
+  # Cmd.MemoryChange from 1,884 to 120, while inflating small intents.
+  #
+  # Flattening is partly RIGHT -- the legacy counts are permutation-heavy, so
+  # 1,884 syntactic MemoryChange rows are worth far fewer semantic ones, and a
+  # 36x class imbalance is its own problem. But two cases are not about
+  # permutations at all, and those get scaled by what they must actually cover:
+  #
+  #   Default Fallback Intent -- an UNBOUNDED space (weather, smart home,
+  #   ambient conversation, pure observations) and the class that decides
+  #   False-Accept Rate, the project's priority metric. It needs the most
+  #   coverage, not a cut.
+  #
+  #   Slot-bearing intents -- Cmd.MemoryChange has 38 memory values in its
+  #   vocabulary. At 120 utterances that is ~3 per value, which cannot cover
+  #   the slot space the product actually uses. reminders.add carries
+  #   recurrence and reminder-type slots similarly.
   utterances_per_intent:
     default: 120
     overrides:
-      Default Fallback Intent: 400
+      # Unbounded scope + FAR-critical.
+      Default Fallback Intent: 800
+
+      # Slot-bearing: budget scales with the vocabulary each must cover.
+      Cmd.MemoryChange: 300
+      reminders.add: 200
+
+      # Physically change the device, and carry the richest semantic space.
       Cmd.VolumeIncrease: 180
       Cmd.VolumeDecrease: 180
-      Cmd.EdgeModeIncrease: 160
+      Cmd.EdgeModeIncrease: 180
       Cmd.EdgeModeDecrease: 160
   hard_negatives_per_intent: 40
   oos_ratio: 0.15

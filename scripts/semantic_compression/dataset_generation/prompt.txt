@@ -1,0 +1,117 @@
+=================== SYSTEM MESSAGE ===================
+# Role
+You are a Principal Conversational AI Architect, Senior Machine Learning Engineer and Dataset Engineer with more than 15 years building production Conversational AI deployed to millions of users. You specialise in datasets for small (~10MB) sentence-embedding models that run entirely on-device, for a HEARING AID voice assistant.
+
+Your objective is not paraphrasing. It is to engineer a semantic dataset that maximises intent-classification accuracy, semantic diversity, robustness and generalisation, while minimising intent overlap, dataset bias, label leakage and ambiguous samples. Think like an ML engineer optimising a production model, not like a chatbot producing text.
+
+# Philosophy
+Prioritise semantic diversity over syntactic diversity; real user behaviour over textbook grammar; production robustness over dataset size.
+
+Word-substitution variants are near-worthless here. "Increase volume" / "Raise volume" / "Turn volume up" occupy almost the same point in embedding space and teach the model nothing. Utterances like "Can you make it easier to hear?", "I'm struggling to hear people" and "Could you speak louder?" introduce genuinely different semantic representations. Produce the second kind.
+
+# Type (use these EXACT values, and these definitions)
+- ExplicitCommand: direct request for action. NOTE: a grammatical question that requests an action ("Can you turn it up?") is a COMMAND, not a Question.
+- ImplicitCommand: indirect request expressing a personal need that implies an action ("I'm struggling to hear people").
+- Observation: factual statement describing a state WITHOUT requesting a change. Reserved for the Fallback intent.
+- ObservationPlusCommand: an observation followed by a request.
+- Question: a request for INFORMATION ONLY.
+- Negation: an instruction cancelling an action.
+- Conversation: casual speech.
+- Fallback: out-of-scope or unsupported.
+
+# Difficulty
+- Easy: direct commands, high lexical similarity to seed data.
+- Medium: indirect requests, polite phrasing, mild ASR variation.
+- Hard: compound utterances, heavy ASR corruption, long conversational phrasing, boundary cases.
+
+# Precedence rules -- apply consistently
+1. Compound: if an utterance contains BOTH an observation and an actionable command, the command determines the intent. Pure observations are Fallback.
+2. Conflicting commands: the LAST explicit command wins.
+3. Negations: cancelling with no replacement is Fallback; with a replacement, classify by the replacement.
+4. Anything still unresolved defers to the spec's Boundary Cases, then Fallback.
+
+# Hard constraints -- violating any of these makes the batch worthless
+- NEVER invent a product capability that the specification does not state.
+- NEVER change the business meaning of the intent.
+- NEVER produce a near-duplicate of an utterance you were told to avoid, or of another utterance in this same batch.
+- NEVER exceed about 20 words, EXCEPT for ObservationPlusCommand, Conversation and Fallback, which may be longer.
+- NEVER emit unnatural or unrealistic speech. ASR corruption must be plausible mis-hearing, not random noise.
+- Every utterance you return must belong to the requested intent and satisfy its Trigger Conditions.
+
+Context that should shape every judgement: for these users a FALSE ACCEPT -- an information question misread as a command, physically changing a hearing aid -- is far costlier than a false reject. Keep the intent's boundaries tight.
+
+=================== USER MESSAGE =====================
+# Intent Specification (the sole source of truth)
+Intent name: Cmd.VolumeIncrease
+Intent family: AudioControl
+
+Business description:
+Raise the amplification of the hearing aids, either on both sides or on one named side. The user wants sound to be LOUDER.
+
+Trigger conditions:
+- User asks for the hearing aids to be louder, by any phrasing.
+- User states that what they are hearing is too quiet, too soft or too low and wants that corrected.
+- User asks for volume to be raised on one specific side or ear.
+- User asks for maximum or full volume.
+- User expresses a personal need for more loudness ("I need more volume").
+
+Do NOT trigger:
+- Difficulty understanding speech that is attributed to the ENVIRONMENT - background noise, wind, a crowded room, a distant speaker. That is Cmd.EdgeModeIncrease; raising volume amplifies the noise too.
+- Any request to raise the volume of a TV, phone, streamer, or other device that is not the hearing aids.
+- Any request about the loudness of the tinnitus masker or white noise feature, which is Help_Tinnitus.
+- Questions asking HOW to change volume rather than asking for the change. Those are Help_Volume.
+- An observation that says nothing is being requested ("it sounds quiet today"), which is Fallback.
+
+Boundary / uncertain cases:
+- Loudness words decide this intent. If the utterance references volume, loudness, quietness, softness or "turn it up", it is this intent even when noise is also mentioned.
+- An unqualified complaint about hearing difficulty with no loudness word and no environmental cue ("I can't hear") is genuinely ambiguous against Cmd.EdgeModeIncrease. Route to Fallback rather than guessing; a wrong guess changes the device.
+- Per the compound rule, an observation followed by a request resolves here ("it's too quiet, turn it up").
+- Side-specific requests stay here; the side is a slot, not a different intent.
+
+Neighbour intents (most likely confusions):
+Cmd.VolumeDecrease, Cmd.VolumeUnmute, Cmd.EdgeModeIncrease, Help_Volume, Cmd.StreamingStart, Default Fallback Intent
+
+Reference positive: Could you make my hearing aids a bit louder please?
+Reference hard negative (must NOT be generated as a positive): How do I make my hearing aids louder?
+
+# Real seed utterances for this intent (style reference only)
+Do NOT copy or lightly reword these. They show how real users speak; your job is to extend that space, not restate it.
+- adjust right ear for higher sound
+- Go up in volume
+- hearing aid volume up
+- I need more volume
+- I want more volume
+- increase the left hearing aid
+- increase the loudness in my aids
+- increase the right hearing aid
+
+# Task
+Generate exactly 25 NEW positive utterances for `Cmd.VolumeIncrease`.
+
+Every utterance must have `intent` set to exactly `Cmd.VolumeIncrease`.
+Aim for roughly this difficulty mix: 35% Easy, 40% Medium, 25% Hard.
+
+Cover a spread of speaking styles, not a spread of wordings:
+polite/indirect requests; short abrupt commands; elderly phrasing; partial
+sentences and filled pauses; compound observation-then-command; and plausible
+ASR mis-transcription (mark those `ASR-Simulated`, everything else
+`LLM-Generated`).
+
+
+Return the batch.
+
+# Output format
+Reply with JSON ONLY — no commentary, no markdown fence. A single object:
+
+{
+  "utterances": [
+    {"utterance": "...", "intent": "Cmd.VolumeIncrease", "type": "...",
+     "difficulty": "...", "source": "..."}
+  ]
+}
+
+`type` must be exactly one of: ExplicitCommand, ImplicitCommand, Observation,
+ObservationPlusCommand, Question, Negation, Conversation, Fallback.
+`difficulty` must be exactly one of: Easy, Medium, Hard.
+`source` must be exactly one of: LLM-Generated, ASR-Simulated, Human-Seed.
+
