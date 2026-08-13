@@ -93,6 +93,28 @@ generation:
   oos_ratio: 0.15
   max_utterance_words: 20
 
+  # Utterances requested per call. Deliberately small: asking for an intent's
+  # whole budget in one request produces visibly degrading output, because the
+  # model spends its genuinely distinct phrasings early and pads the tail with
+  # the word-substitution variants Section 1 exists to eliminate.
+  batch_size: 25
+
+  # How many already-accepted utterances are shown back to the model as "do not
+  # repeat". This is what keeps batch N+1 from re-deriving batch N.
+  avoid_list_max: 60
+
+  # Real seed utterances shown per request as a STYLE reference. Kept small on
+  # purpose -- the more seeds shown, the more the output regresses toward
+  # rewording them, which is the failure mode this project was started to fix.
+  seed_reference_count: 8
+
+  # Target spread. Hard cases are where FAR is won or lost, so they are
+  # over-weighted relative to their natural frequency.
+  difficulty_mix:
+    Easy: 0.35
+    Medium: 0.40
+    Hard: 0.25
+
 # -----------------------------------------------------------------------------
 # Deduplication (Phase 3, Stage 2)
 # -----------------------------------------------------------------------------
