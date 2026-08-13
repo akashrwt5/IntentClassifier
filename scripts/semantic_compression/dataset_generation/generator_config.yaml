@@ -339,8 +339,24 @@ taxonomy:
   # Dialogflow export is an incomplete snapshot: `Cmd.MemoryChange` is the
   # largest intent in the product (1,884 rows) and has no seed file at all.
   # Read live from the training CSVs so no production text is duplicated.
+  # SOURCE files only. `04_GENERATED_MASTER_training_data.csv` is the merge of
+  # 01 + 02 + 03, and 03 is 1,337 previously GENERATED augmented phrases.
+  # Seeding new generation from earlier generated output is circular: it
+  # inherits that pass's biases and errors, and it contradicts the premise of
+  # this project, which is that the legacy material is what we are replacing.
+  #
+  # Restricting to 01 and 02 costs almost nothing -- of Cmd.MemoryChange's
+  # 1,884 rows, 1,842 are source or human-corrected and only 40 were generated.
   additional_seed_sources:
-    - path: "../../../datasets/04_GENERATED_MASTER_training_data.csv"
+    - path: "../../../datasets/01_source_base_training_data.csv"
+      format: csv
+      text_column: text
+      intent_column: intent
+      intents:
+        - "Cmd.MemoryChange"
+        - "Cmd.SendMessage"
+        - "Cmd.ListenMessage"
+    - path: "../../../datasets/02_source_manual_corrections.csv"
       format: csv
       text_column: text
       intent_column: intent
