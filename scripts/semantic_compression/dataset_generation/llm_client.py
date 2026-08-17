@@ -17,15 +17,29 @@ Two responsibilities, deliberately kept out of ``generator.py``:
 
 from __future__ import annotations
 
+import os
+import stat
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Callable, Sequence
 
 from pydantic import BaseModel
 
 from seed_loader import GeneratorConfig, SeedCorpusError
 
-SUPPORTED_PROVIDERS = ("openai", "anthropic", "google")
+SUPPORTED_PROVIDERS = ("openai", "azure", "anthropic", "google")
+
+#: Azure serves OpenAI's models from a different endpoint, with a different key
+#: and a per-resource DEPLOYMENT name. That deployment name is chosen by whoever
+#: provisioned the resource and need not resemble the model at all, so
+#: ``llm.model`` stays the REAL model name -- it is what
+#: ``supports_temperature`` has to reason about -- and the deployment travels
+#: separately in ``llm.azure.deployment``.
+#:
+#: Getting those two backwards breaks the temperature decision silently: a
+#: deployment called "prod-nlu" matches no known prefix, so the code would
+#: cheerfully send a parameter the underlying model rejects.
 
 #: Model-name prefixes that REJECT the ``temperature`` parameter outright,
 #: returning "Unsupported parameter: 'temperature' is not supported with this
@@ -39,14 +53,41 @@ SUPPORTED_PROVIDERS = ("openai", "anthropic", "google")
 NO_TEMPERATURE_PREFIXES: tuple[str, ...] = ("gpt-5", "o1", "o3", "o4")
 
 #: Families that DO accept temperature despite matching a prefix above.
-#: ``gpt-5-chat`` is the chat-tuned variant. ``gpt-5.1`` accepts temperature
-#: whenever ``reasoning_effort`` is ``none`` -- which is its default when the
-#: parameter is omitted, as it is here.
+#: ``gpt-5-chat`` is the chat-tuned variant and takes it unconditionally.
+#: ``gpt-5.1`` and ``gpt-5.2`` take it only while ``reasoning_effort`` is
+#: ``none``.
 #:
-#: The distinction is easy to get wrong: a naive ``"gpt-5" in model`` check
-#: matches ``gpt-5.1`` too and silently strips a parameter that model does
-#: accept. That exact bug is open against LiteLLM (BerriAI/litellm#17005), so
-#: the prefixes are anchored with an explicit boundary rather than a substring.
+#: WARNING -- this list describes what the MODEL accepts, NOT what this stack
+#: currently delivers. An earlier version of this comment claimed
+#: ``reasoning_effort`` defaults to ``none`` when the parameter is omitted, "as
+#: it is here". That is false. Measured against langchain-openai 1.5.1, the
+#: client NULLS temperature for the whole gpt-5.x family unless
+#: ``reasoning_effort="none"`` is passed explicitly, and it does so silently --
+#: no error, no warning:
+#:
+#:     model              temperature passed in      temperature on the client
+#:     gpt-4o             0.9                        0.9
+#:     gpt-5-chat-latest  0.9                        0.9
+#:     gpt-5.1            0.9                        None
+#:     gpt-5.1-mini       0.9                        None
+#:     gpt-5              0.9                        None
+#:     gpt-5.2            0.9                        None
+#:
+#:     gpt-5.1 + reasoning_effort="none"     0.9     0.9
+#:     gpt-5.1 + reasoning_effort="minimal"  0.9     None
+#:
+#: So ``supports_temperature("gpt-5.1") is True`` does not mean 0.9 reaches the
+#: API. Until ``build_structured_llm`` sends ``reasoning_effort="none"``, a run
+#: on any gpt-5.x model other than ``gpt-5-chat`` has NO temperature control at
+#: all -- and temperature is this project's primary lever for the output
+#: variability it exists to produce (see ``generation.llm_overrides``). The
+#: failure is silent, so it would surface as repetitive generated data long
+#: after the run was paid for. Verify before choosing a gpt-5.x model.
+#:
+#: Separately, the boundary matching below is deliberate: a naive
+#: ``"gpt-5" in model`` check also matches ``gpt-5.1`` and strips a parameter
+#: that model does accept. That bug is open against LiteLLM
+#: (BerriAI/litellm#17005), so the prefixes are anchored rather than substrings.
 TEMPERATURE_EXCEPTIONS: tuple[str, ...] = ("gpt-5-chat", "gpt-5.1", "gpt-5.2")
 
 
@@ -76,6 +117,64 @@ def temperature_kwargs(llm_cfg: dict[str, Any]) -> dict[str, Any]:
     if not supports_temperature(str(llm_cfg["model"])):
         return {}
     return {"temperature": float(configured)}
+
+
+def reasoning_kwargs(llm_cfg: dict[str, Any]) -> dict[str, Any]:
+    """Build the ``reasoning_effort`` kwarg, when the config asks for one.
+
+    Config-driven rather than inferred from the model name, for two reasons.
+
+    It is a real decision, not plumbing: ``reasoning_effort: none`` turns the
+    model's reasoning OFF, so a gpt-5.x model runs as an ordinary chat model.
+    That trade is worth making deliberately and worth seeing in the config,
+    rather than discovering inside a code path.
+
+    And it is the only way to keep temperature on gpt-5.x. langchain-openai
+    nulls temperature for that family unless ``reasoning_effort="none"`` is sent
+    explicitly -- silently, with no error (see TEMPERATURE_EXCEPTIONS above).
+    Since temperature is this project's primary lever for output variability,
+    omitting this on gpt-5.x means generating without that lever at all.
+
+    Only OpenAI and Azure accept the parameter; other providers ignore it.
+    """
+    effort = llm_cfg.get("reasoning_effort")
+    if effort is None:
+        return {}
+    return {"reasoning_effort": str(effort)}
+
+
+def _assert_temperature_applied(llm: Any, llm_cfg: dict[str, Any], provider: str) -> None:
+    """Fail if the SDK dropped a temperature the config asked for.
+
+    This exists because the drop is SILENT. Passing ``temperature=0.9`` to a
+    gpt-5.x client is accepted without complaint and then nulled, so a full run
+    completes, is paid for, and produces the repetitive output this project
+    exists to eliminate -- with nothing anywhere reporting a problem.
+
+    Checking the constructed client rather than a table of model names keeps the
+    guard independent of the SDK version: whatever the next release decides to
+    rewrite, this still catches it, at construction time, before one paid call.
+
+    ``temperature: null`` in the config means "do not send one", so nothing is
+    requested and nothing is checked -- that remains the supported way to run a
+    model with no temperature control.
+    """
+    requested = temperature_kwargs(llm_cfg).get("temperature")
+    if requested is None:
+        return
+    # Default to `requested` so a client that simply does not expose the
+    # attribute is not reported as a failure.
+    landed = getattr(llm, "temperature", requested)
+    if landed == requested:
+        return
+    raise SeedCorpusError(
+        f"temperature {requested} was requested for model "
+        f"{llm_cfg.get('model')!r} on provider {provider!r}, but the client "
+        f"reports {landed!r} -- the SDK dropped it silently.\n"
+        "  - On gpt-5.x this is expected unless `llm.reasoning_effort: none` "
+        "is set; without it there is no temperature control at all.\n"
+        "  - To run deliberately without temperature, set `llm.temperature: null`."
+    )
 
 
 @dataclass
@@ -142,11 +241,42 @@ def build_structured_llm(
 
     kwargs: dict[str, Any] = {"model": model, "timeout": timeout}
     kwargs.update(temperature_kwargs(llm_cfg))
+    if provider in ("openai", "azure"):
+        kwargs.update(reasoning_kwargs(llm_cfg))
+
+    # Passed explicitly rather than left to the SDK's environment lookup, so a
+    # key supplied through the secrets file works identically to one exported
+    # into the shell.
+    api_key = resolve_api_key(config)
+    if api_key:
+        kwargs["google_api_key" if provider == "google" else "api_key"] = api_key
 
     if provider == "openai":
         from langchain_openai import ChatOpenAI
 
         llm: Any = ChatOpenAI(**kwargs)
+    elif provider == "azure":
+        from langchain_openai import AzureChatOpenAI
+
+        azure = llm_cfg.get("azure") or {}
+        missing = [k for k in ("endpoint", "deployment", "api_version") if not azure.get(k)]
+        if missing:
+            raise SeedCorpusError(
+                "llm.provider is 'azure' but llm.azure is missing: "
+                f"{missing}. Endpoint, deployment and api_version are not secret "
+                "and belong in the config; only AZURE_OPENAI_API_KEY comes from "
+                "the environment."
+            )
+        # The whole pipeline runs through `with_structured_output`, which needs
+        # an api_version new enough to expose structured outputs. An old one
+        # fails on the first call rather than degrading quietly -- the better
+        # failure, but cheaper to discover before a full run is launched.
+        llm = AzureChatOpenAI(
+            azure_endpoint=str(azure["endpoint"]),
+            azure_deployment=str(azure["deployment"]),
+            api_version=str(azure["api_version"]),
+            **kwargs,
+        )
     elif provider == "anthropic":
         from langchain_anthropic import ChatAnthropic
 
@@ -156,6 +286,7 @@ def build_structured_llm(
 
         llm = ChatGoogleGenerativeAI(**kwargs)
 
+    _assert_temperature_applied(llm, llm_cfg, provider)
     return llm.with_structured_output(schema)
 
 
@@ -163,9 +294,70 @@ def required_api_key(config: GeneratorConfig) -> str:
     """Environment variable the configured provider needs."""
     return {
         "openai": "OPENAI_API_KEY",
+        "azure": "AZURE_OPENAI_API_KEY",
         "anthropic": "ANTHROPIC_API_KEY",
         "google": "GOOGLE_API_KEY",
     }[str(config.llm.get("provider", "openai")).lower()]
+
+
+def _inside_a_git_repository(path: Path) -> bool:
+    return any((parent / ".git").exists() for parent in path.parents)
+
+
+def load_secrets(config: GeneratorConfig) -> dict[str, str]:
+    """Read the local secrets file, keyed by environment-variable name.
+
+    The file is keyed by the same names the environment uses
+    (``AZURE_OPENAI_API_KEY`` and friends) so there is no mapping to get wrong
+    and no ambiguity about which key belongs to which provider.
+
+    ``paths.secrets_file`` defaults to a location OUTSIDE the repository. That
+    is the point: this repository is public, and a file that never enters the
+    working tree cannot be committed by a stray ``git add -f``, cannot ride
+    along in a ``git stash``, and cannot appear in someone else's clone.
+    ``.gitignore`` is a second line of defence, not the first one.
+
+    Missing file is not an error -- the environment variable remains a
+    perfectly good way to supply the key, and is what CI would use.
+    """
+    raw_path = (config.raw.get("paths") or {}).get("secrets_file")
+    if not raw_path:
+        return {}
+
+    path = Path(str(raw_path)).expanduser()
+    if not path.is_absolute():
+        path = (config.config_path.parent / path).resolve()
+    if not path.is_file():
+        return {}
+
+    mode = stat.S_IMODE(path.stat().st_mode)
+    if mode & 0o077:
+        print(
+            f"WARNING: {path} is readable by other users (mode {mode:04o}). "
+            "Run: chmod 600 <file>"
+        )
+    if _inside_a_git_repository(path):
+        print(
+            f"WARNING: {path} sits inside a git repository, and this one is "
+            "PUBLIC. Prefer a path outside the working tree entirely."
+        )
+
+    import yaml
+
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    if not isinstance(data, dict):
+        raise SeedCorpusError(f"{path} did not parse to a mapping of NAME: value")
+    return {str(k): str(v).strip() for k, v in data.items() if v and str(v).strip()}
+
+
+def resolve_api_key(config: GeneratorConfig) -> str | None:
+    """The provider's API key: environment first, then the secrets file.
+
+    Environment wins so a one-off run, a different key, or a CI job can override
+    the file without editing it.
+    """
+    name = required_api_key(config)
+    return os.environ.get(name) or load_secrets(config).get(name)
 
 
 def invoke_with_validation(

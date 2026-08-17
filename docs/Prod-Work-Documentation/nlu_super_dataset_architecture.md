@@ -78,7 +78,7 @@ This costs nothing in quality. Fallback is the one intent defined by *exclusion*
 > Any future intent whose seeds are drawn from production transcripts rather than authored test phrases must be screened the same way before it reaches an external API.
 
 ### Seed Evidence Selection
-The bootstrapper shows the LLM a **maximum-diversity sample** of each intent's seeds (greedy farthest-point traversal over token-set Jaccard distance), not the first *N* lines. The legacy export is permutation-heavy, so the head of a file is a run of near-identical siblings — the least informative evidence available for inferring a boundary. Measured on `Cmd.EdgeModeIncrease`, head-slicing returns ten variants of *"activate edge mode …"*; diverse sampling surfaces *"Focus on him"*, *"He is not clear"*, *"Can't follow her, its too windy"* — the implicit-command phrasings that actually define the intent.
+The bootstrapper and the Stage 1 generator both show the LLM a **maximum-diversity sample** of each intent's seeds (greedy farthest-point traversal over token-set Jaccard distance), not the first *N* lines. The legacy export is permutation-heavy, so the head of a file is a run of near-identical siblings — the least informative evidence available for inferring a boundary. Measured on `Cmd.EdgeModeIncrease`, head-slicing returns ten variants of *"activate edge mode …"*; diverse sampling surfaces *"Focus on him"*, *"He is not clear"*, *"Can't follow her, its too windy"* — the implicit-command phrasings that actually define the intent.
 
 ## 3. The Generator Role (LLM System Persona)
 To achieve semantic diversity without hallucination or label leakage, the automated generation pipeline will prompt the LLM using the following comprehensive system prompt. This acts as the "Master Blueprint" for the LLM.
@@ -197,7 +197,7 @@ Every generated utterance will include rich metadata tracking its linguistic "DN
 
 #### Difficulty Definitions
 To keep difficulty assignment consistent across generation runs:
-- **Easy:** Direct commands. High lexical similarity to the seed data.
+- **Easy:** Short, single-clause, direct commands. No observation clause, no hedging. *(Defined structurally on purpose. The previous wording, "high lexical similarity to the seed data", contradicted both Section 1 and the generator prompt's own instruction not to reword the seeds — and measurably produced verbatim seed reproductions.)*
 - **Medium:** Indirect requests. Polite phrasing. Mild ASR variations.
 - **Hard:** Compound utterances. Heavy ASR corruption. Long conversational phrasing. Boundary cases (as defined in each intent's specification).
 

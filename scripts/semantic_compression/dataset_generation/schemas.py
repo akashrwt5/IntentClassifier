@@ -12,8 +12,9 @@ from __future__ import annotations
 
 import re
 from enum import Enum
+from functools import lru_cache
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, create_model, field_validator
 
 # Utterances that are nothing but punctuation or filler survive a naive
 # non-empty check but carry no signal.
@@ -85,4 +86,45 @@ class GeneratedBatch(BaseModel):
 
     utterances: list[GeneratedUtterance] = Field(
         description="The generated utterances for this batch."
+    )
+
+
+@lru_cache(maxsize=None)
+def batch_model_for(intent: str) -> type[BaseModel]:
+    """A ``GeneratedBatch`` whose ``intent`` field can hold only ``intent``.
+
+    ``intent`` is a free string sitting immediately beside a ``type`` field, and
+    the composition quotas added to the prompt name types repeatedly ("at least
+    ten must have type ExplicitCommand"). Under that pressure the model started
+    filing the type value in the intent box: zero occurrences before the quota
+    block existed, three in the run after it, five in the run after that. The
+    validator caught every one, but each cost a row and eventually an extra
+    call.
+
+    Constraining the field turns a caught error into an impossible one --
+    structured output will not let the model emit anything else.
+
+    ``Enum`` rather than ``Literal`` on purpose. ``Literal`` renders as
+    ``{"const": ...}``, a keyword this deployment has never been asked to
+    honour, whereas ``Enum`` renders as ``{"enum": [...]}`` -- exactly what
+    ``UtteranceType``, ``Difficulty`` and ``Source`` already use, over several
+    hundred accepted rows. Given a choice between a proven mechanism and an
+    unproven one for the same result, take the proven one.
+
+    Cached because the model is rebuilt per intent, not per batch.
+
+    Note for callers: on Python 3.11+ ``str()`` of a string Enum yields
+    ``'IntentFor_X.value'``, not the value. Write the intent name you already
+    have rather than stringifying the field.
+    """
+    safe = re.sub(r"\W", "_", intent)
+    choice = Enum(f"IntentFor_{safe}", {"value": intent}, type=str)
+    row = create_model(
+        f"GeneratedUtteranceFor_{safe}",
+        __base__=GeneratedUtterance,
+        intent=(choice, Field(description=f"Always exactly {intent!r}.")),
+    )
+    return create_model(
+        f"GeneratedBatchFor_{safe}",
+        utterances=(list[row], Field(description="The generated utterances for this batch.")),
     )

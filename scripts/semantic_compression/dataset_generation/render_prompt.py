@@ -34,9 +34,10 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from pydantic import ValidationError
 
 import generator as gen
-from schemas import GeneratedBatch
+from schemas import batch_model_for
 from seed_loader import GeneratorConfig, SeedCorpusError, load_config, load_seed_corpus
 
 DEFAULT_CONFIG = Path(__file__).with_name("generator_config.yaml")
@@ -87,12 +88,17 @@ def render(config: GeneratorConfig, intent: str, *, batch_size: int, manual: boo
         "positive_example": spec.get("positive_example", ""),
         "hard_negative_example": spec.get("hard_negative_example", ""),
         "slot_block": gen._slot_block(config, intent),
-        "seed_block": gen._seed_block(
-            corpus.intents.get(intent, [])[: int(gen_cfg.get("seed_reference_count", 8))]
+        # Same helper the real generator uses, so the manual path measures the
+        # same prompt and honours the same privacy suppression.
+        "seed_block": gen._evidence_block(
+            config,
+            corpus.intents.get(intent, []),
+            intent,
+            int(gen_cfg.get("seed_reference_count", 8)),
         ),
         "avoid_block": "",
         "batch_size": batch_size,
-        "difficulty_mix": gen._difficulty_mix(config),
+        "composition_block": gen._composition_block(config, intent, batch_size),
         "correction": "",
     }
 
@@ -120,21 +126,47 @@ def ingest(config: GeneratorConfig, intent: str, path: Path) -> int:
     if isinstance(data, list):
         data = {"utterances": data}
 
-    batch = GeneratedBatch.model_validate(data)
+    try:
+        # Same per-intent schema the paid path uses, so a pasted reply that
+        # puts a type value in the intent field fails here too.
+        batch = batch_model_for(intent).model_validate(data)
+    except ValidationError as exc:
+        # A chat UI enforces no schema, so a dropped or misplaced field is
+        # routine on this path. Report it against the offending utterance
+        # rather than as a traceback -- this tool exists to be usable by hand,
+        # and a stack trace at the moment of failure defeats that.
+        print(f"{exc.error_count()} schema problem(s) in the reply:\n")
+        items = data.get("utterances", []) if isinstance(data, dict) else []
+        for error in exc.errors():
+            location = error["loc"]
+            index = location[1] if len(location) > 1 and isinstance(location[1], int) else None
+            field = location[-1]
+            where = f"item {index + 1}" if index is not None else "batch"
+            print(f"  · {where} field {field!r}: {error['msg']}")
+            if index is not None and index < len(items):
+                print(f"      {str(items[index].get('utterance', ''))[:60]!r}")
+        print("\nFix those entries in the reply file and import again.")
+        raise SeedCorpusError("reply does not match the metadata schema") from exc
     specs = _specs(config)
     family = specs.get(intent, {}).get("intent_family", "Unassigned")
 
-    errors = gen.validate_batch(
+    batch_errors, row_errors = gen.validate_batch(
         batch,
         intent=intent,
         fallback_intent=config.fallback_intent,
         accepted_keys=set(),
         max_words=int(config.raw.get("generation", {}).get("max_utterance_words", 20)),
         expected_size=len(batch.utterances),
+        cancellation_capability=gen._cancellation_capability(config, intent),
     )
-    if errors:
-        print(f"{len(errors)} validation problem(s) — the real pipeline would REJECT this batch:")
-        for error in errors:
+    faults = [message for messages in row_errors.values() for message in messages]
+    if batch_errors or faults:
+        print(
+            f"{len(batch_errors)} batch-level and {len(faults)} row-level problem(s). "
+            f"The real pipeline would retry the batch for the former and drop "
+            f"{len(row_errors)} of {len(batch.utterances)} utterances for the latter:"
+        )
+        for error in batch_errors + faults:
             print(f"  · {error}")
         print()
 
@@ -142,7 +174,7 @@ def ingest(config: GeneratorConfig, intent: str, path: Path) -> int:
     rows = [
         {
             "utterance": item.utterance,
-            "intent": item.intent,
+            "intent": intent,
             "intent_family": family,
             "type": item.type.value,
             "difficulty": item.difficulty.value,

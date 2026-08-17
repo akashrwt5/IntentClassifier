@@ -527,11 +527,19 @@ def sample_seeds_for_intent(
     phrases: Sequence[str],
     *,
     rng: Any = None,
+    k: int | None = None,
 ) -> tuple[list[str], list[str]]:
     """Apply the configured noise guard and sampling strategy to one intent.
 
     Returns ``(selected_seeds, dropped_as_noise)`` so callers can report what
     the guard removed rather than dropping it silently.
+
+    ``k`` overrides ``seed_sampling.max_seeds_per_intent``. The two consumers
+    want different counts from the same corpus -- the spec bootstrapper shows
+    18 seeds, the Stage 1 generator 8 (``generation.seed_reference_count``) --
+    so the caller states how many it needs rather than re-slicing the result,
+    which would reintroduce the head-of-file bias this function exists to
+    avoid.
     """
     sampling = config.sampling
     guard = sampling.get("noise_guard") or {}
@@ -549,7 +557,7 @@ def sample_seeds_for_intent(
 
     selected = select_diverse_seeds(
         pool,
-        int(sampling["max_seeds_per_intent"]),
+        int(sampling["max_seeds_per_intent"] if k is None else k),
         strategy=str(sampling["strategy"]),
         rng=rng,
         min_tokens=int(sampling["min_tokens"]),

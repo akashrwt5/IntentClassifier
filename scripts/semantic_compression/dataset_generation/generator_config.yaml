@@ -25,12 +25,47 @@ paths:
   runtime_labels: "../../../packages/runtime/nlu_engine/legacy_label_map.json"
   checkpoint_dir: ".checkpoints"
 
+  # Local API keys, read when the matching environment variable is not set.
+  # Keyed by environment-variable name, e.g.
+  #
+  #     AZURE_OPENAI_API_KEY: "..."
+  #
+  # The default deliberately points OUTSIDE this repository. This repo is
+  # PUBLIC, and a file that never enters the working tree cannot be committed by
+  # a stray `git add -f`, cannot ride along in a stash, and cannot turn up in
+  # someone else's clone. The .gitignore entries for secrets are a second line
+  # of defence, not the first.
+  #
+  # Create it with:
+  #   mkdir -p ~/.config/intentclassifier
+  #   touch ~/.config/intentclassifier/secrets.yaml
+  #   chmod 600 ~/.config/intentclassifier/secrets.yaml
+  #
+  # The environment variable still wins when both are present, so a one-off run
+  # or a CI job can override the file without editing it.
+  secrets_file: "~/.config/intentclassifier/secrets.yaml"
+
 # -----------------------------------------------------------------------------
 # LLM settings
 # -----------------------------------------------------------------------------
 llm:
-  provider: openai              # openai | anthropic | google
-  model: gpt-4o
+  provider: azure               # openai | azure | anthropic | google
+
+  # The REAL model name, always -- never an Azure deployment name. This is the
+  # string `supports_temperature()` reasons about, so it has to identify the
+  # actual family. On Azure the deployment name goes under `azure.deployment`
+  # below; the two are frequently different, and swapping them makes the
+  # temperature decision silently wrong.
+  model: gpt-5.1
+
+  # Azure OpenAI only; ignored by every other provider. Nothing here is secret --
+  # the key comes from AZURE_OPENAI_API_KEY and is never stored in this file.
+  azure:
+    endpoint: "https://pva-playground.openai.azure.com/"
+    # Azure's deployment label, which happens to match the model name here.
+    # They are not required to match, which is why these stay separate keys.
+    deployment: "gpt-5.1"
+    api_version: "2025-04-01-preview"
 
   # Set to null to omit the parameter entirely.
   #
@@ -44,6 +79,21 @@ llm:
   # exists to maximise, so on a reasoning model the avoid-list is doing that
   # job alone. Worth measuring before committing a full Stage 1 to one.
   temperature: 0.1
+
+  # OpenAI / Azure only. Leave null to omit the parameter entirely.
+  #
+  # REQUIRED on gpt-5.x if temperature is to work at all. langchain-openai nulls
+  # temperature for that whole family unless `reasoning_effort: none` is sent
+  # explicitly, and it does so silently -- see the measured table in
+  # `llm_client.py`. The startup guard now refuses to run in that state rather
+  # than letting a full Stage 1 generate without its main variability lever.
+  #
+  # Note what `none` buys and costs: temperature comes back, and the model's
+  # reasoning is switched off, so a gpt-5.x model runs as an ordinary chat
+  # model. A deliberate trade -- worth measuring one batch each way before
+  # committing a full run to either.
+  reasoning_effort: none
+
   max_retries: 3
   retry_backoff_seconds: 2.0
   request_timeout_seconds: 90
@@ -135,6 +185,78 @@ generation:
   oos_ratio: 0.15
   max_utterance_words: 20
 
+  # ---------------------------------------------------------------------------
+  # Seed privacy at GENERATION time
+  # ---------------------------------------------------------------------------
+  # `taxonomy.hand_authored_intents` keeps an intent's SPECIFICATION off a
+  # third-party API. It does nothing about the generation call, which is a
+  # separate request that carries real seed utterances of its own. Every intent
+  # gets a seed block, and `generator.py` does not ask whether the spec was
+  # hand-written.
+  #
+  # For `Default Fallback Intent` those seeds are 613 raw production ASR
+  # transcripts of hearing-aid users, including speech captured around them. The
+  # sampler makes it worse than it sounds: farthest-point selection actively
+  # seeks outliers, and the sensitive lines ARE the outliers.
+  #
+  # Measured on the current selection, the 8 seeds this intent would send match
+  # none of the address / phone / health / benefits probes -- but that is the
+  # output of a seeded RNG, not a guarantee. Change the random seed, the
+  # sampling config or the file, and the selection changes with nothing to stop
+  # it. The block is therefore withheld outright.
+  privacy:
+    no_seed_block_intents:
+      - "Default Fallback Intent"
+
+    # What takes the withheld block's place. Seeds carry STYLE, not categories:
+    # the specification already lists what belongs in Fallback (7 trigger
+    # conditions, 6 boundary cases), but only the seeds showed how it sounds.
+    # Dropping them without a substitute would produce a tidy, textbook Fallback
+    # set -- and tidy questions are not what causes false accepts, so FAR would
+    # be understated by construction.
+    #
+    # Written by hand from a reading of the corpus. Nothing below is a
+    # production transcript or a paraphrase of one.
+    seed_block_replacement:
+      "Default Fallback Intent": |
+        # How this intent actually sounds
+        These utterances reach a recogniser worn on the body, so much of what it
+        hears was never addressed to the assistant at all. Write for that
+        reality, not for clean out-of-scope queries:
+        - Fragments starting mid-thought, with the opening words missing.
+        - Speech aimed at another person nearby and captured incidentally.
+        - Mis-transcriptions where every word is real English but the sentence
+          means nothing.
+        - Trailing off, self-interruption, repetition, filled pauses.
+        - Background media: a television, a radio, someone else's conversation.
+        - One- or two-word bursts with no context around them.
+        - Fully formed but out-of-scope requests: weather, news, shopping,
+          navigation, smart-home devices, another assistant, the television.
+        - Greetings, thanks and small talk aimed at the assistant.
+        Aim for roughly half well-formed out-of-scope requests and half of the
+        messy incidental kind.
+
+  validation:
+    # Architecture Section 6, precedence rule 3, is about INTENT ASSIGNMENT: an
+    # utterance that cancels an action without offering a replacement belongs to
+    # the Fallback intent. It is not a rule about the `type` field of a positive
+    # that is otherwise valid for its intent.
+    #
+    # For the intents below, cancellation IS the product capability. "Stop
+    # streaming" is an affirmative ExplicitCommand for Cmd.StreamingStop -- it
+    # negates nothing, it invokes a feature. Measured against the export, the
+    # opener check would reject 40% of Cmd.StreamingStop's own shipping seeds
+    # and 31% of Cmd.EdgeModeDeactivate's, i.e. the intent's most natural
+    # phrasings, which is how an intent ends a run with zero usable rows.
+    #
+    # Cmd.VolumeMute is listed pre-emptively: its seeds do not currently trip
+    # the check, but muting is the same kind of capability and generated
+    # phrasings will reach for the same verbs.
+    cancellation_capability_intents:
+      - Cmd.StreamingStop
+      - Cmd.EdgeModeDeactivate
+      - Cmd.VolumeMute
+
   # Utterances requested per call. Deliberately small: asking for an intent's
   # whole budget in one request produces visibly degrading output, because the
   # model spends its genuinely distinct phrasings early and pads the tail with
@@ -143,7 +265,27 @@ generation:
 
   # How many already-accepted utterances are shown back to the model as "do not
   # repeat". This is what keeps batch N+1 from re-deriving batch N.
-  avoid_list_max: 60
+  #
+  # Raised from 60 to 120 on evidence. A full 180-utterance run of
+  # Cmd.VolumeIncrease produced exactly four near-duplicate pairs, and the two
+  # members of every one of them sat 72, 75, 77 and 96 rows apart -- every
+  # single pair further apart than the window, and not one collision inside it.
+  # The window was therefore the whole cause: once a line falls out of it the
+  # model can no longer see what it must not repeat.
+  #
+  # 120 costs roughly 750 extra input tokens per call (~0.26M across a full
+  # Stage 1), which is negligible against the run's ~1.4M. It is not a complete
+  # answer either -- Default Fallback Intent alone is budgeted at 800, so most
+  # of its accepted rows stay invisible whatever this is set to. Catching what
+  # slips past remains Stage 2's job; this is cheap insurance in front of it.
+  avoid_list_max: 120
+
+  # Consecutive UNUSABLE batches before an intent is abandoned. Section 7 asks
+  # for the failed sample to be regenerated rather than the batch, so a batch
+  # that yields any usable rows resets this counter. It only trips when a batch
+  # produces nothing at all, several times running -- the intent is genuinely
+  # stuck rather than merely imperfect.
+  max_consecutive_failed_batches: 3
 
   # Real seed utterances shown per request as a STYLE reference. Kept small on
   # purpose -- the more seeds shown, the more the output regresses toward
@@ -152,10 +294,148 @@ generation:
 
   # Target spread. Hard cases are where FAR is won or lost, so they are
   # over-weighted relative to their natural frequency.
+  #
+  # Rendered into the prompt as COUNTS, not as a percentage the model is asked
+  # to "aim for roughly". The first real run asked for 35/40/25 and returned
+  # 21/40/39 -- a list of proportions gets read and approximated away.
   difficulty_mix:
     Easy: 0.35
     Medium: 0.40
     Hard: 0.25
+
+  # ---------------------------------------------------------------------------
+  # Composition quotas
+  # ---------------------------------------------------------------------------
+  # WHY THIS EXISTS. The prompt used to name six speaking styles and ask for "a
+  # spread" of them. Measured over 180 real utterances for Cmd.VolumeIncrease,
+  # that produced:
+  #
+  #     utterance length      generated      real Dialogflow seeds
+  #     1-3 words                  0.0%                      30.9%
+  #     4 words                    0.6%                      26.5%
+  #     8-12 words                70.0%                       8.8%
+  #     compound (obs+cmd)        65.0%                       0.0%
+  #
+  # Real users say "Louder" 57% of the time; one generated utterance in 180 was
+  # that short, and not one of the 68 real seeds is a compound. A model fitted
+  # on that would meet the commonest real phrasing almost out of distribution.
+  # Worse, filling a COMMAND intent with observation clauses erodes the very
+  # feature that separates it from Fallback, which is defined by pure
+  # observation -- and that boundary is where False-Accept Rate is decided.
+  #
+  # Deliberately NOT set to the seed proportions. The seed corpus is
+  # permutation-heavy, short commands are lexically cheap to learn, and the
+  # architecture over-weights hard cases on purpose. 0.6% is not a trade-off
+  # though; it is an omission. These numbers guarantee the short/direct region
+  # is covered without letting it dominate.
+  #
+  # Fractions of the batch, rendered as counts against the actual batch size so
+  # a short final batch keeps the same proportions.
+  quotas:
+    # Longest matching prefix wins; an exact intent name beats any prefix.
+    assign:
+      "Cmd.": command
+      "Help": help
+      "reminders.": open
+      "Default Fallback Intent": open
+
+    profiles:
+      # 24 intents, 3,280 rows. The only profile with measurements behind it.
+      command:
+        # A floor only, and the single most load-bearing number here.
+        #
+        # Raised 0.20 -> 0.36 for two reasons found by measurement.
+        #
+        # First, it has to agree with the difficulty target. `Easy` is now
+        # defined structurally as "short, single-clause, direct", so asking for
+        # 36% Easy while only requiring 20% short states one quantity twice with
+        # two different values. The model resolved that exactly as instructed:
+        # it produced 39 short utterances, labelled 34 of them Easy, and Easy
+        # landed at 21% against a 36% target. The contradiction was ours.
+        #
+        # Second, a minimum on one end of a fixed-size batch IS the maximum on
+        # the other, and minima are the only quota the model actually honours --
+        # every batch met `min_short` and every batch broke the
+        # ObservationPlusCommand ceiling. Nine short utterances out of 25 leaves
+        # at most sixteen that can be long, which is the only working lever we
+        # have on length.
+        #
+        # 36% is still well inside observed usage: 57% of the real seeds are
+        # four words or fewer.
+        # 0.36 was measured and overshot: it delivered 67 short utterances out of
+        # 180 and broke the vocabulary-novelty guard (0.730 against a 0.750
+        # floor), because there are only so many distinct ways to say "louder"
+        # in four words. 0.28 sits between the 0.20 that under-covered and the
+        # 0.36 that over-concentrated.
+        min_short: 0.28                          # <= 4 words -> at least 7 of 25
+
+        # There is deliberately NO length quota on the long end.
+        #
+        # A previous version required 2-4 utterances of 13+ words and got about
+        # one per batch, which read as the model refusing. It was not. The
+        # length histogram of that run peaks at 10 words and falls off a cliff
+        # at 13: 8-12 words holds 56% of the batch, 13+ holds 4%. The threshold
+        # had simply been drawn a word or two past where natural speech stops.
+        #
+        # And the model needs no encouragement here: 60.6% of its output is 8+
+        # words against 8.8% of the real seeds. Quota what the model
+        # under-produces, not what it already over-produces. The long share is
+        # controlled from the other end, by `min_short`.
+        # A batch is a zero-sum budget of `batch_size` slots, and these
+        # constraints overlap: a four-word utterance is nearly always an
+        # ExplicitCommand, while a compound needs five words or more. Stacking a
+        # short floor, an ExplicitCommand floor and a compound floor therefore
+        # spends the batch before the model has any freedom left -- measured, a
+        # short floor of 9 and compounds landing at 12 consumed 21 of 25 slots,
+        # and ExplicitCommand outside the short rows collapsed from 44 to 4.
+        #
+        # The ExplicitCommand floor was briefly removed as "redundant" and then
+        # put back. The reasoning behind removing it was wrong twice over.
+        #
+        # It looked redundant only because `min_short` was at 0.36: nine short
+        # rows are explicit commands by nature, so they filled a floor of ten on
+        # their own. At 0.28 the floor asks for three explicit commands beyond
+        # the short ones, which is a real constraint again.
+        #
+        # And the crowding it was blamed for came from somewhere else. The slot
+        # arithmetic for the run that broke was 9 short + 1 more explicit + 3
+        # implicit + 12 compounds = 25, with nothing free -- the compounds were
+        # uncapped, not the floor too tight. With the ceiling restored the same
+        # sum is 7 + 3 + 3 + 7 = 20 of 25, and five slots stay free.
+        #
+        # Underneath both errors was a method problem: the run that produced
+        # this confusion changed two things at once, so neither could be
+        # attributed. One change at a time from here.
+        types:
+          ExplicitCommand: [0.40, null]          # at least 10 of 25
+          ImplicitCommand: [0.12, null]          # at least 3 of 25
+          # The ceiling is restored. An earlier note here claimed maxima were
+          # ignored; that was wrong. With a ceiling of 7 the model delivered
+          # 9-11; with the ceiling removed it went to 12-13 and the compound
+          # share rose from 39% to 48%. A partially-honoured ceiling still moves
+          # the distribution by two or three rows a batch.
+          ObservationPlusCommand: [0.20, 0.28]   # 5 to 7 of 25
+        asr_simulated: [0.12, 0.20]              # 3 to 5 of 25
+
+      # 33 intents, 3,960 rows -- the LARGEST block in the dataset, and entirely
+      # unmeasured. Left empty on purpose.
+      #
+      # There is a known problem here waiting to be quantified: the style
+      # guidance above is command-shaped ("short abrupt commands",
+      # "compound observation-then-command") and is currently applied to every
+      # Help intent, whose natural form is a question. That pushes them toward
+      # the phrasing of their paired Cmd.* intent -- exactly the confusion
+      # `command_help_pairs` exists to defend, at 0.822 centroid similarity.
+      #
+      # Numbers here must come from a measured run of one Help intent, not from
+      # judgement. Guessing is how `avoid_list_max: 60` and
+      # `near_duplicate_threshold: 0.92` were set, and both turned out wrong.
+      help: {}
+
+      # Fallback and reminders. No length cap by design: Fallback's whole point
+      # is unbounded, fragmentary, ambient speech, and a cap would flatten the
+      # one class whose realism decides FAR.
+      open: {}
 
   # Generation-stage LLM overrides, layered on top of the top-level `llm:`.
   #

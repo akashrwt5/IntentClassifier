@@ -23,6 +23,28 @@ The metrics, in rough order of how much they matter:
 5. **Vocabulary novelty.** Too low means the model is rewording the seeds. Very
    high can mean it is drifting off-product -- worth a human look.
 
+   READ THIS BEFORE ACTING ON A LOW FIGURE. Novelty falls as the generated
+   distribution moves TOWARD real usage, by construction, and that is not a
+   defect. Measured on Cmd.VolumeIncrease by utterance length:
+
+       <= 4 words   50 rows    44 unique tokens    novelty 36.4%
+       5-7 words    72 rows    91 unique tokens    novelty 61.5%
+       8-12 words   54 rows   100 unique tokens    novelty 66.0%
+
+   A four-word volume command can only be built from a handful of words --
+   louder, up, turn, volume, raise, more, left, right -- and every one of them
+   is already in the seeds. Since 57% of the real seeds are four words or fewer,
+   asking the generator for the commonest real shape necessarily drives this
+   number down. Four successive runs went 0.805 -> 0.773 -> 0.730 -> 0.711 while
+   the short share rose, and the data got BETTER over that span.
+
+   Use diversity gain (section 1) to tell the two cases apart. It measures how
+   different the generated utterances are FROM EACH OTHER. If novelty falls
+   while diversity gain holds or rises, the corpus has shifted to shorter
+   utterances that are still mutually distinct -- which is the goal. If both
+   fall together, that is genuine narrowing and worth acting on. Across those
+   same four runs diversity gain went +0.060 -> +0.077 -> +0.082 -> +0.085.
+
 Lexical metrics need nothing installed. Embedding metrics (1 and 2, in their
 stronger form) activate when sentence-transformers and the configured model are
 available; without them the report falls back to token-overlap versions of the
@@ -138,34 +160,83 @@ def _load_embedder(config: GeneratorConfig) -> Any:
 def _boundary_leakage(
     embedder: Any,
     generated: dict[str, list[str]],
-    seeds: dict[str, list[str]],
-) -> dict[str, tuple[float, str]]:
+    taxonomy_seeds: dict[str, list[str]],
+    *,
+    near_similarity: float = 0.65,
+) -> dict[str, dict[str, Any]]:
     """For each intent, the share of its utterances nearest ANOTHER intent.
 
     Centroids are built from the SEED data, not the generated data, so this
     asks the question that matters: does the new material still land in the
     region the real product data occupies?
+
+    ``taxonomy_seeds`` must be the WHOLE taxonomy, not just the intents that
+    happen to have generated output. An earlier version keyed it off the
+    generated set, which meant a run scored with ``--only`` built exactly one
+    centroid -- and with no rival to lose to, every utterance was nearest its
+    own intent and the metric reported a flawless 0.0% by construction. The same
+    silence would have covered a full run that stopped early: the fewer intents
+    completed, the better the safety metric would have looked.
+
+    Every seed is used. The previous ``[:120]`` cap was a head slice of a
+    permutation-heavy export, so it hit hardest exactly where it mattered most:
+    `Default Fallback Intent` has 613 seeds, and its centroid was being placed
+    by the first 120 lines in file order while 493 were ignored -- for the class
+    that decides False-Accept Rate. Encoding the full corpus is a few thousand
+    short strings, once per run.
     """
     import numpy as np
 
-    labels = [i for i in seeds if seeds[i]]
+    labels = [i for i in taxonomy_seeds if taxonomy_seeds[i]]
     centroids = []
     for intent in labels:
-        vecs = embedder.encode(seeds[intent][:120], normalize_embeddings=True)
+        vecs = embedder.encode(taxonomy_seeds[intent], normalize_embeddings=True)
         centroids.append(np.asarray(vecs).mean(axis=0))
     matrix = np.vstack(centroids)
     matrix /= np.linalg.norm(matrix, axis=1, keepdims=True)
 
-    out: dict[str, tuple[float, str]] = {}
+    # Splitting the misses by how far away they landed is what makes this
+    # number readable. A raw leakage percentage conflates two findings with
+    # opposite meanings:
+    #
+    #   FAR  -- the utterance drifted to a different region of the space. Real,
+    #           and worth acting on: something about batteries filed under a
+    #           volume intent is a defect.
+    #   NEAR -- it landed on a neighbour whose centroid is nearly on top of this
+    #           one. Measured here, Cmd.VolumeMute and Cmd.VolumeUnmute sit at
+    #           0.902 despite being opposites, so which of them "wins" an
+    #           utterance is close to a coin toss and says nothing about the
+    #           data.
+    #
+    # Note the cut is centroid distance, NOT the `families` map. Families are
+    # generation scaffolding for hard-negative sampling; they do not track
+    # topic. Cmd.VolumeIncrease and Help_Volume are in different families and
+    # sit 0.822 apart -- squarely NEAR. Reading family membership as distance
+    # would send a reviewer chasing noise.
+    index = {name: k for k, name in enumerate(labels)}
+    cross = matrix @ matrix.T
+
+    out: dict[str, dict[str, Any]] = {}
     for intent, texts in generated.items():
-        if intent not in labels or not texts:
+        if intent not in index or not texts:
             continue
+        own = index[intent]
         vecs = np.asarray(embedder.encode(texts, normalize_embeddings=True))
         nearest = (vecs @ matrix.T).argmax(axis=1)
-        wrong = [labels[k] for k in nearest if labels[k] != intent]
-        rate = len(wrong) / len(texts)
-        worst = collections.Counter(wrong).most_common(1)
-        out[intent] = (rate, worst[0][0] if worst else "-")
+        near: list[str] = []
+        far: list[str] = []
+        for k in nearest:
+            if k == own:
+                continue
+            (near if cross[own, k] >= near_similarity else far).append(labels[k])
+        wn = collections.Counter(near).most_common(1)
+        wf = collections.Counter(far).most_common(1)
+        out[intent] = {
+            "near_rate": len(near) / len(texts),
+            "far_rate": len(far) / len(texts),
+            "worst_near": wn[0][0] if wn else "-",
+            "worst_far": wf[0][0] if wf else "-",
+        }
     return out
 
 
@@ -195,6 +266,80 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def _budget(config: GeneratorConfig, intent: str) -> int:
+    """The configured target for an intent.
+
+    Duplicated from ``generator.py`` rather than imported: that module pulls in
+    the provider SDKs, and this report is deliberately runnable with nothing
+    installed.
+    """
+    budgets = (config.raw.get("generation") or {}).get("utterances_per_intent") or {}
+    return int((budgets.get("overrides") or {}).get(intent, budgets.get("default", 120)))
+
+
+def _quota_profile(config: GeneratorConfig, intent: str) -> dict[str, Any]:
+    """Resolve an intent's quota profile, longest matching prefix wins.
+
+    Duplicated from ``generator.py`` on purpose: importing it would drag in the
+    provider SDKs, and this report is meant to run with nothing installed.
+    """
+    quotas = (config.raw.get("generation") or {}).get("quotas") or {}
+    profiles = quotas.get("profiles") or {}
+    chosen, best = None, -1
+    for pattern, name in (quotas.get("assign") or {}).items():
+        if (intent == pattern or intent.startswith(pattern)) and len(pattern) > best:
+            chosen, best = name, len(pattern)
+    return dict(profiles.get(chosen) or {})
+
+
+def _quota_compliance(
+    config: GeneratorConfig, intent: str, rows: list[dict[str, Any]]
+) -> list[tuple[str, str, int, str]]:
+    """Compare what the prompt demanded against what came back.
+
+    This exists because the alternative was recomputing the same handful of
+    counts by hand after every run, which is where a reviewer quietly starts
+    reading the wrong number. Quotas are stated per batch as fractions, so the
+    expectation scales to however many rows the intent actually produced.
+    """
+    profile = _quota_profile(config, intent)
+    total = len(rows)
+    if not total:
+        return []
+
+    def want(fraction: float) -> int:
+        return round(float(fraction) * total)
+
+    out: list[tuple[str, str, int, str]] = []
+    if profile.get("min_short"):
+        got = sum(1 for r in rows if len(r["utterance"].split()) <= 4)
+        target = want(profile["min_short"])
+        out.append(("<= 4 words", f"min {target}", got, "ok" if got >= target else "UNDER"))
+    for type_name, bounds in (profile.get("types") or {}).items():
+        low, high = bounds
+        got = sum(1 for r in rows if r.get("type") == type_name)
+        lo = want(low)
+        if high is None:
+            out.append((type_name, f"min {lo}", got, "ok" if got >= lo else "UNDER"))
+        else:
+            hi = want(high)
+            verdict = "ok" if lo <= got <= hi else ("UNDER" if got < lo else "OVER")
+            out.append((type_name, f"{lo}-{hi}", got, verdict))
+    if profile.get("asr_simulated"):
+        lo, hi = (want(v) for v in profile["asr_simulated"])
+        got = sum(1 for r in rows if r.get("source") == "ASR-Simulated")
+        verdict = "ok" if lo <= got <= hi else ("UNDER" if got < lo else "OVER")
+        out.append(("ASR-Simulated", f"{lo}-{hi}", got, verdict))
+
+    mix = (config.raw.get("generation") or {}).get("difficulty_mix") or {}
+    for name, fraction in mix.items():
+        got = sum(1 for r in rows if r.get("difficulty") == name)
+        target = want(fraction)
+        drift = abs(got - target) / max(target, 1)
+        out.append((f"difficulty {name}", f"~{target}", got, "ok" if drift <= 0.20 else "OFF"))
+    return out
+
+
 def load_generated(config: GeneratorConfig) -> dict[str, list[dict[str, Any]]]:
     directory = config.checkpoint_dir / "stage1"
     if not directory.is_dir():
@@ -219,13 +364,77 @@ def build_report(config: GeneratorConfig, only: list[str] | None = None) -> str:
     seeds = {k: corpus.intents.get(k, []) for k in generated}
 
     embedder = _load_embedder(config)
-    leakage = _boundary_leakage(embedder, gen_texts, seeds) if embedder else {}
+    # The full taxonomy, not `seeds` -- `seeds` is keyed by the generated
+    # intents and is right for the lexical metrics below, but as a centroid
+    # source it would leave the metric nothing to compare against.
+    near_cut = float((config.raw.get("reporting") or {}).get("near_family_similarity", 0.65))
+    leakage = (
+        _boundary_leakage(embedder, gen_texts, corpus.intents, near_similarity=near_cut)
+        if embedder
+        else {}
+    )
 
     lines = [
         "# Stage 1 Quality Report",
         "",
         f"{len(generated)} intents, {sum(len(v) for v in gen_texts.values())} utterances.",
         "",
+        "## 0. Coverage vs budget",
+        "",
+        "An intent can end a run short of its budget without anything looking",
+        "wrong: batches that keep failing validation are abandoned, and API",
+        "errors do the same. Nothing else in this report compares output against",
+        "what was asked for, so a truncated intent is otherwise invisible -- and",
+        "truncation lands hardest where the budget is largest, which is Fallback,",
+        "the class that decides FAR.",
+        "",
+        "| Intent | have | want | coverage |",
+        "|---|---:|---:|---:|",
+    ]
+    short: list[str] = []
+    for intent in sorted(gen_texts):
+        have = len(gen_texts[intent])
+        want = _budget(config, intent)
+        share = have / want if want else 1.0
+        if share < 0.95:
+            short.append(intent)
+        flag = "  ⚠" if share < 0.95 else ""
+        lines.append(f"| `{intent}` | {have} | {want} | {share:.0%}{flag} |")
+    if short:
+        lines += [
+            "",
+            f"**{len(short)} intent(s) finished short of budget: "
+            f"{', '.join(f'`{s}`' for s in short)}.** Rerunning `generator.py`",
+            "resumes from the store and will attempt the shortfall again.",
+        ]
+
+    lines += ["", "## 0b. Quota compliance", ""]
+    any_quota = False
+    for intent in sorted(generated):
+        checks = _quota_compliance(config, intent, generated[intent])
+        if not checks:
+            continue
+        any_quota = True
+        lines += [
+            f"**`{intent}`** — the prompt states these as counts per batch; the",
+            f"targets below are scaled to the {len(generated[intent])} rows produced.",
+            "",
+            "| constraint | asked | got | |",
+            "|---|---|---:|---|",
+        ]
+        for name, asked, got, verdict in checks:
+            mark = "" if verdict == "ok" else f"  **{verdict}**"
+            lines.append(f"| {name} | {asked} | {got} |{mark} |")
+        lines.append("")
+    if not any_quota:
+        lines += [
+            "_No quota profile applies to these intents. `Help*` and Fallback are",
+            "deliberately unconstrained until their distributions have been",
+            "measured rather than guessed._",
+            "",
+        ]
+
+    lines += [
         "## 1. Diversity vs seed  *(the headline metric)*",
         "",
         "Mean pairwise token distance. The premise of this project is that the",
@@ -370,16 +579,54 @@ def build_report(config: GeneratorConfig, only: list[str] | None = None) -> str:
     lines += ["", "## 4. Boundary leakage", ""]
     if leakage:
         lines += [
-            "Share of generated utterances whose nearest SEED centroid belongs to",
-            "a different intent. These are the samples most likely to become false",
-            "accepts, and this is the cheapest proxy available before training.",
+            "For each generated utterance, which intent's SEED centroid is it",
+            "actually nearest? The misses are split by how far away they landed,",
+            "because the two halves mean opposite things.",
             "",
-            "| Intent | leaked | most often into |",
-            "|---|---:|---|",
+            "**FAR** — nearest centroid sits in a different region of the space",
+            f"(similarity below {near_cut:.2f}). Review these; do NOT assume they",
+            "are defects. Checked by hand on the first real run, all three FAR rows",
+            "were correctly labelled — they were simply the batch's hardest",
+            "utterances, sitting closest to a neighbouring region because one",
+            "clause of a compound pulled that way. That makes them the best",
+            "candidates for `dev_hard.csv`, not deletion candidates. What a FAR",
+            "figure genuinely catches is gross drift: an utterance about batteries",
+            "filed under a volume intent would land near 0.2 with a wide margin.",
+            "",
+            "**NEAR** — nearest centroid is a neighbour sitting almost on top of",
+            "this one. Measured on this corpus, `Cmd.VolumeMute` and",
+            "`Cmd.VolumeUnmute` are 0.902 apart despite being opposites, and",
+            "`Cmd.VolumeIncrease` vs `Cmd.VolumeDecrease` 0.876, while an",
+            "unrelated intent (`Help_Battery`) sits at 0.38. A sentence embedding",
+            "captures what an utterance is ABOUT and barely captures direction or",
+            "speech act, so among such neighbours the winner is close to a coin",
+            "toss. A NEAR figure is not a data defect and chasing it wastes review",
+            "time.",
+            "",
+            "The cut is centroid distance, not the `families` map: families are",
+            "generation scaffolding and do not track topic. `Cmd.VolumeIncrease`",
+            "and `Help_Volume` are in different families yet sit 0.822 apart.",
+            "",
+            "What a high NEAR figure DOES say is that the boundary is not",
+            "separable by topic alone — which is precisely the case Stage 3's hard",
+            "negatives exist to teach, and `command_help_pairs` exists to name.",
+            "",
+            "This metric answers *did the generator drift off-product?* It cannot",
+            "answer *is this row labelled correctly?* — the resolution is below",
+            "the granularity of this taxonomy, and it never could.",
+            "",
+            "| Intent | FAR (review) | into | NEAR (noise) | into |",
+            "|---|---:|---|---:|---|",
         ]
-        for intent, (rate, worst) in sorted(leakage.items(), key=lambda x: -x[1][0]):
-            flag = "  ⚠" if rate > 0.20 else ""
-            lines.append(f"| `{intent}` | {rate:.1%}{flag} | `{worst}` |")
+        # Deliberately no warning threshold. FAR is a review list, not a defect
+        # count: measured on the first real run it was 1.7%, and every one of
+        # those rows was correct. A flag here would train the reader to ignore
+        # the column, which is worse than no column at all.
+        for intent, r in sorted(leakage.items(), key=lambda x: -x[1]["far_rate"]):
+            lines.append(
+                f"| `{intent}` | {r['far_rate']:.1%} | `{r['worst_far']}` "
+                f"| {r['near_rate']:.1%} | `{r['worst_near']}` |"
+            )
     else:
         lines += [
             "_Skipped: sentence-transformers or the configured embedding model is",

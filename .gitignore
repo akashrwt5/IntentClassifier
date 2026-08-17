@@ -109,3 +109,15 @@ scripts/semantic_compression/dialogflow-en-dataset/
 
 # Scratch area used when files need removing but rm is unavailable.
 **/_to_delete/
+
+# API keys. The secrets file is meant to live OUTSIDE this repository entirely
+# (see paths.secrets_file in generator_config.yaml); these patterns are only a
+# second line of defence for the case where someone puts one here anyway.
+# This repository is PUBLIC.
+secrets.yaml
+.secrets.yaml
+**/secrets.yaml
+**/.secrets.yaml
+.env
+.env.*
+!.env.example
