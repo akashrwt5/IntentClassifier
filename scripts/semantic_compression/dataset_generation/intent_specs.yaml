@@ -23,7 +23,7 @@ intents:
   - Speech captured incidentally rather than addressed to the assistant - fragments of conversation
     with another person, background dialogue, unintelligible ASR output.
   - Requests for a hearing-aid capability the product does not have.
-  - Any utterance where the intent remains genuinely ambiguous after the Section 7 precedence
+  - Any utterance where the intent remains genuinely ambiguous after the Section 6 precedence
     rules have been applied.
   do_not_trigger:
   - An actionable in-scope command, however indirectly phrased. "I'm struggling to hear people"
@@ -159,8 +159,9 @@ intents:
   - Requests merely to reduce loudness, however strongly worded, which are Cmd.VolumeDecrease.
   - Requests to stop streaming audio from a TV or remote microphone, which are Cmd.StreamingStop
     - the aids keep working normally afterwards.
-  - Requests to power the hearing aids off as devices, which are not a supported voice capability
-    and are Help_Volume or Fallback.
+  - Requests to power the hearing aids off as devices. Powering off is not a supported voice
+    capability - a direct request to do it ("turn my hearing aids off for the night") is Default
+    Fallback Intent; a how-to question about it ("how do I turn my aids off?") is Help_Volume.
   - Questions asking how to mute, which are Help_Volume.
   boundary_cases:
   - Muting silences amplification; it does not power down the device or end a stream. Utterances
@@ -739,8 +740,10 @@ intents:
   - Queries naming a specific activity such as running or cycling.
   boundary_cases:
   - The named activity decides the intent; aerobics and aerobic resolve here.
-  - The seed evidence also places bare activity-goal queries here, so an unqualified activity
-    goal question resolves to this intent rather than to Cmd.ActivityExercise.
+  - Tiebreak with Cmd.ActivityExercise - a bare "activity goal" query that names no activity
+    and contains none of the words exercise, workout or working out resolves HERE - the seed
+    evidence places it here. The words exercise, workout or working out resolve to Cmd.ActivityExercise.
+    Both specs state this rule identically.
   - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
   neighbor_intents:
   - Cmd.ActivityExercise
@@ -771,6 +774,9 @@ intents:
     or aerobics - which belong to those intents.
   boundary_cases:
   - This intent is the generic case. A named activity always wins over it.
+  - Tiebreak with Cmd.ActivityAerobics - the words exercise, workout or working out resolve
+    HERE. A bare "activity goal" query with none of those words and no named activity resolves
+    to Cmd.ActivityAerobics, per the seed evidence. Both specs state this rule identically.
   - Exercise and working out are treated as the same concept.
   - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
     Note that a small number of progress-query utterances are mislabelled into Help_Activity
@@ -836,12 +842,19 @@ intents:
   - Questions about the loudness of the tinnitus masker, which are Help_Tinnitus.
   - Questions about accessory or TV streamer volume, which are Help_Accessories.
   - Questions about equalizer or sound-tuning settings, which are Help_Customize.
+  - Reports that an aid is broken, dead or not working, which are Help_SelfCheck. A volume-framed
+    symptom with no fault claim - "I'm getting no sound", "the volume dropped to nothing"
+    - stays here; a device described as faulty or not working is a fault report.
   boundary_cases:
   - This is the highest-risk boundary in the taxonomy. An utterance beginning how, where,
     why, what, or can I resolves here; an imperative or a stated need resolves to the matching
     Cmd intent.
-  - Grammatical questions that request an ACTION are commands. "Can you make it louder?" is
-    Cmd.VolumeIncrease; "Can I make it louder?" is this intent.
+  - The AGENT of the verb decides question forms, not the pronoun. "Can YOU make it louder?"
+    asks the assistant to act and is Cmd.VolumeIncrease; "Can I make it louder?" asks whether
+    or how the USER can do it and is this intent. Deployed data agrees - "can I" utterances
+    label as Help 88 times against 10, and never against a device-state command. The test
+    does not blanket-map "can I" to Help - a "can I" request whose outcome only the assistant
+    can deliver ("can I hear my messages?") is still a command for that action's intent.
   - Where the two readings are genuinely balanced, prefer this intent over the command. Explaining
     something unnecessarily is far cheaper than changing a device unbidden.
   neighbor_intents:
@@ -983,7 +996,8 @@ intents:
     source: authored_specs.yaml
 - name: Help_Activity
   business_description: Explain how to set up, change or edit activity goals - steps, walking,
-    running, biking, aerobics - and where activity distance is shown.
+    running, biking, standing, aerobics, exercise and calories - and where activity distance
+    is shown.
   trigger_conditions:
   - User asks how to set, set up, change or edit an activity goal.
   - User asks how to calculate or where to see distance for a tracked activity.
@@ -998,6 +1012,9 @@ intents:
   - Setting versus reading is the whole distinction. Set, set up, change, edit and create
     resolve here; how far, how long, how many and have I reached resolve to the Cmd.Activity*
     intents.
+  - The split covers ALL EIGHT tracked activities - walking, steps, running, cycling/biking,
+    standing, aerobics, exercise and calories. A set/change/edit request for any of their
+    goals resolves here; the matching Cmd.Activity* intent owns the data query.
   - The legacy seed file for this intent contains a small number of progress-query utterances
     that are mislabelled. The rule above overrides the seed data.
   - Where the question is about finding a screen rather than changing a goal, prefer Help_Health.
@@ -1496,6 +1513,9 @@ intents:
   - Reports that an aid is LOST rather than faulty, which are Help_FindMyHearingAids.
   - Connection problems between aids and phone, which are Help_Pairing.
   - Requests to raise volume because sound seems weak, which are Cmd.VolumeIncrease.
+  - Volume problems framed as volume - no sound, volume dropped to nothing - with no claim
+    that the device is faulty. Those are Help_Volume. A device described as broken, dead or
+    not working resolves here.
   - Wax-related problems, which are Help_CleanCare.
   boundary_cases:
   - Broken differs from lost and from unconnected. A device fault is this intent; a missing

@@ -453,8 +453,8 @@ def _quota_profile(config: GeneratorConfig, intent: str) -> dict[str, Any]:
     Command, Help and Fallback intents have fundamentally different natural
     shapes -- a command is short and imperative, a Help utterance is a question,
     Fallback is deliberately shapeless -- so one set of numbers cannot serve all
-    three. Only ``command`` currently carries numbers; the others are empty by
-    design until they have been measured rather than guessed.
+    three. ``command`` and ``help`` carry measured numbers; ``open`` stays empty
+    by design until it has been measured rather than guessed.
     """
     quotas = config.raw.get("generation", {}).get("quotas") or {}
     profiles = quotas.get("profiles") or {}
@@ -520,12 +520,30 @@ def _composition_block(config: GeneratorConfig, intent: str, size: int) -> str:
         return f"- between {lo} and {hi} {noun}."
 
     if n(profile.get("min_short", 0)):
-        rules.append(
-            f"- at least {n(profile['min_short'])} must be FOUR WORDS OR FEWER. "
-            'Real users say "Louder" and "Turn it up" far more often than '
-            "they say anything longer; this is the commonest shape, not a "
-            "garnish."
-        )
+        # The word threshold is per-profile because the natural "short" form
+        # differs by shape: a short command is "Louder", but the shortest
+        # natural Help question runs five to seven words -- measured on the
+        # Help_Volume seeds, 2.5% are <=4 words (three distinct phrasings in
+        # the whole file) while 25.4% are <=7. Forcing a question profile to
+        # the command threshold exhausts a three-phrasing space and produces
+        # duplicates. The default stays 4 so the command profile's prompt is
+        # byte-identical to every run already paid for.
+        short_cap = int(profile.get("short_max_words", 4))
+        if short_cap == 4:
+            rules.append(
+                f"- at least {n(profile['min_short'])} must be FOUR WORDS OR FEWER. "
+                'Real users say "Louder" and "Turn it up" far more often than '
+                "they say anything longer; this is the commonest shape, not a "
+                "garnish."
+            )
+        else:
+            rules.append(
+                f"- at least {n(profile['min_short'])} must be "
+                f"{short_cap} WORDS OR FEWER. "
+                "Generated questions run long; real ones are often terse "
+                '("How do I mute one side?"). Keep these short rows '
+                "single-clause and natural."
+            )
     # Type minima must leave room for one another. If they cannot, the batch is
     # too small to carry every constraint and the weakest are dropped rather
     # than issuing a set of rules with no satisfying assignment.

@@ -312,9 +312,16 @@ def _quota_compliance(
 
     out: list[tuple[str, str, int, str]] = []
     if profile.get("min_short"):
-        got = sum(1 for r in rows if len(r["utterance"].split()) <= 4)
+        # Same per-profile threshold the generator renders into the prompt
+        # (profile short_max_words, default 4) -- scoring against a different
+        # cap than the one the model was asked to hit would misreport
+        # compliance in both directions.
+        short_cap = int(profile.get("short_max_words", 4))
+        got = sum(1 for r in rows if len(r["utterance"].split()) <= short_cap)
         target = want(profile["min_short"])
-        out.append(("<= 4 words", f"min {target}", got, "ok" if got >= target else "UNDER"))
+        out.append(
+            (f"<= {short_cap} words", f"min {target}", got, "ok" if got >= target else "UNDER")
+        )
     for type_name, bounds in (profile.get("types") or {}).items():
         low, high = bounds
         got = sum(1 for r in rows if r.get("type") == type_name)

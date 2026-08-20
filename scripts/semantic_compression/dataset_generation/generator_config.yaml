@@ -230,9 +230,31 @@ generation:
         - Trailing off, self-interruption, repetition, filled pauses.
         - Background media: a television, a radio, someone else's conversation.
         - One- or two-word bursts with no context around them.
+        - Speech that NAMES a listening environment (restaurant, church,
+          outdoors, car, meeting, music) purely descriptively or to another
+          person, with NO request to switch anything -- describing the place,
+          the weather there, who was there, how it felt. The product treats an
+          environment named AS a request as a memory switch, so these
+          no-request mentions are the costliest false accepts -- include a
+          generous share of them, and vary the sentence shapes rather than
+          repeating one "this place is nice" template. Keep them in the past
+          tense, about a place already left, or clearly aimed at another
+          person. Do NOT write first-person present-tense arrival statements
+          ("I'm in the restaurant now") -- the product treats those as a
+          memory-switch request, so they belong to Cmd.MemoryChange, not here.
         - Fully formed but out-of-scope requests: weather, news, shopping,
           navigation, smart-home devices, another assistant, the television.
         - Greetings, thanks and small talk aimed at the assistant.
+        SCOPE GUARD -- read before writing any request-shaped utterance. This
+        product ITSELF supports: hearing-aid volume and mute control, Edge
+        Mode, switching listening memories, audio streaming, transcription,
+        translation, reminders, voice messages to named people, battery
+        status, find-my-phone, and activity/health queries. NEVER generate a
+        request for any of those capabilities, however phrased -- "remind me
+        to...", "send a message to...", "text her that..." are real commands
+        this assistant must act on, and putting them here teaches it to
+        ignore its own users. Out-of-scope means OTHER products and other
+        life domains, not this product's own features.
         Aim for roughly half well-formed out-of-scope requests and half of the
         messy incidental kind.
 
@@ -417,20 +439,45 @@ generation:
           ObservationPlusCommand: [0.20, 0.28]   # 5 to 7 of 25
         asr_simulated: [0.12, 0.20]              # 3 to 5 of 25
 
-      # 33 intents, 3,960 rows -- the LARGEST block in the dataset, and entirely
-      # unmeasured. Left empty on purpose.
+      # 33 intents, 3,960 rows -- the LARGEST block in the dataset. Set from the
+      # measured Help_Volume run of 2026-08-20 (120 rows, stage1_help_volume.md),
+      # not from judgement.
       #
-      # There is a known problem here waiting to be quantified: the style
-      # guidance above is command-shaped ("short abrupt commands",
-      # "compound observation-then-command") and is currently applied to every
-      # Help intent, whose natural form is a question. That pushes them toward
-      # the phrasing of their paired Cmd.* intent -- exactly the confusion
-      # `command_help_pairs` exists to defend, at 0.822 centroid similarity.
+      # What the measurement showed. The feared failure -- command-shaped style
+      # guidance pushing Help toward its paired Cmd.* phrasing -- did NOT
+      # happen: 118/120 rows came back type Question, with zero "can you"
+      # phrasings (the agent-based rule in the Help_Volume spec held). What DID
+      # fail was length: generated mean 14.8 words with 68% of rows at 13-20
+      # words and none under five, against a real Help_Volume corpus averaging
+      # 8.5 words with only 4% at 13+. The model over-produces long questions
+      # and repeatedly hit the 20-word cap (most rejections were 21-26-word
+      # Questions). Same lesson as the command profile: quota what the model
+      # under-produces, and control the long end from the short end, because
+      # a minimum on one side of a fixed-size batch is the maximum on the other.
       #
-      # Numbers here must come from a measured run of one Help intent, not from
-      # judgement. Guessing is how `avoid_list_max: 60` and
-      # `near_duplicate_threshold: 0.92` were set, and both turned out wrong.
-      help: {}
+      # The short threshold is 7 words here, not the command profile's 4,
+      # because the raw Help_Volume seed file says 4 is the wrong yardstick for
+      # questions: of its 122 unique lines, 2.5% are <=4 words -- three
+      # distinct phrasings in the entire file -- while 25.4% are <=7 and the
+      # mean is 9.1. A floor forced at <=4 would exhaust a three-phrasing
+      # space and manufacture duplicates (the same over-concentration the
+      # command profile hit when min_short was 0.36). At <=7 the floor sits
+      # on a band holding a quarter of real usage, and by zero-sum batch
+      # arithmetic it is the lever that pushes down the 13-20-word tail.
+      # `short_max_words` is read by generator.py's composition block and by
+      # stage1_report.py's compliance check; the default is 4, which keeps
+      # the command profile's prompt byte-identical to every paid run so far.
+      #
+      # The Question floor also closes a measured loophole: the only 2 non-
+      # Question rows were ObservationPlusCommand, which is exempt from the
+      # 20-word cap, and both were 22+ words -- the model used the type to
+      # dodge the limit.
+      help:
+        min_short: 0.28                # at least 7 of 25 at or under the short cap
+        short_max_words: 7             # "short" for a question is <=7 words, not <=4
+        types:
+          Question: [0.88, null]       # at least 22 of 25
+        asr_simulated: [0.08, 0.16]    # 2 to 4 of 25; measured 2.5% unprompted
 
       # Fallback and reminders. No length cap by design: Fallback's whole point
       # is unbounded, fragmentary, ambient speech, and a cap would flatten the
