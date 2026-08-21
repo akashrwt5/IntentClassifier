@@ -255,7 +255,14 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         shutil.copy(report, staged / "meta" / "report_card.json")
         refreshed.append("meta/report_card.json")
 
+    # bundle_id and version are ONE decision. This function rewrites bundle_id from
+    # `--version` while the source bundle's `version` came from whatever compiled it;
+    # leaving that alone ships a pack whose id says 1.2.3 and whose version says
+    # something else. Nothing downstream can tell which one is real — iOS names its
+    # storage directory from `version`, the OTA backend compares against `version`,
+    # and telemetry keys on `bundle_id`.
     manifest["bundle_id"] = f"pack-{lang}-v{version}"
+    manifest["version"] = version
     manifest["channel"] = channel
     manifest["created_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     (staged / "bundle.json").write_text(json.dumps(manifest, indent=2) + "\n",

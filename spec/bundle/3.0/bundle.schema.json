@@ -6,7 +6,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "bundle_id", "format_version", "content_version", "compiler_version",
+    "bundle_id", "version", "format_version", "content_version", "compiler_version",
     "engine_compat", "required_runtime_features", "languages", "capabilities",
     "models", "policy_versions", "telemetry_schema_version", "training",
     "checksums_root", "signature_info", "created_at", "channel"
@@ -16,6 +16,10 @@
       "description": "Globally unique: content-hash-derived + monotonic counter. Keys every telemetry event.",
       "type": "string",
       "pattern": "^[a-z0-9][a-z0-9._-]{7,127}$"
+    },
+    "version": {
+      "description": "The pack's semantic version. REQUIRED, and not derivable from bundle_id: a runtime that parsed it out of the id would hold a second source of truth that diverges only in the field. iOS names its on-disk pack directories from this and reports it as the pack's identity in telemetry, and the OTA backend compares against it to decide whether an update is offered.",
+      "$ref": "defs.schema.json#/$defs/semverish"
     },
     "format_version": { "$ref": "defs.schema.json#/$defs/formatVersion" },
     "content_version": {
