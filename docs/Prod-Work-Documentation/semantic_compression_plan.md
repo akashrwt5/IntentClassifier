@@ -16,6 +16,7 @@ Every number below was measured against the artifacts in this repository on 2026
 - **Rev 2** — single-lineage commitment; training-set provenance finding; calibrated confidence statement.
 - **Rev 3** — frozen teacher baseline (P1.5), Pareto reframing, artifact-contract CI, Tier-2 report card, clarification success metrics, consolidated release gate, governing principle.
 - **Rev 4** — hypothesis/measurement separation: P0 reframed as a reproducibility gate; retention floor deferred until the teacher is measured; predicted improvement magnitudes replaced with pre-registered minimum meaningful effects; Tier-2 sealing clarified as per-candidate.
+- **Rev 5.1** — P0 executed. Gate fingerprint corrected from 0.862 to **0.8578** and the two instruments named (the earlier figure came from a re-fitted head, not the shipped one). B10, B11 and B12 added to the register, all found during implementation.
 - **Rev 5 (final)** — **training file settled by owner decision** (§2), which unblocks P0/P1. **Statistical power analysis added** (§10): the Rev-4 minimum meaningful effects were set below the noise floor of the planned instruments, so they are re-set to what the instruments can actually resolve, and decisions move to a paired test. **Two numerical corrections** (§2, §3), listed in §14. No phases added, no experiments added, no change to the P0–P8 sequence or to the teacher/student, evaluation, artifact, graph or safety architecture.
 
 ---
@@ -268,6 +269,9 @@ Near-duplicate means shared words, and shared words is what TF-IDF *is*. The ins
 | **B7** | `holdout_honest.csv` is 44% near-duplicate of `train.csv` | **live** | inflates every in-distribution number; inverts model ranking |
 | **B8** | Runtime reads temperature from the pruned-vocab iOS export; fr/de/da inherit English `T` | **live** | Review-F5 blocker |
 | **B9** | `holdout_honest.manifest.json` hashes stale; `train.csv` drifted +77 rows since the freeze | **live** | the drift guard is not guarding |
+| **B10** | `build_pruned_l3.py` rewrote `vocab.txt` but not `tokenizer.json`, so vocabulary pruning silently never happened | **script fixed; artifact still broken** | `track1_pruned_l3` carries a 30,522-entry tokenizer against a 10,000-row matrix. Origin of the id clamp, and the reason B1 stayed hidden |
+| **B11** | `interactive_test.py` read `backend.model_path`, an attribute the backend class does not define | **fixed in P0** | that script raised `AttributeError` on every run |
+| **B12** | The classifier head was written one level above the model, so two exports shared the path and overwrote each other | **fixed in P0** | evaluation read the correct head only by accident of dict ordering |
 
 ---
 
@@ -433,7 +437,52 @@ Ten phases with explicit gates. **P0 and P1 need no GPU and no API spend, and ar
 > 5. The artifact reproduces its recorded score **within 0.006** (the maximum run-to-run variation measured in §3).
 > 6. A reproducibility report is generated and committed.
 >
-> **The historical 0.862 is recorded as an artifact fingerprint only.** It is not a semantic-quality benchmark, because `holdout_honest` is known to be 44% near-duplicate (§4). Reproducing it confirms the artifact is the same artifact — nothing more.
+> **The fingerprint is an artifact identity check, not a semantic-quality benchmark**, because `holdout_honest` is known to be 44% near-duplicate (§4). Reproducing it confirms the artifact is the same artifact — nothing more.
+>
+> **Which number is the fingerprint.** Earlier revisions of this gate said "0.862", which was wrong: that figure comes from a *re-fitted* head, and `test_distilled_holdout.py` scores the *shipped* head. Two instruments, two numbers, and the gate must name the one it uses.
+>
+> | Instrument | Head | Recorded |
+> |---|---|---:|
+> | `test_distilled_holdout.py` on `holdout_honest.csv` | the shipped `classifier_head.pkl` | **0.8578** |
+> | `train_experimental_head.py` internal 15% split of `train.csv` | re-fitted during the run | 0.929 |
+>
+> The second is **not** a quality signal and is not a gate. `train.csv` is permutation-heavy, so a random split puts near-duplicates on both sides; the 7-point gap between the two rows is that contamination, measured. P1 renames that eval `memorisation_check` for exactly this reason.
+
+> **P0 completed 2026-08-22.** Twelve defects closed (B1–B12, including two found
+> during implementation and not in the original register — see below). All changes
+> confined to `scripts/semantic_compression/`, which now has no code dependency on
+> the rest of the repository. 16 contract tests. First committed measurement:
+> `scripts/semantic_compression/holdout_results.md`.
+>
+> | | Accuracy | Macro-F1 |
+> |---|---:|---:|
+> | `stage2_contrastive_bge_small_onnx` — 9.09 MB, 3 layers, CLS | 0.8578 | 0.8775 |
+> | TF-IDF (shipping) — 1.76 MB | 0.9184 | 0.9043 |
+>
+> The bge figure was reproduced independently on two machines, two Python
+> environments and two implementations of the pipeline, to four decimal places.
+>
+> **Two defects were found during P0 that the register had missed:**
+>
+> - **B10** — `build_pruned_l3.py` rewrote `vocab.txt` but not `tokenizer.json`, and
+>   a fast tokenizer reads the latter. Vocabulary pruning silently never happened:
+>   `track1_pruned_l3` carries a 30,522-entry tokenizer against a 10,000-row
+>   embedding matrix, so every number it ever produced had ~7% of its input
+>   replaced by `[UNK]`. **This is the origin of the id clamp** — written where it
+>   was genuinely load-bearing, then copied into scripts where it was dead code and
+>   masked B1. The script is fixed and asserts its own result; the artifact on disk
+>   predates the fix and now fails the contract, pinned by a test.
+> - **B12** — the classifier head was written one level above the model, so
+>   `final_distilled_onnx` (mean-pooled) and `stage2_contrastive_bge_small_onnx`
+>   (CLS-pooled) resolved to the same file and overwrote each other. Whichever ran
+>   last in the MODELS dict won. The evaluation was reading the right head only by
+>   accident of ordering; a reordering or a load failure would have scored one
+>   encoder with the other's head and produced a plausible wrong number.
+>
+> Both belong to the same class as B1–B4: a mismatch that returns confident
+> numbers instead of failing. The rule that now covers all of them — **everything
+> an artifact needs to answer a question lives in the artifact's own directory** —
+> is enforced by `artifact.py` and documented in that directory's `README.md`.
 
 ### P1 — Fix the rulers before measuring anything else
 *2–3 days · no GPU · highest-value phase in the plan*
