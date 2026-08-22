@@ -1,37 +1,40 @@
 #!/usr/bin/env python3
+"""Zero-shot bake-off: TF-IDF vs the student semantic head vs MiniLM vs the
+distilled bge encoder, on datasets/semantic_benchmark_250.csv.
+
+The bge encoder is loaded through scripts/semantic_compression/artifact.py
+rather than by hand. This file used to carry its own copy of three decisions
+that the compression directory had already got wrong once each -- which
+tokenizer, which pooling, and what to do about out-of-range token ids -- and a
+second copy is a second place for them to drift:
+
+  * pooling was hardcoded to the CLS token. That is correct for bge and wrong
+    for every mean-pooled export, and reading the wrong token scores a working
+    encoder at 0.005.
+  * `input_ids[input_ids >= 10000] = 100` turned an incompatible tokenizer into
+    a silent 7% corruption instead of an error.
+  * the classifier head was read from output_models/classifier_head.pkl, one
+    level above the model. Two exports resolved to that same file and
+    overwrote each other; the head now lives beside the model it belongs to.
+
+Those decisions are now made once, by the artifact itself.
+"""
 import sys
 import time
 import pickle
 import numpy as np
 import pandas as pd
 from pathlib import Path
-from transformers import AutoTokenizer
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "packages" / "runtime"))
+sys.path.insert(0, str(REPO_ROOT / "scripts" / "semantic_compression"))
 
 from nlu_engine.engine import NLUEngine
 from nlu_engine.semantic import SemanticFallback
-from nlu_engine.inference import OrtEmbedderBackend
 
-def embed_onnx(backend, text, tokenizer):
-    encoded = tokenizer(
-        text, max_length=64, truncation=True, padding="max_length", return_tensors="np"
-    )
-    input_ids = encoded["input_ids"]
-    # Safety clamp
-    input_ids[input_ids >= 10000] = 100
+from artifact import ArtifactContractError, encode, head_path, load_encoder
 
-    attention_mask = encoded["attention_mask"]
-    token_type_ids = encoded.get("token_type_ids", np.zeros_like(input_ids))
-
-    token_embeddings = backend.embed_tokens(input_ids, attention_mask, token_type_ids)
-    vec = token_embeddings[0]
-
-    norm = np.linalg.norm(vec)
-    if norm > 0:
-        vec = vec / norm
-    return vec
 
 def main():
     csv_path = REPO_ROOT / "datasets" / "semantic_benchmark_250.csv"
@@ -55,21 +58,32 @@ def main():
         print(f"Error loading MiniLM: {e}")
         sys.exit(1)
 
-    # 4. BGE Distilled
-    bge_model_path = REPO_ROOT / "scripts" / "semantic_compression" / "output_models" / "stage2_contrastive_bge_small_onnx" / "model_quantized.onnx"
-    bge_clf_path = REPO_ROOT / "scripts" / "semantic_compression" / "output_models" / "classifier_head.pkl"
-    bge_tok_path = REPO_ROOT / "scripts" / "semantic_compression" / "output_models" / "stage2_contrastive_bge_small_onnx"
+    # 4. BGE Distilled -- tokenizer, pooling, id range and head all come from
+    #    the artifact's own directory; nothing about it is decided here.
+    bge_model_path = (
+        REPO_ROOT
+        / "scripts"
+        / "semantic_compression"
+        / "output_models"
+        / "stage2_contrastive_bge_small_onnx"
+        / "model_quantized.onnx"
+    )
+    bge_clf_path = head_path(bge_model_path)
 
     try:
-        bge_backend = OrtEmbedderBackend(bge_model_path)
-        bge_tokenizer = AutoTokenizer.from_pretrained(bge_tok_path)
+        bge_encoder = load_encoder(bge_model_path)
         with open(bge_clf_path, "rb") as f:
             bge_classifier = pickle.load(f)
-        # Warmup
-        embed_onnx(bge_backend, "warmup", bge_tokenizer)
+        encode(bge_encoder, ["warmup"])  # force ORT to allocate before timing
+    except ArtifactContractError as exc:
+        print(f"BGE artifact contract not satisfied:\n  {exc}")
+        sys.exit(1)
     except Exception as e:
         print(f"Error loading BGE Distilled model: {e}")
         sys.exit(1)
+
+    print(f"  BGE: {bge_encoder.summary()}")
+    print(f"  head: {bge_clf_path.relative_to(REPO_ROOT)}")
 
     print(f"Reading dataset: {csv_path.name}")
     df = pd.read_csv(csv_path)
@@ -106,7 +120,7 @@ def main():
 
         # Test BGE Distilled Model
         t6 = time.perf_counter()
-        bge_vec = embed_onnx(bge_backend, text, bge_tokenizer)
+        bge_vec = encode(bge_encoder, [text])[0]
         bge_probs = bge_classifier.predict_proba([bge_vec])[0]
         top_idx = np.argmax(bge_probs)
         bge_intent = bge_classifier.classes_[top_idx]

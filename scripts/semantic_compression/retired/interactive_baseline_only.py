@@ -1,9 +1,27 @@
 #!/usr/bin/env python3
 """
-Interactive Testing Script (Baseline Model Only)
-=================================================
-Loads only the original 22.8 MB Baseline ONNX model and its classifier head.
-Provides a clean, standalone interface to test latency and intent predictions.
+Interactive Testing Script (Baseline Model Only) -- RETIRED
+==========================================================
+Loads the original 22.8 MB all-MiniLM-L6-v2 ONNX model and its classifier head.
+
+RETIRED, and kept here for provenance rather than use.
+
+It is the one script in this directory that runs a model living OUTSIDE the
+directory (models/minilm-l6-v2.onnx). The active scripts dropped that
+dependency so the directory can be lifted into a separate project, and the
+plan replaces this reference with the real bge-small teacher baseline at P1.5.
+
+It is therefore NOT covered by the artifact contract in artifact.py: that
+contract requires an encoder to declare its own pooling, and a third-party
+model is not obliged to carry our metadata. The mean pooling below is correct
+for all-MiniLM-L6-v2 -- it is the pooling that model was trained with, per its
+sentence-transformers 1_Pooling/config.json -- but it is asserted by this
+comment rather than by the artifact, which is exactly why the active scripts
+no longer work this way.
+
+Do not extend this file. If the external reference is needed again, load it
+through artifact.py with a declared pooling, or copy the model into this
+directory with a pooling.json beside it.
 """
 
 import sys
@@ -12,7 +30,8 @@ import pickle
 import numpy as np
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parents[2]
+# retired/ is one level deeper than the rest of this directory
+BASE_DIR = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(BASE_DIR))
 
 from transformers import AutoTokenizer

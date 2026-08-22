@@ -53,8 +53,16 @@ this directory exported, and it declares its pooling in a file.
 
 ## What crosses the directory boundary
 
-Nothing, in code. `grep -E "^\s*(from|import)\s+packages" *.py` returns
-nothing, so this directory can be lifted into another project as it stands.
+Nothing, in code — for the active scripts:
+
+```bash
+grep -rE "^\s*(from|import)\s+packages" *.py     # returns nothing
+```
+
+so this directory can be lifted into another project as it stands. The one
+exception is `retired/interactive_baseline_only.py`, which still imports from
+`packages.runtime`. That dependency is precisely why it is retired, its header
+says so, and nothing else here uses it.
 
 What does point outward is **data**, which any training script needs:
 
@@ -71,8 +79,18 @@ the top of its script. Lifting the directory out means repointing them.
 `models/minilm-l6-v2.onnx` used to be loaded here as a size and quality
 reference. It has been removed: it lives outside this directory, and the plan
 replaces it with the real `bge-small` teacher baseline at P1.5 anyway.
-`interactive_baseline_only.py` existed only to run it and has moved to
-`retired/`.
+
+`interactive_baseline_only.py` existed only to run that model, and has moved to
+`retired/`. It still works — the mean pooling it hardcodes is the pooling
+all-MiniLM-L6-v2 was trained with — but it is **not covered by the artifact
+contract**, because a third-party model is not obliged to carry our metadata.
+Its header says so. Do not extend it; if the external reference is needed
+again, load it through `artifact.py` with a declared pooling.
+
+This does not affect the suspended MiniLM **student** lineage. That is a
+different thing, it is not retired until P1 decides against the expanded
+paraphrase set, and its artifacts are untouched (now gitignored rather than
+moved).
 
 ---
 
@@ -94,7 +112,7 @@ train_experimental_head.py        fit a LogReg head on each encoder
 test_distilled_holdout.py         score against holdout_honest.csv -> holdout_results.md
 evaluate_compression.py           embedding sanity + latency across encoders
 interactive_*.py                  type a sentence, see what each encoder does with it
-retired/                          scripts kept for provenance, not extended
+retired/                          kept for provenance, outside the contract, not extended
 
 dataset_generation/               the Super Dataset generator (separate pipeline)
 output_models/                    exported artifacts (gitignored, regenerated)
@@ -116,6 +134,17 @@ uploaded as `train.csv` and two of them leak holdout rows into training:
 sha256 and row count and refuse to start on a mismatch. When the training data
 legitimately changes, update `EXPECTED_SHA256` and `EXPECTED_ROWS` deliberately
 and say why in the commit.
+
+## One consumer lives outside this directory
+
+`scripts/evaluate_models.py` benchmarks the distilled encoder against the
+TF-IDF model, the student semantic head and MiniLM in one run, so it needs
+`packages/runtime` and cannot live here. It loads the encoder through
+`artifact.py` rather than by hand — it used to carry its own copy of the
+hardcoded pooling, the id clamp and the old head path, and a second copy is a
+second place for them to drift.
+
+If this directory is lifted into another project, that script stays behind.
 
 ## Known-broken artifacts
 
