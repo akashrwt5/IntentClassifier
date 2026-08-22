@@ -8,18 +8,15 @@ Comparative bake-off script to evaluate the compression models:
 
 import sys
 import time
-import numpy as np
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(BASE_DIR))
 
-# We will need the OrtEmbedderBackend from nlu_engine.inference
-from packages.runtime.nlu_engine.inference import OrtEmbedderBackend
+from artifact import ArtifactContractError, encode, load_encoder
 
 # Paths
 MODELS = {
-    "Baseline": BASE_DIR / "models" / "minilm-l6-v2.onnx",
     "Track 1 (Pruned L3)": Path(__file__).parent
     / "output_models"
     / "track1_pruned_l3"
@@ -41,28 +38,6 @@ TEST_PHRASES = [
     "who won the world cup",  # Out of domain
 ]
 
-from transformers import AutoTokenizer
-
-
-def embed_onnx(backend, text, tokenizer):
-    encoded = tokenizer(
-        text, max_length=64, truncation=True, padding="max_length", return_tensors="np"
-    )
-    input_ids = encoded["input_ids"]
-    attention_mask = encoded["attention_mask"]
-    token_type_ids = encoded.get("token_type_ids", np.zeros_like(input_ids))
-
-    token_embeddings = backend.embed_tokens(input_ids, attention_mask, token_type_ids)
-    mask = attention_mask[0]
-    expanded = mask[:, np.newaxis].astype(np.float32)
-    summed = (token_embeddings * expanded).sum(axis=0)
-    vec = summed / expanded.sum()
-    norm = np.linalg.norm(vec)
-    if norm > 0:
-        vec = vec / norm
-    return vec
-
-
 def evaluate_model(name, model_path):
     print(f"\n{'='*60}")
     print(f"Evaluating {name}")
@@ -72,35 +47,27 @@ def evaluate_model(name, model_path):
         print(f"File not found: {model_path}")
         return
 
-    size_mb = model_path.stat().st_size / (1024 * 1024)
-    print(f"Size: {size_mb:.2f} MB")
-
-    tokenizer_path = model_path.parent.parent / "pytorch"
-    if not tokenizer_path.exists():
-        tokenizer_path = "sentence-transformers/all-MiniLM-L6-v2"
-
     try:
-        tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
-        print(f"Vocab Size: {tokenizer.vocab_size} tokens")
+        encoder = load_encoder(model_path)
+    except ArtifactContractError as exc:
+        print(f"Artifact contract not satisfied:\n  {exc}")
+        return
     except Exception as e:
-        print(f"Failed to load tokenizer from {tokenizer_path}: {e}")
+        print(f"Failed to load: {e}")
         return
 
+    print(f"  {encoder.summary()}")
+
     try:
-        backend = OrtEmbedderBackend(model_path)
+        encode(encoder, ["warmup"])  # force ORT to allocate before timing
 
-        # Warmup
-        embed_onnx(backend, "warmup", tokenizer)
-
-        # Measure latency & embedding drift
         print("\nEmbeddings:")
         for phrase in TEST_PHRASES:
             t0 = time.time()
-            vec = embed_onnx(backend, phrase, tokenizer)
-            t1 = time.time()
-            latency = (t1 - t0) * 1000
+            vec = encode(encoder, [phrase])[0]
+            latency = (time.time() - t0) * 1000
 
-            # Print first 3 dims to see if the semantic space is entirely broken
+            # First 3 dims are enough to see whether the space is entirely broken
             sample_dims = ", ".join([f"{x:+.4f}" for x in vec[:3]])
             print(f"  [{latency:4.1f} ms] '{phrase[:25]:25s}' -> [{sample_dims} ...]")
 

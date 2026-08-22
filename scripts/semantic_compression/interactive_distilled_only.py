@@ -15,8 +15,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(BASE_DIR))
 
-from transformers import AutoTokenizer
-from packages.runtime.nlu_engine.inference import OrtEmbedderBackend
+from artifact import encode, head_path, load_encoder
 
 # Paths
 MODEL_PATH = (
@@ -25,31 +24,7 @@ MODEL_PATH = (
     / "stage2_contrastive_bge_small_onnx"
     / "model_quantized.onnx"
 )
-CLF_PATH = Path(__file__).parent / "output_models" / "classifier_head.pkl"
-# The pruned tokenizer is inside the final ONNX folder!
-TOKENIZER_PATH = Path(__file__).parent / "output_models" / "stage2_contrastive_bge_small_onnx"
-
-
-def embed_onnx(backend, text, tokenizer):
-    encoded = tokenizer(
-        text, max_length=64, truncation=True, padding="max_length", return_tensors="np"
-    )
-    input_ids = encoded["input_ids"]
-
-    # Safety clamp: if the tokenizer generates an out-of-bounds ID, clamp it to UNK (100)
-    input_ids[input_ids >= 10000] = 100
-
-    attention_mask = encoded["attention_mask"]
-    token_type_ids = encoded.get("token_type_ids", np.zeros_like(input_ids))
-
-    token_embeddings = backend.embed_tokens(input_ids, attention_mask, token_type_ids)
-
-    vec = token_embeddings[0]
-
-    norm = np.linalg.norm(vec)
-    if norm > 0:
-        vec = vec / norm
-    return vec
+CLF_PATH = head_path(MODEL_PATH)
 
 
 def main():
@@ -63,23 +38,17 @@ def main():
         sys.exit(1)
 
     try:
-        # Load ONNX Backend
-        backend = OrtEmbedderBackend(MODEL_PATH)
+        # Tokenizer, pooling and id-range come from the artifact's declaration.
+        # The previous fallback to a hub tokenizer is gone: it would have
+        # loaded a 30,522-token vocabulary for a 10,000-row model.
+        encoder = load_encoder(MODEL_PATH)
 
-        # Load Tokenizer (use fallback to baseline if local pruned one fails to load)
-        if TOKENIZER_PATH.exists():
-            tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH)
-        else:
-            tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-
-        # Load Classifier Head
         with open(CLF_PATH, "rb") as f:
             classifier = pickle.load(f)
 
-        # Warmup (forces ONNX Runtime to initialize memory)
-        embed_onnx(backend, "warmup", tokenizer)
+        encode(encoder, ["warmup"])  # force ORT to allocate before timing
 
-        print("✅ Ready!\n")
+        print(f"✅ Ready!\n   {encoder.summary()}\n   head: {CLF_PATH.name}\n")
     except Exception as e:
         print(f"\n❌ Failed to load model: {e}")
         sys.exit(1)
@@ -99,7 +68,7 @@ def main():
 
             # Measure Latency
             t0 = time.time()
-            vec = embed_onnx(backend, user_input, tokenizer)
+            vec = encode(encoder, [user_input])[0]
             probs = classifier.predict_proba([vec])[0]
             best_idx = np.argmax(probs)
             intent = classifier.classes_[best_idx]

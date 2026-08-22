@@ -12,11 +12,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(BASE_DIR))
 
-from transformers import AutoTokenizer
-from packages.runtime.nlu_engine.inference import OrtEmbedderBackend
+from artifact import ArtifactContractError, encode, head_path, load_encoder
 
 MODELS = {
-    "Baseline": BASE_DIR / "models" / "minilm-l6-v2.onnx",
     "Track 1 (Pruned L3)": Path(__file__).parent
     / "output_models"
     / "track1_pruned_l3"
@@ -46,39 +44,12 @@ def cosine_similarity(v1, v2):
     return dot / norm
 
 
-def embed_onnx(backend, text, tokenizer):
-    encoded = tokenizer(
-        text, max_length=64, truncation=True, padding="max_length", return_tensors="np"
-    )
-    input_ids = encoded["input_ids"]
-    # Clamp out of bounds IDs due to fast tokenizer mismatch with pruned matrix
-    input_ids[input_ids >= 10000] = 100
-    attention_mask = encoded["attention_mask"]
-    token_type_ids = encoded.get("token_type_ids", np.zeros_like(input_ids))
-
-    token_embeddings = backend.embed_tokens(input_ids, attention_mask, token_type_ids)
-
-    if backend.model_path.name == "minilm-l6-v2.onnx":
-        mask = attention_mask[0]
-        expanded = mask[:, np.newaxis].astype(np.float32)
-        summed = (token_embeddings * expanded).sum(axis=0)
-        vec = summed / expanded.sum()
-    else:
-        vec = token_embeddings[0]
-
-    norm = np.linalg.norm(vec)
-    if norm > 0:
-        vec = vec / norm
-    return vec
-
-
 import pickle
 
 
 def main():
     print("Loading models... Please wait.")
-    backends = {}
-    tokenizers = {}
+    encoders = {}
     classifiers = {}
 
     for name, path in MODELS.items():
@@ -87,25 +58,24 @@ def main():
             continue
 
         try:
-            tokenizer_path = path.parent.parent / "pytorch"
-            if not tokenizer_path.exists():
-                tokenizer_path = "sentence-transformers/all-MiniLM-L6-v2"
+            encoders[name] = load_encoder(path)
 
-            tokenizers[name] = AutoTokenizer.from_pretrained(tokenizer_path)
-            backends[name] = OrtEmbedderBackend(path)
-
-            clf_path = path.parent.parent / "classifier_head.pkl"
+            clf_path = head_path(path)
             if clf_path.exists():
                 with open(clf_path, "rb") as f:
                     classifiers[name] = pickle.load(f)
 
-            # Warmup
-            embed_onnx(backends[name], "warmup", tokenizers[name])
-            print(f"✅ Loaded {name}" + (" (with Classifier)" if name in classifiers else ""))
+            encode(encoders[name], ["warmup"])
+            print(
+                f"✅ {encoders[name].summary()}"
+                + ("  (with Classifier)" if name in classifiers else "")
+            )
+        except ArtifactContractError as exc:
+            print(f"❌ {name}: artifact contract not satisfied\n     {exc}")
         except Exception as e:
             print(f"❌ Failed to load {name}: {e}")
 
-    if not backends:
+    if not encoders:
         print("No models loaded. Exiting.")
         return
 
@@ -126,9 +96,9 @@ def main():
             print("-" * 50)
 
             results = {}
-            for name in backends.keys():
+            for name in encoders.keys():
                 t0 = time.time()
-                vec = embed_onnx(backends[name], user_input, tokenizers[name])
+                vec = encode(encoders[name], [user_input])[0]
                 t1 = time.time()
                 latency_ms = (t1 - t0) * 1000
                 results[name] = vec
@@ -147,9 +117,10 @@ def main():
                     confidence = probs[best_idx]
                     print(f"  Intent     : {intent} (Confidence: {confidence*100:.1f}%)")
 
-                if name != "Baseline" and "Baseline" in results:
-                    sim = cosine_similarity(results["Baseline"], vec)
-                    print(f"  Similarity : {sim*100:.1f}% match to Baseline")
+                reference = next(iter(results))
+                if name != reference:
+                    sim = cosine_similarity(results[reference], vec)
+                    print(f"  Similarity : {sim*100:.1f}% match to {reference}")
                 print()
 
         except KeyboardInterrupt:

@@ -21,6 +21,9 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 # --- Configuration ---
 INPUT_MODEL_DIR = Path(__file__).parent / "stage2_contrastive_bge_small_l3"
 OUTPUT_DIR = Path(__file__).parent / "output_models" / "stage2_contrastive_bge_small_onnx"
+# --- Outside this directory -------------------------------------------------
+# Data inputs only. Lifting this directory into another project means
+# repointing these; no code is imported from outside.
 TRAIN_CSV_PATH = BASE_DIR / "language_packs" / "en" / "train.csv"
 OOS_CSV_PATH = BASE_DIR / "language_packs" / "en" / "extras" / "oos_2.csv"
 MAX_VOCAB_SIZE = 10000
@@ -136,7 +139,14 @@ def export_to_onnx(model, tokenizer, output_dir):
 
 
 def update_tokenizer(tokenizer, new_vocab, output_dir):
-    """Updates the fast tokenizer JSON file with the new vocabulary."""
+    """Rewrite BOTH tokenizer files to the pruned vocabulary, then verify.
+
+    tokenizer.json is what a fast tokenizer actually reads, and vocab.txt is
+    what a native Swift or Kotlin wordpiece reads on device. Rewriting only one
+    of them leaves the artifact self-inconsistent in a way Python never
+    notices -- which is exactly how build_pruned_l3.py shipped a 30,522-entry
+    tokenizer against a 10,000-row model.
+    """
     print("5. Updating Fast Tokenizer...")
 
     # Save the tokenizer files so we get tokenizer.json
@@ -153,7 +163,42 @@ def update_tokenizer(tokenizer, new_vocab, output_dir):
         with open(tok_json_path, "w", encoding="utf-8") as f:
             json.dump(tok_data, f, ensure_ascii=False)
 
-    print("   Tokenizer updated.")
+    # The on-device counterpart of the same vocabulary.
+    with open(output_dir / "vocab.txt", "w", encoding="utf-8") as f:
+        for token, _ in sorted(new_vocab.items(), key=lambda kv: kv[1]):
+            f.write(token + "\n")
+
+    print(f"   Tokenizer updated: tokenizer.json and vocab.txt both at {len(new_vocab)} tokens.")
+
+
+def declare_pooling(input_model_dir, output_dir):
+    """Copy the source model's pooling mode next to the export.
+
+    Pooling is a property of how the encoder was trained, not a runtime choice.
+    Without this file every consumer has to guess, and reading the wrong token
+    scores a working encoder at 0.005 -- worse than chance across 57 intents.
+    """
+    print("6. Declaring pooling...")
+    src = Path(input_model_dir) / "1_Pooling" / "config.json"
+    if not src.exists():
+        raise SystemExit(
+            f"cannot declare pooling: {src} not found. The export must record how "
+            "the encoder was trained; consumers are not allowed to guess."
+        )
+    mode = json.loads(src.read_text(encoding="utf-8"))["pooling_mode"]
+    if mode not in ("cls", "mean"):
+        raise SystemExit(f"{src} declares an unsupported pooling_mode: {mode!r}")
+
+    with open(output_dir / "pooling.json", "w", encoding="utf-8") as f:
+        json.dump(
+            {
+                "pooling_mode": mode,
+                "_source": f"{Path(input_model_dir).name}/1_Pooling/config.json",
+            },
+            f,
+            indent=2,
+        )
+    print(f"   pooling_mode = {mode}")
 
 
 def main():
@@ -177,6 +222,15 @@ def main():
     export_to_onnx(model, tokenizer, OUTPUT_DIR)
 
     update_tokenizer(tokenizer, new_vocab, OUTPUT_DIR)
+
+    declare_pooling(INPUT_MODEL_DIR, OUTPUT_DIR)
+
+    # Refuse to hand over an artifact that does not satisfy its own contract.
+    print("7. Verifying artifact contract...")
+    sys.path.insert(0, str(Path(__file__).parent))
+    from artifact import describe
+
+    print(f"   {describe(OUTPUT_DIR / 'model_quantized.onnx')}")
 
     print(f"\n🎉 DONE! Your final ~9 MB model is ready at: {OUTPUT_DIR}/model_quantized.onnx")
 

@@ -17,6 +17,9 @@ from optimum.onnxruntime import ORTModelForFeatureExtraction, ORTQuantizer
 from optimum.onnxruntime.configuration import AutoQuantizationConfig
 
 BASE_DIR = Path(__file__).resolve().parents[2]
+# --- Outside this directory -------------------------------------------------
+# Data inputs only. Lifting this directory into another project means
+# repointing these; no code is imported from outside.
 DATA_PATH = BASE_DIR / "datasets" / "04_GENERATED_MASTER_training_data.csv"
 OOS_PATH = BASE_DIR / "datasets" / "semantic_oos_2.csv"
 
@@ -93,25 +96,53 @@ def main():
     model.embeddings.word_embeddings = torch.nn.Embedding.from_pretrained(new_embeddings)
     model.config.vocab_size = len(keep_tokens_list)
 
-    # Update tokenizer files
+    # Update tokenizer files.
+    #
+    # A fast tokenizer is defined by tokenizer.json, NOT by vocab.txt. This step
+    # used to rewrite only vocab.txt and then reload from the directory, where
+    # AutoTokenizer read tokenizer.json and returned the ORIGINAL 30,522-token
+    # vocabulary. The pruning silently did not happen: every artifact this
+    # script produced carried a 30,522-entry tokenizer against a 10,000-row
+    # embedding matrix, and the `input_ids >= 10000 -> UNK` clamp downstream
+    # hid it. Roughly 7% of every input was replaced by [UNK] as a result.
+    #
+    # Both files are now rewritten, and the result is asserted before use.
     temp_dir = Path(__file__).parent / "temp_tokenizer"
     tokenizer.save_pretrained(temp_dir)
 
-    # Write the new vocab.txt
+    sorted_new_vocab = sorted(new_vocab.items(), key=lambda x: x[1])
+
     vocab_path = temp_dir / "vocab.txt"
-    if vocab_path.exists():
-        with open(vocab_path, "w", encoding="utf-8") as f:
-            sorted_new_vocab = sorted(new_vocab.items(), key=lambda x: x[1])
-            for token, idx in sorted_new_vocab:
-                f.write(token + "\n")
+    with open(vocab_path, "w", encoding="utf-8") as f:
+        for token, _ in sorted_new_vocab:
+            f.write(token + "\n")
+
+    tok_json_path = temp_dir / "tokenizer.json"
+    with open(tok_json_path, "r", encoding="utf-8") as f:
+        tok_data = json.load(f)
+    tok_data["model"]["vocab"] = new_vocab
+    with open(tok_json_path, "w", encoding="utf-8") as f:
+        json.dump(tok_data, f, ensure_ascii=False)
 
     # Reload modified tokenizer
     pruned_tokenizer = AutoTokenizer.from_pretrained(temp_dir)
+
+    reloaded = len(pruned_tokenizer.get_vocab())
+    if reloaded != len(keep_tokens_list):
+        raise SystemExit(
+            f"tokenizer pruning failed: reloaded {reloaded} tokens, expected "
+            f"{len(keep_tokens_list)}. Do not ship this artifact."
+        )
 
     # Save the modified PyTorch model
     pt_dir = OUT_DIR / "pytorch"
     model.save_pretrained(pt_dir)
     pruned_tokenizer.save_pretrained(pt_dir)
+
+    # Declare how this encoder pools, so consumers do not have to guess.
+    # paraphrase-MiniLM-L3-v2 is a mean-pooled sentence-transformers model.
+    with open(pt_dir / "pooling.json", "w", encoding="utf-8") as f:
+        json.dump({"pooling_mode": "mean", "_source": MODEL_ID}, f, indent=2)
 
     print("\nExporting to ONNX...")
     ort_model = ORTModelForFeatureExtraction.from_pretrained(pt_dir, export=True)

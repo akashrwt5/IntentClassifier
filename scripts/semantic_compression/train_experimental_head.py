@@ -19,9 +19,11 @@ from sklearn.metrics import accuracy_score, classification_report, f1_score
 BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(BASE_DIR))
 
-from transformers import AutoTokenizer
-from packages.runtime.nlu_engine.inference import OrtEmbedderBackend
+from artifact import ArtifactContractError, encode, head_path, load_encoder
 
+# --- Outside this directory -------------------------------------------------
+# Data inputs only. Lifting this directory into another project means
+# repointing these; no code is imported from outside.
 DATA_PATH = BASE_DIR / "language_packs" / "en" / "train.csv"
 OOS_PATH = BASE_DIR / "language_packs" / "en" / "extras" / "oos_2.csv"
 HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
@@ -29,7 +31,6 @@ HOLDOUT_PATH = BASE_DIR / "datasets" / "semantic_holdout_2.csv"
 FALLBACK_INTENT = "Default Fallback Intent"
 
 MODELS = {
-    "Baseline": BASE_DIR / "models" / "minilm-l6-v2.onnx",
     "Track 1 (Pruned L3)": Path(__file__).parent
     / "output_models"
     / "track1_pruned_l3"
@@ -49,39 +50,6 @@ MODELS = {
     / "stage2_contrastive_bge_small_onnx"
     / "model_quantized.onnx",
 }
-
-
-def embed_onnx(backend, texts, tokenizer, model_name=""):
-    """Batch embed a list of texts using the ONNX backend."""
-    vecs = []
-    for text in texts:
-        encoded = tokenizer(
-            text, max_length=64, truncation=True, padding="max_length", return_tensors="np"
-        )
-        input_ids = encoded["input_ids"]
-        # Clamp out of bounds IDs due to fast tokenizer mismatch with pruned matrix
-        input_ids[input_ids >= 10000] = 100
-        attention_mask = encoded["attention_mask"]
-        token_type_ids = encoded.get("token_type_ids", np.zeros_like(input_ids))
-
-        token_embeddings = backend.embed_tokens(input_ids, attention_mask, token_type_ids)
-
-        # Pooling strategy depends on the model architecture
-        # BGE-small derived models use CLS pooling, original MiniLM uses Mean pooling
-        if model_name == "Baseline":
-            mask = attention_mask[0]
-            expanded = mask[:, np.newaxis].astype(np.float32)
-            summed = (token_embeddings * expanded).sum(axis=0)
-            vec = summed / expanded.sum()
-        else:
-            # CLS pooling (the first token)
-            vec = token_embeddings[0]
-
-        norm = np.linalg.norm(vec)
-        if norm > 0:
-            vec = vec / norm
-        vecs.append(vec)
-    return np.array(vecs)
 
 
 def get_training_data():
@@ -147,22 +115,23 @@ def main():
             print(f"Skipping {name} (Model not built yet).")
             continue
 
-        tokenizer_path = path.parent.parent / "pytorch"
-        if not tokenizer_path.exists():
-            tokenizer_path = "sentence-transformers/all-MiniLM-L6-v2"
-
+        # Tokenizer, pooling and id-range are read from the artifact itself
+        # (artifact.py), not chosen here. Three scripts used to choose them
+        # independently and all three chose wrong for at least one export.
         try:
-            tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
-            backend = OrtEmbedderBackend(path)
+            encoder = load_encoder(path)
+        except ArtifactContractError as exc:
+            print(f"Skipping {name} -- artifact contract not satisfied:\n  {exc}")
+            continue
         except Exception as e:
             print(f"Failed to load {name}: {e}")
             continue
+        print(f"   {encoder.summary()}")
 
         print("1. Generating Embeddings for training data...")
         X = []
         for i in range(0, len(texts), 500):
-            batch_texts = texts[i : i + 500]
-            X.append(embed_onnx(backend, batch_texts, tokenizer, model_name=name))
+            X.append(encode(encoder, texts[i : i + 500]))
             print(f"   Embedded {min(i+500, len(texts))} / {len(texts)} samples")
 
         X = np.vstack(X)
@@ -188,9 +157,9 @@ def main():
         final_clf = LogisticRegression(max_iter=2000, C=3.0, class_weight="balanced")
         final_clf.fit(X, y)
 
-        save_path = path.parent.parent / "classifier_head.pkl"
-        if name == "Baseline":
-            save_path = path.parent.parent / "classifier_head.pkl"
+        # Beside the model, not one level up: two exports share that parent
+        # and used to overwrite each other's head.
+        save_path = head_path(path)
         with open(save_path, "wb") as f:
             pickle.dump(final_clf, f)
 

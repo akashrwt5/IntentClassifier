@@ -39,7 +39,70 @@ torch.cuda.manual_seed_all(42)
 
 # --- Configuration ---
 TEACHER_MODEL_NAME = "BAAI/bge-small-en-v1.5"
+# --- Training data identity -------------------------------------------------
+# Colab has no repository checkout: the file is uploaded by hand, so a path
+# cannot pin it. Three files in this repository could be uploaded under the
+# name "train.csv", and two of them leak 40% and 99% of holdout_honest.csv
+# into training:
+#
+#     language_packs/en/train.csv       8,430 rows      0 holdout rows
+#     new_semantic/data/en/train.csv   23,989 rows    585 holdout rows
+#     complete_csv.csv                 31,699 rows  1,461 holdout rows
+#
+# A previous Stage-2 run left no record of which one it used, which is why the
+# baseline it produced still carries an asterisk. The identity of the file is
+# therefore pinned instead of its path, and the run refuses to start on a
+# mismatch.
+#
+# Update these constants DELIBERATELY when the training data legitimately
+# changes, and say why in the commit that changes them.
 TRAIN_CSV_PATH = "train.csv"
+EXPECTED_SOURCE = "language_packs/en/train.csv"
+EXPECTED_SHA256 = "803a97d57a5397b1db522b18c982fe0a70092719265aabbe375830b55da6074b"
+EXPECTED_ROWS = 8430
+
+
+def verify_training_data(path=TRAIN_CSV_PATH):
+    """Refuse to train on an unidentified file, and return the provenance block.
+
+    Deliberately duplicated in both Colab scripts rather than imported: these
+    files are pasted into a notebook cell and cannot rely on the rest of the
+    directory being present.
+    """
+    import hashlib
+
+    if not os.path.exists(path):
+        raise SystemExit(f"{path} not found. Upload {EXPECTED_SOURCE} to Colab.")
+
+    digest = hashlib.sha256(open(path, "rb").read()).hexdigest()
+    rows = sum(1 for _ in open(path, encoding="utf-8-sig")) - 1
+
+    print("Training data")
+    print("-" * 25)
+    print(f"expected : {EXPECTED_SOURCE}  {EXPECTED_ROWS} rows")
+    print(f"sha256   : {digest}")
+    print(f"rows     : {rows}")
+
+    if digest != EXPECTED_SHA256 or rows != EXPECTED_ROWS:
+        raise SystemExit(
+            "\nTRAINING DATA DOES NOT MATCH THE PINNED IDENTITY.\n"
+            f"  expected sha256 {EXPECTED_SHA256} with {EXPECTED_ROWS} rows\n"
+            f"  got      sha256 {digest} with {rows} rows\n\n"
+            "Either the wrong file was uploaded, or the training data changed.\n"
+            "If the change is intended, update EXPECTED_SHA256 and EXPECTED_ROWS\n"
+            "in this script and record why. Do not bypass this check: an\n"
+            "unidentified training file makes every number the run produces\n"
+            "unverifiable after the fact."
+        )
+
+    print("identity : OK\n")
+    return {
+        "training_file": EXPECTED_SOURCE,
+        "rows": rows,
+        "sha256": digest,
+    }
+
+
 OOS_CSV_PATH = "language_packs/en/extras/oos_2.csv"
 OUTPUT_DIR = "distilled_bge_small_l3"
 
@@ -271,11 +334,35 @@ def prepare_for_vocab_pruning(student_path):
     print("Pruning candidates identified. Actual matrix slicing happens downstream.")
 
 
+
+def write_provenance(provenance, output_dir):
+    """Record what this run was trained on, beside what it produced.
+
+    A previous Stage-2 run left no record of which of three candidate
+    train.csv files it consumed, and two of them leak holdout rows into
+    training. The baseline it produced still carries an asterisk because of
+    it. This file is how that question stops being unanswerable.
+    """
+    import json
+
+    record = dict(provenance)
+    record["stage"] = Path(__file__).stem
+    record["output_dir"] = str(output_dir)
+    path = Path(output_dir) / "provenance.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(record, f, indent=2)
+    print(f"Provenance written to {path}")
+
+
 def main():
+    provenance = verify_training_data()
     corpus = build_mixed_corpus()
     teacher, student = create_layer_dropped_student()
 
     run_distillation(teacher, student, corpus)
+
+    write_provenance(provenance, OUTPUT_DIR)
 
     run_head_retraining_and_eval(OUTPUT_DIR)
 
