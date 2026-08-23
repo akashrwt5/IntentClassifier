@@ -292,6 +292,36 @@ def _quota_profile(config: GeneratorConfig, intent: str) -> dict[str, Any]:
     return dict(profiles.get(chosen) or {})
 
 
+_LENGTH_TARGETS: dict | None = None
+
+
+def _length_target(intent: str, profile: dict) -> float:
+    """The same floor the generator rendered into the prompt, for this intent.
+
+    Scoring against a different number than the model was asked to hit
+    misreports compliance in both directions -- which is the reason the short
+    cap is already read from the profile here rather than hardcoded. Per-intent
+    targets make that hazard bigger, so the report reads the same file the
+    generator does, with the same profile fallback when it is absent.
+    """
+    global _LENGTH_TARGETS
+    if _LENGTH_TARGETS is None:
+        import yaml
+
+        path = Path(__file__).resolve().parent / "length_targets.yaml"
+        if path.is_file():
+            _LENGTH_TARGETS = (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get(
+                "intents"
+            ) or {}
+        else:
+            _LENGTH_TARGETS = {}
+    record = _LENGTH_TARGETS.get(intent) or {}
+    target = record.get("target_short_share")
+    if target is None:
+        target = profile.get("min_short", 0)
+    return float(target or 0)
+
+
 def _quota_compliance(
     config: GeneratorConfig, intent: str, rows: list[dict[str, Any]]
 ) -> list[tuple[str, str, int, str]]:
@@ -311,14 +341,15 @@ def _quota_compliance(
         return round(float(fraction) * total)
 
     out: list[tuple[str, str, int, str]] = []
-    if profile.get("min_short"):
+    min_short = _length_target(intent, profile)
+    if min_short:
         # Same per-profile threshold the generator renders into the prompt
         # (profile short_max_words, default 4) -- scoring against a different
         # cap than the one the model was asked to hit would misreport
         # compliance in both directions.
         short_cap = int(profile.get("short_max_words", 4))
         got = sum(1 for r in rows if len(r["utterance"].split()) <= short_cap)
-        target = want(profile["min_short"])
+        target = want(min_short)
         out.append(
             (f"<= {short_cap} words", f"min {target}", got, "ok" if got >= target else "UNDER")
         )

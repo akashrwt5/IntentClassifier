@@ -465,6 +465,39 @@ def _quota_profile(config: GeneratorConfig, intent: str) -> dict[str, Any]:
     return dict(profiles.get(chosen) or {})
 
 
+_LENGTH_TARGETS: dict[str, Any] | None = None
+
+
+def _length_target(config: GeneratorConfig, intent: str, profile: dict[str, Any]) -> float:
+    """Short-utterance floor for one intent: measured per intent, profile as fallback.
+
+    A single ``min_short`` cannot serve 33 Help intents whose deployed short share
+    runs from 26% (Help_Tinnitus) to 97% (Help_Translate), nor 24 command intents
+    running 18% to 62%. ``length_targets.yaml`` carries one number per intent,
+    derived from deployed speech by ``derive_length_targets.py``.
+
+    If that file is absent this returns the profile's own ``min_short``, so the
+    prompt is byte-identical to what it was before per-intent targets existed.
+    That is deliberate: the fallback is the whole safety property here.
+    """
+    global _LENGTH_TARGETS
+    if _LENGTH_TARGETS is None:
+        import yaml
+
+        path = Path(__file__).resolve().parent / "length_targets.yaml"
+        if path.is_file():
+            _LENGTH_TARGETS = (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get(
+                "intents"
+            ) or {}
+        else:
+            _LENGTH_TARGETS = {}
+    record = _LENGTH_TARGETS.get(intent) or {}
+    target = record.get("target_short_share")
+    if target is None:
+        target = profile.get("min_short", 0)
+    return float(target or 0)
+
+
 def _composition_block(config: GeneratorConfig, intent: str, size: int) -> str:
     """Render the batch's composition requirements as COUNTS.
 
@@ -519,7 +552,8 @@ def _composition_block(config: GeneratorConfig, intent: str, size: int) -> str:
             return f"- exactly {lo} {noun}."
         return f"- between {lo} and {hi} {noun}."
 
-    if n(profile.get("min_short", 0)):
+    min_short = _length_target(config, intent, profile)
+    if n(min_short):
         # The word threshold is per-profile because the natural "short" form
         # differs by shape: a short command is "Louder", but the shortest
         # natural Help question runs five to seven words -- measured on the
@@ -531,23 +565,50 @@ def _composition_block(config: GeneratorConfig, intent: str, size: int) -> str:
         short_cap = int(profile.get("short_max_words", 4))
         if short_cap == 4:
             rules.append(
-                f"- at least {n(profile['min_short'])} must be FOUR WORDS OR FEWER. "
+                f"- at least {n(min_short)} must be FOUR WORDS OR FEWER. "
                 'Real users say "Louder" and "Turn it up" far more often than '
                 "they say anything longer; this is the commonest shape, not a "
                 "garnish."
             )
         else:
+            # The FRAGMENT sentence is not decoration. Precedence rule 4 gives the
+            # model a decision procedure for question forms, and a procedure
+            # produces well-formed questions: measured on Help_Volume at 120 rows,
+            # the shortest utterance it generated was SEVEN words, with nothing
+            # below -- so the <=7 share fell from 25% to 10% while the ask stayed
+            # at 28%. Raising min_short cannot fix that; the constraint is already
+            # being missed. Asking for grammatical brevity did not fix it either,
+            # since this rule's own example is already a six-word question. What
+            # is missing is permission to emit something that is not a sentence.
             rules.append(
-                f"- at least {n(profile['min_short'])} must be "
+                f"- at least {n(min_short)} must be "
                 f"{short_cap} WORDS OR FEWER. "
                 "Generated questions run long; real ones are often terse "
                 '("How do I mute one side?"). Keep these short rows '
-                "single-clause and natural."
+                "single-clause and natural. Some of them must be bare FRAGMENTS "
+                'rather than complete questions -- "volume help", "how to mute", '
+                "two to five words, the way a hurried user actually speaks. "
+                "A grammatical sentence is not required here."
             )
     # Type minima must leave room for one another. If they cannot, the batch is
     # too small to carry every constraint and the weakest are dropped rather
     # than issuing a set of rules with no satisfying assignment.
-    budget_left = size - (n(profile.get("min_short", 0)) if False else 0)
+    #
+    # The short floor is deliberately NOT subtracted from this budget, and that
+    # is not an oversight: short rows and ExplicitCommand rows are the same rows
+    # most of the time -- "nine short rows are explicit commands by nature", per
+    # the config -- so subtracting the floor would double-count the overlap and
+    # drop type quotas that the batch can actually carry.
+    #
+    # It does mean the two floors can over-subscribe a batch on paper. That was
+    # already true at min_short 0.28 and is more visible now that per-intent
+    # targets reach 62% on some command intents. What happens then is that a
+    # minimum is missed and the report says UNDER, which is the correct and
+    # visible outcome. Modelling the real slot arithmetic is a separate change
+    # with its own risk; it should not ride along with this one.
+    #
+    # (This line previously read `size - (n(...) if False else 0)`, computing a
+    # `budget_left` that nothing ever read. Dead since it was written.)
     type_rules: list[str] = []
     claimed = 0
     for type_name, bounds in (profile.get("types") or {}).items():
@@ -656,11 +717,70 @@ class Stage1Store:
                 )
 
 
+def _print_usage_summary(config: GeneratorConfig, since: int) -> None:
+    """What this run actually cost, from the API's own token counts.
+
+    Every cost figure in this project until now came from dividing characters by
+    four, because nothing recorded what was billed. The numbers are in each
+    response and were being discarded; llm_client now appends them per batch.
+
+    ``since`` is the line count of usage.jsonl before the run, so a resumed run
+    reports itself rather than the whole history of the checkpoint directory.
+    Silent on any failure: an accounting line must never be the thing that fails
+    a run that has already been paid for.
+    """
+    try:
+        path = Path(config.checkpoint_dir) / "usage.jsonl"
+        if not path.is_file():
+            return
+        rows = [
+            json.loads(x)
+            for x in path.read_text(encoding="utf-8").splitlines()[since:]
+            if x.strip()
+        ]
+        if not rows:
+            return
+        calls = sum(r.get("calls", 0) for r in rows)
+        tin = sum(r.get("input_tokens", 0) for r in rows)
+        tout = sum(r.get("output_tokens", 0) for r in rows)
+        print(f"\nUsage this run: {calls} call(s), {tin:,} input + {tout:,} output tokens")
+        if not (tin or tout):
+            print("  (the provider returned no token counts -- cost unknown, not zero)")
+            return
+        pricing = (config.llm or {}).get("pricing") or {}
+        rate_in = pricing.get("input_per_1m")
+        rate_out = pricing.get("output_per_1m")
+        if rate_in and rate_out:
+            cost = tin * float(rate_in) / 1e6 + tout * float(rate_out) / 1e6
+            print(
+                f"  ~${cost:.2f} at {rate_in}/{rate_out} per 1M ({pricing.get('tier', 'rates from config')})"
+            )
+    except Exception:  # noqa: BLE001 -- accounting must never fail a paid run
+        pass
+
+
+def _usage_lines(config: GeneratorConfig) -> int:
+    try:
+        path = Path(config.checkpoint_dir) / "usage.jsonl"
+        return len(path.read_text(encoding="utf-8").splitlines()) if path.is_file() else 0
+    except Exception:  # noqa: BLE001
+        return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate the Super Dataset (Stage 1).")
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--dry-run", action="store_true", help="Plan the run, make no calls.")
     parser.add_argument("--only", nargs="*", default=None)
+    parser.add_argument(
+        "--pilot",
+        action="store_true",
+        help=(
+            "Run the stratified pilot set from generation.pilot -- one batch per "
+            "intent, 12 calls against a full run's 348. Use this to test a CONFIG "
+            "change; a config question does not need 8,360 rows to answer."
+        ),
+    )
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true", help="Ignore existing Stage 1 output.")
     parser.add_argument(
@@ -689,6 +809,38 @@ def main() -> int:
     if missing:
         print(f"ERROR: no specification for: {missing}")
         return 1
+    if args.pilot:
+        pilot = (config.raw.get("generation") or {}).get("pilot") or []
+        if not pilot:
+            print("ERROR: --pilot given but generation.pilot is empty in the config.")
+            return 1
+        missing_pilot = [i for i in pilot if i not in specs]
+        if missing_pilot:
+            print(f"ERROR: generation.pilot names unknown intents: {missing_pilot}")
+            return 1
+        args.only = list(pilot)
+        if not args.batches:
+            args.batches = 1
+
+        # A pilot writes to its OWN checkpoint directory, and always starts clean.
+        #
+        # Sharing the corpus directory breaks the pilot in both directions. Without
+        # --force it appends a new-config batch onto old-config rows and the lints
+        # then average two configs into one meaningless number -- which is worse
+        # than skipping, because it looks like a result. With --force it would
+        # instead DESTROY real corpus rows for twelve intents, and the moment you
+        # most want a pilot is right after a full run, to test a fix before paying
+        # to regenerate.
+        #
+        # A separate directory removes the choice. The pilot is an experiment, it
+        # is disposable, and it can never touch what a run has already paid for.
+        config.raw.setdefault("paths", {})["checkpoint_dir"] = (
+            str(config.raw["paths"].get("checkpoint_dir", ".checkpoints")) + "-pilot"
+        )
+        args.force = True
+        print(f"Pilot: {len(pilot)} intents, {args.batches} batch(es) each.")
+        print(f"  writing to {config.checkpoint_dir}  (separate from the corpus, always fresh)")
+
     if args.only:
         unknown = [i for i in args.only if i not in specs]
         if unknown:
@@ -743,6 +895,7 @@ def main() -> int:
     )
 
     failures: list[str] = []
+    usage_start = _usage_lines(config)
 
     for position, (intent, _, want, _) in enumerate(plan, start=1):
         spec = specs[intent]
@@ -887,6 +1040,7 @@ def main() -> int:
 
     print(f"\nStage 1 complete. Failures: {len(set(failures))}")
     print(f"Output: {store.dir}")
+    _print_usage_summary(config, usage_start)
     if store.rejects.is_file():
         print(f"Rejection log: {store.rejects}")
     return 1 if failures else 0

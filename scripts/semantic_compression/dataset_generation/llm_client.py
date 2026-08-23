@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import os
 import stat
+import json
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -360,6 +361,66 @@ def resolve_api_key(config: GeneratorConfig) -> str | None:
     return os.environ.get(name) or load_secrets(config).get(name)
 
 
+def _usage_recorder() -> tuple[Any, dict[str, int]]:
+    """A callback that records the token usage of each model call, or a no-op.
+
+    Cost was an estimate for this whole project: nothing recorded what the API
+    actually billed, so every figure came from dividing characters by four. A
+    348-call run is worth knowing the real number for, and the number is already
+    in the response -- it was simply being discarded, because
+    ``with_structured_output`` returns the parsed object and drops the message
+    that carried it.
+
+    A callback recovers it without changing the chain's shape, which matters:
+    the alternative, ``include_raw=True``, changes the return type at every call
+    site. Nothing here may break a paid run, so every failure path returns the
+    no-op and generation continues untouched.
+    """
+    totals = {"input_tokens": 0, "output_tokens": 0, "calls": 0}
+    try:
+        from langchain_core.callbacks import BaseCallbackHandler
+    except Exception:  # noqa: BLE001 -- an old or absent langchain must not stop a run
+        return None, totals
+
+    class _Recorder(BaseCallbackHandler):  # type: ignore[misc, valid-type]
+        def on_llm_end(self, response: Any, **kwargs: Any) -> None:
+            try:
+                totals["calls"] += 1
+                usage = (getattr(response, "llm_output", None) or {}).get("token_usage") or {}
+                if not usage:
+                    for generation in getattr(response, "generations", []) or []:
+                        for item in generation:
+                            message = getattr(item, "message", None)
+                            usage = getattr(message, "usage_metadata", None) or {}
+                            if usage:
+                                break
+                        if usage:
+                            break
+                totals["input_tokens"] += int(
+                    usage.get("input_tokens") or usage.get("prompt_tokens") or 0
+                )
+                totals["output_tokens"] += int(
+                    usage.get("output_tokens") or usage.get("completion_tokens") or 0
+                )
+            except Exception:  # noqa: BLE001 -- accounting must never break generation
+                pass
+
+    return _Recorder(), totals
+
+
+def _record_usage(config: GeneratorConfig, label: str, totals: dict[str, int]) -> None:
+    """Append one line per batch to .checkpoints/usage.jsonl. Never raises."""
+    try:
+        if not totals.get("calls"):
+            return
+        path = Path(config.checkpoint_dir) / "usage.jsonl"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"label": label, **totals}) + "\n")
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def invoke_with_validation(
     chain: Any,
     payload: dict[str, Any],
@@ -384,14 +445,18 @@ def invoke_with_validation(
 
     for attempt in range(1, max_retries + 1):
         outcome.attempts = attempt
+        recorder, usage = _usage_recorder()
         try:
-            result = chain.invoke(current)
+            invoke_kwargs = {"config": {"callbacks": [recorder]}} if recorder else {}
+            result = chain.invoke(current, **invoke_kwargs)
         except Exception as exc:  # noqa: BLE001 -- any SDK/transport failure
+            _record_usage(config, label, usage)
             outcome.rejections.append(Rejection(label, attempt, [f"call failed: {exc}"]))
             if attempt < max_retries:
                 time.sleep(backoff * attempt)
             continue
 
+        _record_usage(config, label, usage)
         errors = list(validate(result))
         if not errors:
             outcome.value = result

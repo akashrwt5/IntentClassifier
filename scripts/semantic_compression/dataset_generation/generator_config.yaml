@@ -49,6 +49,16 @@ paths:
 # LLM settings
 # -----------------------------------------------------------------------------
 llm:
+  # Published Azure OpenAI rates for this deployment, USD per 1M tokens, checked
+  # 2026-08. Used only to print what a run cost; nothing depends on it being
+  # exact. Update it when the rate card moves -- and say so in the commit, so a
+  # cost that changes for billing reasons is never mistaken for one that changed
+  # because the prompt did.
+  pricing:
+    input_per_1m: 1.25
+    output_per_1m: 10.00
+    tier: "global (data-zone is 1.375 / 11.00)"
+
   provider: azure               # openai | azure | anthropic | google
 
   # The REAL model name, always -- never an Azure deployment name. This is the
@@ -166,6 +176,32 @@ generation:
   #   vocabulary. At 120 utterances that is ~3 per value, which cannot cover
   #   the slot space the product actually uses. reminders.add carries
   #   recurrence and reminder-type slots similarly.
+  # A stratified sample for testing CONFIG changes without paying for a corpus.
+  #
+  # A full run is 348 calls; a config question does not need 8,360 rows to answer,
+  # it needs a sample that spans the space the config varies over. Twelve intents
+  # at one batch each is 12 calls -- roughly 3% of a full run -- and covers both
+  # length-target extremes, both quota profiles, the worst boundary risks, the
+  # highest-volume Command-vs-Question pair, and the two blind spots where the
+  # target had to be inferred because no deployed rows exist.
+  #
+  # Run it with: python generator.py --pilot
+  #
+  # Every entry earns its place; do not add intents because they seem interesting.
+  pilot:
+    - Cmd.ActivityStand          # command, lowest target (18%)
+    - Cmd.TranscribeStart        # command, highest target (62%) -- worst slot pressure
+    - Cmd.BatteryLevel           # command that is question-shaped: a data query
+    - Help_Tinnitus              # help, lowest target (26%)
+    - Help_Translate             # help, highest target (85%, at the ceiling)
+    - Help_FindMyHearingAids     # worst deployed boundary rate (41%)
+    - Help_Pairing               # second worst (29%) and the worst length gap so far
+    - Default Fallback Intent    # open profile, largest budget, decides FAR
+    - Cmd.EdgeModeIncrease       # blind spot: target inferred, no deployed rows
+    - Help_Activity              # blind spot: same
+    - Cmd.MemoryChange           # highest-volume Command-vs-Question pair
+    - Help_ChangingMemories      # the Help side of that same pair
+
   utterances_per_intent:
     default: 120
     overrides:
@@ -479,10 +515,24 @@ generation:
           Question: [0.88, null]       # at least 22 of 25
         asr_simulated: [0.08, 0.16]    # 2 to 4 of 25; measured 2.5% unprompted
 
-      # Fallback and reminders. No length cap by design: Fallback's whole point
-      # is unbounded, fragmentary, ambient speech, and a cap would flatten the
-      # one class whose realism decides FAR.
-      open: {}
+      # Fallback and reminders. This profile was left empty "until it has been
+      # measured rather than guessed" (see _quota_profile). It has now been
+      # measured, and the result reverses the expectation: leaving the length
+      # unconstrained did not preserve fragmentary speech, it removed it.
+      #
+      #   Default Fallback Intent   deployed  mean 6.5w, 72% <= 7w, 8% at 13+
+      #                             generated mean 11.1w, 16% <= 7w, 29% at 13+
+      #
+      # What follows is a FLOOR, not a cap. A cap would flatten the class whose
+      # realism decides FAR, which is what the original note guarded against.
+      # A floor only guarantees the short end exists; nothing here limits how
+      # long a Fallback utterance may be.
+      #
+      # min_short is deliberately absent: the per-intent targets in
+      # length_targets.yaml supply it. With that file removed this profile is
+      # empty again and behaviour returns to what it was.
+      open:
+        short_max_words: 7
 
   # Generation-stage LLM overrides, layered on top of the top-level `llm:`.
   #

@@ -22,13 +22,15 @@ Word-substitution variants are near-worthless here. "Increase volume" / "Raise v
 # Difficulty
 - Easy: direct commands, high lexical similarity to seed data.
 - Medium: indirect requests, polite phrasing, mild ASR variation.
-- Hard: compound utterances, heavy ASR corruption, long conversational phrasing, boundary cases.
+- Hard: compound utterances, heavy ASR corruption, boundary cases, and utterances genuinely ambiguous between two intents.
+- Difficulty is NOT length, and the two must not be tied together. A three-word utterance can be the hardest row in a batch, and usually is: measured on this product's held-out set, the classifier scores 79% on utterances of four words or fewer against 89% on those of eight to twelve words. Short and ambiguous is the failure case. Never reach for extra words to make a row Hard.
 
 # Precedence rules -- apply consistently
 1. Compound: if an utterance contains BOTH an observation and an actionable command, the command determines the intent. Pure observations are Fallback.
 2. Conflicting commands: the LAST explicit command wins.
 3. Negations: cancelling with no replacement is Fallback; with a replacement, classify by the replacement.
-4. Anything still unresolved defers to the spec's Boundary Cases, then Fallback.
+4. Help versus Command in question forms: decide by the action the assistant must perform, not by the opening words. Asked to bring the action about now -> the Command intent (imperative; "can / could / will you"; "please ..."; a stated want or need; a bare complaint about the current state). Asked how, where or what about doing it themselves -> the Help intent. When the requested action IS explaining, it is the Help intent. An "I"-framed question is still a Command when only the assistant can produce the outcome.
+5. Anything still unresolved defers to the spec's Boundary Cases, then Fallback.
 
 # Hard constraints -- violating any of these makes the batch worthless
 - NEVER invent a product capability that the specification does not state.
@@ -114,4 +116,3 @@ Reply with JSON ONLY — no commentary, no markdown fence. A single object:
 ObservationPlusCommand, Question, Negation, Conversation, Fallback.
 `difficulty` must be exactly one of: Easy, Medium, Hard.
 `source` must be exactly one of: LLM-Generated, ASR-Simulated, Human-Seed.
-

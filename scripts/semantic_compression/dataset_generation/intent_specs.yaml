@@ -846,17 +846,20 @@ intents:
     symptom with no fault claim - "I'm getting no sound", "the volume dropped to nothing"
     - stays here; a device described as faulty or not working is a fault report.
   boundary_cases:
-  - This is the highest-risk boundary in the taxonomy. An utterance beginning how, where,
-    why, what, or can I resolves here; an imperative or a stated need resolves to the matching
-    Cmd intent.
-  - The AGENT of the verb decides question forms, not the pronoun. "Can YOU make it louder?"
-    asks the assistant to act and is Cmd.VolumeIncrease; "Can I make it louder?" asks whether
-    or how the USER can do it and is this intent. Deployed data agrees - "can I" utterances
-    label as Help 88 times against 10, and never against a device-state command. The test
-    does not blanket-map "can I" to Help - a "can I" request whose outcome only the assistant
-    can deliver ("can I hear my messages?") is still a command for that action's intent.
-  - Where the two readings are genuinely balanced, prefer this intent over the command. Explaining
-    something unnecessarily is far cheaper than changing a device unbidden.
+  - 'This intent sits on the taxonomy''s costliest boundary: its four Command siblings physically
+    change the device. Apply precedence rule 4, and where the two readings are genuinely balanced
+    prefer this intent - explaining something unnecessarily is far cheaper than changing a
+    device unbidden.'
+  - 'Rule 4''s exception for outcomes only the assistant can produce never fires here. Changing,
+    raising, lowering, muting and unmuting all have a manual path the user controls - this
+    intent''s own trigger conditions are exactly those how-to questions - so no volume question
+    is secretly a request. "Can I make it louder?" is this intent: the user can change the
+    volume themselves, so they are asking how. "Can YOU make it louder?" names the assistant
+    as the doer and is Cmd.VolumeIncrease.'
+  - 'Measured in the deployed volume data: "how do I" 95 Help : 0 Cmd; "how to", "where",
+    "what" and "can I" resolve here in every recorded case; "can you" 4 : 149; "please ..."
+    5 : 113; a bare imperative 1 : 155; "I want" / "I need" 0 : 20. Across the whole taxonomy
+    "can I" labels Help 88 times against 10 and never against a device-state command.'
   neighbor_intents:
   - Cmd.VolumeIncrease
   - Cmd.VolumeDecrease

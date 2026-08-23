@@ -1,0 +1,487 @@
+_note: Per-intent short-utterance targets, derived from language_packs/en/train.csv by derive_length_targets.py.
+  Do not edit by hand -- re-run the script. target_short_share is the DEPLOYED share of utterances at
+  or under short_max_words for that intent's quota profile; floors are approximately honoured, so asking
+  for reality is what lands near reality.
+generated_at: '2026-08-23T09:52:22Z'
+source: language_packs/en/train.csv
+intents:
+  Cmd.ActivityAerobics:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 46
+    deployed_short_share: 0.57
+    target_short_share: 0.57
+    deployed_mean_words: 5.0
+    source: measured
+  Cmd.ActivityCalories:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 46
+    deployed_short_share: 0.46
+    target_short_share: 0.46
+    deployed_mean_words: 4.8
+    source: measured
+  Cmd.ActivityCycle:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 47
+    deployed_short_share: 0.4
+    target_short_share: 0.4
+    deployed_mean_words: 5.4
+    source: measured
+  Cmd.ActivityExercise:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 52
+    deployed_short_share: 0.5
+    target_short_share: 0.5
+    deployed_mean_words: 5.1
+    source: measured
+  Cmd.ActivityRun:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 60
+    deployed_short_share: 0.38
+    target_short_share: 0.38
+    deployed_mean_words: 5.3
+    source: measured
+  Cmd.ActivityStand:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 61
+    deployed_short_share: 0.18
+    target_short_share: 0.18
+    deployed_mean_words: 5.9
+    source: measured
+  Cmd.ActivityStep:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 59
+    deployed_short_share: 0.29
+    target_short_share: 0.29
+    deployed_mean_words: 5.7
+    source: measured
+  Cmd.ActivityWalk:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 57
+    deployed_short_share: 0.42
+    target_short_share: 0.42
+    deployed_mean_words: 5.2
+    source: measured
+  Cmd.BatteryLevel:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 115
+    deployed_short_share: 0.38
+    target_short_share: 0.38
+    deployed_mean_words: 4.7
+    source: measured
+  Cmd.EdgeModeDeactivate:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 0
+    deployed_short_share: null
+    target_short_share: 0.42
+    deployed_mean_words: null
+    source: profile median (command, 21 intents)
+  Cmd.EdgeModeDecrease:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 0
+    deployed_short_share: null
+    target_short_share: 0.42
+    deployed_mean_words: null
+    source: profile median (command, 21 intents)
+  Cmd.EdgeModeIncrease:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 0
+    deployed_short_share: null
+    target_short_share: 0.42
+    deployed_mean_words: null
+    source: profile median (command, 21 intents)
+  Cmd.FindMyPhone:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 104
+    deployed_short_share: 0.62
+    target_short_share: 0.62
+    deployed_mean_words: 4.2
+    source: measured
+  Cmd.ListenMessage:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 85
+    deployed_short_share: 0.42
+    target_short_share: 0.42
+    deployed_mean_words: 4.8
+    source: measured
+  Cmd.MemoryChange:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 1601
+    deployed_short_share: 0.42
+    target_short_share: 0.42
+    deployed_mean_words: 4.8
+    source: measured
+  Cmd.SendMessage:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 154
+    deployed_short_share: 0.49
+    target_short_share: 0.49
+    deployed_mean_words: 4.6
+    source: measured
+  Cmd.StreamingStart:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 178
+    deployed_short_share: 0.41
+    target_short_share: 0.41
+    deployed_mean_words: 5.1
+    source: measured
+  Cmd.StreamingStop:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 60
+    deployed_short_share: 0.55
+    target_short_share: 0.55
+    deployed_mean_words: 4.5
+    source: measured
+  Cmd.TranscribeStart:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 50
+    deployed_short_share: 0.62
+    target_short_share: 0.62
+    deployed_mean_words: 4.2
+    source: measured
+  Cmd.TranslationStart:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 63
+    deployed_short_share: 0.38
+    target_short_share: 0.38
+    deployed_mean_words: 6.2
+    source: measured
+  Cmd.VolumeDecrease:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 256
+    deployed_short_share: 0.51
+    target_short_share: 0.51
+    deployed_mean_words: 4.8
+    source: measured
+  Cmd.VolumeIncrease:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 215
+    deployed_short_share: 0.39
+    target_short_share: 0.39
+    deployed_mean_words: 5.3
+    source: measured
+  Cmd.VolumeMute:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 100
+    deployed_short_share: 0.51
+    target_short_share: 0.51
+    deployed_mean_words: 4.8
+    source: measured
+  Cmd.VolumeUnmute:
+    profile: command
+    short_max_words: 4
+    deployed_rows: 110
+    deployed_short_share: 0.46
+    target_short_share: 0.46
+    deployed_mean_words: 4.7
+    source: measured
+  Default Fallback Intent:
+    profile: open
+    short_max_words: 7
+    deployed_rows: 1191
+    deployed_short_share: 0.72
+    target_short_share: 0.72
+    deployed_mean_words: 6.5
+    source: measured
+  Help_Accessories:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 130
+    deployed_short_share: 0.45
+    target_short_share: 0.45
+    deployed_mean_words: 7.6
+    source: measured
+  Help_Activity:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 0
+    deployed_short_share: null
+    target_short_share: 0.83
+    deployed_mean_words: null
+    source: family median (HelpHealth, 5 peers)
+  Help_AppSettings:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 46
+    deployed_short_share: 0.59
+    target_short_share: 0.59
+    deployed_mean_words: 7.0
+    source: measured
+  Help_Battery:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 47
+    deployed_short_share: 0.7
+    target_short_share: 0.7
+    deployed_mean_words: 6.6
+    source: measured
+  Help_ChangingMemories:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 134
+    deployed_short_share: 0.37
+    target_short_share: 0.37
+    deployed_mean_words: 8.0
+    source: measured
+  Help_CleanCare:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 57
+    deployed_short_share: 0.65
+    target_short_share: 0.65
+    deployed_mean_words: 6.8
+    source: measured
+  Help_Customize:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 57
+    deployed_short_share: 0.68
+    target_short_share: 0.68
+    deployed_mean_words: 6.8
+    source: measured
+  Help_DemoMode:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 44
+    deployed_short_share: 0.73
+    target_short_share: 0.73
+    deployed_mean_words: 6.3
+    source: measured
+  Help_DeviceSettings:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 129
+    deployed_short_share: 0.66
+    target_short_share: 0.66
+    deployed_mean_words: 7.0
+    source: measured
+  Help_EdgeMode:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 56
+    deployed_short_share: 0.8
+    target_short_share: 0.8
+    deployed_mean_words: 6.1
+    source: measured
+  Help_FallAlert:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 112
+    deployed_short_share: 0.42
+    target_short_share: 0.42
+    deployed_mean_words: 7.7
+    source: measured
+  Help_FindMyHearingAids:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 224
+    deployed_short_share: 0.72
+    target_short_share: 0.72
+    deployed_mean_words: 6.7
+    source: measured
+  Help_Health:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 50
+    deployed_short_share: 0.74
+    target_short_share: 0.74
+    deployed_mean_words: 7.1
+    source: measured
+  Help_HearShare:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 72
+    deployed_short_share: 0.65
+    target_short_share: 0.65
+    deployed_mean_words: 6.9
+    source: measured
+  Help_HeartRate:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 51
+    deployed_short_share: 0.86
+    target_short_share: 0.85
+    deployed_mean_words: 5.8
+    source: measured (capped from 86%)
+  Help_HeartRateRecovery:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 46
+    deployed_short_share: 0.83
+    target_short_share: 0.83
+    deployed_mean_words: 6.0
+    source: measured
+  Help_Home:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 104
+    deployed_short_share: 0.88
+    target_short_share: 0.85
+    deployed_mean_words: 5.6
+    source: measured (capped from 88%)
+  Help_InsertDevice:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 60
+    deployed_short_share: 0.28
+    target_short_share: 0.28
+    deployed_mean_words: 8.6
+    source: measured
+  Help_IntelliVoice:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 92
+    deployed_short_share: 0.96
+    target_short_share: 0.85
+    deployed_mean_words: 5.0
+    source: measured (capped from 96%)
+  Help_MaskMode:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 48
+    deployed_short_share: 0.9
+    target_short_share: 0.85
+    deployed_mean_words: 5.7
+    source: measured (capped from 90%)
+  Help_MemoryOptions:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 83
+    deployed_short_share: 0.55
+    target_short_share: 0.55
+    deployed_mean_words: 7.1
+    source: measured
+  Help_Pairing:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 224
+    deployed_short_share: 0.45
+    target_short_share: 0.45
+    deployed_mean_words: 8.1
+    source: measured
+  Help_Reminder:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 48
+    deployed_short_share: 0.94
+    target_short_share: 0.85
+    deployed_mean_words: 5.5
+    source: measured (capped from 94%)
+  Help_RemoteProgramming:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 127
+    deployed_short_share: 0.28
+    target_short_share: 0.28
+    deployed_mean_words: 8.7
+    source: measured
+  Help_SelfCheck:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 110
+    deployed_short_share: 0.65
+    target_short_share: 0.65
+    deployed_mean_words: 6.8
+    source: measured
+  Help_ThriveScore:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 105
+    deployed_short_share: 0.84
+    target_short_share: 0.84
+    deployed_mean_words: 6.3
+    source: measured
+  Help_Tinnitus:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 191
+    deployed_short_share: 0.26
+    target_short_share: 0.26
+    deployed_mean_words: 9.3
+    source: measured
+  Help_Transcribe:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 70
+    deployed_short_share: 0.9
+    target_short_share: 0.85
+    deployed_mean_words: 5.3
+    source: measured (capped from 90%)
+  Help_Translate:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 66
+    deployed_short_share: 0.97
+    target_short_share: 0.85
+    deployed_mean_words: 5.2
+    source: measured (capped from 97%)
+  Help_VoiceAssistant:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 56
+    deployed_short_share: 0.84
+    target_short_share: 0.84
+    deployed_mean_words: 5.9
+    source: measured
+  Help_Volume:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 146
+    deployed_short_share: 0.36
+    target_short_share: 0.36
+    deployed_mean_words: 8.5
+    source: measured
+  Help_WhatsNew:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 68
+    deployed_short_share: 0.76
+    target_short_share: 0.76
+    deployed_mean_words: 6.0
+    source: measured
+  Help_WiCROS:
+    profile: help
+    short_max_words: 7
+    deployed_rows: 46
+    deployed_short_share: 0.63
+    target_short_share: 0.63
+    deployed_mean_words: 6.9
+    source: measured
+  reminders.add:
+    profile: open
+    short_max_words: 7
+    deployed_rows: 707
+    deployed_short_share: 0.49
+    target_short_share: 0.49
+    deployed_mean_words: 7.8
+    source: measured
+  reminders.complete:
+    profile: open
+    short_max_words: 7
+    deployed_rows: 67
+    deployed_short_share: 0.99
+    target_short_share: 0.85
+    deployed_mean_words: 4.5
+    source: measured (capped from 99%)
