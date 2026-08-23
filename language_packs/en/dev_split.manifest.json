@@ -1,0 +1,58 @@
+{
+  "_note": "Derived by split_dev_sets.py. Deterministic: no seed, no sampling. Re-running on unchanged inputs reproduces these files byte for byte. dev_hard is FROZEN for P2-P8 -- see the module docstring before regenerating it.",
+  "created_at": "2026-08-23T06:13:55Z",
+  "method": {
+    "near_duplicate": "token-set Jaccard >= threshold on normalised text",
+    "threshold": 0.8,
+    "normaliser": "instruments.normalize_text (vendored from packages/buildtime/nlu_training/leakage.py; parity asserted by test_instruments.py)",
+    "exactness": "prefix filtering prunes candidates but computes the full Jaccard for each survivor -- no pair is missed"
+  },
+  "inputs": {
+    "train.csv": {
+      "rows": 8430,
+      "sha256": "803a97d57a5397b1db522b18c982fe0a70092719265aabbe375830b55da6074b"
+    },
+    "holdout_honest.csv": {
+      "rows": 1470,
+      "sha256": "a69403763d1a2f7b214f031446ae3dacb84c2c05040eb66c5eaa1bca66e033a7"
+    }
+  },
+  "outputs": {
+    "dev_near.csv": {
+      "rows": 657,
+      "charter": "REGRESSION DETECTION ONLY. Holdout rows that near-duplicate a training utterance. A high score here is evidence of memorisation, not of generalisation. Never gate a release on it and never report it alone.",
+      "sha256": "948ee3ffbba3fa6bc34541225037e67de9e6d74393d2d54af5b4477f2067fc29"
+    },
+    "dev_hard.csv": {
+      "rows": 813,
+      "charter": "PRIMARY DECISION INSTRUMENT for P2-P8. Holdout rows with no near-duplicate in train.csv. Decide with McNemar's test on discordant items, never by comparing two accuracy numbers. Frozen for the duration of the plan.",
+      "sha256": "f97817cb06f26ba4a59d4c4d16098c8654b6a894db3cba63196d9a9733440cbe"
+    }
+  },
+  "near_duplicate_share": 0.4469,
+  "minimum_detectable_effect": {
+    "dev_hard": {
+      "discordance_0.10": 0.0311,
+      "discordance_0.15": 0.0381,
+      "discordance_0.25": 0.0491
+    },
+    "dev_near": {
+      "discordance_0.10": 0.0346,
+      "discordance_0.15": 0.0423,
+      "discordance_0.25": 0.0547
+    },
+    "holdout_honest": {
+      "discordance_0.10": 0.0231,
+      "discordance_0.15": 0.0283,
+      "discordance_0.25": 0.0365
+    }
+  },
+  "dev_hard_intent_coverage": {
+    "intents_in_holdout": 57,
+    "intents_in_dev_hard": 57,
+    "intents_absent_from_dev_hard": [],
+    "intents_with_fewer_than_5_rows": [
+      "Cmd.ActivityRun"
+    ]
+  }
+}

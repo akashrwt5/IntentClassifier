@@ -72,6 +72,15 @@ What does point outward is **data**, which any training script needs:
 | `test_distilled_holdout.py` | `language_packs/en/holdout_honest.csv`, and optionally the shipping TF-IDF model for context |
 | `export_distilled_onnx.py` | `language_packs/en/train.csv`, `extras/oos_2.csv` |
 | `build_pruned_l3.py` | `datasets/04_GENERATED_MASTER_training_data.csv` |
+| `split_dev_sets.py` | reads `language_packs/en/{train,holdout_honest}.csv`, **writes** `dev_{near,hard}.csv` + `dev_split.manifest.json` beside them |
+| `check_instruments.py` | the same files, plus `extras/holdout_honest.manifest.json` |
+| `inventory_instruments.py` | every English evaluation set in `language_packs/en/` |
+
+The three scripts above are the only ones here that **write** outside this
+directory. That is deliberate: evaluation data belongs with the language pack,
+not with the compression code, and putting a second copy inside this directory
+would be the drift risk the artifact contract exists to prevent. Pass
+`--out-dir` to place them elsewhere.
 
 Each of those is grouped under an `# --- Outside this directory ---` header at
 the top of its script. Lifting the directory out means repointing them.
@@ -94,12 +103,61 @@ moved).
 
 ---
 
+## The instrument contract
+
+The artifact contract above answers "is this encoder what it says it is". The
+instrument contract answers the other half: **is this ruler what it says it is.**
+
+Every defect in the register produced a confident number rather than a crash,
+and the longest-lived ones were the cases where a measuring instrument moved
+underneath a measurement. B9 is the shape of it: the honest holdout's manifest
+was frozen, then 77 training rows were added and every label in both files was
+rewritten at an unchanged row count. Nothing failed. The manifest simply stopped
+describing the files it named.
+
+Three rules, enforced by `check_instruments.py` in CI:
+
+1. **No instrument number without a script.** The 44% near-duplicate figure that
+   steered earlier revisions of the plan was hand-measured and could not be
+   reproduced when it was re-run. `inventory_instruments.py` regenerates
+   `INSTRUMENTS.md` so no charter carries a number typed from memory.
+2. **`dev_hard` is frozen for P2-P8.** Near-duplication is a relation between the
+   holdout and `train.csv`, so growing the training set can silently un-harden it.
+   The answer is not to re-derive it -- that retires every number measured on it --
+   but to guard it: any training row that near-duplicates a `dev_hard` row fails
+   the build, and the fix is to drop that training row.
+3. **Every result is reported against its MDE.** A difference smaller than the
+   instrument's minimum detectable effect is not a small win; it is a number the
+   instrument cannot tell from zero.
+
+```bash
+python3 split_dev_sets.py --dry-run      # measure the split, write nothing
+python3 check_instruments.py             # CI: has any ruler moved?
+python3 inventory_instruments.py --write # regenerate INSTRUMENTS.md
+python3 test_instruments.py              # the guards, on synthetic fixtures
+```
+
+`instruments.py` vendors `normalize_text` from
+`packages/buildtime/nlu_training/leakage.py` rather than importing it, so this
+directory stays liftable. A copy drifts, so `test_instruments.py` asserts the two
+agree on adversarial cases whenever the repository is present, and skips when it
+is not. That test is why the copy is allowed to exist.
+
+---
+
 ## Layout
 
 ```
-artifact.py                       the contract: load, verify, embed
+artifact.py                       the encoder contract: load, verify, embed
 test_artifact_contract.py         one test per defect that actually occurred
 backfill_artifact_metadata.py     one-time: teach pre-contract exports to describe themselves
+
+instruments.py                    the instrument contract: normalise, near-duplicate, power
+split_dev_sets.py                 derive dev_near / dev_hard from the honest holdout
+check_instruments.py              CI guard: fails if a ruler moved under a measurement
+inventory_instruments.py          measure every English eval set -> INSTRUMENTS.md
+test_instruments.py               guards for the above, incl. vendored-normaliser parity
+INSTRUMENTS.md                    generated: what each eval set may and may not be asked
 
 colab_distillation_stage1.py      Stage 1 -- distil the teacher into a shallow student
 colab_stage2_contrastive.py       Stage 2 -- contrastive adaptation on the intent taxonomy

@@ -6,7 +6,7 @@
   "seed": 42,
   "holdout_fraction_requested": 0.15,
   "rows": {
-    "train": 8353,
+    "train": 8430,
     "holdout": 1470
   },
   "intents": {
@@ -15,8 +15,8 @@
   },
   "intents_kept_wholly_in_train": [],
   "sha256": {
-    "train.csv": "eed41449b7f2d14f013f94562af4e80f010d06d6fea3c083b7547cdbfa25c246",
-    "holdout_honest.csv": "c1e3ee7067ce89c5f49330703ff1c1ccc01d666b291172e78cdf0794d61026a1"
+    "train.csv": "803a97d57a5397b1db522b18c982fe0a70092719265aabbe375830b55da6074b",
+    "holdout_honest.csv": "a69403763d1a2f7b214f031446ae3dacb84c2c05040eb66c5eaa1bca66e033a7"
   },
   "supersedes": "multilingual/test/en_holdout.csv — 1460/1461 rows appeared verbatim in training data (Review-F5 blocker B9)",
   "amendments": [
@@ -61,6 +61,27 @@
           "why": "in-scope siblings: 'read my new texts aloud', 'read my unread messages'"
         }
       ]
+    },
+    {
+      "at": "2026-08-22T16:27:30Z",
+      "by": "scripts/semantic_compression/check_instruments.py --refreeze",
+      "what": "Re-pinned the hashes and row counts to the files as they stand. The partition itself was NOT rebuilt and the holdout was NOT re-split: the train/holdout boundary is the one built at cc46010, and exact normalised disjointness is re-verified by check_instruments.py at every run.",
+      "why_it_had_drifted": [
+        "The 2026-07-26T12:40:30Z label amendment edited rows in both files without refreshing the hashes recorded above it, so the manifest has been describing pre-amendment files ever since.",
+        "ce0d469 added 77 rows to train.csv (8,353 -> 8,430).",
+        "af4a88b rewrote every label in both files from the modern taxonomy back to Cmd.*/Help_*; holdout_honest.csv changed content at an unchanged 1,470 rows, which is why the drift was invisible.",
+        "b6c2e83 moved the pack to language_packs/en/ and carried this manifest to extras/ without regenerating it."
+      ],
+      "superseded": {
+        "sha256": {
+          "train.csv": "eed41449b7f2d14f013f94562af4e80f010d06d6fea3c083b7547cdbfa25c246",
+          "holdout_honest.csv": "c1e3ee7067ce89c5f49330703ff1c1ccc01d666b291172e78cdf0794d61026a1"
+        },
+        "rows": {
+          "train": 8353,
+          "holdout": 1470
+        }
+      }
     }
   ]
 }

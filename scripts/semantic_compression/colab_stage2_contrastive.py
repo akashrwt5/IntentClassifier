@@ -202,10 +202,20 @@ class NoDuplicatesBatchSampler(Sampler):
         return self.expected_batches
 
 
-def run_sanity_eval(model_path):
-    print("\nEvaluating Intent Accuracy (Sanity Check Only)...")
-    print("NOTE: This is a lightweight evaluation to check for catastrophic failure.")
-    print("Production evaluation should happen via the local downstream pipeline.")
+def run_memorisation_check(model_path):
+    """Catastrophic-failure detector. NOT an evaluation.
+
+    Renamed from run_sanity_eval. Worse here than in Stage 1: this stage trains the
+    ENCODER on all of train.csv with MNRL and then scores a random split of that
+    same file, so the test rows were seen by both the encoder and the head. The
+    result is a lower bound on memorisation, not an estimate of anything.
+    """
+    print("\n=== MEMORISATION CHECK (not an accuracy result) ===")
+    print("A random 85/15 split of train.csv. 44.7% of this corpus is near-duplicated")
+    print("within itself, so paraphrases of the same utterance land on both sides of")
+    print("the split. The number below says the encoder can retrieve what it was shown;")
+    print("it says nothing about generalisation and MUST NOT be quoted as accuracy.")
+    print("The generalisation figure comes from dev_hard.csv, scored locally.")
     student = SentenceTransformer(model_path)
 
     df = pd.read_csv(TRAIN_CSV_PATH)
@@ -226,9 +236,11 @@ def run_sanity_eval(model_path):
     acc = accuracy_score(y_te, y_pred)
     f1 = f1_score(y_te, y_pred, average="macro", zero_division=0)
 
-    print(f"── Stage 2 Evaluation ──")
-    print(f"  Overall accuracy: {acc:.3f}")
-    print(f"  Macro-F1 score:   {f1:.3f}")
+    print("── Memorisation check (NOT accuracy) ──")
+    print(f"  retrieval on seen-paraphrase split: {acc:.3f}")
+    print(f"  macro-F1 on the same split:         {f1:.3f}")
+    print("  the encoder trained on these rows. Treat <0.85 as a failed run,")
+    print("  and treat anything above it as no information at all.")
 
 
 
@@ -329,7 +341,7 @@ def main():
 
     print("\n✅ Stage 2 Training Complete!")
     write_provenance(provenance, OUTPUT_MODEL_DIR)
-    run_sanity_eval(OUTPUT_MODEL_DIR)
+    run_memorisation_check(OUTPUT_MODEL_DIR)
 
     print("Zipping the final output for you to download...")
     shutil.make_archive(OUTPUT_MODEL_DIR, "zip", OUTPUT_MODEL_DIR)

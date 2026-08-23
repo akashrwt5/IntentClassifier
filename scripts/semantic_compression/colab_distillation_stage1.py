@@ -281,9 +281,22 @@ def run_distillation(teacher, student, corpus):
     print("✅ Distillation Complete!")
 
 
-def run_head_retraining_and_eval(student_path):
-    """Re-fits LogReg head using the exact production strategy and evaluates."""
-    print("\nEvaluating Intent Accuracy (Head Retraining)...")
+def run_memorisation_check(student_path):
+    """Re-fit a LogReg head on a random split of train.csv -- a memorisation check.
+
+    Renamed from run_head_retraining_and_eval. The old name invited its output to
+    be read as downstream accuracy, and it was: figures from this function reached
+    the plan of record as quality claims. A random split of a corpus that is 44.7%
+    near-duplicate within itself puts paraphrases of the same sentence on both
+    sides, so a high score here is the expected result for any encoder that has not
+    catastrophically failed. Its only legitimate use is detecting that failure.
+    """
+    print("\n=== MEMORISATION CHECK (not an accuracy result) ===")
+    print("A random 85/15 split of train.csv. 44.7% of this corpus is near-duplicated")
+    print("within itself, so paraphrases of the same utterance land on both sides of")
+    print("the split. The number below says the encoder can retrieve what it was shown;")
+    print("it says nothing about generalisation and MUST NOT be quoted as accuracy.")
+    print("The generalisation figure comes from dev_hard.csv, scored locally.")
     student = SentenceTransformer(student_path)
 
     if not os.path.exists(TRAIN_CSV_PATH):
@@ -308,9 +321,10 @@ def run_head_retraining_and_eval(student_path):
     acc = accuracy_score(y_te, y_pred)
     f1 = f1_score(y_te, y_pred, average="macro", zero_division=0)
 
-    print(f"── Student Downstream Evaluation ──")
-    print(f"  Overall accuracy: {acc:.3f}")
-    print(f"  Macro-F1 score:   {f1:.3f}")
+    print("── Memorisation check (NOT accuracy) ──")
+    print(f"  retrieval on seen-paraphrase split: {acc:.3f}")
+    print(f"  macro-F1 on the same split:         {f1:.3f}")
+    print("  interpretation: >0.90 means the encoder trained; nothing more.")
 
 
 def prepare_for_vocab_pruning(student_path):
@@ -364,7 +378,7 @@ def main():
 
     write_provenance(provenance, OUTPUT_DIR)
 
-    run_head_retraining_and_eval(OUTPUT_DIR)
+    run_memorisation_check(OUTPUT_DIR)
 
     prepare_for_vocab_pruning(OUTPUT_DIR)
 

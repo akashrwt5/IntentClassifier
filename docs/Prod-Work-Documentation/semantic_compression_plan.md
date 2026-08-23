@@ -16,6 +16,8 @@ Every number below was measured against the artifacts in this repository on 2026
 - **Rev 2** — single-lineage commitment; training-set provenance finding; calibrated confidence statement.
 - **Rev 3** — frozen teacher baseline (P1.5), Pareto reframing, artifact-contract CI, Tier-2 report card, clarification success metrics, consolidated release gate, governing principle.
 - **Rev 4** — hypothesis/measurement separation: P0 reframed as a reproducibility gate; retention floor deferred until the teacher is measured; predicted improvement magnitudes replaced with pre-registered minimum meaningful effects; Tier-2 sealing clarified as per-candidate.
+- **Rev 5.3** — P1 pre-flight. Three findings from re-measuring the instruments against the files as they stand today: **B9 is larger than recorded** (the manifest is stale on *both* files it pins, not one — the holdout's labels were rewritten by `af4a88b` at an unchanged row count); **the 44% near-duplicate figure had no committed script** and re-measures at 657/1,470 rather than 647; and **`holdout_honest.csv` is derived from `train.csv`** by `scripts/ci/build_honest_holdout.py` and is frozen by design (§4). P1 gains a `dev_hard` freeze policy and a near-duplicate CI guard, which turn the Super Dataset landing from a rebuild into a filter. No phase added, no gate moved.
+- **Rev 5.2** — **B13** added to the register: the out-of-directory benchmark script bypasses the label-compatibility boundary, which is why one row reads 0.00%. Verified pre-existing — `label_compat.py` and the migration map are byte-identical on `feature/removeing_confirmation_code_APIVersion`, and `scripts/evaluate_models.py` does not exist on that branch at all. No phase, gate or number changed.
 - **Rev 5.1** — P0 executed. Gate fingerprint corrected from 0.862 to **0.8578** and the two instruments named (the earlier figure came from a re-fitted head, not the shipped one). B10, B11 and B12 added to the register, all found during implementation.
 - **Rev 5 (final)** — **training file settled by owner decision** (§2), which unblocks P0/P1. **Statistical power analysis added** (§10): the Rev-4 minimum meaningful effects were set below the noise floor of the planned instruments, so they are re-set to what the instruments can actually resolve, and decisions move to a paired test. **Two numerical corrections** (§2, §3), listed in §14. No phases added, no experiments added, no change to the P0–P8 sequence or to the teacher/student, evaluation, artifact, graph or safety architecture.
 
@@ -237,9 +239,51 @@ Zero-shot for rows 1 and 8 come from `unseen_predictions.md`; every other cell w
 | Overlap with `language_packs/en/train.csv` | Rows | Share |
 |---|---:|---:|
 | Exact text match | 0 / 1,470 | 0.0% |
-| Near-duplicate (token Jaccard ≥ 0.8) | 647 / 1,470 | **44.0%** |
+| Near-duplicate (token Jaccard ≥ 0.8) | 657 / 1,470 | **44.7%** |
+
+> Re-measured 2026-08-22 against the current files using the repository's own
+> `nlu_training.leakage.normalize_text`. Rev 2–4 recorded 647 / 44.0%; that
+> figure came from an ad-hoc measurement with **no committed script**, so the
+> 10-row difference cannot be attributed to `train.csv`'s +77-row drift rather
+> than to a difference in tokenisation — the earlier method is unrecoverable.
+> This is itself the finding: a number that steers the plan had no reproducible
+> source. P1 replaces both figures with whatever the committed split script
+> emits, and that becomes the number of record.
 
 Near-duplicate means shared words, and shared words is what TF-IDF *is*. The instrument rewards memorisation and penalises the generalisation the megabytes are being spent on.
+
+### The honest holdout is derived from `train.csv`, and frozen on purpose
+
+`holdout_honest.csv` is not an independently authored set. It is a 15%
+stratified partition of `train.csv`, produced by `scripts/ci/build_honest_holdout.py`,
+grouped by normalised text so that repeated sentences cannot straddle the split.
+That script refuses to run a second time:
+
+> `FAIL: holdout_honest.csv already exists. The holdout is FROZEN once built —`
+> `re-splitting silently changes every number measured against it.`
+
+Two consequences the plan did not previously state:
+
+1. **The instrument moves when the training data moves.** Near-duplication is a
+   relation between holdout and train, not a property of a row. Adding rows to
+   `train.csv` can turn a `dev_hard` row into a near-duplicate without touching
+   `dev_hard` — it stops being hard while still looking unchanged.
+2. **The repository has already decided not to rebuild it**, and that decision is
+   correct. A rebuilt ruler makes P2's numbers incomparable with P3's, which
+   forfeits the entire point of running the phases in sequence.
+
+So the Super Dataset must enter **training only**. The instrument that judges it
+on fresh ground is the sealed Tier-2 holdout (P1), built outside the generator's
+prompt lineage — not a re-split of this file.
+
+### The taxonomy itself is mixed, and that is not a defect to fix here
+
+`train.csv`'s 57 labels are legacy `Cmd.*` / `Help_*` **plus two modern-style names**,
+`reminders.add` (707 rows) and `reminders.complete` (67). Every English evaluation set
+carries the same pair, so nothing is mis-scored — the inconsistency is cosmetic today.
+It is recorded here because it is the seam B13 falls through, and because
+**`reminders.add` is a stop-and-ask item under the standing data policy**. This plan
+does not touch it.
 
 ### The zero-shot set is honest but tiny
 
@@ -247,7 +291,15 @@ Near-duplicate means shared words, and shared words is what TF-IDF *is*. The ins
 
 ### Both Colab scripts evaluate on data the model trained on
 
-`run_head_retraining_and_eval` and `run_sanity_eval` both do a random 85/15 split of `train.csv` — permutation-heavy, so near-duplicates land on both sides. Stage 2 is worse: it trains the *encoder* on all of `train.csv` with MNRL, then evaluates on a split of that same file.
+Both Colab scripts did a random 85/15 split of `train.csv` — permutation-heavy, so
+near-duplicates land on both sides. Stage 2 is worse: it trains the *encoder* on all of
+`train.csv` with MNRL, then evaluates on a split of that same file.
+
+**Closed in P1.** Both functions are now `run_memorisation_check`, and their output says
+what it is: `retrieval on seen-paraphrase split`, with a printed instruction not to quote
+it as accuracy. The functions were not deleted — they are the only cheap in-Colab signal
+that a training run failed outright — but the name and the output no longer invite the
+reading that put their numbers into earlier revisions of this plan as quality claims.
 
 ### Root cause of the missing numbers
 
@@ -268,10 +320,13 @@ Near-duplicate means shared words, and shared words is what TF-IDF *is*. The ins
 | **B6** | Student initialised from the *first* three teacher layers | **live** | see §6 |
 | **B7** | `holdout_honest.csv` is 44% near-duplicate of `train.csv` | **live** | inflates every in-distribution number; inverts model ranking |
 | **B8** | Runtime reads temperature from the pruned-vocab iOS export; fr/de/da inherit English `T` | **live** | Review-F5 blocker |
-| **B9** | `holdout_honest.manifest.json` hashes stale; `train.csv` drifted +77 rows since the freeze | **live** | the drift guard is not guarding |
+| **B9** | `holdout_honest.manifest.json` (now in `language_packs/en/extras/`) is stale on **both** files it pins, not one, from **two** independent drifts | **live** | Frozen at `cc46010` with `train: 8,353 / holdout: 1,470`. Since then: (1) `ce0d469` added **77 training rows**; (2) `af4a88b` rewrote **every label in both files** from the modern taxonomy back to `Cmd.*`/`Help_*` — 1,470 holdout lines changed at an unchanged row count, which is why nobody saw it. The pack refactor `b6c2e83` then moved the manifest without regenerating it. The drift guard is not guarding |
 | **B10** | `build_pruned_l3.py` rewrote `vocab.txt` but not `tokenizer.json`, so vocabulary pruning silently never happened | **script fixed; artifact still broken** | `track1_pruned_l3` carries a 30,522-entry tokenizer against a 10,000-row matrix. Origin of the id clamp, and the reason B1 stayed hidden |
 | **B11** | `interactive_test.py` read `backend.model_path`, an attribute the backend class does not define | **fixed in P0** | that script raised `AttributeError` on every run |
 | **B12** | The classifier head was written one level above the model, so two exports shared the path and overwrote each other | **fixed in P0** | evaluation read the correct head only by accident of dict ordering |
+| **B13** | `scripts/evaluate_models.py` instantiates `SemanticFallback` directly, so it never reaches `label_compat.apply()` — the single call site, `engine.py:703` — and a modern-taxonomy prediction is compared against a legacy-labelled benchmark CSV | **open — benchmark only, not shipping** | that row reports **0.00%** for an encoder that is not broken. The shipping path goes through the engine and maps correctly. Pre-existing; predates P0 and is untouched by it |
+| **B14** | `datasets/semantic_benchmark_250.csv` — the only set `scripts/evaluate_models.py` scores on — is **85.5% exact-leaked** into `train.csv` and covers **10 of 57 intents** | **open — found in P1** | Accuracy printed by that script is a memorisation score over a sixth of the taxonomy. It cannot rank two encoders, which is the one thing it is used for. Measured by `inventory_instruments.py` |
+| **B15** | `extras/semantic_holdout_2.csv` carries two malformed labels, `Cmd.SendMessage - yes` and `Cmd.SendMessage - no`, absent from the taxonomy | **open — found in P1** | 15 of 341 rows are unscoreable: every model is wrong on them by construction, so the set's ceiling is 95.6%, not 100% |
 
 ---
 
@@ -487,14 +542,21 @@ Ten phases with explicit gates. **P0 and P1 need no GPU and no API spend, and ar
 ### P1 — Fix the rulers before measuring anything else
 *2–3 days · no GPU · highest-value phase in the plan*
 
-- **Inventory the instruments that already exist** — `holdout_honest.csv`, `holdout_leakage_guard.csv` (331 rows), `holdout_paraphrase.csv` (100 rows), `datasets/semantic_holdout_2.csv` — and give each a one-line charter.
-- Split the honest holdout: 647 near-duplicate rows → `dev_near.csv` (regression detection only), 823 clean rows → **`dev_hard.csv`, the primary decision instrument** (§10 explains why the split matters for statistical power).
-- **Re-freeze `holdout_honest.manifest.json`** with current hashes and row counts, and add a CI check that fails on drift (B9).
+- **Inventory the instruments that already exist** and give each a charter. **Done** — `inventory_instruments.py` measures all nine English sets and emits `INSTRUMENTS.md`; no number in that file is typed by hand. It surfaced B14 and B15, and it found that **two broad, clean, mutually independent sets already exist** — `holdout_leakage_guard.csv` (331 rows, 57 intents, 5.1% near-dup) and `extras/semantic_holdout_2.csv` (341 rows, 5.0%) — which the plan had been treating as an afterthought. They are the cross-check whenever a `dev_hard` result lands near its MDE.
+- Split the honest holdout — as of 2026-08-22, ≈657 near-duplicate rows → `dev_near.csv` (regression detection only) and ≈813 clean rows → **`dev_hard.csv`, the primary decision instrument** (§10 explains why the split matters for statistical power). **Ship the split as a seeded script, not as two committed CSVs**: the near-duplicate relation is a function of `train.csv`, so a hand-frozen file silently stops meaning what it says the moment training data moves.
+- **Freeze `dev_hard` for the whole of P2–P8.** It is the primary decision instrument; a ruler that changes mid-run makes every phase incomparable with the last. It is re-derived only when `train.csv` changes deliberately, and any such re-derivation is dated and justified in §14 under R7.
+- **Re-freeze `holdout_honest.manifest.json`** with current hashes and row counts, and add a CI check that fails on **two** conditions (B9):
+  1. a hash or row-count drift in `train.csv` or `holdout_honest.csv`;
+  2. **any `train.csv` row that is a near-duplicate of a `dev_hard` row.**
+  The second is what makes the Super Dataset landing survivable. Without it, 20k
+  generated rows quietly contaminate the decision instrument and the only visible
+  symptom is that everything appears to improve. With it, the guard names the
+  offending rows and the fix is to drop them from training — a filter, not a rebuild.
 - Expand the paraphrase set from 46 rows to **as many as authoring allows**, authored by a human or by a different model with a different prompt. §10 states what each size can resolve, so the authoring effort can be traded against decision power deliberately rather than by accident.
 - **Decide the MiniLM retirement** against the expanded set (§1).
 - Build the sealed **Tier-2 holdout**: 300–500 rows, outside the generator's prompt lineage, covering all eight high-risk categories. Seal it. **Specify its report card now** — see below.
 - Run `EXPERIMENT_generated_vs_real.md`. It is already written with pre-written decision rules; run it, do not rewrite it. *(Dependency: this couples the compression schedule to the Super Dataset schedule. If the Super Dataset has not landed, P1 completes without it and P3 blocks instead.)*
-- Delete the random-split "sanity eval" from both Colab scripts, or rename it `memorisation_check`.
+- Rename the random-split "sanity eval" in both Colab scripts. **Done** — see §4.
 
 #### The Tier-2 report card
 
@@ -667,12 +729,17 @@ Rev 4 pre-registered MMEs of +0.02 without checking whether any planned instrume
 
 For a paired comparison of two encoders scored on the **same** evaluation rows — McNemar's test on the discordant items, α = 0.05 two-sided, 80% power — the smallest difference that is reliably detectable is:
 
+> Every cell below is now computed by `instruments.minimum_detectable_effect()` and
+> asserted against this table by `test_instruments.py`, so the plan and the code
+> cannot drift apart. Three cells (300/0.15, 500/0.15, 500/0.25) were rounded down
+> by 0.001 in Rev 5 and are corrected here.
+
 | Evaluation rows | 10% discordant | 15% discordant | 25% discordant |
 |---:|---:|---:|---:|
 | 46 *(today's paraphrase set)* | ≈0.13 | ≈0.16 | ≈0.21 |
-| 300 | 0.051 | 0.062 | 0.081 |
-| 500 | 0.040 | 0.048 | 0.062 |
-| **823** *(`dev_hard` after the P1 split)* | **0.031** | **0.038** | **0.049** |
+| 300 | 0.051 | 0.063 | 0.081 |
+| 500 | 0.040 | 0.049 | 0.063 |
+| **≈813** *(`dev_hard` after the P1 split)* | **0.031** | **0.038** | **0.049** |
 | 1,000 | 0.028 | 0.034 | 0.044 |
 | 1,470 | 0.023 | 0.028 | 0.037 |
 | 3,000 | 0.016 | 0.020 | 0.026 |
@@ -680,7 +747,7 @@ For a paired comparison of two encoders scored on the **same** evaluation rows �
 Three consequences, all of which change how this plan decides things:
 
 1. **A +0.02 MME is undecidable on any instrument this project will realistically build.** Detecting it would need roughly 2,000–4,900 rows depending on how much the two models disagree. Authoring that many quality paraphrases is not a 2–3 day job, and writing an instrument into the plan that will not be built makes the plan dishonest.
-2. **`dev_hard` — 823 rows, free, produced by the P1 split — is the most powerful instrument available**, resolving ≈0.038 at typical discordance. It becomes the **primary decision instrument**.
+2. **`dev_hard` — ≈813 rows, free, produced by the P1 split — is the most powerful instrument available**, resolving ≈0.038 at typical discordance. (823 → 813 does not move the detectable effect at this precision; the row is relabelled for accuracy, not because the conclusion changed.) It becomes the **primary decision instrument**.
 3. **The 46-row paraphrase set resolves nothing below ≈0.16.** It cannot settle the bge-vs-MiniLM question (§1, a 0.065 difference) and it was never entitled to. That is why the MiniLM retirement is a P1 decision made against the expanded set, and why the paraphrase set is **directional evidence, not a gate**, until it is large enough to be one.
 
 ### The decision rule
@@ -727,7 +794,7 @@ This is not a guarantee of a good model. Confidence is not uniform, and defects 
 
 | Claim | Confidence | Basis |
 |---|---|---|
-| The defect register (B0–B9) describes real defects | **very high** | Each reproduced or read directly from code and artifacts |
+| The defect register (B0–B13) describes real defects | **very high** | Each reproduced or read directly from code and artifacts |
 | The size arithmetic in §7 | **very high** | Parameter counting; 9.36 MB predicted vs 9.53 MB measured on disk |
 | **The current resampling strategy is a data-quality defect** | **very high** | 8,430 unique sentences drawn ~47 times each is not 400k unique training examples. Not in dispute |
 | **Removing resampling will materially improve this task** | **medium** | Strongly motivated in direction. The magnitude of its downstream impact — on paraphrase accuracy, semantic generalisation, teacher retention, real-speech robustness and high-risk confusion — is unmeasured. Experiment 1 exists to measure exactly that |
@@ -803,6 +870,18 @@ Three external reviews have been incorporated. The first contributed seven chang
 ---
 
 ## 14. Risks, decisions, corrections, reproduction
+
+### Corrections made in Rev 5.3
+
+| Where | Was | Is | Effect |
+|---|---|---|---|
+| §4, near-duplicate share | "647 / 1,470 · 44.0%" | **657 / 1,470 · 44.7%**, re-measured with the repo's own normaliser | `dev_hard` is ≈813 rows, not 823. The detectable effect is unchanged at 0.038 |
+| §5, B9 | "hashes stale; `train.csv` drifted +77 rows" | **both** pinned files mismatch; `holdout_honest.csv` was relabelled by `af4a88b` at an unchanged 1,470 rows | The holdout that every number in this plan was measured on is not the holdout the manifest describes |
+
+Neither correction changes a conclusion. Both change what the plan is entitled to
+claim it verified, which is the point of recording them. The deeper finding is that
+the 647 figure was unreproducible — P1 exists so that no instrument number in this
+plan is ever again a value without a script behind it.
 
 ### Corrections made in Rev 5
 
