@@ -118,4 +118,4 @@ P1 without re-running P1.
 | `18e34d8` | P0 — the artifact contract, its tests, the backfill, the gitignore, and the eight scripts moved onto it |
 | `3f6a7b7` | P0 — the one consumer outside the directory, and the retired script |
 | `f0666fc` | P1 — the instrument contract, the split, the guards, the inventory |
-| *(pending)* | P1 — the baseline: `score_instruments.py`, `BASELINE.md`, `baseline_predictions.csv` |
+| `46d7d79` | P1 — the baseline: `score_instruments.py`, `BASELINE.md`, `baseline_predictions.csv`, and this register |
