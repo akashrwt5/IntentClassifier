@@ -16,6 +16,7 @@ Every number below was measured against the artifacts in this repository on 2026
 - **Rev 2** — single-lineage commitment; training-set provenance finding; calibrated confidence statement.
 - **Rev 3** — frozen teacher baseline (P1.5), Pareto reframing, artifact-contract CI, Tier-2 report card, clarification success metrics, consolidated release gate, governing principle.
 - **Rev 4** — hypothesis/measurement separation: P0 reframed as a reproducibility gate; retention floor deferred until the teacher is measured; predicted improvement magnitudes replaced with pre-registered minimum meaningful effects; Tier-2 sealing clarified as per-candidate.
+- **Rev 5.4** — **P1 baseline measured.** `dev_hard` = **0.8327**; the memorisation premium in the old 0.8578 figure is **+0.056 (±0.035)**. Two independent cross-checks do not contradict it. Per-row predictions recorded so P2 can be compared by McNemar rather than by two accuracy numbers. **B15 corrected** — 10 unscoreable rows, not 15; ceiling 97.07%, not 95.6% (the Rev 5.3 figure conflated the malformed labels with the `reminders.*` row count).
 - **Rev 5.3** — P1 pre-flight. Three findings from re-measuring the instruments against the files as they stand today: **B9 is larger than recorded** (the manifest is stale on *both* files it pins, not one — the holdout's labels were rewritten by `af4a88b` at an unchanged row count); **the 44% near-duplicate figure had no committed script** and re-measures at 657/1,470 rather than 647; and **`holdout_honest.csv` is derived from `train.csv`** by `scripts/ci/build_honest_holdout.py` and is frozen by design (§4). P1 gains a `dev_hard` freeze policy and a near-duplicate CI guard, which turn the Super Dataset landing from a rebuild into a filter. No phase added, no gate moved.
 - **Rev 5.2** — **B13** added to the register: the out-of-directory benchmark script bypasses the label-compatibility boundary, which is why one row reads 0.00%. Verified pre-existing — `label_compat.py` and the migration map are byte-identical on `feature/removeing_confirmation_code_APIVersion`, and `scripts/evaluate_models.py` does not exist on that branch at all. No phase, gate or number changed.
 - **Rev 5.1** — P0 executed. Gate fingerprint corrected from 0.862 to **0.8578** and the two instruments named (the earlier figure came from a re-fitted head, not the shipped one). B10, B11 and B12 added to the register, all found during implementation.
@@ -326,7 +327,7 @@ reading that put their numbers into earlier revisions of this plan as quality cl
 | **B12** | The classifier head was written one level above the model, so two exports shared the path and overwrote each other | **fixed in P0** | evaluation read the correct head only by accident of dict ordering |
 | **B13** | `scripts/evaluate_models.py` instantiates `SemanticFallback` directly, so it never reaches `label_compat.apply()` — the single call site, `engine.py:703` — and a modern-taxonomy prediction is compared against a legacy-labelled benchmark CSV | **open — benchmark only, not shipping** | that row reports **0.00%** for an encoder that is not broken. The shipping path goes through the engine and maps correctly. Pre-existing; predates P0 and is untouched by it |
 | **B14** | `datasets/semantic_benchmark_250.csv` — the only set `scripts/evaluate_models.py` scores on — is **85.5% exact-leaked** into `train.csv` and covers **10 of 57 intents** | **open — found in P1** | Accuracy printed by that script is a memorisation score over a sixth of the taxonomy. It cannot rank two encoders, which is the one thing it is used for. Measured by `inventory_instruments.py` |
-| **B15** | `extras/semantic_holdout_2.csv` carries two malformed labels, `Cmd.SendMessage - yes` and `Cmd.SendMessage - no`, absent from the taxonomy | **open — found in P1** | 15 of 341 rows are unscoreable: every model is wrong on them by construction, so the set's ceiling is 95.6%, not 100% |
+| **B15** | `extras/semantic_holdout_2.csv` carries two malformed labels, `Cmd.SendMessage - yes` and `Cmd.SendMessage - no`, absent from the taxonomy | **open — found in P1** | **10** of 341 rows are unscoreable (5 each): every model is wrong on them by construction, so the set's ceiling is **97.07%**, not 100%. `score_instruments.py` excludes them and reports the count rather than scoring them as errors |
 
 ---
 
@@ -575,7 +576,53 @@ Aggregate accuracy is not a ship signal for a hearing-aid assistant. Tier 2 repo
 - *Help → action* (ND-14, `known-issues.md`): a user asking **how** a feature works and getting the feature **started**. Fires at 0.87–0.999 confidence, so the uncertainty gate does not catch it — asking how transcription works should not begin recording the wearer. Use the 11 action→help pairs already encoded in `nlu_schema.json`'s `help_marker_guard`; do not invent a parallel list.
 - *Command vs observation*: the `Default Fallback Intent` boundary, which is what FAR actually measures.
 
-> **Gate:** every instrument named, charted, hashed and CI-guarded; the Tier-2 report card specified; the MiniLM decision made; **the minimum detectable effect of each instrument recorded (§10)**. Re-score the student against the new instruments and commit the table — that becomes the baseline every later phase is judged against.
+#### The baseline, measured
+
+`score_instruments.py` scores the shipped 9 MB encoder and its shipped head — not a
+re-fitted one — on every instrument. Generated into `BASELINE.md`; reproduced here
+because it is the number every later phase is compared against.
+
+| Instrument | Gate? | Scored | Accuracy | Macro-F1 | MDE |
+|---|:-:|---:|---:|---:|---:|
+| **`dev_hard`** | **yes** | 813 | **0.8327** | 0.8689 | 0.038 |
+| `dev_near` | no | 657 | 0.8889 | 0.8860 | 0.042 |
+| `holdout_honest` | no | 1,470 | 0.8578 | 0.8782 | 0.028 |
+| `leakage_guard` | yes | 331 | 0.8671 | 0.8866 | 0.060 |
+| `semantic_holdout_2` | yes | 331 *(10 unscoreable, B15)* | 0.8610 | 0.8783 | 0.060 |
+| `paraphrase` | no | 100 *(10 intents)* | 0.7500 | 0.7941 | 0.109 |
+| `benchmark_250` | no | 249 *(10 intents, B14)* | 0.8273 | 0.8707 | 0.069 |
+
+**`dev_near` − `dev_hard` = +0.0562 (95% CI ±0.0352, 3.1 SE).** Disjoint sets, so this is
+a two-proportion comparison, not McNemar. That gap is the memorisation premium, and it is
+real: roughly **5.6 accuracy points** of the familiar 0.8578 came from rows the model had
+effectively already seen.
+
+`holdout_honest` sits between the two at 0.8578, which is exactly the 44.7% / 55.3% blend
+of them (0.8889 × 0.447 + 0.8327 × 0.553 = 0.8578). **That figure was never wrong — it was
+answering a different question than the one being asked of it.** It is retained for
+continuity and retired as a decision instrument.
+
+Three further readings:
+
+1. **The two independent cross-checks agree with `dev_hard` and sit slightly above it**
+   (0.8671 and 0.8610 against 0.8327). Both differences are inside their own MDE of 0.060,
+   so the honest statement is that they do not contradict `dev_hard`. `dev_hard` is used
+   because it is the largest and the only one with zero near-duplication, not because it is
+   the harshest.
+2. **`paraphrase` at 0.7500 is the weakest result in the table, and it is the one closest to
+   what the product actually faces.** It is 100 rows across 10 intents, MDE 0.109 — directional
+   only. It is also where the model invented 10 intents the set does not contain, which is a
+   false-accept signal rather than a recall failure.
+3. **`benchmark_250` scores 0.8273 despite being 85.5% leaked** — *below* `dev_hard`. A set
+   that overlaps training data that heavily should score at or above everything else. It does
+   not, because it is 10 intents wide and 25 of its rows are `reminders.add`. B14 stands: it
+   cannot rank encoders.
+
+`baseline_predictions.csv` records which rows were right, not just how many. McNemar's test
+compares the identity of the discordant items, and that cannot be recovered from two accuracy
+figures — so P2 can be compared with P1 without re-running P1.
+
+> **Gate:** every instrument named, charted, hashed and CI-guarded; the Tier-2 report card specified; the MiniLM decision made; **the minimum detectable effect of each instrument recorded (§10)**. Re-score the student against the new instruments and commit the table — that becomes the baseline every later phase is judged against. **Baseline done (above); Tier-2, the paraphrase expansion and the MiniLM decision remain.**
 
 ### P1.5 — Freeze a real teacher baseline
 *~2 hours · CPU or Colab · the number every later gate is measured against*
@@ -870,6 +917,20 @@ Three external reviews have been incorporated. The first contributed seven chang
 ---
 
 ## 14. Risks, decisions, corrections, reproduction
+
+### Corrections made in Rev 5.4
+
+| Where | Was | Is | Effect |
+|---|---|---|---|
+| §5, B15 | "15 of 341 rows... ceiling 95.6%" | **10 of 341** rows (5 per malformed label); ceiling **97.07%** | The Rev 5.3 figure counted the `reminders.*` rows (15) instead of the malformed-label rows (10). Measured by `score_instruments.py`, which excludes them by name |
+
+One methodological choice, recorded because it changes a published number: macro-F1 is
+averaged over the intents present in each instrument's **gold** labels, not over the union
+with whatever the head predicted. sklearn's `average="macro"` uses the union, which is
+correct for a full-taxonomy instrument and badly misleading for a narrow one — under it,
+`holdout_paraphrase` scores 0.397 against an accuracy of 0.750, a gap that reads as a
+broken model and is really an instrument narrower than the head. Invented classes are
+reported as a separate count instead.
 
 ### Corrections made in Rev 5.3
 

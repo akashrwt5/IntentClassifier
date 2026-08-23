@@ -156,8 +156,12 @@ instruments.py                    the instrument contract: normalise, near-dupli
 split_dev_sets.py                 derive dev_near / dev_hard from the honest holdout
 check_instruments.py              CI guard: fails if a ruler moved under a measurement
 inventory_instruments.py          measure every English eval set -> INSTRUMENTS.md
+score_instruments.py              score the shipped encoder on all of them -> BASELINE.md
 test_instruments.py               guards for the above, incl. vendored-normaliser parity
 INSTRUMENTS.md                    generated: what each eval set may and may not be asked
+BASELINE.md                       generated: the P1 baseline every later phase is judged on
+baseline_predictions.csv          generated: per-row right/wrong, so P2 can run McNemar
+FILE_REGISTER.md                  every file P0 and P1 touched, and the defect behind it
 
 colab_distillation_stage1.py      Stage 1 -- distil the teacher into a shallow student
 colab_stage2_contrastive.py       Stage 2 -- contrastive adaptation on the intent taxonomy
