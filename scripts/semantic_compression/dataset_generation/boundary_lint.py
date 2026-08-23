@@ -52,6 +52,7 @@ import json
 import re
 import sys
 from collections import Counter, defaultdict
+from math import comb
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -61,10 +62,23 @@ CHECKPOINTS = HERE / ".checkpoints" / "stage1"
 DEPLOYED = HERE.parents[2] / "language_packs" / "en" / "train.csv"
 # ------------------------------------------------------------------------
 
-# A rate alone must not fail an intent: on a 23-row smoke batch one row is 4.3%, so a
-# five-point tolerance turns the difference between one flag and two into the difference
-# between pass and fail. That is noise deciding a gate. An intent fails only when the
-# rate exceeds tolerance AND at least this many rows are flagged.
+# A rate alone must not fail an intent. On a 25-row batch one row is 4%, so a fixed
+# five-point tolerance sits BELOW the sampling noise it is supposed to sit above --
+# and it failed two intents on a pilot where an exact test cleared one of them:
+#
+#   Cmd.BatteryLevel    8 flags, 5.0 expected from deployed    p = 0.109   noise
+#   Cmd.ActivityStand   7 flags, 3.3 expected                  p = 0.037   real
+#
+# This is the same mistake the compression plan records making at Rev 4, thresholds
+# set below what the instrument can resolve, made again in a different tool. The gate
+# is now a one-sided exact binomial test: how likely is this many flags, or more, if
+# the generator matched deployed speech exactly? Exact rather than normal because at
+# n=25 the approximation is worse than the thing it approximates.
+ALPHA = 0.05
+
+# Below this many flags nothing is decided regardless of the p-value: two rows out of
+# twenty-five can reach significance against a very low baseline, and that is a batch
+# size artefact, not a finding.
 MIN_FLAGS_TO_FAIL = 3
 
 HELP_VERB = r"(help|explain|tell me|show me|teach|walk me|guide me)"
@@ -125,6 +139,13 @@ def surface_form(text: str) -> tuple[str, str]:
         if re.search(pat, t):
             return "help-shaped", name
     return "neutral", "-"
+
+
+def p_at_least(flags: int, rows: int, rate: float) -> float:
+    """P(flags or more) under the deployed rate. One-sided exact binomial."""
+    if rows <= 0 or not 0.0 < rate < 1.0:
+        return 1.0
+    return sum(comb(rows, i) * rate**i * (1.0 - rate) ** (rows - i) for i in range(flags, rows + 1))
 
 
 def family(intent: str) -> str:
@@ -190,12 +211,16 @@ def report(base, gen, tolerance: float) -> tuple[str, int]:
         "A generated rate at or below deployed is the pass condition; the target is",
         "never zero, because an explain-request is properly Help however it opens.",
         "",
-        f"Tolerance: generated may exceed deployed by up to {tolerance:.0%} of the intent's rows,",
+        "An intent fails when a one-sided exact binomial test puts this many flags or more",
+        f"below {ALPHA:.0%} -- that is, they would rarely happen by chance if the generator",
+        f"matched deployed speech -- and at least {MIN_FLAGS_TO_FAIL} rows are flagged. A fixed",
+        "percentage tolerance was tried first and sat BELOW the sampling noise: on 25 rows one",
+        "row is 4 points, so it failed intents an exact test clears.",
         f"and an intent fails only when at least {MIN_FLAGS_TO_FAIL} rows are flagged -- on a",
         "small batch one row is several points, and noise should not decide a gate.",
         "",
-        "| Intent | Gen rows | Gen flagged | Deployed | Verdict | Main cause |",
-        "|---|---:|---:|---:|:-:|---|",
+        "| Intent | Rows | Flagged | Deployed | Expected | p | Verdict | Cause |",
+        "|---|---:|---:|---:|---:|---:|:-:|---|",
     ]
     failures = 0
     review: list[str] = []
@@ -212,18 +237,22 @@ def report(base, gen, tolerance: float) -> tuple[str, int]:
         # correctly generated row looked like a violation of a rule that does not
         # apply to it. Report and hand to a human; do not pretend to judge.
         uncalibrated = not b["n"]
-        bad = not uncalibrated and g_rate > b_rate + tolerance and g["flags"] >= MIN_FLAGS_TO_FAIL
+        pvalue = 1.0 if uncalibrated else p_at_least(g["flags"], g["n"], b_rate)
+        bad = not uncalibrated and pvalue < ALPHA and g["flags"] >= MIN_FLAGS_TO_FAIL
         failures += bad
         if uncalibrated and g["flags"]:
             review.append(intent)
+        expected_txt = "—" if uncalibrated else f"{b_rate * g['n']:.1f}"
+        p_txt = "—" if uncalibrated else f"{pvalue:.3f}"
         cause = ", ".join(f"{k} {v}" for k, v in g["why"].most_common(2)) or "-"
         base_txt = f"{b_rate:.1%}" if b["n"] else "no baseline"
         lines.append(
             f"| `{intent}` | {g['n']} | {g['flags']} ({g_rate:.1%}) | {base_txt} | "
+            f"{expected_txt} | {p_txt} | "
             f"{'**FAIL**' if bad else ('*review*' if uncalibrated and g['flags'] else 'ok')} "
             f"| {cause} |"
         )
-    lines += ["", f"**{failures} intent(s) above tolerance.**", ""]
+    lines += ["", f"**{failures} intent(s) failed.**", ""]
     if review:
         lines += [
             f"**{len(review)} intent(s) marked *review*:** "

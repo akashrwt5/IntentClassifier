@@ -143,11 +143,6 @@ class EncoderArtifact:
         return f"{line}\n  distilled from: {self.source}" if self.source else line
 
 
-def _read_json(path: Path) -> dict:
-    with open(path, "r", encoding="utf-8") as fh:
-        return json.load(fh)
-
-
 def _label(model_dir: Path) -> str:
     """A directory name that identifies the artifact in an error message.
 
@@ -159,6 +154,32 @@ def _label(model_dir: Path) -> str:
     if model_dir.name in ("onnx_quantized", "pytorch", "temp_pt"):
         return f"{model_dir.parent.name}/{model_dir.name}"
     return model_dir.name
+
+
+def _read_json(path: Path) -> dict:
+    """Read a JSON file, or say which part of the contract is missing.
+
+    A file the contract requires and cannot find is a contract violation, not an
+    I/O accident, and it has to arrive as one: a bare FileNotFoundError escapes
+    every ``except ArtifactContractError`` in this directory, so a half-present
+    artifact crashes a caller that was written to skip it. Found by running these
+    tests somewhere the exports are only partly on disk -- the case they will
+    meet in CI, and the one they had never been run in.
+    """
+    path = Path(path)
+    if not path.is_file():
+        raise ArtifactContractError(
+            f"{_label(path.parent)}: {path.name} is missing. An artifact is a model "
+            f"plus the files that describe it; without {path.name} nothing here can "
+            f"say what this encoder is."
+        )
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    except json.JSONDecodeError as exc:
+        raise ArtifactContractError(
+            f"{_label(path.parent)}: {path.name} is not valid JSON ({exc})."
+        ) from exc
 
 
 def resolve_tokenizer_dir(model_path: Path) -> Path:
@@ -334,9 +355,7 @@ def encode(artifact: EncoderArtifact, texts, max_length: int = 64) -> np.ndarray
 
         attention_mask = encoded["attention_mask"]
         token_type_ids = encoded.get("token_type_ids", np.zeros_like(input_ids))
-        token_embeddings = artifact.backend.embed_tokens(
-            input_ids, attention_mask, token_type_ids
-        )
+        token_embeddings = artifact.backend.embed_tokens(input_ids, attention_mask, token_type_ids)
 
         if artifact.pooling == "cls":
             vec = token_embeddings[0]

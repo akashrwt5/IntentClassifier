@@ -41,8 +41,9 @@ HERE = Path(__file__).resolve().parent
 # --------------------------------------------------------------------------
 # fixtures
 # --------------------------------------------------------------------------
-def make_artifact_dir(root: Path, vocab_size: int, tok_vocab: int, vocab_txt_lines=None,
-                      pooling: str | None = "cls") -> Path:
+def make_artifact_dir(
+    root: Path, vocab_size: int, tok_vocab: int, vocab_txt_lines=None, pooling: str | None = "cls"
+) -> Path:
     """A directory shaped like a real export, with the three facts controllable."""
     d = root / "fake_export"
     d.mkdir(parents=True, exist_ok=True)
@@ -58,9 +59,7 @@ def make_artifact_dir(root: Path, vocab_size: int, tok_vocab: int, vocab_txt_lin
             "\n".join(f"t{i}" for i in range(vocab_txt_lines)) + "\n", encoding="utf-8"
         )
     if pooling is not None:
-        (d / "pooling.json").write_text(
-            json.dumps({"pooling_mode": pooling}), encoding="utf-8"
-        )
+        (d / "pooling.json").write_text(json.dumps({"pooling_mode": pooling}), encoding="utf-8")
     (d / "model_quantized.onnx").write_bytes(b"not a real graph")
     return d
 
@@ -90,8 +89,8 @@ class FakeBackend:
     def embed_tokens(self, input_ids, attention_mask, token_type_ids):
         seq = input_ids.shape[1]
         out = np.zeros((seq, 384), dtype=np.float32)
-        out[0, 0] = 1.0        # a distinctive CLS row
-        out[1:, 1] = 1.0       # distinct from every other row
+        out[0, 0] = 1.0  # a distinctive CLS row
+        out[1:, 1] = 1.0  # distinct from every other row
         return out
 
 
@@ -138,8 +137,7 @@ def test_missing_tokenizer_is_rejected_not_substituted():
 # --------------------------------------------------------------------------
 def test_tokenizer_larger_than_embedding_matrix_is_rejected():
     with tempfile.TemporaryDirectory() as tmp:
-        d = make_artifact_dir(Path(tmp), vocab_size=10000, tok_vocab=30522,
-                              vocab_txt_lines=30522)
+        d = make_artifact_dir(Path(tmp), vocab_size=10000, tok_vocab=30522, vocab_txt_lines=30522)
         try:
             check_vocab_contract(d)
         except ArtifactContractError as exc:
@@ -154,8 +152,7 @@ def test_tokenizer_larger_than_embedding_matrix_is_rejected():
 # --------------------------------------------------------------------------
 def test_stale_vocab_txt_is_rejected_even_when_tokenizer_json_is_correct():
     with tempfile.TemporaryDirectory() as tmp:
-        d = make_artifact_dir(Path(tmp), vocab_size=10000, tok_vocab=10000,
-                              vocab_txt_lines=30522)
+        d = make_artifact_dir(Path(tmp), vocab_size=10000, tok_vocab=10000, vocab_txt_lines=30522)
         try:
             check_vocab_contract(d)
         except ArtifactContractError as exc:
@@ -166,8 +163,7 @@ def test_stale_vocab_txt_is_rejected_even_when_tokenizer_json_is_correct():
 
 def test_consistent_artifact_passes():
     with tempfile.TemporaryDirectory() as tmp:
-        d = make_artifact_dir(Path(tmp), vocab_size=10000, tok_vocab=10000,
-                              vocab_txt_lines=10000)
+        d = make_artifact_dir(Path(tmp), vocab_size=10000, tok_vocab=10000, vocab_txt_lines=10000)
         vocab, hidden = check_vocab_contract(d)
         assert (vocab, hidden) == (10000, 384)
         assert read_declared_pooling(d) == "cls"
@@ -220,7 +216,7 @@ def test_mean_pooling_ignores_padding():
 # B4 -- the clamp turned a fatal mismatch into a silent 7% corruption
 # --------------------------------------------------------------------------
 def test_out_of_range_token_id_raises_instead_of_clamping():
-    tok = FakeTokenizer([101, 20101, 102])          # 20101 is a real observed id
+    tok = FakeTokenizer([101, 20101, 102])  # 20101 is a real observed id
     try:
         encode(fake_encoder(tok, vocab_size=10000), ["please mute my hearing aids"])
     except ArtifactContractError as exc:
@@ -288,8 +284,11 @@ def test_real_exports_satisfy_the_contract():
     """Skips when the artifacts are absent -- they are gitignored and regenerated."""
     out = HERE / "output_models"
     checked = 0
-    for name in ("final_distilled_onnx", "stage2_contrastive_onnx",
-                 "stage2_contrastive_bge_small_onnx"):
+    for name in (
+        "final_distilled_onnx",
+        "stage2_contrastive_onnx",
+        "stage2_contrastive_bge_small_onnx",
+    ):
         d = out / name
         if not (d / "model_quantized.onnx").exists():
             continue
@@ -298,6 +297,31 @@ def test_real_exports_satisfy_the_contract():
         checked += 1
     if checked == 0:
         print("      (skipped: no exports on disk)")
+
+
+def test_a_half_present_artifact_reports_a_contract_error_not_an_io_error():
+    """A missing config.json is a contract violation and must arrive as one.
+
+    Every caller here is written as `except ArtifactContractError: skip it`. A
+    bare FileNotFoundError walks straight through that and takes the caller down
+    with it. This surfaced the first time these tests ran somewhere the exports
+    were only partly on disk -- which is what CI looks like, and where they had
+    never been run.
+    """
+    with tempfile.TemporaryDirectory() as tmp:
+        d = make_artifact_dir(Path(tmp), 10000, 10000, 10000)
+        (d / "config.json").unlink()
+        try:
+            check_vocab_contract(d)
+        except ArtifactContractError as exc:
+            assert "config.json" in str(exc)
+            return
+        except FileNotFoundError:
+            raise AssertionError(
+                "a missing config.json raised FileNotFoundError; callers catch "
+                "ArtifactContractError and this one escapes them"
+            ) from None
+        raise AssertionError("a directory with no config.json was accepted")
 
 
 def test_track1_is_known_broken_and_still_reported_as_such():
@@ -320,8 +344,7 @@ def test_track1_is_known_broken_and_still_reported_as_such():
 
 
 def main() -> int:
-    tests = [(n, f) for n, f in sorted(globals().items())
-             if n.startswith("test_") and callable(f)]
+    tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     failed = []
     for name, fn in tests:
         try:

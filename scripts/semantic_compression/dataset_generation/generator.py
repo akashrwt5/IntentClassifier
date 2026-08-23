@@ -59,41 +59,11 @@ from seed_loader import (
 
 DEFAULT_CONFIG = Path(__file__).with_name("generator_config.yaml")
 
-#: Surface markers of a need or a request. An ImplicitCommand has to imply an
-#: action; an utterance carrying none of these is describing a state, not
-#: asking for anything.
-#:
-#: This list is BRITTLE and will stay brittle. It tries to detect meaning by
-#: matching strings, and every widening of the generator's phrasing finds
-#: another hole in it. Three have been found so far, each on a perfectly
-#: ordinary request the check then threw away:
-#:
-#:     "I'm not getting enough volume in my right ear"   -- no `enough` phrase
-#:     "Right side needs volume"                         -- `need` did not match `needs`
-#:     "I'd like the right aid to stop making any sound" -- `would` does not match `I'd`
-#:
-#: Patch the holes as they appear, but do not expect the next patch to be the
-#: last one. What makes that acceptable is the cost: since validation became
-#: per-row, a false positive drops a single utterance and the next batch makes
-#: up the shortfall. It is a rounding error, not a failed run. It stops being
-#: acceptable if the drop rate ever climbs, which the report's rejection
-#: section is there to show.
-#:
-#: Widen it with care. An attempt to cover the mute intents by adding
-#: `quiet\w*`, `silen\w*` and `off` was reverted before it shipped: those words
-#: describe a STATE as readily as a request, so the list would have started
-#: passing "everything sounds quiet today" and "my aid is off" -- the pure
-#: observations this check exists to reject, and the exact rows that teach a
-#: false accept. Only verbs survive here. `mute` and `silence` are actions;
-#: `quiet` and `silent` are conditions.
-_REQUEST_SIGNAL = re.compile(
-    r"(\b(need\w*|want\w*|could|can|cannot|can'?t|would|please|help|make|turn|raise|"
-    r"give|boost|increase|louder|higher|more|up|wish|let|unable|barely|hardly|"
-    r"mute|silence|"
-    r"struggl\w*|trying|difficult\w*)\b|hard time|trouble\s+\w+ing|"
-    r"not getting (enough|much)|make out|keep up|catch what|"
-    r"\b(i'?d|we'?d|would|i'?ll) like\b)",
-    re.IGNORECASE,
+# The ImplicitCommand guard lives apart so it can be tested without this
+# module's dependencies; see request_signal.py.
+from request_signal import (  # noqa: E402
+    _REQUEST_SIGNAL,
+    _requests_something,
 )
 
 #: Openers that cancel a previous instruction.
@@ -313,7 +283,7 @@ def validate_batch(
     max_words: int,
     expected_size: int,
     cancellation_capability: bool = False,
-) -> tuple[list[str], dict[int, list[str]]]:
+) -> tuple[list[str], dict[int, list[str]], dict[int, list[str]]]:
     """Validate a generated batch, returning ``(batch_errors, row_errors)``.
 
     Section 7's Validation Failure Policy is explicit that a failure should
@@ -334,12 +304,17 @@ def validate_batch(
     """
     batch_errors: list[str] = []
     row_errors: dict[int, list[str]] = {}
+    row_warnings: dict[int, list[str]] = {}
 
     def fault(index: int, message: str) -> None:
         row_errors.setdefault(index, []).append(message)
 
+    def warn(index: int, message: str) -> None:
+        """Record a concern without removing the row. See the ImplicitCommand rule."""
+        row_warnings.setdefault(index, []).append(message)
+
     if not batch.utterances:
-        return ["batch is empty"], row_errors
+        return ["batch is empty"], row_errors, row_warnings
     if len(batch.utterances) < max(1, expected_size // 2):
         batch_errors.append(
             f"returned {len(batch.utterances)} utterances; {expected_size} were requested"
@@ -368,12 +343,27 @@ def validate_batch(
         # practice. Left in, such a row teaches that "everything sounds faint"
         # IS a command to raise the volume, i.e. exactly the false accept this
         # project is built to avoid.
-        if item.type is UtteranceType.IMPLICIT_COMMAND and not _REQUEST_SIGNAL.search(text):
-            fault(
+        if item.type is UtteranceType.IMPLICIT_COMMAND and not _requests_something(text):
+            # WARN, not reject. This rule used to delete the row, and it was
+            # measured deciding barely better than a coin toss: on a fixture of
+            # real generated rows it flagged 14, of which 8 were genuine requests
+            # it would have thrown away, while missing 5 observations entirely.
+            #
+            # Deleting was the worse half of that. It emptied a quota and then
+            # the report blamed the model -- "ImplicitCommand min 4, got 0" reads
+            # as output the generator never produced, when the generator produced
+            # it and this line removed it. A guard that cannot tell a request from
+            # an observation must not be the thing that decides.
+            #
+            # The signal is still worth having, so it is kept and surfaced. What
+            # it is now is a pointer for the human sample the pre-flight already
+            # requires, and the real defence against a false accept lives where it
+            # can be measured: the wrong-action harness and the FAR metric.
+            warn(
                 index,
-                f"{text!r}: labelled ImplicitCommand but states no need and requests "
-                f"nothing. A pure observation belongs to {fallback_intent!r}; "
-                "express a need or relabel.",
+                f"{text!r}: labelled ImplicitCommand but no request or need is "
+                f"visible. If it is a pure observation it belongs to "
+                f"{fallback_intent!r}. Kept, not dropped -- check it in the sample.",
             )
 
         # Section 6 precedence rule 3, stated the way the blueprint states it:
@@ -414,7 +404,7 @@ def validate_batch(
             fault(index, f"{text!r}: duplicates an utterance already accepted")
         seen.add(key)
 
-    return batch_errors, row_errors
+    return batch_errors, row_errors, row_warnings
 
 
 # ---------------------------------------------------------------------------
@@ -658,6 +648,7 @@ class Stage1Store:
         self.dir = root / "stage1"
         self.dir.mkdir(parents=True, exist_ok=True)
         self.rejects = root / "rejections.jsonl"
+        self.warnings = root / "warnings.jsonl"
 
     def _path(self, intent: str) -> Path:
         safe = "".join(c if c.isalnum() or c in "._-" else "_" for c in intent)
@@ -702,6 +693,20 @@ class Stage1Store:
         with self._path(intent).open("a", encoding="utf-8") as handle:
             for row in rows:
                 handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+    def log_warnings(self, warnings: list[Any]) -> None:
+        """Concerns about rows that were KEPT. Same shape as rejections, different file."""
+        if not warnings:
+            return
+        self.warnings.parent.mkdir(parents=True, exist_ok=True)
+        with self.warnings.open("a", encoding="utf-8") as fh:
+            for w in warnings:
+                fh.write(
+                    json.dumps(
+                        {"intent": w.intent, "attempt": w.attempt, "reasons": list(w.reasons)}
+                    )
+                    + "\n"
+                )
 
     def log_rejections(self, rejections: list[Any]) -> None:
         if not rejections:
@@ -947,9 +952,10 @@ def main() -> int:
             # faults are collected here and applied below by dropping those rows
             # (Section 7: regenerate the failed sample, not the batch).
             row_faults: dict[int, list[str]] = {}
+            row_notes: dict[int, list[str]] = {}
 
             def _validate(candidate: GeneratedBatch) -> list[str]:
-                batch_errors, row_errors = validate_batch(
+                batch_errors, row_errors, row_warns = validate_batch(
                     candidate,
                     intent=intent,
                     fallback_intent=config.fallback_intent,
@@ -960,6 +966,8 @@ def main() -> int:
                 )
                 row_faults.clear()
                 row_faults.update(row_errors)
+                row_notes.clear()
+                row_notes.update(row_warns)
                 return batch_errors
 
             outcome = invoke_with_validation(
@@ -1023,6 +1031,12 @@ def main() -> int:
             store.append(intent, new_rows)
             if dropped:
                 store.log_rejections([Rejection(intent, outcome.attempts, dropped)])
+            # Warnings are kept rows, so they are logged apart from rejections:
+            # mixing them would make a row that was retained look like one that
+            # was thrown away, which is the confusion this change exists to end.
+            notes = [m for msgs in row_notes.values() for m in msgs]
+            if notes:
+                store.log_warnings([Rejection(intent, outcome.attempts, notes)])
 
             # A batch yielding nothing usable is not progress. The while
             # condition alone cannot see that, so it would loop forever.

@@ -707,10 +707,27 @@ def main() -> int:
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--only", nargs="*", default=None)
     parser.add_argument("--markdown", type=Path, default=None, help="Write to a file.")
+    parser.add_argument(
+        "--checkpoints",
+        type=Path,
+        default=None,
+        help=(
+            "Checkpoint directory to score (default: paths.checkpoint_dir). Point it at "
+            ".checkpoints-pilot to score a pilot run. Without this the report silently "
+            "scores the corpus instead, which reads exactly like a result."
+        ),
+    )
     args = parser.parse_args()
 
     try:
         config = load_config(args.config)
+        if args.checkpoints:
+            # Both lints take --checkpoints and this did not, so `--pilot` followed by
+            # a report produced a table built from the CORPUS while every heading said
+            # pilot. It was caught only by noticing that a 25-row batch was being
+            # scaled to 56 rows. A number that is wrong and looks right is the exact
+            # failure this pipeline keeps being rebuilt to stop.
+            config.raw.setdefault("paths", {})["checkpoint_dir"] = str(args.checkpoints)
         report = build_report(config, args.only)
     except SeedCorpusError as exc:
         print(f"ERROR: {exc}")
