@@ -1,0 +1,753 @@
+{
+  "standard_test": {
+    "n": 1513,
+    "accuracy": 0.9141,
+    "macro_f1": 0.9059,
+    "ece": 0.0268,
+    "mce": 0.1383,
+    "brier": 0.1327,
+    "mean_conf": 0.9011,
+    "mean_margin": 0.8437,
+    "reliability": [
+      {
+        "bin_lo": 0.0,
+        "bin_hi": 0.1,
+        "n": 0,
+        "avg_conf": NaN,
+        "accuracy": NaN,
+        "gap": NaN
+      },
+      {
+        "bin_lo": 0.1,
+        "bin_hi": 0.2,
+        "n": 2,
+        "avg_conf": 0.17692060768604279,
+        "accuracy": 0.5,
+        "gap": -0.3230793923139572
+      },
+      {
+        "bin_lo": 0.2,
+        "bin_hi": 0.30000000000000004,
+        "n": 7,
+        "avg_conf": 0.26028176077774595,
+        "accuracy": 0.2857142857142857,
+        "gap": -0.025432524936539747
+      },
+      {
+        "bin_lo": 0.30000000000000004,
+        "bin_hi": 0.4,
+        "n": 24,
+        "avg_conf": 0.3543705753982067,
+        "accuracy": 0.375,
+        "gap": -0.02062942460179329
+      },
+      {
+        "bin_lo": 0.4,
+        "bin_hi": 0.5,
+        "n": 47,
+        "avg_conf": 0.4558550690082794,
+        "accuracy": 0.3829787234042553,
+        "gap": 0.07287634560402406
+      },
+      {
+        "bin_lo": 0.5,
+        "bin_hi": 0.6000000000000001,
+        "n": 55,
+        "avg_conf": 0.5525775410912254,
+        "accuracy": 0.6909090909090909,
+        "gap": -0.13833154981786555
+      },
+      {
+        "bin_lo": 0.6000000000000001,
+        "bin_hi": 0.7000000000000001,
+        "n": 63,
+        "avg_conf": 0.658543138276963,
+        "accuracy": 0.7777777777777778,
+        "gap": -0.11923463950081481
+      },
+      {
+        "bin_lo": 0.7000000000000001,
+        "bin_hi": 0.8,
+        "n": 60,
+        "avg_conf": 0.7549281865358353,
+        "accuracy": 0.8666666666666667,
+        "gap": -0.11173848013083143
+      },
+      {
+        "bin_lo": 0.8,
+        "bin_hi": 0.9,
+        "n": 139,
+        "avg_conf": 0.8562939072684418,
+        "accuracy": 0.9064748201438849,
+        "gap": -0.05018091287544313
+      },
+      {
+        "bin_lo": 0.9,
+        "bin_hi": 1.0,
+        "n": 1116,
+        "avg_conf": 0.9812519813630743,
+        "accuracy": 0.974910394265233,
+        "gap": 0.0063415870978413835
+      }
+    ]
+  },
+  "validation": {
+    "n": 1508,
+    "accuracy": 0.9012,
+    "macro_f1": 0.8908,
+    "ece": 0.0141,
+    "mce": 0.1256,
+    "brier": 0.1434,
+    "mean_conf": 0.9054,
+    "mean_margin": 0.8447,
+    "reliability": [
+      {
+        "bin_lo": 0.0,
+        "bin_hi": 0.1,
+        "n": 0,
+        "avg_conf": NaN,
+        "accuracy": NaN,
+        "gap": NaN
+      },
+      {
+        "bin_lo": 0.1,
+        "bin_hi": 0.2,
+        "n": 0,
+        "avg_conf": NaN,
+        "accuracy": NaN,
+        "gap": NaN
+      },
+      {
+        "bin_lo": 0.2,
+        "bin_hi": 0.30000000000000004,
+        "n": 10,
+        "avg_conf": 0.26696449518203735,
+        "accuracy": 0.3,
+        "gap": -0.033035504817962635
+      },
+      {
+        "bin_lo": 0.30000000000000004,
+        "bin_hi": 0.4,
+        "n": 13,
+        "avg_conf": 0.3563218873280745,
+        "accuracy": 0.23076923076923078,
+        "gap": 0.12555265655884373
+      },
+      {
+        "bin_lo": 0.4,
+        "bin_hi": 0.5,
+        "n": 34,
+        "avg_conf": 0.4601674561991411,
+        "accuracy": 0.5,
+        "gap": -0.03983254380085888
+      },
+      {
+        "bin_lo": 0.5,
+        "bin_hi": 0.6000000000000001,
+        "n": 60,
+        "avg_conf": 0.5494490096966426,
+        "accuracy": 0.5,
+        "gap": 0.049449009696642565
+      },
+      {
+        "bin_lo": 0.6000000000000001,
+        "bin_hi": 0.7000000000000001,
+        "n": 66,
+        "avg_conf": 0.6578649905594912,
+        "accuracy": 0.6363636363636364,
+        "gap": 0.02150135419585486
+      },
+      {
+        "bin_lo": 0.7000000000000001,
+        "bin_hi": 0.8,
+        "n": 87,
+        "avg_conf": 0.7577463614529577,
+        "accuracy": 0.7816091954022989,
+        "gap": -0.02386283394934119
+      },
+      {
+        "bin_lo": 0.8,
+        "bin_hi": 0.9,
+        "n": 136,
+        "avg_conf": 0.8586286354590865,
+        "accuracy": 0.8014705882352942,
+        "gap": 0.05715804722379236
+      },
+      {
+        "bin_lo": 0.9,
+        "bin_hi": 1.0,
+        "n": 1102,
+        "avg_conf": 0.9830776876524875,
+        "accuracy": 0.9863883847549909,
+        "gap": -0.0033106971025034237
+      }
+    ]
+  },
+  "contextual": {
+    "n": 25,
+    "accuracy": 0.68,
+    "macro_f1": 0.641,
+    "failures": [
+      {
+        "text": "i am sitting in a noisy restaurant and i am having real trouble following the person across the table, could you please increase the volume a bit",
+        "gold": "Cmd.VolumeIncrease",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.297
+      },
+      {
+        "text": "i am about to go into a meeting and i do not want any sound at all coming through, please shut them off",
+        "gold": "Cmd.VolumeMute",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.923
+      },
+      {
+        "text": "my wife is going to be speaking spanish with her family tonight and i would like to follow along, can you start that up",
+        "gold": "Cmd.TranslationStart",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.524
+      },
+      {
+        "text": "i wanted to ask, when i am watching the television in the evening how exactly do i get the sound to come straight into my aids",
+        "gold": "Help_Accessories",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.568
+      },
+      {
+        "text": "my audiologist mentioned something about her being able to adjust these without me coming in, how does that actually work",
+        "gold": "Help_RemoteProgramming",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.956
+      },
+      {
+        "text": "i have been getting this ringing in my ears in the evenings and i believe there is a feature for that, can you explain it",
+        "gold": "Help_Tinnitus",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.584
+      },
+      {
+        "text": "my son wants to keep an eye on how i am getting on with these, is there a way to let him see that",
+        "gold": "Help_HearShare",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.638
+      },
+      {
+        "text": "when i am out in the wind at the golf course it gets very rough, i heard there is a mode that helps with that",
+        "gold": "Help_EdgeMode",
+        "pred": "Cmd.MemoryChange",
+        "confidence": 0.582
+      }
+    ]
+  },
+  "minimal_pairs": {
+    "n": 88,
+    "accuracy": 0.9091,
+    "macro_f1": 0.8572,
+    "pair_accuracy": 0.8409,
+    "per_axis_accuracy": {
+      "activity_type": 0.8333,
+      "cmd_vs_help": 0.8,
+      "feature_swap": 1.0,
+      "find_target": 0.75,
+      "health_metric": 1.0,
+      "message_direction": 1.0,
+      "mute_direction": 0.875,
+      "reminder_direction": 1.0,
+      "stream_direction": 1.0,
+      "volume_direction": 1.0
+    },
+    "failed_pairs": [
+      {
+        "pair_id": "mp011",
+        "items": [
+          {
+            "text": "cut all sound from my aids",
+            "gold": "Cmd.VolumeMute",
+            "pred": "Cmd.VolumeMute"
+          },
+          {
+            "text": "restore sound to my aids",
+            "gold": "Cmd.VolumeUnmute",
+            "pred": "Help_DeviceSettings"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp021",
+        "items": [
+          {
+            "text": "shut off all output",
+            "gold": "Cmd.VolumeMute",
+            "pred": "Default Fallback Intent"
+          },
+          {
+            "text": "how would i shut off all output",
+            "gold": "Help_Volume",
+            "pred": "Default Fallback Intent"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp023",
+        "items": [
+          {
+            "text": "jump to setting number three",
+            "gold": "Cmd.MemoryChange",
+            "pred": "Cmd.MemoryChange"
+          },
+          {
+            "text": "how would i jump to setting number three",
+            "gold": "Help_ChangingMemories",
+            "pred": "Cmd.MemoryChange"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp024",
+        "items": [
+          {
+            "text": "kick off live captions",
+            "gold": "Cmd.TranscribeStart",
+            "pred": "Cmd.TranscribeStart"
+          },
+          {
+            "text": "how would i kick off live captions",
+            "gold": "Help_Transcribe",
+            "pred": "Help_Home"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp028",
+        "items": [
+          {
+            "text": "where did my mobile go",
+            "gold": "Cmd.FindMyPhone",
+            "pred": "Cmd.FindMyPhone"
+          },
+          {
+            "text": "which earpiece is missing",
+            "gold": "Help_FindMyHearingAids",
+            "pred": "Default Fallback Intent"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp035",
+        "items": [
+          {
+            "text": "how long was my gym session",
+            "gold": "Cmd.ActivityExercise",
+            "pred": "Cmd.ActivityExercise"
+          },
+          {
+            "text": "how much energy did my gym session burn",
+            "gold": "Cmd.ActivityCalories",
+            "pred": "Cmd.ActivityExercise"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp036",
+        "items": [
+          {
+            "text": "did i reach my walking target",
+            "gold": "Cmd.ActivityWalk",
+            "pred": "Cmd.ActivityWalk"
+          },
+          {
+            "text": "did i reach my upright target",
+            "gold": "Cmd.ActivityStand",
+            "pred": "Default Fallback Intent"
+          }
+        ]
+      }
+    ]
+  },
+  "hard_negatives": {
+    "n": 36,
+    "accuracy": 0.5833,
+    "macro_f1": 0.478,
+    "per_group_accuracy": {
+      "command distractor": 1.0,
+      "contains 'battery type'": 1.0,
+      "contains 'charge'": 0.0,
+      "contains 'done'": 0.0,
+      "contains 'down'": 0.0,
+      "contains 'dropped'": 1.0,
+      "contains 'edge mode'": 0.0,
+      "contains 'hearing aid'": 0.0,
+      "contains 'heart rate'": 1.0,
+      "contains 'loud'": 1.0,
+      "contains 'louder'": 0.5,
+      "contains 'mask mode'": 1.0,
+      "contains 'muted'": 0.0,
+      "contains 'on'": 1.0,
+      "contains 'phone'": 1.0,
+      "contains 'play'": 0.0,
+      "contains 'programs'": 0.0,
+      "contains 'quiet'": 1.0,
+      "contains 'quieter'": 0.0,
+      "contains 'record'": 1.0,
+      "contains 'recovery'": 0.0,
+      "contains 'reminder'": 1.0,
+      "contains 'soft'": 1.0,
+      "contains 'stand'": 1.0,
+      "contains 'start'": 1.0,
+      "contains 'step'": 1.0,
+      "contains 'stop'": 1.0,
+      "contains 'transcribe'": 0.0,
+      "contains 'translate'": 1.0,
+      "contains 'up'": 0.0,
+      "contains 'volume'": 1.0,
+      "how-to distractor": 0.0
+    },
+    "failures": [
+      {
+        "text": "i turned it up too far, take it back down",
+        "gold": "Cmd.VolumeDecrease",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.876
+      },
+      {
+        "text": "i turned it down too far, take it back up",
+        "gold": "Cmd.VolumeIncrease",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.817
+      },
+      {
+        "text": "stop making it quieter and raise it instead",
+        "gold": "Cmd.VolumeIncrease",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.546
+      },
+      {
+        "text": "i do not want it muted, i want it louder",
+        "gold": "Cmd.VolumeIncrease",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.534
+      },
+      {
+        "text": "i do not want it louder, i want it muted",
+        "gold": "Cmd.VolumeMute",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.525
+      },
+      {
+        "text": "it is muted, turn the sound back on",
+        "gold": "Cmd.VolumeUnmute",
+        "pred": "Cmd.VolumeMute",
+        "confidence": 0.791
+      },
+      {
+        "text": "i am not asking to change programs, just turn it up",
+        "gold": "Cmd.VolumeIncrease",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.986
+      },
+      {
+        "text": "i do not want to mark it done, add another reminder",
+        "gold": "reminders.add",
+        "pred": "reminders.complete",
+        "confidence": 0.87
+      },
+      {
+        "text": "do not play the message, record a new one",
+        "gold": "Cmd.SendMessage",
+        "pred": "Cmd.ListenMessage",
+        "confidence": 0.649
+      },
+      {
+        "text": "i am not looking for my hearing aid, i lost my phone",
+        "gold": "Cmd.FindMyPhone",
+        "pred": "Help_FindMyHearingAids",
+        "confidence": 0.502
+      },
+      {
+        "text": "do not tell me how, just change the volume",
+        "gold": "Cmd.VolumeDecrease",
+        "pred": "Help_Volume",
+        "confidence": 0.942
+      },
+      {
+        "text": "i did not ask for the charge level, what battery size do i need",
+        "gold": "Help_Battery",
+        "pred": "Cmd.BatteryLevel",
+        "confidence": 0.611
+      },
+      {
+        "text": "not the recovery number, just my heart rate",
+        "gold": "Help_HeartRate",
+        "pred": "Help_HeartRateRecovery",
+        "confidence": 0.993
+      },
+      {
+        "text": "not edge mode, i meant mask mode",
+        "gold": "Help_MaskMode",
+        "pred": "Help_EdgeMode",
+        "confidence": 0.892
+      },
+      {
+        "text": "i do not want to transcribe, i want to translate",
+        "gold": "Cmd.TranslationStart",
+        "pred": "Cmd.TranscribeStart",
+        "confidence": 0.397
+      }
+    ]
+  },
+  "negation": {
+    "n": 26,
+    "accuracy": 0.9231,
+    "macro_f1": 0.859,
+    "per_group_accuracy": {
+      "P2_bare_negation": 0.8571,
+      "P3_corrective": 1.0
+    },
+    "failures": [
+      {
+        "text": "do not start streaming",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.StreamingStop",
+        "confidence": 0.582
+      },
+      {
+        "text": "do not set a reminder",
+        "gold": "Default Fallback Intent",
+        "pred": "reminders.add",
+        "confidence": 0.708
+      }
+    ]
+  },
+  "stt": {
+    "n": 1496,
+    "accuracy": 0.8282,
+    "macro_f1": 0.7897,
+    "per_group_accuracy": {
+      "drop_function_word+drop_plural": 0.9167,
+      "drop_function_word+filler": 0.8727,
+      "drop_function_word+homophone": 0.7727,
+      "drop_function_word+merge_boundary": 0.7073,
+      "drop_function_word+truncate_tail": 0.8,
+      "drop_plural+drop_function_word": 0.9375,
+      "drop_plural+filler": 0.8889,
+      "drop_plural+homophone": 1.0,
+      "drop_plural+merge_boundary": 0.6471,
+      "drop_plural+truncate_tail": 0.75,
+      "filler": 0.7857,
+      "filler+drop_function_word": 0.9368,
+      "filler+drop_plural": 0.8462,
+      "filler+homophone": 0.9403,
+      "filler+merge_boundary": 0.8027,
+      "filler+truncate_tail": 0.8226,
+      "homophone+drop_function_word": 0.9038,
+      "homophone+drop_plural": 0.75,
+      "homophone+filler": 0.9241,
+      "homophone+merge_boundary": 0.8036,
+      "homophone+truncate_tail": 0.8846,
+      "merge_boundary+drop_function_word": 0.8704,
+      "merge_boundary+drop_plural": 0.92,
+      "merge_boundary+filler": 0.8021,
+      "merge_boundary+homophone": 0.8772,
+      "merge_boundary+truncate_tail": 0.72,
+      "truncate_tail+drop_function_word": 0.7347,
+      "truncate_tail+drop_plural": 0.8889,
+      "truncate_tail+filler": 0.7273,
+      "truncate_tail+homophone": 0.9444,
+      "truncate_tail+merge_boundary": 0.6346
+    },
+    "failures": [
+      {
+        "text": "howmuch distance have i covered",
+        "gold": "Cmd.ActivityStep",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.431
+      },
+      {
+        "text": "how do isearch for right aid",
+        "gold": "Help_FindMyHearingAids",
+        "pred": "Help_SelfCheck",
+        "confidence": 0.553
+      },
+      {
+        "text": "um help withintellivoice",
+        "gold": "Help_IntelliVoice",
+        "pred": "Help_Home",
+        "confidence": 0.961
+      },
+      {
+        "text": "uh where is help for voice",
+        "gold": "Help_IntelliVoice",
+        "pred": "Help_VoiceAssistant",
+        "confidence": 0.735
+      },
+      {
+        "text": "uh help withintelligent voice",
+        "gold": "Help_IntelliVoice",
+        "pred": "Help_Transcribe",
+        "confidence": 0.391
+      },
+      {
+        "text": "how sharemy wellness data",
+        "gold": "Help_HearShare",
+        "pred": "Help_Health",
+        "confidence": 0.57
+      },
+      {
+        "text": "um what do i need to knowabout this new app",
+        "gold": "Help_WhatsNew",
+        "pred": "Help_Home",
+        "confidence": 0.653
+      },
+      {
+        "text": "uh i don t have a normal",
+        "gold": "Help_MemoryOptions",
+        "pred": "reminders.add",
+        "confidence": 0.761
+      },
+      {
+        "text": "personalize my hearingaid setting",
+        "gold": "Help_MemoryOptions",
+        "pred": "Cmd.MemoryChange",
+        "confidence": 0.475
+      },
+      {
+        "text": "um why my left very faint not working",
+        "gold": "Help_SelfCheck",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.418
+      },
+      {
+        "text": "why does not myright when",
+        "gold": "Help_SelfCheck",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.664
+      },
+      {
+        "text": "uh trying toget my hearing age to work",
+        "gold": "Help_SelfCheck",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.297
+      },
+      {
+        "text": "what ifi have an x in self",
+        "gold": "Help_SelfCheck",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.959
+      },
+      {
+        "text": "how often should i useself",
+        "gold": "Help_SelfCheck",
+        "pred": "Cmd.MemoryChange",
+        "confidence": 0.303
+      },
+      {
+        "text": "why cannot i hear anything through hearin aids",
+        "gold": "Help_SelfCheck",
+        "pred": "Help_Pairing",
+        "confidence": 0.546
+      },
+      {
+        "text": "um can i chargemy battery",
+        "gold": "Help_Battery",
+        "pred": "Cmd.BatteryLevel",
+        "confidence": 0.888
+      },
+      {
+        "text": "uhmute off",
+        "gold": "Cmd.VolumeUnmute",
+        "pred": "Cmd.VolumeMute",
+        "confidence": 0.495
+      },
+      {
+        "text": "turn hearing aid volume back",
+        "gold": "Cmd.VolumeUnmute",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.537
+      },
+      {
+        "text": "um can i access cloud",
+        "gold": "Help_HearingCareAnywhereConnect",
+        "pred": "Help_VoiceAssistant",
+        "confidence": 0.431
+      },
+      {
+        "text": "how do i accesthe cloud",
+        "gold": "Help_HearingCareAnywhereConnect",
+        "pred": "Help_Volume",
+        "confidence": 0.395
+      },
+      {
+        "text": "howdo i sync my aid to the",
+        "gold": "Help_HearingCareAnywhereConnect",
+        "pred": "Help_Pairing",
+        "confidence": 0.714
+      },
+      {
+        "text": "pear right hearing aid",
+        "gold": "Help_Pairing",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.462
+      },
+      {
+        "text": "um sync hearing aid tv",
+        "gold": "Help_Pairing",
+        "pred": "Cmd.StreamingStart",
+        "confidence": 0.907
+      },
+      {
+        "text": "um set an alarm for 15",
+        "gold": "reminders.add",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.562
+      },
+      {
+        "text": "remembervitamin d at 7 p m everyday",
+        "gold": "reminders.add",
+        "pred": "Cmd.ActivityStand",
+        "confidence": 0.296
+      }
+    ]
+  },
+  "gated_test": {
+    "n": 1513,
+    "coverage": 0.7495,
+    "accepted_precision": 0.97,
+    "rejected_error_rate": 0.2533,
+    "false_rejection": 0.187,
+    "false_execution": 0.0225
+  },
+  "ood": {
+    "n": 45,
+    "rejection_rate": 0.8889,
+    "false_acceptance": 0.1111,
+    "classified_as_fallback": 0.7111,
+    "rejection_far": 1.0,
+    "rejection_near": 0.8333,
+    "false_accept_examples": [
+      {
+        "text": "book me a dentist appointment",
+        "intent": "reminders.add",
+        "confidence": 0.8377
+      },
+      {
+        "text": "read my emails to me",
+        "intent": "Cmd.ListenMessage",
+        "confidence": 0.9649
+      },
+      {
+        "text": "start recording a video",
+        "intent": "Cmd.TranscribeStart",
+        "confidence": 0.9692
+      },
+      {
+        "text": "transcribe the meeting recording on my laptop",
+        "intent": "Cmd.TranscribeStart",
+        "confidence": 0.9807
+      },
+      {
+        "text": "order more hearing aid batteries online",
+        "intent": "Help_Battery",
+        "confidence": 0.9455
+      }
+    ]
+  }
+}

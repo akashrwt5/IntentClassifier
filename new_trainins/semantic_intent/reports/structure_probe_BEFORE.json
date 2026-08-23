@@ -1,0 +1,242 @@
+{
+  "model": "models/final_student_256/onnx",
+  "quant": "int8",
+  "word_order": {
+    "n": 1345,
+    "min_words": 4,
+    "accuracy_normal": 0.9086,
+    "accuracy_shuffled": 0.9011,
+    "accuracy_reversed": 0.8937,
+    "order_sensitivity": 0.0074,
+    "retained_when_scrambled": 0.9918
+  },
+  "conflict": {
+    "A_up_symptom_word": {
+      "n": 18,
+      "accuracy": 1.0,
+      "gated_coverage": 1.0,
+      "wrong_and_accepted": 0.0,
+      "accuracy_description_first": 1.0,
+      "accuracy_request_first": 1.0
+    },
+    "B_up_request_word": {
+      "n": 18,
+      "accuracy": 0.3889,
+      "gated_coverage": 0.2778,
+      "wrong_and_accepted": 0.1111,
+      "accuracy_description_first": 0.5556,
+      "accuracy_request_first": 0.2222
+    },
+    "C_down_symptom_word": {
+      "n": 18,
+      "accuracy": 1.0,
+      "gated_coverage": 0.8889,
+      "wrong_and_accepted": 0.0,
+      "accuracy_description_first": 1.0,
+      "accuracy_request_first": 1.0
+    },
+    "D_down_request_word": {
+      "n": 18,
+      "accuracy": 0.3889,
+      "gated_coverage": 0.4444,
+      "wrong_and_accepted": 0.2778,
+      "accuracy_description_first": 0.6667,
+      "accuracy_request_first": 0.1111
+    },
+    "lexical_association_effect": {
+      "up": 0.6111,
+      "down": 0.6111
+    },
+    "failures": [
+      {
+        "text": "it is a bit quieter in here can you make it louder",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.7634,
+        "accepted": false
+      },
+      {
+        "text": "can you make it louder, it is a bit quieter in here",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.8908,
+        "accepted": false
+      },
+      {
+        "text": "could you turn it up, it is a bit quieter in here",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.6915,
+        "accepted": false
+      },
+      {
+        "text": "please raise the volume, it is a bit quieter in here",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.8195,
+        "accepted": false
+      },
+      {
+        "text": "can you make it louder, it is on the lower side in here",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.9345,
+        "accepted": true
+      },
+      {
+        "text": "it is on the lower side in here could you turn it up",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.7263,
+        "accepted": false
+      },
+      {
+        "text": "please raise the volume, it is on the lower side in here",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.9265,
+        "accepted": true
+      },
+      {
+        "text": "it is quite softer in here can you make it louder",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.6927,
+        "accepted": false
+      },
+      {
+        "text": "can you make it louder, it is quite softer in here",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.9102,
+        "accepted": false
+      },
+      {
+        "text": "could you turn it up, it is quite softer in here",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.8938,
+        "accepted": false
+      },
+      {
+        "text": "it is quite softer in here please raise the volume",
+        "gold": "Cmd.VolumeIncrease",
+        "arm": "B_up_request_word",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.5445,
+        "accepted": false
+      },
+      {
+        "text": "can you make it quieter, it is a bit louder in here",
+        "gold": "Cmd.VolumeDecrease",
+        "arm": "D_down_request_word",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.5843,
+        "accepted": false
+      },
+      {
+        "text": "please lower the volume, it is a bit louder in here",
+        "gold": "Cmd.VolumeDecrease",
+        "arm": "D_down_request_word",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.8625,
+        "accepted": false
+      },
+      {
+        "text": "it is on the higher side in here can you make it quieter",
+        "gold": "Cmd.VolumeDecrease",
+        "arm": "D_down_request_word",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.5795,
+        "accepted": false
+      }
+    ]
+  },
+  "data_shortcuts": {
+    "soft": {
+      "rows": 32,
+      "top_intent": "Cmd.VolumeIncrease",
+      "share": 1.0
+    },
+    "faint": {
+      "rows": 35,
+      "top_intent": "Cmd.VolumeIncrease",
+      "share": 1.0
+    },
+    "harsh": {
+      "rows": 31,
+      "top_intent": "Cmd.VolumeDecrease",
+      "share": 1.0
+    },
+    "muffled": {
+      "rows": 26,
+      "top_intent": "Cmd.VolumeIncrease",
+      "share": 0.923
+    },
+    "lower": {
+      "rows": 71,
+      "top_intent": "Cmd.VolumeDecrease",
+      "share": 0.831
+    },
+    "raise": {
+      "rows": 58,
+      "top_intent": "Cmd.VolumeIncrease",
+      "share": 0.793
+    },
+    "unmute": {
+      "rows": 41,
+      "top_intent": "Cmd.VolumeUnmute",
+      "share": 0.683
+    },
+    "quieter": {
+      "rows": 143,
+      "top_intent": "Cmd.VolumeDecrease",
+      "share": 0.636
+    },
+    "down": {
+      "rows": 372,
+      "top_intent": "Cmd.VolumeDecrease",
+      "share": 0.626
+    },
+    "louder": {
+      "rows": 133,
+      "top_intent": "Cmd.VolumeIncrease",
+      "share": 0.609
+    },
+    "loud": {
+      "rows": 95,
+      "top_intent": "Cmd.VolumeDecrease",
+      "share": 0.6
+    },
+    "softer": {
+      "rows": 7,
+      "top_intent": "Cmd.VolumeDecrease",
+      "share": 0.571
+    },
+    "mute": {
+      "rows": 142,
+      "top_intent": "Cmd.MemoryChange",
+      "share": 0.423
+    },
+    "up": {
+      "rows": 465,
+      "top_intent": "Cmd.VolumeIncrease",
+      "share": 0.406
+    },
+    "quiet": {
+      "rows": 149,
+      "top_intent": "Cmd.MemoryChange",
+      "share": 0.356
+    }
+  }
+}

@@ -1,0 +1,39 @@
+# Frozen run configuration (Phase 14: "save configuration with every model").
+seed: 42
+split:
+  val_fraction: 0.15
+  test_fraction: 0.15
+  fuzzy_group_threshold: 92      # rapidfuzz token_sort_ratio
+  grouping: [normalized_text, leakage_key, fuzzy_within_intent]
+encoder:
+  candidates: [tfidf-svd, e5-small-v2, all-MiniLM-L6-v2, bge-small-en-v1.5]
+  max_len: 64
+  pooling: mean
+  normalize: l2
+classifier:
+  candidates: [logreg, logreg_balanced, linsvm, linsvm_balanced, mlp]
+  logreg: {C: 8.0, max_iter: 3000}
+  linsvm: {C: 1.0, calibration: sigmoid, cv: 3}
+  mlp:    {hidden: [256], alpha: 1.0e-4, max_iter: 400}
+calibration:
+  method: temperature_scaling
+  fitted_on: validation
+  search: golden_section
+  range: [0.05, 10.0]
+gate:
+  target_precision: 0.97
+  min_coverage: 0.50
+  margin_grid: [0.0, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40]
+  reject_label: "Default Fallback Intent"
+selection_rule:
+  primary: val_macro_f1
+  tie_window: 0.005
+  tiebreakers: [ece_calibrated, encoder_fp32_mb, latency_p50_ms]
+  never_selected_on: [test, hard_negative_test, ood_test, minimal_pair_test,
+                      negation_test, contextual_test, stt_test]
+export:
+  opset: 17
+  fused: [encoder, mean_pool, l2_norm, classifier, temperature, softmax]
+  quantization: dynamic_int8
+  parity_tolerance_fp32: 1.0e-4
+  parity_tolerance_int8: 5.0e-2

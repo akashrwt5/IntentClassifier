@@ -1,0 +1,157 @@
+text,intent,policy
+do not make it louder,Default Fallback Intent,P2_bare_negation
+do not turn it up,Default Fallback Intent,P2_bare_negation
+do not turn it down,Default Fallback Intent,P2_bare_negation
+please do not change the volume,Default Fallback Intent,P2_bare_negation
+do not mute my aids,Default Fallback Intent,P2_bare_negation
+do not switch my program,Default Fallback Intent,P2_bare_negation
+do not start streaming,Default Fallback Intent,P2_bare_negation
+do not set a reminder,Default Fallback Intent,P2_bare_negation
+i did not ask you to lower it,Default Fallback Intent,P2_bare_negation
+i never said to change anything,Default Fallback Intent,P2_bare_negation
+"stop, do not do that",Default Fallback Intent,P2_bare_negation
+"no, leave it alone",Default Fallback Intent,P2_bare_negation
+do not translate anything,Default Fallback Intent,P2_bare_negation
+do not send that message,Default Fallback Intent,P2_bare_negation
+"not quieter, louder",Cmd.VolumeIncrease,P3_corrective
+"not louder, quieter",Cmd.VolumeDecrease,P3_corrective
+"i said down, not up",Cmd.VolumeDecrease,P3_corrective
+"i said up, not down",Cmd.VolumeIncrease,P3_corrective
+"no, mute it instead",Cmd.VolumeMute,P3_corrective
+"no, unmute it instead",Cmd.VolumeUnmute,P3_corrective
+"not the restaurant program, the outdoor one",Cmd.MemoryChange,P3_corrective
+"not stop, start the streaming",Cmd.StreamingStart,P3_corrective
+"not start, stop the streaming",Cmd.StreamingStop,P3_corrective
+"not a new reminder, complete the one i have",reminders.complete,P3_corrective
+"do not raise it, drop it a bit",Cmd.VolumeDecrease,P3_corrective
+"do not drop it, raise it a bit",Cmd.VolumeIncrease,P3_corrective
+i would rather you did not silence my aids,Default Fallback Intent,P2_bare_negation
+hold off on bring the sound back,Default Fallback Intent,P2_bare_negation
+you do not need to hunt for my phone,Default Fallback Intent,P2_bare_negation
+i would rather you did not dictate a message,Default Fallback Intent,P2_bare_negation
+kindly refrain from begin translating,Default Fallback Intent,P2_bare_negation
+there is no call to close the audio link,Default Fallback Intent,P2_bare_negation
+it would be wrong to dictate a message,Default Fallback Intent,P2_bare_negation
+i would rather you did not close the audio link,Default Fallback Intent,P2_bare_negation
+there is no call to drop the sound,Default Fallback Intent,P2_bare_negation
+there is no call to replay my messages,Default Fallback Intent,P2_bare_negation
+i am not asking you to clear that reminder,Default Fallback Intent,P2_bare_negation
+"close the audio link, that is, not open the audio link",Cmd.StreamingStop,P3_corrective
+i am not asking you to swap my program,Default Fallback Intent,P2_bare_negation
+let us not note down a reminder,Default Fallback Intent,P2_bare_negation
+it would be wrong to raise the sound,Default Fallback Intent,P2_bare_negation
+i would rather you did not open the audio link,Default Fallback Intent,P2_bare_negation
+i would rather you did not begin captions,Default Fallback Intent,P2_bare_negation
+you do not need to silence my aids,Default Fallback Intent,P2_bare_negation
+hold off on open the audio link,Default Fallback Intent,P2_bare_negation
+there is no call to bring the sound back,Default Fallback Intent,P2_bare_negation
+hold off on note down a reminder,Default Fallback Intent,P2_bare_negation
+let us not begin captions,Default Fallback Intent,P2_bare_negation
+there is no call to note down a reminder,Default Fallback Intent,P2_bare_negation
+let us not dictate a message,Default Fallback Intent,P2_bare_negation
+kindly refrain from replay my messages,Default Fallback Intent,P2_bare_negation
+hold off on drop the sound,Default Fallback Intent,P2_bare_negation
+there is no call to begin captions,Default Fallback Intent,P2_bare_negation
+i would rather you did not swap my program,Default Fallback Intent,P2_bare_negation
+i would rather you did not drop the sound,Default Fallback Intent,P2_bare_negation
+hold off on hunt for my phone,Default Fallback Intent,P2_bare_negation
+you do not need to close the audio link,Default Fallback Intent,P2_bare_negation
+let us not replay my messages,Default Fallback Intent,P2_bare_negation
+you do not need to open the audio link,Default Fallback Intent,P2_bare_negation
+kindly refrain from open the audio link,Default Fallback Intent,P2_bare_negation
+silence my aids — do not bring the sound back,Cmd.VolumeMute,P3_corrective
+i am not asking you to raise the sound,Default Fallback Intent,P2_bare_negation
+"silence my aids, that is, not bring the sound back",Cmd.VolumeMute,P3_corrective
+i am not asking you to begin captions,Default Fallback Intent,P2_bare_negation
+it would be wrong to silence my aids,Default Fallback Intent,P2_bare_negation
+i am not asking you to begin translating,Default Fallback Intent,P2_bare_negation
+i am not asking you to bring the sound back,Default Fallback Intent,P2_bare_negation
+let us not begin translating,Default Fallback Intent,P2_bare_negation
+it would be wrong to replay my messages,Default Fallback Intent,P2_bare_negation
+i would rather you did not note down a reminder,Default Fallback Intent,P2_bare_negation
+it would be wrong to open the audio link,Default Fallback Intent,P2_bare_negation
+it would be wrong to swap my program,Default Fallback Intent,P2_bare_negation
+"rather than open the audio link, close the audio link",Cmd.StreamingStop,P3_corrective
+i am not asking you to silence my aids,Default Fallback Intent,P2_bare_negation
+hold off on raise the sound,Default Fallback Intent,P2_bare_negation
+there is no call to dictate a message,Default Fallback Intent,P2_bare_negation
+drop the sound — do not raise the sound,Cmd.VolumeDecrease,P3_corrective
+kindly refrain from note down a reminder,Default Fallback Intent,P2_bare_negation
+i would rather you did not bring the sound back,Default Fallback Intent,P2_bare_negation
+it would be wrong to bring the sound back,Default Fallback Intent,P2_bare_negation
+it would be wrong to hunt for my phone,Default Fallback Intent,P2_bare_negation
+kindly refrain from clear that reminder,Default Fallback Intent,P2_bare_negation
+let us not clear that reminder,Default Fallback Intent,P2_bare_negation
+kindly refrain from raise the sound,Default Fallback Intent,P2_bare_negation
+kindly refrain from hunt for my phone,Default Fallback Intent,P2_bare_negation
+close the audio link — do not open the audio link,Cmd.StreamingStop,P3_corrective
+kindly refrain from dictate a message,Default Fallback Intent,P2_bare_negation
+you do not need to raise the sound,Default Fallback Intent,P2_bare_negation
+hold off on replay my messages,Default Fallback Intent,P2_bare_negation
+let us not close the audio link,Default Fallback Intent,P2_bare_negation
+you do not need to replay my messages,Default Fallback Intent,P2_bare_negation
+let us not drop the sound,Default Fallback Intent,P2_bare_negation
+hold off on swap my program,Default Fallback Intent,P2_bare_negation
+i would rather you did not hunt for my phone,Default Fallback Intent,P2_bare_negation
+hold off on begin captions,Default Fallback Intent,P2_bare_negation
+you do not need to clear that reminder,Default Fallback Intent,P2_bare_negation
+there is no call to clear that reminder,Default Fallback Intent,P2_bare_negation
+i would rather you did not raise the sound,Default Fallback Intent,P2_bare_negation
+"rather than raise the sound, drop the sound",Cmd.VolumeDecrease,P3_corrective
+let us not raise the sound,Default Fallback Intent,P2_bare_negation
+kindly refrain from begin captions,Default Fallback Intent,P2_bare_negation
+i am not asking you to open the audio link,Default Fallback Intent,P2_bare_negation
+kindly refrain from swap my program,Default Fallback Intent,P2_bare_negation
+hold off on clear that reminder,Default Fallback Intent,P2_bare_negation
+it would be wrong to drop the sound,Default Fallback Intent,P2_bare_negation
+i would rather you did not clear that reminder,Default Fallback Intent,P2_bare_negation
+there is no call to swap my program,Default Fallback Intent,P2_bare_negation
+kindly refrain from silence my aids,Default Fallback Intent,P2_bare_negation
+it would be wrong to note down a reminder,Default Fallback Intent,P2_bare_negation
+i would rather you did not replay my messages,Default Fallback Intent,P2_bare_negation
+there is no call to open the audio link,Default Fallback Intent,P2_bare_negation
+let us not hunt for my phone,Default Fallback Intent,P2_bare_negation
+i am not asking you to close the audio link,Default Fallback Intent,P2_bare_negation
+let us not open the audio link,Default Fallback Intent,P2_bare_negation
+kindly refrain from close the audio link,Default Fallback Intent,P2_bare_negation
+"drop the sound, that is, not raise the sound",Cmd.VolumeDecrease,P3_corrective
+there is no call to hunt for my phone,Default Fallback Intent,P2_bare_negation
+i am not asking you to note down a reminder,Default Fallback Intent,P2_bare_negation
+you do not need to swap my program,Default Fallback Intent,P2_bare_negation
+i am not asking you to dictate a message,Default Fallback Intent,P2_bare_negation
+there is no call to silence my aids,Default Fallback Intent,P2_bare_negation
+you do not need to note down a reminder,Default Fallback Intent,P2_bare_negation
+you do not need to begin translating,Default Fallback Intent,P2_bare_negation
+it would be wrong to begin translating,Default Fallback Intent,P2_bare_negation
+let us not silence my aids,Default Fallback Intent,P2_bare_negation
+hold off on close the audio link,Default Fallback Intent,P2_bare_negation
+"open the audio link, that is, not close the audio link",Cmd.StreamingStart,P3_corrective
+i am not asking you to drop the sound,Default Fallback Intent,P2_bare_negation
+let us not bring the sound back,Default Fallback Intent,P2_bare_negation
+you do not need to begin captions,Default Fallback Intent,P2_bare_negation
+open the audio link — do not close the audio link,Cmd.StreamingStart,P3_corrective
+there is no call to begin translating,Default Fallback Intent,P2_bare_negation
+"bring the sound back, that is, not silence my aids",Cmd.VolumeUnmute,P3_corrective
+it would be wrong to clear that reminder,Default Fallback Intent,P2_bare_negation
+i am not asking you to hunt for my phone,Default Fallback Intent,P2_bare_negation
+you do not need to dictate a message,Default Fallback Intent,P2_bare_negation
+it would be wrong to begin captions,Default Fallback Intent,P2_bare_negation
+let us not swap my program,Default Fallback Intent,P2_bare_negation
+there is no call to raise the sound,Default Fallback Intent,P2_bare_negation
+"raise the sound, that is, not drop the sound",Cmd.VolumeIncrease,P3_corrective
+hold off on begin translating,Default Fallback Intent,P2_bare_negation
+it would be wrong to close the audio link,Default Fallback Intent,P2_bare_negation
+bring the sound back — do not silence my aids,Cmd.VolumeUnmute,P3_corrective
+raise the sound — do not drop the sound,Cmd.VolumeIncrease,P3_corrective
+hold off on dictate a message,Default Fallback Intent,P2_bare_negation
+"rather than silence my aids, bring the sound back",Cmd.VolumeUnmute,P3_corrective
+hold off on silence my aids,Default Fallback Intent,P2_bare_negation
+you do not need to bring the sound back,Default Fallback Intent,P2_bare_negation
+i would rather you did not begin translating,Default Fallback Intent,P2_bare_negation
+"rather than close the audio link, open the audio link",Cmd.StreamingStart,P3_corrective
+kindly refrain from bring the sound back,Default Fallback Intent,P2_bare_negation
+i am not asking you to replay my messages,Default Fallback Intent,P2_bare_negation
+"rather than bring the sound back, silence my aids",Cmd.VolumeMute,P3_corrective
+you do not need to drop the sound,Default Fallback Intent,P2_bare_negation
+kindly refrain from drop the sound,Default Fallback Intent,P2_bare_negation
+"rather than drop the sound, raise the sound",Cmd.VolumeIncrease,P3_corrective

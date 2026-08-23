@@ -1,0 +1,146 @@
+text,intent,length,source
+"i am sitting in a noisy restaurant and i am having real trouble following the person across the table, could you please increase the volume a bit",Cmd.VolumeIncrease,long,
+"um so the television is on and it is honestly blasting right now, would you mind bringing my hearing aids down a little",Cmd.VolumeDecrease,long,
+"i am about to go into a meeting and i do not want any sound at all coming through, please shut them off",Cmd.VolumeMute,long,
+okay the meeting is over now so you can go ahead and put the sound back on for me,Cmd.VolumeUnmute,long,
+we just walked into the restaurant so could you put me on the restaurant setting please,Cmd.MemoryChange,long,
+i am heading out for my afternoon walk now so please start tracking it,Cmd.ActivityWalk,long,
+before i leave the house i want to know whether these will last me until this evening,Cmd.BatteryLevel,long,
+"i have set my phone down somewhere in the house again and i cannot find it anywhere, can you help",Cmd.FindMyPhone,long,
+"my wife is going to be speaking spanish with her family tonight and i would like to follow along, can you start that up",Cmd.TranslationStart,long,
+could you please remind me tomorrow morning at eight that i need to take my blood pressure tablets,reminders.add,long,
+"i wanted to ask, when i am watching the television in the evening how exactly do i get the sound to come straight into my aids",Help_Accessories,long,
+"my audiologist mentioned something about her being able to adjust these without me coming in, how does that actually work",Help_RemoteProgramming,long,
+"i have been getting this ringing in my ears in the evenings and i believe there is a feature for that, can you explain it",Help_Tinnitus,long,
+"my son wants to keep an eye on how i am getting on with these, is there a way to let him see that",Help_HearShare,long,
+"every morning i struggle a bit to get the right one seated properly in my ear, is there a trick to it",Help_InsertDevice,long,
+"i think one of them might not be working properly today, is there some kind of test i can run",Help_SelfCheck,long,
+"i updated the app last night and everything looks different now, what has actually changed",Help_WhatsNew,long,
+"when i am out in the wind at the golf course it gets very rough, i heard there is a mode that helps with that",Help_EdgeMode,long,
+"if i were to have a fall while i am home on my own, what would these actually do about it",Help_FallAlert,long,
+i keep hearing about this score in the app and i do not really understand what it is measuring or how to make it go up,Help_ThriveScore,long,
+so i went for quite a long bike ride this morning and i am curious how far i actually got,Cmd.ActivityCycle,long,
+could you tell me roughly how many calories i have burned since i got up this morning,Cmd.ActivityCalories,long,
+i would like to leave a quick voice note for my daughter letting her know i got home safely,Cmd.SendMessage,long,
+"there was a message that came through earlier while i was out, could you play it for me now",Cmd.ListenMessage,long,
+"that prescription pickup i asked you about earlier, i have taken care of it so you can clear it",reminders.complete,long,
+"well, the television has been on for hours and my ears are tired, so i would like you to close the link to the television",Cmd.StreamingStop,long,contextual
+"um, i just woke up and i am still a bit muddled, but if it is not too much trouble, tell me what i burned this morning",Cmd.ActivityCalories,long,contextual
+"er, my wife keeps telling me i have it set wrong, and honestly if it is not too much trouble, cut all sound for now",Cmd.VolumeMute,long,contextual
+"so, my daughter is visiting this afternoon and before she arrives could you please explain what that score in the app is measuring",Help_ThriveScore,long,contextual
+"er, i am about to head into a meeting in a few minutes so please lift the sound a notch",Cmd.VolumeIncrease,long,contextual
+"well, i have been meaning to ask you all morning, and now that i have a moment, can you start putting their words on screen",Cmd.TranscribeStart,long,contextual
+my daughter is visiting this afternoon and before she arrives could you please note down that i must take my tablets at six,reminders.add,long,contextual
+"so, my wife keeps telling me i have it set wrong, and honestly would you mind if you explain how the ringing feature works",Help_Tinnitus,long,contextual
+"um, it is quite windy out here on the golf course today, so i would like you to explain what that score in the app is measuring",Help_ThriveScore,long,contextual
+"um, i am about to head into a meeting in a few minutes so would you mind if you tell me what charge is left",Cmd.BatteryLevel,long,contextual
+"we have just got back from a walk and before i settle down if it is not too much trouble, open the link to the television",Cmd.StreamingStart,long,contextual
+"er, i just woke up and i am still a bit muddled, but if it is not too much trouble, explain how i let my son see how i am doing",Help_HearShare,long,contextual
+"right, i am about to head into a meeting in a few minutes so i would like you to dictate a short note for my daughter",Cmd.SendMessage,long,contextual
+"um, i have been meaning to ask you all morning, and now that i have a moment, could you please explain how i keep these clean",Help_CleanCare,long,contextual
+"right, my wife keeps telling me i have it set wrong, and honestly can you start turning their spanish into english",Cmd.TranslationStart,long,contextual
+"um, i have been meaning to ask you all morning, and now that i have a moment, please replay whatever came through earlier",Cmd.ListenMessage,long,contextual
+"well, i just woke up and i am still a bit muddled, but can you dictate a short note for my daughter",Cmd.SendMessage,long,contextual
+"so, i just woke up and i am still a bit muddled, but if it is not too much trouble, explain how i switch between settings",Help_ChangingMemories,long,contextual
+"right, i am on the bus and it is rather noisy in here, so can you tell me how far i walked",Cmd.ActivityWalk,long,contextual
+"well, i have been meaning to ask you all morning, and now that i have a moment, can you explain how my audiologist adjusts these from afar",Help_RemoteProgramming,long,contextual
+"right, my wife keeps telling me i have it set wrong, and honestly can you tell me what charge is left",Cmd.BatteryLevel,long,contextual
+"so, i am about to head into a meeting in a few minutes so i would like you to lift the sound a notch",Cmd.VolumeIncrease,long,contextual
+"well, my daughter is visiting this afternoon and before she arrives if it is not too much trouble, replay whatever came through earlier",Cmd.ListenMessage,long,contextual
+"er, i am about to head into a meeting in a few minutes so could you please close the link to the television",Cmd.StreamingStop,long,contextual
+"well, i am sitting in a busy cafe and it is hard to follow the conversation, so can you replay whatever came through earlier",Cmd.ListenMessage,long,contextual
+"well, there is building work going on next door all week, so can you lift the sound a notch",Cmd.VolumeIncrease,long,contextual
+"there is building work going on next door all week, so would you mind if you tell me how far i walked",Cmd.ActivityWalk,long,contextual
+"right, i just woke up and i am still a bit muddled, but can you open the link to the television",Cmd.StreamingStart,long,contextual
+"i have been meaning to ask you all morning, and now that i have a moment, please explain how i let my son see how i am doing",Help_HearShare,long,contextual
+"er, my daughter is visiting this afternoon and before she arrives i would like you to ease the sound back a notch",Cmd.VolumeDecrease,long,contextual
+"it is quite windy out here on the golf course today, so if it is not too much trouble, move me onto the cafe setting",Cmd.MemoryChange,long,contextual
+"i am sitting in a busy cafe and it is hard to follow the conversation, so can you explain how the ringing feature works",Help_Tinnitus,long,contextual
+"so, there is building work going on next door all week, so please explain what happens if i take a fall",Help_FallAlert,long,contextual
+"well, we have just got back from a walk and before i settle down can you tell me what i burned this morning",Cmd.ActivityCalories,long,contextual
+"so, i have been meaning to ask you all morning, and now that i have a moment, if it is not too much trouble, note down that i must take my tablets at six",reminders.add,long,contextual
+"so, it is quite windy out here on the golf course today, so would you mind if you explain how i let my son see how i am doing",Help_HearShare,long,contextual
+"well, i am about to head into a meeting in a few minutes so if it is not too much trouble, cut all sound for now",Cmd.VolumeMute,long,contextual
+"um, i am sitting in a busy cafe and it is hard to follow the conversation, so if it is not too much trouble, let the sound through again",Cmd.VolumeUnmute,long,contextual
+"um, it is quite windy out here on the golf course today, so can you explain what that score in the app is measuring",Help_ThriveScore,long,contextual
+"right, the grandchildren are running around making a racket and would you mind if you start turning their spanish into english",Cmd.TranslationStart,long,contextual
+"right, i have been meaning to ask you all morning, and now that i have a moment, could you please mark that tablet reminder as done",reminders.complete,long,contextual
+"well, there is building work going on next door all week, so can you start putting their words on screen",Cmd.TranscribeStart,long,contextual
+my daughter is visiting this afternoon and before she arrives can you explain how my audiologist adjusts these from afar,Help_RemoteProgramming,long,contextual
+"well, i have been meaning to ask you all morning, and now that i have a moment, would you mind if you explain how i keep these clean",Help_CleanCare,long,contextual
+"um, the television has been on for hours and my ears are tired, so could you please ease the sound back a notch",Cmd.VolumeDecrease,long,contextual
+"my wife keeps telling me i have it set wrong, and honestly can you explain how i keep these clean",Help_CleanCare,long,contextual
+"so, i just woke up and i am still a bit muddled, but please lift the sound a notch",Cmd.VolumeIncrease,long,contextual
+"um, the grandchildren are running around making a racket and can you start putting their words on screen",Cmd.TranscribeStart,long,contextual
+"right, i just woke up and i am still a bit muddled, but if it is not too much trouble, mark that tablet reminder as done",reminders.complete,long,contextual
+"well, we have just got back from a walk and before i settle down i would like you to start turning their spanish into english",Cmd.TranslationStart,long,contextual
+"so, i just woke up and i am still a bit muddled, but would you mind if you explain how i seat these properly",Help_InsertDevice,long,contextual
+"right, i have been meaning to ask you all morning, and now that i have a moment, can you explain how the ringing feature works",Help_Tinnitus,long,contextual
+"well, it is quite windy out here on the golf course today, so could you please explain how the volume control works",Help_Volume,long,contextual
+"um, my wife keeps telling me i have it set wrong, and honestly if it is not too much trouble, explain how the wind setting works",Help_EdgeMode,long,contextual
+"um, i just woke up and i am still a bit muddled, but if it is not too much trouble, explain what happens if i take a fall",Help_FallAlert,long,contextual
+"er, the television has been on for hours and my ears are tired, so i would like you to tell me how many steps i have done",Cmd.ActivityStep,long,contextual
+"well, the television has been on for hours and my ears are tired, so would you mind if you cut all sound for now",Cmd.VolumeMute,long,contextual
+"right, i just woke up and i am still a bit muddled, but i would like you to explain how the volume control works",Help_Volume,long,contextual
+"so, there is building work going on next door all week, so could you please explain what happens if i take a fall",Help_FallAlert,long,contextual
+"it is quite windy out here on the golf course today, so would you mind if you explain how the wind setting works",Help_EdgeMode,long,contextual
+"well, the television has been on for hours and my ears are tired, so if it is not too much trouble, tell me how far i walked",Cmd.ActivityWalk,long,contextual
+"right, we have just got back from a walk and before i settle down if it is not too much trouble, let the sound through again",Cmd.VolumeUnmute,long,contextual
+"well, i just woke up and i am still a bit muddled, but would you mind if you explain what changed in this new version",Help_WhatsNew,long,contextual
+"um, the grandchildren are running around making a racket and please explain how the volume control works",Help_Volume,long,contextual
+"so, it is quite windy out here on the golf course today, so if it is not too much trouble, explain how the wind setting works",Help_EdgeMode,long,contextual
+"er, the television has been on for hours and my ears are tired, so i would like you to start putting their words on screen",Cmd.TranscribeStart,long,contextual
+"um, there is building work going on next door all week, so if it is not too much trouble, dictate a short note for my daughter",Cmd.SendMessage,long,contextual
+"um, we have just got back from a walk and before i settle down i would like you to tell me how many steps i have done",Cmd.ActivityStep,long,contextual
+"er, it is quite windy out here on the golf course today, so would you mind if you ease the sound back a notch",Cmd.VolumeDecrease,long,contextual
+"um, i am on the bus and it is rather noisy in here, so please explain how i seat these properly",Help_InsertDevice,long,contextual
+"well, i have been meaning to ask you all morning, and now that i have a moment, could you please note down that i must take my tablets at six",reminders.add,long,contextual
+"well, i just woke up and i am still a bit muddled, but would you mind if you explain how i keep these clean",Help_CleanCare,long,contextual
+"well, i am about to head into a meeting in a few minutes so can you explain what changed in this new version",Help_WhatsNew,long,contextual
+"well, i am about to head into a meeting in a few minutes so would you mind if you explain what changed in this new version",Help_WhatsNew,long,contextual
+"i am sitting in a busy cafe and it is hard to follow the conversation, so could you please move me onto the cafe setting",Cmd.MemoryChange,long,contextual
+"so, there is building work going on next door all week, so would you mind if you open the link to the television",Cmd.StreamingStart,long,contextual
+"right, my wife keeps telling me i have it set wrong, and honestly would you mind if you ease the sound back a notch",Cmd.VolumeDecrease,long,contextual
+"er, my wife keeps telling me i have it set wrong, and honestly i would like you to explain how the ringing feature works",Help_Tinnitus,long,contextual
+"er, my daughter is visiting this afternoon and before she arrives would you mind if you explain how i switch between settings",Help_ChangingMemories,long,contextual
+"er, i am on the bus and it is rather noisy in here, so would you mind if you explain how my audiologist adjusts these from afar",Help_RemoteProgramming,long,contextual
+"so, i have been meaning to ask you all morning, and now that i have a moment, could you please explain how i get these paired up",Help_Pairing,long,contextual
+"um, the grandchildren are running around making a racket and i would like you to close the link to the television",Cmd.StreamingStop,long,contextual
+"well, my daughter is visiting this afternoon and before she arrives i would like you to let the sound through again",Cmd.VolumeUnmute,long,contextual
+"um, i am about to head into a meeting in a few minutes so if it is not too much trouble, mark that tablet reminder as done",reminders.complete,long,contextual
+"right, the television has been on for hours and my ears are tired, so i would like you to explain how i switch between settings",Help_ChangingMemories,long,contextual
+my daughter is visiting this afternoon and before she arrives could you please dictate a short note for my daughter,Cmd.SendMessage,long,contextual
+"right, i am on the bus and it is rather noisy in here, so please cut all sound for now",Cmd.VolumeMute,long,contextual
+"so, i just woke up and i am still a bit muddled, but i would like you to track down my handset",Cmd.FindMyPhone,long,contextual
+"right, my daughter is visiting this afternoon and before she arrives if it is not too much trouble, close the link to the television",Cmd.StreamingStop,long,contextual
+"um, i am about to head into a meeting in a few minutes so could you please explain how the wind setting works",Help_EdgeMode,long,contextual
+"er, the grandchildren are running around making a racket and if it is not too much trouble, explain what changed in this new version",Help_WhatsNew,long,contextual
+"there is building work going on next door all week, so if it is not too much trouble, explain how the volume control works",Help_Volume,long,contextual
+"er, it is quite windy out here on the golf course today, so if it is not too much trouble, explain what that score in the app is measuring",Help_ThriveScore,long,contextual
+"um, there is building work going on next door all week, so would you mind if you explain how my audiologist adjusts these from afar",Help_RemoteProgramming,long,contextual
+"right, my daughter is visiting this afternoon and before she arrives if it is not too much trouble, tell me how far i walked",Cmd.ActivityWalk,long,contextual
+"right, i am sitting in a busy cafe and it is hard to follow the conversation, so could you please explain how i get these paired up",Help_Pairing,long,contextual
+"er, my daughter is visiting this afternoon and before she arrives could you please explain how i let my son see how i am doing",Help_HearShare,long,contextual
+"um, my wife keeps telling me i have it set wrong, and honestly would you mind if you explain how i seat these properly",Help_InsertDevice,long,contextual
+"right, i have been meaning to ask you all morning, and now that i have a moment, please mark that tablet reminder as done",reminders.complete,long,contextual
+we have just got back from a walk and before i settle down i would like you to tell me how many steps i have done,Cmd.ActivityStep,long,contextual
+"i am on the bus and it is rather noisy in here, so could you please let the sound through again",Cmd.VolumeUnmute,long,contextual
+"well, there is building work going on next door all week, so could you please tell me what i burned this morning",Cmd.ActivityCalories,long,contextual
+"the television has been on for hours and my ears are tired, so can you move me onto the cafe setting",Cmd.MemoryChange,long,contextual
+"i am on the bus and it is rather noisy in here, so if it is not too much trouble, tell me what i burned this morning",Cmd.ActivityCalories,long,contextual
+"so, we have just got back from a walk and before i settle down could you please explain how i switch between settings",Help_ChangingMemories,long,contextual
+"well, my daughter is visiting this afternoon and before she arrives i would like you to tell me what charge is left",Cmd.BatteryLevel,long,contextual
+"so, we have just got back from a walk and before i settle down could you please explain how i get these paired up",Help_Pairing,long,contextual
+"right, i have been meaning to ask you all morning, and now that i have a moment, can you replay whatever came through earlier",Cmd.ListenMessage,long,contextual
+"right, i am on the bus and it is rather noisy in here, so would you mind if you tell me what charge is left",Cmd.BatteryLevel,long,contextual
+"er, i just woke up and i am still a bit muddled, but could you please tell me how many steps i have done",Cmd.ActivityStep,long,contextual
+"so, there is building work going on next door all week, so i would like you to explain how i get these paired up",Help_Pairing,long,contextual
+"er, i just woke up and i am still a bit muddled, but i would like you to track down my handset",Cmd.FindMyPhone,long,contextual
+"so, my wife keeps telling me i have it set wrong, and honestly i would like you to explain what happens if i take a fall",Help_FallAlert,long,contextual
+"um, it is quite windy out here on the golf course today, so i would like you to move me onto the cafe setting",Cmd.MemoryChange,long,contextual
+"there is building work going on next door all week, so please explain how i seat these properly",Help_InsertDevice,long,contextual
+"right, i am about to head into a meeting in a few minutes so if it is not too much trouble, track down my handset",Cmd.FindMyPhone,long,contextual
+"right, my wife keeps telling me i have it set wrong, and honestly please open the link to the television",Cmd.StreamingStart,long,contextual
+"er, we have just got back from a walk and before i settle down please start turning their spanish into english",Cmd.TranslationStart,long,contextual
+"right, it is quite windy out here on the golf course today, so can you note down that i must take my tablets at six",reminders.add,long,contextual
+"the grandchildren are running around making a racket and if it is not too much trouble, track down my handset",Cmd.FindMyPhone,long,contextual

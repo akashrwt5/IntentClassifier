@@ -1,0 +1,917 @@
+text,intent,reason
+"it is too loud in here, can you make it quieter",Cmd.VolumeDecrease,contains 'loud'
+"it is too quiet in here, can you make it louder",Cmd.VolumeIncrease,contains 'quiet'
+"everything sounds too loud, bring it down",Cmd.VolumeDecrease,contains 'loud'
+"everything sounds too soft, bring it up",Cmd.VolumeIncrease,contains 'soft'
+"i turned it up too far, take it back down",Cmd.VolumeDecrease,contains 'up'
+"i turned it down too far, take it back up",Cmd.VolumeIncrease,contains 'down'
+stop making it louder and lower it instead,Cmd.VolumeDecrease,contains 'louder'
+stop making it quieter and raise it instead,Cmd.VolumeIncrease,contains 'quieter'
+"that is far too much volume, cut it back",Cmd.VolumeDecrease,contains 'volume'
+"the volume dropped too far, put it back up",Cmd.VolumeIncrease,contains 'dropped'
+"i do not want it muted, i want it louder",Cmd.VolumeIncrease,contains 'muted'
+"i do not want it louder, i want it muted",Cmd.VolumeMute,contains 'louder'
+"it is muted, turn the sound back on",Cmd.VolumeUnmute,contains 'muted'
+"the sound is on, mute it",Cmd.VolumeMute,contains 'on'
+"i am not asking to change programs, just turn it up",Cmd.VolumeIncrease,contains 'programs'
+"i am not asking to change the volume, switch my program",Cmd.MemoryChange,contains 'volume'
+"do not start streaming, stop it",Cmd.StreamingStop,contains 'start'
+"do not stop streaming, start it",Cmd.StreamingStart,contains 'stop'
+"i do not need a new reminder, mark the old one done",reminders.complete,contains 'reminder'
+"i do not want to mark it done, add another reminder",reminders.add,contains 'done'
+"do not play the message, record a new one",Cmd.SendMessage,contains 'play'
+"do not record a message, play the one i got",Cmd.ListenMessage,contains 'record'
+"i am not looking for my phone, i lost a hearing aid",Help_FindMyHearingAids,contains 'phone'
+"i am not looking for my hearing aid, i lost my phone",Cmd.FindMyPhone,contains 'hearing aid'
+"do not tell me how, just change the volume",Cmd.VolumeDecrease,how-to distractor
+"do not change anything, just tell me how volume works",Help_Volume,command distractor
+"i did not ask about the battery type, just tell me the charge",Cmd.BatteryLevel,contains 'battery type'
+"i did not ask for the charge level, what battery size do i need",Help_Battery,contains 'charge'
+"not my step count, my stand time",Cmd.ActivityStand,contains 'step'
+"not my stand time, my step count",Cmd.ActivityStep,contains 'stand'
+"not my heart rate, my heart rate recovery",Help_HeartRateRecovery,contains 'heart rate'
+"not the recovery number, just my heart rate",Help_HeartRate,contains 'recovery'
+"not edge mode, i meant mask mode",Help_MaskMode,contains 'edge mode'
+"not mask mode, i meant edge mode",Help_EdgeMode,contains 'mask mode'
+"i do not want to transcribe, i want to translate",Cmd.TranslationStart,contains 'transcribe'
+"i do not want to translate, i want to transcribe",Cmd.TranscribeStart,contains 'translate'
+"i am not after a remote adjustment, i am after to share my data",Help_HearShare,corrective_taught_family
+"skip mask mode, do demo mode instead",Help_DemoMode,corrective_HELD_OUT_family
+"i am not after mask mode, i am after speech enhancement",Help_IntelliVoice,corrective_HELD_OUT_family
+"speech enhancement is not what i wanted, demo mode is",Help_DemoMode,corrective_HELD_OUT_family
+"my calories is not what i wanted, my standing time is",Cmd.ActivityStand,corrective_taught_family
+"skip how to change programs, do how to make a new program instead",Help_MemoryOptions,corrective_taught_family
+"i am not after how to put them in, i am after how to clean them",Help_CleanCare,corrective_taught_family
+not my hearing aid found — i meant my phone found,Cmd.FindMyPhone,corrective_taught_family
+"speech enhancement is not what i wanted, edge mode is",Help_EdgeMode,corrective_HELD_OUT_family
+"how to change programs is not what i wanted, how to personalise the sound is",Help_Customize,corrective_taught_family
+"skip speech enhancement, do the cros system instead",Help_WiCROS,corrective_HELD_OUT_family
+"skip a self check, do how to put them in instead",Help_InsertDevice,corrective_taught_family
+"i am not after my workout, i am after my walking",Cmd.ActivityWalk,corrective_taught_family
+"quieter is not what i wanted, muted is",Cmd.VolumeMute,corrective_taught_family
+"skip to play my messages, do to record a message instead",Cmd.SendMessage,corrective_HELD_OUT_family
+"a self check is not what i wanted, how to clean them is",Help_CleanCare,corrective_taught_family
+"i am not after how translate works, i am after to translate",Cmd.TranslationStart,corrective_taught_family
+not my heart rate recovery — i meant my heart rate,Help_HeartRate,corrective_HELD_OUT_family
+not how translate works — i meant to translate,Cmd.TranslationStart,corrective_taught_family
+"skip streaming started, do streaming stopped instead",Cmd.StreamingStop,corrective_taught_family
+"i am not after a new reminder, i am after how reminders work",Help_Reminder,corrective_taught_family
+"how to change programs is not what i wanted, a different program is",Cmd.MemoryChange,corrective_taught_family
+not streaming stopped — i meant streaming started,Cmd.StreamingStart,corrective_taught_family
+"i am not after my running, i am after my walking",Cmd.ActivityWalk,corrective_taught_family
+"skip the voice assistant, do the app settings instead",Help_AppSettings,corrective_taught_family
+not how to put them in — i meant how to clean them,Help_CleanCare,corrective_taught_family
+"skip demo mode, do the cros system instead",Help_WiCROS,corrective_HELD_OUT_family
+"skip my cycling, do my calories instead",Cmd.ActivityCalories,corrective_taught_family
+"edge mode is not what i wanted, the cros system is",Help_WiCROS,corrective_HELD_OUT_family
+"mask mode is not what i wanted, demo mode is",Help_DemoMode,corrective_HELD_OUT_family
+not the voice assistant — i meant what is new,Help_WhatsNew,corrective_taught_family
+"skip how the volume works, do louder instead",Cmd.VolumeIncrease,corrective_taught_family
+"skip my cycling, do my workout instead",Cmd.ActivityExercise,corrective_taught_family
+"my calories is not what i wanted, my running is",Cmd.ActivityRun,corrective_taught_family
+"i am not after louder, i am after unmuted",Cmd.VolumeUnmute,corrective_taught_family
+"i am not after the charge level, i am after what battery size i need",Help_Battery,corrective_taught_family
+"i am not after how to clean them, i am after how to put them in",Help_InsertDevice,corrective_taught_family
+"my step count is not what i wanted, my workout is",Cmd.ActivityExercise,corrective_taught_family
+"skip my step count, do my aerobics instead",Cmd.ActivityAerobics,corrective_taught_family
+not my walking — i meant my step count,Cmd.ActivityStep,corrective_taught_family
+"how to personalise the sound is not what i wanted, how to change programs is",Help_ChangingMemories,corrective_taught_family
+"i am not after to pair them, i am after the voice assistant",Help_VoiceAssistant,corrective_taught_family
+"my standing time is not what i wanted, my running is",Cmd.ActivityRun,corrective_taught_family
+"my aerobics is not what i wanted, my walking is",Cmd.ActivityWalk,corrective_taught_family
+"skip how to put them in, do a self check instead",Help_SelfCheck,corrective_taught_family
+"i am not after muted, i am after louder",Cmd.VolumeIncrease,corrective_taught_family
+"i am not after how to personalise the sound, i am after how to change programs",Help_ChangingMemories,corrective_taught_family
+not my running — i meant my workout,Cmd.ActivityExercise,corrective_taught_family
+not demo mode — i meant the tinnitus masker,Help_Tinnitus,corrective_HELD_OUT_family
+not speech enhancement — i meant the cros system,Help_WiCROS,corrective_HELD_OUT_family
+"skip the device settings, do how to clean them instead",Help_CleanCare,corrective_taught_family
+"skip a different program, do how to personalise the sound instead",Help_Customize,corrective_taught_family
+"i am not after how to put them in, i am after a self check",Help_SelfCheck,corrective_taught_family
+"i am not after quieter, i am after how the volume works",Help_Volume,corrective_taught_family
+not my walking — i meant my workout,Cmd.ActivityExercise,corrective_taught_family
+not speech enhancement — i meant mask mode,Help_MaskMode,corrective_HELD_OUT_family
+"a remote appointment is not what i wanted, to share my data is",Help_HearShare,corrective_taught_family
+not how reminders work — i meant a new reminder,reminders.add,corrective_taught_family
+"skip to share my data, do a remote adjustment instead",Help_RemoteProgramming,corrective_taught_family
+"the charge level is not what i wanted, what battery size i need is",Help_Battery,corrective_taught_family
+"skip muted, do unmuted instead",Cmd.VolumeUnmute,corrective_taught_family
+"i am not after my calories, i am after my cycling",Cmd.ActivityCycle,corrective_taught_family
+not my cycling — i meant my running,Cmd.ActivityRun,corrective_taught_family
+not unmuted — i meant how the volume works,Help_Volume,corrective_taught_family
+"i am not after quieter, i am after muted",Cmd.VolumeMute,corrective_taught_family
+not my workout — i meant my step count,Cmd.ActivityStep,corrective_taught_family
+"skip my step count, do my standing time instead",Cmd.ActivityStand,corrective_taught_family
+"skip my step count, do my calories instead",Cmd.ActivityCalories,corrective_taught_family
+"what is new is not what i wanted, to pair them is",Help_Pairing,corrective_taught_family
+not how to clean them — i meant how to put them in,Help_InsertDevice,corrective_taught_family
+"skip quieter, do louder instead",Cmd.VolumeIncrease,corrective_taught_family
+"quieter is not what i wanted, louder is",Cmd.VolumeIncrease,corrective_taught_family
+"skip my aerobics, do my cycling instead",Cmd.ActivityCycle,corrective_taught_family
+"skip how to put them in, do the device settings instead",Help_DeviceSettings,corrective_taught_family
+"how reminders work is not what i wanted, a new reminder is",reminders.add,corrective_taught_family
+not the cros system — i meant the tinnitus masker,Help_Tinnitus,corrective_HELD_OUT_family
+"the tinnitus masker is not what i wanted, the cros system is",Help_WiCROS,corrective_HELD_OUT_family
+"a different program is not what i wanted, how to change programs is",Help_ChangingMemories,corrective_taught_family
+not edge mode — i meant mask mode,Help_MaskMode,corrective_HELD_OUT_family
+"skip the cros system, do edge mode instead",Help_EdgeMode,corrective_HELD_OUT_family
+"i am not after my standing time, i am after my running",Cmd.ActivityRun,corrective_taught_family
+"streaming started is not what i wanted, help with my tv streamer is",Help_Accessories,corrective_taught_family
+"how the volume works is not what i wanted, quieter is",Cmd.VolumeDecrease,corrective_taught_family
+"my hearing aid found is not what i wanted, my phone found is",Cmd.FindMyPhone,corrective_taught_family
+not my step count — i meant my workout,Cmd.ActivityExercise,corrective_taught_family
+"i am not after to share my data, i am after a remote appointment",Help_HearingCareAnywhereConnect,corrective_taught_family
+"my running is not what i wanted, my cycling is",Cmd.ActivityCycle,corrective_taught_family
+"my running is not what i wanted, my aerobics is",Cmd.ActivityAerobics,corrective_taught_family
+"demo mode is not what i wanted, edge mode is",Help_EdgeMode,corrective_HELD_OUT_family
+"skip my workout, do my running instead",Cmd.ActivityRun,corrective_taught_family
+"how to clean them is not what i wanted, the device settings is",Help_DeviceSettings,corrective_taught_family
+"i am not after my step count, i am after my cycling",Cmd.ActivityCycle,corrective_taught_family
+"skip my walking, do my step count instead",Cmd.ActivityStep,corrective_taught_family
+not edge mode — i meant demo mode,Help_DemoMode,corrective_HELD_OUT_family
+not my running — i meant my cycling,Cmd.ActivityCycle,corrective_taught_family
+"skip the device settings, do how to put them in instead",Help_InsertDevice,corrective_taught_family
+"how to clean them is not what i wanted, a self check is",Help_SelfCheck,corrective_taught_family
+"how to personalise the sound is not what i wanted, a different program is",Cmd.MemoryChange,corrective_taught_family
+"i am not after to pair them, i am after the basics",Help_Home,corrective_taught_family
+"skip the cros system, do mask mode instead",Help_MaskMode,corrective_HELD_OUT_family
+"skip to translate, do how translate works instead",Help_Translate,corrective_taught_family
+"my workout is not what i wanted, my running is",Cmd.ActivityRun,corrective_taught_family
+"i am not after my walking, i am after my workout",Cmd.ActivityExercise,corrective_taught_family
+"skip unmuted, do muted instead",Cmd.VolumeMute,corrective_taught_family
+not quieter — i meant louder,Cmd.VolumeIncrease,corrective_taught_family
+"what is new is not what i wanted, the basics is",Help_Home,corrective_taught_family
+not my walking — i meant my calories,Cmd.ActivityCalories,corrective_taught_family
+"skip a remote adjustment, do a remote appointment instead",Help_HearingCareAnywhereConnect,corrective_taught_family
+not my calories — i meant my aerobics,Cmd.ActivityAerobics,corrective_taught_family
+"the tinnitus masker is not what i wanted, demo mode is",Help_DemoMode,corrective_HELD_OUT_family
+not my workout — i meant my running,Cmd.ActivityRun,corrective_taught_family
+"how the volume works is not what i wanted, louder is",Cmd.VolumeIncrease,corrective_taught_family
+"skip speech enhancement, do demo mode instead",Help_DemoMode,corrective_HELD_OUT_family
+not my calories — i meant my step count,Cmd.ActivityStep,corrective_taught_family
+"skip my walking, do my workout instead",Cmd.ActivityExercise,corrective_taught_family
+"i am not after my calories, i am after my walking",Cmd.ActivityWalk,corrective_taught_family
+"i am not after my standing time, i am after my cycling",Cmd.ActivityCycle,corrective_taught_family
+"skip my heart rate recovery, do my activity summary instead",Help_Health,corrective_HELD_OUT_family
+"skip what is new, do to pair them instead",Help_Pairing,corrective_taught_family
+not the voice assistant — i meant the app settings,Help_AppSettings,corrective_taught_family
+"my standing time is not what i wanted, my workout is",Cmd.ActivityExercise,corrective_taught_family
+not quieter — i meant unmuted,Cmd.VolumeUnmute,corrective_taught_family
+"the basics is not what i wanted, the voice assistant is",Help_VoiceAssistant,corrective_taught_family
+"i am not after my standing time, i am after my walking",Cmd.ActivityWalk,corrective_taught_family
+"i am not after my cycling, i am after my running",Cmd.ActivityRun,corrective_taught_family
+not my cycling — i meant my standing time,Cmd.ActivityStand,corrective_taught_family
+"skip a remote appointment, do a remote adjustment instead",Help_RemoteProgramming,corrective_taught_family
+"skip the voice assistant, do what is new instead",Help_WhatsNew,corrective_taught_family
+"skip the basics, do the voice assistant instead",Help_VoiceAssistant,corrective_taught_family
+"skip the app settings, do to pair them instead",Help_Pairing,corrective_taught_family
+"my heart rate recovery is not what i wanted, my score is",Help_ThriveScore,corrective_HELD_OUT_family
+not my heart rate — i meant my heart rate recovery,Help_HeartRateRecovery,corrective_HELD_OUT_family
+"to transcribe is not what i wanted, how transcribe works is",Help_Transcribe,corrective_taught_family
+"a new reminder is not what i wanted, that reminder marked done is",reminders.complete,corrective_taught_family
+not a new reminder — i meant that reminder marked done,reminders.complete,corrective_taught_family
+"i am not after how to personalise the sound, i am after a different program",Cmd.MemoryChange,corrective_taught_family
+"skip help with my tv streamer, do streaming started instead",Cmd.StreamingStart,corrective_taught_family
+"i am not after that reminder marked done, i am after a new reminder",reminders.add,corrective_taught_family
+"skip louder, do unmuted instead",Cmd.VolumeUnmute,corrective_taught_family
+"skip demo mode, do edge mode instead",Help_EdgeMode,corrective_HELD_OUT_family
+"i am not after how the volume works, i am after quieter",Cmd.VolumeDecrease,corrective_taught_family
+"how to personalise the sound is not what i wanted, how to make a new program is",Help_MemoryOptions,corrective_taught_family
+"skip my score, do my heart rate instead",Help_HeartRate,corrective_HELD_OUT_family
+"demo mode is not what i wanted, the tinnitus masker is",Help_Tinnitus,corrective_HELD_OUT_family
+"i am not after unmuted, i am after how the volume works",Help_Volume,corrective_taught_family
+"skip my workout, do my step count instead",Cmd.ActivityStep,corrective_taught_family
+not my aerobics — i meant my running,Cmd.ActivityRun,corrective_taught_family
+"i am not after the cros system, i am after speech enhancement",Help_IntelliVoice,corrective_HELD_OUT_family
+"my standing time is not what i wanted, my step count is",Cmd.ActivityStep,corrective_taught_family
+"i am not after a remote adjustment, i am after a remote appointment",Help_HearingCareAnywhereConnect,corrective_taught_family
+not speech enhancement — i meant demo mode,Help_DemoMode,corrective_HELD_OUT_family
+"i am not after the tinnitus masker, i am after the cros system",Help_WiCROS,corrective_HELD_OUT_family
+not my workout — i meant my walking,Cmd.ActivityWalk,corrective_taught_family
+not what is new — i meant to pair them,Help_Pairing,corrective_taught_family
+"i am not after the voice assistant, i am after to pair them",Help_Pairing,corrective_taught_family
+"skip my workout, do my aerobics instead",Cmd.ActivityAerobics,corrective_taught_family
+not my calories — i meant my workout,Cmd.ActivityExercise,corrective_taught_family
+"i am not after my running, i am after my step count",Cmd.ActivityStep,corrective_taught_family
+not demo mode — i meant mask mode,Help_MaskMode,corrective_HELD_OUT_family
+"skip mask mode, do the tinnitus masker instead",Help_Tinnitus,corrective_HELD_OUT_family
+"i am not after a new reminder, i am after that reminder marked done",reminders.complete,corrective_taught_family
+not a self check — i meant how to clean them,Help_CleanCare,corrective_taught_family
+"skip how reminders work, do a new reminder instead",reminders.add,corrective_taught_family
+"skip the voice assistant, do the basics instead",Help_Home,corrective_taught_family
+"my score is not what i wanted, my activity summary is",Help_Health,corrective_HELD_OUT_family
+"my aerobics is not what i wanted, my standing time is",Cmd.ActivityStand,corrective_taught_family
+"a remote appointment is not what i wanted, a remote adjustment is",Help_RemoteProgramming,corrective_taught_family
+"the app settings is not what i wanted, the basics is",Help_Home,corrective_taught_family
+"a different program is not what i wanted, how to make a new program is",Help_MemoryOptions,corrective_taught_family
+not how to change programs — i meant how to personalise the sound,Help_Customize,corrective_taught_family
+"i am not after how to change programs, i am after how to personalise the sound",Help_Customize,corrective_taught_family
+"my cycling is not what i wanted, my calories is",Cmd.ActivityCalories,corrective_taught_family
+not how to change programs — i meant how to make a new program,Help_MemoryOptions,corrective_taught_family
+"speech enhancement is not what i wanted, mask mode is",Help_MaskMode,corrective_HELD_OUT_family
+"my step count is not what i wanted, my aerobics is",Cmd.ActivityAerobics,corrective_taught_family
+"the tinnitus masker is not what i wanted, mask mode is",Help_MaskMode,corrective_HELD_OUT_family
+"skip edge mode, do the tinnitus masker instead",Help_Tinnitus,corrective_HELD_OUT_family
+"the cros system is not what i wanted, speech enhancement is",Help_IntelliVoice,corrective_HELD_OUT_family
+not my running — i meant my step count,Cmd.ActivityStep,corrective_taught_family
+"skip my walking, do my cycling instead",Cmd.ActivityCycle,corrective_taught_family
+"i am not after to share my data, i am after a remote adjustment",Help_RemoteProgramming,corrective_taught_family
+not my score — i meant my heart rate recovery,Help_HeartRateRecovery,corrective_HELD_OUT_family
+"i am not after my calories, i am after my workout",Cmd.ActivityExercise,corrective_taught_family
+"i am not after my heart rate recovery, i am after my heart rate",Help_HeartRate,corrective_HELD_OUT_family
+"i am not after how reminders work, i am after that reminder marked done",reminders.complete,corrective_taught_family
+"skip my standing time, do my cycling instead",Cmd.ActivityCycle,corrective_taught_family
+"i am not after demo mode, i am after mask mode",Help_MaskMode,corrective_HELD_OUT_family
+"skip my standing time, do my workout instead",Cmd.ActivityExercise,corrective_taught_family
+"i am not after muted, i am after quieter",Cmd.VolumeDecrease,corrective_taught_family
+"skip my activity summary, do my heart rate instead",Help_HeartRate,corrective_HELD_OUT_family
+not my aerobics — i meant my step count,Cmd.ActivityStep,corrective_taught_family
+not the app settings — i meant the voice assistant,Help_VoiceAssistant,corrective_taught_family
+"i am not after how reminders work, i am after a new reminder",reminders.add,corrective_taught_family
+"skip my cycling, do my running instead",Cmd.ActivityRun,corrective_taught_family
+"i am not after my walking, i am after my step count",Cmd.ActivityStep,corrective_taught_family
+not how to change programs — i meant a different program,Cmd.MemoryChange,corrective_taught_family
+"i am not after my cycling, i am after my step count",Cmd.ActivityStep,corrective_taught_family
+"skip the cros system, do demo mode instead",Help_DemoMode,corrective_HELD_OUT_family
+"how to make a new program is not what i wanted, how to change programs is",Help_ChangingMemories,corrective_taught_family
+"how to clean them is not what i wanted, how to put them in is",Help_InsertDevice,corrective_taught_family
+"skip mask mode, do speech enhancement instead",Help_IntelliVoice,corrective_HELD_OUT_family
+"skip the tinnitus masker, do demo mode instead",Help_DemoMode,corrective_HELD_OUT_family
+"i am not after edge mode, i am after speech enhancement",Help_IntelliVoice,corrective_HELD_OUT_family
+not demo mode — i meant the cros system,Help_WiCROS,corrective_HELD_OUT_family
+"skip my activity summary, do my heart rate recovery instead",Help_HeartRateRecovery,corrective_HELD_OUT_family
+"skip my aerobics, do my walking instead",Cmd.ActivityWalk,corrective_taught_family
+"i am not after my walking, i am after my cycling",Cmd.ActivityCycle,corrective_taught_family
+"my walking is not what i wanted, my workout is",Cmd.ActivityExercise,corrective_taught_family
+not my calories — i meant my walking,Cmd.ActivityWalk,corrective_taught_family
+"my walking is not what i wanted, my standing time is",Cmd.ActivityStand,corrective_taught_family
+not the tinnitus masker — i meant mask mode,Help_MaskMode,corrective_HELD_OUT_family
+"skip to share my data, do a remote appointment instead",Help_HearingCareAnywhereConnect,corrective_taught_family
+"i am not after a remote appointment, i am after to share my data",Help_HearShare,corrective_taught_family
+not my cycling — i meant my step count,Cmd.ActivityStep,corrective_taught_family
+not how reminders work — i meant that reminder marked done,reminders.complete,corrective_taught_family
+not that reminder marked done — i meant how reminders work,Help_Reminder,corrective_taught_family
+"skip my walking, do my calories instead",Cmd.ActivityCalories,corrective_taught_family
+"i am not after my cycling, i am after my walking",Cmd.ActivityWalk,corrective_taught_family
+"skip quieter, do muted instead",Cmd.VolumeMute,corrective_taught_family
+"my running is not what i wanted, my workout is",Cmd.ActivityExercise,corrective_taught_family
+"skip what is new, do the basics instead",Help_Home,corrective_taught_family
+not louder — i meant quieter,Cmd.VolumeDecrease,corrective_taught_family
+not edge mode — i meant the cros system,Help_WiCROS,corrective_HELD_OUT_family
+"i am not after how to change programs, i am after a different program",Cmd.MemoryChange,corrective_taught_family
+not my step count — i meant my running,Cmd.ActivityRun,corrective_taught_family
+not a different program — i meant how to make a new program,Help_MemoryOptions,corrective_taught_family
+"i am not after speech enhancement, i am after edge mode",Help_EdgeMode,corrective_HELD_OUT_family
+"unmuted is not what i wanted, muted is",Cmd.VolumeMute,corrective_taught_family
+"skip how to personalise the sound, do how to change programs instead",Help_ChangingMemories,corrective_taught_family
+"i am not after what battery size i need, i am after the charge level",Cmd.BatteryLevel,corrective_taught_family
+"muted is not what i wanted, louder is",Cmd.VolumeIncrease,corrective_taught_family
+"how to make a new program is not what i wanted, a different program is",Cmd.MemoryChange,corrective_taught_family
+"streaming stopped is not what i wanted, streaming started is",Cmd.StreamingStart,corrective_taught_family
+"help with my tv streamer is not what i wanted, streaming started is",Cmd.StreamingStart,corrective_taught_family
+"my score is not what i wanted, my heart rate recovery is",Help_HeartRateRecovery,corrective_HELD_OUT_family
+"skip to pair them, do what is new instead",Help_WhatsNew,corrective_taught_family
+not the tinnitus masker — i meant speech enhancement,Help_IntelliVoice,corrective_HELD_OUT_family
+"i am not after my heart rate recovery, i am after my score",Help_ThriveScore,corrective_HELD_OUT_family
+not my standing time — i meant my calories,Cmd.ActivityCalories,corrective_taught_family
+"i am not after how to make a new program, i am after how to personalise the sound",Help_Customize,corrective_taught_family
+"i am not after my heart rate, i am after my heart rate recovery",Help_HeartRateRecovery,corrective_HELD_OUT_family
+"my step count is not what i wanted, my running is",Cmd.ActivityRun,corrective_taught_family
+"i am not after my cycling, i am after my standing time",Cmd.ActivityStand,corrective_taught_family
+not my aerobics — i meant my standing time,Cmd.ActivityStand,corrective_taught_family
+"how transcribe works is not what i wanted, to transcribe is",Cmd.TranscribeStart,corrective_taught_family
+"skip my score, do my activity summary instead",Help_Health,corrective_HELD_OUT_family
+"skip how reminders work, do that reminder marked done instead",reminders.complete,corrective_taught_family
+"skip muted, do quieter instead",Cmd.VolumeDecrease,corrective_taught_family
+"skip edge mode, do speech enhancement instead",Help_IntelliVoice,corrective_HELD_OUT_family
+"i am not after my step count, i am after my calories",Cmd.ActivityCalories,corrective_taught_family
+not my activity summary — i meant my score,Help_ThriveScore,corrective_HELD_OUT_family
+"skip the voice assistant, do to pair them instead",Help_Pairing,corrective_taught_family
+"my aerobics is not what i wanted, my cycling is",Cmd.ActivityCycle,corrective_taught_family
+not louder — i meant how the volume works,Help_Volume,corrective_taught_family
+"the cros system is not what i wanted, edge mode is",Help_EdgeMode,corrective_HELD_OUT_family
+"skip the cros system, do speech enhancement instead",Help_IntelliVoice,corrective_HELD_OUT_family
+"i am not after unmuted, i am after louder",Cmd.VolumeIncrease,corrective_taught_family
+"my cycling is not what i wanted, my workout is",Cmd.ActivityExercise,corrective_taught_family
+"my standing time is not what i wanted, my walking is",Cmd.ActivityWalk,corrective_taught_family
+"skip speech enhancement, do edge mode instead",Help_EdgeMode,corrective_HELD_OUT_family
+"i am not after my heart rate, i am after my activity summary",Help_Health,corrective_HELD_OUT_family
+not help with my tv streamer — i meant streaming started,Cmd.StreamingStart,corrective_taught_family
+not the basics — i meant the app settings,Help_AppSettings,corrective_taught_family
+"i am not after how to personalise the sound, i am after how to make a new program",Help_MemoryOptions,corrective_taught_family
+"a self check is not what i wanted, how to put them in is",Help_InsertDevice,corrective_taught_family
+"to play my messages is not what i wanted, to record a message is",Cmd.SendMessage,corrective_HELD_OUT_family
+not how transcribe works — i meant to transcribe,Cmd.TranscribeStart,corrective_taught_family
+"i am not after my workout, i am after my standing time",Cmd.ActivityStand,corrective_taught_family
+"i am not after how to clean them, i am after a self check",Help_SelfCheck,corrective_taught_family
+"i am not after a different program, i am after how to personalise the sound",Help_Customize,corrective_taught_family
+not the basics — i meant to pair them,Help_Pairing,corrective_taught_family
+"to pair them is not what i wanted, the voice assistant is",Help_VoiceAssistant,corrective_taught_family
+not my workout — i meant my aerobics,Cmd.ActivityAerobics,corrective_taught_family
+"skip the charge level, do what battery size i need instead",Help_Battery,corrective_taught_family
+"skip my aerobics, do my step count instead",Cmd.ActivityStep,corrective_taught_family
+"edge mode is not what i wanted, demo mode is",Help_DemoMode,corrective_HELD_OUT_family
+"i am not after what is new, i am after to pair them",Help_Pairing,corrective_taught_family
+not my standing time — i meant my cycling,Cmd.ActivityCycle,corrective_taught_family
+"my aerobics is not what i wanted, my running is",Cmd.ActivityRun,corrective_taught_family
+"i am not after my calories, i am after my standing time",Cmd.ActivityStand,corrective_taught_family
+"the voice assistant is not what i wanted, the basics is",Help_Home,corrective_taught_family
+"i am not after my activity summary, i am after my score",Help_ThriveScore,corrective_HELD_OUT_family
+"to share my data is not what i wanted, a remote adjustment is",Help_RemoteProgramming,corrective_taught_family
+not a self check — i meant how to put them in,Help_InsertDevice,corrective_taught_family
+"skip my standing time, do my aerobics instead",Cmd.ActivityAerobics,corrective_taught_family
+"i am not after quieter, i am after unmuted",Cmd.VolumeUnmute,corrective_taught_family
+"skip the tinnitus masker, do mask mode instead",Help_MaskMode,corrective_HELD_OUT_family
+"i am not after my cycling, i am after my workout",Cmd.ActivityExercise,corrective_taught_family
+not louder — i meant unmuted,Cmd.VolumeUnmute,corrective_taught_family
+"i am not after a different program, i am after how to change programs",Help_ChangingMemories,corrective_taught_family
+"skip the tinnitus masker, do speech enhancement instead",Help_IntelliVoice,corrective_HELD_OUT_family
+not how to make a new program — i meant how to change programs,Help_ChangingMemories,corrective_taught_family
+not the cros system — i meant edge mode,Help_EdgeMode,corrective_HELD_OUT_family
+"my cycling is not what i wanted, my step count is",Cmd.ActivityStep,corrective_taught_family
+"skip a self check, do how to clean them instead",Help_CleanCare,corrective_taught_family
+"i am not after how the volume works, i am after louder",Cmd.VolumeIncrease,corrective_taught_family
+"i am not after unmuted, i am after muted",Cmd.VolumeMute,corrective_taught_family
+"i am not after muted, i am after how the volume works",Help_Volume,corrective_taught_family
+not how to make a new program — i meant a different program,Cmd.MemoryChange,corrective_taught_family
+"i am not after speech enhancement, i am after the cros system",Help_WiCROS,corrective_HELD_OUT_family
+"the voice assistant is not what i wanted, the app settings is",Help_AppSettings,corrective_taught_family
+"my cycling is not what i wanted, my standing time is",Cmd.ActivityStand,corrective_taught_family
+not the basics — i meant the voice assistant,Help_VoiceAssistant,corrective_taught_family
+"skip how to make a new program, do a different program instead",Cmd.MemoryChange,corrective_taught_family
+"the cros system is not what i wanted, demo mode is",Help_DemoMode,corrective_HELD_OUT_family
+not my step count — i meant my aerobics,Cmd.ActivityAerobics,corrective_taught_family
+"skip how translate works, do to translate instead",Cmd.TranslationStart,corrective_taught_family
+"the cros system is not what i wanted, the tinnitus masker is",Help_Tinnitus,corrective_HELD_OUT_family
+"skip how the volume works, do muted instead",Cmd.VolumeMute,corrective_taught_family
+"i am not after my heart rate recovery, i am after my activity summary",Help_Health,corrective_HELD_OUT_family
+"skip how to make a new program, do how to change programs instead",Help_ChangingMemories,corrective_taught_family
+"skip the app settings, do the basics instead",Help_Home,corrective_taught_family
+not muted — i meant unmuted,Cmd.VolumeUnmute,corrective_taught_family
+"quieter is not what i wanted, how the volume works is",Help_Volume,corrective_taught_family
+not my cycling — i meant my workout,Cmd.ActivityExercise,corrective_taught_family
+"skip my calories, do my standing time instead",Cmd.ActivityStand,corrective_taught_family
+"skip to record a message, do to play my messages instead",Cmd.ListenMessage,corrective_HELD_OUT_family
+not my heart rate recovery — i meant my score,Help_ThriveScore,corrective_HELD_OUT_family
+"i am not after my walking, i am after my standing time",Cmd.ActivityStand,corrective_taught_family
+not my standing time — i meant my workout,Cmd.ActivityExercise,corrective_taught_family
+"i am not after the cros system, i am after demo mode",Help_DemoMode,corrective_HELD_OUT_family
+not speech enhancement — i meant edge mode,Help_EdgeMode,corrective_HELD_OUT_family
+"skip a self check, do the device settings instead",Help_DeviceSettings,corrective_taught_family
+not mask mode — i meant edge mode,Help_EdgeMode,corrective_HELD_OUT_family
+"skip how to clean them, do a self check instead",Help_SelfCheck,corrective_taught_family
+not mask mode — i meant speech enhancement,Help_IntelliVoice,corrective_HELD_OUT_family
+"how translate works is not what i wanted, to translate is",Cmd.TranslationStart,corrective_taught_family
+"i am not after how to make a new program, i am after a different program",Cmd.MemoryChange,corrective_taught_family
+"unmuted is not what i wanted, how the volume works is",Help_Volume,corrective_taught_family
+"edge mode is not what i wanted, the tinnitus masker is",Help_Tinnitus,corrective_HELD_OUT_family
+"i am not after my hearing aid found, i am after my phone found",Cmd.FindMyPhone,corrective_taught_family
+"streaming stopped is not what i wanted, help with my tv streamer is",Help_Accessories,corrective_taught_family
+not my heart rate recovery — i meant my activity summary,Help_Health,corrective_HELD_OUT_family
+"my walking is not what i wanted, my step count is",Cmd.ActivityStep,corrective_taught_family
+"skip a remote appointment, do to share my data instead",Help_HearShare,corrective_taught_family
+"to record a message is not what i wanted, to play my messages is",Cmd.ListenMessage,corrective_HELD_OUT_family
+"i am not after the voice assistant, i am after the basics",Help_Home,corrective_taught_family
+"my standing time is not what i wanted, my cycling is",Cmd.ActivityCycle,corrective_taught_family
+"my running is not what i wanted, my step count is",Cmd.ActivityStep,corrective_taught_family
+"skip my workout, do my calories instead",Cmd.ActivityCalories,corrective_taught_family
+"my cycling is not what i wanted, my aerobics is",Cmd.ActivityAerobics,corrective_taught_family
+"that reminder marked done is not what i wanted, a new reminder is",reminders.add,corrective_taught_family
+"skip what battery size i need, do the charge level instead",Cmd.BatteryLevel,corrective_taught_family
+"a remote adjustment is not what i wanted, to share my data is",Help_HearShare,corrective_taught_family
+not my aerobics — i meant my calories,Cmd.ActivityCalories,corrective_taught_family
+not my calories — i meant my running,Cmd.ActivityRun,corrective_taught_family
+not my step count — i meant my standing time,Cmd.ActivityStand,corrective_taught_family
+not the device settings — i meant how to put them in,Help_InsertDevice,corrective_taught_family
+not my standing time — i meant my walking,Cmd.ActivityWalk,corrective_taught_family
+not demo mode — i meant speech enhancement,Help_IntelliVoice,corrective_HELD_OUT_family
+"my calories is not what i wanted, my walking is",Cmd.ActivityWalk,corrective_taught_family
+"i am not after a self check, i am after how to put them in",Help_InsertDevice,corrective_taught_family
+"i am not after my step count, i am after my running",Cmd.ActivityRun,corrective_taught_family
+"my calories is not what i wanted, my step count is",Cmd.ActivityStep,corrective_taught_family
+"skip my score, do my heart rate recovery instead",Help_HeartRateRecovery,corrective_HELD_OUT_family
+"mask mode is not what i wanted, speech enhancement is",Help_IntelliVoice,corrective_HELD_OUT_family
+"i am not after my aerobics, i am after my cycling",Cmd.ActivityCycle,corrective_taught_family
+"muted is not what i wanted, how the volume works is",Help_Volume,corrective_taught_family
+"skip what is new, do the voice assistant instead",Help_VoiceAssistant,corrective_taught_family
+"i am not after demo mode, i am after speech enhancement",Help_IntelliVoice,corrective_HELD_OUT_family
+"i am not after my standing time, i am after my step count",Cmd.ActivityStep,corrective_taught_family
+not how to personalise the sound — i meant a different program,Cmd.MemoryChange,corrective_taught_family
+not the charge level — i meant what battery size i need,Help_Battery,corrective_taught_family
+not my aerobics — i meant my workout,Cmd.ActivityExercise,corrective_taught_family
+"skip my calories, do my cycling instead",Cmd.ActivityCycle,corrective_taught_family
+"skip the app settings, do what is new instead",Help_WhatsNew,corrective_taught_family
+"skip my walking, do my aerobics instead",Cmd.ActivityAerobics,corrective_taught_family
+"demo mode is not what i wanted, the cros system is",Help_WiCROS,corrective_HELD_OUT_family
+not a new reminder — i meant how reminders work,Help_Reminder,corrective_taught_family
+"unmuted is not what i wanted, louder is",Cmd.VolumeIncrease,corrective_taught_family
+"skip louder, do muted instead",Cmd.VolumeMute,corrective_taught_family
+"i am not after my running, i am after my workout",Cmd.ActivityExercise,corrective_taught_family
+not what is new — i meant the app settings,Help_AppSettings,corrective_taught_family
+"i am not after the device settings, i am after how to clean them",Help_CleanCare,corrective_taught_family
+"my score is not what i wanted, my heart rate is",Help_HeartRate,corrective_HELD_OUT_family
+"i am not after how to clean them, i am after the device settings",Help_DeviceSettings,corrective_taught_family
+not how to put them in — i meant a self check,Help_SelfCheck,corrective_taught_family
+"i am not after my aerobics, i am after my running",Cmd.ActivityRun,corrective_taught_family
+not how to make a new program — i meant how to personalise the sound,Help_Customize,corrective_taught_family
+"skip my standing time, do my running instead",Cmd.ActivityRun,corrective_taught_family
+"skip my hearing aid found, do my phone found instead",Cmd.FindMyPhone,corrective_taught_family
+"my heart rate recovery is not what i wanted, my activity summary is",Help_Health,corrective_HELD_OUT_family
+"skip my calories, do my running instead",Cmd.ActivityRun,corrective_taught_family
+"i am not after what is new, i am after the basics",Help_Home,corrective_taught_family
+"skip my running, do my standing time instead",Cmd.ActivityStand,corrective_taught_family
+"my running is not what i wanted, my calories is",Cmd.ActivityCalories,corrective_taught_family
+"i am not after to translate, i am after how translate works",Help_Translate,corrective_taught_family
+"i am not after the tinnitus masker, i am after edge mode",Help_EdgeMode,corrective_HELD_OUT_family
+"how to put them in is not what i wanted, how to clean them is",Help_CleanCare,corrective_taught_family
+"my step count is not what i wanted, my cycling is",Cmd.ActivityCycle,corrective_taught_family
+not mask mode — i meant demo mode,Help_DemoMode,corrective_HELD_OUT_family
+"i am not after my running, i am after my cycling",Cmd.ActivityCycle,corrective_taught_family
+"skip my heart rate, do my heart rate recovery instead",Help_HeartRateRecovery,corrective_HELD_OUT_family
+"the app settings is not what i wanted, what is new is",Help_WhatsNew,corrective_taught_family
+not my aerobics — i meant my walking,Cmd.ActivityWalk,corrective_taught_family
+"i am not after my aerobics, i am after my calories",Cmd.ActivityCalories,corrective_taught_family
+"i am not after a self check, i am after the device settings",Help_DeviceSettings,corrective_taught_family
+"skip my workout, do my standing time instead",Cmd.ActivityStand,corrective_taught_family
+"quieter is not what i wanted, unmuted is",Cmd.VolumeUnmute,corrective_taught_family
+"my aerobics is not what i wanted, my calories is",Cmd.ActivityCalories,corrective_taught_family
+"skip how the volume works, do unmuted instead",Cmd.VolumeUnmute,corrective_taught_family
+"i am not after my step count, i am after my workout",Cmd.ActivityExercise,corrective_taught_family
+"skip speech enhancement, do mask mode instead",Help_MaskMode,corrective_HELD_OUT_family
+"i am not after how the volume works, i am after muted",Cmd.VolumeMute,corrective_taught_family
+not my standing time — i meant my aerobics,Cmd.ActivityAerobics,corrective_taught_family
+not to share my data — i meant a remote adjustment,Help_RemoteProgramming,corrective_taught_family
+"louder is not what i wanted, unmuted is",Cmd.VolumeUnmute,corrective_taught_family
+"skip my heart rate, do my score instead",Help_ThriveScore,corrective_HELD_OUT_family
+"i am not after louder, i am after how the volume works",Help_Volume,corrective_taught_family
+not to pair them — i meant the basics,Help_Home,corrective_taught_family
+"the device settings is not what i wanted, how to clean them is",Help_CleanCare,corrective_taught_family
+not my standing time — i meant my running,Cmd.ActivityRun,corrective_taught_family
+"i am not after my workout, i am after my calories",Cmd.ActivityCalories,corrective_taught_family
+"i am not after my workout, i am after my running",Cmd.ActivityRun,corrective_taught_family
+"i am not after how to make a new program, i am after how to change programs",Help_ChangingMemories,corrective_taught_family
+not quieter — i meant how the volume works,Help_Volume,corrective_taught_family
+"my workout is not what i wanted, my step count is",Cmd.ActivityStep,corrective_taught_family
+"skip my running, do my aerobics instead",Cmd.ActivityAerobics,corrective_taught_family
+not my cycling — i meant my aerobics,Cmd.ActivityAerobics,corrective_taught_family
+"i am not after the device settings, i am after a self check",Help_SelfCheck,corrective_taught_family
+"i am not after muted, i am after unmuted",Cmd.VolumeUnmute,corrective_taught_family
+not my score — i meant my activity summary,Help_Health,corrective_HELD_OUT_family
+not how the volume works — i meant quieter,Cmd.VolumeDecrease,corrective_taught_family
+"the voice assistant is not what i wanted, to pair them is",Help_Pairing,corrective_taught_family
+"i am not after demo mode, i am after the tinnitus masker",Help_Tinnitus,corrective_HELD_OUT_family
+not unmuted — i meant quieter,Cmd.VolumeDecrease,corrective_taught_family
+not how the volume works — i meant louder,Cmd.VolumeIncrease,corrective_taught_family
+"the device settings is not what i wanted, how to put them in is",Help_InsertDevice,corrective_taught_family
+not my running — i meant my standing time,Cmd.ActivityStand,corrective_taught_family
+not my calories — i meant my cycling,Cmd.ActivityCycle,corrective_taught_family
+"skip my running, do my walking instead",Cmd.ActivityWalk,corrective_taught_family
+"i am not after quieter, i am after louder",Cmd.VolumeIncrease,corrective_taught_family
+"i am not after my cycling, i am after my aerobics",Cmd.ActivityAerobics,corrective_taught_family
+"my heart rate is not what i wanted, my score is",Help_ThriveScore,corrective_HELD_OUT_family
+"i am not after how to change programs, i am after how to make a new program",Help_MemoryOptions,corrective_taught_family
+"i am not after my calories, i am after my step count",Cmd.ActivityStep,corrective_taught_family
+"a self check is not what i wanted, the device settings is",Help_DeviceSettings,corrective_taught_family
+"i am not after my workout, i am after my cycling",Cmd.ActivityCycle,corrective_taught_family
+not that reminder marked done — i meant a new reminder,reminders.add,corrective_taught_family
+not my aerobics — i meant my cycling,Cmd.ActivityCycle,corrective_taught_family
+"how to change programs is not what i wanted, how to make a new program is",Help_MemoryOptions,corrective_taught_family
+"i am not after my walking, i am after my aerobics",Cmd.ActivityAerobics,corrective_taught_family
+"skip my cycling, do my walking instead",Cmd.ActivityWalk,corrective_taught_family
+not edge mode — i meant speech enhancement,Help_IntelliVoice,corrective_HELD_OUT_family
+"i am not after to pair them, i am after what is new",Help_WhatsNew,corrective_taught_family
+"speech enhancement is not what i wanted, the cros system is",Help_WiCROS,corrective_HELD_OUT_family
+"how to put them in is not what i wanted, a self check is",Help_SelfCheck,corrective_taught_family
+"i am not after to record a message, i am after to play my messages",Cmd.ListenMessage,corrective_HELD_OUT_family
+"my running is not what i wanted, my walking is",Cmd.ActivityWalk,corrective_taught_family
+"skip my aerobics, do my calories instead",Cmd.ActivityCalories,corrective_taught_family
+not my score — i meant my heart rate,Help_HeartRate,corrective_HELD_OUT_family
+not my calories — i meant my standing time,Cmd.ActivityStand,corrective_taught_family
+not a different program — i meant how to change programs,Help_ChangingMemories,corrective_taught_family
+"i am not after to play my messages, i am after to record a message",Cmd.SendMessage,corrective_HELD_OUT_family
+not to pair them — i meant the app settings,Help_AppSettings,corrective_taught_family
+"i am not after my calories, i am after my aerobics",Cmd.ActivityAerobics,corrective_taught_family
+"i am not after mask mode, i am after edge mode",Help_EdgeMode,corrective_HELD_OUT_family
+"skip how to personalise the sound, do how to make a new program instead",Help_MemoryOptions,corrective_taught_family
+"how to make a new program is not what i wanted, how to personalise the sound is",Help_Customize,corrective_taught_family
+"i am not after my phone found, i am after my hearing aid found",Help_FindMyHearingAids,corrective_taught_family
+"i am not after streaming stopped, i am after help with my tv streamer",Help_Accessories,corrective_taught_family
+not the app settings — i meant to pair them,Help_Pairing,corrective_taught_family
+not my cycling — i meant my walking,Cmd.ActivityWalk,corrective_taught_family
+"i am not after the voice assistant, i am after what is new",Help_WhatsNew,corrective_taught_family
+not what is new — i meant the basics,Help_Home,corrective_taught_family
+"i am not after louder, i am after quieter",Cmd.VolumeDecrease,corrective_taught_family
+"skip to transcribe, do how transcribe works instead",Help_Transcribe,corrective_taught_family
+not the tinnitus masker — i meant demo mode,Help_DemoMode,corrective_HELD_OUT_family
+not how the volume works — i meant unmuted,Cmd.VolumeUnmute,corrective_taught_family
+"i am not after my aerobics, i am after my standing time",Cmd.ActivityStand,corrective_taught_family
+"i am not after how the volume works, i am after unmuted",Cmd.VolumeUnmute,corrective_taught_family
+"i am not after streaming stopped, i am after streaming started",Cmd.StreamingStart,corrective_taught_family
+not a self check — i meant the device settings,Help_DeviceSettings,corrective_taught_family
+not mask mode — i meant the tinnitus masker,Help_Tinnitus,corrective_HELD_OUT_family
+"skip that reminder marked done, do how reminders work instead",Help_Reminder,corrective_taught_family
+not demo mode — i meant edge mode,Help_EdgeMode,corrective_HELD_OUT_family
+"i am not after how transcribe works, i am after to transcribe",Cmd.TranscribeStart,corrective_taught_family
+not the device settings — i meant how to clean them,Help_CleanCare,corrective_taught_family
+not unmuted — i meant muted,Cmd.VolumeMute,corrective_taught_family
+not quieter — i meant muted,Cmd.VolumeMute,corrective_taught_family
+"skip my aerobics, do my running instead",Cmd.ActivityRun,corrective_taught_family
+"skip the basics, do to pair them instead",Help_Pairing,corrective_taught_family
+not help with my tv streamer — i meant streaming stopped,Cmd.StreamingStop,corrective_taught_family
+"skip my workout, do my walking instead",Cmd.ActivityWalk,corrective_taught_family
+not how to clean them — i meant the device settings,Help_DeviceSettings,corrective_taught_family
+"i am not after my standing time, i am after my workout",Cmd.ActivityExercise,corrective_taught_family
+"skip my calories, do my step count instead",Cmd.ActivityStep,corrective_taught_family
+"skip the tinnitus masker, do edge mode instead",Help_EdgeMode,corrective_HELD_OUT_family
+"skip a different program, do how to change programs instead",Help_ChangingMemories,corrective_taught_family
+"i am not after my walking, i am after my running",Cmd.ActivityRun,corrective_taught_family
+"skip what is new, do the app settings instead",Help_AppSettings,corrective_taught_family
+"skip my calories, do my walking instead",Cmd.ActivityWalk,corrective_taught_family
+not a remote adjustment — i meant a remote appointment,Help_HearingCareAnywhereConnect,corrective_taught_family
+"skip edge mode, do the cros system instead",Help_WiCROS,corrective_HELD_OUT_family
+"my activity summary is not what i wanted, my heart rate is",Help_HeartRate,corrective_HELD_OUT_family
+"the app settings is not what i wanted, to pair them is",Help_Pairing,corrective_taught_family
+"skip my workout, do my cycling instead",Cmd.ActivityCycle,corrective_taught_family
+"i am not after the app settings, i am after the voice assistant",Help_VoiceAssistant,corrective_taught_family
+"skip unmuted, do quieter instead",Cmd.VolumeDecrease,corrective_taught_family
+"louder is not what i wanted, muted is",Cmd.VolumeMute,corrective_taught_family
+"i am not after what is new, i am after the voice assistant",Help_VoiceAssistant,corrective_taught_family
+"i am not after a different program, i am after how to make a new program",Help_MemoryOptions,corrective_taught_family
+"louder is not what i wanted, how the volume works is",Help_Volume,corrective_taught_family
+"i am not after my score, i am after my activity summary",Help_Health,corrective_HELD_OUT_family
+"skip quieter, do unmuted instead",Cmd.VolumeUnmute,corrective_taught_family
+"to pair them is not what i wanted, what is new is",Help_WhatsNew,corrective_taught_family
+"skip a remote adjustment, do to share my data instead",Help_HearShare,corrective_taught_family
+"i am not after the basics, i am after the voice assistant",Help_VoiceAssistant,corrective_taught_family
+"how to put them in is not what i wanted, the device settings is",Help_DeviceSettings,corrective_taught_family
+"my cycling is not what i wanted, my running is",Cmd.ActivityRun,corrective_taught_family
+"the tinnitus masker is not what i wanted, speech enhancement is",Help_IntelliVoice,corrective_HELD_OUT_family
+not to transcribe — i meant how transcribe works,Help_Transcribe,corrective_taught_family
+"skip my step count, do my running instead",Cmd.ActivityRun,corrective_taught_family
+"skip my aerobics, do my workout instead",Cmd.ActivityExercise,corrective_taught_family
+"my workout is not what i wanted, my aerobics is",Cmd.ActivityAerobics,corrective_taught_family
+"i am not after edge mode, i am after mask mode",Help_MaskMode,corrective_HELD_OUT_family
+"skip how to personalise the sound, do a different program instead",Cmd.MemoryChange,corrective_taught_family
+"to share my data is not what i wanted, a remote appointment is",Help_HearingCareAnywhereConnect,corrective_taught_family
+"unmuted is not what i wanted, quieter is",Cmd.VolumeDecrease,corrective_taught_family
+"skip my aerobics, do my standing time instead",Cmd.ActivityStand,corrective_taught_family
+not to pair them — i meant what is new,Help_WhatsNew,corrective_taught_family
+"my activity summary is not what i wanted, my score is",Help_ThriveScore,corrective_HELD_OUT_family
+not my running — i meant my walking,Cmd.ActivityWalk,corrective_taught_family
+"i am not after demo mode, i am after the cros system",Help_WiCROS,corrective_HELD_OUT_family
+not unmuted — i meant louder,Cmd.VolumeIncrease,corrective_taught_family
+"skip my walking, do my running instead",Cmd.ActivityRun,corrective_taught_family
+"skip my running, do my calories instead",Cmd.ActivityCalories,corrective_taught_family
+"i am not after my standing time, i am after my calories",Cmd.ActivityCalories,corrective_taught_family
+"skip to pair them, do the basics instead",Help_Home,corrective_taught_family
+"the basics is not what i wanted, to pair them is",Help_Pairing,corrective_taught_family
+"skip how to clean them, do how to put them in instead",Help_InsertDevice,corrective_taught_family
+"a different program is not what i wanted, how to personalise the sound is",Help_Customize,corrective_taught_family
+"i am not after to transcribe, i am after how transcribe works",Help_Transcribe,corrective_taught_family
+"skip my running, do my step count instead",Cmd.ActivityStep,corrective_taught_family
+"skip speech enhancement, do the tinnitus masker instead",Help_Tinnitus,corrective_HELD_OUT_family
+not streaming started — i meant streaming stopped,Cmd.StreamingStop,corrective_taught_family
+"skip my phone found, do my hearing aid found instead",Help_FindMyHearingAids,corrective_taught_family
+"skip my standing time, do my walking instead",Cmd.ActivityWalk,corrective_taught_family
+"skip unmuted, do louder instead",Cmd.VolumeIncrease,corrective_taught_family
+not streaming started — i meant help with my tv streamer,Help_Accessories,corrective_taught_family
+"i am not after the cros system, i am after edge mode",Help_EdgeMode,corrective_HELD_OUT_family
+"skip mask mode, do edge mode instead",Help_EdgeMode,corrective_HELD_OUT_family
+"demo mode is not what i wanted, speech enhancement is",Help_IntelliVoice,corrective_HELD_OUT_family
+not my activity summary — i meant my heart rate recovery,Help_HeartRateRecovery,corrective_HELD_OUT_family
+not my heart rate — i meant my activity summary,Help_Health,corrective_HELD_OUT_family
+"the basics is not what i wanted, what is new is",Help_WhatsNew,corrective_taught_family
+"i am not after my workout, i am after my step count",Cmd.ActivityStep,corrective_taught_family
+"skip how to change programs, do how to personalise the sound instead",Help_Customize,corrective_taught_family
+"streaming started is not what i wanted, streaming stopped is",Cmd.StreamingStop,corrective_taught_family
+"my standing time is not what i wanted, my calories is",Cmd.ActivityCalories,corrective_taught_family
+"skip muted, do louder instead",Cmd.VolumeIncrease,corrective_taught_family
+"skip to pair them, do the voice assistant instead",Help_VoiceAssistant,corrective_taught_family
+"i am not after my aerobics, i am after my step count",Cmd.ActivityStep,corrective_taught_family
+"skip my step count, do my cycling instead",Cmd.ActivityCycle,corrective_taught_family
+"my step count is not what i wanted, my standing time is",Cmd.ActivityStand,corrective_taught_family
+"my walking is not what i wanted, my cycling is",Cmd.ActivityCycle,corrective_taught_family
+"mask mode is not what i wanted, the cros system is",Help_WiCROS,corrective_HELD_OUT_family
+"i am not after my workout, i am after my aerobics",Cmd.ActivityAerobics,corrective_taught_family
+"i am not after the tinnitus masker, i am after demo mode",Help_DemoMode,corrective_HELD_OUT_family
+"i am not after unmuted, i am after quieter",Cmd.VolumeDecrease,corrective_taught_family
+"help with my tv streamer is not what i wanted, streaming stopped is",Cmd.StreamingStop,corrective_taught_family
+"i am not after to pair them, i am after the app settings",Help_AppSettings,corrective_taught_family
+"i am not after my activity summary, i am after my heart rate recovery",Help_HeartRateRecovery,corrective_HELD_OUT_family
+not a remote adjustment — i meant to share my data,Help_HearShare,corrective_taught_family
+not my cycling — i meant my calories,Cmd.ActivityCalories,corrective_taught_family
+"skip unmuted, do how the volume works instead",Help_Volume,corrective_taught_family
+not my standing time — i meant my step count,Cmd.ActivityStep,corrective_taught_family
+"skip demo mode, do the tinnitus masker instead",Help_Tinnitus,corrective_HELD_OUT_family
+"i am not after the app settings, i am after to pair them",Help_Pairing,corrective_taught_family
+not how to clean them — i meant a self check,Help_SelfCheck,corrective_taught_family
+not my heart rate — i meant my score,Help_ThriveScore,corrective_HELD_OUT_family
+"skip that reminder marked done, do a new reminder instead",reminders.add,corrective_taught_family
+"i am not after my step count, i am after my standing time",Cmd.ActivityStand,corrective_taught_family
+not louder — i meant muted,Cmd.VolumeMute,corrective_taught_family
+"skip muted, do how the volume works instead",Help_Volume,corrective_taught_family
+"skip the tinnitus masker, do the cros system instead",Help_WiCROS,corrective_HELD_OUT_family
+not a different program — i meant how to personalise the sound,Help_Customize,corrective_taught_family
+"my heart rate recovery is not what i wanted, my heart rate is",Help_HeartRate,corrective_HELD_OUT_family
+"my aerobics is not what i wanted, my workout is",Cmd.ActivityExercise,corrective_taught_family
+not my step count — i meant my calories,Cmd.ActivityCalories,corrective_taught_family
+"i am not after the tinnitus masker, i am after speech enhancement",Help_IntelliVoice,corrective_HELD_OUT_family
+"i am not after mask mode, i am after the tinnitus masker",Help_Tinnitus,corrective_HELD_OUT_family
+"i am not after demo mode, i am after edge mode",Help_EdgeMode,corrective_HELD_OUT_family
+not to record a message — i meant to play my messages,Cmd.ListenMessage,corrective_HELD_OUT_family
+"skip my calories, do my aerobics instead",Cmd.ActivityAerobics,corrective_taught_family
+"skip my cycling, do my aerobics instead",Cmd.ActivityAerobics,corrective_taught_family
+"skip my running, do my cycling instead",Cmd.ActivityCycle,corrective_taught_family
+"i am not after the app settings, i am after the basics",Help_Home,corrective_taught_family
+"the basics is not what i wanted, the app settings is",Help_AppSettings,corrective_taught_family
+not mask mode — i meant the cros system,Help_WiCROS,corrective_HELD_OUT_family
+"i am not after mask mode, i am after the cros system",Help_WiCROS,corrective_HELD_OUT_family
+not my walking — i meant my cycling,Cmd.ActivityCycle,corrective_taught_family
+"my calories is not what i wanted, my workout is",Cmd.ActivityExercise,corrective_taught_family
+not my running — i meant my aerobics,Cmd.ActivityAerobics,corrective_taught_family
+"i am not after help with my tv streamer, i am after streaming stopped",Cmd.StreamingStop,corrective_taught_family
+not to translate — i meant how translate works,Help_Translate,corrective_taught_family
+"i am not after a self check, i am after how to clean them",Help_CleanCare,corrective_taught_family
+"i am not after my aerobics, i am after my walking",Cmd.ActivityWalk,corrective_taught_family
+not muted — i meant louder,Cmd.VolumeIncrease,corrective_taught_family
+"my step count is not what i wanted, my walking is",Cmd.ActivityWalk,corrective_taught_family
+not to play my messages — i meant to record a message,Cmd.SendMessage,corrective_HELD_OUT_family
+not my walking — i meant my standing time,Cmd.ActivityStand,corrective_taught_family
+"i am not after my score, i am after my heart rate recovery",Help_HeartRateRecovery,corrective_HELD_OUT_family
+"i am not after the device settings, i am after how to put them in",Help_InsertDevice,corrective_taught_family
+"i am not after a remote appointment, i am after a remote adjustment",Help_RemoteProgramming,corrective_taught_family
+"i am not after edge mode, i am after the cros system",Help_WiCROS,corrective_HELD_OUT_family
+"what is new is not what i wanted, the app settings is",Help_AppSettings,corrective_taught_family
+"skip how transcribe works, do to transcribe instead",Cmd.TranscribeStart,corrective_taught_family
+"skip my standing time, do my step count instead",Cmd.ActivityStep,corrective_taught_family
+"my step count is not what i wanted, my calories is",Cmd.ActivityCalories,corrective_taught_family
+"i am not after louder, i am after muted",Cmd.VolumeMute,corrective_taught_family
+not muted — i meant quieter,Cmd.VolumeDecrease,corrective_taught_family
+"i am not after the basics, i am after the app settings",Help_AppSettings,corrective_taught_family
+"skip the device settings, do a self check instead",Help_SelfCheck,corrective_taught_family
+"i am not after my score, i am after my heart rate",Help_HeartRate,corrective_HELD_OUT_family
+"how the volume works is not what i wanted, unmuted is",Cmd.VolumeUnmute,corrective_taught_family
+"speech enhancement is not what i wanted, the tinnitus masker is",Help_Tinnitus,corrective_HELD_OUT_family
+not the basics — i meant what is new,Help_WhatsNew,corrective_taught_family
+"my cycling is not what i wanted, my walking is",Cmd.ActivityWalk,corrective_taught_family
+not my step count — i meant my cycling,Cmd.ActivityCycle,corrective_taught_family
+"i am not after my calories, i am after my running",Cmd.ActivityRun,corrective_taught_family
+not how to personalise the sound — i meant how to make a new program,Help_MemoryOptions,corrective_taught_family
+"skip my step count, do my workout instead",Cmd.ActivityExercise,corrective_taught_family
+not the voice assistant — i meant to pair them,Help_Pairing,corrective_taught_family
+"louder is not what i wanted, quieter is",Cmd.VolumeDecrease,corrective_taught_family
+"a remote adjustment is not what i wanted, a remote appointment is",Help_HearingCareAnywhereConnect,corrective_taught_family
+"skip how to change programs, do a different program instead",Cmd.MemoryChange,corrective_taught_family
+"my standing time is not what i wanted, my aerobics is",Cmd.ActivityAerobics,corrective_taught_family
+"skip the app settings, do the voice assistant instead",Help_VoiceAssistant,corrective_taught_family
+"the cros system is not what i wanted, mask mode is",Help_MaskMode,corrective_HELD_OUT_family
+not to share my data — i meant a remote appointment,Help_HearingCareAnywhereConnect,corrective_taught_family
+"i am not after edge mode, i am after the tinnitus masker",Help_Tinnitus,corrective_HELD_OUT_family
+"i am not after speech enhancement, i am after the tinnitus masker",Help_Tinnitus,corrective_HELD_OUT_family
+"what is new is not what i wanted, the voice assistant is",Help_VoiceAssistant,corrective_taught_family
+"skip how the volume works, do quieter instead",Cmd.VolumeDecrease,corrective_taught_family
+"my phone found is not what i wanted, my hearing aid found is",Help_FindMyHearingAids,corrective_taught_family
+"i am not after what is new, i am after the app settings",Help_AppSettings,corrective_taught_family
+"skip how to make a new program, do how to personalise the sound instead",Help_Customize,corrective_taught_family
+not edge mode — i meant the tinnitus masker,Help_Tinnitus,corrective_HELD_OUT_family
+not my phone found — i meant my hearing aid found,Help_FindMyHearingAids,corrective_taught_family
+"i am not after that reminder marked done, i am after how reminders work",Help_Reminder,corrective_taught_family
+"skip my step count, do my walking instead",Cmd.ActivityWalk,corrective_taught_family
+"skip a new reminder, do that reminder marked done instead",reminders.complete,corrective_taught_family
+"i am not after my standing time, i am after my aerobics",Cmd.ActivityAerobics,corrective_taught_family
+"mask mode is not what i wanted, edge mode is",Help_EdgeMode,corrective_HELD_OUT_family
+"i am not after mask mode, i am after demo mode",Help_DemoMode,corrective_HELD_OUT_family
+"my workout is not what i wanted, my cycling is",Cmd.ActivityCycle,corrective_taught_family
+"muted is not what i wanted, quieter is",Cmd.VolumeDecrease,corrective_taught_family
+"i am not after speech enhancement, i am after mask mode",Help_MaskMode,corrective_HELD_OUT_family
+"skip mask mode, do the cros system instead",Help_WiCROS,corrective_HELD_OUT_family
+"muted is not what i wanted, unmuted is",Cmd.VolumeUnmute,corrective_taught_family
+not the tinnitus masker — i meant the cros system,Help_WiCROS,corrective_HELD_OUT_family
+not my walking — i meant my running,Cmd.ActivityRun,corrective_taught_family
+not how to put them in — i meant the device settings,Help_DeviceSettings,corrective_taught_family
+"my walking is not what i wanted, my calories is",Cmd.ActivityCalories,corrective_taught_family
+"i am not after speech enhancement, i am after demo mode",Help_DemoMode,corrective_HELD_OUT_family
+not streaming stopped — i meant help with my tv streamer,Help_Accessories,corrective_taught_family
+not the device settings — i meant a self check,Help_SelfCheck,corrective_taught_family
+"my workout is not what i wanted, my calories is",Cmd.ActivityCalories,corrective_taught_family
+"i am not after the cros system, i am after mask mode",Help_MaskMode,corrective_HELD_OUT_family
+"the voice assistant is not what i wanted, what is new is",Help_WhatsNew,corrective_taught_family
+"my workout is not what i wanted, my walking is",Cmd.ActivityWalk,corrective_taught_family
+"i am not after my running, i am after my standing time",Cmd.ActivityStand,corrective_taught_family
+"my calories is not what i wanted, my cycling is",Cmd.ActivityCycle,corrective_taught_family
+"to translate is not what i wanted, how translate works is",Help_Translate,corrective_taught_family
+not the app settings — i meant the basics,Help_Home,corrective_taught_family
+"skip the cros system, do the tinnitus masker instead",Help_Tinnitus,corrective_HELD_OUT_family
+"my heart rate is not what i wanted, my activity summary is",Help_Health,corrective_HELD_OUT_family
+"i am not after how to put them in, i am after the device settings",Help_DeviceSettings,corrective_taught_family
+"i am not after help with my tv streamer, i am after streaming started",Cmd.StreamingStart,corrective_taught_family
+"skip to pair them, do the app settings instead",Help_AppSettings,corrective_taught_family
+not muted — i meant how the volume works,Help_Volume,corrective_taught_family
+"skip my calories, do my workout instead",Cmd.ActivityExercise,corrective_taught_family
+"skip louder, do quieter instead",Cmd.VolumeDecrease,corrective_taught_family
+"my aerobics is not what i wanted, my step count is",Cmd.ActivityStep,corrective_taught_family
+"skip my heart rate recovery, do my score instead",Help_ThriveScore,corrective_HELD_OUT_family
+not the cros system — i meant mask mode,Help_MaskMode,corrective_HELD_OUT_family
+"skip demo mode, do mask mode instead",Help_MaskMode,corrective_HELD_OUT_family
+not what is new — i meant the voice assistant,Help_VoiceAssistant,corrective_taught_family
+"how the volume works is not what i wanted, muted is",Cmd.VolumeMute,corrective_taught_family
+"skip streaming started, do help with my tv streamer instead",Help_Accessories,corrective_taught_family
+"my workout is not what i wanted, my standing time is",Cmd.ActivityStand,corrective_taught_family
+"that reminder marked done is not what i wanted, how reminders work is",Help_Reminder,corrective_taught_family
+"i am not after the basics, i am after what is new",Help_WhatsNew,corrective_taught_family
+"skip edge mode, do demo mode instead",Help_DemoMode,corrective_HELD_OUT_family
+"i am not after my walking, i am after my calories",Cmd.ActivityCalories,corrective_taught_family
+"edge mode is not what i wanted, mask mode is",Help_MaskMode,corrective_HELD_OUT_family
+"skip how to put them in, do how to clean them instead",Help_CleanCare,corrective_taught_family
+"mask mode is not what i wanted, the tinnitus masker is",Help_Tinnitus,corrective_HELD_OUT_family
+"to pair them is not what i wanted, the basics is",Help_Home,corrective_taught_family
+"i am not after my aerobics, i am after my workout",Cmd.ActivityExercise,corrective_taught_family
+"skip my cycling, do my standing time instead",Cmd.ActivityStand,corrective_taught_family
+not the tinnitus masker — i meant edge mode,Help_EdgeMode,corrective_HELD_OUT_family
+"i am not after the voice assistant, i am after the app settings",Help_AppSettings,corrective_taught_family
+"skip my heart rate recovery, do my heart rate instead",Help_HeartRate,corrective_HELD_OUT_family
+not my workout — i meant my calories,Cmd.ActivityCalories,corrective_taught_family
+"my running is not what i wanted, my standing time is",Cmd.ActivityStand,corrective_taught_family
+not the voice assistant — i meant the basics,Help_Home,corrective_taught_family
+"the device settings is not what i wanted, a self check is",Help_SelfCheck,corrective_taught_family
+"what battery size i need is not what i wanted, the charge level is",Cmd.BatteryLevel,corrective_taught_family
+"how reminders work is not what i wanted, that reminder marked done is",reminders.complete,corrective_taught_family
+not my step count — i meant my walking,Cmd.ActivityWalk,corrective_taught_family
+not what battery size i need — i meant the charge level,Cmd.BatteryLevel,corrective_taught_family
+not a remote appointment — i meant to share my data,Help_HearShare,corrective_taught_family
+"skip my heart rate, do my activity summary instead",Help_Health,corrective_HELD_OUT_family
+"i am not after the basics, i am after to pair them",Help_Pairing,corrective_taught_family
+"skip my activity summary, do my score instead",Help_ThriveScore,corrective_HELD_OUT_family
+"skip streaming stopped, do streaming started instead",Cmd.StreamingStart,corrective_taught_family
+"i am not after the tinnitus masker, i am after mask mode",Help_MaskMode,corrective_HELD_OUT_family
+"edge mode is not what i wanted, speech enhancement is",Help_IntelliVoice,corrective_HELD_OUT_family
+"my heart rate is not what i wanted, my heart rate recovery is",Help_HeartRateRecovery,corrective_HELD_OUT_family
+"the app settings is not what i wanted, the voice assistant is",Help_VoiceAssistant,corrective_taught_family
+"i am not after my running, i am after my calories",Cmd.ActivityCalories,corrective_taught_family
+not the cros system — i meant speech enhancement,Help_IntelliVoice,corrective_HELD_OUT_family
+not speech enhancement — i meant the tinnitus masker,Help_Tinnitus,corrective_HELD_OUT_family
+"skip my standing time, do my calories instead",Cmd.ActivityCalories,corrective_taught_family
+not how to personalise the sound — i meant how to change programs,Help_ChangingMemories,corrective_taught_family
+"skip demo mode, do speech enhancement instead",Help_IntelliVoice,corrective_HELD_OUT_family
+"i am not after my step count, i am after my aerobics",Cmd.ActivityAerobics,corrective_taught_family
+"i am not after the cros system, i am after the tinnitus masker",Help_Tinnitus,corrective_HELD_OUT_family
+not my activity summary — i meant my heart rate,Help_HeartRate,corrective_HELD_OUT_family
+not my workout — i meant my standing time,Cmd.ActivityStand,corrective_taught_family
+"skip the basics, do what is new instead",Help_WhatsNew,corrective_taught_family
+"my calories is not what i wanted, my aerobics is",Cmd.ActivityAerobics,corrective_taught_family
+"i am not after edge mode, i am after demo mode",Help_DemoMode,corrective_HELD_OUT_family
+"skip edge mode, do mask mode instead",Help_MaskMode,corrective_HELD_OUT_family
+"skip how to clean them, do the device settings instead",Help_DeviceSettings,corrective_taught_family
+"my walking is not what i wanted, my aerobics is",Cmd.ActivityAerobics,corrective_taught_family
+not my workout — i meant my cycling,Cmd.ActivityCycle,corrective_taught_family
+"skip my running, do my workout instead",Cmd.ActivityExercise,corrective_taught_family
+"skip streaming stopped, do help with my tv streamer instead",Help_Accessories,corrective_taught_family
+"my activity summary is not what i wanted, my heart rate recovery is",Help_HeartRateRecovery,corrective_HELD_OUT_family
+"i am not after my heart rate, i am after my score",Help_ThriveScore,corrective_HELD_OUT_family
+not my running — i meant my calories,Cmd.ActivityCalories,corrective_taught_family
+"skip a different program, do how to make a new program instead",Help_MemoryOptions,corrective_taught_family
+"to pair them is not what i wanted, the app settings is",Help_AppSettings,corrective_taught_family
+"skip my cycling, do my step count instead",Cmd.ActivityStep,corrective_taught_family
+"skip louder, do how the volume works instead",Help_Volume,corrective_taught_family
+"the tinnitus masker is not what i wanted, edge mode is",Help_EdgeMode,corrective_HELD_OUT_family
+not to pair them — i meant the voice assistant,Help_VoiceAssistant,corrective_taught_family
+"i am not after streaming started, i am after streaming stopped",Cmd.StreamingStop,corrective_taught_family
+"i am not after my activity summary, i am after my heart rate",Help_HeartRate,corrective_HELD_OUT_family
+"skip quieter, do how the volume works instead",Help_Volume,corrective_taught_family
+"i am not after my step count, i am after my walking",Cmd.ActivityWalk,corrective_taught_family
+"my walking is not what i wanted, my running is",Cmd.ActivityRun,corrective_taught_family
+not a remote appointment — i meant a remote adjustment,Help_RemoteProgramming,corrective_taught_family
+not how the volume works — i meant muted,Cmd.VolumeMute,corrective_taught_family
+"i am not after streaming started, i am after help with my tv streamer",Help_Accessories,corrective_taught_family
+"a new reminder is not what i wanted, how reminders work is",Help_Reminder,corrective_taught_family
+not the cros system — i meant demo mode,Help_DemoMode,corrective_HELD_OUT_family
+"skip my walking, do my standing time instead",Cmd.ActivityStand,corrective_taught_family
+"skip help with my tv streamer, do streaming stopped instead",Cmd.StreamingStop,corrective_taught_family
+"skip the basics, do the app settings instead",Help_AppSettings,corrective_taught_family
+not my walking — i meant my aerobics,Cmd.ActivityAerobics,corrective_taught_family
+"demo mode is not what i wanted, mask mode is",Help_MaskMode,corrective_HELD_OUT_family
+"skip a new reminder, do how reminders work instead",Help_Reminder,corrective_taught_family
+not the app settings — i meant what is new,Help_WhatsNew,corrective_taught_family
+"i am not after the app settings, i am after what is new",Help_WhatsNew,corrective_taught_family
+"i am not after my cycling, i am after my calories",Cmd.ActivityCalories,corrective_taught_family
+"i am not after my running, i am after my aerobics",Cmd.ActivityAerobics,corrective_taught_family
+the sound is far too distant on this setting,Cmd.VolumeIncrease,symptom_unseen_vocab
+it is too thunderous on this setting,Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is far too thin in here,Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is far too washed out at the moment,Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is too thunderous at the moment so dial it back,Cmd.VolumeDecrease,symptom_unseen_vocab
+"it is too piercing right now, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too weak at the moment, lift it a bit",Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is too shrill right now so dial it back,Cmd.VolumeDecrease,symptom_unseen_vocab
+it is too thunderous in this room,Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too thunderous right now, dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too shrill in this room, take it down a bit",Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too distant right now, please give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too piercing right now, take it down a bit",Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too thin right now, give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is far too piercing,Cmd.VolumeDecrease,symptom_unseen_vocab
+everything is too shrill in here,Cmd.VolumeDecrease,symptom_unseen_vocab
+this is much too thunderous today,Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too washed out in here, please push it up",Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is too overwhelming so ease it off,Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too overwhelming in this room, take it down a bit",Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too distant at the moment, please push it up",Cmd.VolumeIncrease,symptom_unseen_vocab
+"it is too distant right now, give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too piercing in here, please dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too distant in here, please lift it a bit",Cmd.VolumeIncrease,symptom_unseen_vocab
+everything is too shrill in this room,Cmd.VolumeDecrease,symptom_unseen_vocab
+"give me more, it is too distant",Cmd.VolumeIncrease,symptom_unseen_vocab
+"take it down a bit, it is too overwhelming",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is far too thin,Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too overwhelming right now, please ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+it is too washed out,Cmd.VolumeIncrease,symptom_unseen_vocab
+"it is too shrill in this room, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is too weak right now so give me more,Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is too piercing in here so dial it back,Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too washed out at the moment, give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+everything is too piercing today,Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is far too washed out in here,Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too thin in this room, please lift it a bit",Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is too shrill right now so ease it off,Cmd.VolumeDecrease,symptom_unseen_vocab
+"lift it a bit, it is too weak today",Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is too piercing at the moment so ease it off,Cmd.VolumeDecrease,symptom_unseen_vocab
+my aids are too distant on this setting,Cmd.VolumeIncrease,symptom_unseen_vocab
+everything is too thunderous,Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too washed out right now, give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too thin in here, push it up",Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too weak right now, please push it up",Cmd.VolumeIncrease,symptom_unseen_vocab
+my aids are too piercing today,Cmd.VolumeDecrease,symptom_unseen_vocab
+"it is too weak in this room, lift it a bit",Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is too distant in this room so give me more,Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too weak in here, please give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too thunderous at the moment, dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is too thunderous today so ease it off,Cmd.VolumeDecrease,symptom_unseen_vocab
+"take it down a bit, it is too shrill today",Cmd.VolumeDecrease,symptom_unseen_vocab
+"give me more, it is too thin in here",Cmd.VolumeIncrease,symptom_unseen_vocab
+"lift it a bit, it is too thin at the moment",Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too washed out, give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too distant today, please give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"give me more, it is too washed out today",Cmd.VolumeIncrease,symptom_unseen_vocab
+"it is too distant, push it up",Cmd.VolumeIncrease,symptom_unseen_vocab
+"it is too piercing, dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too thunderous right now, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+"give me more, it is too washed out in this room",Cmd.VolumeIncrease,symptom_unseen_vocab
+"give me more, it is too thin today",Cmd.VolumeIncrease,symptom_unseen_vocab
+"take it down a bit, it is too piercing today",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is too distant in here so give me more,Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too weak right now, lift it a bit",Cmd.VolumeIncrease,symptom_unseen_vocab
+"lift it a bit, it is too washed out at the moment",Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too overwhelming right now, take it down a bit",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is too piercing today so ease it off,Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too shrill on this setting, please dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+it is too overwhelming in here,Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too thunderous today, please dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is far too distant in here,Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too thin, please push it up",Cmd.VolumeIncrease,symptom_unseen_vocab
+it is too overwhelming at the moment,Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too washed out today, please push it up",Cmd.VolumeIncrease,symptom_unseen_vocab
+it is too shrill,Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is too distant right now so push it up,Cmd.VolumeIncrease,symptom_unseen_vocab
+"it is too overwhelming, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+everything is too washed out at the moment,Cmd.VolumeIncrease,symptom_unseen_vocab
+it is too overwhelming in this room,Cmd.VolumeDecrease,symptom_unseen_vocab
+everything is too thin on this setting,Cmd.VolumeIncrease,symptom_unseen_vocab
+the sound is too piercing in here so ease it off,Cmd.VolumeDecrease,symptom_unseen_vocab
+"it is too distant in here, lift it a bit",Cmd.VolumeIncrease,symptom_unseen_vocab
+"lift it a bit, it is too distant at the moment",Cmd.VolumeIncrease,symptom_unseen_vocab
+"dial it back, it is too shrill in here",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is too thin so lift it a bit,Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too shrill on this setting, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too overwhelming at the moment, please dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+this is much too distant,Cmd.VolumeIncrease,symptom_unseen_vocab
+"it is too overwhelming at the moment, dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too piercing at the moment, please take it down a bit",Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too thunderous on this setting, dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is far too thin on this setting,Cmd.VolumeIncrease,symptom_unseen_vocab
+this is much too distant on this setting,Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too thin right now, please give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too overwhelming on this setting, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+"give me more, it is too distant in this room",Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too shrill right now, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+"dial it back, it is too thunderous in this room",Cmd.VolumeDecrease,symptom_unseen_vocab
+"dial it back, it is too thunderous in here",Cmd.VolumeDecrease,symptom_unseen_vocab
+"give me more, it is too weak in this room",Cmd.VolumeIncrease,symptom_unseen_vocab
+"my aids are too distant today, give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"lift it a bit, it is too weak right now",Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too shrill on this setting, please ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+"it is too shrill on this setting, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too weak right now, please give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"it is too thunderous at the moment, take it down a bit",Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too thin right now, push it up",Cmd.VolumeIncrease,symptom_unseen_vocab
+"give me more, it is too thin right now",Cmd.VolumeIncrease,symptom_unseen_vocab
+"push it up, it is too washed out today",Cmd.VolumeIncrease,symptom_unseen_vocab
+my aids are too washed out,Cmd.VolumeIncrease,symptom_unseen_vocab
+my aids are too distant in this room,Cmd.VolumeIncrease,symptom_unseen_vocab
+"dial it back, it is too overwhelming",Cmd.VolumeDecrease,symptom_unseen_vocab
+"my aids are too shrill, dial it back",Cmd.VolumeDecrease,symptom_unseen_vocab
+"it is too thunderous, ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+"everything is too washed out in here, please give me more",Cmd.VolumeIncrease,symptom_unseen_vocab
+"everything is too shrill right now, please ease it off",Cmd.VolumeDecrease,symptom_unseen_vocab
+the sound is too shrill at the moment so take it down a bit,Cmd.VolumeDecrease,symptom_unseen_vocab
+it is too piercing,Cmd.VolumeDecrease,symptom_unseen_vocab
+this is much too shrill in here,Cmd.VolumeDecrease,symptom_unseen_vocab

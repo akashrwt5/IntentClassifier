@@ -1,0 +1,162 @@
+{
+  "n_rows": 9826,
+  "n_intents": 57,
+  "max_class": 1884,
+  "min_class": 53,
+  "imbalance_ratio": 35.55,
+  "median_class": 80,
+  "classes_under_60": [
+    "Help_Health",
+    "Cmd.TranscribeStart",
+    "Help_Reminder",
+    "Help_MaskMode",
+    "Help_Battery",
+    "Help_HearingCareAnywhereConnect",
+    "Help_WiCROS",
+    "Cmd.ActivityCycle",
+    "Cmd.ActivityAerobics",
+    "Cmd.ActivityCalories",
+    "Help_AppSettings",
+    "Help_HeartRateRecovery",
+    "Help_DemoMode"
+  ],
+  "distribution": {
+    "Cmd.MemoryChange": 1884,
+    "Default Fallback Intent": 1308,
+    "reminders.add": 832,
+    "Cmd.VolumeDecrease": 301,
+    "Help_FindMyHearingAids": 264,
+    "Help_Pairing": 263,
+    "Cmd.VolumeIncrease": 253,
+    "Help_Tinnitus": 225,
+    "Cmd.StreamingStart": 209,
+    "Cmd.SendMessage": 181,
+    "Help_Volume": 170,
+    "Help_ChangingMemories": 158,
+    "Help_Accessories": 152,
+    "Help_DeviceSettings": 151,
+    "Help_RemoteProgramming": 149,
+    "Cmd.BatteryLevel": 135,
+    "Help_FallAlert": 133,
+    "Help_SelfCheck": 130,
+    "Cmd.VolumeUnmute": 130,
+    "Help_Home": 128,
+    "Help_ThriveScore": 124,
+    "Cmd.FindMyPhone": 122,
+    "Cmd.VolumeMute": 118,
+    "Help_IntelliVoice": 107,
+    "Help_MemoryOptions": 98,
+    "Cmd.ListenMessage": 98,
+    "Help_HearShare": 85,
+    "Help_Transcribe": 82,
+    "Help_WhatsNew": 80,
+    "Help_Translate": 79,
+    "reminders.complete": 78,
+    "Cmd.TranslationStart": 74,
+    "Cmd.ActivityStep": 71,
+    "Cmd.ActivityRun": 71,
+    "Cmd.StreamingStop": 71,
+    "Cmd.ActivityStand": 70,
+    "Help_InsertDevice": 70,
+    "Cmd.ActivityWalk": 67,
+    "Help_Customize": 67,
+    "Help_CleanCare": 67,
+    "Help_VoiceAssistant": 66,
+    "Help_EdgeMode": 65,
+    "Cmd.ActivityExercise": 61,
+    "Help_HeartRate": 60,
+    "Help_Health": 59,
+    "Cmd.TranscribeStart": 59,
+    "Help_Reminder": 56,
+    "Help_MaskMode": 56,
+    "Help_Battery": 55,
+    "Help_HearingCareAnywhereConnect": 55,
+    "Help_WiCROS": 55,
+    "Cmd.ActivityCycle": 55,
+    "Cmd.ActivityAerobics": 54,
+    "Cmd.ActivityCalories": 54,
+    "Help_AppSettings": 54,
+    "Help_HeartRateRecovery": 54,
+    "Help_DemoMode": 53
+  },
+  "exact_dupe_rows": 0,
+  "exact_dupe_groups": 0,
+  "normalized_dupe_rows": 205,
+  "normalized_dupe_groups": 102,
+  "conflicting_texts": 0,
+  "leakage_key_collisions_cross_intent": 2,
+  "near_conflict_examples": [
+    {
+      "key": "change work",
+      "labels": [
+        "Cmd.MemoryChange",
+        "Default Fallback Intent"
+      ],
+      "examples": [
+        "change to work",
+        "please change to work",
+        "can you change to work",
+        "that works to change it"
+      ]
+    },
+    {
+      "key": "how use",
+      "labels": [
+        "Default Fallback Intent",
+        "Help_Home"
+      ],
+      "examples": [
+        "how do i use",
+        "how do i use this"
+      ]
+    }
+  ],
+  "fuzzy_near_dupe_pairs_within_intent": 1579,
+  "shortcut_risk_tokens": [
+    {
+      "intent": "Help_HeartRateRecovery",
+      "token": "recovery",
+      "coverage": 0.981,
+      "intents_containing": 1
+    },
+    {
+      "intent": "Help_EdgeMode",
+      "token": "edge",
+      "coverage": 0.877,
+      "intents_containing": 2
+    },
+    {
+      "intent": "Help_HeartRateRecovery",
+      "token": "rate",
+      "coverage": 0.778,
+      "intents_containing": 2
+    },
+    {
+      "intent": "Help_HeartRate",
+      "token": "rate",
+      "coverage": 0.767,
+      "intents_containing": 2
+    },
+    {
+      "intent": "Cmd.ActivityAerobics",
+      "token": "aerobics",
+      "coverage": 0.704,
+      "intents_containing": 1
+    },
+    {
+      "intent": "Help_Tinnitus",
+      "token": "tinnitus",
+      "coverage": 0.644,
+      "intents_containing": 2
+    }
+  ],
+  "len_words": {
+    "p10": 3,
+    "p50": 6,
+    "p90": 10,
+    "p99": 15,
+    "max": 31
+  },
+  "short_rows_under_3_words": 403,
+  "fallback_rows": 1308
+}

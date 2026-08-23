@@ -1,0 +1,1326 @@
+{
+  "standard_test": {
+    "n": 1513,
+    "accuracy": 0.8771,
+    "macro_f1": 0.8633,
+    "ece": 0.033,
+    "mce": 0.1639,
+    "brier": 0.2032,
+    "mean_conf": 0.8679,
+    "mean_margin": 0.8407,
+    "reliability": [
+      {
+        "bin_lo": 0.0,
+        "bin_hi": 0.1,
+        "n": 0,
+        "avg_conf": NaN,
+        "accuracy": NaN,
+        "gap": NaN
+      },
+      {
+        "bin_lo": 0.1,
+        "bin_hi": 0.2,
+        "n": 12,
+        "avg_conf": 0.16390261054039001,
+        "accuracy": 0.0,
+        "gap": 0.16390261054039001
+      },
+      {
+        "bin_lo": 0.2,
+        "bin_hi": 0.30000000000000004,
+        "n": 15,
+        "avg_conf": 0.24879701435565948,
+        "accuracy": 0.3333333333333333,
+        "gap": -0.08453631897767383
+      },
+      {
+        "bin_lo": 0.30000000000000004,
+        "bin_hi": 0.4,
+        "n": 17,
+        "avg_conf": 0.36048218607902527,
+        "accuracy": 0.29411764705882354,
+        "gap": 0.06636453902020173
+      },
+      {
+        "bin_lo": 0.4,
+        "bin_hi": 0.5,
+        "n": 18,
+        "avg_conf": 0.4540873169898987,
+        "accuracy": 0.3888888888888889,
+        "gap": 0.06519842810100979
+      },
+      {
+        "bin_lo": 0.5,
+        "bin_hi": 0.6000000000000001,
+        "n": 20,
+        "avg_conf": 0.5519314408302307,
+        "accuracy": 0.4,
+        "gap": 0.1519314408302307
+      },
+      {
+        "bin_lo": 0.6000000000000001,
+        "bin_hi": 0.7000000000000001,
+        "n": 23,
+        "avg_conf": 0.6587055921554565,
+        "accuracy": 0.6086956521739131,
+        "gap": 0.05000993998154346
+      },
+      {
+        "bin_lo": 0.7000000000000001,
+        "bin_hi": 0.8,
+        "n": 47,
+        "avg_conf": 0.7560112476348877,
+        "accuracy": 0.6382978723404256,
+        "gap": 0.11771337529446213
+      },
+      {
+        "bin_lo": 0.8,
+        "bin_hi": 0.9,
+        "n": 679,
+        "avg_conf": 0.8812285661697388,
+        "accuracy": 0.9263622974963182,
+        "gap": -0.045133731326579385
+      },
+      {
+        "bin_lo": 0.9,
+        "bin_hi": 1.0,
+        "n": 682,
+        "avg_conf": 0.9281735420227051,
+        "accuracy": 0.9222873900293255,
+        "gap": 0.005886151993379607
+      }
+    ]
+  },
+  "validation": {
+    "n": 1508,
+    "accuracy": 0.8747,
+    "macro_f1": 0.8625,
+    "ece": 0.029,
+    "mce": 0.3524,
+    "brier": 0.2147,
+    "mean_conf": 0.8719,
+    "mean_margin": 0.844,
+    "reliability": [
+      {
+        "bin_lo": 0.0,
+        "bin_hi": 0.1,
+        "n": 0,
+        "avg_conf": NaN,
+        "accuracy": NaN,
+        "gap": NaN
+      },
+      {
+        "bin_lo": 0.1,
+        "bin_hi": 0.2,
+        "n": 5,
+        "avg_conf": 0.15553705394268036,
+        "accuracy": 0.2,
+        "gap": -0.04446294605731965
+      },
+      {
+        "bin_lo": 0.2,
+        "bin_hi": 0.30000000000000004,
+        "n": 7,
+        "avg_conf": 0.2369527816772461,
+        "accuracy": 0.14285714285714285,
+        "gap": 0.09409563882010324
+      },
+      {
+        "bin_lo": 0.30000000000000004,
+        "bin_hi": 0.4,
+        "n": 17,
+        "avg_conf": 0.3459404706954956,
+        "accuracy": 0.47058823529411764,
+        "gap": -0.12464776459862204
+      },
+      {
+        "bin_lo": 0.4,
+        "bin_hi": 0.5,
+        "n": 22,
+        "avg_conf": 0.4472852647304535,
+        "accuracy": 0.5454545454545454,
+        "gap": -0.09816928072409192
+      },
+      {
+        "bin_lo": 0.5,
+        "bin_hi": 0.6000000000000001,
+        "n": 25,
+        "avg_conf": 0.550503134727478,
+        "accuracy": 0.48,
+        "gap": 0.07050313472747805
+      },
+      {
+        "bin_lo": 0.6000000000000001,
+        "bin_hi": 0.7000000000000001,
+        "n": 24,
+        "avg_conf": 0.6440954804420471,
+        "accuracy": 0.2916666666666667,
+        "gap": 0.35242881377538043
+      },
+      {
+        "bin_lo": 0.7000000000000001,
+        "bin_hi": 0.8,
+        "n": 38,
+        "avg_conf": 0.757477879524231,
+        "accuracy": 0.6842105263157895,
+        "gap": 0.07326735320844147
+      },
+      {
+        "bin_lo": 0.8,
+        "bin_hi": 0.9,
+        "n": 698,
+        "avg_conf": 0.8804574012756348,
+        "accuracy": 0.9083094555873925,
+        "gap": -0.027852054311757746
+      },
+      {
+        "bin_lo": 0.9,
+        "bin_hi": 1.0,
+        "n": 672,
+        "avg_conf": 0.9288026690483093,
+        "accuracy": 0.9196428571428571,
+        "gap": 0.009159811905452231
+      }
+    ]
+  },
+  "contextual": {
+    "n": 145,
+    "accuracy": 0.5241,
+    "macro_f1": 0.4549,
+    "gated_coverage": 0.0,
+    "gated_false_execution": 0.0,
+    "gated_accepted_precision": null,
+    "refused_as_corrective": 0.1931,
+    "failures": [
+      {
+        "text": "um so the television is on and it is honestly blasting right now, would you mind bringing my hearing aids down a little",
+        "gold": "Cmd.VolumeDecrease",
+        "pred": "reminders.add",
+        "confidence": 0.798
+      },
+      {
+        "text": "i am about to go into a meeting and i do not want any sound at all coming through, please shut them off",
+        "gold": "Cmd.VolumeMute",
+        "pred": "Cmd.StreamingStop",
+        "confidence": 0.764
+      },
+      {
+        "text": "before i leave the house i want to know whether these will last me until this evening",
+        "gold": "Cmd.BatteryLevel",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.937
+      },
+      {
+        "text": "i have set my phone down somewhere in the house again and i cannot find it anywhere, can you help",
+        "gold": "Cmd.FindMyPhone",
+        "pred": "Help_HearingCareAnywhereConnect",
+        "confidence": 0.549
+      },
+      {
+        "text": "i wanted to ask, when i am watching the television in the evening how exactly do i get the sound to come straight into my aids",
+        "gold": "Help_Accessories",
+        "pred": "Cmd.StreamingStart",
+        "confidence": 0.731
+      },
+      {
+        "text": "my audiologist mentioned something about her being able to adjust these without me coming in, how does that actually work",
+        "gold": "Help_RemoteProgramming",
+        "pred": "Help_HearingCareAnywhereConnect",
+        "confidence": 0.689
+      },
+      {
+        "text": "my son wants to keep an eye on how i am getting on with these, is there a way to let him see that",
+        "gold": "Help_HearShare",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.914
+      },
+      {
+        "text": "every morning i struggle a bit to get the right one seated properly in my ear, is there a trick to it",
+        "gold": "Help_InsertDevice",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.321
+      },
+      {
+        "text": "i keep hearing about this score in the app and i do not really understand what it is measuring or how to make it go up",
+        "gold": "Help_ThriveScore",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.93
+      },
+      {
+        "text": "could you tell me roughly how many calories i have burned since i got up this morning",
+        "gold": "Cmd.ActivityCalories",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.803
+      },
+      {
+        "text": "i would like to leave a quick voice note for my daughter letting her know i got home safely",
+        "gold": "Cmd.SendMessage",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.543
+      },
+      {
+        "text": "well, the television has been on for hours and my ears are tired, so i would like you to close the link to the television",
+        "gold": "Cmd.StreamingStop",
+        "pred": "Help_Pairing",
+        "confidence": 0.864
+      },
+      {
+        "text": "um, i just woke up and i am still a bit muddled, but if it is not too much trouble, tell me what i burned this morning",
+        "gold": "Cmd.ActivityCalories",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.693
+      },
+      {
+        "text": "er, my wife keeps telling me i have it set wrong, and honestly if it is not too much trouble, cut all sound for now",
+        "gold": "Cmd.VolumeMute",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.923
+      },
+      {
+        "text": "well, i have been meaning to ask you all morning, and now that i have a moment, can you start putting their words on screen",
+        "gold": "Cmd.TranscribeStart",
+        "pred": "Cmd.TranslationStart",
+        "confidence": 0.801
+      },
+      {
+        "text": "my daughter is visiting this afternoon and before she arrives could you please note down that i must take my tablets at six",
+        "gold": "reminders.add",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.936
+      },
+      {
+        "text": "so, my wife keeps telling me i have it set wrong, and honestly would you mind if you explain how the ringing feature works",
+        "gold": "Help_Tinnitus",
+        "pred": "Help_Reminder",
+        "confidence": 0.609
+      },
+      {
+        "text": "um, i am about to head into a meeting in a few minutes so would you mind if you tell me what charge is left",
+        "gold": "Cmd.BatteryLevel",
+        "pred": "reminders.add",
+        "confidence": 0.81
+      },
+      {
+        "text": "we have just got back from a walk and before i settle down if it is not too much trouble, open the link to the television",
+        "gold": "Cmd.StreamingStart",
+        "pred": "Help_Pairing",
+        "confidence": 0.875
+      },
+      {
+        "text": "er, i just woke up and i am still a bit muddled, but if it is not too much trouble, explain how i let my son see how i am doing",
+        "gold": "Help_HearShare",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.256
+      },
+      {
+        "text": "right, my wife keeps telling me i have it set wrong, and honestly can you start turning their spanish into english",
+        "gold": "Cmd.TranslationStart",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.749
+      },
+      {
+        "text": "well, i just woke up and i am still a bit muddled, but can you dictate a short note for my daughter",
+        "gold": "Cmd.SendMessage",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.335
+      },
+      {
+        "text": "well, my daughter is visiting this afternoon and before she arrives if it is not too much trouble, replay whatever came through earlier",
+        "gold": "Cmd.ListenMessage",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.718
+      },
+      {
+        "text": "er, i am about to head into a meeting in a few minutes so could you please close the link to the television",
+        "gold": "Cmd.StreamingStop",
+        "pred": "Help_Pairing",
+        "confidence": 0.896
+      },
+      {
+        "text": "well, i am sitting in a busy cafe and it is hard to follow the conversation, so can you replay whatever came through earlier",
+        "gold": "Cmd.ListenMessage",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.516
+      }
+    ]
+  },
+  "accessories": {
+    "n": 85,
+    "accuracy": 0.4706,
+    "macro_f1": 0.1304,
+    "gated_coverage": 0.1176,
+    "gated_false_execution": 0.0,
+    "gated_accepted_precision": 1.0,
+    "refused_as_corrective": 0.0,
+    "failures": [
+      {
+        "text": "my neck loop will not stay connected",
+        "gold": "Help_Accessories",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.914
+      },
+      {
+        "text": "what should i do about my audio dongle",
+        "gold": "Help_Accessories",
+        "pred": "Help_DeviceSettings",
+        "confidence": 0.566
+      },
+      {
+        "text": "where do i see my neck loop",
+        "gold": "Help_Accessories",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.936
+      },
+      {
+        "text": "can you help me set up my neck loop",
+        "gold": "Help_Accessories",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.938
+      },
+      {
+        "text": "start sending me the tv",
+        "gold": "Cmd.StreamingStart",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.923
+      },
+      {
+        "text": "i have had enough of the telly sound",
+        "gold": "Cmd.StreamingStop",
+        "pred": "reminders.complete",
+        "confidence": 0.311
+      },
+      {
+        "text": "is my tablet still linked",
+        "gold": "Help_Pairing",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.932
+      },
+      {
+        "text": "what should i do about my neck loop",
+        "gold": "Help_Accessories",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.939
+      },
+      {
+        "text": "quit sending me the tv",
+        "gold": "Cmd.StreamingStop",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.94
+      },
+      {
+        "text": "where do i see my handset",
+        "gold": "Help_Pairing",
+        "pred": "Cmd.FindMyPhone",
+        "confidence": 0.307
+      },
+      {
+        "text": "how do i get rid of my tablet",
+        "gold": "Help_Pairing",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.921
+      },
+      {
+        "text": "can you help me set up my tablet",
+        "gold": "Help_Pairing",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.937
+      },
+      {
+        "text": "how do i get rid of my phone app",
+        "gold": "Help_Pairing",
+        "pred": "Cmd.FindMyPhone",
+        "confidence": 0.343
+      },
+      {
+        "text": "my audio dongle will not stay connected",
+        "gold": "Help_Accessories",
+        "pred": "Cmd.StreamingStart",
+        "confidence": 0.153
+      },
+      {
+        "text": "is my audio dongle still linked",
+        "gold": "Help_Accessories",
+        "pred": "Cmd.StreamingStart",
+        "confidence": 0.881
+      },
+      {
+        "text": "my companion mic will not stay connected",
+        "gold": "Help_Accessories",
+        "pred": "Cmd.StreamingStop",
+        "confidence": 0.383
+      },
+      {
+        "text": "can you help me set up my audio dongle",
+        "gold": "Help_Accessories",
+        "pred": "Help_DeviceSettings",
+        "confidence": 0.804
+      },
+      {
+        "text": "is my neck loop still linked",
+        "gold": "Help_Accessories",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.938
+      },
+      {
+        "text": "what should i do about my sound bridge",
+        "gold": "Help_Accessories",
+        "pred": "Help_Volume",
+        "confidence": 0.827
+      },
+      {
+        "text": "my sound bridge will not stay connected",
+        "gold": "Help_Accessories",
+        "pred": "Help_InsertDevice",
+        "confidence": 0.838
+      },
+      {
+        "text": "how do i get rid of my handset",
+        "gold": "Help_Pairing",
+        "pred": "Help_Tinnitus",
+        "confidence": 0.266
+      },
+      {
+        "text": "shut the tv feed down",
+        "gold": "Cmd.StreamingStop",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.538
+      },
+      {
+        "text": "my tv box will not stay connected",
+        "gold": "Help_Accessories",
+        "pred": "Help_InsertDevice",
+        "confidence": 0.822
+      },
+      {
+        "text": "what should i do about my phone app",
+        "gold": "Help_Pairing",
+        "pred": "Help_Home",
+        "confidence": 0.684
+      },
+      {
+        "text": "my streaming accessory will not stay connected",
+        "gold": "Help_Accessories",
+        "pred": "Cmd.StreamingStart",
+        "confidence": 0.791
+      }
+    ]
+  },
+  "minimal_pairs": {
+    "n": 88,
+    "accuracy": 0.8409,
+    "macro_f1": 0.8121,
+    "gated_coverage": 0.0682,
+    "gated_false_execution": 0.0,
+    "gated_accepted_precision": 1.0,
+    "refused_as_corrective": 0.0,
+    "pair_accuracy": 0.7727,
+    "per_axis_accuracy": {
+      "activity_type": 0.6667,
+      "cmd_vs_help": 0.75,
+      "feature_swap": 1.0,
+      "find_target": 1.0,
+      "health_metric": 1.0,
+      "message_direction": 0.75,
+      "mute_direction": 0.875,
+      "reminder_direction": 1.0,
+      "stream_direction": 0.8333,
+      "volume_direction": 0.875
+    },
+    "failed_pairs": [
+      {
+        "pair_id": "mp004",
+        "items": [
+          {
+            "text": "tone things upward",
+            "gold": "Cmd.VolumeIncrease",
+            "pred": "Default Fallback Intent"
+          },
+          {
+            "text": "tone things downward",
+            "gold": "Cmd.VolumeDecrease",
+            "pred": "Default Fallback Intent"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp011",
+        "items": [
+          {
+            "text": "cut all sound from my aids",
+            "gold": "Cmd.VolumeMute",
+            "pred": "Cmd.VolumeDecrease"
+          },
+          {
+            "text": "restore sound to my aids",
+            "gold": "Cmd.VolumeUnmute",
+            "pred": "Cmd.VolumeUnmute"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp014",
+        "items": [
+          {
+            "text": "hook me into the television audio",
+            "gold": "Cmd.StreamingStart",
+            "pred": "Cmd.StreamingStart"
+          },
+          {
+            "text": "unhook me from the television audio",
+            "gold": "Cmd.StreamingStop",
+            "pred": "Cmd.VolumeUnmute"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp018",
+        "items": [
+          {
+            "text": "dictate a quick note for my son",
+            "gold": "Cmd.SendMessage",
+            "pred": "Help_WhatsNew"
+          },
+          {
+            "text": "replay what my son sent",
+            "gold": "Cmd.ListenMessage",
+            "pred": "Cmd.ListenMessage"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp021",
+        "items": [
+          {
+            "text": "shut off all output",
+            "gold": "Cmd.VolumeMute",
+            "pred": "Default Fallback Intent"
+          },
+          {
+            "text": "how would i shut off all output",
+            "gold": "Help_Volume",
+            "pred": "Cmd.VolumeMute"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp026",
+        "items": [
+          {
+            "text": "how much battery is left",
+            "gold": "Cmd.BatteryLevel",
+            "pred": "Cmd.BatteryLevel"
+          },
+          {
+            "text": "what kind of battery goes in my aid",
+            "gold": "Help_Battery",
+            "pred": "Default Fallback Intent"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp029",
+        "items": [
+          {
+            "text": "kick off television audio",
+            "gold": "Cmd.StreamingStart",
+            "pred": "Cmd.StreamingStop"
+          },
+          {
+            "text": "how would i configure a television box",
+            "gold": "Help_Accessories",
+            "pred": "Default Fallback Intent"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp032",
+        "items": [
+          {
+            "text": "log this stroll of mine",
+            "gold": "Cmd.ActivityWalk",
+            "pred": "Default Fallback Intent"
+          },
+          {
+            "text": "log the jog i just did",
+            "gold": "Cmd.ActivityRun",
+            "pred": "reminders.add"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp035",
+        "items": [
+          {
+            "text": "how long was my gym session",
+            "gold": "Cmd.ActivityExercise",
+            "pred": "Cmd.ActivityExercise"
+          },
+          {
+            "text": "how much energy did my gym session burn",
+            "gold": "Cmd.ActivityCalories",
+            "pred": "Cmd.ActivityExercise"
+          }
+        ]
+      },
+      {
+        "pair_id": "mp036",
+        "items": [
+          {
+            "text": "did i reach my walking target",
+            "gold": "Cmd.ActivityWalk",
+            "pred": "Cmd.ActivityWalk"
+          },
+          {
+            "text": "did i reach my upright target",
+            "gold": "Cmd.ActivityStand",
+            "pred": "Cmd.ActivityAerobics"
+          }
+        ]
+      }
+    ]
+  },
+  "hard_negatives": {
+    "n": 916,
+    "accuracy": 0.631,
+    "macro_f1": 0.5786,
+    "per_group_accuracy": {
+      "command distractor": 1.0,
+      "contains 'battery type'": 1.0,
+      "contains 'charge'": 0.0,
+      "contains 'done'": 1.0,
+      "contains 'down'": 0.0,
+      "contains 'dropped'": 1.0,
+      "contains 'edge mode'": 0.0,
+      "contains 'hearing aid'": 1.0,
+      "contains 'heart rate'": 1.0,
+      "contains 'loud'": 1.0,
+      "contains 'louder'": 1.0,
+      "contains 'mask mode'": 1.0,
+      "contains 'muted'": 1.0,
+      "contains 'on'": 1.0,
+      "contains 'phone'": 1.0,
+      "contains 'play'": 0.0,
+      "contains 'programs'": 1.0,
+      "contains 'quiet'": 1.0,
+      "contains 'quieter'": 0.0,
+      "contains 'record'": 1.0,
+      "contains 'recovery'": 0.0,
+      "contains 'reminder'": 1.0,
+      "contains 'soft'": 1.0,
+      "contains 'stand'": 1.0,
+      "contains 'start'": 0.0,
+      "contains 'step'": 1.0,
+      "contains 'stop'": 1.0,
+      "contains 'transcribe'": 1.0,
+      "contains 'translate'": 1.0,
+      "contains 'up'": 0.0,
+      "contains 'volume'": 1.0,
+      "corrective_HELD_OUT_family": 0.5341,
+      "corrective_taught_family": 0.613,
+      "how-to distractor": 0.0,
+      "symptom_unseen_vocab": 0.825
+    },
+    "gated_coverage": 0.0295,
+    "gated_false_execution": 0.0,
+    "gated_accepted_precision": 1.0,
+    "refused_as_corrective": 0.8581,
+    "failures": [
+      {
+        "text": "i turned it up too far, take it back down",
+        "gold": "Cmd.VolumeDecrease",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.854
+      },
+      {
+        "text": "i turned it down too far, take it back up",
+        "gold": "Cmd.VolumeIncrease",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.896
+      },
+      {
+        "text": "stop making it quieter and raise it instead",
+        "gold": "Cmd.VolumeIncrease",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.754
+      },
+      {
+        "text": "do not start streaming, stop it",
+        "gold": "Cmd.StreamingStop",
+        "pred": "Cmd.StreamingStart",
+        "confidence": 0.893
+      },
+      {
+        "text": "do not play the message, record a new one",
+        "gold": "Cmd.SendMessage",
+        "pred": "Cmd.ListenMessage",
+        "confidence": 0.835
+      },
+      {
+        "text": "do not tell me how, just change the volume",
+        "gold": "Cmd.VolumeDecrease",
+        "pred": "Help_Volume",
+        "confidence": 0.871
+      },
+      {
+        "text": "i did not ask for the charge level, what battery size do i need",
+        "gold": "Help_Battery",
+        "pred": "Cmd.BatteryLevel",
+        "confidence": 0.627
+      },
+      {
+        "text": "not the recovery number, just my heart rate",
+        "gold": "Help_HeartRate",
+        "pred": "Help_HeartRateRecovery",
+        "confidence": 0.927
+      },
+      {
+        "text": "not edge mode, i meant mask mode",
+        "gold": "Help_MaskMode",
+        "pred": "Help_EdgeMode",
+        "confidence": 0.589
+      },
+      {
+        "text": "i am not after mask mode, i am after speech enhancement",
+        "gold": "Help_IntelliVoice",
+        "pred": "Help_MaskMode",
+        "confidence": 0.701
+      },
+      {
+        "text": "speech enhancement is not what i wanted, demo mode is",
+        "gold": "Help_DemoMode",
+        "pred": "Help_IntelliVoice",
+        "confidence": 0.895
+      },
+      {
+        "text": "my calories is not what i wanted, my standing time is",
+        "gold": "Cmd.ActivityStand",
+        "pred": "Cmd.ActivityCalories",
+        "confidence": 0.871
+      },
+      {
+        "text": "skip how to change programs, do how to make a new program instead",
+        "gold": "Help_MemoryOptions",
+        "pred": "Help_ChangingMemories",
+        "confidence": 0.571
+      },
+      {
+        "text": "how to change programs is not what i wanted, how to personalise the sound is",
+        "gold": "Help_Customize",
+        "pred": "Help_ChangingMemories",
+        "confidence": 0.912
+      },
+      {
+        "text": "i am not after my workout, i am after my walking",
+        "gold": "Cmd.ActivityWalk",
+        "pred": "Help_CleanCare",
+        "confidence": 0.363
+      },
+      {
+        "text": "quieter is not what i wanted, muted is",
+        "gold": "Cmd.VolumeMute",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.942
+      },
+      {
+        "text": "skip to play my messages, do to record a message instead",
+        "gold": "Cmd.SendMessage",
+        "pred": "Cmd.ListenMessage",
+        "confidence": 0.884
+      },
+      {
+        "text": "a self check is not what i wanted, how to clean them is",
+        "gold": "Help_CleanCare",
+        "pred": "Help_SelfCheck",
+        "confidence": 0.907
+      },
+      {
+        "text": "not my heart rate recovery \u2014 i meant my heart rate",
+        "gold": "Help_HeartRate",
+        "pred": "Help_HeartRateRecovery",
+        "confidence": 0.928
+      },
+      {
+        "text": "how to change programs is not what i wanted, a different program is",
+        "gold": "Cmd.MemoryChange",
+        "pred": "Help_ChangingMemories",
+        "confidence": 0.914
+      },
+      {
+        "text": "i am not after my running, i am after my walking",
+        "gold": "Cmd.ActivityWalk",
+        "pred": "Help_CleanCare",
+        "confidence": 0.609
+      },
+      {
+        "text": "skip demo mode, do the cros system instead",
+        "gold": "Help_WiCROS",
+        "pred": "Help_DemoMode",
+        "confidence": 0.669
+      },
+      {
+        "text": "edge mode is not what i wanted, the cros system is",
+        "gold": "Help_WiCROS",
+        "pred": "Help_EdgeMode",
+        "confidence": 0.88
+      },
+      {
+        "text": "mask mode is not what i wanted, demo mode is",
+        "gold": "Help_DemoMode",
+        "pred": "Help_MaskMode",
+        "confidence": 0.799
+      },
+      {
+        "text": "my calories is not what i wanted, my running is",
+        "gold": "Cmd.ActivityRun",
+        "pred": "Cmd.ActivityCalories",
+        "confidence": 0.869
+      }
+    ]
+  },
+  "negation": {
+    "n": 156,
+    "accuracy": 0.5513,
+    "macro_f1": 0.2463,
+    "per_group_accuracy": {
+      "P2_bare_negation": 0.5556,
+      "P3_corrective": 0.5333
+    },
+    "gated_coverage": 0.0,
+    "gated_false_execution": 0.0,
+    "gated_accepted_precision": null,
+    "refused_as_corrective": 0.0705,
+    "failures": [
+      {
+        "text": "do not switch my program",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.MemoryChange",
+        "confidence": 0.855
+      },
+      {
+        "text": "do not set a reminder",
+        "gold": "Default Fallback Intent",
+        "pred": "reminders.add",
+        "confidence": 0.936
+      },
+      {
+        "text": "no, leave it alone",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.VolumeMute",
+        "confidence": 0.429
+      },
+      {
+        "text": "do not translate anything",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.TranslationStart",
+        "confidence": 0.438
+      },
+      {
+        "text": "not stop, start the streaming",
+        "gold": "Cmd.StreamingStart",
+        "pred": "Cmd.StreamingStop",
+        "confidence": 0.864
+      },
+      {
+        "text": "do not raise it, drop it a bit",
+        "gold": "Cmd.VolumeDecrease",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.827
+      },
+      {
+        "text": "do not drop it, raise it a bit",
+        "gold": "Cmd.VolumeIncrease",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.95
+      },
+      {
+        "text": "hold off on bring the sound back",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.622
+      },
+      {
+        "text": "kindly refrain from begin translating",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.TranslationStart",
+        "confidence": 0.871
+      },
+      {
+        "text": "it would be wrong to dictate a message",
+        "gold": "Default Fallback Intent",
+        "pred": "Help_SelfCheck",
+        "confidence": 0.881
+      },
+      {
+        "text": "it would be wrong to raise the sound",
+        "gold": "Default Fallback Intent",
+        "pred": "Help_SelfCheck",
+        "confidence": 0.79
+      },
+      {
+        "text": "i would rather you did not open the audio link",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.StreamingStart",
+        "confidence": 0.285
+      },
+      {
+        "text": "hold off on open the audio link",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.StreamingStop",
+        "confidence": 0.865
+      },
+      {
+        "text": "hold off on note down a reminder",
+        "gold": "Default Fallback Intent",
+        "pred": "reminders.add",
+        "confidence": 0.672
+      },
+      {
+        "text": "kindly refrain from replay my messages",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.ListenMessage",
+        "confidence": 0.881
+      },
+      {
+        "text": "hold off on drop the sound",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.VolumeMute",
+        "confidence": 0.891
+      },
+      {
+        "text": "kindly refrain from open the audio link",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.StreamingStart",
+        "confidence": 0.933
+      },
+      {
+        "text": "i am not asking you to raise the sound",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.589
+      },
+      {
+        "text": "silence my aids, that is, not bring the sound back",
+        "gold": "Cmd.VolumeMute",
+        "pred": "Cmd.VolumeDecrease",
+        "confidence": 0.757
+      },
+      {
+        "text": "it would be wrong to silence my aids",
+        "gold": "Default Fallback Intent",
+        "pred": "Help_SelfCheck",
+        "confidence": 0.902
+      },
+      {
+        "text": "i am not asking you to bring the sound back",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.VolumeUnmute",
+        "confidence": 0.34
+      },
+      {
+        "text": "it would be wrong to replay my messages",
+        "gold": "Default Fallback Intent",
+        "pred": "Cmd.ListenMessage",
+        "confidence": 0.773
+      },
+      {
+        "text": "i would rather you did not note down a reminder",
+        "gold": "Default Fallback Intent",
+        "pred": "reminders.add",
+        "confidence": 0.901
+      },
+      {
+        "text": "it would be wrong to open the audio link",
+        "gold": "Default Fallback Intent",
+        "pred": "Help_SelfCheck",
+        "confidence": 0.884
+      },
+      {
+        "text": "it would be wrong to swap my program",
+        "gold": "Default Fallback Intent",
+        "pred": "Help_SelfCheck",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "stt": {
+    "n": 1496,
+    "accuracy": 0.8329,
+    "macro_f1": 0.8066,
+    "per_group_accuracy": {
+      "drop_function_word+drop_plural": 0.9167,
+      "drop_function_word+filler": 0.8727,
+      "drop_function_word+homophone": 0.8864,
+      "drop_function_word+merge_boundary": 0.8171,
+      "drop_function_word+truncate_tail": 0.8333,
+      "drop_plural+drop_function_word": 0.9375,
+      "drop_plural+filler": 0.7407,
+      "drop_plural+homophone": 1.0,
+      "drop_plural+merge_boundary": 0.7059,
+      "drop_plural+truncate_tail": 0.625,
+      "filler": 0.6429,
+      "filler+drop_function_word": 0.8737,
+      "filler+drop_plural": 0.8462,
+      "filler+homophone": 0.9552,
+      "filler+merge_boundary": 0.8027,
+      "filler+truncate_tail": 0.8065,
+      "homophone+drop_function_word": 0.8846,
+      "homophone+drop_plural": 1.0,
+      "homophone+filler": 0.9114,
+      "homophone+merge_boundary": 0.9464,
+      "homophone+truncate_tail": 1.0,
+      "merge_boundary+drop_function_word": 0.9074,
+      "merge_boundary+drop_plural": 0.88,
+      "merge_boundary+filler": 0.7807,
+      "merge_boundary+homophone": 0.8772,
+      "merge_boundary+truncate_tail": 0.64,
+      "truncate_tail+drop_function_word": 0.7755,
+      "truncate_tail+drop_plural": 0.7778,
+      "truncate_tail+filler": 0.6545,
+      "truncate_tail+homophone": 0.9444,
+      "truncate_tail+merge_boundary": 0.6731
+    },
+    "gated_coverage": 0.0582,
+    "gated_false_execution": 0.0033,
+    "gated_accepted_precision": 0.9425,
+    "refused_as_corrective": 0.0,
+    "failures": [
+      {
+        "text": "howmuch distance have i covered",
+        "gold": "Cmd.ActivityStep",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.943
+      },
+      {
+        "text": "um help withintellivoice",
+        "gold": "Help_IntelliVoice",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.929
+      },
+      {
+        "text": "uh where is help for voice",
+        "gold": "Help_IntelliVoice",
+        "pred": "Help_VoiceAssistant",
+        "confidence": 0.895
+      },
+      {
+        "text": "uh help withintelligent voice",
+        "gold": "Help_IntelliVoice",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.385
+      },
+      {
+        "text": "um connect tv",
+        "gold": "Cmd.StreamingStart",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.828
+      },
+      {
+        "text": "uh i don t have a normal",
+        "gold": "Help_MemoryOptions",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.939
+      },
+      {
+        "text": "personalize my hearingaid setting",
+        "gold": "Help_MemoryOptions",
+        "pred": "Cmd.MemoryChange",
+        "confidence": 0.882
+      },
+      {
+        "text": "um why my left very faint not working",
+        "gold": "Help_SelfCheck",
+        "pred": "Cmd.VolumeIncrease",
+        "confidence": 0.324
+      },
+      {
+        "text": "why does not myright when",
+        "gold": "Help_SelfCheck",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.923
+      },
+      {
+        "text": "uh trying toget my hearing age to work",
+        "gold": "Help_SelfCheck",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.939
+      },
+      {
+        "text": "how often should i useself",
+        "gold": "Help_SelfCheck",
+        "pred": "Help_IntelliVoice",
+        "confidence": 0.649
+      },
+      {
+        "text": "why cannot i hear anything through hearin aids",
+        "gold": "Help_SelfCheck",
+        "pred": "Help_Pairing",
+        "confidence": 0.9
+      },
+      {
+        "text": "um can i chargemy battery",
+        "gold": "Help_Battery",
+        "pred": "Cmd.BatteryLevel",
+        "confidence": 0.908
+      },
+      {
+        "text": "howdo i sync my aid to the",
+        "gold": "Help_HearingCareAnywhereConnect",
+        "pred": "Help_Pairing",
+        "confidence": 0.546
+      },
+      {
+        "text": "where do i find app",
+        "gold": "Help_AppSettings",
+        "pred": "Help_FindMyHearingAids",
+        "confidence": 0.908
+      },
+      {
+        "text": "can i go back to my old",
+        "gold": "Help_RemoteProgramming",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.939
+      },
+      {
+        "text": "how do i send anote to my hearin doctor",
+        "gold": "Help_RemoteProgramming",
+        "pred": "Help_HearingCareAnywhereConnect",
+        "confidence": 0.458
+      },
+      {
+        "text": "uh how do i send a note to my",
+        "gold": "Help_RemoteProgramming",
+        "pred": "Cmd.SendMessage",
+        "confidence": 0.823
+      },
+      {
+        "text": "er i need anadjustment to my aids",
+        "gold": "Help_RemoteProgramming",
+        "pred": "reminders.add",
+        "confidence": 0.301
+      },
+      {
+        "text": "how many helprequests can i",
+        "gold": "Help_RemoteProgramming",
+        "pred": "Help_DemoMode",
+        "confidence": 0.643
+      },
+      {
+        "text": "how doi preview new sittings",
+        "gold": "Help_RemoteProgramming",
+        "pred": "Help_HearingCareAnywhereConnect",
+        "confidence": 0.748
+      },
+      {
+        "text": "i need help with",
+        "gold": "Help_DeviceSettings",
+        "pred": "Help_Home",
+        "confidence": 0.647
+      },
+      {
+        "text": "whatdata log",
+        "gold": "Help_DeviceSettings",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.939
+      },
+      {
+        "text": "what memery andi currently in",
+        "gold": "Help_ChangingMemories",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.758
+      },
+      {
+        "text": "how do iincrease the",
+        "gold": "Help_Customize",
+        "pred": "Default Fallback Intent",
+        "confidence": 0.924
+      }
+    ]
+  },
+  "gated_test": {
+    "n": 1513,
+    "coverage": 0.0555,
+    "accepted_precision": 0.9881,
+    "rejected_error_rate": 0.1295,
+    "false_rejection": 0.8222,
+    "false_execution": 0.0007
+  },
+  "ood": {
+    "n": 286,
+    "rejection_rate": 0.9895,
+    "false_acceptance": 0.0105,
+    "classified_as_fallback": 0.6713,
+    "rejection_far": 1.0,
+    "rejection_near": 0.9842,
+    "by_family": {
+      "other_device_audio": {
+        "n": 45,
+        "rejection": 0.9333
+      },
+      "chitchat": {
+        "n": 18,
+        "rejection": 1.0
+      },
+      "device_but_unsupported": {
+        "n": 2,
+        "rejection": 1.0
+      },
+      "errands": {
+        "n": 10,
+        "rejection": 1.0
+      },
+      "general_knowledge": {
+        "n": 21,
+        "rejection": 1.0
+      },
+      "health_other": {
+        "n": 45,
+        "rejection": 1.0
+      },
+      "home_control": {
+        "n": 14,
+        "rejection": 1.0
+      },
+      "news_sport": {
+        "n": 12,
+        "rejection": 1.0
+      },
+      "original_45": {
+        "n": 41,
+        "rejection": 1.0
+      },
+      "phone_calls": {
+        "n": 35,
+        "rejection": 1.0
+      },
+      "phone_other": {
+        "n": 12,
+        "rejection": 1.0
+      },
+      "task_assistant": {
+        "n": 16,
+        "rejection": 1.0
+      },
+      "weather_time": {
+        "n": 15,
+        "rejection": 1.0
+      }
+    },
+    "false_accept_examples": [
+      {
+        "text": "the extractor fan is too loud",
+        "intent": "Cmd.VolumeDecrease",
+        "confidence": 0.9511
+      },
+      {
+        "text": "the oven timer is too loud",
+        "intent": "Cmd.VolumeDecrease",
+        "confidence": 0.9478
+      },
+      {
+        "text": "the dishwasher is too loud",
+        "intent": "Cmd.VolumeDecrease",
+        "confidence": 0.9485
+      }
+    ]
+  }
+}

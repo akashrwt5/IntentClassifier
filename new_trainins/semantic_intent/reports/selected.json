@@ -1,0 +1,5 @@
+{
+  "encoder": "bge-small-en-v1.5",
+  "classifier": "mlp",
+  "rule": "max val_macro_f1, tie<=0.005 broken by calibrated ECE then size then latency"
+}

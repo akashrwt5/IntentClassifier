@@ -1,0 +1,56 @@
+{
+  "fp32": {
+    "n": 1872,
+    "graph_includes_temperature": true,
+    "max_abs_delta": 0.0005601644515991211,
+    "mean_abs_delta": 1.0339938640502282e-06,
+    "p99_abs_delta": 1.0708961437870813e-05,
+    "top1_agreement": 1.0,
+    "gate_agreement": 1.0,
+    "within_tolerance": true,
+    "tolerance": 0.001,
+    "decision_parity_ok": true,
+    "decision_tolerance": 0.99,
+    "disagreements": [],
+    "size_mb": 17.181,
+    "criterion": "numerical (max abs delta)"
+  },
+  "int8": {
+    "n": 1872,
+    "graph_includes_temperature": true,
+    "max_abs_delta": 0.02751326560974121,
+    "mean_abs_delta": 9.093400791418207e-05,
+    "p99_abs_delta": 0.0020210195332765607,
+    "top1_agreement": 0.9983974358974359,
+    "gate_agreement": 1.0,
+    "within_tolerance": true,
+    "tolerance": 0.05,
+    "decision_parity_ok": true,
+    "decision_tolerance": 0.99,
+    "disagreements": [
+      {
+        "text": "how much distance have i covered today",
+        "py": "Help_Health",
+        "onnx": "Default Fallback Intent",
+        "py_conf": 0.15095578134059906,
+        "onnx_conf": 0.15746380388736725
+      },
+      {
+        "text": "er how do i useremote programming",
+        "py": "Help_Accessories",
+        "onnx": "Help_DemoMode",
+        "py_conf": 0.37394464015960693,
+        "onnx_conf": 0.3727938234806061
+      },
+      {
+        "text": "erhow to adjust these",
+        "py": "Default Fallback Intent",
+        "onnx": "Cmd.MemoryChange",
+        "py_conf": 0.3223482668399811,
+        "onnx_conf": 0.32618752121925354
+      }
+    ],
+    "size_mb": 4.748,
+    "criterion": "decision parity (gate agreement)"
+  }
+}

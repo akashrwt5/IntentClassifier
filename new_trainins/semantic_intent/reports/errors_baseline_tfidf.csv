@@ -1,0 +1,514 @@
+suite,text,true_intent,predicted_intent,top2,confidence,margin,accepted,category
+standard_test,turn the volume up on the hearing aid,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.8681,0.8175,False,same_family_opposite_or_sibling
+standard_test,how much distance have i covered today,Cmd.ActivityStep,Cmd.ActivityStand,Cmd.ActivityExercise,0.3466,0.2365,False,same_family_opposite_or_sibling
+standard_test,play tv,Cmd.StreamingStart,Default Fallback Intent,Cmd.StreamingStart,0.5312,0.1792,False,command_vs_help_confusion
+standard_test,what do i need to know about this new app?,Help_WhatsNew,Help_Home,Help_WhatsNew,0.898,0.8066,False,same_family_opposite_or_sibling
+standard_test,trying to get my hearing age to work,Help_SelfCheck,Default Fallback Intent,Help_RemoteProgramming,0.8524,0.8315,False,command_vs_help_confusion
+standard_test,why can't i hear anything through my hearing aids,Help_SelfCheck,Help_Pairing,Help_DeviceSettings,0.8854,0.8608,False,negation
+standard_test,can i charge my battery?,Help_Battery,Cmd.BatteryLevel,Help_Battery,0.7718,0.5446,False,command_vs_help_confusion
+standard_test,can i access the cloud?,Help_HearingCareAnywhereConnect,Help_Home,Cmd.VolumeDecrease,0.3878,0.2015,False,insufficient_training_coverage
+standard_test,how do i access the cloud?,Help_HearingCareAnywhereConnect,Help_Home,Help_Accessories,0.8198,0.7369,False,insufficient_training_coverage
+standard_test,sync hearing aid to tv,Help_Pairing,Cmd.StreamingStart,Help_Pairing,0.6516,0.5003,False,command_vs_help_confusion
+standard_test,how do i ask for a new setting?,Help_RemoteProgramming,Help_MemoryOptions,Help_RemoteProgramming,0.6109,0.2796,False,other_embedding_or_classifier_weakness
+standard_test,i need help with my settings,Help_DeviceSettings,Help_HearingCareAnywhereConnect,Help_AppSettings,0.314,0.0889,False,low_margin_uncertainty
+standard_test,what is data log,Help_DeviceSettings,Default Fallback Intent,Cmd.ActivityCycle,0.3077,0.2389,False,command_vs_help_confusion
+standard_test,what memory and i currently in?,Help_ChangingMemories,Default Fallback Intent,Help_MemoryOptions,0.6078,0.3649,False,command_vs_help_confusion
+standard_test,where's the button for memory?,Help_ChangingMemories,Default Fallback Intent,Help_ChangingMemories,0.5191,0.136,False,command_vs_help_confusion
+standard_test,where's the memory button?,Help_ChangingMemories,Default Fallback Intent,Help_ChangingMemories,0.4838,0.0405,False,command_vs_help_confusion
+standard_test,how do i say take me to the hotel in spanish,Cmd.TranslationStart,Help_InsertDevice,Default Fallback Intent,0.3545,0.0448,False,command_vs_help_confusion
+standard_test,turn off the volume,Cmd.VolumeMute,Cmd.VolumeDecrease,Cmd.VolumeMute,0.401,0.053,False,same_family_opposite_or_sibling
+standard_test,can i use the phone to check the volume of my hearing aids,Help_Volume,Help_SelfCheck,Default Fallback Intent,0.4235,0.2424,False,other_embedding_or_classifier_weakness
+standard_test,what are stock options,Default Fallback Intent,Help_Home,Default Fallback Intent,0.6736,0.5775,False,command_vs_help_confusion
+standard_test,creating a demo with your capabilities,Default Fallback Intent,Help_DemoMode,Default Fallback Intent,0.921,0.8465,True,command_vs_help_confusion
+standard_test,play hank williams junior,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.7396,0.4879,False,command_vs_help_confusion
+standard_test,am i close enough to the car,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.6513,0.4321,False,command_vs_help_confusion
+standard_test,where is the simba,Default Fallback Intent,Help_Home,Default Fallback Intent,0.3696,0.2503,False,command_vs_help_confusion
+standard_test,hey find me a way to white oaks mall,Default Fallback Intent,Help_Home,Default Fallback Intent,0.3876,0.0708,False,command_vs_help_confusion
+standard_test,i hear the voice,Default Fallback Intent,Cmd.VolumeIncrease,Help_IntelliVoice,0.4037,0.1496,False,command_vs_help_confusion
+standard_test,alexa learn my voice,Default Fallback Intent,Help_VoiceAssistant,Help_IntelliVoice,0.6273,0.3415,False,command_vs_help_confusion
+standard_test,hey google,Default Fallback Intent,Cmd.FindMyPhone,Default Fallback Intent,0.5326,0.1522,False,command_vs_help_confusion
+standard_test,riley's a manager connected scott.,Default Fallback Intent,Help_Pairing,Default Fallback Intent,0.5442,0.3837,False,command_vs_help_confusion
+standard_test,chelsea down at least you try,Default Fallback Intent,reminders.add,Default Fallback Intent,0.5764,0.2151,False,command_vs_help_confusion
+standard_test,discover revelation,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.FindMyPhone,0.5292,0.148,False,command_vs_help_confusion
+standard_test,i said other program,Default Fallback Intent,Cmd.MemoryChange,Help_ChangingMemories,0.9822,0.9751,True,command_vs_help_confusion
+standard_test,google,Default Fallback Intent,Cmd.FindMyPhone,Default Fallback Intent,0.661,0.397,False,command_vs_help_confusion
+standard_test,see how it moves all the way across.,Default Fallback Intent,Help_Volume,Default Fallback Intent,0.4,0.1407,False,command_vs_help_confusion
+standard_test,right on,Default Fallback Intent,Cmd.VolumeUnmute,Default Fallback Intent,0.5073,0.0748,False,command_vs_help_confusion
+standard_test,you want me to say i love you,Default Fallback Intent,reminders.add,Default Fallback Intent,0.4704,0.0745,False,command_vs_help_confusion
+standard_test,and push it down for dramatics,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.6419,0.569,False,command_vs_help_confusion
+standard_test,why won't the hearing aids?,Default Fallback Intent,Help_DeviceSettings,Default Fallback Intent,0.4295,0.1876,False,command_vs_help_confusion
+standard_test,thanks for changing,Default Fallback Intent,Cmd.MemoryChange,Default Fallback Intent,0.8571,0.7917,False,command_vs_help_confusion
+standard_test,i can't hear anything,Default Fallback Intent,Cmd.VolumeIncrease,Default Fallback Intent,0.6855,0.5204,False,negation
+standard_test,how do you spell keep my microphone,Default Fallback Intent,Help_CleanCare,Default Fallback Intent,0.4687,0.1214,False,command_vs_help_confusion
+standard_test,what level am i hearing aids,Default Fallback Intent,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.3475,0.0141,False,command_vs_help_confusion
+standard_test,can you listen to music,Default Fallback Intent,Cmd.StreamingStart,Cmd.ListenMessage,0.4704,0.262,False,command_vs_help_confusion
+standard_test,"stream, youtube music.",Default Fallback Intent,Cmd.StreamingStop,Cmd.StreamingStart,0.8158,0.676,False,command_vs_help_confusion
+standard_test,i need a car battery,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.9349,0.881,True,command_vs_help_confusion
+standard_test,how do i remove a sliver,Default Fallback Intent,Help_CleanCare,Help_HearingCareAnywhereConnect,0.5573,0.4122,False,command_vs_help_confusion
+standard_test,why would i need to worry about health guidelines,Default Fallback Intent,Help_Health,Default Fallback Intent,0.4741,0.0396,False,command_vs_help_confusion
+standard_test,what is starkey hearing aids,Default Fallback Intent,Help_DeviceSettings,Help_Volume,0.2163,0.032,False,command_vs_help_confusion
+standard_test,change to test one,Cmd.MemoryChange,Default Fallback Intent,Cmd.MemoryChange,0.3388,0.0071,False,command_vs_help_confusion
+standard_test,please turn the volume up on the hearing aid,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.9375,0.9095,True,same_family_opposite_or_sibling
+standard_test,can you turn the volume up on the hearing aid,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.9201,0.8822,True,same_family_opposite_or_sibling
+standard_test,please turn up the volume on the hearing aid,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.54,0.1541,False,same_family_opposite_or_sibling
+standard_test,can you turn up the volume on the hearing aid,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.488,0.0551,False,same_family_opposite_or_sibling
+standard_test,can you play tv,Cmd.StreamingStart,Default Fallback Intent,Cmd.StreamingStart,0.6402,0.4564,False,command_vs_help_confusion
+standard_test,please i don’t have a normal memory,Help_MemoryOptions,Cmd.MemoryChange,Help_MemoryOptions,0.5753,0.2151,False,command_vs_help_confusion
+standard_test,can you i don’t have a normal memory,Help_MemoryOptions,Cmd.MemoryChange,Help_MemoryOptions,0.5058,0.0537,False,command_vs_help_confusion
+standard_test,please trying to get my hearing age to work,Help_SelfCheck,Default Fallback Intent,Help_RemoteProgramming,0.8933,0.8794,False,command_vs_help_confusion
+standard_test,can you trying to get my hearing age to work,Help_SelfCheck,Default Fallback Intent,Help_RemoteProgramming,0.8839,0.8697,False,command_vs_help_confusion
+standard_test,please sync hearing aid to tv,Help_Pairing,Cmd.StreamingStart,Default Fallback Intent,0.5,0.3625,False,command_vs_help_confusion
+standard_test,can you sync hearing aid to tv,Help_Pairing,Cmd.StreamingStart,Help_Pairing,0.4788,0.1554,False,command_vs_help_confusion
+standard_test,please i need help with my settings,Help_DeviceSettings,Help_HearingCareAnywhereConnect,Default Fallback Intent,0.3408,0.1905,False,other_embedding_or_classifier_weakness
+standard_test,can you i need help with my settings,Help_DeviceSettings,Help_HearingCareAnywhereConnect,Help_AppSettings,0.2645,0.1073,False,other_embedding_or_classifier_weakness
+standard_test,please where's the button for memory?,Help_ChangingMemories,Default Fallback Intent,Help_ChangingMemories,0.8314,0.7456,False,command_vs_help_confusion
+standard_test,please where's the memory button?,Help_ChangingMemories,Default Fallback Intent,Help_ChangingMemories,0.855,0.7563,False,command_vs_help_confusion
+standard_test,please creating a demo with your capabilities,Default Fallback Intent,Help_DemoMode,Default Fallback Intent,0.8755,0.7561,False,command_vs_help_confusion
+standard_test,can you creating a demo with your capabilities,Default Fallback Intent,Help_DemoMode,Default Fallback Intent,0.9144,0.834,True,command_vs_help_confusion
+standard_test,please play hank williams junior,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.7635,0.5341,False,command_vs_help_confusion
+standard_test,can you play hank williams junior,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.745,0.5017,False,command_vs_help_confusion
+standard_test,please am i close enough to the car,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.5306,0.2341,False,command_vs_help_confusion
+standard_test,can you am i close enough to the car,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.555,0.2532,False,command_vs_help_confusion
+standard_test,please i hear the voice,Default Fallback Intent,Cmd.VolumeIncrease,Help_IntelliVoice,0.4477,0.1998,False,command_vs_help_confusion
+standard_test,can you i hear the voice,Default Fallback Intent,Cmd.VolumeIncrease,Help_IntelliVoice,0.4134,0.1201,False,command_vs_help_confusion
+standard_test,please alexa learn my voice,Default Fallback Intent,Help_VoiceAssistant,Help_IntelliVoice,0.4018,0.0175,False,command_vs_help_confusion
+standard_test,can you alexa learn my voice,Default Fallback Intent,Help_IntelliVoice,Help_VoiceAssistant,0.4702,0.111,False,command_vs_help_confusion
+standard_test,please riley's a manager connected scott.,Default Fallback Intent,Help_Pairing,Default Fallback Intent,0.4909,0.2561,False,command_vs_help_confusion
+standard_test,can you riley's a manager connected scott.,Default Fallback Intent,Help_Pairing,Default Fallback Intent,0.4645,0.2308,False,command_vs_help_confusion
+standard_test,can you chelsea down at least you try,Default Fallback Intent,reminders.add,Default Fallback Intent,0.5225,0.1313,False,command_vs_help_confusion
+standard_test,can you discover revelation,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.FindMyPhone,0.5394,0.1855,False,command_vs_help_confusion
+standard_test,please i said other program,Default Fallback Intent,Cmd.MemoryChange,Help_FindMyHearingAids,0.9909,0.9891,True,command_vs_help_confusion
+standard_test,can you i said other program,Default Fallback Intent,Cmd.MemoryChange,Help_FindMyHearingAids,0.9867,0.9828,True,command_vs_help_confusion
+standard_test,can you you want me to say i love you,Default Fallback Intent,reminders.add,Default Fallback Intent,0.5631,0.2603,False,command_vs_help_confusion
+standard_test,please and push it down for dramatics,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.6442,0.5338,False,command_vs_help_confusion
+standard_test,can you and push it down for dramatics,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.6073,0.5123,False,command_vs_help_confusion
+standard_test,please thanks for changing,Default Fallback Intent,Cmd.MemoryChange,Default Fallback Intent,0.8742,0.7727,False,command_vs_help_confusion
+standard_test,can you thanks for changing,Default Fallback Intent,Cmd.MemoryChange,Default Fallback Intent,0.9021,0.8356,True,command_vs_help_confusion
+standard_test,please i can't hear anything,Default Fallback Intent,Cmd.VolumeIncrease,Default Fallback Intent,0.6212,0.4069,False,negation
+standard_test,can you i can't hear anything,Default Fallback Intent,Cmd.VolumeIncrease,Default Fallback Intent,0.4859,0.1589,False,negation
+standard_test,"please stream, youtube music.",Default Fallback Intent,Cmd.StreamingStop,Cmd.StreamingStart,0.7999,0.6764,False,command_vs_help_confusion
+standard_test,"can you stream, youtube music.",Default Fallback Intent,Cmd.StreamingStart,Cmd.StreamingStop,0.5031,0.1385,False,command_vs_help_confusion
+standard_test,please i need a car battery,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.9137,0.8407,True,command_vs_help_confusion
+standard_test,can you i need a car battery,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.8657,0.7519,False,command_vs_help_confusion
+standard_test,please have i reached my biking goal?,Cmd.ActivityCycle,Cmd.ActivityAerobics,Cmd.ActivityCycle,0.3772,0.0553,False,same_family_opposite_or_sibling
+standard_test,can you have i reached my biking goal?,Cmd.ActivityCycle,Cmd.ActivityAerobics,Cmd.ActivityCycle,0.4038,0.0876,False,same_family_opposite_or_sibling
+standard_test,please change to test one,Cmd.MemoryChange,Default Fallback Intent,Cmd.MemoryChange,0.4313,0.0394,False,command_vs_help_confusion
+standard_test,can i translate english to french?,Help_Translate,Cmd.TranslationStart,Default Fallback Intent,0.361,0.0424,False,command_vs_help_confusion
+standard_test,do i have a normal memory,Help_ChangingMemories,Help_MemoryOptions,Cmd.MemoryChange,0.9046,0.844,True,same_family_opposite_or_sibling
+standard_test,give me a demonstration,Help_DemoMode,Default Fallback Intent,Help_DemoMode,0.3845,0.0407,False,command_vs_help_confusion
+standard_test,hearing aid not charging,Help_SelfCheck,Help_Battery,Default Fallback Intent,0.8906,0.8285,False,negation
+standard_test,troubleshoot my hearing aids,Help_SelfCheck,Cmd.VolumeDecrease,Help_DeviceSettings,0.3231,0.1098,False,command_vs_help_confusion
+standard_test,get down south,Default Fallback Intent,Cmd.VolumeDecrease,Help_Home,0.9599,0.9457,True,command_vs_help_confusion
+standard_test,turn on bluetooth,Help_Pairing,Cmd.VolumeUnmute,Help_Pairing,0.4834,0.1887,False,command_vs_help_confusion
+standard_test,how do i change,Default Fallback Intent,Help_DeviceSettings,Help_ChangingMemories,0.3319,0.2004,False,command_vs_help_confusion
+standard_test,how do i down cls,Default Fallback Intent,Help_Home,Help_Volume,0.5139,0.3247,False,command_vs_help_confusion
+standard_test,play festival,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.8035,0.6129,False,command_vs_help_confusion
+standard_test,thursday,Default Fallback Intent,reminders.add,Default Fallback Intent,0.5025,0.3221,False,command_vs_help_confusion
+standard_test,its laud here,Cmd.VolumeDecrease,Default Fallback Intent,Help_HearingCareAnywhereConnect,0.6658,0.5125,False,command_vs_help_confusion
+standard_test,it's barely audible,Cmd.VolumeIncrease,Cmd.VolumeDecrease,Cmd.VolumeMute,0.3605,0.1099,False,same_family_opposite_or_sibling
+standard_test,this is barely audible,Cmd.VolumeIncrease,Cmd.VolumeDecrease,reminders.complete,0.5364,0.2997,False,same_family_opposite_or_sibling
+standard_test,that's hurting my ears,Cmd.VolumeDecrease,Default Fallback Intent,Cmd.VolumeDecrease,0.8786,0.7723,False,command_vs_help_confusion
+standard_test,it's blasting in my ears,Cmd.VolumeDecrease,Default Fallback Intent,Cmd.VolumeDecrease,0.6453,0.521,False,command_vs_help_confusion
+standard_test,help me recover them,Help_FindMyHearingAids,Help_HeartRateRecovery,Help_FindMyHearingAids,0.6527,0.5525,False,other_embedding_or_classifier_weakness
+standard_test,show me where they are,Help_FindMyHearingAids,Help_Home,Default Fallback Intent,0.2675,0.0803,False,low_margin_uncertainty
+standard_test,i need a prompt later,reminders.add,Default Fallback Intent,reminders.add,0.4364,0.1548,False,command_vs_help_confusion
+standard_test,pass this along,Cmd.SendMessage,Cmd.TranscribeStart,Cmd.VolumeDecrease,0.316,0.1684,False,other_embedding_or_classifier_weakness
+standard_test,i want direct audio,Cmd.StreamingStart,Cmd.VolumeMute,Cmd.StreamingStart,0.7294,0.5961,False,other_embedding_or_classifier_weakness
+standard_test,show me the basics,Help_Home,Default Fallback Intent,Help_Home,0.5532,0.2653,False,command_vs_help_confusion
+standard_test,i want some quiet,Cmd.VolumeDecrease,Cmd.VolumeMute,Cmd.VolumeDecrease,0.4113,0.1754,False,same_family_opposite_or_sibling
+standard_test,i want silence,Cmd.VolumeDecrease,Cmd.VolumeMute,Cmd.VolumeUnmute,0.895,0.8115,False,same_family_opposite_or_sibling
+standard_test,kill the sound,Cmd.VolumeMute,Cmd.VolumeDecrease,Cmd.VolumeMute,0.2754,0.0293,False,same_family_opposite_or_sibling
+standard_test,set my aids for a party,Cmd.MemoryChange,Help_Pairing,Cmd.MemoryChange,0.3899,0.1039,False,command_vs_help_confusion
+standard_test,tell my son i said hello,Cmd.SendMessage,Default Fallback Intent,Help_HearingCareAnywhereConnect,0.5807,0.4312,False,command_vs_help_confusion
+standard_test,pick some lucky numbers for me,Default Fallback Intent,reminders.add,Cmd.SendMessage,0.6541,0.4754,False,command_vs_help_confusion
+standard_test,ping my wife,Cmd.SendMessage,Default Fallback Intent,Help_HearShare,0.4244,0.2069,False,command_vs_help_confusion
+standard_test,can i edit a reminder,Help_Reminder,reminders.add,Help_Reminder,0.6828,0.3908,False,command_vs_help_confusion
+standard_test,can i snooze a reminder,Help_Reminder,reminders.add,Help_Reminder,0.5584,0.1411,False,command_vs_help_confusion
+standard_test,how do i dry my hearing aids,Help_CleanCare,Help_Volume,Help_CleanCare,0.1901,0.0769,False,insufficient_training_coverage
+standard_test,can moisture damage my hearing aids,Help_CleanCare,Cmd.VolumeDecrease,Help_CleanCare,0.2474,0.1386,False,command_vs_help_confusion
+standard_test,start a bike workout,Cmd.ActivityCycle,Cmd.ActivityExercise,Cmd.ActivityRun,0.8076,0.781,False,same_family_opposite_or_sibling
+standard_test,what is noise induced hearing loss,Help_Tinnitus,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.1553,0.0134,False,command_vs_help_confusion
+standard_test,bring me some quiet,Cmd.VolumeDecrease,Cmd.VolumeUnmute,Cmd.VolumeDecrease,0.2886,0.0837,False,same_family_opposite_or_sibling
+standard_test,cut all the sound,Cmd.VolumeMute,Cmd.VolumeDecrease,Cmd.VolumeMute,0.4626,0.1479,False,same_family_opposite_or_sibling
+standard_test,i'm starting my commute,Cmd.MemoryChange,Cmd.StreamingStart,Help_Home,0.2967,0.1268,False,other_embedding_or_classifier_weakness
+standard_test,the program isn't right for where i am,Cmd.MemoryChange,Default Fallback Intent,Help_ChangingMemories,0.3052,0.1111,False,command_vs_help_confusion
+standard_test,this mode isn't working for my surroundings,Cmd.MemoryChange,Cmd.ActivityExercise,Cmd.MemoryChange,0.3169,0.1509,False,other_embedding_or_classifier_weakness
+standard_test,i just took a seat in a noisy cafe,Cmd.MemoryChange,Default Fallback Intent,Cmd.MemoryChange,0.5855,0.1793,False,command_vs_help_confusion
+standard_test,drop the connection to the tv sound,Cmd.StreamingStop,Cmd.StreamingStart,Cmd.StreamingStop,0.6691,0.498,False,same_family_opposite_or_sibling
+standard_test,start my jog tracking,Cmd.ActivityRun,Cmd.ActivityWalk,Cmd.ActivityCycle,0.4264,0.1789,False,same_family_opposite_or_sibling
+standard_test,start tracking my jog,Cmd.ActivityRun,Cmd.ActivityWalk,Cmd.ActivityCycle,0.4459,0.2043,False,same_family_opposite_or_sibling
+standard_test,note my jog,Cmd.ActivityRun,Help_RemoteProgramming,Cmd.SendMessage,0.3427,0.1246,False,command_vs_help_confusion
+standard_test,what's my daily step number,Cmd.ActivityStep,Help_Health,Help_ThriveScore,0.607,0.4435,False,command_vs_help_confusion
+standard_test,how long on my feet today,Cmd.ActivityStand,Default Fallback Intent,Cmd.ActivityStand,0.3275,0.1291,False,command_vs_help_confusion
+standard_test,record my ride for me,Cmd.ActivityCycle,Cmd.ActivityWalk,Cmd.ActivityRun,0.5033,0.3465,False,same_family_opposite_or_sibling
+standard_test,what's my burn so far,Cmd.ActivityCalories,Default Fallback Intent,Cmd.ActivityRun,0.4558,0.0645,False,command_vs_help_confusion
+standard_test,how do i balance the volume between ears,Help_Volume,Help_WiCROS,Help_Volume,0.8168,0.6785,False,other_embedding_or_classifier_weakness
+standard_test,how do i manage my programs,Help_MemoryOptions,Help_ChangingMemories,Help_MemoryOptions,0.7723,0.598,False,same_family_opposite_or_sibling
+standard_test,help managing my saved programs,Help_MemoryOptions,Help_ChangingMemories,Help_RemoteProgramming,0.7436,0.6749,False,same_family_opposite_or_sibling
+standard_test,how to bond my aids with the app,Help_Pairing,Help_AppSettings,Help_HearingCareAnywhereConnect,0.3262,0.1869,False,same_family_opposite_or_sibling
+standard_test,what extra devices can i pair,Help_Accessories,Help_Pairing,Help_DeviceSettings,0.8964,0.8504,False,other_embedding_or_classifier_weakness
+standard_test,how do i turn on the soothing sound,Help_Tinnitus,Cmd.VolumeUnmute,Help_DeviceSettings,0.3494,0.1014,False,command_vs_help_confusion
+standard_test,this ear ringing is driving me crazy,Help_Tinnitus,Cmd.VolumeDecrease,Help_Tinnitus,0.8126,0.6847,False,command_vs_help_confusion
+standard_test,where do i see my wellness score,Help_ThriveScore,Help_Health,Help_ThriveScore,0.6333,0.2873,False,same_family_opposite_or_sibling
+standard_test,where do i find my overall rating,Help_ThriveScore,Help_Health,Default Fallback Intent,0.4005,0.2802,False,same_family_opposite_or_sibling
+standard_test,why is there static in my aids,Help_DeviceSettings,Default Fallback Intent,Help_DeviceSettings,0.4202,0.1105,False,command_vs_help_confusion
+standard_test,the audio is breaking up,Help_DeviceSettings,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.5758,0.4262,False,command_vs_help_confusion
+standard_test,how do i wear my aids properly,Help_InsertDevice,Help_CleanCare,Help_Customize,0.5676,0.4532,False,same_family_opposite_or_sibling
+standard_test,explain how to configure the app,Help_AppSettings,Help_Home,Help_Transcribe,0.5007,0.407,False,same_family_opposite_or_sibling
+standard_test,keeping my aids in good shape,Help_CleanCare,Default Fallback Intent,Cmd.TranslationStart,0.6811,0.5838,False,command_vs_help_confusion
+standard_test,can i fine tune the bass and treble,Help_Customize,Default Fallback Intent,Help_Health,0.8323,0.7576,False,command_vs_help_confusion
+standard_test,how do i make the sound my own,Help_Customize,Help_Volume,Help_Customize,0.8976,0.8426,False,insufficient_training_coverage
+standard_test,explain the personalization options,Help_Customize,Help_Home,Help_MemoryOptions,0.4278,0.277,False,insufficient_training_coverage
+standard_test,how do i make the sound suit me,Help_Customize,Help_Volume,Default Fallback Intent,0.9245,0.8924,True,insufficient_training_coverage
+standard_test,what got added recently,Help_WhatsNew,Default Fallback Intent,Cmd.ListenMessage,0.5437,0.3403,False,command_vs_help_confusion
+standard_test,help me see what's new,Help_WhatsNew,Help_Home,Default Fallback Intent,0.4812,0.2586,False,same_family_opposite_or_sibling
+standard_test,this is all confusing to me,Help_Home,Default Fallback Intent,Cmd.TranscribeStart,0.857,0.8181,False,command_vs_help_confusion
+standard_test,i don't get how any of this works,Help_Home,Default Fallback Intent,Help_Home,0.5192,0.0776,False,negation
+standard_test,do my aids show subtitles of speech,Help_Transcribe,Help_Customize,Help_CleanCare,0.582,0.3855,False,insufficient_training_coverage
+standard_test,do my aids measure bpm,Help_HeartRate,Help_FindMyHearingAids,Help_HeartRate,0.3002,0.0605,False,insufficient_training_coverage
+standard_test,a setting for very windy places,Help_EdgeMode,Cmd.MemoryChange,Help_MemoryOptions,0.7556,0.5758,False,command_vs_help_confusion
+standard_test,hurt my ears please,Cmd.VolumeDecrease,Default Fallback Intent,Cmd.VolumeDecrease,0.6662,0.5309,False,command_vs_help_confusion
+standard_test,capture this as a reminder,reminders.add,reminders.complete,reminders.add,0.5033,0.0417,False,same_family_opposite_or_sibling
+standard_test,relay this information,Cmd.SendMessage,Cmd.MemoryChange,Cmd.TranslationStart,0.9187,0.9002,True,confident_and_wrong_calibration_issue
+standard_test,relay information,Cmd.SendMessage,Cmd.MemoryChange,Help_ThriveScore,0.5473,0.3751,False,other_embedding_or_classifier_weakness
+standard_test,stream the music,Cmd.StreamingStart,Cmd.StreamingStop,Cmd.StreamingStart,0.8763,0.7681,False,same_family_opposite_or_sibling
+standard_test,i can't spot my hearing aids anywhere,Help_FindMyHearingAids,Help_Home,Help_FindMyHearingAids,0.2337,0.0535,False,negation
+standard_test,i could use an introduction,Help_Home,Default Fallback Intent,Help_FallAlert,0.3147,0.1432,False,command_vs_help_confusion
+contextual,"i am sitting in a noisy restaurant and i am having real trouble following the person across the table, could you please increase the volume a bit",Cmd.VolumeIncrease,Default Fallback Intent,Cmd.VolumeIncrease,0.7702,0.632,False,command_vs_help_confusion
+contextual,"i am about to go into a meeting and i do not want any sound at all coming through, please shut them off",Cmd.VolumeMute,Default Fallback Intent,Help_Health,0.9231,0.9135,False,negation
+contextual,okay the meeting is over now so you can go ahead and put the sound back on for me,Cmd.VolumeUnmute,Default Fallback Intent,Cmd.TranscribeStart,0.4581,0.2742,False,command_vs_help_confusion
+contextual,before i leave the house i want to know whether these will last me until this evening,Cmd.BatteryLevel,Default Fallback Intent,Cmd.BatteryLevel,0.8043,0.7279,False,command_vs_help_confusion
+contextual,"my wife is going to be speaking spanish with her family tonight and i would like to follow along, can you start that up",Cmd.TranslationStart,Default Fallback Intent,reminders.add,0.9951,0.9933,False,command_vs_help_confusion
+contextual,"i wanted to ask, when i am watching the television in the evening how exactly do i get the sound to come straight into my aids",Help_Accessories,Default Fallback Intent,Help_InsertDevice,0.7644,0.6837,False,command_vs_help_confusion
+contextual,"my audiologist mentioned something about her being able to adjust these without me coming in, how does that actually work",Help_RemoteProgramming,Default Fallback Intent,Help_RemoteProgramming,0.572,0.2802,False,command_vs_help_confusion
+contextual,"my son wants to keep an eye on how i am getting on with these, is there a way to let him see that",Help_HearShare,Default Fallback Intent,Help_InsertDevice,0.9707,0.9542,False,command_vs_help_confusion
+contextual,"every morning i struggle a bit to get the right one seated properly in my ear, is there a trick to it",Help_InsertDevice,Default Fallback Intent,Cmd.VolumeDecrease,0.637,0.4901,False,command_vs_help_confusion
+contextual,"i updated the app last night and everything looks different now, what has actually changed",Help_WhatsNew,Default Fallback Intent,Help_WhatsNew,0.7525,0.565,False,command_vs_help_confusion
+contextual,"when i am out in the wind at the golf course it gets very rough, i heard there is a mode that helps with that",Help_EdgeMode,Default Fallback Intent,Help_EdgeMode,0.9094,0.8457,False,command_vs_help_confusion
+contextual,i keep hearing about this score in the app and i do not really understand what it is measuring or how to make it go up,Help_ThriveScore,Default Fallback Intent,Cmd.VolumeIncrease,0.9324,0.9104,False,negation
+contextual,so i went for quite a long bike ride this morning and i am curious how far i actually got,Cmd.ActivityCycle,Default Fallback Intent,Cmd.ActivityRun,0.8017,0.7161,False,command_vs_help_confusion
+contextual,"there was a message that came through earlier while i was out, could you play it for me now",Cmd.ListenMessage,Default Fallback Intent,Cmd.ListenMessage,0.7208,0.459,False,command_vs_help_confusion
+contextual,"that prescription pickup i asked you about earlier, i have taken care of it so you can clear it",reminders.complete,Default Fallback Intent,reminders.complete,0.9578,0.918,False,command_vs_help_confusion
+minimal_pairs,tone things downward,Cmd.VolumeDecrease,Help_VoiceAssistant,Default Fallback Intent,0.2167,0.0249,False,command_vs_help_confusion
+minimal_pairs,unsilence my aids,Cmd.VolumeUnmute,Cmd.VolumeMute,Cmd.VolumeUnmute,0.4693,0.1363,False,same_family_opposite_or_sibling
+minimal_pairs,cut the audio,Cmd.VolumeMute,Cmd.VolumeDecrease,Help_DeviceSettings,0.6873,0.581,False,same_family_opposite_or_sibling
+minimal_pairs,restore the audio,Cmd.VolumeUnmute,Cmd.VolumeIncrease,Default Fallback Intent,0.2833,0.0995,False,same_family_opposite_or_sibling
+minimal_pairs,unhook me from the television audio,Cmd.StreamingStop,Cmd.StreamingStart,Default Fallback Intent,0.4783,0.1303,False,same_family_opposite_or_sibling
+minimal_pairs,replay what my son sent,Cmd.ListenMessage,Help_HearShare,Cmd.ListenMessage,0.3889,0.172,False,command_vs_help_confusion
+minimal_pairs,how would i boost my hearing aid loudness,Help_Volume,Cmd.VolumeIncrease,Help_Volume,0.8669,0.7897,False,command_vs_help_confusion
+minimal_pairs,how would i shut off all output,Help_Volume,Help_FallAlert,Default Fallback Intent,0.2598,0.0071,False,low_margin_uncertainty
+minimal_pairs,how would i jump to setting number three,Help_ChangingMemories,Cmd.MemoryChange,Help_ChangingMemories,0.9457,0.9376,True,command_vs_help_confusion
+minimal_pairs,kick off live captions,Cmd.TranscribeStart,Default Fallback Intent,Cmd.TranscribeStart,0.8084,0.7612,False,command_vs_help_confusion
+minimal_pairs,what kind of battery goes in my aid,Help_Battery,Default Fallback Intent,Help_Battery,0.4705,0.1435,False,command_vs_help_confusion
+minimal_pairs,which earpiece is missing,Help_FindMyHearingAids,Cmd.VolumeIncrease,Help_FindMyHearingAids,0.8646,0.8154,False,command_vs_help_confusion
+minimal_pairs,kick off television audio,Cmd.StreamingStart,Default Fallback Intent,Cmd.StreamingStop,0.5725,0.3638,False,command_vs_help_confusion
+minimal_pairs,how would i configure a television box,Help_Accessories,Default Fallback Intent,Help_HearingCareAnywhereConnect,0.3601,0.0967,False,command_vs_help_confusion
+minimal_pairs,note down this stroll,Cmd.ActivityWalk,Cmd.VolumeDecrease,Help_Home,0.5649,0.1862,False,insufficient_training_coverage
+minimal_pairs,note down this jog,Cmd.ActivityRun,Cmd.VolumeDecrease,Help_Home,0.7465,0.5817,False,insufficient_training_coverage
+minimal_pairs,note down this cardio dance session,Cmd.ActivityAerobics,Cmd.TranscribeStart,Help_Home,0.221,0.0104,False,insufficient_training_coverage
+minimal_pairs,how much energy did my gym session burn,Cmd.ActivityCalories,Cmd.ActivityExercise,Cmd.ActivityRun,0.8967,0.867,False,same_family_opposite_or_sibling
+minimal_pairs,did i reach my walking target,Cmd.ActivityStep,Cmd.ActivityWalk,Default Fallback Intent,0.8735,0.7556,False,same_family_opposite_or_sibling
+minimal_pairs,did i reach my upright target,Cmd.ActivityStand,Default Fallback Intent,Cmd.ActivityCalories,0.8192,0.7423,False,command_vs_help_confusion
+hard_negatives,"i turned it down too far, take it back up",Cmd.VolumeIncrease,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.9137,0.8435,True,same_family_opposite_or_sibling
+hard_negatives,stop making it louder and lower it instead,Cmd.VolumeDecrease,Default Fallback Intent,Cmd.VolumeIncrease,0.8406,0.7313,False,negation
+hard_negatives,stop making it quieter and raise it instead,Cmd.VolumeIncrease,Default Fallback Intent,Cmd.VolumeDecrease,0.9115,0.8625,False,negation
+hard_negatives,"the volume dropped too far, put it back up",Cmd.VolumeIncrease,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.7533,0.5217,False,same_family_opposite_or_sibling
+hard_negatives,"i do not want it muted, i want it louder",Cmd.VolumeIncrease,Cmd.VolumeMute,Cmd.VolumeIncrease,0.4065,0.0825,False,negation
+hard_negatives,"i am not asking to change programs, just turn it up",Cmd.VolumeIncrease,Cmd.MemoryChange,Default Fallback Intent,0.5626,0.1812,False,negation
+hard_negatives,"do not start streaming, stop it",Cmd.StreamingStop,Default Fallback Intent,Cmd.StreamingStart,0.8269,0.7677,False,negation
+hard_negatives,"do not stop streaming, start it",Cmd.StreamingStart,Default Fallback Intent,Cmd.StreamingStop,0.8071,0.7455,False,negation
+hard_negatives,"i do not need a new reminder, mark the old one done",reminders.complete,Default Fallback Intent,reminders.complete,0.4769,0.06,False,negation
+hard_negatives,"i do not want to mark it done, add another reminder",reminders.add,reminders.complete,Default Fallback Intent,0.4473,0.1963,False,negation
+hard_negatives,"do not play the message, record a new one",Cmd.SendMessage,Cmd.ListenMessage,Default Fallback Intent,0.5977,0.2262,False,negation
+hard_negatives,"do not record a message, play the one i got",Cmd.ListenMessage,Default Fallback Intent,Cmd.ListenMessage,0.5293,0.087,False,negation
+hard_negatives,"i am not looking for my phone, i lost a hearing aid",Help_FindMyHearingAids,Cmd.FindMyPhone,Help_Pairing,0.321,0.0145,False,negation
+hard_negatives,"do not tell me how, just change the volume",Cmd.VolumeDecrease,Help_Volume,Default Fallback Intent,0.5347,0.084,False,negation
+hard_negatives,"i did not ask about the battery type, just tell me the charge",Cmd.BatteryLevel,Help_Battery,Cmd.BatteryLevel,0.3972,0.0834,False,negation
+hard_negatives,"i did not ask for the charge level, what battery size do i need",Help_Battery,Cmd.BatteryLevel,Help_Battery,0.532,0.0813,False,negation
+hard_negatives,"not my step count, my stand time",Cmd.ActivityStand,Cmd.ActivityStep,Cmd.ActivityStand,0.6988,0.5021,False,negation
+hard_negatives,"not the recovery number, just my heart rate",Help_HeartRate,Help_HeartRateRecovery,Help_HeartRate,0.9845,0.9779,True,negation
+hard_negatives,"not edge mode, i meant mask mode",Help_MaskMode,Help_EdgeMode,Help_MaskMode,0.9422,0.8962,True,negation
+hard_negatives,"i do not want to transcribe, i want to translate",Cmd.TranslationStart,Default Fallback Intent,Cmd.TranscribeStart,0.695,0.6549,False,negation
+hard_negatives,"i do not want to translate, i want to transcribe",Cmd.TranscribeStart,Default Fallback Intent,Help_Transcribe,0.6661,0.6011,False,negation
+negation,do not make it louder,Default Fallback Intent,Cmd.VolumeIncrease,Default Fallback Intent,0.74,0.5121,False,negation
+negation,do not mute my aids,Default Fallback Intent,Cmd.VolumeMute,Default Fallback Intent,0.2851,0.1273,False,negation
+negation,do not switch my program,Default Fallback Intent,Help_ChangingMemories,Default Fallback Intent,0.3716,0.1178,False,negation
+negation,do not set a reminder,Default Fallback Intent,reminders.add,Default Fallback Intent,0.4282,0.0293,False,negation
+negation,"i said down, not up",Cmd.VolumeDecrease,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.7156,0.6081,False,negation
+negation,"i said up, not down",Cmd.VolumeIncrease,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.5971,0.3502,False,negation
+negation,"no, mute it instead",Cmd.VolumeMute,Default Fallback Intent,Cmd.VolumeMute,0.5427,0.2078,False,command_vs_help_confusion
+negation,"do not raise it, drop it a bit",Cmd.VolumeDecrease,Default Fallback Intent,Cmd.VolumeDecrease,0.5063,0.3471,False,negation
+negation,"do not drop it, raise it a bit",Cmd.VolumeIncrease,Default Fallback Intent,Cmd.VolumeDecrease,0.492,0.321,False,negation
+stt,uhwhere iphone,Cmd.FindMyPhone,Default Fallback Intent,Cmd.FindMyPhone,0.4382,0.0005,False,stt_error
+stt,uh volumeup right aid,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.3546,0.1375,False,stt_error
+stt,turn the volumeup on the hearing,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Default Fallback Intent,0.9808,0.9727,True,stt_error
+stt,howmuch distance have i covered,Cmd.ActivityStep,Cmd.ActivityExercise,Cmd.ActivityAerobics,0.2378,0.0829,False,stt_error
+stt,uh how do i know where aids are,Help_FindMyHearingAids,Help_Home,Help_FindMyHearingAids,0.4894,0.0817,False,stt_error
+stt,um playtv,Cmd.StreamingStart,Default Fallback Intent,Cmd.StreamingStart,0.557,0.2754,False,stt_error
+stt,um what do i need to knowabout this new app,Help_WhatsNew,Help_Home,Help_WhatsNew,0.9659,0.9362,True,stt_error
+stt,uh i don t have a normal,Help_MemoryOptions,Cmd.ActivityCycle,Cmd.ActivityAerobics,0.31,0.1658,False,stt_error
+stt,personalize my hearingaid setting,Help_MemoryOptions,Cmd.MemoryChange,Help_Customize,0.9555,0.9412,True,stt_error
+stt,why does not myright when,Help_SelfCheck,Default Fallback Intent,Help_SelfCheck,0.5782,0.2473,False,stt_error
+stt,uh trying toget my hearing age to work,Help_SelfCheck,Default Fallback Intent,Help_VoiceAssistant,0.6067,0.501,False,stt_error
+stt,what ifi have an x in self,Help_SelfCheck,Default Fallback Intent,Help_SelfCheck,0.5215,0.4221,False,stt_error
+stt,how often should i useself,Help_SelfCheck,Help_IntelliVoice,Default Fallback Intent,0.5705,0.3933,False,stt_error
+stt,why cannot i hear anything through hearin aids,Help_SelfCheck,Help_Pairing,Help_Volume,0.922,0.9044,True,stt_error
+stt,how many calorie have iburned today,Cmd.ActivityCalories,Cmd.ActivityRun,Cmd.ActivityCalories,0.5189,0.2223,False,stt_error
+stt,um can i chargemy battery,Help_Battery,Cmd.BatteryLevel,Help_Battery,0.8196,0.6432,False,stt_error
+stt,uh make volumeon,Cmd.VolumeUnmute,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.493,0.147,False,stt_error
+stt,um can i access cloud,Help_HearingCareAnywhereConnect,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.2893,0.0483,False,stt_error
+stt,how do i accesthe cloud,Help_HearingCareAnywhereConnect,Help_Home,Help_Accessories,0.4862,0.2982,False,stt_error
+stt,how do i backup the settingsin right aid,Help_HearingCareAnywhereConnect,Help_Customize,Help_HearingCareAnywhereConnect,0.2637,0.039,False,stt_error
+stt,howdo i sync my aid to the,Help_HearingCareAnywhereConnect,Help_Pairing,Help_HearingCareAnywhereConnect,0.8186,0.7795,False,stt_error
+stt,pear right hearing aid,Help_Pairing,Default Fallback Intent,Help_SelfCheck,0.4877,0.3347,False,stt_error
+stt,um sync hearing aid tv,Help_Pairing,Cmd.StreamingStart,Default Fallback Intent,0.549,0.4478,False,stt_error
+stt,how do i check if the hearing aids are pairedwith my,Help_Pairing,Help_SelfCheck,Help_Pairing,0.5538,0.1246,False,stt_error
+stt,where do i find app,Help_AppSettings,Help_HearingCareAnywhereConnect,Help_AppSettings,0.3283,0.1634,False,stt_error
+stt,how do i ask for new,Help_RemoteProgramming,Default Fallback Intent,Help_RemoteProgramming,0.4577,0.1537,False,stt_error
+stt,what if i do not like the adjustments made bythe,Help_RemoteProgramming,Default Fallback Intent,Help_RemoteProgramming,0.6873,0.4155,False,stt_error
+stt,uh how do i send a note to my,Help_RemoteProgramming,Cmd.SendMessage,Help_RemoteProgramming,0.6821,0.5355,False,stt_error
+stt,how many helprequests can i,Help_RemoteProgramming,Help_MemoryOptions,Help_RemoteProgramming,0.2276,0.0901,False,stt_error
+stt,i need help with,Help_DeviceSettings,Help_Pairing,Help_Accessories,0.6475,0.5561,False,stt_error
+stt,whatdata log,Help_DeviceSettings,Cmd.ActivityAerobics,Cmd.ActivityRun,0.3744,0.1634,False,stt_error
+stt,what memery andi currently in,Help_ChangingMemories,Cmd.MemoryChange,Default Fallback Intent,0.3802,0.0957,False,stt_error
+stt,er how change memory,Help_ChangingMemories,Cmd.MemoryChange,Help_ChangingMemories,0.8872,0.7836,False,stt_error
+stt,uh how do i adjust for,Help_Customize,Help_MaskMode,Help_Accessories,0.1513,0.0174,False,stt_error
+stt,um what are all the features of,Help_Health,Help_WhatsNew,Help_Home,0.3179,0.0695,False,stt_error
+stt,how do isee my biking,Help_Health,Cmd.ActivityCycle,Default Fallback Intent,0.7356,0.6252,False,stt_error
+stt,umhow do i say take me to the hotel in spanish,Cmd.TranslationStart,Help_InsertDevice,Default Fallback Intent,0.4611,0.0948,False,stt_error
+stt,uhminimum sound,Cmd.VolumeDecrease,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.8196,0.697,False,stt_error
+stt,um go doun in volume,Cmd.VolumeDecrease,Cmd.VolumeIncrease,Default Fallback Intent,0.4342,0.2753,False,stt_error
+stt,turn the volumedow,Cmd.VolumeDecrease,Cmd.VolumeUnmute,Default Fallback Intent,0.5779,0.1909,False,stt_error
+stt,can drive measure heart rate,Help_HeartRate,Help_HeartRateRecovery,Help_HeartRate,0.5244,0.1251,False,stt_error
+stt,what is the condition of my,Cmd.BatteryLevel,Default Fallback Intent,Help_Home,0.2275,0.0011,False,stt_error
+stt,uh speech totext help,Help_Transcribe,Help_IntelliVoice,Help_Transcribe,0.4822,0.1531,False,stt_error
+stt,how do i takeout the hearing,Help_InsertDevice,Help_Volume,Default Fallback Intent,0.3882,0.2128,False,stt_error
+stt,um make volumeoff,Cmd.VolumeMute,Cmd.VolumeDecrease,Cmd.VolumeMute,0.6025,0.4797,False,stt_error
+stt,uh i have got wax,Help_CleanCare,Default Fallback Intent,Help_CleanCare,0.5471,0.2914,False,stt_error
+stt,uh cani use the phone to check the volume of my hearing aids,Help_Volume,Default Fallback Intent,Help_SelfCheck,0.3156,0.019,False,stt_error
+stt,i want to hearmy massage,Cmd.ListenMessage,Cmd.SendMessage,Cmd.ListenMessage,0.919,0.8931,True,stt_error
+stt,um what are stock option,Default Fallback Intent,Help_Home,Default Fallback Intent,0.7934,0.7425,False,stt_error
+stt,what are some river cruise options in united state 1,Default Fallback Intent,Help_Home,Default Fallback Intent,0.2999,0.1281,False,stt_error
+stt,er creatinga demo with your capabilities,Default Fallback Intent,Help_DemoMode,Default Fallback Intent,0.9481,0.9035,True,stt_error
+stt,um play hankwilliams junior,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.6301,0.286,False,stt_error
+stt,ami close enough the car,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.7523,0.6058,False,stt_error
+stt,hey jeannie tv sanders this is iris it all,Default Fallback Intent,reminders.complete,Default Fallback Intent,0.5535,0.2497,False,stt_error
+stt,uh where isthe simba,Default Fallback Intent,Help_Home,Default Fallback Intent,0.4987,0.41,False,stt_error
+stt,er tern off cable,Default Fallback Intent,Cmd.VolumeMute,Default Fallback Intent,0.5598,0.2574,False,stt_error
+stt,ihear voice,Default Fallback Intent,Help_IntelliVoice,Cmd.VolumeIncrease,0.6811,0.4538,False,stt_error
+stt,uh alexa learn myvoice,Default Fallback Intent,Help_IntelliVoice,Help_VoiceAssistant,0.4088,0.0218,False,stt_error
+stt,er hey google,Default Fallback Intent,Cmd.FindMyPhone,Default Fallback Intent,0.583,0.2756,False,stt_error
+stt,riley' amanager connected scott,Default Fallback Intent,Help_Pairing,Cmd.StreamingStart,0.6758,0.5836,False,stt_error
+stt,chelsea down atleast you,Default Fallback Intent,Cmd.VolumeDecrease,Default Fallback Intent,0.831,0.7119,False,stt_error
+stt,er discover revelation,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.FindMyPhone,0.7214,0.4916,False,stt_error
+stt,er i said otherprogram,Default Fallback Intent,Cmd.MemoryChange,Help_ChangingMemories,0.8142,0.7462,False,stt_error
+stt,er google,Default Fallback Intent,Cmd.FindMyPhone,Default Fallback Intent,0.5448,0.2649,False,stt_error
+stt,um how do i schedule,Default Fallback Intent,Help_HearingCareAnywhereConnect,Help_Home,0.217,0.053,False,stt_error
+stt,uh i need to program new stamping to my,Default Fallback Intent,Help_RemoteProgramming,Default Fallback Intent,0.4336,0.2955,False,stt_error
+stt,erhow to adjust these,Default Fallback Intent,Help_Accessories,Default Fallback Intent,0.2889,0.0098,False,stt_error
+stt,see how moves all theway across,Default Fallback Intent,Help_Health,Default Fallback Intent,0.5413,0.1583,False,stt_error
+stt,uhright on,Default Fallback Intent,Cmd.VolumeUnmute,Default Fallback Intent,0.6785,0.3899,False,stt_error
+stt,exclusive30 1 odds,Default Fallback Intent,Help_DemoMode,Help_WiCROS,0.225,0.086,False,stt_error
+stt,and push it down fordramatic,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.8008,0.7205,False,stt_error
+stt,er why will not the hearing 8s,Default Fallback Intent,Help_SelfCheck,Help_InsertDevice,0.5587,0.3175,False,stt_error
+stt,er i cannothear anything,Default Fallback Intent,Cmd.VolumeIncrease,Cmd.VolumeMute,0.4208,0.3045,False,stt_error
+stt,er and here's my heart it is closer toyou,Default Fallback Intent,Help_HeartRate,Default Fallback Intent,0.4341,0.0882,False,stt_error
+stt,uh canyou listen to music,Default Fallback Intent,Cmd.StreamingStart,Default Fallback Intent,0.4132,0.1989,False,stt_error
+stt,scream youtubemusic,Default Fallback Intent,Cmd.StreamingStart,Cmd.StreamingStop,0.5255,0.1471,False,stt_error
+stt,i need car batteries,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.6404,0.2925,False,stt_error
+stt,uh how do i remove sliver,Default Fallback Intent,Help_CleanCare,Default Fallback Intent,0.7202,0.6801,False,stt_error
+stt,er why would i need worry about health guidelines,Default Fallback Intent,Help_Health,Default Fallback Intent,0.685,0.5268,False,stt_error
+stt,er what aids,Default Fallback Intent,Help_CleanCare,Help_DemoMode,0.3085,0.2125,False,stt_error
+stt,what isstarkey hearing aides,Default Fallback Intent,Help_CleanCare,Help_ChangingMemories,0.178,0.0049,False,stt_error
+stt,um have i reached biking goal,Cmd.ActivityCycle,Cmd.ActivityAerobics,Cmd.ActivityCycle,0.391,0.159,False,stt_error
+stt,er change totest one,Cmd.MemoryChange,Default Fallback Intent,Cmd.MemoryChange,0.5648,0.3533,False,stt_error
+stt,uh carsetting,Cmd.MemoryChange,Default Fallback Intent,Cmd.MemoryChange,0.4048,0.0694,False,stt_error
+stt,uh televisionsetting,Cmd.MemoryChange,Default Fallback Intent,Cmd.MemoryChange,0.529,0.1771,False,stt_error
+stt,can you show mewhere my telephone,Cmd.FindMyPhone,Default Fallback Intent,Cmd.FindMyPhone,0.3882,0.0249,False,stt_error
+stt,please tern upvolume,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Default Fallback Intent,0.4859,0.2154,False,stt_error
+stt,volumeup right aid,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeDecrease,0.382,0.2521,False,stt_error
+stt,um please turn the sound,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Default Fallback Intent,0.6635,0.5205,False,stt_error
+stt,please tern the volumeup,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeDecrease,0.4444,0.2582,False,stt_error
+stt,um my hearing aids are missing,Help_FindMyHearingAids,Cmd.VolumeIncrease,Help_FindMyHearingAids,0.4495,0.0488,False,stt_error
+stt,can you hearing aids are,Help_FindMyHearingAids,Cmd.VolumeDecrease,Cmd.MemoryChange,0.1885,0.0118,False,stt_error
+stt,please hearing 8 is missing,Help_FindMyHearingAids,Cmd.VolumeIncrease,Help_FindMyHearingAids,0.6499,0.4968,False,stt_error
+stt,please show me myactivity,Cmd.ActivityAerobics,Default Fallback Intent,Help_HeartRate,0.2225,0.0918,False,stt_error
+stt,please i want to listen tomy,Cmd.StreamingStart,Cmd.ListenMessage,Cmd.StreamingStart,0.3272,0.0866,False,stt_error
+stt,um you play tv,Cmd.StreamingStart,Default Fallback Intent,Cmd.ListenMessage,0.7961,0.6885,False,stt_error
+stt,er can you connect to,Cmd.StreamingStart,Default Fallback Intent,Cmd.StreamingStart,0.6159,0.4311,False,stt_error
+stt,please i don t have normal,Help_MemoryOptions,Default Fallback Intent,Cmd.ActivityRun,0.2408,0.0589,False,stt_error
+stt,you i don t have a normal mammary,Help_MemoryOptions,Cmd.MemoryChange,Help_MemoryOptions,0.6443,0.3679,False,stt_error
+stt,pleasepersonalize my hearing aid,Help_MemoryOptions,Help_Customize,Help_InsertDevice,0.2719,0.1523,False,stt_error
+stt,can you personalize hearing aid setting,Help_MemoryOptions,Cmd.MemoryChange,Help_MemoryOptions,0.9174,0.881,True,stt_error
+stt,uh please trying to get my hearing age work,Help_SelfCheck,Default Fallback Intent,Help_ThriveScore,0.8843,0.8718,False,stt_error
+stt,can you trying to get my hearin age work,Help_SelfCheck,Default Fallback Intent,Help_InsertDevice,0.8965,0.8793,False,stt_error
+stt,um can you make volume,Cmd.VolumeUnmute,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.7368,0.6176,False,stt_error
+stt,you make sund on,Cmd.VolumeUnmute,Default Fallback Intent,Cmd.VolumeUnmute,0.6834,0.4592,False,stt_error
+stt,er can youmute off,Cmd.VolumeUnmute,Cmd.VolumeMute,Default Fallback Intent,0.526,0.297,False,stt_error
+stt,please pare my right hearingaid,Help_Pairing,Help_SelfCheck,Help_FindMyHearingAids,0.3227,0.1446,False,stt_error
+stt,can pearing aids on the app,Help_Pairing,Help_DemoMode,Help_FindMyHearingAids,0.325,0.1473,False,stt_error
+stt,please i need help with my,Help_DeviceSettings,Help_Pairing,Help_Accessories,0.7696,0.7002,False,stt_error
+stt,er can you i need help with my setting,Help_DeviceSettings,Help_Pairing,Help_DeviceSettings,0.221,0.0423,False,stt_error
+stt,uh please where's button for memory,Help_ChangingMemories,Default Fallback Intent,Help_ChangingMemories,0.6339,0.4347,False,stt_error
+stt,um please where's the memorybutton,Help_ChangingMemories,Default Fallback Intent,Help_VoiceAssistant,0.9499,0.9403,False,stt_error
+stt,youminimum sound,Cmd.VolumeDecrease,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.8378,0.7397,False,stt_error
+stt,can you turnmy aids,Cmd.VolumeDecrease,Cmd.VolumeMute,Default Fallback Intent,0.5543,0.4593,False,stt_error
+stt,uh can you speech to text,Help_Transcribe,Cmd.TranscribeStart,Cmd.ListenMessage,0.5648,0.3136,False,stt_error
+stt,can you turn offthe volume in my right hearing,Cmd.VolumeMute,Cmd.VolumeIncrease,Cmd.VolumeUnmute,0.3348,0.132,False,stt_error
+stt,um please turned the volume off,Cmd.VolumeMute,Cmd.VolumeDecrease,Cmd.VolumeMute,0.5058,0.2737,False,stt_error
+stt,please tern my hearing aid volume,Cmd.VolumeMute,Cmd.VolumeUnmute,Cmd.VolumeDecrease,0.6421,0.4415,False,stt_error
+stt,can you turn hearing aid volumeoff,Cmd.VolumeMute,Cmd.VolumeUnmute,Cmd.VolumeMute,0.7603,0.5474,False,stt_error
+stt,uh you i have got wax buildup,Help_CleanCare,Default Fallback Intent,Help_CleanCare,0.7468,0.532,False,stt_error
+stt,can you help face mast issue,Help_MaskMode,Default Fallback Intent,Help_MaskMode,0.5176,0.2323,False,stt_error
+stt,please i wantto hear my,Cmd.ListenMessage,Cmd.VolumeIncrease,Cmd.ListenMessage,0.2221,0.0276,False,stt_error
+stt,uh can you show me help for my,Help_Accessories,Help_ThriveScore,Cmd.ActivityWalk,0.1786,0.0407,False,stt_error
+stt,can you creatinga demo with your capabilitie,Default Fallback Intent,Help_DemoMode,Default Fallback Intent,0.9603,0.9262,True,stt_error
+stt,er play hank williams junior,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.5595,0.1615,False,stt_error
+stt,you play hank william junior,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.638,0.2788,False,stt_error
+stt,uh please am i close enough the car,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.6541,0.4901,False,stt_error
+stt,uh can you am i close enough the car,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.5792,0.3267,False,stt_error
+stt,can you hey jeannie tv sanders this is iris it isall,Default Fallback Intent,reminders.complete,Default Fallback Intent,0.6698,0.4662,False,stt_error
+stt,please mavisby stupid hearing aides,Default Fallback Intent,Help_FindMyHearingAids,Default Fallback Intent,0.186,0.0207,False,stt_error
+stt,canturn off cable,Default Fallback Intent,Cmd.VolumeMute,Default Fallback Intent,0.5691,0.3374,False,stt_error
+stt,hey find me a way to white oaks,Default Fallback Intent,Help_Home,Default Fallback Intent,0.4074,0.1658,False,stt_error
+stt,er please i hear voice,Default Fallback Intent,Cmd.VolumeIncrease,Help_IntelliVoice,0.5221,0.2173,False,stt_error
+stt,can i hear the,Default Fallback Intent,Cmd.VolumeIncrease,Cmd.StreamingStart,0.2303,0.0219,False,stt_error
+stt,pleasealexa learn voice,Default Fallback Intent,Help_IntelliVoice,Help_VoiceAssistant,0.744,0.6127,False,stt_error
+stt,uh please riley' a manager connected scott,Default Fallback Intent,Help_Pairing,Default Fallback Intent,0.3135,0.0095,False,stt_error
+stt,uh can riley's a manager connected scott,Default Fallback Intent,Help_Pairing,Default Fallback Intent,0.2826,0.0976,False,stt_error
+stt,please throw on the,Default Fallback Intent,Cmd.VolumeUnmute,Default Fallback Intent,0.4746,0.2392,False,stt_error
+stt,chelsea down at least you,Default Fallback Intent,reminders.add,Default Fallback Intent,0.8878,0.8031,False,stt_error
+stt,youdiscover revelation,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.FindMyPhone,0.6413,0.5169,False,stt_error
+stt,i said other pro gram,Default Fallback Intent,Cmd.MemoryChange,Help_ChangingMemories,0.9789,0.9746,True,stt_error
+stt,um you i said other program,Default Fallback Intent,Cmd.MemoryChange,Cmd.TranslationStart,0.9871,0.9829,True,stt_error
+stt,um please i need to program newstamping to my phone,Default Fallback Intent,Help_Pairing,Default Fallback Intent,0.4858,0.0694,False,stt_error
+stt,can you seehow moves all the way across,Default Fallback Intent,Help_InsertDevice,Help_Home,0.3605,0.1347,False,stt_error
+stt,er please you want me to say i love,Default Fallback Intent,reminders.add,Default Fallback Intent,0.362,0.0051,False,stt_error
+stt,and push it down for,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.6949,0.6155,False,stt_error
+stt,er can you and push it down for,Default Fallback Intent,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.4813,0.2882,False,stt_error
+stt,icannot hear anything,Default Fallback Intent,Cmd.VolumeIncrease,Default Fallback Intent,0.7082,0.5609,False,stt_error
+stt,er can i cannot hear anything,Default Fallback Intent,Cmd.VolumeIncrease,Default Fallback Intent,0.5806,0.4562,False,stt_error
+stt,i said i will shut ep,Default Fallback Intent,Help_InsertDevice,Cmd.BatteryLevel,0.4193,0.1915,False,stt_error
+stt,uh can you i said i will shut,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.4639,0.2784,False,stt_error
+stt,um pleasestream youtube music,Default Fallback Intent,Cmd.StreamingStop,Default Fallback Intent,0.4596,0.1756,False,stt_error
+stt,canyou scream youtube music,Default Fallback Intent,Cmd.StreamingStart,Cmd.StreamingStop,0.4573,0.122,False,stt_error
+stt,please i need car batteries,Default Fallback Intent,Cmd.BatteryLevel,Default Fallback Intent,0.6285,0.2695,False,stt_error
+stt,er please change test one,Cmd.MemoryChange,Default Fallback Intent,Cmd.ListenMessage,0.8386,0.742,False,stt_error
+stt,er pleasego to outdoors,Cmd.MemoryChange,Default Fallback Intent,Cmd.MemoryChange,0.3425,0.0273,False,stt_error
+stt,er can you set to everyday,Cmd.MemoryChange,reminders.add,Cmd.MemoryChange,0.791,0.6218,False,stt_error
+stt,can i translateenglish french,Help_Translate,Cmd.TranslationStart,Default Fallback Intent,0.643,0.403,False,stt_error
+stt,how do i acces the app,Help_AppSettings,Help_Home,Help_AppSettings,0.7636,0.6158,False,stt_error
+stt,do i have normal,Help_ChangingMemories,Help_Customize,Default Fallback Intent,0.1118,0.0195,False,stt_error
+stt,er quit streamin,Cmd.StreamingStop,Cmd.StreamingStart,Cmd.StreamingStop,0.7228,0.4567,False,stt_error
+stt,er turnoff my right aid,Cmd.VolumeMute,Cmd.VolumeUnmute,Default Fallback Intent,0.2767,0.0853,False,stt_error
+stt,er as long as you hear thenoise,Default Fallback Intent,Cmd.VolumeIncrease,Default Fallback Intent,0.455,0.0536,False,stt_error
+stt,er what if the language i want totranslate is not listed,Help_Translate,Cmd.TranslationStart,Help_Translate,0.4885,0.1452,False,stt_error
+stt,er hearing aide not charging,Help_SelfCheck,Help_Battery,Help_SelfCheck,0.4695,0.2778,False,stt_error
+stt,turn upsound,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.5637,0.3412,False,stt_error
+stt,troubleshoot my herringaids,Help_SelfCheck,Help_DeviceSettings,Help_InsertDevice,0.1875,0.0284,False,stt_error
+stt,what is wrong with my hearin,Help_SelfCheck,Default Fallback Intent,Help_SelfCheck,0.3385,0.0434,False,stt_error
+stt,er different kind ofneeds,Default Fallback Intent,Help_WhatsNew,Default Fallback Intent,0.4912,0.1074,False,stt_error
+stt,er play festival,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.6874,0.3979,False,stt_error
+stt,uh thursday,Default Fallback Intent,reminders.add,Default Fallback Intent,0.2617,0.0032,False,stt_error
+stt,uh its laudhere,Cmd.VolumeDecrease,Default Fallback Intent,Cmd.ListenMessage,0.6714,0.6018,False,stt_error
+stt,um bring the soundup,Cmd.VolumeIncrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.6083,0.4308,False,stt_error
+stt,uh it isbarely audible,Cmd.VolumeIncrease,Cmd.VolumeDecrease,Cmd.VolumeMute,0.6023,0.3537,False,stt_error
+stt,er this isbarely audible,Cmd.VolumeIncrease,Cmd.VolumeDecrease,reminders.complete,0.6297,0.4926,False,stt_error
+stt,er that hurting my ears,Cmd.VolumeDecrease,Default Fallback Intent,Cmd.VolumeDecrease,0.6465,0.3159,False,stt_error
+stt,um set me up forconversation,Cmd.MemoryChange,Help_AppSettings,reminders.add,0.2587,0.0735,False,stt_error
+stt,um help me recoverthem,Help_FindMyHearingAids,Help_Home,Help_HeartRateRecovery,0.2943,0.0128,False,stt_error
+stt,um show me where theyare,Help_FindMyHearingAids,Help_Home,Help_Volume,0.6279,0.4907,False,stt_error
+stt,um ineed a prompt later,reminders.add,Default Fallback Intent,Help_Home,0.5546,0.342,False,stt_error
+stt,er pass thisalong,Cmd.SendMessage,Default Fallback Intent,Cmd.VolumeDecrease,0.2607,0.0972,False,stt_error
+stt,umi want direct audio,Cmd.StreamingStart,Cmd.VolumeMute,Cmd.StreamingStart,0.7264,0.5805,False,stt_error
+stt,er helpme understand this,Help_Home,Cmd.TranslationStart,Cmd.ActivityStand,0.8445,0.7946,False,stt_error
+stt,show me thebasic,Help_Home,Default Fallback Intent,Help_Home,0.3313,0.0353,False,stt_error
+stt,um i wantsome quiet,Cmd.VolumeDecrease,Cmd.VolumeMute,Cmd.VolumeDecrease,0.3726,0.1612,False,stt_error
+stt,um i wantsilence,Cmd.VolumeDecrease,Cmd.VolumeUnmute,Cmd.VolumeMute,0.5236,0.1973,False,stt_error
+stt,uh killthe sound,Cmd.VolumeMute,Cmd.VolumeDecrease,Cmd.VolumeIncrease,0.318,0.0181,False,stt_error
+stt,er set my aides for a party,Cmd.MemoryChange,Help_Pairing,Cmd.ActivityWalk,0.2617,0.1028,False,stt_error
+stt,tell son i said,Cmd.SendMessage,Default Fallback Intent,Help_HearingCareAnywhereConnect,0.6747,0.5894,False,stt_error
+stt,pick some lucky number for,Default Fallback Intent,Cmd.MemoryChange,Default Fallback Intent,0.4199,0.1162,False,stt_error
+stt,um ping mywife,Cmd.SendMessage,Default Fallback Intent,Cmd.VolumeDecrease,0.6119,0.5608,False,stt_error
+stt,er does edgemode work automatically,Help_EdgeMode,Help_DeviceSettings,Help_EdgeMode,0.4878,0.1441,False,stt_error
+stt,er how many calorieshave i lost this week,Cmd.ActivityCalories,Help_Home,Cmd.ActivityCalories,0.3472,0.1693,False,stt_error
+stt,how do i findmask,Help_MaskMode,Default Fallback Intent,Help_MaskMode,0.7688,0.7219,False,stt_error
+stt,how do i change activity goal,Help_Health,Help_DeviceSettings,Cmd.ActivityAerobics,0.3613,0.0221,False,stt_error
+stt,i edita reminder,Help_Reminder,reminders.add,Help_Reminder,0.8349,0.7381,False,stt_error
+stt,um can i snooze a reminda,Help_Reminder,reminders.add,Help_Reminder,0.6966,0.4654,False,stt_error
+stt,um how do i dry my herring aids,Help_CleanCare,Help_Customize,Help_SelfCheck,0.1663,0.0191,False,stt_error
+stt,can moisture damage my hearing,Help_CleanCare,Help_InsertDevice,Cmd.VolumeDecrease,0.21,0.0154,False,stt_error
+stt,uh start abike workout,Cmd.ActivityCycle,Cmd.ActivityExercise,Help_WhatsNew,0.7639,0.7153,False,stt_error
+stt,uh what is noiseinduced hearing loss,Help_Tinnitus,Cmd.VolumeIncrease,Cmd.VolumeDecrease,0.1217,0.0193,False,stt_error
+stt,er gentle on volume,Cmd.VolumeDecrease,Cmd.VolumeUnmute,Help_Volume,0.6114,0.481,False,stt_error
+stt,um bring mesome quiet,Cmd.VolumeDecrease,Cmd.VolumeUnmute,Cmd.VolumeIncrease,0.3524,0.1392,False,stt_error
+stt,um i am startingmy commute,Cmd.MemoryChange,Help_Home,Cmd.TranscribeStart,0.8012,0.7703,False,stt_error
+stt,the pro gram is not right for where i,Cmd.MemoryChange,Default Fallback Intent,Help_SelfCheck,0.3851,0.0356,False,stt_error
+stt,um this mode is not working for my surrounding,Cmd.MemoryChange,Help_Battery,Cmd.ActivityExercise,0.2569,0.0691,False,stt_error
+stt,um i just took a seat in a noisy,Cmd.MemoryChange,Default Fallback Intent,Cmd.MemoryChange,0.7965,0.6126,False,stt_error
+stt,er i do not want the stream,Cmd.StreamingStop,Default Fallback Intent,Cmd.StreamingStart,0.5913,0.3928,False,stt_error
+stt,drop the connection to thetv,Cmd.StreamingStop,Help_Pairing,Cmd.MemoryChange,0.4988,0.3056,False,stt_error
+stt,uh log myjog,Cmd.ActivityRun,Cmd.ActivityAerobics,Cmd.ActivityCycle,0.4587,0.2748,False,stt_error
+stt,er start myjog tracking,Cmd.ActivityRun,Cmd.ActivityWalk,Cmd.ActivityCycle,0.373,0.17,False,stt_error
+stt,start trackingjog,Cmd.ActivityRun,Help_WhatsNew,Cmd.ActivityWalk,0.3699,0.1881,False,stt_error
+stt,um notemy jog,Cmd.ActivityRun,Default Fallback Intent,Cmd.ActivityRun,0.479,0.3417,False,stt_error
+stt,er what my daily step number,Cmd.ActivityStep,Help_Health,Help_ThriveScore,0.3796,0.1666,False,stt_error
+stt,uh how long on feet today,Cmd.ActivityStand,Default Fallback Intent,Cmd.ActivityStand,0.5182,0.2557,False,stt_error
+stt,um record myride for me,Cmd.ActivityCycle,Cmd.ActivityRun,Cmd.ActivityWalk,0.3689,0.1883,False,stt_error
+stt,what is burnso far,Cmd.ActivityCalories,Default Fallback Intent,Cmd.ActivityRun,0.5995,0.337,False,stt_error
+stt,did anyone sendme anything read,Cmd.ListenMessage,Default Fallback Intent,Cmd.ListenMessage,0.4807,0.2024,False,stt_error
+stt,er tell me what people,Cmd.ListenMessage,Cmd.VolumeIncrease,Cmd.TranscribeStart,0.6662,0.5784,False,stt_error
+stt,er translatethis conversation,Cmd.TranslationStart,Cmd.TranscribeStart,Cmd.TranslationStart,0.6031,0.3585,False,stt_error
+stt,uh i took my pills mark it,reminders.complete,Cmd.VolumeDecrease,reminders.complete,0.4738,0.0635,False,stt_error
+stt,close out thatreminda,reminders.complete,reminders.add,reminders.complete,0.471,0.0894,False,stt_error
+stt,how do i balance volume between,Help_Volume,Help_WiCROS,Help_Volume,0.903,0.8483,True,stt_error
+stt,help managing saved program,Help_MemoryOptions,Help_ChangingMemories,Help_MemoryOptions,0.6928,0.51,False,stt_error
+stt,what extra devices i,Help_Accessories,Default Fallback Intent,Help_SelfCheck,0.5046,0.3398,False,stt_error
+stt,how do i turn on soothingsound,Help_Tinnitus,Default Fallback Intent,Help_Volume,0.267,0.0725,False,stt_error
+stt,er this earringing is driving me crazy,Help_Tinnitus,Cmd.VolumeDecrease,Cmd.MemoryChange,0.8774,0.8589,False,stt_error
+stt,i cannot stand the ringingin my,Help_Tinnitus,Cmd.ActivityStand,Cmd.TranslationStart,0.5917,0.4892,False,stt_error
+stt,guide me through selfcheck,Help_SelfCheck,Help_Home,Help_SelfCheck,0.3875,0.0479,False,stt_error
+stt,uh where do i find my overall,Help_ThriveScore,Help_Health,Help_FindMyHearingAids,0.3037,0.0793,False,stt_error
+stt,uh why is there static in my aides,Help_DeviceSettings,Default Fallback Intent,Help_DeviceSettings,0.4279,0.1812,False,stt_error
+stt,the audio breakingup,Help_DeviceSettings,Cmd.VolumeDecrease,Default Fallback Intent,0.4082,0.2784,False,stt_error
+stt,uh how do i wear my 8s properly,Help_InsertDevice,Help_CleanCare,Default Fallback Intent,0.8546,0.8109,False,stt_error
+stt,uh explain how to configure the,Help_AppSettings,Help_Home,Help_ChangingMemories,0.1696,0.0323,False,stt_error
+stt,er help keeping my hearing aids,Help_CleanCare,Help_DeviceSettings,Help_InsertDevice,0.4572,0.0799,False,stt_error
+stt,keepingaids in good shape,Help_CleanCare,Default Fallback Intent,Cmd.TranslationStart,0.5265,0.1044,False,stt_error
+stt,i fine tune the bassand treble,Help_Customize,Default Fallback Intent,Help_Customize,0.592,0.2333,False,stt_error
+stt,er how do i set my own,Help_Customize,Help_HearShare,Help_Customize,0.2802,0.143,False,stt_error
+stt,how do i make sound my,Help_Customize,Help_Volume,Help_Customize,0.8153,0.7334,False,stt_error
+stt,explain personalizationoptions,Help_Customize,Help_Home,Help_MemoryOptions,0.2736,0.085,False,stt_error
+stt,how do i make sund suit me,Help_Customize,Default Fallback Intent,Help_Volume,0.307,0.0125,False,stt_error
+stt,er whatgot added recently,Help_WhatsNew,Help_WiCROS,Help_WhatsNew,0.3177,0.0762,False,stt_error
+stt,help me see what,Help_WhatsNew,Default Fallback Intent,Help_Transcribe,0.3431,0.175,False,stt_error
+stt,uh i do not get how any of this work,Help_Home,Default Fallback Intent,Help_Home,0.8301,0.7399,False,stt_error
+stt,um should i use rechargeable or disposable,Help_Battery,Default Fallback Intent,Help_Battery,0.3328,0.1204,False,stt_error
+stt,um how do i store spare,Help_Battery,Help_HearingCareAnywhereConnect,Default Fallback Intent,0.3676,0.0298,False,stt_error
+stt,doaids show subtitles of speech,Help_Transcribe,Help_Customize,Help_IntelliVoice,0.2013,0.0173,False,stt_error
+stt,do aides measure bpm,Help_HeartRate,Help_DemoMode,Help_CleanCare,0.3559,0.2352,False,stt_error
+stt,howdo i read bpm,Help_HeartRate,Default Fallback Intent,Help_Volume,0.3749,0.0127,False,stt_error
+stt,er help understanding recoveryrate,Help_HeartRateRecovery,Cmd.ActivityStand,Help_HeartRateRecovery,0.3788,0.1491,False,stt_error
+stt,uh a setting for verywindy places,Help_EdgeMode,Cmd.MemoryChange,Help_MemoryOptions,0.6111,0.2769,False,stt_error
+stt,um hurt ears please,Cmd.VolumeDecrease,Default Fallback Intent,Cmd.VolumeDecrease,0.7421,0.6194,False,stt_error
+stt,er activatespeech focus,Cmd.MemoryChange,Help_IntelliVoice,Cmd.MemoryChange,0.163,0.0227,False,stt_error
+stt,um i need to locate my hearing,Help_FindMyHearingAids,Default Fallback Intent,Help_FindMyHearingAids,0.4408,0.0076,False,stt_error
+stt,uhcapture this as a reminder,reminders.add,reminders.complete,reminders.add,0.5446,0.1103,False,stt_error
+stt,um relay thisinformation,Cmd.SendMessage,Default Fallback Intent,Cmd.MemoryChange,0.2317,0.0352,False,stt_error
+stt,uh dispatch atext,Cmd.SendMessage,Default Fallback Intent,Cmd.SendMessage,0.3093,0.1177,False,stt_error
+stt,uhwhat should i learn first,Help_Home,Default Fallback Intent,Help_Home,0.485,0.0042,False,stt_error
+stt,um relay information,Cmd.SendMessage,Cmd.MemoryChange,Help_ThriveScore,0.4432,0.2934,False,stt_error
+stt,er streamthe phone call,Cmd.StreamingStart,Default Fallback Intent,Cmd.FindMyPhone,0.8168,0.7434,False,stt_error
+stt,uh streamthe music,Cmd.StreamingStart,Cmd.StreamingStop,Default Fallback Intent,0.7674,0.68,False,stt_error
+stt,uh directhearing aid connection,Cmd.StreamingStart,Help_Pairing,Cmd.StreamingStart,0.719,0.5704,False,stt_error
+stt,uh audioredirection,Cmd.StreamingStart,Default Fallback Intent,Cmd.ListenMessage,0.2911,0.2346,False,stt_error
+stt,way toomuch volume for,Cmd.VolumeDecrease,Help_Volume,Cmd.VolumeDecrease,0.8287,0.6764,False,stt_error
+stt,uh i could use anintroduction,Help_Home,Default Fallback Intent,Cmd.MemoryChange,0.3307,0.1813,False,stt_error
+ood,pair my headphones to the laptop,Default Fallback Intent,Help_Pairing,Help_Accessories,0.9962,0.9945,True,ood_false_acceptance
+ood,where did i leave my glasses,Default Fallback Intent,Help_FindMyHearingAids,Cmd.FindMyPhone,0.935,0.9066,True,ood_false_acceptance
+ood,book me a dentist appointment,Default Fallback Intent,reminders.add,Cmd.ListenMessage,0.9344,0.9146,True,ood_false_acceptance
+ood,read my emails to me,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.9432,0.9211,True,ood_false_acceptance
+ood,start recording a video,Default Fallback Intent,Cmd.TranscribeStart,Help_Home,0.9429,0.9323,True,ood_false_acceptance
+ood,translate this document into french,Default Fallback Intent,Cmd.TranslationStart,Cmd.TranscribeStart,0.9754,0.9643,True,ood_false_acceptance
+ood,transcribe the meeting recording on my laptop,Default Fallback Intent,Cmd.TranscribeStart,Help_Transcribe,0.9551,0.9128,True,ood_false_acceptance
+ood,read me the news headlines,Default Fallback Intent,Cmd.ListenMessage,Default Fallback Intent,0.9071,0.8367,True,ood_false_acceptance

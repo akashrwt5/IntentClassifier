@@ -1,0 +1,1497 @@
+text,intent,clean_text,ops
+uh when doi intercept a fall alert text message,Help_FallAlert,when do i intercept a fall alert text message,merge_boundary+filler
+how would i know if manual alert has,Help_FallAlert,how would i know if my manual alert has started,drop_function_word+truncate_tail
+um when would i stop an alert,Help_FallAlert,when would i stop an alert message,truncate_tail+filler
+where doi stop an alert,Help_FallAlert,where do i stop an alert text,truncate_tail+merge_boundary
+how would i know if manual alert has been,Help_FallAlert,how would i know if a manual alert has been initiated,truncate_tail+drop_function_word
+when would i intercept manual alert text,Help_FallAlert,when would i intercept a manual alert text message,drop_function_word+truncate_tail
+er whenwould i cancel a manual alert text message,Help_FallAlert,when would i cancel a manual alert text message,filler+merge_boundary
+er where do i initiate manual alert message,Help_FallAlert,where do i initiate a manual alert message,filler+drop_function_word
+how do i know if an alert text messege sent,Help_FallAlert,how do i know if an alert text message is sent,drop_function_word+homophone
+uh how would i intercept an alert messege text message,Help_FallAlert,how would i intercept an alert message text message,homophone+filler
+what are falldetections,Help_FallAlert,what are the fall detections,merge_boundary+drop_function_word
+uh when do i intercept analert,Help_FallAlert,when do i intercept an alert,merge_boundary+filler
+what would i hear when an alert text message,Help_FallAlert,what would i hear when an alert text message is canceled,truncate_tail+drop_function_word
+when should i initiate manual alert,Help_FallAlert,when should i initiate a manual alert message,drop_function_word+truncate_tail
+when do i cancel manual alert,Help_FallAlert,when do i cancel a manual alert message,truncate_tail+drop_function_word
+er where fone,Cmd.FindMyPhone,where phone,homophone+filler
+uh foam missing,Cmd.FindMyPhone,phone missing,homophone+filler
+erlocate android phone,Cmd.FindMyPhone,locate android phone,filler+merge_boundary
+uh where's myphone,Cmd.FindMyPhone,where's my phone,merge_boundary+filler
+um showme where my telephone is,Cmd.FindMyPhone,show me where my telephone is,merge_boundary+filler
+uhwhere iphone,Cmd.FindMyPhone,where iphone,filler+merge_boundary
+lostandroid fone,Cmd.FindMyPhone,lost android phone,homophone+merge_boundary
+how many calorie did i use working,Cmd.ActivityExercise,how many calories did i use working out,truncate_tail+drop_plural
+uh hearing aidvolume up,Cmd.VolumeIncrease,hearing aid volume up,merge_boundary+filler
+er turned up volume,Cmd.VolumeIncrease,turn up volume,filler+homophone
+er go upin volume,Cmd.VolumeIncrease,go up in volume,filler+merge_boundary
+uh volumeup right aid,Cmd.VolumeIncrease,volume up right aid,merge_boundary+filler
+turn the volumeup on the hearing,Cmd.VolumeIncrease,turn the volume up on the hearing aid,truncate_tail+merge_boundary
+er turn volum up,Cmd.VolumeIncrease,turn volume up,homophone+filler
+turn sound ep,Cmd.VolumeIncrease,turn the sound up,homophone+drop_function_word
+er turn up the volume on the hearing,Cmd.VolumeIncrease,turn up the volume on the hearing aid,filler+truncate_tail
+erturn up the volume,Cmd.VolumeIncrease,turn up the volume,filler+merge_boundary
+turn thevolumn up,Cmd.VolumeIncrease,turn the volume up,homophone+merge_boundary
+howmuch distance have i covered,Cmd.ActivityStep,how much distance have i covered today,merge_boundary+truncate_tail
+uh how many stepped have i taken,Cmd.ActivityStep,how many steps have i taken,filler+homophone
+uh tell mewhat my step goal is,Cmd.ActivityStep,tell me what my step goal is,filler+merge_boundary
+how manystep have i taken this month,Cmd.ActivityStep,how many steps have i taken this month,merge_boundary+drop_plural
+er i misplaced my other,Help_FindMyHearingAids,i misplaced my other aid,filler+truncate_tail
+uh my hearing aides are missing,Help_FindMyHearingAids,my hearing aids are missing,homophone+filler
+uh how do i search for other hearing aid,Help_FindMyHearingAids,how do i search for my other hearing aid,drop_function_word+filler
+uh how do i know where aids are,Help_FindMyHearingAids,how do i know where my aids are,drop_function_word+filler
+where did i place herring aids,Help_FindMyHearingAids,where did i place my hearing aids,homophone+drop_function_word
+whereare aids,Help_FindMyHearingAids,where are my aids,drop_function_word+merge_boundary
+where my left 8,Help_FindMyHearingAids,where is my left aid,homophone+drop_function_word
+um my hearing aid missing,Help_FindMyHearingAids,my hearing aid is missing,drop_function_word+filler
+uh how do i locatemy aid,Help_FindMyHearingAids,how do i locate my aid,merge_boundary+filler
+er locate right aid,Help_FindMyHearingAids,locate my right aid,drop_function_word+filler
+um i cannot remember where my aids,Help_FindMyHearingAids,i cannot remember where my aids are,truncate_tail+filler
+how do isearch for right aid,Help_FindMyHearingAids,how do i search for my right aid,drop_function_word+merge_boundary
+where did i leave left,Help_FindMyHearingAids,where did i leave my left aid,truncate_tail+drop_function_word
+how do i locate left 8,Help_FindMyHearingAids,how do i locate my left aid,homophone+drop_function_word
+locate right herring aid,Help_FindMyHearingAids,locate my right hearing aid,drop_function_word+homophone
+imisplaced hearing aids,Help_FindMyHearingAids,i misplaced my hearing aids,drop_function_word+merge_boundary
+um aerobic calorie,Cmd.ActivityAerobics,aerobic calories,drop_plural+filler
+um have ireached my aerobics goal,Cmd.ActivityAerobics,have i reached my aerobics goal,merge_boundary+filler
+um show me activity goal,Cmd.ActivityAerobics,show me my activity goal,drop_function_word+filler
+er how do i performan intelligent voice,Help_IntelliVoice,how do i perform an intelligent voice,filler+merge_boundary
+how do iacces intellivoice,Help_IntelliVoice,how do i access intellivoice,drop_plural+merge_boundary
+howoften should i use dnn speech,Help_IntelliVoice,how often should i use dnn speech enhancement,truncate_tail+merge_boundary
+uh how do i use intelligent,Help_IntelliVoice,how do i use intelligent voice,truncate_tail+filler
+uh how doi use intellivoice,Help_IntelliVoice,how do i use intellivoice,filler+merge_boundary
+um help withintellivoice,Help_IntelliVoice,help with intellivoice,merge_boundary+filler
+uh how doi access intelligent voice,Help_IntelliVoice,how do i access intelligent voice,filler+merge_boundary
+uh intelligentvoice help,Help_IntelliVoice,intelligent voice help,filler+merge_boundary
+uh where is help for voice,Help_IntelliVoice,where is help for voice ai,filler+truncate_tail
+uh help withintelligent voice,Help_IntelliVoice,help with intelligent voice,merge_boundary+filler
+how do iuse dnn speech,Help_IntelliVoice,how do i use dnn speech enhancement,merge_boundary+truncate_tail
+how do i share hearing aid,Help_HearShare,how do i share my hearing aid info,drop_function_word+truncate_tail
+how sharemy wellness data,Help_HearShare,how to share my wellness data,drop_function_word+merge_boundary
+how to share myhearin aid info,Help_HearShare,how to share my hearing aid info,homophone+merge_boundary
+how do i share welnes data,Help_HearShare,how do i share my welness data,drop_function_word+drop_plural
+er how to share my hearing information with my,Help_HearShare,how to share my hearing information with my wife,truncate_tail+filler
+do i need to standlonger to reach my,Cmd.ActivityStand,do i need to stand longer to reach my goal,merge_boundary+truncate_tail
+uh standing calorie,Cmd.ActivityStand,standing calories,filler+homophone
+uh calorie standing,Cmd.ActivityStand,calories standing,drop_plural+filler
+make my 8s listen to remote microphone,Cmd.StreamingStart,make my aids listen to the remote microphone,homophone+drop_function_word
+uh i want to listen to my,Cmd.StreamingStart,i want to listen to my tv,truncate_tail+filler
+um playtv,Cmd.StreamingStart,play tv,filler+merge_boundary
+um connect tv,Cmd.StreamingStart,connect to tv,filler+drop_function_word
+er how many calorie have i burned while walking,Cmd.ActivityWalk,how many calories have i burned while walking,filler+drop_plural
+showme walking goal,Cmd.ActivityWalk,show me my walking goal,drop_function_word+merge_boundary
+um what do i need to knowabout this new app,Help_WhatsNew,what do i need to know about this new app,merge_boundary+filler
+howdo i create new program,Help_MemoryOptions,how do i create a new program,merge_boundary+drop_function_word
+erhow do i geotag a program,Help_MemoryOptions,how do i geotag a program,filler+merge_boundary
+uh what are memery options,Help_MemoryOptions,what are memory options,filler+homophone
+uhcan i make a custom memory,Help_MemoryOptions,can i make a custom memory,filler+merge_boundary
+uh i don t have a normal,Help_MemoryOptions,i don t have a normal memory,truncate_tail+filler
+personalize my hearingaid setting,Help_MemoryOptions,personalize my hearing aid settings,drop_plural+merge_boundary
+um how do i create a custommemory,Help_MemoryOptions,how do i create a custom memory,filler+merge_boundary
+um why my left very faint not working,Help_SelfCheck,why is my left very faint not working,drop_function_word+filler
+why does not myright when,Help_SelfCheck,why does not my right when work,merge_boundary+truncate_tail
+um where' self check,Help_SelfCheck,where's self check,filler+drop_plural
+uh trying toget my hearing age to work,Help_SelfCheck,trying to get my hearing age to work,merge_boundary+filler
+what ifi have an x in self,Help_SelfCheck,what if i have an x in self check,merge_boundary+truncate_tail
+how often should i useself,Help_SelfCheck,how often should i use self check,truncate_tail+merge_boundary
+uh how torun self check,Help_SelfCheck,how to run self check,merge_boundary+filler
+why cannot i hear anything through hearin aids,Help_SelfCheck,why cannot i hear anything through my hearing aids,homophone+drop_function_word
+how many calorie have iburned today,Cmd.ActivityCalories,how many calories have i burned today,homophone+merge_boundary
+um can i chargemy battery,Help_Battery,can i charge my battery,merge_boundary+filler
+uh how do i access the main,Help_Home,how do i access the main screen,truncate_tail+filler
+what do i need know about the home,Help_Home,what do i need to know about the home app,truncate_tail+drop_function_word
+um how do i adjust with edge,Help_EdgeMode,how do i adjust with edge mode,filler+truncate_tail
+uh make volumeon,Cmd.VolumeUnmute,make volume on,filler+merge_boundary
+um makesound on,Cmd.VolumeUnmute,make sound on,merge_boundary+filler
+uhmute off,Cmd.VolumeUnmute,mute off,filler+merge_boundary
+unmutesound on hearin aids,Cmd.VolumeUnmute,unmute sound on hearing aids,merge_boundary+homophone
+uh unmute the aides,Cmd.VolumeUnmute,unmute the aids,homophone+filler
+turn hearing aid volume back,Cmd.VolumeUnmute,turn my hearing aid volume back on,truncate_tail+drop_function_word
+help with tenitus stimulus adjustment on hearing aids,Help_Tinnitus,help with tinnitus stimulus adjustment on my hearing aids,homophone+drop_function_word
+howdo i turn off tinnitu,Help_Tinnitus,how do i turn off tinnitus,merge_boundary+drop_plural
+how do i adjust my noise maskerin my aides,Help_Tinnitus,how do i adjust my noise masker in my aids,merge_boundary+homophone
+um how do i adjust my noise masker in the aides,Help_Tinnitus,how do i adjust my noise masker in the aids,filler+homophone
+howdo i adjust my loudness of the tinnitus stimulus in aids,Help_Tinnitus,how do i adjust my loudness of the tinnitus stimulus in the aids,drop_function_word+merge_boundary
+how do i change tenitus level,Help_Tinnitus,how do i change tinnitus levels,drop_plural+homophone
+er how do i adjustmy tinnitus masker in the aids,Help_Tinnitus,how do i adjust my tinnitus masker in the aids,merge_boundary+filler
+how do i adjust my noise masker onthe right aide,Help_Tinnitus,how do i adjust my noise masker on the right aid,merge_boundary+homophone
+how do i adjustnoise masker in the right aid,Help_Tinnitus,how do i adjust my noise masker in the right aid,drop_function_word+merge_boundary
+help with tinnitis stimulu adjustment on my aids,Help_Tinnitus,help with tinnitus stimulus adjustment on my aids,drop_plural+homophone
+how do i adjust my noise masker on aide,Help_Tinnitus,how do i adjust my noise masker on my aid,drop_function_word+homophone
+helpwith tinnitus noise adjustment in my hearing 8,Help_Tinnitus,help with tinnitus noise adjustment in my hearing aid,merge_boundary+homophone
+how do i adjust my noisemasker in the,Help_Tinnitus,how do i adjust my noise masker in the aid,truncate_tail+merge_boundary
+how do i adjust my noise masker on left,Help_Tinnitus,how do i adjust my noise masker on the left aid,truncate_tail+drop_function_word
+howdo i adjust tinnitus masker in my aid,Help_Tinnitus,how do i adjust my tinnitus masker in my aid,drop_function_word+merge_boundary
+help with tinnitis stimulusadjustment in my hearing aids,Help_Tinnitus,help with tinnitus stimulus adjustment in my hearing aids,merge_boundary+homophone
+um how do i adjust noise masker in the left aid,Help_Tinnitus,how do i adjust my noise masker in the left aid,drop_function_word+filler
+howdo i adjust my noise masker on aids,Help_Tinnitus,how do i adjust my noise masker on the aids,drop_function_word+merge_boundary
+how do i adjust tinnitus masker on the,Help_Tinnitus,how do i adjust my tinnitus masker on the aids,truncate_tail+drop_function_word
+er help with tinnitu sound adjustments in my hearing aid,Help_Tinnitus,help with tinnitus sound adjustments in my hearing aid,filler+drop_plural
+how do i adjust my noise masker in,Help_Tinnitus,how do i adjust my noise masker in my aid,drop_function_word+truncate_tail
+how do i adjust my tinnitu masker on right aid,Help_Tinnitus,how do i adjust my tinnitus masker on my right aid,drop_function_word+drop_plural
+um help with tinnitus sound adjustment in my hearing aids,Help_Tinnitus,help with tinnitus sound adjustments in my hearing aids,drop_plural+filler
+um how do i adjust my tinnitus masker on left aid,Help_Tinnitus,how do i adjust my tinnitus masker on my left aid,drop_function_word+filler
+how do i adjust my tinnitu,Help_Tinnitus,how do i adjust my tinnitus setting,drop_plural+truncate_tail
+help with tinnitus stimulu adjustments onmy hearing aid,Help_Tinnitus,help with tinnitus stimulus adjustments on my hearing aid,drop_plural+merge_boundary
+help with tinnitu stimulus adjustment on my,Help_Tinnitus,help with tinnitus stimulus adjustment on my aid,truncate_tail+drop_plural
+um can i access cloud,Help_HearingCareAnywhereConnect,can i access the cloud,filler+drop_function_word
+how do i accesthe cloud,Help_HearingCareAnywhereConnect,how do i access the cloud,drop_plural+merge_boundary
+how do i backup the settingsin right aid,Help_HearingCareAnywhereConnect,how do i backup the settings in my right aid,drop_function_word+merge_boundary
+howdo i sync my aid to the,Help_HearingCareAnywhereConnect,how do i sync my aid to the app,merge_boundary+truncate_tail
+how do i sync thrive app setting,Help_HearingCareAnywhereConnect,how do i sync my thrive app settings,drop_plural+drop_function_word
+um pairing aids on app,Help_Pairing,pairing aids on my app,filler+drop_function_word
+er how do i reconnect my left hearing,Help_Pairing,how do i reconnect my left hearing aid,filler+truncate_tail
+er i need help pairing hearing aid to the phone,Help_Pairing,i need help pairing my hearing aid to the phone,drop_function_word+filler
+pear right hearing aid,Help_Pairing,pair my right hearing aid,drop_function_word+homophone
+um sync hearing aid tv,Help_Pairing,sync hearing aid to tv,drop_function_word+filler
+how do i check if the hearing aids are pairedwith my,Help_Pairing,how do i check if the hearing aids are paired with my phone,truncate_tail+merge_boundary
+uh how do i check if hearing aids are paired to the phone,Help_Pairing,how do i check if my hearing aids are paired to the phone,drop_function_word+filler
+uh how do i change from hearing aids to my car bluetooth,Help_Pairing,how do i change from the hearing aids to my car bluetooth,filler+drop_function_word
+i need help pairing the hearin aids my phone,Help_Pairing,i need help pairing the hearing aids to my phone,homophone+drop_function_word
+er how do i check if my hearing aid is paired to the foam,Help_Pairing,how do i check if my hearing aid is paired to the phone,filler+homophone
+uh how do i check if my herring aids are paired with the phone,Help_Pairing,how do i check if my hearing aids are paired with the phone,filler+homophone
+uh how do i check if the aid is paired with the,Help_Pairing,how do i check if the aid is paired with the phone,truncate_tail+filler
+um how do i check if aids are paired with my phone,Help_Pairing,how do i check if the aids are paired with my phone,filler+drop_function_word
+how do i pair my aid tomy foam,Help_Pairing,how do i pair my aid to my phone,homophone+merge_boundary
+uh how do i check if the hearing aids are paired the phone,Help_Pairing,how do i check if the hearing aids are paired to the phone,drop_function_word+filler
+pairing 8s on theapp,Help_Pairing,pairing aids on the app,merge_boundary+homophone
+is the 8 connected to thrive app,Help_Pairing,is the aid connected to the thrive app,homophone+drop_function_word
+um set an alarm for 15,reminders.add,set an alarm for 15 minutes,filler+truncate_tail
+uh schedule appointmenttomorrow,reminders.add,schedule appointment tomorrow,merge_boundary+filler
+uh remember to wash the carin 4 hours,reminders.add,remember to wash the car in 4 hours,filler+merge_boundary
+remembervitamin d at 7 p m everyday,reminders.add,remember to vitamin d at 7 p m everyday,drop_function_word+merge_boundary
+remember studytomorrow,reminders.add,remember to study tomorrow,drop_function_word+merge_boundary
+remind me pick up my car friday,reminders.add,remind me to pick up my car friday morning,drop_function_word+truncate_tail
+remind meto pick up car next friday morning,reminders.add,remind me to pick up my car next friday morning,drop_function_word+merge_boundary
+re mind me to pick upmy prescription at 5 p m on friday,reminders.add,remind me to pick up my prescription at 5 p m on friday,merge_boundary+homophone
+er remind me to pick up my prescription on friday at 5 p m,reminders.add,remind me to pick up my prescription on friday at 5 p m,homophone+filler
+um re mind me to drink water everyday at 10 in the morning,reminders.add,remind me to drink water everyday at 10 in the morning,homophone+filler
+um remind me to have a dinner every sunday at 8 a,reminders.add,remind me to have a dinner every sunday at 8 a m,filler+truncate_tail
+er remind mefor tomorrow,reminders.add,remind me for tomorrow,merge_boundary+filler
+er remind me tomorrow call,reminders.add,remind me tomorrow to call,filler+drop_function_word
+remind me to pick ep joe in 30,reminders.add,remind me to pick up joe in 30 minutes,homophone+truncate_tail
+remind me about dinnerin 1,reminders.add,remind me about dinner in 1 minute,truncate_tail+merge_boundary
+set remind her foreveryday,reminders.add,set reminder for everyday,homophone+merge_boundary
+er remind me tomorrowto,reminders.add,remind me tomorrow to,merge_boundary+filler
+remindme to charge phone everyday at 11 00 p m,reminders.add,remind me to charge my phone everyday at 11 00 p m,merge_boundary+drop_function_word
+uh remind metomorrow,reminders.add,remind me tomorrow,filler+merge_boundary
+do not let me forget pick ep milk today,reminders.add,do not let me forget to pick up milk today,homophone+drop_function_word
+remind meeveryday,reminders.add,remind me everyday,merge_boundary+homophone
+er i need a reminder,reminders.add,i need a reminder tomorrow,filler+truncate_tail
+re mind me to boil water every morning by7 a m,reminders.add,remind me to boil water every morning by 7 a m,merge_boundary+homophone
+remind me to check computer,reminders.add,remind me to check my computer,drop_function_word+homophone
+er remind me to visitmy family on thanksgiving day,reminders.add,remind me to visit my family on thanksgiving day,merge_boundary+filler
+er remind me nutrition research tomorrow at 8 m,reminders.add,remind me nutrition research tomorrow at 8 a m,filler+drop_function_word
+re mind me to call jose,reminders.add,remind me to call jose tomorrow,truncate_tail+homophone
+er set reminder for 8 a m,reminders.add,set a reminder for 8 a m,filler+drop_function_word
+uh remind me on thursday,reminders.add,remind me on thursday,homophone+filler
+er setreminder for 2 p m,reminders.add,set reminder for 2 p m,filler+merge_boundary
+um remind me once about,reminders.add,remind me once about running,filler+truncate_tail
+um re mind me to feed my cat please,reminders.add,remind me to feed my cat please,filler+homophone
+remind me buy milk on tuesdayat 8 p m,reminders.add,remind me to buy milk on tuesday at 8 p m,merge_boundary+drop_function_word
+how do i change app setting,Help_AppSettings,how do i change my app settings,drop_plural+drop_function_word
+where do i find app,Help_AppSettings,where do i find the app settings,drop_function_word+truncate_tail
+um what is basicmode,Help_AppSettings,what is basic mode,merge_boundary+filler
+er can the audiologist adjust my aids,Help_RemoteProgramming,can the audiologist adjust my aids remotely,filler+truncate_tail
+how do i ask for new,Help_RemoteProgramming,how do i ask for a new setting,drop_function_word+truncate_tail
+um canmy audiologist adjust the aids remotely,Help_RemoteProgramming,can my audiologist adjust the aids remotely,filler+merge_boundary
+can i compare the adjustments made by myhearing care,Help_RemoteProgramming,can i compare the adjustments made by my hearing care specialist,truncate_tail+merge_boundary
+can i compare adjustments made by the herring specialist,Help_RemoteProgramming,can i compare the adjustments made by the hearing specialist,homophone+drop_function_word
+er how do i useremote programming,Help_RemoteProgramming,how do i use remote programming,merge_boundary+filler
+what if i do not like theadjustments made by my,Help_RemoteProgramming,what if i do not like the adjustments made by my professional,merge_boundary+truncate_tail
+how do i preview new herringaid settings,Help_RemoteProgramming,how do i preview new hearing aid settings,homophone+merge_boundary
+what if i do not like the adjustments made bythe,Help_RemoteProgramming,what if i do not like the adjustments made by the audiologist,truncate_tail+merge_boundary
+can i compare the adjustment made by my herring specialist,Help_RemoteProgramming,can i compare the adjustments made by my hearing specialist,homophone+drop_plural
+can i go back to my old,Help_RemoteProgramming,can i go back to my old settings,drop_plural+truncate_tail
+how do i send anote to my hearin doctor,Help_RemoteProgramming,how do i send a note to my hearing doctor,merge_boundary+homophone
+um can my audiologist adjust my aide remotely,Help_RemoteProgramming,can my audiologist adjust my aid remotely,homophone+filler
+uh how do i send a note to my,Help_RemoteProgramming,how do i send a note to my provider,truncate_tail+filler
+uh how do i ask for new aid setting,Help_RemoteProgramming,how do i ask for new aid settings,filler+homophone
+er i need anadjustment to my aids,Help_RemoteProgramming,i need an adjustment to my aids,merge_boundary+filler
+can my audiologist adjust my aides,Help_RemoteProgramming,can my audiologist adjust my aids remotely,homophone+truncate_tail
+how many helprequests can i,Help_RemoteProgramming,how many help requests can i submit,truncate_tail+merge_boundary
+how doi preview new sittings,Help_RemoteProgramming,how do i preview new settings,merge_boundary+homophone
+does thrive supportreminder,Help_Reminder,does thrive support reminders,merge_boundary+drop_plural
+what is my hearin aid's firmware,Help_DeviceSettings,what is my hearing aid's firmware version,homophone+truncate_tail
+how do i enable doubletap on my herring aid,Help_DeviceSettings,how do i enable double tap on my hearing aid,homophone+merge_boundary
+how do i enable sensitivityof the double,Help_DeviceSettings,how do i enable sensitivity of the double tap,truncate_tail+merge_boundary
+um how do i disable sensitivity of double tap,Help_DeviceSettings,how do i disable sensitivity of the double tap,drop_function_word+filler
+um how do i enable the sensitivity of double tap,Help_DeviceSettings,how do i enable the sensitivity of the double tap,drop_function_word+filler
+um how do i play notifications through my,Help_DeviceSettings,how do i play notifications through my aids,filler+truncate_tail
+howdo i play notifications through my,Help_DeviceSettings,how do i play notifications through my aid,truncate_tail+merge_boundary
+how do i enable sensitivity of double,Help_DeviceSettings,how do i enable the sensitivity of double tap,truncate_tail+drop_function_word
+i need help with,Help_DeviceSettings,i need help with my settings,truncate_tail+drop_function_word
+um how do i disable the sensitivity of the double,Help_DeviceSettings,how do i disable the sensitivity of the double tap,filler+truncate_tail
+whatdata log,Help_DeviceSettings,what is data log,drop_function_word+merge_boundary
+er how do i make double tap less,Help_DeviceSettings,how do i make double tap less sensitive,truncate_tail+filler
+uh how do i enable double tap on hearing aids,Help_DeviceSettings,how do i enable double tap on my hearing aids,filler+drop_function_word
+help with changing programs on the,Help_ChangingMemories,help with changing programs on the phone,homophone+truncate_tail
+how do i change hearing aid mammary,Help_ChangingMemories,how do i change the hearing aid memory,homophone+drop_function_word
+what memery andi currently in,Help_ChangingMemories,what memory and i currently in,homophone+merge_boundary
+er how do i change memorie,Help_ChangingMemories,how do i change memories,filler+drop_plural
+uh where's the button for mammary,Help_ChangingMemories,where's the button for memory,filler+homophone
+how do ichange my hearing aid memery,Help_ChangingMemories,how do i change my hearing aid memory,homophone+merge_boundary
+help with changing programs on,Help_ChangingMemories,help with changing programs on my phone,drop_function_word+truncate_tail
+uh where's memory button,Help_ChangingMemories,where's the memory button,drop_function_word+filler
+er how change memory,Help_ChangingMemories,how to change memory,drop_function_word+filler
+help with changing mammaries on myphone,Help_ChangingMemories,help with changing memories on my phone,merge_boundary+homophone
+uh how doesthe cros balance feature work,Help_WiCROS,how does the cros balance feature work,merge_boundary+filler
+when do i change balance,Help_WiCROS,when do i change my balance control,drop_function_word+truncate_tail
+how do i change my transmitter orreceiver,Help_WiCROS,how do i change my transmitter or receiver volume,truncate_tail+merge_boundary
+uh do i needto change my balance control,Help_WiCROS,do i need to change my balance control,merge_boundary+filler
+uh how do i access the cros,Help_WiCROS,how do i access the cros balance,filler+truncate_tail
+how do iincrease the,Help_Customize,how do i increase the bass,truncate_tail+merge_boundary
+how do i turn doun background,Help_Customize,how do i turn down background noise,homophone+truncate_tail
+uh how do i adjust for,Help_Customize,how do i adjust for wind,truncate_tail+filler
+how to see weekly environment,Help_Health,how to see my weekly environment goals,truncate_tail+drop_function_word
+er how to change my step goals from weekly to,Help_Health,how to change my step goals from weekly to daily,filler+truncate_tail
+how to change my step goal from daily weekly,Help_Health,how to change my steps goal from daily to weekly,drop_plural+drop_function_word
+um what are all the features of,Help_Health,what are all the features of health,truncate_tail+filler
+how to change myhealth,Help_Health,how to change my health goals,truncate_tail+merge_boundary
+how do isee my biking,Help_Health,how do i see my biking goals,truncate_tail+merge_boundary
+erbegin translation,Cmd.TranslationStart,begin translation,filler+merge_boundary
+umhow do i say take me to the hotel in spanish,Cmd.TranslationStart,how do i say take me to the hotel in spanish,filler+merge_boundary
+um starttranslation for spanish,Cmd.TranslationStart,start translation for spanish,merge_boundary+filler
+tern downthe volume,Cmd.VolumeDecrease,turn down the volume,merge_boundary+homophone
+er make my hearingaids softer,Cmd.VolumeDecrease,make my hearing aids softer,filler+merge_boundary
+uhminimum sound,Cmd.VolumeDecrease,minimum sound,filler+merge_boundary
+turn myaids dow,Cmd.VolumeDecrease,turn my aids down,homophone+merge_boundary
+uh turn down the volume in my right hearing 8,Cmd.VolumeDecrease,turn down the volume in my right hearing aid,homophone+filler
+um go doun in volume,Cmd.VolumeDecrease,go down in volume,filler+homophone
+turn the volumedow,Cmd.VolumeDecrease,turn the volume down,homophone+merge_boundary
+er turn volumedown,Cmd.VolumeDecrease,turn volume down,filler+merge_boundary
+uh my heart rate recovery good,Help_HeartRateRecovery,is my heart rate recovery good,drop_function_word+filler
+um what is a normalheart rate recovery number,Help_HeartRateRecovery,what is a normal heart rate recovery number,merge_boundary+filler
+er what is heartrate,Help_HeartRate,what is heart rate,merge_boundary+filler
+can drive measure heart rate,Help_HeartRate,can thrive measure my heart rate,drop_function_word+homophone
+uh where is the heart rate function within app,Help_HeartRate,where is the heart rate function within the app,drop_function_word+filler
+er where my heart rate,Help_HeartRate,where is my heart rate,filler+drop_function_word
+what is the condition of my,Cmd.BatteryLevel,what is the condition of my batteries,drop_plural+truncate_tail
+how much batter e do i,Cmd.BatteryLevel,how much battery do i have,truncate_tail+homophone
+does trans cribe save conversations,Help_Transcribe,does transcribe save my conversations,drop_function_word+homophone
+um help for speech text,Help_Transcribe,help for speech to text,drop_function_word+filler
+uh speech totext help,Help_Transcribe,speech to text help,merge_boundary+filler
+is it ok to push mold in,Help_InsertDevice,is it ok to push the mold in deep,drop_function_word+truncate_tail
+er how do i insert my right hearing aids into ears,Help_InsertDevice,how do i insert my right hearing aids into my ears,filler+drop_function_word
+how do i takeout the hearing,Help_InsertDevice,how do i take out the hearing aids,merge_boundary+truncate_tail
+er show mehow to insert hearing aids into my ears,Help_InsertDevice,show me how to insert hearing aids into my ears,filler+merge_boundary
+er show me voiceassistant help,Help_VoiceAssistant,show me voice assistant help,merge_boundary+filler
+um thrive assistantuser guide,Help_VoiceAssistant,thrive assistant user guide,filler+merge_boundary
+er what svirtual assistant,Help_VoiceAssistant,what s virtual assistant,filler+merge_boundary
+um thriveassistant help,Help_VoiceAssistant,thrive assistant help,merge_boundary+filler
+er turn off volume in my right hearing aid,Cmd.VolumeMute,turn off the volume in my right hearing aid,drop_function_word+filler
+uh turn off volume,Cmd.VolumeMute,turn off the volume,drop_function_word+filler
+uh turn volume off,Cmd.VolumeMute,turn the volume off,drop_function_word+filler
+um make volumeoff,Cmd.VolumeMute,make volume off,merge_boundary+filler
+turned my hearingaid volume off,Cmd.VolumeMute,turn my hearing aid volume off,merge_boundary+homophone
+um turnvolume off,Cmd.VolumeMute,turn volume off,filler+merge_boundary
+uh i have got wax,Help_CleanCare,i have got wax buildup,filler+truncate_tail
+uh how to wash herring aids,Help_CleanCare,how to wash hearing aids,homophone+filler
+how to clean myitc hearing 8,Help_CleanCare,how to clean my itc hearing aid,homophone+merge_boundary
+uh latest remind her finished,reminders.complete,latest reminder finished,homophone+filler
+uh record thismeeting,Cmd.TranscribeStart,record this meeting,merge_boundary+filler
+uh recordthis conversation,Cmd.TranscribeStart,record this conversation,filler+merge_boundary
+er calorie running,Cmd.ActivityRun,calories running,drop_plural+filler
+er running colories,Cmd.ActivityRun,running calories,filler+homophone
+er what are my running minutes for week,Cmd.ActivityRun,what are my running minutes for the week,filler+drop_function_word
+help face mast issue,Help_MaskMode,help face mask issues,drop_plural+homophone
+howdo i adjust the volume on my,Help_Volume,how do i adjust the volume on my aids,truncate_tail+merge_boundary
+how do i change the loudnes on my hearing aides,Help_Volume,how do i change the loudness on my hearing aids,drop_plural+homophone
+help with volume change in my,Help_Volume,help with volume changes in my aids,truncate_tail+drop_plural
+um howdo i reset the loudness in my aid,Help_Volume,how do i reset the loudness in my aid,filler+merge_boundary
+uh how do i change the volum on the aid,Help_Volume,how do i change the volume on the aid,filler+homophone
+um how do i unmute the left hearing,Help_Volume,how do i unmute the left hearing aid,filler+truncate_tail
+er how do i adjust hearing aid volume,Help_Volume,how do i adjust my hearing aid volume,drop_function_word+filler
+er how do imute the sound,Help_Volume,how do i mute the sound,filler+merge_boundary
+how do i decrease the loudnes injust one hearing aid,Help_Volume,how do i decrease the loudness in just one hearing aid,drop_plural+merge_boundary
+how do i mute my righthearing,Help_Volume,how do i mute my right hearing aid,merge_boundary+truncate_tail
+how do i unmute hearingaid,Help_Volume,how do i unmute the hearing aid,merge_boundary+drop_function_word
+how do tern the volumedown,Help_Volume,how do turn the volume down,merge_boundary+homophone
+uh cani use the phone to check the volume of my hearing aids,Help_Volume,can i use the phone to check the volume of my hearing aids,merge_boundary+filler
+letme listen to message,Cmd.ListenMessage,let me listen to my message,merge_boundary+drop_function_word
+i want to hearmy massage,Cmd.ListenMessage,i want to hear my message,merge_boundary+homophone
+how do i start streamin from remote mic,Help_Accessories,how do i start streaming from the remote mic,homophone+drop_function_word
+can i change nameof my remote mic,Help_Accessories,can i change the name of my remote mic,drop_function_word+merge_boundary
+er can ichange the name of the remote mic,Help_Accessories,can i change the name of the remote mic,merge_boundary+filler
+er how do i check what accessories i have connected to my hearing,Help_Accessories,how do i check what accessories i have connected to my hearing aids,truncate_tail+filler
+how do i stop screaming from my remote,Help_Accessories,how do i stop streaming from my remote mic,homophone+truncate_tail
+how do i check what accessorie i have connected my aid,Help_Accessories,how do i check what accessories i have connected to my aid,drop_plural+drop_function_word
+uh how do i delete accessories from my,Help_Accessories,how do i delete accessories from my app,filler+truncate_tail
+show mehelp for accessories,Help_Accessories,show me help for my accessories,drop_function_word+merge_boundary
+um how do i use my 8 with an accessory,Help_Accessories,how do i use my aid with an accessory,homophone+filler
+how do i stop streaming from remote,Help_Accessories,how do i stop streaming from the remote mic,truncate_tail+drop_function_word
+um how do i check what accessorie i have connected to my hearing aid,Help_Accessories,how do i check what accessories i have connected to my hearing aid,filler+drop_plural
+um how do i start streaming from myremote mic,Help_Accessories,how do i start streaming from my remote mic,filler+merge_boundary
+er how do iuse my aids with an accessory,Help_Accessories,how do i use my aids with an accessory,merge_boundary+filler
+how do i change the nameof remote mic,Help_Accessories,how do i change the name of the remote mic,merge_boundary+drop_function_word
+uh how do i change the name of my remote,Help_Accessories,how do i change the name of my remote mic,truncate_tail+filler
+syracusebad home,Default Fallback Intent,syracuse a bad home,drop_function_word+merge_boundary
+um what are stock option,Default Fallback Intent,what are stock options,drop_plural+filler
+what are some river cruise options in united state 1,Default Fallback Intent,what are some river cruise options in the united states 1,drop_function_word+drop_plural
+uh how do i makelasagna,Default Fallback Intent,how do i make lasagna,filler+merge_boundary
+how do i make tuna,Default Fallback Intent,how do i make a tuna sandwich,drop_function_word+truncate_tail
+um tell me a joke i need to be cheered ep,Default Fallback Intent,tell me a joke i need to be cheered up,filler+homophone
+er creatinga demo with your capabilities,Default Fallback Intent,creating a demo with your capabilities,merge_boundary+filler
+um play hankwilliams junior,Default Fallback Intent,play hank williams junior,filler+merge_boundary
+why is not myheart mahira anaise bagri,Default Fallback Intent,why is not my heart mahira anaise bagri working,truncate_tail+merge_boundary
+whenmemorial day,Default Fallback Intent,when is memorial day,drop_function_word+merge_boundary
+ami close enough the car,Default Fallback Intent,am i close enough to the car,drop_function_word+merge_boundary
+hey jeannie tv sanders this is iris it all,Default Fallback Intent,hey jeannie tv sanders this is iris it is all about,drop_function_word+truncate_tail
+uh where isthe simba,Default Fallback Intent,where is the simba,merge_boundary+filler
+can you put my phone on chri,Default Fallback Intent,can you put my phone on chris home,truncate_tail+drop_plural
+um mavis by stupid hearing,Default Fallback Intent,mavis by stupid hearing aids,filler+truncate_tail
+uh saturday,Default Fallback Intent,saturday,filler
+er tern off cable,Default Fallback Intent,turn off cable,homophone+filler
+hey find me a way white oaks,Default Fallback Intent,hey find me a way to white oaks mall,drop_function_word+truncate_tail
+ihear voice,Default Fallback Intent,i hear the voice,drop_function_word+merge_boundary
+uh alexa learn myvoice,Default Fallback Intent,alexa learn my voice,filler+merge_boundary
+er hey google,Default Fallback Intent,hey google,filler
+computer turned off dylan' lamp,Default Fallback Intent,computer turn off dylan's lamp,homophone+drop_plural
+uhbank number to car,Default Fallback Intent,bank number to car,filler+merge_boundary
+er was a specialist contact 800 3334,Default Fallback Intent,it was a specialist contact 800 3334,filler+drop_function_word
+uh i might be off or something aboutleaving,Default Fallback Intent,i might be off or something about leaving,filler+merge_boundary
+um stone jesus pineor,Default Fallback Intent,stone jesus pine or,filler+merge_boundary
+riley' amanager connected scott,Default Fallback Intent,riley's a manager connected scott,drop_plural+merge_boundary
+throw onthe floor,Default Fallback Intent,throw it on the floor,merge_boundary+drop_function_word
+chelsea down atleast you,Default Fallback Intent,chelsea down at least you try,truncate_tail+merge_boundary
+and i am really looking forward to not havingto wear the mast anymore for sure,Default Fallback Intent,and i am really looking forward to not having to wear the mask anymore for sure,homophone+merge_boundary
+er discover revelation,Default Fallback Intent,discover revelation,filler
+uh your permit on cellphone,Default Fallback Intent,your permit on my cellphone,drop_function_word+filler
+er i said otherprogram,Default Fallback Intent,i said other program,filler+merge_boundary
+uh monday,Default Fallback Intent,monday,filler
+um firstwashing machine,Default Fallback Intent,first washing machine,merge_boundary+filler
+er google,Default Fallback Intent,google,filler
+um what is the weather in las vega today,Default Fallback Intent,what is the weather in las vegas today,drop_plural+filler
+um how do i schedule,Default Fallback Intent,how do i schedule a,filler+truncate_tail
+uh i need to program new stamping to my,Default Fallback Intent,i need to program new stamping to my phone,truncate_tail+filler
+uh angryorchard beer,Default Fallback Intent,angry orchard beer,filler+merge_boundary
+erhow to adjust these,Default Fallback Intent,how to adjust these,filler+merge_boundary
+see how moves all theway across,Default Fallback Intent,see how it moves all the way across,drop_function_word+merge_boundary
+uhright on,Default Fallback Intent,right on,filler+merge_boundary
+um you want me say i love you,Default Fallback Intent,you want me to say i love you,filler+drop_function_word
+exclusive30 1 odds,Default Fallback Intent,exclusive 30 to 1 odds,merge_boundary+drop_function_word
+the herring innovation expo is a global event hosted by starkeyhearing technologies,Default Fallback Intent,the hearing innovation expo is a global event hosted by starkey hearing technologies,merge_boundary+homophone
+um what is the best,Default Fallback Intent,what is the best phone,filler+truncate_tail
+and push it down fordramatic,Default Fallback Intent,and push it down for dramatics,drop_plural+merge_boundary
+er why will not the hearing 8s,Default Fallback Intent,why will not the hearing aids,homophone+filler
+turned onwi fi,Default Fallback Intent,turn on wi fi,merge_boundary+homophone
+um thanks forchanging,Default Fallback Intent,thanks for changing,merge_boundary+filler
+er shutup,Default Fallback Intent,shut up,filler+merge_boundary
+er i cannothear anything,Default Fallback Intent,i cannot hear anything,merge_boundary+filler
+er how do you spellkeep my microphone,Default Fallback Intent,how do you spell keep my microphone,merge_boundary+filler
+what levelam i hearing,Default Fallback Intent,what level am i hearing aids,truncate_tail+merge_boundary
+er and here's my heart it is closer toyou,Default Fallback Intent,and here's my heart it is closer to you,merge_boundary+filler
+er alexa,Default Fallback Intent,alexa,filler
+uh list items notworking,Default Fallback Intent,list items not working,merge_boundary+filler
+uh canyou listen to music,Default Fallback Intent,can you listen to music,filler+merge_boundary
+apps thatyou wise ep,Default Fallback Intent,apps that you wise up,merge_boundary+homophone
+um turned,Default Fallback Intent,turn,filler+homophone
+um i said i willshut up,Default Fallback Intent,i said i will shut up,filler+merge_boundary
+igive ep,Default Fallback Intent,i give up,merge_boundary+homophone
+scream youtubemusic,Default Fallback Intent,stream youtube music,homophone+merge_boundary
+er so do i unable tocaesar,Default Fallback Intent,so do i unable to caesar,merge_boundary+filler
+er lhslhs,Default Fallback Intent,lhs lhs,filler+merge_boundary
+i need car batteries,Default Fallback Intent,i need a car battery,drop_function_word+homophone
+uh and so now what happens is if it is in streaming mode cuz waiting for you to ask a question,Default Fallback Intent,and so now the what happens is if it is in streaming mode cuz waiting for you to ask a question,filler+drop_function_word
+uh onyour bookkeeping it is all on my side so,Default Fallback Intent,on your bookkeeping it is all on my side so,filler+merge_boundary
+er whatis wrong,Default Fallback Intent,what is wrong,filler+merge_boundary
+er number,Default Fallback Intent,numbers,drop_plural+filler
+uh how do i remove sliver,Default Fallback Intent,how do i remove a sliver,drop_function_word+filler
+er why would i need worry about health guidelines,Default Fallback Intent,why would i need to worry about health guidelines,drop_function_word+filler
+er who is ministry of home affair for india,Default Fallback Intent,who is ministry of home affairs for india,drop_plural+filler
+whohome minister of india,Default Fallback Intent,who is home minister of india,drop_function_word+merge_boundary
+er what aids,Default Fallback Intent,what is aids,filler+drop_function_word
+what isstarkey hearing aides,Default Fallback Intent,what is starkey hearing aids,merge_boundary+homophone
+uh how many bikingcalories,Cmd.ActivityCycle,how many biking calories,merge_boundary+filler
+uh how many calorie have i burned while biking,Cmd.ActivityCycle,how many calories have i burned while biking,drop_plural+filler
+um have i reached biking goal,Cmd.ActivityCycle,have i reached my biking goal,drop_function_word+filler
+er how much biking have i done this,Cmd.ActivityCycle,how much biking have i done this week,filler+truncate_tail
+er change totest one,Cmd.MemoryChange,change to test one,merge_boundary+filler
+er go to outdoor,Cmd.MemoryChange,go to outdoors,drop_plural+filler
+er goto meeting,Cmd.MemoryChange,go to meeting,merge_boundary+filler
+change mask mammary,Cmd.MemoryChange,change to mask memory,drop_function_word+homophone
+change mask mode memery,Cmd.MemoryChange,change to mask mode memory,homophone+drop_function_word
+changemammary to mask,Cmd.MemoryChange,change memory to mask,homophone+merge_boundary
+um changeto car memory,Cmd.MemoryChange,change to car memory,merge_boundary+filler
+uh change to mastermemory,Cmd.MemoryChange,change to master memory,merge_boundary+filler
+um change to noise mammary,Cmd.MemoryChange,change to noise memory,homophone+filler
+uh change to speechmemory,Cmd.MemoryChange,change to speech memory,merge_boundary+filler
+change train memery,Cmd.MemoryChange,change to train memory,homophone+drop_function_word
+changework memory,Cmd.MemoryChange,change to work memory,drop_function_word+merge_boundary
+change crowd pro gram,Cmd.MemoryChange,change to crowd program,drop_function_word+homophone
+um change to carprogram,Cmd.MemoryChange,change to car program,merge_boundary+filler
+change quietprogram,Cmd.MemoryChange,change to quiet program,drop_function_word+merge_boundary
+uh change to tinnitus programme,Cmd.MemoryChange,change to tinnitus program,filler+homophone
+switch to meetingmemery,Cmd.MemoryChange,switch to meeting memory,homophone+merge_boundary
+um switchto golf memory,Cmd.MemoryChange,switch to golf memory,merge_boundary+filler
+switch speech memery,Cmd.MemoryChange,switch to speech memory,homophone+drop_function_word
+er switch work memory,Cmd.MemoryChange,switch to work memory,drop_function_word+filler
+er switch to meeting programme,Cmd.MemoryChange,switch to meeting program,homophone+filler
+uh switch toautomatic program,Cmd.MemoryChange,switch to automatic program,filler+merge_boundary
+er switch to everydayprogram,Cmd.MemoryChange,switch to everyday program,merge_boundary+filler
+uhswitch to work program,Cmd.MemoryChange,switch to work program,filler+merge_boundary
+switch worship pro gram,Cmd.MemoryChange,switch to worship program,homophone+drop_function_word
+uh setto meeting program,Cmd.MemoryChange,set to meeting program,merge_boundary+filler
+um set toautomatic program,Cmd.MemoryChange,set to automatic program,merge_boundary+filler
+um set to everyday pro gram,Cmd.MemoryChange,set to everyday program,homophone+filler
+setwork program,Cmd.MemoryChange,set to work program,drop_function_word+merge_boundary
+set toworship pro gram,Cmd.MemoryChange,set to worship program,merge_boundary+homophone
+er change mammary to car,Cmd.MemoryChange,change memory to car,filler+homophone
+uh change memory master,Cmd.MemoryChange,change memory to master,drop_function_word+filler
+change mammary noise,Cmd.MemoryChange,change memory to noise,drop_function_word+homophone
+changememery to speech,Cmd.MemoryChange,change memory to speech,homophone+merge_boundary
+um change mammary to train,Cmd.MemoryChange,change memory to train,homophone+filler
+er change memory work,Cmd.MemoryChange,change memory to work,drop_function_word+filler
+change pro gramto crowd,Cmd.MemoryChange,change program to crowd,homophone+merge_boundary
+change pro gram car,Cmd.MemoryChange,change program to car,homophone+drop_function_word
+change pro gram quiet,Cmd.MemoryChange,change program to quiet,homophone+drop_function_word
+um change program to tinitis,Cmd.MemoryChange,change program to tinnitus,homophone+filler
+switch memery meeting,Cmd.MemoryChange,switch memory to meeting,homophone+drop_function_word
+um switch memory togolf,Cmd.MemoryChange,switch memory to golf,filler+merge_boundary
+er switch memery to speech,Cmd.MemoryChange,switch memory to speech,homophone+filler
+er switch memory work,Cmd.MemoryChange,switch memory to work,drop_function_word+filler
+er switch programme to meeting,Cmd.MemoryChange,switch program to meeting,homophone+filler
+er switch program automatic,Cmd.MemoryChange,switch program to automatic,drop_function_word+filler
+switch pro gram everyday,Cmd.MemoryChange,switch program to everyday,drop_function_word+homophone
+switch programwork,Cmd.MemoryChange,switch program to work,drop_function_word+merge_boundary
+er switch programme to worship,Cmd.MemoryChange,switch program to worship,filler+homophone
+um setprogram to meeting,Cmd.MemoryChange,set program to meeting,merge_boundary+filler
+set programme toautomatic,Cmd.MemoryChange,set program to automatic,merge_boundary+homophone
+er set program toeveryday,Cmd.MemoryChange,set program to everyday,filler+merge_boundary
+set programwork,Cmd.MemoryChange,set program to work,drop_function_word+merge_boundary
+er set program worship,Cmd.MemoryChange,set program to worship,drop_function_word+filler
+um restaurant memery,Cmd.MemoryChange,restaurant memory,homophone+filler
+uh meeting memery,Cmd.MemoryChange,meeting memory,homophone+filler
+uh telephone memery,Cmd.MemoryChange,telephone memory,homophone+filler
+um noise mammary,Cmd.MemoryChange,noise memory,homophone+filler
+uh crowd pro gram,Cmd.MemoryChange,crowd program,homophone+filler
+uh television pro gram,Cmd.MemoryChange,television program,filler+homophone
+um automaticprogram,Cmd.MemoryChange,automatic program,filler+merge_boundary
+uh noise programme,Cmd.MemoryChange,noise program,homophone+filler
+uh train programme,Cmd.MemoryChange,train program,homophone+filler
+um meeting setting,Cmd.MemoryChange,meeting setting,filler
+uh carsetting,Cmd.MemoryChange,car setting,filler+merge_boundary
+uh televisionsetting,Cmd.MemoryChange,television setting,filler+merge_boundary
+uhtrain setting,Cmd.MemoryChange,train setting,filler+merge_boundary
+uh change crowd,Cmd.MemoryChange,change to crowd,filler+drop_function_word
+er change television,Cmd.MemoryChange,change to television,filler+drop_function_word
+er changeto gym,Cmd.MemoryChange,change to gym,merge_boundary+filler
+erchange to speech,Cmd.MemoryChange,change to speech,filler+merge_boundary
+um changeto work,Cmd.MemoryChange,change to work,merge_boundary+filler
+um switch tomeeting,Cmd.MemoryChange,switch to meeting,merge_boundary+filler
+er switchto crowd,Cmd.MemoryChange,switch to crowd,merge_boundary+filler
+um switch television,Cmd.MemoryChange,switch to television,filler+drop_function_word
+um switch toquiet,Cmd.MemoryChange,switch to quiet,merge_boundary+filler
+er switch towork,Cmd.MemoryChange,switch to work,merge_boundary+filler
+er switchto program two,Cmd.MemoryChange,switch to program two,filler+merge_boundary
+uh change memory two,Cmd.MemoryChange,change to memory two,drop_function_word+filler
+um change settingsto three,Cmd.MemoryChange,change settings to three,merge_boundary+filler
+changememory one,Cmd.MemoryChange,change memory to one,drop_function_word+merge_boundary
+um change setting one,Cmd.MemoryChange,change setting to one,drop_function_word+filler
+uh change memory two,Cmd.MemoryChange,change memory to two,drop_function_word+filler
+er switch memoryto two,Cmd.MemoryChange,switch memory to two,merge_boundary+filler
+switch pro gram two,Cmd.MemoryChange,switch program to two,drop_function_word+homophone
+um set pro gram to two,Cmd.MemoryChange,set program to two,homophone+filler
+uh change settingto three,Cmd.MemoryChange,change setting to three,filler+merge_boundary
+uh set program tofour,Cmd.MemoryChange,set program to four,merge_boundary+filler
+um switch memory number one,Cmd.MemoryChange,switch to memory number one,drop_function_word+filler
+change memery number three,Cmd.MemoryChange,change memory to number three,homophone+drop_function_word
+switch mammaryto number one,Cmd.MemoryChange,switch memory to number one,homophone+merge_boundary
+set mammary tonumber one,Cmd.MemoryChange,set memory to number one,merge_boundary+homophone
+um settingnumber one,Cmd.MemoryChange,setting number one,merge_boundary+filler
+er programnumber two,Cmd.MemoryChange,program number two,merge_boundary+filler
+um set setting tonumber three,Cmd.MemoryChange,set setting to number three,merge_boundary+filler
+um memorynumber three,Cmd.MemoryChange,memory number three,merge_boundary+filler
+uh can phone missing,Cmd.FindMyPhone,can you phone missing,drop_function_word+filler
+locate androidphone,Cmd.FindMyPhone,please locate android phone,drop_function_word+merge_boundary
+um can you locate android fone,Cmd.FindMyPhone,can you locate android phone,filler+homophone
+where' my phone,Cmd.FindMyPhone,please where's my phone,drop_plural+drop_function_word
+um please show me where my telephone,Cmd.FindMyPhone,please show me where my telephone is,filler+truncate_tail
+can you show mewhere my telephone,Cmd.FindMyPhone,can you show me where my telephone is,merge_boundary+truncate_tail
+lost androidphone,Cmd.FindMyPhone,please lost android phone,drop_function_word+merge_boundary
+uh can lost android phone,Cmd.FindMyPhone,can you lost android phone,filler+drop_function_word
+er please hearingaid volume up,Cmd.VolumeIncrease,please hearing aid volume up,merge_boundary+filler
+can you herring aidvolume up,Cmd.VolumeIncrease,can you hearing aid volume up,merge_boundary+homophone
+please tern upvolume,Cmd.VolumeIncrease,please turn up volume,merge_boundary+homophone
+er you turn up volume,Cmd.VolumeIncrease,can you turn up volume,filler+drop_function_word
+please go upin volum,Cmd.VolumeIncrease,please go up in volume,merge_boundary+homophone
+uh can go up in volume,Cmd.VolumeIncrease,can you go up in volume,filler+drop_function_word
+volumeup right aid,Cmd.VolumeIncrease,please volume up right aid,drop_function_word+merge_boundary
+er can you volume up right 8,Cmd.VolumeIncrease,can you volume up right aid,homophone+filler
+uh please turned the volume up on the hearing aid,Cmd.VolumeIncrease,please turn the volume up on the hearing aid,filler+homophone
+you turned the volume up on the hearing aid,Cmd.VolumeIncrease,can you turn the volume up on the hearing aid,homophone+drop_function_word
+uh please turnvolume up,Cmd.VolumeIncrease,please turn volume up,merge_boundary+filler
+can you turnvolume ep,Cmd.VolumeIncrease,can you turn volume up,homophone+merge_boundary
+um please turn the sound,Cmd.VolumeIncrease,please turn the sound up,filler+truncate_tail
+um you turn the sound up,Cmd.VolumeIncrease,can you turn the sound up,filler+drop_function_word
+turn up the volume on the hearing,Cmd.VolumeIncrease,please turn up the volume on the hearing aid,truncate_tail+drop_function_word
+can you turn up the volume on the hearing,Cmd.VolumeIncrease,can you turn up the volume on the hearing aid,homophone+truncate_tail
+pleaseturn up the volum,Cmd.VolumeIncrease,please turn up the volume,homophone+merge_boundary
+uh can you turn up volume,Cmd.VolumeIncrease,can you turn up the volume,drop_function_word+filler
+please tern the volumeup,Cmd.VolumeIncrease,please turn the volume up,merge_boundary+homophone
+can youturn volume up,Cmd.VolumeIncrease,can you turn the volume up,drop_function_word+merge_boundary
+please tell me what my stepgoal,Cmd.ActivityStep,please tell me what my step goal is,merge_boundary+drop_function_word
+er can you tell me what my step goal,Cmd.ActivityStep,can you tell me what my step goal is,filler+truncate_tail
+um please i misplaced other aid,Help_FindMyHearingAids,please i misplaced my other aid,drop_function_word+filler
+can you i misplaced myother 8,Help_FindMyHearingAids,can you i misplaced my other aid,homophone+merge_boundary
+um my hearing aids are missing,Help_FindMyHearingAids,please my hearing aids are missing,filler+drop_function_word
+can you hearing aids are,Help_FindMyHearingAids,can you my hearing aids are missing,truncate_tail+drop_function_word
+please hearing 8 is missing,Help_FindMyHearingAids,please my hearing aid is missing,drop_function_word+homophone
+uh can you my hearing aide is missing,Help_FindMyHearingAids,can you my hearing aid is missing,filler+homophone
+um please locate myright aid,Help_FindMyHearingAids,please locate my right aid,merge_boundary+filler
+can locate my right,Help_FindMyHearingAids,can you locate my right aid,truncate_tail+drop_function_word
+i cannot remember where my aids,Help_FindMyHearingAids,please i cannot remember where my aids are,truncate_tail+drop_function_word
+you i cannot remember where my aids,Help_FindMyHearingAids,can you i cannot remember where my aids are,truncate_tail+drop_function_word
+please locate my right herring,Help_FindMyHearingAids,please locate my right hearing aid,truncate_tail+homophone
+can youlocate my right hearing aide,Help_FindMyHearingAids,can you locate my right hearing aid,merge_boundary+homophone
+er please i misplaced my hearing,Help_FindMyHearingAids,please i misplaced my hearing aids,filler+truncate_tail
+can i misplaced my hearing aides,Help_FindMyHearingAids,can you i misplaced my hearing aids,homophone+drop_function_word
+can you aerobiccolories,Cmd.ActivityAerobics,can you aerobic calories,homophone+merge_boundary
+please have i reached my aerobic,Cmd.ActivityAerobics,please have i reached my aerobics goal,truncate_tail+drop_plural
+um can have i reached my aerobics goal,Cmd.ActivityAerobics,can you have i reached my aerobics goal,filler+drop_function_word
+please show me myactivity,Cmd.ActivityAerobics,please show me my activity goal,truncate_tail+merge_boundary
+er can you show me activity goal,Cmd.ActivityAerobics,can you show me my activity goal,filler+drop_function_word
+um please helpwith intellivoice,Help_IntelliVoice,please help with intellivoice,filler+merge_boundary
+can helpwith intellivoice,Help_IntelliVoice,can you help with intellivoice,merge_boundary+drop_function_word
+uh please intelligent voicehelp,Help_IntelliVoice,please intelligent voice help,merge_boundary+filler
+um you intelligent voice help,Help_IntelliVoice,can you intelligent voice help,filler+drop_function_word
+help with intelligentvoice,Help_IntelliVoice,please help with intelligent voice,merge_boundary+drop_function_word
+um canyou help with intelligent voice,Help_IntelliVoice,can you help with intelligent voice,filler+merge_boundary
+can standing colories,Cmd.ActivityStand,can you standing calories,drop_function_word+homophone
+um you calories standing,Cmd.ActivityStand,can you calories standing,drop_function_word+filler
+uh let me hear the microphone,Cmd.StreamingStart,please let me hear the microphone,drop_function_word+filler
+please make my aideslisten to the remote microphone,Cmd.StreamingStart,please make my aids listen to the remote microphone,homophone+merge_boundary
+you make my aids listen to the remote,Cmd.StreamingStart,can you make my aids listen to the remote microphone,truncate_tail+drop_function_word
+please i want to listen tomy,Cmd.StreamingStart,please i want to listen to my tv,merge_boundary+truncate_tail
+can you i want listen to my,Cmd.StreamingStart,can you i want to listen to my tv,drop_function_word+truncate_tail
+um you play tv,Cmd.StreamingStart,can you play tv,drop_function_word+filler
+uh connect to tv,Cmd.StreamingStart,please connect to tv,filler+drop_function_word
+er can you connect to,Cmd.StreamingStart,can you connect to tv,filler+truncate_tail
+er show me my walking goal,Cmd.ActivityWalk,please show me my walking goal,filler+drop_function_word
+can youshow me my walking,Cmd.ActivityWalk,can you show me my walking goal,merge_boundary+truncate_tail
+please i don t have normal,Help_MemoryOptions,please i don t have a normal memory,truncate_tail+drop_function_word
+you i don t have a normal mammary,Help_MemoryOptions,can you i don t have a normal memory,drop_function_word+homophone
+pleasepersonalize my hearing aid,Help_MemoryOptions,please personalize my hearing aid settings,truncate_tail+merge_boundary
+can you personalize hearing aid setting,Help_MemoryOptions,can you personalize my hearing aid settings,drop_plural+drop_function_word
+uh please where' self check,Help_SelfCheck,please where's self check,filler+drop_plural
+uh please trying to get my hearing age work,Help_SelfCheck,please trying to get my hearing age to work,filler+drop_function_word
+can you trying to get my hearin age work,Help_SelfCheck,can you trying to get my hearing age to work,homophone+drop_function_word
+er make volume on,Cmd.VolumeUnmute,please make volume on,drop_function_word+filler
+um can you make volume,Cmd.VolumeUnmute,can you make volume on,filler+truncate_tail
+er please make sund on,Cmd.VolumeUnmute,please make sound on,homophone+filler
+you make sund on,Cmd.VolumeUnmute,can you make sound on,drop_function_word+homophone
+er can youmute off,Cmd.VolumeUnmute,can you mute off,filler+merge_boundary
+unmute sound on hearing,Cmd.VolumeUnmute,please unmute sound on hearing aids,truncate_tail+drop_function_word
+er you unmute sound on hearing aids,Cmd.VolumeUnmute,can you unmute sound on hearing aids,filler+drop_function_word
+er unmute the aids,Cmd.VolumeUnmute,please unmute the aids,drop_function_word+filler
+canyou unmute the 8s,Cmd.VolumeUnmute,can you unmute the aids,homophone+merge_boundary
+please turn hearing aid volume back,Cmd.VolumeUnmute,please turn my hearing aid volume back on,drop_function_word+truncate_tail
+you turn my hearing aid volume back,Cmd.VolumeUnmute,can you turn my hearing aid volume back on,truncate_tail+drop_function_word
+uh please help with tinnitus stimulus adjustment on my hearing,Help_Tinnitus,please help with tinnitus stimulus adjustment on my hearing aids,truncate_tail+filler
+can you help with tenitus stimulus adjustment on my hearing,Help_Tinnitus,can you help with tinnitus stimulus adjustment on my hearing aids,homophone+truncate_tail
+please help with tinnitus stimulu adjustment on myaids,Help_Tinnitus,please help with tinnitus stimulus adjustment on my aids,merge_boundary+drop_plural
+um can you help with tinnitus stimulus adjustment on aids,Help_Tinnitus,can you help with tinnitus stimulus adjustment on my aids,filler+drop_function_word
+please helpwith tinnitus noise adjustment in hearing aid,Help_Tinnitus,please help with tinnitus noise adjustment in my hearing aid,merge_boundary+drop_function_word
+uh can you help with tinnitu noise adjustment in my hearing aid,Help_Tinnitus,can you help with tinnitus noise adjustment in my hearing aid,drop_plural+filler
+help with tinnitus stimulus adjustment in my hearing,Help_Tinnitus,please help with tinnitus stimulus adjustment in my hearing aids,truncate_tail+drop_function_word
+can you help with tinnitus stimulu adjustment in my hearing,Help_Tinnitus,can you help with tinnitus stimulus adjustment in my hearing aids,truncate_tail+drop_plural
+please help with tenitus sound adjustments in hearing aid,Help_Tinnitus,please help with tinnitus sound adjustments in my hearing aid,drop_function_word+homophone
+can you help with tinnitussound adjustments in my hearing 8,Help_Tinnitus,can you help with tinnitus sound adjustments in my hearing aid,merge_boundary+homophone
+please help with tinnitus sound adjustment in hearing aids,Help_Tinnitus,please help with tinnitus sound adjustments in my hearing aids,drop_function_word+drop_plural
+canhelp with tinnitus sound adjustments in my hearing aids,Help_Tinnitus,can you help with tinnitus sound adjustments in my hearing aids,drop_function_word+merge_boundary
+er please help with tinnitis stimulus adjustments on my hearing aid,Help_Tinnitus,please help with tinnitus stimulus adjustments on my hearing aid,filler+homophone
+you help with tinnitus stimulus adjustments on my herring aid,Help_Tinnitus,can you help with tinnitus stimulus adjustments on my hearing aid,drop_function_word+homophone
+er help with tinnitus stimulus adjustment on my aid,Help_Tinnitus,please help with tinnitus stimulus adjustment on my aid,filler+drop_function_word
+can you help with tinnitis stimulus adjustment on my,Help_Tinnitus,can you help with tinnitus stimulus adjustment on my aid,truncate_tail+homophone
+er please pairingaids on my app,Help_Pairing,please pairing aids on my app,filler+merge_boundary
+can you pairing aids onmy,Help_Pairing,can you pairing aids on my app,merge_boundary+truncate_tail
+please i need help pearing my hearingaid to the phone,Help_Pairing,please i need help pairing my hearing aid to the phone,merge_boundary+homophone
+can youi need help pairing hearing aid to the phone,Help_Pairing,can you i need help pairing my hearing aid to the phone,merge_boundary+drop_function_word
+please pare my right hearingaid,Help_Pairing,please pair my right hearing aid,homophone+merge_boundary
+er can youpair my right hearing aid,Help_Pairing,can you pair my right hearing aid,filler+merge_boundary
+um please sync hearing aid totv,Help_Pairing,please sync hearing aid to tv,merge_boundary+filler
+canyou sync hearing aid to,Help_Pairing,can you sync hearing aid to tv,truncate_tail+merge_boundary
+i need help pairing the hearing aids to my,Help_Pairing,please i need help pairing the hearing aids to my phone,truncate_tail+drop_function_word
+um can you i need help pairing the hearing aids to my,Help_Pairing,can you i need help pairing the hearing aids to my phone,filler+truncate_tail
+pairing aids on theapp,Help_Pairing,please pairing aids on the app,merge_boundary+drop_function_word
+can pearing aids on the app,Help_Pairing,can you pairing aids on the app,drop_function_word+homophone
+please set analarm for 15 minute,reminders.add,please set an alarm for 15 minutes,merge_boundary+drop_plural
+can set an alarm for 15,reminders.add,can you set an alarm for 15 minutes,truncate_tail+drop_function_word
+uhplease schedule appointment tomorrow,reminders.add,please schedule appointment tomorrow,filler+merge_boundary
+er you schedule appointment tomorrow,reminders.add,can you schedule appointment tomorrow,drop_function_word+filler
+please remember washthe car in 4 hours,reminders.add,please remember to wash the car in 4 hours,merge_boundary+drop_function_word
+you remember to wash the car in 4 hour,reminders.add,can you remember to wash the car in 4 hours,drop_plural+drop_function_word
+um please remember to vitamind at 7 p m everyday,reminders.add,please remember to vitamin d at 7 p m everyday,merge_boundary+filler
+can you remember to vitamin d at 7 pm,reminders.add,can you remember to vitamin d at 7 p m everyday,merge_boundary+truncate_tail
+please remember studytomorrow,reminders.add,please remember to study tomorrow,drop_function_word+merge_boundary
+er can you remember tostudy tomorrow,reminders.add,can you remember to study tomorrow,merge_boundary+filler
+um please remind me pick up my car friday morning,reminders.add,please remind me to pick up my car friday morning,filler+drop_function_word
+can you remind me to pick up my car friday,reminders.add,can you remind me to pick up my car friday morning,homophone+truncate_tail
+uh remind me to pick up my car next friday morning,reminders.add,please remind me to pick up my car next friday morning,filler+drop_function_word
+can you re mind me pick up my car next friday morning,reminders.add,can you remind me to pick up my car next friday morning,homophone+drop_function_word
+uh please remind me to pick ep my prescription at 5 p m on friday,reminders.add,please remind me to pick up my prescription at 5 p m on friday,filler+homophone
+can you remind me to pick up my prescription at 5p m on,reminders.add,can you remind me to pick up my prescription at 5 p m on friday,truncate_tail+merge_boundary
+please re mind me pick up my prescription on friday at 5 p m,reminders.add,please remind me to pick up my prescription on friday at 5 p m,homophone+drop_function_word
+can you remind me to pick ep my prescription on friday at 5 p,reminders.add,can you remind me to pick up my prescription on friday at 5 p m,homophone+truncate_tail
+please remind me todrink water everyday at 10 in morning,reminders.add,please remind me to drink water everyday at 10 in the morning,drop_function_word+merge_boundary
+can you remind me to drink water everyday at 10 inthe morning,reminders.add,can you remind me to drink water everyday at 10 in the morning,merge_boundary+homophone
+um please remind me to have dinner every sunday at 8 a m,reminders.add,please remind me to have a dinner every sunday at 8 a m,drop_function_word+filler
+uh can you remind me to have a dinner every sunday at 8 m,reminders.add,can you remind me to have a dinner every sunday at 8 a m,drop_function_word+filler
+remind me for tomorrow,reminders.add,please remind me for tomorrow,homophone+drop_function_word
+uh you remind me for tomorrow,reminders.add,can you remind me for tomorrow,drop_function_word+filler
+please re mind me tomorrow call,reminders.add,please remind me tomorrow to call,drop_function_word+homophone
+can you re mind me tomorrow to,reminders.add,can you remind me tomorrow to call,truncate_tail+homophone
+uh remind me to pick up joe in 30 minutes,reminders.add,please remind me to pick up joe in 30 minutes,filler+drop_function_word
+you remind me to pick up joe in 30 minutes,reminders.add,can you remind me to pick up joe in 30 minutes,drop_function_word+homophone
+um please re mind me about dinner in 1 minute,reminders.add,please remind me about dinner in 1 minute,homophone+filler
+um can you remind me about dinner in 1,reminders.add,can you remind me about dinner in 1 minute,truncate_tail+filler
+setreminder for everyday,reminders.add,please set reminder for everyday,drop_function_word+merge_boundary
+uh can you setreminder for everyday,reminders.add,can you set reminder for everyday,filler+merge_boundary
+uh please re mind me tomorrow to,reminders.add,please remind me tomorrow to,filler+homophone
+er can you remindme tomorrow to,reminders.add,can you remind me tomorrow to,merge_boundary+filler
+please remind me to charge my foam everyday at 11 00 p,reminders.add,please remind me to charge my phone everyday at 11 00 p m,homophone+truncate_tail
+can you remind me to charge my foam everyday at 11 00 p,reminders.add,can you remind me to charge my phone everyday at 11 00 p m,truncate_tail+homophone
+um please re mind me tomorrow,reminders.add,please remind me tomorrow,filler+homophone
+um you remind me tomorrow,reminders.add,can you remind me tomorrow,filler+drop_function_word
+please do not let me forget pick ep milk today,reminders.add,please do not let me forget to pick up milk today,drop_function_word+homophone
+can you donot let me forget to pick up milk,reminders.add,can you do not let me forget to pick up milk today,truncate_tail+merge_boundary
+um remind me everyday,reminders.add,please remind me everyday,filler+drop_function_word
+uh you remind me everyday,reminders.add,can you remind me everyday,filler+drop_function_word
+er please i need a remindertomorrow,reminders.add,please i need a reminder tomorrow,merge_boundary+filler
+er can you i need reminder tomorrow,reminders.add,can you i need a reminder tomorrow,filler+drop_function_word
+please re mind me boil water every morning by 7 a m,reminders.add,please remind me to boil water every morning by 7 a m,drop_function_word+homophone
+can you re mind me to boil water every morning by 7 a,reminders.add,can you remind me to boil water every morning by 7 a m,truncate_tail+homophone
+um please remind me check my computer,reminders.add,please remind me to check my computer,drop_function_word+filler
+er can you remind me check my computer,reminders.add,can you remind me to check my computer,drop_function_word+filler
+er please re mind me to visit my family on thanksgiving day,reminders.add,please remind me to visit my family on thanksgiving day,homophone+filler
+uh can you remindme to visit my family on thanksgiving day,reminders.add,can you remind me to visit my family on thanksgiving day,filler+merge_boundary
+remind me nutrition research tomorrow at 8 am,reminders.add,please remind me nutrition research tomorrow at 8 a m,merge_boundary+drop_function_word
+um can you remind me nutrition research tomorrow at 8 a m,reminders.add,can you remind me nutrition research tomorrow at 8 a m,homophone+filler
+please remind me call jose,reminders.add,please remind me to call jose tomorrow,drop_function_word+truncate_tail
+can you re mind meto call jose tomorrow,reminders.add,can you remind me to call jose tomorrow,merge_boundary+homophone
+er please set a reminderfor 8 a m,reminders.add,please set a reminder for 8 a m,merge_boundary+filler
+er can you set a reminda for 8 a m,reminders.add,can you set a reminder for 8 a m,homophone+filler
+please remind me onthursday,reminders.add,please remind me on thursday,homophone+merge_boundary
+er can you remind me on thursday,reminders.add,can you remind me on thursday,homophone+filler
+um please set reminder for2 p m,reminders.add,please set reminder for 2 p m,filler+merge_boundary
+can you setremind her for 2 p m,reminders.add,can you set reminder for 2 p m,homophone+merge_boundary
+remind me onceabout running,reminders.add,please remind me once about running,merge_boundary+drop_function_word
+can you remindme once about,reminders.add,can you remind me once about running,merge_boundary+truncate_tail
+please re mind me to feed my cat,reminders.add,please remind me to feed my cat please,homophone+truncate_tail
+can you re mind me to feed my cat,reminders.add,can you remind me to feed my cat please,homophone+truncate_tail
+please remind me buy milk on tuesday at 8 p,reminders.add,please remind me to buy milk on tuesday at 8 p m,truncate_tail+drop_function_word
+you remind me to buymilk on tuesday at 8 p m,reminders.add,can you remind me to buy milk on tuesday at 8 p m,merge_boundary+drop_function_word
+please i needan adjustment to my aides,Help_RemoteProgramming,please i need an adjustment to my aids,merge_boundary+homophone
+er you i need an adjustment to my aids,Help_RemoteProgramming,can you i need an adjustment to my aids,filler+drop_function_word
+please i need help with my,Help_DeviceSettings,please i need help with my settings,drop_plural+truncate_tail
+er can you i need help with my setting,Help_DeviceSettings,can you i need help with my settings,drop_plural+filler
+uh please help with changing programs on the,Help_ChangingMemories,please help with changing programs on the phone,truncate_tail+filler
+can you help with changing program on phone,Help_ChangingMemories,can you help with changing programs on the phone,drop_function_word+drop_plural
+uh please where's button for memory,Help_ChangingMemories,please where's the button for memory,drop_function_word+filler
+um please help with changing programs on my foam,Help_ChangingMemories,please help with changing programs on my phone,filler+homophone
+can you help with changing program on my,Help_ChangingMemories,can you help with changing programs on my phone,truncate_tail+drop_plural
+um please where's the memorybutton,Help_ChangingMemories,please where's the memory button,merge_boundary+filler
+please help with changing mammarieson my phone,Help_ChangingMemories,please help with changing memories on my phone,homophone+merge_boundary
+can help with changing memories on myphone,Help_ChangingMemories,can you help with changing memories on my phone,drop_function_word+merge_boundary
+er can begin translation,Cmd.TranslationStart,can you begin translation,filler+drop_function_word
+um start translation for spanish,Cmd.TranslationStart,please start translation for spanish,drop_function_word+filler
+um turn down the volume,Cmd.VolumeDecrease,please turn down the volume,drop_function_word+filler
+can you tern down thevolume,Cmd.VolumeDecrease,can you turn down the volume,merge_boundary+homophone
+pleasemake my hearing aids,Cmd.VolumeDecrease,please make my hearing aids softer,truncate_tail+merge_boundary
+er can you make my hearing aides softer,Cmd.VolumeDecrease,can you make my hearing aids softer,filler+homophone
+youminimum sound,Cmd.VolumeDecrease,can you minimum sound,drop_function_word+merge_boundary
+please turnmy 8s down,Cmd.VolumeDecrease,please turn my aids down,merge_boundary+homophone
+can you turnmy aids,Cmd.VolumeDecrease,can you turn my aids down,truncate_tail+merge_boundary
+uh please turned down the volume in my right hearing aid,Cmd.VolumeDecrease,please turn down the volume in my right hearing aid,filler+homophone
+can turn down the volume in my right hearing,Cmd.VolumeDecrease,can you turn down the volume in my right hearing aid,truncate_tail+drop_function_word
+uh go down in volume,Cmd.VolumeDecrease,please go down in volume,drop_function_word+filler
+you go down in volumn,Cmd.VolumeDecrease,can you go down in volume,drop_function_word+homophone
+um please turn the volum down,Cmd.VolumeDecrease,please turn the volume down,homophone+filler
+uh can you tern the volume down,Cmd.VolumeDecrease,can you turn the volume down,filler+homophone
+please tern volumedown,Cmd.VolumeDecrease,please turn volume down,merge_boundary+homophone
+uh can you turn value down,Cmd.VolumeDecrease,can you turn volume down,homophone+filler
+um help for speech to text,Help_Transcribe,please help for speech to text,filler+drop_function_word
+you help forspeech to text,Help_Transcribe,can you help for speech to text,merge_boundary+drop_function_word
+pleasespeech text help,Help_Transcribe,please speech to text help,drop_function_word+merge_boundary
+uh can you speech to text,Help_Transcribe,can you speech to text help,truncate_tail+filler
+please show me how insert hearingaids into my ears,Help_InsertDevice,please show me how to insert hearing aids into my ears,drop_function_word+merge_boundary
+you show me how to insert hearin aids into my ears,Help_InsertDevice,can you show me how to insert hearing aids into my ears,homophone+drop_function_word
+er please show mevoice assistant help,Help_VoiceAssistant,please show me voice assistant help,merge_boundary+filler
+can show me voice assistant,Help_VoiceAssistant,can you show me voice assistant help,truncate_tail+drop_function_word
+um please thrive assistant user,Help_VoiceAssistant,please thrive assistant user guide,filler+truncate_tail
+can thrive assistant user,Help_VoiceAssistant,can you thrive assistant user guide,truncate_tail+drop_function_word
+um thrive assistant help,Help_VoiceAssistant,please thrive assistant help,drop_function_word+filler
+er can you thrive assistant,Help_VoiceAssistant,can you thrive assistant help,filler+truncate_tail
+pleaseturn off the volume in my right hearing,Cmd.VolumeMute,please turn off the volume in my right hearing aid,truncate_tail+merge_boundary
+can you turn offthe volume in my right hearing,Cmd.VolumeMute,can you turn off the volume in my right hearing aid,truncate_tail+merge_boundary
+um please tern off the volume,Cmd.VolumeMute,please turn off the volume,filler+homophone
+you turn off the volum,Cmd.VolumeMute,can you turn off the volume,drop_function_word+homophone
+um please turned the volume off,Cmd.VolumeMute,please turn the volume off,filler+homophone
+uh can you turnthe volume off,Cmd.VolumeMute,can you turn the volume off,merge_boundary+filler
+er make volume off,Cmd.VolumeMute,please make volume off,drop_function_word+filler
+uh can you make volumeoff,Cmd.VolumeMute,can you make volume off,filler+merge_boundary
+please tern my hearing aid volume,Cmd.VolumeMute,please turn my hearing aid volume off,truncate_tail+homophone
+can you turn hearing aid volumeoff,Cmd.VolumeMute,can you turn my hearing aid volume off,merge_boundary+drop_function_word
+um please tern volume off,Cmd.VolumeMute,please turn volume off,filler+homophone
+can turnvolume off,Cmd.VolumeMute,can you turn volume off,merge_boundary+drop_function_word
+uh i have got wax buildup,Help_CleanCare,please i have got wax buildup,filler+drop_function_word
+uh you i have got wax buildup,Help_CleanCare,can you i have got wax buildup,drop_function_word+filler
+um please latest reminderfinished,reminders.complete,please latest reminder finished,merge_boundary+filler
+uh can you latestreminder finished,reminders.complete,can you latest reminder finished,filler+merge_boundary
+recordthis meeting,Cmd.TranscribeStart,please record this meeting,drop_function_word+merge_boundary
+er can yourecord this meeting,Cmd.TranscribeStart,can you record this meeting,merge_boundary+filler
+er record this conversation,Cmd.TranscribeStart,please record this conversation,filler+drop_function_word
+canrecord this conversation,Cmd.TranscribeStart,can you record this conversation,drop_function_word+merge_boundary
+you calorie running,Cmd.ActivityRun,can you calories running,drop_function_word+drop_plural
+you running calorie,Cmd.ActivityRun,can you running calories,drop_function_word+homophone
+uh please help face mast issues,Help_MaskMode,please help face mask issues,homophone+filler
+can you help face mast issue,Help_MaskMode,can you help face mask issues,homophone+drop_plural
+please help with volum changes in my,Help_Volume,please help with volume changes in my aids,homophone+truncate_tail
+can you help with volume change in aids,Help_Volume,can you help with volume changes in my aids,drop_plural+drop_function_word
+please let me listen my,Cmd.ListenMessage,please let me listen to my message,drop_function_word+truncate_tail
+can let me listen to my messege,Cmd.ListenMessage,can you let me listen to my message,homophone+drop_function_word
+please i wantto hear my,Cmd.ListenMessage,please i want to hear my message,truncate_tail+merge_boundary
+uh can youi want to hear my message,Cmd.ListenMessage,can you i want to hear my message,merge_boundary+filler
+um please show me help for accessories,Help_Accessories,please show me help for my accessories,drop_function_word+filler
+uh can you show me help for my,Help_Accessories,can you show me help for my accessories,truncate_tail+filler
+er please syracuse bad home,Default Fallback Intent,please syracuse a bad home,filler+drop_function_word
+uh can syracuse a bad home,Default Fallback Intent,can you syracuse a bad home,drop_function_word+filler
+tell me a joke i need to be cheered ep,Default Fallback Intent,please tell me a joke i need to be cheered up,homophone+drop_function_word
+can you tell me a joke i need be cheered,Default Fallback Intent,can you tell me a joke i need to be cheered up,truncate_tail+drop_function_word
+please creating ademo with your capabilitie,Default Fallback Intent,please creating a demo with your capabilities,drop_plural+merge_boundary
+can you creatinga demo with your capabilitie,Default Fallback Intent,can you creating a demo with your capabilities,drop_plural+merge_boundary
+er play hank williams junior,Default Fallback Intent,please play hank williams junior,drop_function_word+filler
+you play hank william junior,Default Fallback Intent,can you play hank williams junior,drop_plural+drop_function_word
+uh please am i close enough the car,Default Fallback Intent,please am i close enough to the car,drop_function_word+filler
+uh can you am i close enough the car,Default Fallback Intent,can you am i close enough to the car,filler+drop_function_word
+um please hey jeannie tv sander this is iris it is all about,Default Fallback Intent,please hey jeannie tv sanders this is iris it is all about,drop_plural+filler
+can you hey jeannie tv sanders this is iris it isall,Default Fallback Intent,can you hey jeannie tv sanders this is iris it is all about,merge_boundary+truncate_tail
+please mavisby stupid hearing aides,Default Fallback Intent,please mavis by stupid hearing aids,merge_boundary+homophone
+can you mavis by stupidhearing,Default Fallback Intent,can you mavis by stupid hearing aids,truncate_tail+merge_boundary
+um canyou saturday,Default Fallback Intent,can you saturday,merge_boundary+filler
+please tern offcable,Default Fallback Intent,please turn off cable,merge_boundary+homophone
+canturn off cable,Default Fallback Intent,can you turn off cable,drop_function_word+merge_boundary
+hey find me a way to white oaks,Default Fallback Intent,please hey find me a way to white oaks mall,drop_function_word+truncate_tail
+can you hey find me a way white oaks,Default Fallback Intent,can you hey find me a way to white oaks mall,truncate_tail+drop_function_word
+er please i hear voice,Default Fallback Intent,please i hear the voice,drop_function_word+filler
+can i hear the,Default Fallback Intent,can you i hear the voice,truncate_tail+drop_function_word
+pleasealexa learn voice,Default Fallback Intent,please alexa learn my voice,drop_function_word+merge_boundary
+can you alexa learn,Default Fallback Intent,can you alexa learn my voice,truncate_tail+drop_function_word
+uh can you heygoogle,Default Fallback Intent,can you hey google,merge_boundary+filler
+computer turn off dylan' lamp,Default Fallback Intent,please computer turn off dylan's lamp,drop_plural+drop_function_word
+um can you computer turned off dylan's lamp,Default Fallback Intent,can you computer turn off dylan's lamp,homophone+filler
+uh please bank number car,Default Fallback Intent,please bank number to car,filler+drop_function_word
+um can you bank number car,Default Fallback Intent,can you bank number to car,filler+drop_function_word
+uh please was a specialist contact 800 3334,Default Fallback Intent,please it was a specialist contact 800 3334,drop_function_word+filler
+can you it was a specialist contact,Default Fallback Intent,can you it was a specialist contact 800 3334,merge_boundary+truncate_tail
+um i might be off or something about leaving,Default Fallback Intent,please i might be off or something about leaving,filler+drop_function_word
+uh you i might be off or something about leaving,Default Fallback Intent,can you i might be off or something about leaving,filler+drop_function_word
+stone jesu pine or,Default Fallback Intent,please stone jesus pine or,drop_plural+drop_function_word
+can stone jesu pine or,Default Fallback Intent,can you stone jesus pine or,drop_function_word+drop_plural
+uh please riley' a manager connected scott,Default Fallback Intent,please riley's a manager connected scott,drop_plural+filler
+uh can riley's a manager connected scott,Default Fallback Intent,can you riley's a manager connected scott,filler+drop_function_word
+please throw on the,Default Fallback Intent,please throw it on the floor,truncate_tail+drop_function_word
+uh can you throw it on the,Default Fallback Intent,can you throw it on the floor,truncate_tail+filler
+chelsea down at least you,Default Fallback Intent,please chelsea down at least you try,drop_function_word+truncate_tail
+you chelsea doun at least you try,Default Fallback Intent,can you chelsea down at least you try,drop_function_word+homophone
+please and i am really lookingforward to not having to wear the mast anymore for sure,Default Fallback Intent,please and i am really looking forward to not having to wear the mask anymore for sure,homophone+merge_boundary
+can you and i am really looking forward to not having to wear the masque anymore for,Default Fallback Intent,can you and i am really looking forward to not having to wear the mask anymore for sure,homophone+truncate_tail
+youdiscover revelation,Default Fallback Intent,can you discover revelation,drop_function_word+merge_boundary
+please yourpermit on cellphone,Default Fallback Intent,please your permit on my cellphone,drop_function_word+merge_boundary
+you your permit on my,Default Fallback Intent,can you your permit on my cellphone,drop_function_word+truncate_tail
+i said other pro gram,Default Fallback Intent,please i said other program,homophone+drop_function_word
+um you i said other program,Default Fallback Intent,can you i said other program,drop_function_word+filler
+er can youmonday,Default Fallback Intent,can you monday,filler+merge_boundary
+er first washing machine,Default Fallback Intent,please first washing machine,filler+drop_function_word
+er can you first washing,Default Fallback Intent,can you first washing machine,filler+truncate_tail
+um can yougoogle,Default Fallback Intent,can you google,merge_boundary+filler
+um please i need to program newstamping to my phone,Default Fallback Intent,please i need to program new stamping to my phone,filler+merge_boundary
+uh can you i need to program new stamping to my,Default Fallback Intent,can you i need to program new stamping to my phone,filler+truncate_tail
+um please angry orchardbeer,Default Fallback Intent,please angry orchard beer,merge_boundary+filler
+youangry orchard beer,Default Fallback Intent,can you angry orchard beer,merge_boundary+drop_function_word
+um please see how it move all the way across,Default Fallback Intent,please see how it moves all the way across,filler+drop_plural
+can you seehow moves all the way across,Default Fallback Intent,can you see how it moves all the way across,merge_boundary+drop_function_word
+can righton,Default Fallback Intent,can you right on,drop_function_word+merge_boundary
+er please you want me to say i love,Default Fallback Intent,please you want me to say i love you,truncate_tail+filler
+uh you you want me to say i love you,Default Fallback Intent,can you you want me to say i love you,drop_function_word+filler
+uh exclusive 30 to 1 odds,Default Fallback Intent,please exclusive 30 to 1 odds,drop_function_word+filler
+can you exclusive 30to 1,Default Fallback Intent,can you exclusive 30 to 1 odds,merge_boundary+truncate_tail
+please the hearing innovation expo is a global event hosted by starkey,Default Fallback Intent,please the hearing innovation expo is a global event hosted by starkey hearing technologies,merge_boundary+truncate_tail
+uh can you the hearing innovation expo is a global event hosted by starkey hearing technologie,Default Fallback Intent,can you the hearing innovation expo is a global event hosted by starkey hearing technologies,drop_plural+filler
+and push it down for,Default Fallback Intent,please and push it down for dramatics,drop_function_word+truncate_tail
+er can you and push it down for,Default Fallback Intent,can you and push it down for dramatics,truncate_tail+filler
+turn on wifi,Default Fallback Intent,please turn on wi fi,drop_function_word+merge_boundary
+can tern on wi fi,Default Fallback Intent,can you turn on wi fi,drop_function_word+homophone
+please thank forchanging,Default Fallback Intent,please thanks for changing,merge_boundary+drop_plural
+er can you thanks for,Default Fallback Intent,can you thanks for changing,filler+truncate_tail
+uh can you shut ep,Default Fallback Intent,can you shut up,filler+homophone
+icannot hear anything,Default Fallback Intent,please i cannot hear anything,drop_function_word+merge_boundary
+er can i cannot hear anything,Default Fallback Intent,can you i cannot hear anything,drop_function_word+filler
+er please and here's my heart is closer to you,Default Fallback Intent,please and here's my heart it is closer to you,drop_function_word+filler
+uh can and here's my heart it is closer to you,Default Fallback Intent,can you and here's my heart it is closer to you,drop_function_word+filler
+uh canyou alexa,Default Fallback Intent,can you alexa,merge_boundary+filler
+um pleaselist items not working,Default Fallback Intent,please list items not working,merge_boundary+filler
+you list item not working,Default Fallback Intent,can you list items not working,drop_plural+drop_function_word
+um please apps that you wise ep,Default Fallback Intent,please apps that you wise up,homophone+filler
+er can apps that you wise up,Default Fallback Intent,can you apps that you wise up,drop_function_word+filler
+canyou tern,Default Fallback Intent,can you turn,homophone+merge_boundary
+i said i will shut ep,Default Fallback Intent,please i said i will shut up,homophone+drop_function_word
+uh can you i said i will shut,Default Fallback Intent,can you i said i will shut up,truncate_tail+filler
+i give ep,Default Fallback Intent,please i give up,homophone+drop_function_word
+cani give up,Default Fallback Intent,can you i give up,drop_function_word+merge_boundary
+um pleasestream youtube music,Default Fallback Intent,please stream youtube music,merge_boundary+filler
+canyou scream youtube music,Default Fallback Intent,can you stream youtube music,merge_boundary+homophone
+please so do i unableto,Default Fallback Intent,please so do i unable to caesar,merge_boundary+truncate_tail
+can you sodo i unable caesar,Default Fallback Intent,can you so do i unable to caesar,drop_function_word+merge_boundary
+uh can lhs lhs,Default Fallback Intent,can you lhs lhs,filler+drop_function_word
+please i need car batteries,Default Fallback Intent,please i need a car battery,drop_function_word+homophone
+can you ineed a car,Default Fallback Intent,can you i need a car battery,truncate_tail+merge_boundary
+please and so now the what happens is if it isin screaming mode cuz waiting for you to ask a question,Default Fallback Intent,please and so now the what happens is if it is in streaming mode cuz waiting for you to ask a question,merge_boundary+homophone
+er can you and so now the what happen is if it is in streaming mode cuz waiting for you to ask a question,Default Fallback Intent,can you and so now the what happens is if it is in streaming mode cuz waiting for you to ask a question,filler+drop_plural
+on your bookkeeping it is all on my side,Default Fallback Intent,please on your bookkeeping it is all on my side so,drop_function_word+truncate_tail
+can you on your bookkeeping is all on my side,Default Fallback Intent,can you on your bookkeeping it is all on my side so,truncate_tail+drop_function_word
+er can you number,Default Fallback Intent,can you numbers,drop_plural+filler
+you whois ministry of home affairs for india,Default Fallback Intent,can you who is ministry of home affairs for india,merge_boundary+drop_function_word
+can who is home minister of,Default Fallback Intent,can you who is home minister of india,drop_function_word+truncate_tail
+please havei reached my biking,Cmd.ActivityCycle,please have i reached my biking goal,truncate_tail+merge_boundary
+can have i reached my biking,Cmd.ActivityCycle,can you have i reached my biking goal,drop_function_word+truncate_tail
+er please change test one,Cmd.MemoryChange,please change to test one,filler+drop_function_word
+you change totest one,Cmd.MemoryChange,can you change to test one,drop_function_word+merge_boundary
+er pleasego to outdoors,Cmd.MemoryChange,please go to outdoors,filler+merge_boundary
+can go to outdoor,Cmd.MemoryChange,can you go to outdoors,drop_plural+drop_function_word
+um go to meeting,Cmd.MemoryChange,please go to meeting,drop_function_word+filler
+uh can go to meeting,Cmd.MemoryChange,can you go to meeting,drop_function_word+filler
+er please change to maskmemory,Cmd.MemoryChange,please change to mask memory,filler+merge_boundary
+canyou change to masque memory,Cmd.MemoryChange,can you change to mask memory,merge_boundary+homophone
+er change to mask mode memory,Cmd.MemoryChange,please change to mask mode memory,filler+drop_function_word
+can you change to maskmode,Cmd.MemoryChange,can you change to mask mode memory,truncate_tail+merge_boundary
+change memory to mast,Cmd.MemoryChange,please change memory to mask,homophone+drop_function_word
+can youchange memory mask,Cmd.MemoryChange,can you change memory to mask,merge_boundary+drop_function_word
+uh please change car memory,Cmd.MemoryChange,please change to car memory,drop_function_word+filler
+can you change car mammary,Cmd.MemoryChange,can you change to car memory,homophone+drop_function_word
+please change to mastermammary,Cmd.MemoryChange,please change to master memory,homophone+merge_boundary
+can you changeto master,Cmd.MemoryChange,can you change to master memory,truncate_tail+merge_boundary
+change to noise mammary,Cmd.MemoryChange,please change to noise memory,homophone+drop_function_word
+can youchange to noise mammary,Cmd.MemoryChange,can you change to noise memory,merge_boundary+homophone
+um please change to speech memery,Cmd.MemoryChange,please change to speech memory,homophone+filler
+can you change to speech,Cmd.MemoryChange,can you change to speech memory,homophone+truncate_tail
+uh please change train memory,Cmd.MemoryChange,please change to train memory,filler+drop_function_word
+uh can you change to trainmemory,Cmd.MemoryChange,can you change to train memory,merge_boundary+filler
+please change work mammary,Cmd.MemoryChange,please change to work memory,homophone+drop_function_word
+uh can you change to work mammary,Cmd.MemoryChange,can you change to work memory,filler+homophone
+um please change to crowd programme,Cmd.MemoryChange,please change to crowd program,filler+homophone
+can you change tocrowd programme,Cmd.MemoryChange,can you change to crowd program,homophone+merge_boundary
+um please change to car pro gram,Cmd.MemoryChange,please change to car program,filler+homophone
+er can you change to car pro gram,Cmd.MemoryChange,can you change to car program,homophone+filler
+please changeto quiet programme,Cmd.MemoryChange,please change to quiet program,homophone+merge_boundary
+canyou change to quiet pro gram,Cmd.MemoryChange,can you change to quiet program,merge_boundary+homophone
+please change tenitus program,Cmd.MemoryChange,please change to tinnitus program,drop_function_word+homophone
+switchto meeting memory,Cmd.MemoryChange,please switch to meeting memory,merge_boundary+drop_function_word
+can you switch to meetingmammary,Cmd.MemoryChange,can you switch to meeting memory,homophone+merge_boundary
+switch to golfmemory,Cmd.MemoryChange,please switch to golf memory,merge_boundary+drop_function_word
+can switch to golf memery,Cmd.MemoryChange,can you switch to golf memory,drop_function_word+homophone
+uh please switch to speech mammary,Cmd.MemoryChange,please switch to speech memory,homophone+filler
+er can you switch to speech,Cmd.MemoryChange,can you switch to speech memory,filler+truncate_tail
+please switch to workmammary,Cmd.MemoryChange,please switch to work memory,homophone+merge_boundary
+canyou switch to work,Cmd.MemoryChange,can you switch to work memory,truncate_tail+merge_boundary
+pleaseswitch to meeting programme,Cmd.MemoryChange,please switch to meeting program,homophone+merge_boundary
+can you switch meeting pro gram,Cmd.MemoryChange,can you switch to meeting program,homophone+drop_function_word
+er please switch to automatic programme,Cmd.MemoryChange,please switch to automatic program,filler+homophone
+um please switch to everyday programme,Cmd.MemoryChange,please switch to everyday program,homophone+filler
+can you switchto everyday,Cmd.MemoryChange,can you switch to everyday program,truncate_tail+merge_boundary
+pleaseswitch work program,Cmd.MemoryChange,please switch to work program,merge_boundary+drop_function_word
+can you switch to work,Cmd.MemoryChange,can you switch to work program,homophone+truncate_tail
+please switch worshipprogram,Cmd.MemoryChange,please switch to worship program,merge_boundary+drop_function_word
+can youswitch to worship pro gram,Cmd.MemoryChange,can you switch to worship program,merge_boundary+homophone
+um please set to meeting pro gram,Cmd.MemoryChange,please set to meeting program,homophone+filler
+can you set tomeeting pro gram,Cmd.MemoryChange,can you set to meeting program,homophone+merge_boundary
+set toautomatic program,Cmd.MemoryChange,please set to automatic program,drop_function_word+merge_boundary
+um can you set to automatic pro gram,Cmd.MemoryChange,can you set to automatic program,homophone+filler
+uh please set to everyday,Cmd.MemoryChange,please set to everyday program,filler+truncate_tail
+er can you set to everyday,Cmd.MemoryChange,can you set to everyday program,truncate_tail+filler
+please set towork programme,Cmd.MemoryChange,please set to work program,merge_boundary+homophone
+you set to work pro gram,Cmd.MemoryChange,can you set to work program,drop_function_word+homophone
+please set worship programme,Cmd.MemoryChange,please set to worship program,homophone+drop_function_word
+can set to worship pro gram,Cmd.MemoryChange,can you set to worship program,homophone+drop_function_word
+um change memory to car,Cmd.MemoryChange,please change memory to car,filler+drop_function_word
+can you change memery car,Cmd.MemoryChange,can you change memory to car,drop_function_word+homophone
+uh please change mammary to master,Cmd.MemoryChange,please change memory to master,filler+homophone
+er can you change memory to,Cmd.MemoryChange,can you change memory to master,filler+truncate_tail
+uh change memory to noise,Cmd.MemoryChange,please change memory to noise,filler+drop_function_word
+er can you changememory to noise,Cmd.MemoryChange,can you change memory to noise,merge_boundary+filler
+er please change memory tospeech,Cmd.MemoryChange,please change memory to speech,merge_boundary+filler
+uh can you change memoryto speech,Cmd.MemoryChange,can you change memory to speech,filler+merge_boundary
+can you changememory train,Cmd.MemoryChange,can you change memory to train,merge_boundary+drop_function_word
+um please change memery to work,Cmd.MemoryChange,please change memory to work,filler+homophone
+um please change pro gram to crowd,Cmd.MemoryChange,please change program to crowd,homophone+filler
+er can you change pro gram to crowd,Cmd.MemoryChange,can you change program to crowd,filler+homophone
+er please change programto car,Cmd.MemoryChange,please change program to car,filler+merge_boundary
+pleasechange pro gram to quiet,Cmd.MemoryChange,please change program to quiet,merge_boundary+homophone
+can you change pro gram to,Cmd.MemoryChange,can you change program to quiet,homophone+truncate_tail
+um please change program tinnitus,Cmd.MemoryChange,please change program to tinnitus,filler+drop_function_word
+can you change program tinitis,Cmd.MemoryChange,can you change program to tinnitus,homophone+drop_function_word
+er please switch memory to,Cmd.MemoryChange,please switch memory to meeting,filler+truncate_tail
+you switch memery to meeting,Cmd.MemoryChange,can you switch memory to meeting,drop_function_word+homophone
+um switch memory to golf,Cmd.MemoryChange,please switch memory to golf,filler+drop_function_word
+can you switch memery to,Cmd.MemoryChange,can you switch memory to golf,homophone+truncate_tail
+er please switch memery to speech,Cmd.MemoryChange,please switch memory to speech,filler+homophone
+please switch memeryto work,Cmd.MemoryChange,please switch memory to work,homophone+merge_boundary
+can you switch mammary to,Cmd.MemoryChange,can you switch memory to work,truncate_tail+homophone
+uh please switch programme to meeting,Cmd.MemoryChange,please switch program to meeting,homophone+filler
+youswitch program to meeting,Cmd.MemoryChange,can you switch program to meeting,merge_boundary+drop_function_word
+switch program toautomatic,Cmd.MemoryChange,please switch program to automatic,drop_function_word+merge_boundary
+can you switch programme automatic,Cmd.MemoryChange,can you switch program to automatic,homophone+drop_function_word
+uh please switch program toeveryday,Cmd.MemoryChange,please switch program to everyday,merge_boundary+filler
+er please switch program work,Cmd.MemoryChange,please switch program to work,drop_function_word+filler
+uh can you switch programto work,Cmd.MemoryChange,can you switch program to work,merge_boundary+filler
+switch programme to worship,Cmd.MemoryChange,please switch program to worship,drop_function_word+homophone
+can you switch pro gram to,Cmd.MemoryChange,can you switch program to worship,homophone+truncate_tail
+setprogram to meeting,Cmd.MemoryChange,please set program to meeting,merge_boundary+drop_function_word
+can you set program,Cmd.MemoryChange,can you set program to meeting,truncate_tail+drop_function_word
+pleaseset pro gram to automatic,Cmd.MemoryChange,please set program to automatic,merge_boundary+homophone
+er can set program to automatic,Cmd.MemoryChange,can you set program to automatic,filler+drop_function_word
+er set program to everyday,Cmd.MemoryChange,please set program to everyday,drop_function_word+filler
+uh can you set programto everyday,Cmd.MemoryChange,can you set program to everyday,merge_boundary+filler
+please set pro gram towork,Cmd.MemoryChange,please set program to work,merge_boundary+homophone
+canyou set pro gram to work,Cmd.MemoryChange,can you set program to work,merge_boundary+homophone
+set programto worship,Cmd.MemoryChange,please set program to worship,merge_boundary+drop_function_word
+can set program toworship,Cmd.MemoryChange,can you set program to worship,merge_boundary+drop_function_word
+uh can yourestaurant memory,Cmd.MemoryChange,can you restaurant memory,merge_boundary+filler
+um can meeting memory,Cmd.MemoryChange,can you meeting memory,filler+drop_function_word
+um can you telephone mammary,Cmd.MemoryChange,can you telephone memory,homophone+filler
+you noise memery,Cmd.MemoryChange,can you noise memory,homophone+drop_function_word
+uh you crowd program,Cmd.MemoryChange,can you crowd program,drop_function_word+filler
+you televisionprogram,Cmd.MemoryChange,can you television program,drop_function_word+merge_boundary
+um can you automatic pro gram,Cmd.MemoryChange,can you automatic program,homophone+filler
+uh you noise program,Cmd.MemoryChange,can you noise program,filler+drop_function_word
+you train pro gram,Cmd.MemoryChange,can you train program,drop_function_word+homophone
+you meetingsetting,Cmd.MemoryChange,can you meeting setting,drop_function_word+merge_boundary
+er can car setting,Cmd.MemoryChange,can you car setting,filler+drop_function_word
+um can you televisionsetting,Cmd.MemoryChange,can you television setting,filler+merge_boundary
+er can youtrain setting,Cmd.MemoryChange,can you train setting,filler+merge_boundary
+please changecrowd,Cmd.MemoryChange,please change to crowd,drop_function_word+merge_boundary
+uh can youchange to crowd,Cmd.MemoryChange,can you change to crowd,filler+merge_boundary
+pleasechange television,Cmd.MemoryChange,please change to television,drop_function_word+merge_boundary
+you change totelevision,Cmd.MemoryChange,can you change to television,merge_boundary+drop_function_word
+um pleasechange to gym,Cmd.MemoryChange,please change to gym,merge_boundary+filler
+you change togym,Cmd.MemoryChange,can you change to gym,merge_boundary+drop_function_word
+um change to speech,Cmd.MemoryChange,please change to speech,filler+drop_function_word
+er canyou change to speech,Cmd.MemoryChange,can you change to speech,merge_boundary+filler
+um please change work,Cmd.MemoryChange,please change to work,drop_function_word+filler
+um you change to work,Cmd.MemoryChange,can you change to work,filler+drop_function_word
+uh pleaseswitch to meeting,Cmd.MemoryChange,please switch to meeting,filler+merge_boundary
+you switch tomeeting,Cmd.MemoryChange,can you switch to meeting,merge_boundary+drop_function_word
+um please switch crowd,Cmd.MemoryChange,please switch to crowd,drop_function_word+filler
+er can you switchto crowd,Cmd.MemoryChange,can you switch to crowd,filler+merge_boundary
+uhplease switch to television,Cmd.MemoryChange,please switch to television,filler+merge_boundary
+er can you switch to,Cmd.MemoryChange,can you switch to television,filler+truncate_tail
+um please switch toquiet,Cmd.MemoryChange,please switch to quiet,merge_boundary+filler
+uh canyou switch to quiet,Cmd.MemoryChange,can you switch to quiet,merge_boundary+filler
+er pleaseswitch to work,Cmd.MemoryChange,please switch to work,filler+merge_boundary
+uh can you switch towork,Cmd.MemoryChange,can you switch to work,merge_boundary+filler
+er switch to program two,Cmd.MemoryChange,please switch to program two,drop_function_word+filler
+can you switch to programme,Cmd.MemoryChange,can you switch to program two,truncate_tail+homophone
+uh please change to memery two,Cmd.MemoryChange,please change to memory two,filler+homophone
+please change setting three,Cmd.MemoryChange,please change settings to three,drop_plural+drop_function_word
+can you changesetting to three,Cmd.MemoryChange,can you change settings to three,merge_boundary+drop_plural
+er please change memery to one,Cmd.MemoryChange,please change memory to one,filler+homophone
+uh can you change memery to one,Cmd.MemoryChange,can you change memory to one,filler+homophone
+um please changesetting to one,Cmd.MemoryChange,please change setting to one,filler+merge_boundary
+uh can you change setting to,Cmd.MemoryChange,can you change setting to one,filler+truncate_tail
+change mammary to two,Cmd.MemoryChange,please change memory to two,homophone+drop_function_word
+can you change memery to,Cmd.MemoryChange,can you change memory to two,truncate_tail+homophone
+um please switch memoryto two,Cmd.MemoryChange,please switch memory to two,filler+merge_boundary
+uhcan you switch memory to two,Cmd.MemoryChange,can you switch memory to two,filler+merge_boundary
+um please switch program two,Cmd.MemoryChange,please switch program to two,drop_function_word+filler
+can switchprogram to two,Cmd.MemoryChange,can you switch program to two,merge_boundary+drop_function_word
+setprogram to two,Cmd.MemoryChange,please set program to two,merge_boundary+drop_function_word
+you set pro gram to two,Cmd.MemoryChange,can you set program to two,homophone+drop_function_word
+er please change setting tothree,Cmd.MemoryChange,please change setting to three,merge_boundary+filler
+um can change setting to three,Cmd.MemoryChange,can you change setting to three,drop_function_word+filler
+please setpro gram to four,Cmd.MemoryChange,please set program to four,homophone+merge_boundary
+um can you setprogram to four,Cmd.MemoryChange,can you set program to four,filler+merge_boundary
+uh please switch to memorynumber one,Cmd.MemoryChange,please switch to memory number one,merge_boundary+filler
+uh can you switch to memory number,Cmd.MemoryChange,can you switch to memory number one,filler+truncate_tail
+please change mammary to number,Cmd.MemoryChange,please change memory to number three,truncate_tail+homophone
+um please switch memory tonumber one,Cmd.MemoryChange,please switch memory to number one,merge_boundary+filler
+um can switch memory to number one,Cmd.MemoryChange,can you switch memory to number one,drop_function_word+filler
+um please set memery to number one,Cmd.MemoryChange,please set memory to number one,filler+homophone
+er can you set memory to number,Cmd.MemoryChange,can you set memory to number one,filler+truncate_tail
+um setting number one,Cmd.MemoryChange,please setting number one,filler+drop_function_word
+um can you setting number,Cmd.MemoryChange,can you setting number one,filler+truncate_tail
+uh pleaseprogram number two,Cmd.MemoryChange,please program number two,merge_boundary+filler
+um you program number two,Cmd.MemoryChange,can you program number two,drop_function_word+filler
+setsetting to number three,Cmd.MemoryChange,please set setting to number three,merge_boundary+drop_function_word
+er can youset setting to number three,Cmd.MemoryChange,can you set setting to number three,filler+merge_boundary
+um please memery number three,Cmd.MemoryChange,please memory number three,homophone+filler
+you memery number three,Cmd.MemoryChange,can you memory number three,homophone+drop_function_word
+android foammissing,Cmd.FindMyPhone,android phone missing,homophone+merge_boundary
+does the app have demo,Help_DemoMode,does the app have a demo mode,drop_function_word+truncate_tail
+how do i share mystatus with a,Help_HearShare,how do i share my status with a caregiver,merge_boundary+truncate_tail
+can i translateenglish french,Help_Translate,can i translate english to french,drop_function_word+merge_boundary
+how do i acces the app,Help_AppSettings,how do i access the app settings,truncate_tail+drop_plural
+er done screaming,Cmd.StreamingStop,done streaming,homophone+filler
+how do i show app without,Help_DemoMode,how do i show the app without aids,truncate_tail+drop_function_word
+how to see weekly eviorment goal,Help_Health,how to see my weekly eviorment goals,drop_plural+drop_function_word
+um help withkind score,Help_ThriveScore,help with kind score,filler+merge_boundary
+um does my balance control stay the same if i change mammaries,Help_WiCROS,does my balance control stay the same if i change memories,filler+homophone
+um test drive theapp,Help_DemoMode,test drive the app,merge_boundary+filler
+do i have normal,Help_ChangingMemories,do i have a normal memory,truncate_tail+drop_function_word
+turn hearingaid volume on,Cmd.VolumeUnmute,turn my hearing aid volume on,merge_boundary+drop_function_word
+um howdo i use the app without hearing aids,Help_DemoMode,how do i use the app without hearing aids,merge_boundary+filler
+er quit streamin,Cmd.StreamingStop,quit streaming,homophone+filler
+can i changebattery,Help_Battery,can i change my battery,drop_function_word+merge_boundary
+er finish my latestreminder,reminders.complete,finish my latest reminder,merge_boundary+filler
+how doi share information with my daughter,Help_HearShare,how do i share my information with my daughter,merge_boundary+drop_function_word
+er help with kind score,Help_ThriveScore,help with the kind score,drop_function_word+filler
+er how do i adjust my loudness of the tinnitus stimulus in my hearingaid,Help_Tinnitus,how do i adjust my loudness of the tinnitus stimulus in my hearing aid,filler+merge_boundary
+how do i acces trans late,Help_Translate,how do i access translate,homophone+drop_plural
+how to wash my hearin,Help_CleanCare,how to wash my hearing aids,truncate_tail+homophone
+er how do i use the heart rate,Help_HeartRate,how do i use the heart rate function,filler+truncate_tail
+er how do i acces translation,Help_Translate,how do i access translation,filler+drop_plural
+can i listen to the adjustment made by my hearing,Help_RemoteProgramming,can i listen to the adjustments made by my hearing specialist,drop_plural+truncate_tail
+um calorie aerobics,Cmd.ActivityAerobics,calories aerobics,homophone+filler
+uh stop streaming remote to hearing aids,Cmd.StreamingStop,stop streaming remote to my hearing aids,filler+drop_function_word
+how toinvite my son to,Help_HearShare,how to invite my son to hearshare,merge_boundary+truncate_tail
+um find telephone,Cmd.FindMyPhone,find telephone,filler
+help with changing mammaries on the,Help_ChangingMemories,help with changing memories on the phone,homophone+truncate_tail
+er how do i see how much i have walked this,Help_Health,how do i see how much i have walked this week,filler+truncate_tail
+can i listen to the adjustments made bythe herring specialist,Help_RemoteProgramming,can i listen to the adjustments made by the hearing specialist,homophone+merge_boundary
+er what does heart rate recovery number mean,Help_HeartRateRecovery,what does the heart rate recovery number mean,filler+drop_function_word
+er how do i check if my aides are paired to the phone,Help_Pairing,how do i check if my aids are paired to the phone,homophone+filler
+uh amson andnew zealand,Default Fallback Intent,amson and new zealand,filler+merge_boundary
+uhhearing aid battery,Cmd.BatteryLevel,hearing aid battery,filler+merge_boundary
+how i access the caregiver sittings,Help_AppSettings,how can i access the caregiver settings,drop_function_word+homophone
+how doi get better ipro score,Help_ThriveScore,how do i get a better ipro score,drop_function_word+merge_boundary
+er can put a reminder,reminders.add,can you put a reminder,filler+drop_function_word
+um markreminder complete,reminders.complete,mark reminder complete,filler+merge_boundary
+er turnoff my right aid,Cmd.VolumeMute,turn off my right aid,merge_boundary+filler
+um how do i get abetter thrive score,Help_ThriveScore,how do i get a better thrive score,filler+merge_boundary
+er drive siri,Help_VoiceAssistant,thrive siri,filler+homophone
+um showme help for translate,Help_Translate,show me help for translate,filler+merge_boundary
+uh what is new in engage app,Help_WhatsNew,what is new in my engage app,filler+drop_function_word
+uh giveme a demonstration,Help_DemoMode,give me a demonstration,merge_boundary+filler
+uh show me thehelp for translate,Help_Translate,show me the help for translate,merge_boundary+filler
+um help with tinitis noise adjustments,Help_Tinnitus,help with tinnitus noise adjustments,homophone+filler
+show me translatehelp,Help_Translate,show me the translate help,drop_function_word+merge_boundary
+er what is new in engage app,Help_WhatsNew,what is new in the engage app,filler+drop_function_word
+er how doi change the machine noise setting,Help_Customize,how do i change the machine noise setting,filler+merge_boundary
+er did my daughter accept my hearshare,Help_HearShare,did my daughter accept my hearshare invitation,filler+truncate_tail
+uh what is new in this engageapp,Help_WhatsNew,what is new in this engage app,filler+merge_boundary
+er how do i get better ipro,Help_ThriveScore,how do i get better ipro scores,truncate_tail+filler
+um howdo i get better thrive scores,Help_ThriveScore,how do i get better thrive scores,merge_boundary+filler
+uh where is bi cros control,Help_WiCROS,where is the bi cros control,filler+drop_function_word
+er as long as you hear thenoise,Default Fallback Intent,as long as you hear the noise,merge_boundary+filler
+um what is different aboutengage,Help_WhatsNew,what is different about engage,filler+merge_boundary
+how do i take out right hearingaid,Help_InsertDevice,how do i take out the right hearing aid,merge_boundary+drop_function_word
+how do i check what accessories i have connected my 8s,Help_Accessories,how do i check what accessories i have connected to my aids,drop_function_word+homophone
+er what if the language i want totranslate is not listed,Help_Translate,what if the language i want to translate is not listed,merge_boundary+filler
+er how do i get more information on the ipro,Help_ThriveScore,how do i get more information on the ipro score,truncate_tail+filler
+how do i getmore information on the kind,Help_ThriveScore,how do i get more information on the kind score,merge_boundary+truncate_tail
+um whatis quick start,Help_WhatsNew,what is quick start,merge_boundary+filler
+how do i get moreinformation on the thrive,Help_ThriveScore,how do i get more information on the thrive score,truncate_tail+merge_boundary
+er what translation languages are,Help_Translate,what translation languages are available,filler+truncate_tail
+how do i change volume on just one,Help_Volume,how do i change the volume on just one aid,drop_function_word+truncate_tail
+what i hear wheni have fallen,Help_FallAlert,what can i hear when i have fallen,drop_function_word+merge_boundary
+um how do idisable the sensitivity of double tap,Help_DeviceSettings,how do i disable the sensitivity of double tap,merge_boundary+filler
+er hearing aide not charging,Help_SelfCheck,hearing aid not charging,homophone+filler
+turn upsound,Cmd.VolumeIncrease,turn up the sound,drop_function_word+merge_boundary
+uh help withdnn speech enhancement,Help_IntelliVoice,help with dnn speech enhancement,merge_boundary+filler
+troubleshoot my herringaids,Help_SelfCheck,troubleshoot my hearing aids,homophone+merge_boundary
+uh what is wrong with my left hearingaid,Help_SelfCheck,what is wrong with my left hearing aid,merge_boundary+filler
+what is wrong with my hearin,Help_SelfCheck,what is wrong with my hearing aid,homophone+truncate_tail
+how doi increased my brain score,Help_ThriveScore,how do i increase my brain score,homophone+merge_boundary
+how do i adjust my tinnitu masker on my,Help_Tinnitus,how do i adjust my tinnitus masker on my aids,drop_plural+truncate_tail
+um when could i initiate a manual,Help_FallAlert,when could i initiate a manual alert,truncate_tail+filler
+er help with tinnitus sound adjustment on my hearing,Help_Tinnitus,help with tinnitus sound adjustment on my hearing aid,truncate_tail+filler
+i need help pairing my herring aids to the,Help_Pairing,i need help pairing my hearing aids to the phone,homophone+truncate_tail
+um how do i change the ringtones on hearing aids,Help_DeviceSettings,how do i change the ringtones on my hearing aids,drop_function_word+filler
+how does activity score,Help_ThriveScore,how does the activity score work,truncate_tail+drop_function_word
+uh daddy' got to find the same stock now one might be in with suitcase in the garage,Default Fallback Intent,daddy's got to find the same stock now one might be in with suitcase in the garage,filler+drop_plural
+um how do i change the tap,Help_DeviceSettings,how do i change the tap button,truncate_tail+filler
+er how does thebody score work,Help_ThriveScore,how does the body score work,merge_boundary+filler
+how does engagement score,Help_ThriveScore,how does the engagement score work,truncate_tail+drop_function_word
+how do i make aidsquieter,Help_Volume,how do i make my aids quieter,merge_boundary+drop_function_word
+um how does the ipro score,Help_ThriveScore,how does the ipro score work,filler+truncate_tail
+er different kind ofneeds,Default Fallback Intent,different kind of needs,filler+merge_boundary
+uh i misplaced my left hearing,Help_FindMyHearingAids,i misplaced my left hearing aid,truncate_tail+filler
+er help with tinnitis stimulus adjustments on my aid,Help_Tinnitus,help with tinnitus stimulus adjustments on my aid,filler+homophone
+how do imake the aid,Help_Volume,how do i make the aid softer,truncate_tail+merge_boundary
+how do i make aids,Help_Volume,how do i make the aids quieter,drop_function_word+truncate_tail
+um how do i mute thevolume,Help_Volume,how do i mute the volume,merge_boundary+filler
+helpwith tinnitus stimulus adjustments in hearing aid,Help_Tinnitus,help with tinnitus stimulus adjustments in my hearing aid,drop_function_word+merge_boundary
+puta remind her,reminders.add,put a reminder,merge_boundary+homophone
+help with white noise adjustment onmy aids,Help_Tinnitus,help with white noise adjustments on my aids,merge_boundary+drop_plural
+er show help guide for drive,Help_ThriveScore,show help guide for thrive,homophone+filler
+um remember vitamin d at 7 p m every day,reminders.add,remember to vitamin d at 7 p m every day,drop_function_word+filler
+er what streamboost,Default Fallback Intent,what is streamboost,filler+drop_function_word
+er how do i adjust my tinnitus masker in my,Help_Tinnitus,how do i adjust my tinnitus masker in my aids,truncate_tail+filler
+helpto adjust tenitus settings,Help_Tinnitus,help to adjust tinnitus settings,homophone+merge_boundary
+re mind me every day except,reminders.add,remind me every day except sundays,truncate_tail+homophone
+er get dow south,Default Fallback Intent,get down south,filler+homophone
+uh hear it as they got to,Default Fallback Intent,hear it as they got to go,truncate_tail+filler
+uh turned on bluetooth,Help_Pairing,turn on bluetooth,filler+homophone
+how many step have i,Cmd.ActivityStep,how many steps have i walked,drop_plural+truncate_tail
+er how do ichange,Default Fallback Intent,how do i change,filler+merge_boundary
+er how do i dow cls,Default Fallback Intent,how do i down cls,filler+homophone
+re mind me to call someone everyday at 4 p m,reminders.add,remind me to call someone every day at 4 p m,merge_boundary+homophone
+remind me to charge foam every day at 11 00 p m,reminders.add,remind me to charge my phone every day at 11 00 p m,homophone+drop_function_word
+uh remind me take medicine today in one minute,reminders.add,remind me to take medicine today in one minute,filler+drop_function_word
+uh remind me to take medicine today in one minute,reminders.add,remind me to take my medicine today in one minute,drop_function_word+filler
+reminda me every yearto go to the doctor at 8 a m,reminders.add,reminder me every year to go to the doctor at 8 a m,homophone+merge_boundary
+uh schedule a reminda,reminders.add,schedule a reminder,homophone+filler
+uh schedulereminder,reminders.add,schedule reminder,filler+merge_boundary
+um schedule reminder,reminders.add,schedule reminders,drop_plural+filler
+uh location,Default Fallback Intent,location,filler
+um schedule an appointmenttomorrow,reminders.add,schedule an appointment tomorrow,merge_boundary+filler
+er play festival,Default Fallback Intent,play festival,filler
+um progeria ganchos wedding a number of years,Default Fallback Intent,progeria ganchos wedding a number of years ago,truncate_tail+filler
+ersorry no problem,Default Fallback Intent,sorry no problem,filler+merge_boundary
+uh thursday,Default Fallback Intent,thursday,filler
+um its tooloudy,Cmd.VolumeDecrease,its too loudy,merge_boundary+filler
+umits loudy,Cmd.VolumeDecrease,its loudy,filler+merge_boundary
+uh its laudhere,Cmd.VolumeDecrease,its laud here,filler+merge_boundary
+er itstoo lound,Cmd.VolumeDecrease,its too lound,merge_boundary+filler
+um track walk,Cmd.ActivityWalk,track my walk,filler+drop_function_word
+um begin awalk,Cmd.ActivityWalk,begin a walk,filler+merge_boundary
+um i need to remember to water the plants,reminders.add,i need to remember to water the plants tomorrow,truncate_tail+filler
+compose amessege,Cmd.SendMessage,compose a message,homophone+merge_boundary
+er compose messege,Cmd.SendMessage,compose message,homophone+filler
+er leave amessage,Cmd.SendMessage,leave a message,merge_boundary+filler
+uh i want to send avoice message,Cmd.SendMessage,i want to send a voice message,merge_boundary+filler
+shoot amassage,Cmd.SendMessage,shoot a message,homophone+merge_boundary
+um ping someone,Cmd.SendMessage,ping someone,filler
+uh make a voicemessage,Cmd.SendMessage,make a voice message,merge_boundary+filler
+uh please compose a messege,Cmd.SendMessage,please compose a message,filler+homophone
+um could you compose amessage,Cmd.SendMessage,could you compose a message,merge_boundary+filler
+um bring the soundup,Cmd.VolumeIncrease,bring the sound up,merge_boundary+filler
+ereverything is too soft,Cmd.VolumeIncrease,everything is too soft,filler+merge_boundary
+uh it isbarely audible,Cmd.VolumeIncrease,it is barely audible,filler+merge_boundary
+er this isbarely audible,Cmd.VolumeIncrease,this is barely audible,merge_boundary+filler
+er that hurting my ears,Cmd.VolumeDecrease,that is hurting my ears,drop_function_word+filler
+um it is blasting inmy ears,Cmd.VolumeDecrease,it is blasting in my ears,merge_boundary+filler
+uh dial back volume,Cmd.VolumeDecrease,dial back the volume,filler+drop_function_word
+er reduce loudness,Cmd.VolumeDecrease,reduce the loudness,filler+drop_function_word
+um set me up forconversation,Cmd.MemoryChange,set me up for conversation,merge_boundary+filler
+uh change active profile,Cmd.MemoryChange,change the active profile,drop_function_word+filler
+am irunning low on,Cmd.BatteryLevel,am i running low on battery,truncate_tail+merge_boundary
+howmuch charge remain,Cmd.BatteryLevel,how much charge remains,drop_plural+merge_boundary
+tell mebattery statu,Cmd.BatteryLevel,tell me battery status,drop_plural+merge_boundary
+umbattery check please,Cmd.BatteryLevel,battery check please,filler+merge_boundary
+uh show batteries information,Cmd.BatteryLevel,show battery information,filler+homophone
+help mefind my device,Help_FindMyHearingAids,help me find my devices,merge_boundary+drop_plural
+um help me recoverthem,Help_FindMyHearingAids,help me recover them,merge_boundary+filler
+um show me where theyare,Help_FindMyHearingAids,show me where they are,merge_boundary+filler
+um i need remember something later,reminders.add,i need to remember something later,drop_function_word+filler
+um ineed a prompt later,reminders.add,i need a prompt later,merge_boundary+filler
+er pass thisalong,Cmd.SendMessage,pass this along,merge_boundary+filler
+er play tv through my hearing aids,Cmd.StreamingStart,play the tv through my hearing aids,filler+drop_function_word
+sendaudio directly to my device,Cmd.StreamingStart,send audio directly to my devices,merge_boundary+drop_plural
+um let me listen through my hearin aids,Cmd.StreamingStart,let me listen through my hearing aids,filler+homophone
+uh start streamingaudio,Cmd.StreamingStart,start streaming audio,merge_boundary+filler
+um start audio screaming,Cmd.StreamingStart,start audio streaming,filler+homophone
+umi want direct audio,Cmd.StreamingStart,i want direct audio,filler+merge_boundary
+er helpme understand this,Help_Home,help me understand this,filler+merge_boundary
+er giveme some help,Help_Home,give me some help,filler+merge_boundary
+show me thebasic,Help_Home,show me the basics,merge_boundary+drop_plural
+er what is capital of japan,Default Fallback Intent,what is the capital of japan,drop_function_word+filler
+um ordera pizza,Default Fallback Intent,order a pizza,filler+merge_boundary
+um i wantsome quiet,Cmd.VolumeDecrease,i want some quiet,merge_boundary+filler
+um i wantsilence,Cmd.VolumeDecrease,i want silence,merge_boundary+filler
+er giveme some quiet,Cmd.VolumeDecrease,give me some quiet,filler+merge_boundary
+uh killthe sound,Cmd.VolumeMute,kill the sound,merge_boundary+filler
+cutsound completely,Cmd.VolumeMute,cut the sound completely,drop_function_word+merge_boundary
+the audio sounddistorted,Help_DeviceSettings,the audio sounds distorted,drop_plural+merge_boundary
+er set my aides for a party,Cmd.MemoryChange,set my aids for a party,filler+homophone
+when will batterie run out,Cmd.BatteryLevel,when will the batteries run out,drop_plural+drop_function_word
+tell son i said,Cmd.SendMessage,tell my son i said hello,truncate_tail+drop_function_word
+i do notknow how use this app,Help_Home,i do not know how to use this app,drop_function_word+merge_boundary
+icould use hand with this app,Help_Home,i could use a hand with this app,drop_function_word+merge_boundary
+er none ofthis app makes sense,Help_Home,none of this app makes sense,merge_boundary+filler
+pick some lucky number for,Default Fallback Intent,pick some lucky numbers for me,truncate_tail+drop_plural
+um ping mywife,Cmd.SendMessage,ping my wife,merge_boundary+filler
+i need get a messege to my son,Cmd.SendMessage,i need to get a message to my son,homophone+drop_function_word
+uh what you help me with,Help_Home,what can you help me with,drop_function_word+filler
+is my herring aidrechargeable,Help_Battery,is my hearing aid rechargeable,merge_boundary+homophone
+how do i use chargingcase,Help_Battery,how do i use the charging case,merge_boundary+drop_function_word
+um when should i use edge,Help_EdgeMode,when should i use edge mode,truncate_tail+filler
+i use edge mode with screaming,Help_EdgeMode,can i use edge mode with streaming,homophone+drop_function_word
+er does edgemode work automatically,Help_EdgeMode,does edge mode work automatically,filler+merge_boundary
+um show me calorie burn,Cmd.ActivityCalories,show me my calorie burn,filler+drop_function_word
+trackmy calorie,Cmd.ActivityCalories,track my calories,drop_plural+merge_boundary
+what my weeklycalorie burn,Cmd.ActivityCalories,what is my weekly calorie burn,drop_function_word+merge_boundary
+er how many calorieshave i lost this week,Cmd.ActivityCalories,how many calories have i lost this week,merge_boundary+filler
+um show calorie history,Cmd.ActivityCalories,show my calorie history,drop_function_word+filler
+uh mask modehelp,Help_MaskMode,mask mode help,merge_boundary+filler
+um turnmask mode off,Help_MaskMode,turn mask mode off,merge_boundary+filler
+how do i findmask,Help_MaskMode,how do i find mask mode,truncate_tail+merge_boundary
+how do iback up my,Help_HearingCareAnywhereConnect,how do i back up my profile,truncate_tail+merge_boundary
+how do i change activity goal,Help_Health,how do i change my activity goals,drop_function_word+drop_plural
+how often is heart rate,Help_HeartRate,how often is my heart rate measured,drop_function_word+truncate_tail
+er showmy current heart rate,Help_HeartRate,show my current heart rate,merge_boundary+filler
+um disconnect the streamin,Cmd.StreamingStop,disconnect the streaming,filler+homophone
+uh close thestream,Cmd.StreamingStop,close the stream,filler+merge_boundary
+um logan exercise session,Cmd.ActivityExercise,log an exercise session,filler+merge_boundary
+er begin myworkout,Cmd.ActivityExercise,begin my workout,merge_boundary+filler
+um showmy workout stats,Cmd.ActivityExercise,show my workout stats,filler+merge_boundary
+er is my recovery rate,Help_HeartRateRecovery,is my recovery rate healthy,filler+truncate_tail
+explain heart rate recoveryto,Help_HeartRateRecovery,explain heart rate recovery to me,truncate_tail+merge_boundary
+uh demo mode available,Help_DemoMode,is demo mode available,drop_function_word+filler
+um can i test feature without aids connected,Help_DemoMode,can i test features without aids connected,drop_plural+filler
+i edita reminder,Help_Reminder,can i edit a reminder,merge_boundary+drop_function_word
+um can i snooze a reminda,Help_Reminder,can i snooze a reminder,filler+homophone
+um how do i dry my herring aids,Help_CleanCare,how do i dry my hearing aids,homophone+filler
+can moisture damage my hearing,Help_CleanCare,can moisture damage my hearing aids,homophone+truncate_tail
+um start captioning,Cmd.TranscribeStart,start captioning,filler
+uh start trackingmy bike ride,Cmd.ActivityCycle,start tracking my bike ride,merge_boundary+filler
+um howis my cycling progress,Cmd.ActivityCycle,how is my cycling progress,filler+merge_boundary
+uh start abike workout,Cmd.ActivityCycle,start a bike workout,filler+merge_boundary
+er did i reach mywalking goal today,Cmd.ActivityWalk,did i reach my walking goal today,merge_boundary+filler
+er how do i reset my app,Help_AppSettings,how do i reset my app settings,truncate_tail+filler
+uh what is noiseinduced hearing loss,Help_Tinnitus,what is noise induced hearing loss,merge_boundary+filler
+uh voice are too soft for me,Cmd.VolumeIncrease,voices are too soft for me,filler+drop_plural
+raisethe loudnes,Cmd.VolumeIncrease,raise the loudness,merge_boundary+drop_plural
+uh push the levelhigher,Cmd.VolumeIncrease,push the level higher,merge_boundary+filler
+er make it softer,Cmd.VolumeDecrease,make it softer please,drop_function_word+filler
+it blasting myears,Cmd.VolumeDecrease,it is blasting my ears,drop_function_word+merge_boundary
+uh dial the loudness dow,Cmd.VolumeDecrease,dial the loudness down,homophone+filler
+er gentle on volume,Cmd.VolumeDecrease,gentle on the volume,filler+drop_function_word
+um bring mesome quiet,Cmd.VolumeDecrease,bring me some quiet,filler+merge_boundary
+um cut all sound,Cmd.VolumeMute,cut all the sound,filler+drop_function_word
+mut all audioright now,Cmd.VolumeMute,mute all audio right now,merge_boundary+homophone
+unmute myaid,Cmd.VolumeUnmute,unmute my aids,merge_boundary+drop_plural
+er get sound going again,Cmd.VolumeUnmute,get my sound going again,filler+drop_function_word
+er i amgetting in the car now,Cmd.MemoryChange,i am getting in the car now,merge_boundary+filler
+um i am startingmy commute,Cmd.MemoryChange,i am starting my commute,merge_boundary+filler
+uh switch to the program made for crowd,Cmd.MemoryChange,switch to the program made for crowds,drop_plural+filler
+the pro gram is not right for where i,Cmd.MemoryChange,the program is not right for where i am,homophone+truncate_tail
+er i need a better pro gram for here,Cmd.MemoryChange,i need a better program for here,filler+homophone
+um this mode is not working for my surrounding,Cmd.MemoryChange,this mode is not working for my surroundings,drop_plural+filler
+um i just took a seat in a noisy,Cmd.MemoryChange,i just took a seat in a noisy cafe,filler+truncate_tail
+uh settling into busy restaurant,Cmd.MemoryChange,settling into a busy restaurant,filler+drop_function_word
+are my8s fully charged,Cmd.BatteryLevel,are my aids fully charged,homophone+merge_boundary
+are hearingaids charged enough,Cmd.BatteryLevel,are my hearing aids charged enough,merge_boundary+drop_function_word
+uh tell me how charged they,Cmd.BatteryLevel,tell me how charged they are,truncate_tail+filler
+are 8s running out of power,Cmd.BatteryLevel,are my aids running out of power,drop_function_word+homophone
+er start the audiostream,Cmd.StreamingStart,start the audio stream,merge_boundary+filler
+er send sound straight to my,Cmd.StreamingStart,send sound straight to my aids,truncate_tail+filler
+um hook aids up to the tv sound,Cmd.StreamingStart,hook my aids up to the tv sound,drop_function_word+filler
+uh feed the audio into my,Cmd.StreamingStart,feed the audio into my devices,truncate_tail+filler
+cutoff streamed audio,Cmd.StreamingStop,cut off the streamed audio,merge_boundary+drop_function_word
+end the broadcast to my hearin,Cmd.StreamingStop,end the broadcast to my hearing aids,truncate_tail+homophone
+er stop the audio coming to my 8s,Cmd.StreamingStop,stop the audio coming to my aids,filler+homophone
+er i do not want the stream,Cmd.StreamingStop,i do not want the stream anymore,truncate_tail+filler
+stop piping audio to myear,Cmd.StreamingStop,stop piping audio to my ears,merge_boundary+drop_plural
+drop the connection to thetv,Cmd.StreamingStop,drop the connection to the tv sound,truncate_tail+merge_boundary
+uh log myjog,Cmd.ActivityRun,log my jog,merge_boundary+filler
+er start myjog tracking,Cmd.ActivityRun,start my jog tracking,filler+merge_boundary
+er timemy run,Cmd.ActivityRun,time my run,merge_boundary+filler
+start trackingjog,Cmd.ActivityRun,start tracking my jog,drop_function_word+merge_boundary
+record milesi ran,Cmd.ActivityRun,record the miles i ran,drop_function_word+merge_boundary
+um notemy jog,Cmd.ActivityRun,note my jog,merge_boundary+filler
+record my steps onthi walk,Cmd.ActivityWalk,record my steps on this walk,merge_boundary+drop_plural
+uh trackthe walk i did,Cmd.ActivityWalk,track the walk i did,merge_boundary+filler
+log thestroll i am,Cmd.ActivityWalk,log the stroll i am taking,truncate_tail+merge_boundary
+er what my daily step number,Cmd.ActivityStep,what is my daily step number,drop_function_word+filler
+howfar along my stepped am i,Cmd.ActivityStep,how far along my steps am i,merge_boundary+homophone
+uh give me step tally,Cmd.ActivityStep,give me my step tally,drop_function_word+filler
+uh check stand hours,Cmd.ActivityStand,check my stand hours,drop_function_word+filler
+um am i meeting my stand,Cmd.ActivityStand,am i meeting my stand goal,truncate_tail+filler
+er tell memy stand hours,Cmd.ActivityStand,tell me my stand hours,merge_boundary+filler
+uh how long on feet today,Cmd.ActivityStand,how long on my feet today,drop_function_word+filler
+uh log standing time,Cmd.ActivityStand,log my standing time,filler+drop_function_word
+uh checkstanding progress,Cmd.ActivityStand,check standing progress,merge_boundary+filler
+um record myride for me,Cmd.ActivityCycle,record my ride for me,filler+merge_boundary
+uh log myexercise,Cmd.ActivityExercise,log my exercise,filler+merge_boundary
+errecord my training session,Cmd.ActivityExercise,record my training session,filler+merge_boundary
+um log exercise session,Cmd.ActivityExercise,log my exercise session,drop_function_word+filler
+begin workouttracking,Cmd.ActivityExercise,begin my workout tracking,drop_function_word+merge_boundary
+uh show my calorie,Cmd.ActivityCalories,show my calories,drop_plural+filler
+what is burnso far,Cmd.ActivityCalories,what is my burn so far,drop_function_word+merge_boundary
+um message myhusband,Cmd.SendMessage,message my husband,merge_boundary+filler
+uh send aquick text,Cmd.SendMessage,send a quick text,merge_boundary+filler
+uh i have news to text a,Cmd.SendMessage,i have news to text a contact,filler+truncate_tail
+um let a contact know news by text,Cmd.SendMessage,let a contact know my news by text,drop_function_word+filler
+er read mewhat people sent,Cmd.ListenMessage,read me what people sent,merge_boundary+filler
+let me listento my message,Cmd.ListenMessage,let me listen to my messages,merge_boundary+drop_plural
+umread out my incoming messages,Cmd.ListenMessage,read out my incoming messages,filler+merge_boundary
+speak latest text to me,Cmd.ListenMessage,speak my latest texts to me,drop_function_word+drop_plural
+did anyone sendme anything read,Cmd.ListenMessage,did anyone send me anything read it,merge_boundary+truncate_tail
+uh read me whatwas sent,Cmd.ListenMessage,read me what was sent,filler+merge_boundary
+er tell me what people,Cmd.ListenMessage,tell me what people texted,filler+truncate_tail
+imisplaced my foam find it,Cmd.FindMyPhone,i misplaced my phone find it,homophone+merge_boundary
+start thecaption,Cmd.TranscribeStart,start the captions,drop_plural+merge_boundary
+er write out what folk are saying,Cmd.TranscribeStart,write out what folks are saying,drop_plural+filler
+er tern on translation,Cmd.TranslationStart,turn on translation,homophone+filler
+er translatethis conversation,Cmd.TranslationStart,translate this conversation,filler+merge_boundary
+er start translating spanish,Cmd.TranslationStart,start translating to spanish,drop_function_word+filler
+um get translationgoing,Cmd.TranslationStart,get translation going,filler+merge_boundary
+um helpme understand what they are saying in another language,Cmd.TranslationStart,help me understand what they are saying in another language,filler+merge_boundary
+um i need a reminder to take,reminders.add,i need a reminder to take medication,filler+truncate_tail
+remind me to water the,reminders.add,remind me to water the plants,truncate_tail+homophone
+um remind me to leave at noon,reminders.add,remind me to leave at noon,homophone+filler
+create a reminda to pay the,reminders.add,create a reminder to pay the bill,homophone+truncate_tail
+er i have an appointment coming up do not let me missit,reminders.add,i have an appointment coming up do not let me miss it,merge_boundary+filler
+i cannot miss this appointment re mind,reminders.add,i cannot miss this appointment remind me,truncate_tail+homophone
+uhi finished that task,reminders.complete,i finished that task,filler+merge_boundary
+uh i took my pills mark it,reminders.complete,i took my pills mark it done,truncate_tail+filler
+close out thatreminda,reminders.complete,close out that reminder,homophone+merge_boundary
+thatone' finished,reminders.complete,that one's finished,merge_boundary+drop_plural
+thati handled cross it off,reminders.complete,that is handled cross it off,merge_boundary+drop_plural
+cross thatreminda off,reminders.complete,cross that reminder off,homophone+merge_boundary
+er help me understand volume,Help_Volume,help me understand volume settings,filler+truncate_tail
+er guide me on changing value,Help_Volume,guide me on changing volume,homophone+filler
+help with volume oneach,Help_Volume,help with volume on each aid,truncate_tail+merge_boundary
+how do i balance volume between,Help_Volume,how do i balance the volume between ears,truncate_tail+drop_function_word
+how do i turn the volume up in,Help_Volume,how do i turn the volume up in the app,drop_function_word+truncate_tail
+um how do i switch program,Help_ChangingMemories,how do i switch programs,drop_plural+filler
+where do i changewhich program i am,Help_ChangingMemories,where do i change which program i am on,truncate_tail+merge_boundary
+um how do i learn about changing program,Help_ChangingMemories,how do i learn about changing programs,drop_plural+filler
+i need helpchanging between my program,Help_ChangingMemories,i need help changing between my programs,drop_plural+merge_boundary
+er what memory sittings are available,Help_MemoryOptions,what memory settings are available,homophone+filler
+how do i manage program,Help_MemoryOptions,how do i manage my programs,drop_function_word+drop_plural
+help managing saved program,Help_MemoryOptions,help managing my saved programs,drop_function_word+drop_plural
+um how do i pair aids to my phone,Help_Pairing,how do i pair my aids to my phone,filler+drop_function_word
+paring helpplease,Help_Pairing,pairing help please,homophone+merge_boundary
+um how to bond my aids with the,Help_Pairing,how to bond my aids with the app,truncate_tail+filler
+aids dropped their bluetooth,Help_Pairing,my aids dropped their bluetooth connection,truncate_tail+drop_function_word
+my aids will not stay connected tomy fone,Help_Pairing,my aids will not stay connected to my phone,merge_boundary+homophone
+help myaides lost connection to the phone,Help_Pairing,help my aids lost connection to the phone,homophone+merge_boundary
+er help me locate misplaced 8s,Help_FindMyHearingAids,help me locate misplaced aids,homophone+filler
+howdo i use tv streamer,Help_Accessories,how do i use the tv streamer,drop_function_word+merge_boundary
+what extra devices i,Help_Accessories,what extra devices can i pair,truncate_tail+drop_function_word
+um tell me about the available accessorie,Help_Accessories,tell me about the available accessories,drop_plural+filler
+um does it work with a remote,Help_Accessories,does it work with a remote mic,filler+truncate_tail
+explain the tinnitusfeature,Help_Tinnitus,explain the tinnitus features,merge_boundary+drop_plural
+er help withthe buzzing in my ears,Help_Tinnitus,help with the buzzing in my ears,filler+merge_boundary
+how do i turn on soothingsound,Help_Tinnitus,how do i turn on the soothing sound,merge_boundary+drop_function_word
+er help formy ear ringing,Help_Tinnitus,help for my ear ringing,merge_boundary+filler
+er this earringing is driving me crazy,Help_Tinnitus,this ear ringing is driving me crazy,filler+merge_boundary
+i cannot stand the ringingin my,Help_Tinnitus,i cannot stand the ringing in my ears,truncate_tail+merge_boundary
+um help the ringing will not,Help_Tinnitus,help the ringing will not stop,truncate_tail+filler
+how doi run a self,Help_SelfCheck,how do i run a self check,truncate_tail+merge_boundary
+guide me through selfcheck,Help_SelfCheck,guide me through a self check,merge_boundary+drop_function_word
+how do i diagnose problem with my aides,Help_SelfCheck,how do i diagnose a problem with my aids,drop_function_word+homophone
+run me throughtesting hearing aids,Help_SelfCheck,run me through testing my hearing aids,drop_function_word+merge_boundary
+where do isee my wellnes score,Help_ThriveScore,where do i see my wellness score,drop_plural+merge_boundary
+er what goes into thrive score,Help_ThriveScore,what goes into the thrive score,drop_function_word+filler
+uh where do i find my overall,Help_ThriveScore,where do i find my overall rating,truncate_tail+filler
+uh my herring aids sound muffled,Help_DeviceSettings,my hearing aids sound muffled,filler+homophone
+uh why is there static in my aides,Help_DeviceSettings,why is there static in my aids,filler+homophone
+the audio breakingup,Help_DeviceSettings,the audio is breaking up,merge_boundary+drop_function_word
+uh why do aids sound muffled,Help_DeviceSettings,why do my aids sound muffled,drop_function_word+filler
+what is theai voice,Help_IntelliVoice,what is the ai voice feature,truncate_tail+merge_boundary
+explain how intellivoicehelp,Help_IntelliVoice,explain how intellivoice helps,merge_boundary+drop_plural
+will my aides alert someone if i,Help_FallAlert,will my aids alert someone if i fall,truncate_tail+homophone
+does notify family if i take a,Help_FallAlert,does it notify family if i take a tumble,truncate_tail+drop_function_word
+explain howfall alert are sent,Help_FallAlert,explain how fall alerts are sent,merge_boundary+drop_plural
+um hearshare help,Help_HearShare,hearshare help please,filler+drop_function_word
+um can i share my hearing aidsound with family,Help_HearShare,can i share my hearing aid sound with family,merge_boundary+filler
+er explain how share my sound,Help_HearShare,explain how to share my sound,filler+drop_function_word
+share hearing with another,Help_HearShare,share my hearing with another person,truncate_tail+drop_function_word
+uh how do i put my herring aids in,Help_InsertDevice,how do i put my hearing aids in,filler+homophone
+uh how do i wear my 8s properly,Help_InsertDevice,how do i wear my aids properly,homophone+filler
+uh the aid keep dropping out of my ear,Help_InsertDevice,the aid keeps dropping out of my ear,drop_plural+filler
+er how do i change the app sittings,Help_AppSettings,how do i change the app settings,homophone+filler
+uh explain how to configure the,Help_AppSettings,explain how to configure the app,truncate_tail+filler
+uh can my aids getwet,Help_CleanCare,can my aids get wet,filler+merge_boundary
+er help keeping my hearing aids,Help_CleanCare,help keeping my hearing aids clean,truncate_tail+filler
+um cleaning andcare help,Help_CleanCare,cleaning and care help,filler+merge_boundary
+keepingaids in good shape,Help_CleanCare,keeping my aids in good shape,drop_function_word+merge_boundary
+i fine tune the bassand treble,Help_Customize,can i fine tune the bass and treble,drop_function_word+merge_boundary
+how do i adjust tone of my,Help_Customize,how do i adjust the tone of my aids,truncate_tail+drop_function_word
+er how do i set my own,Help_Customize,how do i set my own preferences,truncate_tail+filler
+how do i make sound my,Help_Customize,how do i make the sound my own,truncate_tail+drop_function_word
+explain personalizationoptions,Help_Customize,explain the personalization options,drop_function_word+merge_boundary
+how do i make sund suit me,Help_Customize,how do i make the sound suit me,drop_function_word+homophone
+er whatgot added recently,Help_WhatsNew,what got added recently,merge_boundary+filler
+um what isbeen updated lately,Help_WhatsNew,what is been updated lately,merge_boundary+filler
+er tellme about new features,Help_WhatsNew,tell me about new features,filler+merge_boundary
+help me see what,Help_WhatsNew,help me see what is new,truncate_tail+drop_function_word
+er what is new in this,Help_WhatsNew,what is new in this update,filler+truncate_tail
+uh how does the cross transmitter work,Help_WiCROS,how does the cros transmitter work,filler+homophone
+um thisis all confusing to me,Help_Home,this is all confusing to me,filler+merge_boundary
+uh i do not get how any of this work,Help_Home,i do not get how any of this works,filler+drop_plural
+um should i use rechargeable or disposable,Help_Battery,should i use rechargeable or disposable batteries,filler+truncate_tail
+why my batterylife getting shorter,Help_Battery,why is my battery life getting shorter,drop_function_word+merge_boundary
+explain hearing aidbatterie,Help_Battery,explain hearing aid batteries,drop_plural+merge_boundary
+um how do i store spare,Help_Battery,how do i store spare batteries,truncate_tail+filler
+explain theremind her feature,Help_Reminder,explain the reminder feature,homophone+merge_boundary
+uh how doi edit a reminder,Help_Reminder,how do i edit a reminder,merge_boundary+filler
+er explain how schedule reminders,Help_Reminder,explain how to schedule reminders,drop_function_word+filler
+um is there a daily reminda option,Help_Reminder,is there a daily reminder option,homophone+filler
+um set a recurring daily remind her,Help_Reminder,set a recurring daily reminder,filler+homophone
+um how accurate is translation,Help_Translate,how accurate is the translation,filler+drop_function_word
+um how do i set up language,Help_Translate,how do i set up language translation,truncate_tail+filler
+uh is real time translation,Help_Translate,is real time translation available,filler+truncate_tail
+um which language are supported for translation,Help_Translate,which languages are supported for translation,drop_plural+filler
+um can i save transcripts,Help_Transcribe,can i save my transcripts,drop_function_word+filler
+caption featurehelp,Help_Transcribe,captions feature help,merge_boundary+drop_plural
+doaids show subtitles of speech,Help_Transcribe,do my aids show subtitles of speech,drop_function_word+merge_boundary
+whatthe caption feature do,Help_Transcribe,what can the caption feature do,drop_function_word+merge_boundary
+is transcribed feature free,Help_Transcribe,is the transcribe feature free,homophone+drop_function_word
+do aides measure bpm,Help_HeartRate,do my aids measure bpm,drop_function_word+homophone
+howdo i read bpm,Help_HeartRate,how do i read my bpm,merge_boundary+drop_function_word
+er help understanding recoveryrate,Help_HeartRateRecovery,help understanding recovery rate,filler+merge_boundary
+um how do i check my recovery after,Help_HeartRateRecovery,how do i check my recovery after exercise,filler+truncate_tail
+how good is heart rate,Help_HeartRateRecovery,how good is my heart rate recovery,truncate_tail+drop_function_word
+uh what ishearing care anywhere,Help_HearingCareAnywhereConnect,what is hearing care anywhere,merge_boundary+filler
+uh herring care anywhere help,Help_HearingCareAnywhereConnect,hearing care anywhere help,homophone+filler
+mast mode help,Help_MaskMode,mask mode help please,homophone+drop_function_word
+explain how mask modework,Help_MaskMode,explain how mask mode works,merge_boundary+drop_plural
+er help understanding mast mode,Help_MaskMode,help understanding mask mode,homophone+filler
+how does mask mode help with covered,Help_MaskMode,how does mask mode help with covered faces,drop_plural+truncate_tail
+um explainedge mode,Help_EdgeMode,explain edge mode,merge_boundary+filler
+er explain how edg mode works,Help_EdgeMode,explain how edge mode works,homophone+filler
+um how do i trigger edge mode in,Help_EdgeMode,how do i trigger edge mode in noise,filler+truncate_tail
+helpwith wind noise when i am,Help_EdgeMode,help with wind noise when i am outdoors,truncate_tail+merge_boundary
+uh a setting for verywindy places,Help_EdgeMode,a setting for very windy places,filler+merge_boundary
+uh explain demomode,Help_DemoMode,explain demo mode,merge_boundary+filler
+er how do i get rid of,Default Fallback Intent,how do i get rid of weeds,filler+truncate_tail
+um how do i tie a,Default Fallback Intent,how do i tie a tie,filler+truncate_tail
+uh how do i makecoffee,Default Fallback Intent,how do i make coffee,merge_boundary+filler
+um hurt ears please,Cmd.VolumeDecrease,hurt my ears please,drop_function_word+filler
+uh change restaurant mode,Cmd.MemoryChange,change to restaurant mode,filler+drop_function_word
+er activatespeech focus,Cmd.MemoryChange,activate speech focus,merge_boundary+filler
+um i need to locate my hearing,Help_FindMyHearingAids,i need to locate my hearing aids,truncate_tail+filler
+um ibetter not forget this,reminders.add,i better not forget this,merge_boundary+filler
+uhcapture this as a reminder,reminders.add,capture this as a reminder,filler+merge_boundary
+er i want to send a text,Cmd.SendMessage,i want to send a text message,truncate_tail+filler
+send messege to a contact,Cmd.SendMessage,send a message to a contact,homophone+drop_function_word
+let someone know aboutthi,Cmd.SendMessage,let someone know about this,merge_boundary+drop_plural
+um relay thisinformation,Cmd.SendMessage,relay this information,merge_boundary+filler
+uh broadcast a massage,Cmd.SendMessage,broadcast a message,homophone+filler
+uh dispatch atext,Cmd.SendMessage,dispatch a text,merge_boundary+filler
+um i am lost in all these,Help_Home,i am lost in all these options,truncate_tail+filler
+um what do i need to know,Help_Home,what do i need to know first,truncate_tail+filler
+uhwhat should i learn first,Help_Home,what should i learn first,filler+merge_boundary
+er reduce how loudit is,Cmd.VolumeDecrease,reduce how loud it is,filler+merge_boundary
+uh soften thevolume,Cmd.VolumeDecrease,soften the volume,merge_boundary+filler
+scale back sounds,Cmd.VolumeDecrease,scale back the sound,drop_function_word+homophone
+er batter e percentage,Cmd.BatteryLevel,battery percentage,filler+homophone
+uh batter e power,Cmd.BatteryLevel,battery power,homophone+filler
+uh isthere enough power,Cmd.BatteryLevel,is there enough power,filler+merge_boundary
+um power level statu,Cmd.BatteryLevel,power level status,filler+drop_plural
+um help me understand this,Help_Home,help me understand this app,filler+truncate_tail
+what are the mainfeature,Help_Home,what are the main features,merge_boundary+drop_plural
+explain main option,Help_Home,explain the main options,drop_function_word+drop_plural
+er what isthe app menu,Help_Home,what is the app menu,merge_boundary+filler
+um send atext,Cmd.SendMessage,send a text,merge_boundary+filler
+uh sendsms,Cmd.SendMessage,send sms,filler+merge_boundary
+ineed contact someone,Cmd.SendMessage,i need to contact someone,merge_boundary+drop_function_word
+um relay information,Cmd.SendMessage,relay information,filler
+uh connect audio hearing aids,Cmd.StreamingStart,connect audio to hearing aids,filler+drop_function_word
+um enable audio hearing aids,Cmd.StreamingStart,enable audio to hearing aids,drop_function_word+filler
+er streamthe phone call,Cmd.StreamingStart,stream the phone call,merge_boundary+filler
+uh streamthe music,Cmd.StreamingStart,stream the music,merge_boundary+filler
+uh stream device audio,Cmd.StreamingStart,stream my device audio,filler+drop_function_word
+uh directhearing aid connection,Cmd.StreamingStart,direct hearing aid connection,filler+merge_boundary
+uh audioredirection,Cmd.StreamingStart,audio redirection,filler+merge_boundary
+uh everythingsounds way too harsh,Cmd.VolumeDecrease,everything sounds way too harsh,filler+merge_boundary
+way toomuch volume for,Cmd.VolumeDecrease,way too much volume for me,truncate_tail+merge_boundary
+batteries good enough for theevening,Cmd.BatteryLevel,battery good enough for the evening,merge_boundary+homophone
+er how depleted are batteries,Cmd.BatteryLevel,how depleted are the batteries,filler+drop_function_word
+uh i cannot spot my hearing 8s anywhere,Help_FindMyHearingAids,i cannot spot my hearing aids anywhere,homophone+filler
+uh find where my devices endedup,Help_FindMyHearingAids,find where my devices ended up,merge_boundary+filler
+uh i could use anintroduction,Help_Home,i could use an introduction,merge_boundary+filler
+i need anudge later about,reminders.add,i need a nudge later about this,merge_boundary+truncate_tail

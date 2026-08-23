@@ -1,0 +1,25 @@
+# Encoder weights — redownloadable in one command, and far too large for git.
+#   hf download BAAI/bge-small-en-v1.5 --local-dir models/encoders/bge-small-en-v1.5
+#   python scripts/shrink_encoder.py --encoder bge-small-en-v1.5 --prune-vocab
+models/encoders/
+
+# Pickled sklearn models. models/final/model.pkl alone is 145 MB and rebuilds
+# in about 25 seconds from train_classifier.py — it is a cache, not a source.
+*.pkl
+
+# fp32 ONNX is an export intermediate; only the INT8 file ships.
+**/intent_fp32.onnx
+**/intent_fp32.onnx.data
+
+# Everything under models/ except the shipped artifact.
+models/*
+!models/final_student_256/
+models/final_student_256/*
+!models/final_student_256/onnx/
+
+# Scratch
+_to_delete/
+__pycache__/
+*.pyc
+.DS_Store
+.venv/

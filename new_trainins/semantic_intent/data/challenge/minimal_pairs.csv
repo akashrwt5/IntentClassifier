@@ -1,0 +1,89 @@
+text,intent,pair_id,side,axis
+nudge the level higher,Cmd.VolumeIncrease,mp000,a,volume_direction
+nudge the level lower,Cmd.VolumeDecrease,mp000,b,volume_direction
+"it is too quiet, raise it",Cmd.VolumeIncrease,mp001,a,volume_direction
+"it is too loud, lower it",Cmd.VolumeDecrease,mp001,b,volume_direction
+bump the sound up a notch,Cmd.VolumeIncrease,mp002,a,volume_direction
+bump the sound down a notch,Cmd.VolumeDecrease,mp002,b,volume_direction
+i need a little more volume,Cmd.VolumeIncrease,mp003,a,volume_direction
+i need a little less volume,Cmd.VolumeDecrease,mp003,b,volume_direction
+tone things upward,Cmd.VolumeIncrease,mp004,a,volume_direction
+tone things downward,Cmd.VolumeDecrease,mp004,b,volume_direction
+"the sound is too low, raise it",Cmd.VolumeIncrease,mp005,a,volume_direction
+"the sound is too high, drop it",Cmd.VolumeDecrease,mp005,b,volume_direction
+give me more sound,Cmd.VolumeIncrease,mp006,a,volume_direction
+give me less sound,Cmd.VolumeDecrease,mp006,b,volume_direction
+lift the loudness,Cmd.VolumeIncrease,mp007,a,volume_direction
+drop the loudness,Cmd.VolumeDecrease,mp007,b,volume_direction
+kill all output,Cmd.VolumeMute,mp008,a,mute_direction
+bring sound back on,Cmd.VolumeUnmute,mp008,b,mute_direction
+silence my aids,Cmd.VolumeMute,mp009,a,mute_direction
+unsilence my aids,Cmd.VolumeUnmute,mp009,b,mute_direction
+mute both hearing aids,Cmd.VolumeMute,mp010,a,mute_direction
+unmute both hearing aids,Cmd.VolumeUnmute,mp010,b,mute_direction
+cut all sound from my aids,Cmd.VolumeMute,mp011,a,mute_direction
+restore sound to my aids,Cmd.VolumeUnmute,mp011,b,mute_direction
+begin streaming to my aids,Cmd.StreamingStart,mp012,a,stream_direction
+end streaming to my aids,Cmd.StreamingStop,mp012,b,stream_direction
+start the tv audio,Cmd.StreamingStart,mp013,a,stream_direction
+stop the tv audio,Cmd.StreamingStop,mp013,b,stream_direction
+hook me into the television audio,Cmd.StreamingStart,mp014,a,stream_direction
+unhook me from the television audio,Cmd.StreamingStop,mp014,b,stream_direction
+set a reminder for my pills,reminders.add,mp015,a,reminder_direction
+my pill reminder is done,reminders.complete,mp015,b,reminder_direction
+remind me to call the clinic,reminders.add,mp016,a,reminder_direction
+"i already called the clinic, clear that reminder",reminders.complete,mp016,b,reminder_direction
+record a message for my daughter,Cmd.SendMessage,mp017,a,message_direction
+play the message from my daughter,Cmd.ListenMessage,mp017,b,message_direction
+dictate a quick note for my son,Cmd.SendMessage,mp018,a,message_direction
+replay what my son sent,Cmd.ListenMessage,mp018,b,message_direction
+boost my hearing aid loudness,Cmd.VolumeIncrease,mp019,a,cmd_vs_help
+how would i boost my hearing aid loudness,Help_Volume,mp019,b,cmd_vs_help
+soften what i am hearing,Cmd.VolumeDecrease,mp020,a,cmd_vs_help
+how would i soften what i am hearing,Help_Volume,mp020,b,cmd_vs_help
+shut off all output,Cmd.VolumeMute,mp021,a,cmd_vs_help
+how would i shut off all output,Help_Volume,mp021,b,cmd_vs_help
+flip me over to the cafe setting,Cmd.MemoryChange,mp022,a,cmd_vs_help
+how would i flip over to the cafe setting,Help_ChangingMemories,mp022,b,cmd_vs_help
+jump to setting number three,Cmd.MemoryChange,mp023,a,cmd_vs_help
+how would i jump to setting number three,Help_ChangingMemories,mp023,b,cmd_vs_help
+kick off live captions,Cmd.TranscribeStart,mp024,a,cmd_vs_help
+how would i kick off live captions,Help_Transcribe,mp024,b,cmd_vs_help
+translate this for me,Cmd.TranslationStart,mp025,a,cmd_vs_help
+how does translating work,Help_Translate,mp025,b,cmd_vs_help
+how much battery is left,Cmd.BatteryLevel,mp026,a,cmd_vs_help
+what kind of battery goes in my aid,Help_Battery,mp026,b,cmd_vs_help
+locate my mobile,Cmd.FindMyPhone,mp027,a,find_target
+locate my left earpiece,Help_FindMyHearingAids,mp027,b,find_target
+where did my mobile go,Cmd.FindMyPhone,mp028,a,find_target
+which earpiece is missing,Help_FindMyHearingAids,mp028,b,find_target
+kick off television audio,Cmd.StreamingStart,mp029,a,cmd_vs_help
+how would i configure a television box,Help_Accessories,mp029,b,cmd_vs_help
+remind me at six,reminders.add,mp030,a,cmd_vs_help
+what abilities does the reminder tool have,Help_Reminder,mp030,b,cmd_vs_help
+how far have i walked today,Cmd.ActivityWalk,mp031,a,activity_type
+how far have i cycled today,Cmd.ActivityCycle,mp031,b,activity_type
+log this stroll of mine,Cmd.ActivityWalk,mp032,a,activity_type
+log the jog i just did,Cmd.ActivityRun,mp032,b,activity_type
+what is my step count today,Cmd.ActivityStep,mp033,a,activity_type
+how long did i stand today,Cmd.ActivityStand,mp033,b,activity_type
+log my gym session,Cmd.ActivityExercise,mp034,a,activity_type
+log this cardio dance session,Cmd.ActivityAerobics,mp034,b,activity_type
+how long was my gym session,Cmd.ActivityExercise,mp035,a,activity_type
+how much energy did my gym session burn,Cmd.ActivityCalories,mp035,b,activity_type
+did i reach my walking target,Cmd.ActivityWalk,mp036,a,activity_type
+did i reach my upright target,Cmd.ActivityStand,mp036,b,activity_type
+explain my heart rate reading,Help_HeartRate,mp037,a,health_metric
+explain my heart rate recovery reading,Help_HeartRateRecovery,mp037,b,health_metric
+where do i see my activity summary,Help_Health,mp038,a,health_metric
+where do i see my engagement score,Help_ThriveScore,mp038,b,health_metric
+what abilities does edge mode have,Help_EdgeMode,mp039,a,feature_swap
+what abilities does mask mode have,Help_MaskMode,mp039,b,feature_swap
+how do i turn on the tinnitus masker,Help_Tinnitus,mp040,a,feature_swap
+how do i turn on speech enhancement,Help_IntelliVoice,mp040,b,feature_swap
+how do i clean my aids,Help_CleanCare,mp041,a,feature_swap
+how do i put in my aids,Help_InsertDevice,mp041,b,feature_swap
+how do i pair my aids,Help_Pairing,mp042,a,feature_swap
+how do i run a self check on my aids,Help_SelfCheck,mp042,b,feature_swap
+how do i share my data with my son,Help_HearShare,mp043,a,feature_swap
+how do i book a remote appointment,Help_HearingCareAnywhereConnect,mp043,b,feature_swap

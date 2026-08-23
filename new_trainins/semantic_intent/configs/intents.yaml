@@ -1,0 +1,1269 @@
+n_intents: 57
+risk_tiers:
+  high:
+  - Cmd.MemoryChange
+  - Cmd.SendMessage
+  - Cmd.StreamingStop
+  - Cmd.VolumeMute
+  - reminders.complete
+  normal:
+  - Cmd.ActivityAerobics
+  - Cmd.ActivityCalories
+  - Cmd.ActivityCycle
+  - Cmd.ActivityExercise
+  - Cmd.ActivityRun
+  - Cmd.ActivityStand
+  - Cmd.ActivityStep
+  - Cmd.ActivityWalk
+  - Cmd.BatteryLevel
+  - Cmd.FindMyPhone
+  - Cmd.ListenMessage
+  - Cmd.StreamingStart
+  - Cmd.TranscribeStart
+  - Cmd.TranslationStart
+  - Cmd.VolumeDecrease
+  - Cmd.VolumeIncrease
+  - Cmd.VolumeUnmute
+  - Default Fallback Intent
+  - Help_Accessories
+  - Help_AppSettings
+  - Help_Battery
+  - Help_ChangingMemories
+  - Help_CleanCare
+  - Help_Customize
+  - Help_DemoMode
+  - Help_DeviceSettings
+  - Help_EdgeMode
+  - Help_FallAlert
+  - Help_FindMyHearingAids
+  - Help_Health
+  - Help_HearShare
+  - Help_HearingCareAnywhereConnect
+  - Help_HeartRate
+  - Help_HeartRateRecovery
+  - Help_Home
+  - Help_InsertDevice
+  - Help_IntelliVoice
+  - Help_MaskMode
+  - Help_MemoryOptions
+  - Help_Pairing
+  - Help_Reminder
+  - Help_RemoteProgramming
+  - Help_SelfCheck
+  - Help_ThriveScore
+  - Help_Tinnitus
+  - Help_Transcribe
+  - Help_Translate
+  - Help_VoiceAssistant
+  - Help_Volume
+  - Help_WhatsNew
+  - Help_WiCROS
+  - reminders.add
+families:
+  volume:
+  - Cmd.VolumeIncrease
+  - Cmd.VolumeDecrease
+  - Cmd.VolumeMute
+  - Cmd.VolumeUnmute
+  - Help_Volume
+  memory:
+  - Cmd.MemoryChange
+  - Help_ChangingMemories
+  - Help_MemoryOptions
+  - Help_Customize
+  streaming:
+  - Cmd.StreamingStart
+  - Cmd.StreamingStop
+  - Help_Accessories
+  transcribe:
+  - Cmd.TranscribeStart
+  - Help_Transcribe
+  translate:
+  - Cmd.TranslationStart
+  - Help_Translate
+  find:
+  - Cmd.FindMyPhone
+  - Help_FindMyHearingAids
+  battery:
+  - Cmd.BatteryLevel
+  - Help_Battery
+  reminders:
+  - reminders.add
+  - reminders.complete
+  - Help_Reminder
+  messages:
+  - Cmd.SendMessage
+  - Cmd.ListenMessage
+  activity:
+  - Cmd.ActivityWalk
+  - Cmd.ActivityRun
+  - Cmd.ActivityCycle
+  - Cmd.ActivityStep
+  - Cmd.ActivityStand
+  - Cmd.ActivityExercise
+  - Cmd.ActivityAerobics
+  - Cmd.ActivityCalories
+  health:
+  - Help_Health
+  - Help_HeartRate
+  - Help_HeartRateRecovery
+  - Help_ThriveScore
+  care:
+  - Help_CleanCare
+  - Help_InsertDevice
+  - Help_SelfCheck
+  - Help_DeviceSettings
+  remote:
+  - Help_RemoteProgramming
+  - Help_HearingCareAnywhereConnect
+  - Help_HearShare
+  features:
+  - Help_EdgeMode
+  - Help_MaskMode
+  - Help_IntelliVoice
+  - Help_Tinnitus
+  - Help_WiCROS
+  - Help_DemoMode
+  app:
+  - Help_Home
+  - Help_AppSettings
+  - Help_WhatsNew
+  - Help_VoiceAssistant
+  - Help_Pairing
+  safety:
+  - Help_FallAlert
+  reject:
+  - Default Fallback Intent
+policies:
+- id: P1-result-request-vs-feature-question
+  question: Is 'how do I turn up the volume' a command or a how-to? And why is 'how much battery is left'
+    a command when it also starts with 'how'?
+  decision: "The question word does NOT decide it. Ask instead: does the app have a function for this,\
+    \ and is the user asking for its RESULT, or asking how the function works?\n  result request  -> Cmd.*\
+    \   ('how much battery is left', 'where is my phone', 'what is my step count')\n  feature question\
+    \ -> Help_* ('how do i check the battery', 'what battery size do i need')\nBoth frames can start with\
+    \ how/what/where. The noun and the thing being asked for decide, not the opener."
+  rationale: 'A rule keyed on the question word is 89.7% right on this corpus, but the wrong 10.3% is
+    not random: it is 240 rows covering Cmd.BatteryLevel (54), all eight Cmd.Activity* intents (154) and
+    Cmd.FindMyPhone (17) — i.e. every intent whose job is to report the user''s own data. Those are real
+    app functions, so asking for them is a command. Executing a setting change when the user only asked
+    how it works is the opposite error and is the more harmful one, which is why the boundary is written
+    down rather than left to the model.'
+- id: P1b-help-prefix-is-not-a-kind
+  question: Does the `Help_` prefix mean the intent is a how-to intent?
+  decision: 'No. Treat the prefix as a name, not a type. Three Help_* intents are majority action requests:
+    Help_FindMyHearingAids (66% action), Help_Pairing (49%), Help_InsertDevice (47%). Help_HeartRate absorbs
+    BOTH ''how does heart rate work'' and ''what is my heart rate'' because the app has no separate result
+    intent for it.'
+  rationale: Measured from en.csv. Any generated data, evaluation bucket or runtime rule that assumes
+    Cmd.=action / Help_=question will be wrong on those intents. The taxonomy therefore records a measured
+    `action_share` per intent instead of inferring a kind from the label string.
+- id: P2-bare-negation
+  question: What does 'don't make it louder' mean with no alternative given?
+  decision: Default Fallback Intent (no action).
+  rationale: A negated command with no stated alternative does not identify an action. Mapping it to the
+    opposite intent is the exact shortcut the plan forbids in Section 8.
+- id: P3-corrective-negation
+  question: What about 'not quieter, louder' / 'I said turn it down, not up'?
+  decision: The affirmed alternative wins (Cmd.VolumeIncrease / Cmd.VolumeDecrease respectively).
+  rationale: A correction states a target action explicitly.
+  superseded_at_runtime: 'P3 still defines the correct LABEL, but the gate no longer ACTS on it. Measured
+    accuracy on this sentence shape is 0.48 for intent pairs the model was not explicitly taught and 0.74
+    for ones it was — both far below the 0.97 precision the gate promises. The classifier''s answer is
+    recorded and the user is asked to repeat. Cost measured before adopting: 0 of 1513 held-out rows,
+    0 of 1508 validation rows and 0 of 1496 STT rows carry this structure, so real traffic is unaffected.'
+- id: P4-symptom-reports
+  question: Is 'I can barely hear' a volume increase?
+  decision: Cmd.VolumeIncrease.
+  rationale: Already present in the training data as such; it is the dominant user phrasing and the action
+    is low-risk and trivially reversible.
+- id: P4b-symptom-vs-requested-action
+  question: '''It is too loud in here, can you make it quieter'' — does ''loud'' or ''quieter'' decide
+    the intent?'
+  decision: "Read what the person is ASKING FOR, not what they are describing.\n  symptom + an explicit\
+    \ request -> the REQUEST decides.\n      'it is too loud ... make it quieter'  -> Decrease\n     \
+    \ 'it is too quiet ... make it louder'  -> Increase\n  symptom with NO request -> the symptom implies\
+    \ the action (this is P4).\n      'i can barely hear'                   -> Increase\nThe state clause\
+    \ describes the problem; the request clause is the command. A sentence containing both is not ambiguous\
+    \ and must never be treated as such."
+  rationale: 'The model predicted Cmd.VolumeIncrease for ''it is too loud in here, can you make it quieter''
+    — no negation, no correction, the action spelled out, and it still read the adjective instead of the
+    verb. The corpus explains it: only 54 rows use symptom phrasing at all and they run 31 Increase to
+    14 Decrease, so ''a complaint about sound'' had been learned as evidence for turning it up. F12 supplies
+    the missing half in equal numbers so the adjective stops carrying the label.'
+- id: P5-other-device-volume
+  question: '''Turn the TV down'' / ''make the phone louder''?'
+  decision: Near-OOD -> Default Fallback Intent, EXCEPT where the aid controls the TV streamer, which
+    the data labels Help_Accessories.
+  rationale: The aid must not silently reinterpret another device's volume as its own.
+- id: P6-activity-query-vs-log
+  question: '''How far have I walked'' vs ''start a walk'' — one intent or two?'
+  decision: One intent per activity type (the shipped taxonomy merges log and query). Do not split.
+  rationale: Matches the existing label set; splitting would invalidate the baseline comparison.
+- id: P6b-generic-activity
+  question: What is 'show me my activity goal' — there is no generic activity intent among the eight Cmd.Activity*
+    labels.
+  decision: FOLLOW THE DATASET. 'activity goal' (and target/daily goal) is Cmd.ActivityAerobics. 'activity
+    summary / overview / stats / history' is Help_Health. The boundary is the NOUN, not the verb.
+  rationale: 'All 8 ''activity goal'' rows in en.csv are labelled Cmd.ActivityAerobics and all ''activity
+    summary'' rows are Help_Health. The split is not semantically obvious, so the model cannot infer it
+    from 8 examples — F6 in build_targeted_training.py teaches it explicitly with matched openers so only
+    the noun carries the label. Re-labelling was considered and rejected: the app''s behaviour is defined
+    by the shipped label, not by what the phrase sounds like.'
+- id: P6c-walking-vs-steps
+  question: Is 'did I reach my walking goal' ActivityWalk or ActivityStep?
+  decision: Cmd.ActivityWalk. 'walking' selects Walk; 'step/steps' selects Step; 'stand' selects Stand.
+  rationale: 'Dataset convention: ''walking goal'' -> ActivityWalk (5 rows), ''step goal'' -> ActivityStep
+    (19 rows). An earlier draft of the minimal-pair suite got this backwards and was measuring the suite''s
+    own error as a model error.'
+- id: P7-fallback-is-not-ood-eval
+  question: Does the Default Fallback Intent class cover OOD?
+  decision: No. It is a supervised reject class for anticipated unsupported phrasings. OOD is measured
+    separately on a held-out suite that includes near-OOD.
+  rationale: Section 11 of the plan.
+intents:
+  Cmd.ActivityAerobics:
+    description: Log or query aerobics / cardio-dance activity.
+    kind: action
+    family: activity
+    n_train_rows: 54
+    action_share: 0.796
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ActivityWalk
+    - Cmd.ActivityRun
+    - Cmd.ActivityCycle
+    - Cmd.ActivityStep
+    - Cmd.ActivityStand
+    - Cmd.ActivityExercise
+    - Cmd.ActivityCalories
+    positive_examples:
+    - log an aerobics workout
+    - show my aerobics progress
+    - am i close to my aerobics goal
+    - can you have i reached my activity goal?
+    - please show me my activity goal?
+  Cmd.ActivityCalories:
+    description: Query calories burned.
+    kind: action
+    family: activity
+    n_train_rows: 54
+    action_share: 0.667
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ActivityWalk
+    - Cmd.ActivityRun
+    - Cmd.ActivityCycle
+    - Cmd.ActivityStep
+    - Cmd.ActivityStand
+    - Cmd.ActivityExercise
+    - Cmd.ActivityAerobics
+    positive_examples:
+    - how many calories have i burned this week
+    - track my calories
+    - calories burned so far today
+    - can you calories burned today
+    - please todays calorie count
+  Cmd.ActivityCycle:
+    description: Log or query cycling activity.
+    kind: mixed
+    family: activity
+    n_train_rows: 55
+    action_share: 0.636
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ActivityWalk
+    - Cmd.ActivityRun
+    - Cmd.ActivityStep
+    - Cmd.ActivityStand
+    - Cmd.ActivityExercise
+    - Cmd.ActivityAerobics
+    - Cmd.ActivityCalories
+    positive_examples:
+    - can you calories biking
+    - please show me my biking goal
+    - record my cycling
+    - how long have i been riding?
+    - how far have i biked?
+  Cmd.ActivityExercise:
+    description: Log or query generic exercise/workout.
+    kind: action
+    family: activity
+    n_train_rows: 61
+    action_share: 0.721
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ActivityWalk
+    - Cmd.ActivityRun
+    - Cmd.ActivityCycle
+    - Cmd.ActivityStep
+    - Cmd.ActivityStand
+    - Cmd.ActivityAerobics
+    - Cmd.ActivityCalories
+    positive_examples:
+    - am i close to my exercise goal
+    - calories working out
+    - show me my exercise goal?
+    - please have i reached my exercise goal
+    - can you exercise goal
+  Cmd.ActivityRun:
+    description: Log or query running activity.
+    kind: action
+    family: activity
+    n_train_rows: 71
+    action_share: 0.789
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ActivityWalk
+    - Cmd.ActivityCycle
+    - Cmd.ActivityStep
+    - Cmd.ActivityStand
+    - Cmd.ActivityExercise
+    - Cmd.ActivityAerobics
+    - Cmd.ActivityCalories
+    positive_examples:
+    - show me my running goal
+    - calories running
+    - start recording my run
+    - can you running calories
+    - begin a run
+  Cmd.ActivityStand:
+    description: Log or query standing time / stand goal.
+    kind: action
+    family: activity
+    n_train_rows: 70
+    action_share: 0.657
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ActivityWalk
+    - Cmd.ActivityRun
+    - Cmd.ActivityCycle
+    - Cmd.ActivityStep
+    - Cmd.ActivityExercise
+    - Cmd.ActivityAerobics
+    - Cmd.ActivityCalories
+    positive_examples:
+    - have i stood an hour
+    - can i see my stand goal
+    - stand goal?
+    - can you calories standing
+    - have i stood an hour?
+  Cmd.ActivityStep:
+    description: Log or query step count / step goal.
+    kind: mixed
+    family: activity
+    n_train_rows: 71
+    action_share: 0.521
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ActivityWalk
+    - Cmd.ActivityRun
+    - Cmd.ActivityCycle
+    - Cmd.ActivityStand
+    - Cmd.ActivityExercise
+    - Cmd.ActivityAerobics
+    - Cmd.ActivityCalories
+    positive_examples:
+    - what is my step count
+    - show me my step goal
+    - did i hit my step goal
+    - can you calories steps
+    - tell me what my step goal is?
+  Cmd.ActivityWalk:
+    description: Log or query walking activity.
+    kind: action
+    family: activity
+    n_train_rows: 67
+    action_share: 0.776
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ActivityRun
+    - Cmd.ActivityCycle
+    - Cmd.ActivityStep
+    - Cmd.ActivityStand
+    - Cmd.ActivityExercise
+    - Cmd.ActivityAerobics
+    - Cmd.ActivityCalories
+    positive_examples:
+    - what is my walking count for the month?
+    - how many calories have i used while walking?
+    - log a walk for me
+    - start walking
+    - log the stroll i'm taking
+  Cmd.BatteryLevel:
+    description: Report current battery charge now.
+    kind: mixed
+    family: battery
+    n_train_rows: 135
+    action_share: 0.6
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Help_Battery
+    positive_examples:
+    - is my power almost gone
+    - is there enough power remaining
+    - will i make it through the day
+    - are the batteries about to run out
+    - battery check now
+  Cmd.FindMyPhone:
+    description: Locate the user's phone.
+    kind: action
+    family: find
+    n_train_rows: 122
+    action_share: 0.861
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Help_FindMyHearingAids
+    positive_examples:
+    - please where's my iphone
+    - locate my phone for me
+    - can you discover iphone
+    - can you detect phone
+    - track down my phone
+  Cmd.ListenMessage:
+    description: Play back received messages.
+    kind: action
+    family: messages
+    n_train_rows: 98
+    action_share: 0.939
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.SendMessage
+    positive_examples:
+    - can you replay my message?
+    - read my latest text
+    - tell me my messages
+    - please play my last message
+    - did anyone send me anything read it
+  Cmd.MemoryChange:
+    description: Switch to a named or numbered program/memory now.
+    kind: action
+    family: memory
+    n_train_rows: 1884
+    action_share: 1.0
+    risk: high
+    label_prefix_says: command
+    confusable_with:
+    - Help_ChangingMemories
+    - Help_MemoryOptions
+    - Help_Customize
+    positive_examples:
+    - can you set memory to car
+    - switch to train program
+    - please set memory to mute
+    - can you set to office memory
+    - please set program to train
+  Cmd.SendMessage:
+    description: Record/compose and send a voice message.
+    kind: action
+    family: messages
+    n_train_rows: 181
+    action_share: 0.983
+    risk: high
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.ListenMessage
+    positive_examples:
+    - i want to send a text message
+    - message someone
+    - i need to contact someone
+    - text a quick note
+    - fire off a text
+  Cmd.StreamingStart:
+    description: Begin audio streaming to the aids now.
+    kind: action
+    family: streaming
+    n_train_rows: 209
+    action_share: 1.0
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.StreamingStop
+    - Help_Accessories
+    positive_examples:
+    - let me hear the microphone
+    - enable streaming mode
+    - send the tv audio to my aids
+    - hook my aids up to the tv sound
+    - please turn on streaming
+  Cmd.StreamingStop:
+    description: End audio streaming now.
+    kind: action
+    family: streaming
+    n_train_rows: 71
+    action_share: 1.0
+    risk: high
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.StreamingStart
+    - Help_Accessories
+    positive_examples:
+    - turn off stream
+    - done streaming
+    - i'm done with the stream
+    - stop casting to my hearing aids
+    - turn streaming off now
+  Cmd.TranscribeStart:
+    description: Start live transcription now.
+    kind: action
+    family: transcribe
+    n_train_rows: 59
+    action_share: 1.0
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Help_Transcribe
+    positive_examples:
+    - write down what people are saying
+    - please record this conversation
+    - start the captions
+    - can you start transcription
+    - stop recording
+  Cmd.TranslationStart:
+    description: Start translation now, or translate a given phrase.
+    kind: action
+    family: translate
+    n_train_rows: 74
+    action_share: 0.959
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Help_Translate
+    positive_examples:
+    - can you tell me what how much do i owe you would be in español
+    - please translate how much do i owe you to spanish
+    - translate their speech into english
+    - what is good morning in russian
+    - translate this conversation
+  Cmd.VolumeDecrease:
+    description: User asks the aid to lower volume now.
+    kind: action
+    family: volume
+    n_train_rows: 301
+    action_share: 1.0
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.VolumeIncrease
+    - Cmd.VolumeMute
+    - Cmd.VolumeUnmute
+    - Help_Volume
+    positive_examples:
+    - my ears are taking a beating
+    - please turn down the volume
+    - get that volume out of my ear
+    - please decrease the volume in my aids
+    - can you turn down my hearing aids
+  Cmd.VolumeIncrease:
+    description: User asks the aid to raise volume now.
+    kind: action
+    family: volume
+    n_train_rows: 253
+    action_share: 1.0
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.VolumeDecrease
+    - Cmd.VolumeMute
+    - Cmd.VolumeUnmute
+    - Help_Volume
+    positive_examples:
+    - turn up the sound
+    - the voices are hard to hear
+    - it's too quiet turn it up
+    - the sound isn't strong enough
+    - give me a bit more volume
+  Cmd.VolumeMute:
+    description: User asks to silence the aids entirely.
+    kind: action
+    family: volume
+    n_train_rows: 118
+    action_share: 1.0
+    risk: high
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.VolumeIncrease
+    - Cmd.VolumeDecrease
+    - Cmd.VolumeUnmute
+    - Help_Volume
+    positive_examples:
+    - please turn off the sound
+    - mute right now
+    - please disable my hearing aids
+    - off volume
+    - mute my hearing aids
+  Cmd.VolumeUnmute:
+    description: User asks to restore sound after muting.
+    kind: action
+    family: volume
+    n_train_rows: 130
+    action_share: 1.0
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - Cmd.VolumeIncrease
+    - Cmd.VolumeDecrease
+    - Cmd.VolumeMute
+    - Help_Volume
+    positive_examples:
+    - please turn on the sound
+    - please turn my left hearing aid on
+    - please turn the volume on
+    - please turn on hearing aids
+    - unmute me
+  Default Fallback Intent:
+    description: Anything outside the supported command space.
+    kind: reject
+    family: reject
+    n_train_rows: 1308
+    action_share: 0.867
+    risk: normal
+    label_prefix_says: reject
+    confusable_with: []
+    positive_examples:
+    - take me to amazon
+    - can you saturday
+    - please in a way this cause i just kind of taking away the
+    - why is my left hearing aid
+    - can you hearing aids
+  Help_Accessories:
+    description: How-to for TV streamers, remote mics and other accessories.
+    kind: howto
+    family: streaming
+    n_train_rows: 152
+    action_share: 0.125
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.StreamingStart
+    - Cmd.StreamingStop
+    positive_examples:
+    - please help with stream
+    - do my aids support a tv connector
+    - how do i change the name of my tv streamer?
+    - how do i unpair the remote mic?
+    - how do i change the volume of my accessories?
+  Help_AppSettings:
+    description: App-level settings, caregiver and alert settings.
+    kind: howto
+    family: app
+    n_train_rows: 54
+    action_share: 0.111
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_Home
+    - Help_WhatsNew
+    - Help_VoiceAssistant
+    - Help_Pairing
+    positive_examples:
+    - can you app version
+    - how can i change the fall alert settings?
+    - how do i change the caregiver settings?
+    - where are app settings
+    - which version of the app do i have?
+  Help_Battery:
+    description: 'How-to about batteries: size, type, replacing, charging.'
+    kind: howto
+    family: battery
+    n_train_rows: 55
+    action_share: 0.218
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.BatteryLevel
+    positive_examples:
+    - my battery dies too quickly
+    - how do i open the battery door
+    - how often should i change the battery
+    - can i charge my battery?
+    - my hearing aid won't charge
+  Help_ChangingMemories:
+    description: How-to for switching programs.
+    kind: howto
+    family: memory
+    n_train_rows: 158
+    action_share: 0.063
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.MemoryChange
+    - Help_MemoryOptions
+    - Help_Customize
+    positive_examples:
+    - how do i learn about changing programs
+    - please help with changing programs using my thrive app
+    - memory button
+    - can you help with changing programs on the phone
+    - please help with changing memories using my app
+  Help_CleanCare:
+    description: Cleaning, wax guards, moisture, waterproofing.
+    kind: mixed
+    family: care
+    n_train_rows: 67
+    action_share: 0.373
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_InsertDevice
+    - Help_SelfCheck
+    - Help_DeviceSettings
+    positive_examples:
+    - is water okay to clean my hearing aids?
+    - how do i get rid of wax build-up
+    - what if my aids get damp
+    - what's the best way to clean my hearing aids
+    - caring for and maintaining my aids
+  Help_Customize:
+    description: How to personalize sound (equalizer, treble, noise).
+    kind: howto
+    family: memory
+    n_train_rows: 67
+    action_share: 0.149
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.MemoryChange
+    - Help_ChangingMemories
+    - Help_MemoryOptions
+    positive_examples:
+    - how do i turn down background noise?
+    - what does the equalizer do
+    - how do i fine tune my sound preferences
+    - please my hearing aids have too much treble
+    - where do i tweak my sound settings
+  Help_DemoMode:
+    description: App demo mode.
+    kind: mixed
+    family: features
+    n_train_rows: 53
+    action_share: 0.358
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_EdgeMode
+    - Help_MaskMode
+    - Help_IntelliVoice
+    - Help_Tinnitus
+    - Help_WiCROS
+    positive_examples:
+    - give me a demonstration
+    - can i use the app without a hearing aid
+    - what can i do in demo mode
+    - how do i use the app without aids?
+    - how do i show the app without hearing aids connected?
+  Help_DeviceSettings:
+    description: Device-level settings and hardware troubleshooting.
+    kind: howto
+    family: care
+    n_train_rows: 151
+    action_share: 0.331
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_CleanCare
+    - Help_InsertDevice
+    - Help_SelfCheck
+    positive_examples:
+    - fix the declining sound on my aids
+    - can you tone change
+    - how do i set up auto streaming
+    - how do i enable double tap on my hearing aids?
+    - sound is crackling in my hearing aids
+  Help_EdgeMode:
+    description: The on-demand environmental-optimization mode.
+    kind: howto
+    family: features
+    n_train_rows: 65
+    action_share: 0.231
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_MaskMode
+    - Help_IntelliVoice
+    - Help_Tinnitus
+    - Help_WiCROS
+    - Help_DemoMode
+    positive_examples:
+    - will edge mode reduce background noise
+    - how do i hear less wind with edge mode?
+    - explain edge mode
+    - how does edge mode adapt the sound
+    - how do i reduce noise with edge mode?
+  Help_FallAlert:
+    description: Fall detection and alert messages.
+    kind: howto
+    family: safety
+    n_train_rows: 133
+    action_share: 0.113
+    risk: normal
+    label_prefix_says: help
+    confusable_with: []
+    positive_examples:
+    - how do i know if an alert text message is sent?
+    - where would i cancel a fall alert?
+    - how do i create a contact for fall alert?
+    - how do i change my phone contact
+    - when could i initiate a manual alert?
+  Help_FindMyHearingAids:
+    description: Locate a lost hearing aid / use the aid finder.
+    kind: action
+    family: find
+    n_train_rows: 264
+    action_share: 0.769
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.FindMyPhone
+    positive_examples:
+    - i need to locate my hearing aids
+    - i misplaced my right aid
+    - search for my hearing aids
+    - ping my aids
+    - i cannot remember where my aids are
+  Help_Health:
+    description: How-to for activity/health summaries and goals.
+    kind: howto
+    family: health
+    n_train_rows: 59
+    action_share: 0.153
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_HeartRate
+    - Help_HeartRateRecovery
+    - Help_ThriveScore
+    positive_examples:
+    - how do i change my activity goals
+    - how do i change my steps goals from monthly to daily?
+    - guide me to my wellness data
+    - how do i see my biking goals?
+    - how do i see how much i have biked this week?
+  Help_HearShare:
+    description: Sharing hearing data with a family member/caregiver.
+    kind: mixed
+    family: remote
+    n_train_rows: 85
+    action_share: 0.365
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_RemoteProgramming
+    - Help_HearingCareAnywhereConnect
+    positive_examples:
+    - how to invite a person with hearshare?
+    - how do i share what i hear
+    - how to share my hearing aid info?
+    - did they accept my hearshare invitation?
+    - how to set up hearshare?
+  Help_HearingCareAnywhereConnect:
+    description: Connecting for remote care / cloud restore.
+    kind: howto
+    family: remote
+    n_train_rows: 55
+    action_share: 0.309
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_RemoteProgramming
+    - Help_HearShare
+    positive_examples:
+    - please help for tele here
+    - set up a remote appointment
+    - how do i get remote support
+    - help for tele here
+    - where can i find tally here
+  Help_HeartRate:
+    description: How-to for the heart-rate feature.
+    kind: howto
+    family: health
+    n_train_rows: 60
+    action_share: 0.35
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_Health
+    - Help_HeartRateRecovery
+    - Help_ThriveScore
+    positive_examples:
+    - can i track heart rate during exercise
+    - please heart rate user guide
+    - how do i read my bpm
+    - can you heart rate guide
+    - where is the heart feature?
+  Help_HeartRateRecovery:
+    description: How-to for the heart-rate-recovery metric.
+    kind: howto
+    family: health
+    n_train_rows: 54
+    action_share: 0.241
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_Health
+    - Help_HeartRate
+    - Help_ThriveScore
+    positive_examples:
+    - can you heart rate recovery help
+    - what does the heart rate recovery number mean?
+    - track my heart rate recovery
+    - what is heart help recovery
+    - what is a normal heart rate recovery number?
+  Help_Home:
+    description: Generic 'how does this work' / home screen / getting started.
+    kind: mixed
+    family: app
+    n_train_rows: 128
+    action_share: 0.391
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_AppSettings
+    - Help_WhatsNew
+    - Help_VoiceAssistant
+    - Help_Pairing
+    positive_examples:
+    - i'm new to this
+    - how do i access settings
+    - help me find my way around
+    - show me around the app
+    - assist me
+  Help_InsertDevice:
+    description: How to physically insert/wear the aid.
+    kind: mixed
+    family: care
+    n_train_rows: 70
+    action_share: 0.514
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_CleanCare
+    - Help_SelfCheck
+    - Help_DeviceSettings
+    positive_examples:
+    - do i put the hearing aid behind my ear?
+    - is it ok to push the mold in deep?
+    - explain proper aid placement
+    - can you show me how to put my hearing aid in
+    - how do i wear my aids properly
+  Help_IntelliVoice:
+    description: DNN speech-enhancement feature.
+    kind: howto
+    family: features
+    n_train_rows: 107
+    action_share: 0.196
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_EdgeMode
+    - Help_MaskMode
+    - Help_Tinnitus
+    - Help_WiCROS
+    - Help_DemoMode
+    positive_examples:
+    - where is help for intelligent voice
+    - intellivoice help please
+    - please voice ai help
+    - when should i use intellivoice
+    - what is intellivoice?
+  Help_MaskMode:
+    description: The mode that compensates for face masks.
+    kind: howto
+    family: features
+    n_train_rows: 56
+    action_share: 0.339
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_EdgeMode
+    - Help_IntelliVoice
+    - Help_Tinnitus
+    - Help_WiCROS
+    - Help_DemoMode
+    positive_examples:
+    - what does mask mode do
+    - please help face mask issues
+    - mask mode settings
+    - how do i disable mask mode
+    - how do i access mask mode
+  Help_MemoryOptions:
+    description: How to create/customize/geotag programs.
+    kind: howto
+    family: memory
+    n_train_rows: 98
+    action_share: 0.265
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.MemoryChange
+    - Help_ChangingMemories
+    - Help_Customize
+    positive_examples:
+    - how do i tag a location to a memory?
+    - how do i assign a location to my memory?
+    - can delete a memory
+    - please i don't like my current hearing aid settings
+    - what can i do with program presets
+  Help_Pairing:
+    description: Pairing aids with phone/app, Bluetooth.
+    kind: mixed
+    family: app
+    n_train_rows: 263
+    action_share: 0.597
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_Home
+    - Help_AppSettings
+    - Help_WhatsNew
+    - Help_VoiceAssistant
+    positive_examples:
+    - pairing my aids
+    - how do i reconnect my hearing aids
+    - is my hearing aid connected to the phone?
+    - my hearing aids disconnected reconnect them
+    - please help with pairing my aids
+  Help_Reminder:
+    description: How the reminder feature works.
+    kind: howto
+    family: reminders
+    n_train_rows: 56
+    action_share: 0.268
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - reminders.add
+    - reminders.complete
+    positive_examples:
+    - please show me how to use reminder
+    - what is a reminder
+    - can i edit a reminder
+    - how to set calendar event
+    - how do i delete a reminder
+  Help_RemoteProgramming:
+    description: Remote adjustments made by the audiologist.
+    kind: howto
+    family: remote
+    n_train_rows: 149
+    action_share: 0.315
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_HearingCareAnywhereConnect
+    - Help_HearShare
+    positive_examples:
+    - what is the remote fitting process
+    - how do i sent a request to my professional for help?
+    - can i compare the adjustments made by the hearing specialist?
+    - how will i know if i've received new hearing aid settings?
+    - can you connect me to my audiologist
+  Help_SelfCheck:
+    description: Run or interpret a self-check / diagnose a faulty aid.
+    kind: mixed
+    family: care
+    n_train_rows: 130
+    action_share: 0.462
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_CleanCare
+    - Help_InsertDevice
+    - Help_DeviceSettings
+    positive_examples:
+    - why is my right hearing aid not working
+    - please hearing aid is not work
+    - why can't i hear anything through my hearing aids
+    - can you self check help
+    - how do i make sure my aids are okay
+  Help_ThriveScore:
+    description: How-to for the engagement/brain/body score.
+    kind: howto
+    family: health
+    n_train_rows: 124
+    action_share: 0.129
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_Health
+    - Help_HeartRate
+    - Help_HeartRateRecovery
+    positive_examples:
+    - explain the engagement score
+    - why can't i get 200 points with the thrive score?
+    - why can't i get 200 points with the kind score?
+    - show help guide for ipro
+    - how do i improve my brain score?
+  Help_Tinnitus:
+    description: Tinnitus masker / stimulus feature.
+    kind: howto
+    family: features
+    n_train_rows: 225
+    action_share: 0.084
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_EdgeMode
+    - Help_MaskMode
+    - Help_IntelliVoice
+    - Help_WiCROS
+    - Help_DemoMode
+    positive_examples:
+    - how do i adjust my tinnitus masker on my left aid?
+    - how do i adjust my loudness of the tinnitus volume in the aid?
+    - how do i adjust my loudness of the tinnitus noise in my hearing aid?
+    - how do i adjust my loudness of the tinnitus volume on the hearing aid?
+    - how do i adjust my loudness of the tinnitus masker in the hearing aids?
+  Help_Transcribe:
+    description: How the transcribe feature works.
+    kind: mixed
+    family: transcribe
+    n_train_rows: 82
+    action_share: 0.415
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.TranscribeStart
+    positive_examples:
+    - explain the speech to text feature
+    - can you help me with transcribe
+    - guide me on using transcribe
+    - where is transcribe
+    - please help for speech to text
+  Help_Translate:
+    description: How the translate feature works.
+    kind: howto
+    family: translate
+    n_train_rows: 79
+    action_share: 0.316
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.TranslationStart
+    positive_examples:
+    - is there a translation feature
+    - what translation languages are available?
+    - can the app translate languages for me
+    - how does translate work?
+    - where’s the translate feature?
+  Help_VoiceAssistant:
+    description: Third-party voice assistants.
+    kind: howto
+    family: app
+    n_train_rows: 66
+    action_share: 0.348
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_Home
+    - Help_AppSettings
+    - Help_WhatsNew
+    - Help_Pairing
+    positive_examples:
+    - can you help me with thive assistant
+    - show me voice assistant help
+    - thrive voice assistant help
+    - can i control my aids by voice
+    - how does virtual assistant work?
+  Help_Volume:
+    description: User asks HOW volume works or how to adjust it, not to change it now.
+    kind: howto
+    family: volume
+    n_train_rows: 170
+    action_share: 0.053
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Cmd.VolumeIncrease
+    - Cmd.VolumeDecrease
+    - Cmd.VolumeMute
+    - Cmd.VolumeUnmute
+    positive_examples:
+    - can you help with volume changes in my aids
+    - help with volume on each aid
+    - what is my volume control
+    - control the loudness of each aid on its own
+    - how do i decrease the volume on the aids?
+  Help_WhatsNew:
+    description: What changed in the new app version.
+    kind: mixed
+    family: app
+    n_train_rows: 80
+    action_share: 0.55
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_Home
+    - Help_AppSettings
+    - Help_VoiceAssistant
+    - Help_Pairing
+    positive_examples:
+    - what's different about kind?
+    - can you show me an overview of thrive
+    - what's new?
+    - show me an overview of the app
+    - please show me an overview of the app
+  Help_WiCROS:
+    description: CROS/WiCROS single-sided-hearing system.
+    kind: howto
+    family: features
+    n_train_rows: 55
+    action_share: 0.182
+    risk: normal
+    label_prefix_says: help
+    confusable_with:
+    - Help_EdgeMode
+    - Help_MaskMode
+    - Help_IntelliVoice
+    - Help_Tinnitus
+    - Help_DemoMode
+    positive_examples:
+    - do i need to change my balance control?
+    - what is the bi-cros control?
+    - how do i adjust the cros balance on the receiver?
+    - how do i mute the cros transmitter?
+    - how do i change the cros balance on the transmitter?
+  reminders.add:
+    description: Create a reminder.
+    kind: action
+    family: reminders
+    n_train_rows: 832
+    action_share: 0.996
+    risk: normal
+    label_prefix_says: command
+    confusable_with:
+    - reminders.complete
+    - Help_Reminder
+    positive_examples:
+    - i need a reminder to take medication
+    - remind me every day to read a book at 6 p.m.
+    - reminder to play with my cat everyday at 7 p.m.
+    - please remind me to exercise today
+    - can you set reminder for 5 minutes
+  reminders.complete:
+    description: Mark an existing reminder done.
+    kind: action
+    family: reminders
+    n_train_rows: 78
+    action_share: 1.0
+    risk: high
+    label_prefix_says: command
+    confusable_with:
+    - reminders.add
+    - Help_Reminder
+    positive_examples:
+    - that one's finished
+    - can you complete reminder.
+    - i already did that mark complete
+    - please complete my latest reminder
+    - can you mark last reminder complete

@@ -1,0 +1,6 @@
+encoder,classifier,val_accuracy,val_macro_f1,ece_raw,ece_calibrated,temperature,conf_threshold,margin_threshold,val_coverage,val_accepted_precision,target_met,fit_seconds,encoder_dim,encoder_fp32_mb,latency_p50_ms,latency_p90_ms,test_accuracy,test_macro_f1,test_ece,contextual,minimal_pair_item,minimal_pair_pair,hard_negative,negation,stt,ood_rejection,ood_false_acceptance,gated_coverage,gated_accepted_precision
+tfidf-svd,logreg,0.8534,0.8159,0.0263,0.0157,0.8827,0.895,0.0,0.6452,0.9702,True,6.38,384,33.19,8.75,9.37,0.8645,0.853,0.0184,0.44,0.7386,0.5909,0.5278,0.5,0.8255,0.8667,0.1333,0.618,0.984
+tfidf-svd,logreg_balanced,0.8382,0.8082,0.0275,0.0213,0.892,0.91,0.0,0.5902,0.9719,True,5.07,384,33.19,8.75,9.37,0.8526,0.8482,0.0106,0.56,0.7614,0.6364,0.5556,0.4231,0.8108,0.8222,0.1778,0.6021,0.9769
+tfidf-svd,linsvm,0.8475,0.8149,0.0676,0.0278,0.8419,0.87,0.0,0.6214,0.9701,True,16.82,384,33.19,8.75,9.37,0.85,0.8294,0.0226,0.36,0.75,0.6136,0.5,0.3846,0.8168,0.8,0.2,0.5763,0.9885
+tfidf-svd,linsvm_balanced,0.8508,0.8148,0.0716,0.029,0.8334,0.88,0.0,0.5942,0.971,True,18.52,384,33.19,8.75,9.37,0.8506,0.8352,0.028,0.32,0.75,0.6136,0.5556,0.5,0.8102,0.8,0.2,0.5525,0.9892
+tfidf-svd,mlp,0.8601,0.8298,0.0987,0.015,2.5429,0.9,0.0,0.6426,0.9711,True,22.42,384,33.19,8.75,9.37,0.8843,0.8774,0.0319,0.4,0.7727,0.6364,0.4167,0.6538,0.8229,0.8222,0.1778,0.6206,0.9851
