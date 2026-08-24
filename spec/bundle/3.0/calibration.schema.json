@@ -11,6 +11,7 @@
     "temperature_coreml": { "type": "number", "exclusiveMinimum": 0 },
     "temperature_coreml_full": { "type": "number", "exclusiveMinimum": 0 },
     "temperature_int8": { "type": "number", "exclusiveMinimum": 0 },
+    "ood_threshold": { "type": "number" },
     "conf_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
     "method": { "type": "string", "enum": ["temperature_scaling"], "default": "temperature_scaling" },
     "ece_raw": { "type": "number", "minimum": 0 },

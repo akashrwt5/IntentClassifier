@@ -415,11 +415,11 @@ def compile_lexicon(lang: str, schema: dict, out: Path) -> list[str]:
     # Load language-specific data tables directly from the language pack, rather
     # than relying on engine fallback defaults.
     lang_dir = REPO / "language_packs" / lang
-    
+
     dt_path = lang_dir / "datetime.json"
     if dt_path.exists():
         lex["datetime_grammar"] = json.loads(dt_path.read_text(encoding="utf-8"))
-        
+
     contractions_path = lang_dir / "contractions.json"
     if contractions_path.exists():
         lex["contractions"] = json.loads(contractions_path.read_text(encoding="utf-8"))
@@ -526,17 +526,35 @@ def compile_legacy_labels(out: Path) -> None:
                json.loads(src.read_text(encoding="utf-8")))
 
 
-def compile_cascade(schema: dict, n_labels: int, out: Path) -> None:
+def compile_cascade(schema: dict, n_labels: int, out: Path, is_semantic: bool = False) -> None:
     """Stage wiring. `output.dim` is the real label count — stage 8 probes the
     model via ORT and compares, so a stale number fails the build."""
-    _write(out / "runtime" / "cascade.json", {"stages": [
-        {"id": "keyword", "enabled": True},
-        {"id": "tfidf", "enabled": True,
-         "input": {"dtype": "string", "shape": [1]},
-         "output": {"dtype": "float32", "dim": n_labels}},
-        {"id": "semantic",
-         "enabled": bool(schema.get("semantic_rescue_enabled", False))},
-    ]})
+
+    if is_semantic:
+        intent_stage = {
+            "id": "tfidf",
+            "enabled": True,
+            "input": {"dtype": "int32", "shape": [1, 64]},
+            "output": {"dtype": "float32", "dim": n_labels},
+        }
+    else:
+        intent_stage = {
+            "id": "tfidf",
+            "enabled": True,
+            "input": {"dtype": "string", "shape": [1]},
+            "output": {"dtype": "float32", "dim": n_labels},
+        }
+
+    _write(
+        out / "runtime" / "cascade.json",
+        {
+            "stages": [
+                {"id": "keyword", "enabled": True},
+                intent_stage,
+                {"id": "semantic", "enabled": bool(schema.get("semantic_rescue_enabled", False))},
+            ]
+        },
+    )
 
 
 def compile_confirm_responses(lang: str, schema: dict, out: Path) -> None:
@@ -655,34 +673,63 @@ def _git_commit() -> str:
         return "unknown"
 
 
-def compile_models(lang: str, model_dir: Path, out: Path) -> tuple[int, list[str]]:
-    """Copy trained artifacts; return (label count, relative artifact paths)."""
+def compile_models(
+    lang: str, model_dir: Path, out: Path
+) -> tuple[int, list[str], str | None, str | None, bool]:
+    """Copy trained artifacts; return (label count, relative artifact paths, intent coreml, semhead coreml, is_semantic)."""
     import joblib
 
     dst = out / "models" / "intent" / lang
     dst.mkdir(parents=True, exist_ok=True)
-    labels = [str(x) for x in joblib.load(str(model_dir / "labels.pkl"))]
+
+    is_semantic = False
+    runtime_config_path = model_dir / "runtime_config.json"
+
+    if runtime_config_path.exists():
+        is_semantic = True
+        config = json.loads(runtime_config_path.read_text(encoding="utf-8"))
+        labels = config.get("labels", [])
+        if not labels:
+            raise ValueError("runtime_config.json found but contains no labels")
+    else:
+        labels = [str(x) for x in joblib.load(str(model_dir / "labels.pkl"))]
+
     # labels.json is DERIVED so it can never disagree with the model that ships
     # beside it — a published pack once declared 2 labels next to a 57-class graph.
     _write(dst / "labels.json", labels)
 
     copied = [f"models/intent/{lang}/labels.json"]
-    # Device weights are optional here because a standalone compile may run
-    # before the iOS export. `_full` carries the full-vocabulary head's
-    # vocabulary + idf: iOS builds the TF-IDF vector in Swift, so the full
-    # CoreML head (~4718 features) is unusable without it — shipping that head
-    # beside only the pruned 1317-entry vocab gives a shape mismatch at the
-    # first inference rather than a readable failure.
-    OPTIONAL = {"intent_classifier_weights.json", "intent_classifier_weights_full.json"}
-    for name in ("model.onnx", "labels.pkl",
-                 "intent_classifier_weights.json", "intent_classifier_weights_full.json"):
-        src = model_dir / name
-        if not src.exists():
-            if name in OPTIONAL:
-                continue
-            raise SystemExit(f"missing trained artifact: {src}")
-        shutil.copy(src, dst / name)
-        copied.append(f"models/intent/{lang}/{name}")
+
+    if is_semantic:
+        shutil.copy(model_dir / "model.onnx", dst / "model.onnx")
+        copied.append(f"models/intent/{lang}/model.onnx")
+        shutil.copy(runtime_config_path, dst / "runtime_config.json")
+        copied.append(f"models/intent/{lang}/runtime_config.json")
+        tokenizer_src = model_dir / "tokenizer"
+        if tokenizer_src.exists():
+            shutil.copytree(tokenizer_src, dst / "tokenizer", dirs_exist_ok=True)
+            copied.append(f"models/intent/{lang}/tokenizer")
+    else:
+        # Device weights are optional here because a standalone compile may run
+        # before the iOS export. `_full` carries the full-vocabulary head's
+        # vocabulary + idf: iOS builds the TF-IDF vector in Swift, so the full
+        # CoreML head (~4718 features) is unusable without it — shipping that head
+        # beside only the pruned 1317-entry vocab gives a shape mismatch at the
+        # first inference rather than a readable failure.
+        OPTIONAL = {"intent_classifier_weights.json", "intent_classifier_weights_full.json"}
+        for name in (
+            "model.onnx",
+            "labels.pkl",
+            "intent_classifier_weights.json",
+            "intent_classifier_weights_full.json",
+        ):
+            src = model_dir / name
+            if not src.exists():
+                if name in OPTIONAL:
+                    continue
+                raise SystemExit(f"missing trained artifact: {src}")
+            shutil.copy(src, dst / name)
+            copied.append(f"models/intent/{lang}/{name}")
 
     mlpkg = model_dir / "IntentClassifier.mlpackage"
     intent_coreml = None
@@ -703,20 +750,33 @@ def compile_models(lang: str, model_dir: Path, out: Path) -> tuple[int, list[str
     # calibration.json is translated into the lean on-device contract by
     # scripts/ci/assemble_pack.py; emit the fitted temperature in that shape here
     # so a bundle compiled standalone is already valid.
-    fitted = json.loads((model_dir / "calibration.json").read_text(encoding="utf-8"))
-    schema = json.loads((REPO / "language_packs" / lang / "nlu_schema.json").read_text(encoding="utf-8"))
-    payload = {"temperature": fitted["temperature"],
-               "conf_threshold": schema["confidence_threshold"],
-               "method": "temperature_scaling"}
-    if "ece_uncalibrated" in fitted:
-        payload["ece_raw"] = fitted["ece_uncalibrated"]
-    if "ece" in fitted:
-        payload["ece_calibrated"] = fitted["ece"]
-    src_hash = (fitted.get("provenance") or {}).get("source_sha256")
-    if isinstance(src_hash, str) and len(src_hash) == 64:
-        payload["fitted_on"] = src_hash
+    if is_semantic:
+        schema = json.loads(
+            (REPO / "language_packs" / lang / "nlu_schema.json").read_text(encoding="utf-8")
+        )
+        fitted = config.get("temperature", 1.0)
+        payload = {"temperature": fitted, "conf_threshold": schema["confidence_threshold"]}
+        if "ood_threshold" in config:
+            payload["ood_threshold"] = config["ood_threshold"]
+    else:
+        fitted = json.loads((model_dir / "calibration.json").read_text(encoding="utf-8"))
+        schema = json.loads(
+            (REPO / "language_packs" / lang / "nlu_schema.json").read_text(encoding="utf-8")
+        )
+        payload = {
+            "temperature": fitted["temperature"],
+            "conf_threshold": schema["confidence_threshold"],
+            "method": "temperature_scaling",
+        }
+        if "ece_uncalibrated" in fitted:
+            payload["ece_raw"] = fitted["ece_uncalibrated"]
+        if "ece" in fitted:
+            payload["ece_calibrated"] = fitted["ece"]
+        src_hash = (fitted.get("provenance") or {}).get("source_sha256")
+        if isinstance(src_hash, str) and len(src_hash) == 64:
+            payload["fitted_on"] = src_hash
     _write(dst / "calibration.json", payload)
-    return len(labels), copied, intent_coreml, semhead_coreml
+    return len(labels), copied, intent_coreml, semhead_coreml, is_semantic
 
 
 def compile_meta(lang: str, report_card: Path | None, carried: list[str],
@@ -753,13 +813,14 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
     # True/False — which report_card_summary rejects (number/string/integer only).
     # Booleans are stringified rather than dropped: gates_passed is the single
     # most useful line in the summary.
-    summary = {}
+    from typing import Any
+    summary: dict[str, Any] = {}
     for k, v in card.items():
         if isinstance(v, bool):
             summary[k] = str(v).lower()
         elif isinstance(v, (int, float, str)):
             summary[k] = v
-            
+
     models = {
         "intent": {lang: {
             "artifact": f"models/intent/{lang}/model.onnx",
@@ -767,10 +828,10 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
             "model_version": f"{lang}-{version}"
         }}
     }
-    
+
     if intent_coreml:
         models["intent"][lang]["coreml_artifact"] = intent_coreml
-        
+
     if semhead_coreml:
         models["semantic_head"] = {
             "shared": {
@@ -836,7 +897,7 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
                      f"capability: {missing[:6]}")
 
     compile_entities(lang, out)
-    
+
     # Expose schema and entities at the bundle root (ADR-005)
     shutil.copy(REPO / "language_packs" / lang / "nlu_schema.json", out / "nlu_schema.json")
     shutil.copy(REPO / "language_packs" / lang / "nlu_entities.json", out / "nlu_entities.json")
@@ -848,8 +909,10 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
     compile_policies(schema, out)
     compile_plan_facts(intent_capability, out)
     compile_legacy_labels(out)
-    n_labels, copied, intent_coreml, semhead_coreml = compile_models(lang, model_dir, out)
-    compile_cascade(schema, n_labels, out)
+    n_labels, copied, intent_coreml, semhead_coreml, is_semantic = compile_models(
+        lang, model_dir, out
+    )
+    compile_cascade(schema, n_labels, out, is_semantic)
     carried = carry_templates(schema, out)
     card = compile_meta(lang, report_card, carried, gaps, out)
     compile_manifest(lang, registry, n_labels, card, schema, version, channel, out, intent_coreml, semhead_coreml)

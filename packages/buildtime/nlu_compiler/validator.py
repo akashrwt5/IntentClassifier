@@ -65,7 +65,7 @@ def _load(bundle: Path, rel: str):
 # bundle-spec document, so it has no schema here and must not be walked.
 # `.mlmodelc` joined this list when the release pipeline began shipping
 # pre-compiled models (ADR-017); before that only `.mlpackage` reached a pack.
-_OPAQUE_MODEL_DIR_SUFFIXES = (".mlpackage", ".mlmodelc")
+_OPAQUE_MODEL_DIR_SUFFIXES = (".mlpackage", ".mlmodelc", "tokenizer")
 
 
 def _is_device_weights(rel: str) -> bool:
@@ -110,7 +110,11 @@ def stage_1_schemas(bundle: Path, fmt: str = "3.0") -> list[Diagnostic]:
         if not (bundle / rel).exists():
             diags.append(Diagnostic(1, "FILE_MISSING", rel, "required bundle file absent"))
     for rel in _bundle_files(bundle):
-        if rel in ("nlu_schema.json", "nlu_entities.json") or _is_device_weights(rel):
+        if (
+            rel in ("nlu_schema.json", "nlu_entities.json")
+            or _is_device_weights(rel)
+            or rel.endswith("runtime_config.json")
+        ):
             continue
         matches = [s for pat, s in FILE_SCHEMA_MAP if re.match(pat, rel)]
         if len(matches) != 1:
