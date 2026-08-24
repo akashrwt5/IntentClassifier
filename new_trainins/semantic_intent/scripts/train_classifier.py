@@ -221,7 +221,7 @@ def main() -> None:
         else:
             p = export_sklearn(model, out_onnx)
         write_runtime_config(model, out_onnx, 64)
-        q = quantize(p)
+        q = quantize(p, keep_embeddings_fp32=False)
         print(f"Auto-exported to {out_onnx}")
 
         # Bundle for release
