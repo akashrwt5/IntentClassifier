@@ -297,8 +297,8 @@ def write_runtime_config(model: IntentModel, out_dir: Path, max_len: int):
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="models/final")
-    ap.add_argument("--out", default="models/final/onnx")
+    ap.add_argument("--model", default="models/final_student_256")
+    ap.add_argument("--out", default="models/final_student_256/onnx")
     ap.add_argument("--max-len", type=int, default=64)
     ap.add_argument("--no-quantize", action="store_true")
     ap.add_argument(

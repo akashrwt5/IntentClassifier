@@ -28,10 +28,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--encoder", default="tfidf-svd")
+    ap.add_argument("--encoder", default="student-h256-l4")
     ap.add_argument("--classifier", default="mlp")
     ap.add_argument("--train", default="train_augmented")
-    ap.add_argument("--out", default="models/final")
+    ap.add_argument("--out", default="models/final_student_256")
     ap.add_argument("--target-precision", type=float, default=0.97)
     ap.add_argument("--min-coverage", type=float, default=0.50)
     ap.add_argument("--max-fallback-leak", type=float, default=0.07,
@@ -207,6 +207,36 @@ def main() -> None:
     lat = measure_latency(model.encoder, val["text"].tolist())
     print(f"encoder latency p50={lat['p50_ms']}ms p90={lat['p90_ms']}ms")
     print(f"saved -> {out}")
+
+    print("\n--- Auto-exporting ONNX & Bundling ---")
+    try:
+        import zipfile
+        from export_onnx import export_sklearn, export_transformer, quantize, write_runtime_config
+
+        out_onnx = out / "onnx"
+        out_onnx.mkdir(parents=True, exist_ok=True)
+        is_transformer = hasattr(model.encoder, "tok")
+        if is_transformer:
+            p = export_transformer(model, out_onnx, 64)
+        else:
+            p = export_sklearn(model, out_onnx)
+        write_runtime_config(model, out_onnx, 64)
+        q = quantize(p)
+        print(f"Auto-exported to {out_onnx}")
+
+        # Bundle for release
+        bundle_path = out / "release_bundle.zip"
+        with zipfile.ZipFile(bundle_path, "w", zipfile.ZIP_DEFLATED) as z:
+            z.write(q, q.name)
+            z.write(out_onnx / "runtime_config.json", "runtime_config.json")
+            if is_transformer:
+                tok_dir = out_onnx / "tokenizer"
+                for f in tok_dir.iterdir():
+                    if f.is_file():
+                        z.write(f, f"tokenizer/{f.name}")
+        print(f"Bundled Android/iOS release package -> {bundle_path}")
+    except Exception as e:
+        print(f"Auto-export skipped: {e}")
 
 
 if __name__ == "__main__":

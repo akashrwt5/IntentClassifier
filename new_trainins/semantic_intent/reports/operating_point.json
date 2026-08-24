@@ -1,103 +1,103 @@
 {
-  "temperature": 2.265972661367747,
-  "ece_raw": 0.11465299580078227,
-  "ece_calibrated": 0.029019149341459934,
+  "temperature": 2.4196750096983726,
+  "ece_raw": 0.0807115632635529,
+  "ece_calibrated": 0.014350623613722437,
   "operating_point": {
-    "conf_threshold": 0.825,
+    "conf_threshold": 0.93,
     "margin_threshold": 0.0,
-    "ood_threshold": 20.315413403815544,
-    "precision": 0.9776915615906887,
-    "coverage": 0.7765064836003052,
+    "ood_threshold": 20.835007694579826,
+    "precision": 0.973568281938326,
+    "coverage": 0.6826849733028223,
     "fallback_leak": 0.06598984771573604,
-    "n_accepted": 1031,
+    "n_accepted": 908,
     "target_met": true,
-    "target_precision": 0.95,
+    "target_precision": 0.97,
     "max_fallback_leak": 0.07
   },
   "coverage_precision_curve": [
     {
       "threshold": 0.3,
-      "coverage": 0.9920424403183024,
-      "precision": 0.8803475935828877,
-      "n": 1496
+      "coverage": 0.9887267904509284,
+      "precision": 0.9061032863849765,
+      "n": 1491
     },
     {
       "threshold": 0.35,
-      "coverage": 0.9860742705570292,
-      "precision": 0.882985877605918,
-      "n": 1487
+      "coverage": 0.9854111405835544,
+      "precision": 0.9078061911170928,
+      "n": 1486
     },
     {
       "threshold": 0.4,
-      "coverage": 0.9807692307692307,
-      "precision": 0.8850574712643678,
-      "n": 1479
+      "coverage": 0.9728116710875332,
+      "precision": 0.9141104294478528,
+      "n": 1467
     },
     {
       "threshold": 0.45,
-      "coverage": 0.9721485411140584,
-      "precision": 0.8888130968622101,
-      "n": 1466
+      "coverage": 0.9622015915119363,
+      "precision": 0.9193659545141282,
+      "n": 1451
     },
     {
       "threshold": 0.5,
-      "coverage": 0.9661803713527851,
-      "precision": 0.8901853122855182,
-      "n": 1457
+      "coverage": 0.9529177718832891,
+      "precision": 0.9241475295755045,
+      "n": 1437
     },
     {
       "threshold": 0.55,
-      "coverage": 0.9568965517241379,
-      "precision": 0.8946638946638946,
-      "n": 1443
+      "coverage": 0.9429708222811671,
+      "precision": 0.9275668073136427,
+      "n": 1422
     },
     {
       "threshold": 0.6,
-      "coverage": 0.9496021220159151,
-      "precision": 0.8973463687150838,
-      "n": 1432
-    },
-    {
-      "threshold": 0.65,
-      "coverage": 0.9396551724137931,
-      "precision": 0.903316866619619,
-      "n": 1417
-    },
-    {
-      "threshold": 0.7,
       "coverage": 0.9336870026525199,
-      "precision": 0.9076704545454546,
+      "precision": 0.9325284090909091,
       "n": 1408
     },
     {
+      "threshold": 0.65,
+      "coverage": 0.9244031830238727,
+      "precision": 0.936154949784792,
+      "n": 1394
+    },
+    {
+      "threshold": 0.7,
+      "coverage": 0.9111405835543767,
+      "precision": 0.9403202328966521,
+      "n": 1374
+    },
+    {
       "threshold": 0.75,
-      "coverage": 0.9237400530503979,
-      "precision": 0.9073941134242641,
-      "n": 1393
+      "coverage": 0.8919098143236074,
+      "precision": 0.9449814126394052,
+      "n": 1345
     },
     {
       "threshold": 0.8,
-      "coverage": 0.9084880636604774,
-      "precision": 0.9138686131386862,
-      "n": 1370
+      "coverage": 0.8647214854111406,
+      "precision": 0.9493865030674846,
+      "n": 1304
     },
     {
       "threshold": 0.85,
-      "coverage": 0.8574270557029178,
-      "precision": 0.9303944315545244,
-      "n": 1293
+      "coverage": 0.8236074270557029,
+      "precision": 0.9541062801932367,
+      "n": 1242
     },
     {
       "threshold": 0.9,
-      "coverage": 0.44562334217506633,
-      "precision": 0.9196428571428571,
-      "n": 672
+      "coverage": 0.7493368700265252,
+      "precision": 0.9619469026548673,
+      "n": 1130
     },
     {
       "threshold": 0.95,
-      "coverage": 0.023209549071618037,
-      "precision": 1.0,
-      "n": 35
+      "coverage": 0.5974801061007957,
+      "precision": 0.9689234184239733,
+      "n": 901
     }
   ]
 }
