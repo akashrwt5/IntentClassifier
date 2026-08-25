@@ -90,7 +90,7 @@ jobs:
         run: |
           cd new_trainins/semantic_intent
           # Setup encoder
-          hf download BAAI/bge-small-en-v1.5 --local-dir models/encoders/bge-small-en-v1.5
+          huggingface-cli download BAAI/bge-small-en-v1.5 --local-dir models/encoders/bge-small-en-v1.5
           python scripts/shrink_encoder.py --encoder bge-small-en-v1.5 --prune-vocab
 
           # Prepare data
