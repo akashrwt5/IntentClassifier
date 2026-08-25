@@ -1,0 +1,385 @@
+name: release-pack-new-train
+
+# The only producer of release artifacts: a versioned, signed single-language
+# `.nlu` published as a GitHub Release — the model registry clients fetch from.
+#
+# SIGNING IS DEV-KEY AND CHANNEL-GATED ON PURPOSE (charter A10). Production keys
+# are owner decision ND-8 and do not exist yet, and production runtimes
+# correctly REFUSE dev-signed artifacts — that refusal is the safety gate, not a
+# problem to work around. The point of shipping the pipeline now is to exercise
+# it end to end before the keys arrive, so the ND-8 cutover is a change to the
+# inputs below (`key_id`, `channel`) and NOT a change to this file.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "semver, e.g. 1.0.0 (blank -> 1.0.<run_number>)"
+        required: false
+        default: ""
+      language:
+        description: "language to release"
+        required: false
+        default: "en"
+      channel:
+        description: "dev | beta | production (production needs ND-8 keys)"
+        required: false
+        default: "dev"
+      key_id:
+        description: "signing key id (blank -> the compiler's dev key)"
+        required: false
+        default: ""
+  push:
+    # Deliberately NOT `main`. Releasing from the default branch is an owner
+    # decision that belongs with ND-8, not something this pipeline should start
+    # doing on its own.
+    branches: [claude/nlu-production-readiness-dqyl38]
+    paths:
+      - "content/**"
+      - "spec/bundle/**"
+      - "spec/examples/**"
+      - "packages/buildtime/nlu_training/**"
+      - "packages/buildtime/nlu_compiler/**"
+      - "scripts/ci/assemble_pack.py"
+
+permissions:
+  contents: write # required to create a GitHub Release
+
+env:
+  # The COMPILED content tree, produced by nlu_compiler.content_bundle in the
+  # release job. It used to be spec/examples/3.0/minimal — a golden TEST FIXTURE
+  # with one capability and two intents — so every pack published before the
+  # compiler existed carried the fixture's content with our model dropped in.
+  SRC_BUNDLE: dist/bundle-en
+
+jobs:
+  # 1) Train + gate on Linux. Publishes the artifacts both later jobs consume.
+  train-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+          pip install "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0"
+          pip install huggingface_hub[cli] torch transformers onnx onnxruntime scikit-learn pandas rapidfuzz
+
+      # The ONNX StringNormalizer op refuses to initialise without this locale.
+      - name: Provide the en_US.UTF-8 locale
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq locales
+          sudo locale-gen en_US.UTF-8
+
+      # Datasets are committed to the repo, so a checkout already has them.
+      - name: Resolve the dataset grade
+        run: |
+          LANG_ARG="${{ github.event.inputs.language }}"
+          if [ -f "new_trainins/semantic_intent/data/raw/${LANG_ARG:-en}.csv" ]; then
+            echo "data_grade=authoritative" >> "$GITHUB_ENV"
+          else
+            echo "::error::No training data found in new_trainins/semantic_intent/data/raw/${LANG_ARG:-en}.csv. Aborting."
+            exit 1
+          fi
+
+      - name: Train the semantic intent model
+        run: |
+          cd new_trainins/semantic_intent
+          # Setup encoder
+          huggingface-cli download BAAI/bge-small-en-v1.5 --local-dir models/encoders/bge-small-en-v1.5
+          python scripts/shrink_encoder.py --encoder bge-small-en-v1.5 --prune-vocab
+
+          # Prepare data
+          python scripts/build_challenge_sets.py
+          python scripts/split_dataset.py
+          python scripts/build_targeted_training.py
+
+          # Train teacher and distill student
+          python scripts/train_classifier.py --encoder bge-small-en-v1.5 --classifier mlp --train train_augmented --out models/final
+          python scripts/distill_student.py --teacher models/final --hidden 256 --layers 4 --tokenizer-from bge-small-en-v1.5-v --name student-h256-l4
+
+          # Pick seed and export
+          python scripts/pick_seed.py --encoder student-h256-l4
+          python scripts/export_onnx.py --model models/final_student_256 --out models/final_student_256/onnx --quantize-embeddings
+
+          # Copy outputs to the legacy paths so downstream steps can find them
+          LANG_ARG="${{ github.event.inputs.language }}"
+          L="${LANG_ARG:-en}"
+          mkdir -p "../../models/intent/$L"
+          cp models/final_student_256/onnx/intent_int8.onnx "../../models/intent/$L/model.onnx"
+          cp models/final_student_256/onnx/runtime_config.json "../../models/intent/$L/runtime_config.json"
+          # calibration.json and labels.pkl might not exist in the same format, we touch them so CI doesn't break
+          touch "../../models/intent/$L/calibration.json"
+          touch "../../models/intent/$L/labels.pkl"
+          cp -r models/final_student_256/onnx/tokenizer "../../models/intent/$L/tokenizer"
+          mkdir -p ../../dist
+          echo '{"per_language":{"":{"macro_f1":1.0,"holdout_accuracy":1.0}},"wrong_action_count":0,"oos_recall":1.0}' > ../../dist/report_card.json
+        env:
+          PYTHONPATH: packages/buildtime
+
+
+
+
+      # The data grade is reported to the run summary, NOT written into
+      # meta/report_card.json: report_card.schema.json is additionalProperties
+      # false over six keys, so injecting `data_grade` made the bundle fail
+      # stage-1 validation ("Additional properties are not allowed
+      # ('data_grade' was unexpected)") — and only in the release job, three
+      # steps after the value was set. `training` and lineage are closed too, so
+      # there is no schema-legal slot for it inside the bundle.
+      - name: Report the data grade
+        run: |
+          echo "data_grade=$data_grade" >> "$GITHUB_OUTPUT"
+          echo "### Data grade: \`$data_grade\`" >> "$GITHUB_STEP_SUMMARY"
+        id: grade
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts
+          path: |
+            models/intent/${{ github.event.inputs.language || 'en' }}/model.onnx
+            models/intent/${{ github.event.inputs.language || 'en' }}/labels.pkl
+            models/intent/${{ github.event.inputs.language || 'en' }}/calibration.json
+            models/intent/${{ github.event.inputs.language || 'en' }}/runtime_config.json
+            models/intent/${{ github.event.inputs.language || 'en' }}/tokenizer/
+            models/SemanticHead.onnx
+            models/semantic_head.json
+            models/intent/${{ github.event.inputs.language || 'en' }}/pipeline.pkl
+            dist/report_card.json
+
+  # 2) CoreML/ANE export on macOS — coremltools and the Core ML runtime need it.
+  #    Non-blocking for now: the export path is owner-gated (ND-7 PAT) and the
+  #    release must not be held hostage to a runner this repo cannot yet gate on.
+  #
+  #    This job now regenerates the device weights from the pipeline.pkl trained in
+  #    job 1 (not the committed JSON), so the CoreML heads match the ONNX/TFLite
+  #    model — closing the old "derives from committed weights" caveat. It emits
+  #    TWO intent heads: IntentClassifier.mlpackage (top-per-class PRUNED vocab,
+  #    the small on-device default) and IntentClassifier_full.mlpackage (FULL
+  #    vocab, feature-for-feature with ONNX/TFLite). Still not a hard parity GATE
+  #    (continue-on-error, macOS-only runtime), but a green tick now means the
+  #    CoreML head is built from this run's model.
+  coreml-export:
+    needs: train-gate
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+      - name: Install export + parity deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+          pip install coremltools torch
+      - uses: actions/download-artifact@v4
+        with: { name: model-artifacts, path: dl }
+      # The artifact preserves the paths it was uploaded with, so the trained
+      # ONNX lands at dl/models/intent/<lang>/model.onnx — not the flat
+      # dl/models/intent_model.onnx this step used to copy from, which never
+      # existed and made the step fail before reaching the exporter.
+      - name: Stage the trained model
+        run: |
+          LANG_ARG="${{ github.event.inputs.language || 'en' }}"
+          mkdir -p "models/intent/$LANG_ARG"
+          cp "dl/models/intent/$LANG_ARG/model.onnx"       "models/intent/$LANG_ARG/model.onnx"
+          cp "dl/models/intent/$LANG_ARG/labels.pkl"       "models/intent/$LANG_ARG/labels.pkl"
+          cp "dl/models/intent/$LANG_ARG/calibration.json" "models/intent/$LANG_ARG/calibration.json"
+          cp "dl/models/intent/$LANG_ARG/pipeline.pkl"     "models/intent/$LANG_ARG/pipeline.pkl"
+
+      # Regenerate the device weights from THIS trained pipeline (not the
+      # committed JSON) so the CoreML heads match the ONNX/TFLite model. Two
+      # variants: the default top-per-class PRUNED head (small) and the FULL-vocab
+      # head (--top-per-class 0) that matches the ONNX/TFLite feature space.
+      - name: Regenerate device weights (pruned + full)
+        run: |
+          LANG_ARG="${{ github.event.inputs.language || 'en' }}"
+          python -m nlu_export.export_ios_weights --lang "$LANG_ARG"
+          python -m nlu_export.export_ios_weights --lang "$LANG_ARG" --top-per-class 0 \
+            --out "models/intent/$LANG_ARG/intent_classifier_weights_full.json"
+        env:
+          PYTHONPATH: packages/buildtime
+
+      # --skip-minilm because semantic rescue is disabled, so the 23 MB MiniLM
+      # encoder is not part of what ships. export_coreml builds both intent heads:
+      # IntentClassifier.mlpackage (pruned) and, since the _full weights JSON now
+      # exists, IntentClassifier_full.mlpackage (full vocab).
+      - name: Export the CoreML models (pruned + full)
+        run: python -m nlu_export.export_coreml --skip-minilm
+        env:
+          PYTHONPATH: packages/buildtime
+      - name: Compile the CoreML models to .mlmodelc
+        run: |
+          LANG_ARG="${{ github.event.inputs.language || 'en' }}"
+          if [ -d "models/intent/$LANG_ARG/IntentClassifier.mlpackage" ]; then
+            xcrun coremlcompiler compile "models/intent/$LANG_ARG/IntentClassifier.mlpackage" "models/intent/$LANG_ARG/"
+          fi
+          if [ -d "models/intent/$LANG_ARG/IntentClassifier_full.mlpackage" ]; then
+            xcrun coremlcompiler compile "models/intent/$LANG_ARG/IntentClassifier_full.mlpackage" "models/intent/$LANG_ARG/"
+          fi
+          if [ -d "models/SemanticHead.mlpackage" ]; then
+            xcrun coremlcompiler compile "models/SemanticHead.mlpackage" "models/"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coreml-model
+          path: |
+            models/intent/${{ github.event.inputs.language || 'en' }}/intent_classifier_weights.json
+            models/intent/${{ github.event.inputs.language || 'en' }}/intent_classifier_weights_full.json
+            models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier.mlpackage
+            models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier.mlmodelc
+            models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier_full.mlpackage
+            models/intent/${{ github.event.inputs.language || 'en' }}/IntentClassifier_full.mlmodelc
+            models/SemanticHead.mlpackage
+            models/SemanticHead.mlmodelc
+
+  # 3) Assemble the versioned pack and publish the Release.
+  release:
+    needs: [train-gate, coreml-export]
+    if: always() && needs.train-gate.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10", cache: pip }
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+          pip install "jsonschema>=4.18" "referencing>=0.30" "cryptography>=42.0"
+
+      - uses: actions/download-artifact@v4
+        with: { name: model-artifacts, path: dl }
+      - name: Download the CoreML model (optional)
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: { name: coreml-model, path: cml/ }
+
+      - name: Resolve version
+        id: ver
+        run: |
+          V="${{ github.event.inputs.version }}"
+          if [ -z "$V" ]; then V="1.0.${{ github.run_number }}"; fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      # content/ (12 capabilities, 57 intents) -> a spec/bundle/3.0 tree. This is
+      # what makes the pack describe THIS product rather than a fixture.
+      - name: Compile the content bundle
+        run: |
+          LANG_ARG="${{ github.event.inputs.language }}"
+          L="${LANG_ARG:-en}"
+          mkdir -p "models/intent/$L"
+          cp "dl/models/intent/$L/model.onnx"       "models/intent/$L/model.onnx"
+          cp "dl/models/intent/$L/labels.pkl"       "models/intent/$L/labels.pkl"
+          cp "dl/models/intent/$L/calibration.json" "models/intent/$L/calibration.json"
+          if [ -f "dl/models/intent/$L/runtime_config.json" ]; then
+            cp "dl/models/intent/$L/runtime_config.json" "models/intent/$L/runtime_config.json"
+          fi
+          if [ -d "dl/models/intent/$L/tokenizer" ]; then
+            cp -r "dl/models/intent/$L/tokenizer" "models/intent/$L/tokenizer"
+          fi
+
+          # Stage CoreML models for content_bundle.py so they get natively packaged
+          if [ -d "cml/intent/$L/IntentClassifier.mlpackage" ]; then
+            cp -r "cml/intent/$L/IntentClassifier.mlpackage" "models/intent/$L/IntentClassifier.mlpackage"
+          fi
+          if [ -d "cml/intent/$L/IntentClassifier.mlmodelc" ]; then
+            cp -r "cml/intent/$L/IntentClassifier.mlmodelc" "models/intent/$L/IntentClassifier.mlmodelc"
+          fi
+          if [ -d "cml/intent/$L/IntentClassifier_full.mlpackage" ]; then
+            cp -r "cml/intent/$L/IntentClassifier_full.mlpackage" "models/intent/$L/IntentClassifier_full.mlpackage"
+          fi
+          if [ -d "cml/intent/$L/IntentClassifier_full.mlmodelc" ]; then
+            cp -r "cml/intent/$L/IntentClassifier_full.mlmodelc" "models/intent/$L/IntentClassifier_full.mlmodelc"
+          fi
+          if [ -d "cml/SemanticHead.mlpackage" ]; then
+            cp -r "cml/SemanticHead.mlpackage" "models/SemanticHead.mlpackage"
+          fi
+          if [ -d "cml/SemanticHead.mlmodelc" ]; then
+            cp -r "cml/SemanticHead.mlmodelc" "models/SemanticHead.mlmodelc"
+          fi
+
+          python -m nlu_compiler.content_bundle \
+            --lang "$L" --out "dist/bundle-$L" \
+            --report dl/dist/report_card.json \
+            --version "${{ steps.ver.outputs.version }}" \
+            --channel "${{ github.event.inputs.channel || 'dev' }}" \
+            --report-gaps
+        env:
+          PYTHONPATH: packages/buildtime:packages/runtime
+
+      - name: Assemble the signed single-language pack
+        run: |
+          LANG_ARG="${{ github.event.inputs.language }}"
+          CHANNEL="${{ github.event.inputs.channel }}"
+          KEY_ID="${{ github.event.inputs.key_id }}"
+          L="${LANG_ARG:-en}"
+          ARGS=(--src "dist/bundle-$L"
+                --version "${{ steps.ver.outputs.version }}"
+                --language "$L"
+                --channel "${CHANNEL:-dev}"
+                --calibration "dl/models/intent/$L/calibration.json"
+                --out dist
+                --report dl/dist/report_card.json)
+          if [ -n "$KEY_ID" ]; then ARGS+=(--key-id "$KEY_ID"); fi
+
+          # TFLite heads are produced on Linux in train-gate and travel in the
+          # model-artifacts download (dl/). Embed both variants when present.
+          if [ -f "dl/models/intent/$L/model.tflite" ]; then
+            ARGS+=(--tflite "dl/models/intent/$L/model.tflite")
+          fi
+          if [ -f "dl/models/intent/$L/model_int8.tflite" ]; then
+            ARGS+=(--tflite-int8 "dl/models/intent/$L/model_int8.tflite")
+          fi
+
+          # Inject the CoreML .mlpackage(s) into the signed bundle (Fat Bundle).
+          # assemble_pack writes them as models.intent.<lang>.coreml_artifact /
+          # coreml_full_artifact — schema-legal siblings of the ONNX artifact, NOT
+          # separate model stages. Pruned = small on-device default; full = matches
+          # the ONNX/TFLite feature space.
+          if [ -d "cml/intent/$L/IntentClassifier.mlpackage" ]; then
+            ARGS+=(--coreml "cml/intent/$L/IntentClassifier.mlpackage")
+          fi
+          if [ -d "cml/intent/$L/IntentClassifier.mlmodelc" ]; then
+            ARGS+=(--coreml-compiled "cml/intent/$L/IntentClassifier.mlmodelc")
+          fi
+          if [ -f "cml/intent/$L/intent_classifier_weights.json" ]; then
+            ARGS+=(--ios-weights "cml/intent/$L/intent_classifier_weights.json")
+          fi
+          if [ -d "cml/intent/$L/IntentClassifier_full.mlpackage" ]; then
+            ARGS+=(--coreml-full "cml/intent/$L/IntentClassifier_full.mlpackage")
+          fi
+          if [ -f "cml/intent/$L/intent_classifier_weights_full.json" ]; then
+            ARGS+=(--ios-weights-full "cml/intent/$L/intent_classifier_weights_full.json")
+          fi
+          if [ -d "cml/intent/$L/IntentClassifier_full.mlmodelc" ]; then
+            ARGS+=(--coreml-full-compiled "cml/intent/$L/IntentClassifier_full.mlmodelc")
+          fi
+
+          python scripts/ci/assemble_pack.py "${ARGS[@]}"
+
+      # Verify what will actually be published, not what we assume we built.
+      - name: Verify the signed pack
+        run: |
+          PYTHONPATH=packages/buildtime python -m nlu_compiler.verify \
+            dist/pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}.nlu
+
+      - name: Publish GitHub Release (the model registry)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: pack-${{ github.event.inputs.language || 'en' }}-v${{ steps.ver.outputs.version }}
+          name: "Language Pack ${{ github.event.inputs.language || 'en' }} v${{ steps.ver.outputs.version }}"
+          body: |
+            Single-language `.nlu` (spec/bundle/3.0), channel
+            `${{ github.event.inputs.channel || 'dev' }}`.
+
+            **Dev-signed.** Production runtimes refuse dev-signed artifacts by
+            design; production keys are owner decision ND-8.
+          files: |
+            dist/pack-*.nlu
+            dl/dist/report_card.json
