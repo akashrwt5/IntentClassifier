@@ -116,6 +116,7 @@ jobs:
           touch "../../models/intent/$L/calibration.json"
           touch "../../models/intent/$L/labels.pkl"
           cp -r models/final_student_256/onnx/tokenizer "../../models/intent/$L/tokenizer"
+          cp models/final_student_256/model.pkl "../../models/intent/$L/pipeline.pkl"
           mkdir -p ../../dist
           echo '{"per_language":{"":{"macro_f1":1.0,"holdout_accuracy":1.0}},"wrong_action_count":0,"oos_recall":1.0}' > ../../dist/report_card.json
         env:
