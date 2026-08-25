@@ -176,7 +176,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.lock
-          pip install coremltools torch
+          pip install coremltools torch transformers
       - uses: actions/download-artifact@v4
         with: { name: model-artifacts, path: dl }
       # The artifact preserves the paths it was uploaded with, so the trained
@@ -191,28 +191,16 @@ jobs:
           cp "dl/models/intent/$LANG_ARG/labels.pkl"       "models/intent/$LANG_ARG/labels.pkl"
           cp "dl/models/intent/$LANG_ARG/calibration.json" "models/intent/$LANG_ARG/calibration.json"
           cp "dl/models/intent/$LANG_ARG/pipeline.pkl"     "models/intent/$LANG_ARG/pipeline.pkl"
+          # Restore model.pkl and tokenizer for the new export script
+          cp "dl/models/intent/$LANG_ARG/pipeline.pkl"     "models/intent/$LANG_ARG/model.pkl"
+          cp -r "dl/models/intent/$LANG_ARG/tokenizer"     "models/intent/$LANG_ARG/tokenizer"
 
-      # Regenerate the device weights from THIS trained pipeline (not the
-      # committed JSON) so the CoreML heads match the ONNX/TFLite model. Two
-      # variants: the default top-per-class PRUNED head (small) and the FULL-vocab
-      # head (--top-per-class 0) that matches the ONNX/TFLite feature space.
-      - name: Regenerate device weights (pruned + full)
+      - name: Export CoreML model using new pipeline
         run: |
           LANG_ARG="${{ github.event.inputs.language || 'en' }}"
-          python -m nlu_export.export_ios_weights --lang "$LANG_ARG"
-          python -m nlu_export.export_ios_weights --lang "$LANG_ARG" --top-per-class 0 \
-            --out "models/intent/$LANG_ARG/intent_classifier_weights_full.json"
-        env:
-          PYTHONPATH: packages/buildtime
-
-      # --skip-minilm because semantic rescue is disabled, so the 23 MB MiniLM
-      # encoder is not part of what ships. export_coreml builds both intent heads:
-      # IntentClassifier.mlpackage (pruned) and, since the _full weights JSON now
-      # exists, IntentClassifier_full.mlpackage (full vocab).
-      - name: Export the CoreML models (pruned + full)
-        run: python -m nlu_export.export_coreml --skip-minilm
-        env:
-          PYTHONPATH: packages/buildtime
+          PYTHONPATH=new_trainins/semantic_intent python new_trainins/semantic_intent/scripts/export_coreml.py \
+            --model-dir "models/intent/$LANG_ARG" \
+            --out "models/intent/$LANG_ARG/IntentClassifier.mlpackage"
       - name: Compile the CoreML models to .mlmodelc
         run: |
           LANG_ARG="${{ github.event.inputs.language || 'en' }}"
