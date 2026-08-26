@@ -46,8 +46,8 @@ intents:
       uncertain.
 
     trigger_conditions:
-      - Greetings, small talk, thanks, and conversational filler directed at the
-        assistant.
+      - Greetings, small talk, thanks, and conversational filler directed at
+        the assistant.
       - Requests about the outside world - weather, sports, news, shopping,
         general knowledge, navigation.
       - Commands aimed at a different product entirely - TV, phone, smart-home
@@ -61,46 +61,58 @@ intents:
       - Requests for a hearing-aid capability the product does not have.
       - Any utterance where the intent remains genuinely ambiguous after the
         Section 6 precedence rules have been applied.
-
+      - Complaints about hearing difficulty that carry no loudness word, name
+        no environment and ask for no action ("I can't hear", "I'm struggling
+        to hear people"). Acting on these would change the device on a guess.
+      - How-to questions about a feature the taxonomy has no Help intent for -
+        messaging, push-to-talk, and powering the aids on or off. The feature
+        works; there is simply no intent that explains it, so a clarification
+        is the correct response.
+      - Questions about a medical or clinical condition rather than a product
+        feature - what tinnitus is, why the ears ring, whether hearing loss
+        can be cured. The product explains its own features, not health
+        questions.
     do_not_trigger:
-      - An actionable in-scope command, however indirectly phrased. "I'm
-        struggling to hear people" is Cmd.VolumeIncrease, not Fallback - an
-        implicit request is still a request.
+      - An actionable in-scope command, however indirectly phrased. "I need
+        more volume" is Cmd.VolumeIncrease, not Fallback - an implicit request
+        carrying a loudness word is still a request.
       - An observation that is followed by an actionable command. Per the
-        compound precedence rule the command decides the label, so "it's quieter
-        today, make it louder" is Cmd.VolumeIncrease.
-      - A genuine how-to question about a supported feature. Those belong to the
-        matching Help_* intent, not here.
+        compound precedence rule the command decides the label, so "it's
+        quieter today, make it louder" is Cmd.VolumeIncrease.
+      - A genuine how-to question about a supported feature that has a
+        matching Help_* intent. Those belong to that intent, not here.
+        (Messaging, push-to-talk and powering the aids on or off have no such
+        intent - see the trigger conditions.)
       - An in-scope command that merely arrives garbled by ASR. Degraded
         transcription of a real command is still that command, as long as the
         intent is recoverable.
-      - An observation naming a LISTENING ENVIRONMENT for which the product has
-        a memory ("I'm outdoors now", "I've just walked into church"). The
+      - An observation naming a LISTENING ENVIRONMENT for which the product
+        has a memory ("I'm outdoors now", "I've just walked into church"). The
         product's memories are environment-scoped, so this is an implicit
         request to switch and belongs to Cmd.MemoryChange. This is the single
         narrow exception to the observation rule below.
-      - A negated command that supplies a replacement action. "Don't turn it up,
-        turn it down" is Cmd.VolumeDecrease by last-explicit-command precedence.
-
+      - A negated command that supplies a replacement action. "Don't turn it
+        up, turn it down" is Cmd.VolumeDecrease by last-explicit-command
+        precedence.
     boundary_cases:
       - Uncertainty always resolves here. Fallback is the intended destination
         for ambiguity, never a failure state - False Accepts are costlier than
         False Rejects for these users, so the tie goes to inaction.
       - Observation versus command is the decisive test. If nothing in the
         utterance asks for a change, it is Fallback regardless of how much
-        in-scope vocabulary it contains. The one exception is a named listening
-        environment, which is an implicit memory switch - see above.
-      - The exception is narrow and turns on WHAT is being observed. An
-        environment ("it's noisy in this restaurant" while naming a place the
-        product has a memory for) leans to Cmd.MemoryChange; the DEVICE's own
+        in-scope vocabulary it contains. The one exception is a named
+        listening environment, which is an implicit memory switch - see above.
+      - The exception is narrow and turns on WHAT is being observed. Stating
+        where the user is ("I'm outdoors now") is Cmd.MemoryChange. Naming an
+        environment as the cause of difficulty ("it's noisy in this
+        restaurant, I can't follow") is Cmd.EdgeModeIncrease. The DEVICE's own
         state ("it sounds quiet today") stays here.
       - A bare negation that cancels without replacing ("no, forget it",
         "cancel that") is Fallback.
       - An in-scope topic aimed at the wrong device stays here. "Turn the TV
         up" mentions volume but is not a hearing-aid request.
-      - Where an utterance is unintelligible, prefer Fallback over guessing the
-        nearest command, even when a few tokens match one.
-
+      - Where an utterance is unintelligible, prefer Fallback over guessing
+        the nearest command, even when a few tokens match one.
     neighbor_intents:
       - Cmd.VolumeIncrease
       - Cmd.VolumeDecrease
@@ -121,48 +133,58 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.VolumeIncrease"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session, pending human review"
     business_description: >-
       Raise the amplification of the hearing aids, either on both sides or on
       one named side. The user wants sound to be LOUDER.
     trigger_conditions:
       - User asks for the hearing aids to be louder, by any phrasing.
-      - User states that what they are hearing is too quiet, too soft or too low
-        and wants that corrected.
+      - User states that what they are hearing is too quiet, too soft or too
+        low and wants that corrected.
       - User asks for volume to be raised on one specific side or ear.
-      - User asks for maximum or full volume.
-      - User expresses a personal need for more loudness ("I need more volume").
+      - User asks for the volume to be raised as far as it will go.
+      - User expresses a personal need for more loudness ("I need more
+        volume").
     do_not_trigger:
-      - Difficulty understanding speech that is attributed to the ENVIRONMENT -
-        background noise, wind, a crowded room, a distant speaker. That is
+      - Difficulty understanding speech that is attributed to the ENVIRONMENT
+        - background noise, wind, a crowded room, a distant speaker. That is
         Cmd.EdgeModeIncrease; raising volume amplifies the noise too.
       - Any request to raise the volume of a TV, phone, streamer, or other
         device that is not the hearing aids.
+      - Requests to mute or silence the hearing aids, which are
+        Cmd.VolumeMute.
       - Any request about the loudness of the tinnitus masker or white noise
         feature, which is Help_Tinnitus.
-      - Questions asking HOW to change volume rather than asking for the change.
-        Those are Help_Volume.
+      - Questions asking HOW to change volume rather than asking for the
+        change. Those are Help_Volume.
       - An observation that says nothing is being requested ("it sounds quiet
         today"), which is Fallback.
     boundary_cases:
       - Loudness words decide this intent. If the utterance references volume,
         loudness, quietness, softness or "turn it up", it is this intent even
         when noise is also mentioned.
-      - An unqualified complaint about hearing difficulty with no loudness word
-        and no environmental cue ("I can't hear") is genuinely ambiguous against
-        Cmd.EdgeModeIncrease. Route to Fallback rather than guessing; a wrong
-        guess changes the device.
+      - A complaint about hearing difficulty that carries no loudness word,
+        names no environment and asks for no action ("I can't hear", "I'm
+        struggling to hear people") is Default Fallback Intent. A wrong guess
+        changes the device. Cmd.EdgeModeIncrease, Cmd.MemoryChange and Default
+        Fallback Intent state this identically.
       - Per the compound rule, an observation followed by a request resolves
         here ("it's too quiet, turn it up").
-      - Side-specific requests stay here; the side is a slot, not a
-        different intent.
+      - Side-specific requests stay here; the side is a slot, not a different
+        intent.
+      - >-
+        Magnitude words do not change the intent or the action. "All the way
+        up" is the same request as "a bit louder": the product applies a fixed
+        step and accepts no target level, so no spec or utterance may imply
+        that a level can be set.
     neighbor_intents:
       - Cmd.VolumeDecrease
       - Cmd.VolumeUnmute
-      - Cmd.EdgeModeIncrease
       - Help_Volume
       - Cmd.StreamingStart
       - Default Fallback Intent
+      - Help_SelfCheck
+      - Cmd.VolumeMute
     positive_example: "Could you make my hearing aids a bit louder please?"
     hard_negative_example: "How do I make my hearing aids louder?"
 
@@ -172,25 +194,33 @@ intents:
       Lower the amplification of the hearing aids, either on both sides or on
       one named side. The user wants sound to be QUIETER but still audible.
     trigger_conditions:
-      - User asks for the hearing aids to be quieter or softer, by any phrasing.
+      - User asks for the hearing aids to be quieter or softer, by any
+        phrasing.
       - User states that what they are hearing is too loud and wants that
         corrected.
       - User asks for volume to be lowered on one specific side or ear.
-      - User asks for minimum volume without asking for silence.
+      - User asks for the volume to be lowered as far as it will go, short of
+        silence.
     do_not_trigger:
-      - Requests for complete silence or muting. Minimum volume is not mute -
-        that is Cmd.VolumeMute.
-      - Complaints that sound is harsh, tinny or over-processed rather than too
-        loud, which are Cmd.EdgeModeDecrease.
+      - Requests for complete silence or muting, which are Cmd.VolumeMute. A
+        request to go as low as possible is not a request for silence.
+      - Complaints that sound is harsh, tinny or over-processed rather than
+        too loud, which are Cmd.EdgeModeDecrease.
       - Requests to lower the volume of a TV, phone or streamer.
+      - Requests to restore sound after muting, which are Cmd.VolumeUnmute.
       - Questions asking HOW to lower volume, which are Help_Volume.
       - A bare observation that something was loud, with no request to change
         it.
     boundary_cases:
-      - The words minimum and mute mark different endpoints. Only explicit silence,
-        muting or turning sound off maps to Cmd.VolumeMute.
-      - Words like tinny or over-processed describe sound quality, not loudness,
-        and belong to Cmd.EdgeModeDecrease.
+      - >-
+        Magnitude words do not change the intent or the action. "All the way
+        down" is the same request as "a bit quieter": the product applies a
+        fixed step and accepts no target level.
+      - Quieter and silent are different requests. However strongly a
+        reduction is worded, only explicit silence, muting or turning the
+        sound off maps to Cmd.VolumeMute.
+      - Words like tinny or over-processed describe sound quality, not
+        loudness, and belong to Cmd.EdgeModeDecrease.
       - Under the conflicting-command rule the last explicit command wins, so
         "turn it up, no, turn it down" resolves here.
     neighbor_intents:
@@ -199,6 +229,7 @@ intents:
       - Cmd.EdgeModeDecrease
       - Help_Volume
       - Default Fallback Intent
+      - Cmd.VolumeUnmute
     positive_example: "That's a bit much, bring it down a little."
     hard_negative_example: "It sounds tinny."
 
@@ -214,13 +245,19 @@ intents:
     do_not_trigger:
       - Requests merely to reduce loudness, however strongly worded, which are
         Cmd.VolumeDecrease.
+      - Requests to increase hearing-aid volume, which are Cmd.VolumeIncrease.
       - Requests to stop streaming audio from a TV or remote microphone, which
         are Cmd.StreamingStop - the aids keep working normally afterwards.
       - Requests to power the hearing aids off as devices. Powering off is not
-        a supported voice capability - a direct request to do it ("turn my
-        hearing aids off for the night") is Default Fallback Intent; a how-to
-        question about it ("how do I turn my aids off?") is Help_Volume.
+        a supported voice capability, and the taxonomy has no intent that
+        explains it either - both a direct request ("turn my hearing aids off
+        for the night") and a how-to question ("how do I turn my aids off?")
+        are Default Fallback Intent.
       - Questions asking how to mute, which are Help_Volume.
+      - Requests to switch to the "Mute" MEMORY, which are Cmd.MemoryChange.
+        "Mute" is both a memory name and this intent's subject; an explicit
+        request to change memory or program is that intent, anything else is
+        this one.
     boundary_cases:
       - Muting silences amplification; it does not power down the device or end
         a stream. Utterances about stopping a stream go to Cmd.StreamingStop.
@@ -234,6 +271,9 @@ intents:
       - Cmd.StreamingStop
       - Help_Volume
       - Default Fallback Intent
+      - Cmd.EdgeModeDeactivate
+      - Cmd.VolumeIncrease
+      - Cmd.MemoryChange
     positive_example: "Silence my hearing aids for a moment."
     hard_negative_example: "Stop streaming from the TV."
 
@@ -249,6 +289,8 @@ intents:
     do_not_trigger:
       - Requests to make already-audible sound louder, which are
         Cmd.VolumeIncrease.
+      - Requests to lower hearing-aid volume without muting, which are
+        Cmd.VolumeDecrease.
       - Requests to begin streaming from a TV or remote microphone, which are
         Cmd.StreamingStart.
       - Questions asking how to unmute, which are Help_Volume.
@@ -263,6 +305,7 @@ intents:
       - Cmd.StreamingStart
       - Help_Volume
       - Default Fallback Intent
+      - Cmd.VolumeDecrease
     positive_example: "Turn my hearing aids back on, please."
     hard_negative_example: "Turn on the TV streaming."
 
@@ -283,11 +326,12 @@ intents:
       struggling to UNDERSTAND, not merely to hear loudly enough.
     trigger_conditions:
       - User asks to activate, add or increase Edge Mode or adaptive tuning.
-      - User reports difficulty understanding speech because of the environment
-        - background noise, wind, a restaurant, road noise, a crowd.
+      - User reports difficulty understanding speech because of the
+        environment - background noise, wind, a restaurant, road noise, a
+        crowd.
       - User asks to focus on a particular speaker or on the people near them.
-      - User expresses general trouble following speech or making out what
-        someone is saying.
+      - User names a difficult listening environment and asks for it to be
+        improved without naming a feature ("it's noisy here, can you help?").
       - User asks for voices to be made clearer.
     do_not_trigger:
       - Requests framed purely in terms of loudness - louder, quieter, volume,
@@ -298,24 +342,44 @@ intents:
         Help_EdgeMode.
       - Requests to change equalizer or noise settings within a memory, which
         are Help_Customize.
+      - Requests to switch to the "Speech" MEMORY, which are Cmd.MemoryChange.
+        "Speech" is both a memory name and this intent's subject; an explicit
+        request to change memory or program is that intent, anything else is
+        this one.
+      - Requests to switch to the "Noise" MEMORY, which are Cmd.MemoryChange.
+        "Noise" is both a memory name and this intent's subject; an explicit
+        request to change memory or program is that intent, anything else is
+        this one.
     boundary_cases:
-      - Environmental cues decide this intent. Wind, noise, a crowd, a named
-        speaker, or any mention of understanding or clarity resolves here even
-        when the phrasing is indirect.
-      - Loudness words override. If the user says "louder" or "too quiet", it is
-        Cmd.VolumeIncrease regardless of any noise mentioned.
-      - A bare complaint with neither loudness word nor environmental cue ("I
-        can't hear") is ambiguous against Cmd.VolumeIncrease and goes to
-        Fallback. This must be applied identically in both specs.
+      - Environmental cues and clarity requests decide this intent. Wind,
+        noise, a crowd, a named speaker, or an explicit request for speech to
+        be clearer or for focus resolves here even when the phrasing is
+        indirect. A bare complaint about not understanding is not a cue - see
+        below.
+      - Loudness words override. If the user says "louder" or "too quiet", it
+        is Cmd.VolumeIncrease regardless of any noise mentioned.
+      - >-
+        A complaint about hearing difficulty that carries no loudness word,
+        names no environment and asks for no action ("I can't hear", "I'm
+        struggling to hear people") is Default Fallback Intent. A request for
+        clarity or focus is different: it asks for an action only this intent
+        performs, and stays here. Cmd.VolumeIncrease, Cmd.MemoryChange and
+        Default Fallback Intent state this identically.
       - Pure observations about the environment with no implied request ("it's
         noisy in here") remain Fallback.
+      - A wish to hear a person with no clarity word and no external source
+        named ("I want to hear the presenter") is Default Fallback Intent. A
+        request for focus or clarity is this intent; a named external source
+        is Cmd.StreamingStart. Cmd.StreamingStart states this identically.
     neighbor_intents:
       - Cmd.EdgeModeDecrease
       - Cmd.EdgeModeDeactivate
-      - Cmd.VolumeIncrease
       - Help_EdgeMode
       - Help_Customize
+      - Cmd.MemoryChange
+      - Help_ChangingMemories
       - Default Fallback Intent
+      - Cmd.StreamingStart
     positive_example: "I can't follow what she's saying, it's so noisy in here."
     hard_negative_example: "How do I improve my hearing with Edge Mode?"
 
@@ -362,10 +426,12 @@ intents:
       - User asks to return to normal listening after Edge Mode was engaged.
     do_not_trigger:
       - Requests merely to soften Edge Mode, which are Cmd.EdgeModeDecrease.
-      - Requests to mute the hearing aids, which are Cmd.VolumeMute - Edge Mode
-        ending does not silence anything.
+      - Requests to mute the hearing aids, which are Cmd.VolumeMute - Edge
+        Mode ending does not silence anything.
       - Requests to switch to a different saved memory or program, which are
         Help_ChangingMemories.
+      - Requests to stop streaming external audio, which are
+        Cmd.StreamingStop.
     boundary_cases:
       - Only an explicit termination resolves here. Any wording that implies a
         remaining amount ("less", "not so much") is Cmd.EdgeModeDecrease.
@@ -378,6 +444,7 @@ intents:
       - Cmd.VolumeMute
       - Help_EdgeMode
       - Default Fallback Intent
+      - Cmd.StreamingStop
     positive_example: "That's enough, cancel edge mode."
     hard_negative_example: "Give me a little less edge mode."
 
@@ -394,9 +461,8 @@ intents:
       - User asks to start streaming, or to stream from the TV or remote
         microphone.
       - User asks the hearing aids to listen to or pick up an external source.
-      - User expresses a wish to hear a presenter, speaker or TV through their
-        aids.
-      - User asks to connect to the remote microphone for listening.
+      - User expresses a wish to hear a named external source through their
+        aids - the TV, a streamer, or a connected remote microphone.
     do_not_trigger:
       - Requests to raise hearing-aid volume, which are Cmd.VolumeIncrease -
         streaming changes the audio SOURCE, not the level.
@@ -406,18 +472,38 @@ intents:
       - Questions about how streaming works, which are Help_Accessories.
       - Requests to pair hearing aids to a phone over Bluetooth, which are
         Help_Pairing.
+      - Requests to connect or pair the remote microphone itself. Connecting
+        is done by hand, not by voice - a direct request is Default Fallback
+        Intent, a how-to question is Help_Accessories. Streaming FROM an
+        already-connected microphone is this intent.
+      - Requests to play back a received message or text, which are
+        Cmd.ListenMessage. A named message or sender is that intent; a named
+        external source is this one.
+      - Requests to switch to the "Television" MEMORY, which are
+        Cmd.MemoryChange. "Television" is both a memory name and this intent's
+        subject; an explicit request to change memory or program is that
+        intent, anything else is this one.
     boundary_cases:
       - Streaming changes what the aids listen to. Any request about how loud
         that is belongs to the AudioControl family instead.
-      - Naming an accessory does not by itself make an utterance this intent; a
-        how-to question about the same accessory is Help_Accessories.
+      - Naming an accessory does not by itself make an utterance this intent;
+        a how-to question about the same accessory is Help_Accessories.
       - Ambiguous turn-it-on requests with no named source go to Fallback.
+      - A wish to hear a person with no external source named ("I want to hear
+        the presenter") names neither an accessory nor a clarity feature, and
+        is Default Fallback Intent. Name a source and it is this intent; ask
+        for focus or clarity and it is Cmd.EdgeModeIncrease.
+        Cmd.EdgeModeIncrease states this identically.
     neighbor_intents:
       - Cmd.StreamingStop
       - Cmd.VolumeUnmute
       - Help_Accessories
       - Help_Pairing
+      - Cmd.ListenMessage
+      - Cmd.VolumeIncrease
       - Default Fallback Intent
+      - Cmd.EdgeModeIncrease
+      - Cmd.MemoryChange
     positive_example: "Let me hear the TV through my aids."
     hard_negative_example: "How do I start streaming from my TV streamer?"
 
@@ -433,7 +519,9 @@ intents:
     do_not_trigger:
       - Requests to mute or silence the hearing aids, which are Cmd.VolumeMute
         - ending a stream leaves the aids hearing the room normally.
+      - Requests to deactivate Edge Mode, which are Cmd.EdgeModeDeactivate.
       - Requests to lower the volume, which are Cmd.VolumeDecrease.
+      - Requests to restore sound after muting, which are Cmd.VolumeUnmute.
       - Questions about unpairing or removing an accessory, which are
         Help_Accessories.
     boundary_cases:
@@ -445,6 +533,7 @@ intents:
       - Cmd.VolumeMute
       - Help_Accessories
       - Default Fallback Intent
+      - Cmd.EdgeModeDeactivate
     positive_example: "I'm done with the TV, disconnect it."
     hard_negative_example: "Mute my hearing aids."
 
@@ -480,6 +569,8 @@ intents:
       - Help_Transcribe
       - reminders.add
       - Default Fallback Intent
+      - Cmd.ListenMessage
+      - Cmd.SendMessage
     positive_example: "Write down this conversation for me."
     hard_negative_example: "What does transcribe do?"
 
@@ -538,11 +629,13 @@ intents:
     boundary_cases:
       - This intent reports a live value; Help_Battery explains a procedure. A
         how or why question about batteries is always Help_Battery.
-      - A bare mention of the word battery with no verb resolves here, since the
-        seed evidence establishes terse status queries as normal usage.
+      - A bare mention of the word battery with no verb resolves here, since
+        the seed evidence establishes terse status queries as normal usage.
+      - A report that the battery is dead or flat is not a level query. Asked
+        what to do about it, that is Help_Battery; stated with no request at
+        all, it is Default Fallback Intent.
     neighbor_intents:
       - Help_Battery
-      - Help_SelfCheck
       - Default Fallback Intent
     positive_example: "How much battery have I got left?"
     hard_negative_example: "How do I charge my hearing aid?"
@@ -574,7 +667,6 @@ intents:
       - Where the object is genuinely absent ("I can't find it"), use Fallback.
     neighbor_intents:
       - Help_FindMyHearingAids
-      - Help_Pairing
       - Default Fallback Intent
     positive_example: "I've mislaid my phone again, can you find it?"
     hard_negative_example: "I can't find my left hearing aid."
@@ -618,6 +710,7 @@ intents:
       - Help_Reminder
       - Cmd.TranscribeStart
       - Default Fallback Intent
+      - Cmd.SendMessage
     positive_example: "Don't let me forget to pick up milk today."
     hard_negative_example: "Can I set reminders in my hearing aids?"
 
@@ -699,25 +792,35 @@ intents:
       - User asks about calories burned while walking.
       - User asks to see their walking history.
     do_not_trigger:
-      - Requests to SET, change or edit a walking goal, which are Help_Activity.
+      - Requests to SET, change or edit a walking goal, which are
+        Help_Activity.
       - Questions about where in the app walking data is displayed, which are
         Help_Health.
-      - Queries naming a different activity, which belong to that activity's
-        intent.
-      - Calorie queries with no activity named, which are Cmd.ActivityCalories.
+      - Queries naming a different activity - steps (Cmd.ActivityStep),
+        running or jogging (Cmd.ActivityRun), cycling or biking
+        (Cmd.ActivityCycle), standing (Cmd.ActivityStand), aerobics
+        (Cmd.ActivityAerobics), or exercise/workout (Cmd.ActivityExercise) -
+        which belong to that activity's intent.
+      - Calorie queries with no activity named, which are
+        Cmd.ActivityCalories.
     boundary_cases:
-      - The named activity decides the intent; walking, walked and walk resolve
-        here.
+      - The named activity decides the intent; walking, walked and walk
+        resolve here.
       - Querying is a Command, configuring is Help_Activity, and locating the
         screen is Help_Health. This split is identical across all eight
         activity intents.
       - Standing and stepping are tracked separately and are not walking.
+      - A distance query that NAMES walking resolves here. A bare distance
+        query with no activity named ("how far have I gone?") is
+        Cmd.ActivityStep, where distance is derived from step count.
+        Cmd.ActivityStep states this identically.
     neighbor_intents:
       - Cmd.ActivityStep
       - Cmd.ActivityRun
       - Cmd.ActivityStand
       - Help_Activity
-      - Help_Health
+      - Cmd.ActivityCalories
+      - Cmd.ActivityCycle
       - Default Fallback Intent
     positive_example: "How much have I walked this week?"
     hard_negative_example: "How do I change my walking goal?"
@@ -737,14 +840,24 @@ intents:
       - Requests to set up or edit a step goal, which are Help_Activity.
       - Questions about where step data appears in the app, which are
         Help_Health.
-      - Queries about walking duration or distance rather than step count, which
-        are Cmd.ActivityWalk.
-      - Calorie queries with no activity named, which are Cmd.ActivityCalories.
+      - Queries that NAME walking - how far or how long the user has walked -
+        which are Cmd.ActivityWalk.
+      - Queries about running or jogging (Cmd.ActivityRun), cycling or biking
+        (Cmd.ActivityCycle), standing (Cmd.ActivityStand), aerobics
+        (Cmd.ActivityAerobics), or exercise/workout (Cmd.ActivityExercise),
+        which belong to those activity intents.
+      - Calorie queries with no activity named, which are
+        Cmd.ActivityCalories.
     boundary_cases:
-      - The named activity decides the intent; steps and step count resolve here
-        even though steps are produced by walking.
-      - Querying is a Command, configuring is Help_Activity, locating the screen
-        is Help_Health.
+      - Step-goal progress is a Command; creating or editing the step goal is
+        Help_Activity.
+      - The named activity decides the intent; steps and step count resolve
+        here even though steps are produced by walking.
+      - Querying is a Command, configuring is Help_Activity, locating the
+        screen is Help_Health.
+      - Distance with no activity named resolves here, because the device
+        derives distance from step count. A distance query that names walking
+        is Cmd.ActivityWalk. Cmd.ActivityWalk states this identically.
     neighbor_intents:
       - Cmd.ActivityWalk
       - Cmd.ActivityStand
@@ -767,8 +880,14 @@ intents:
     do_not_trigger:
       - Requests to set or change a running goal, which are Help_Activity.
       - Questions about where running data appears, which are Help_Health.
-      - Queries naming walking rather than running, which are Cmd.ActivityWalk.
-      - Calorie queries with no activity named, which are Cmd.ActivityCalories.
+      - Queries naming walking rather than running, which are
+        Cmd.ActivityWalk.
+      - Queries about step count (Cmd.ActivityStep), cycling or biking
+        (Cmd.ActivityCycle), standing (Cmd.ActivityStand), aerobics
+        (Cmd.ActivityAerobics), or exercise/workout (Cmd.ActivityExercise),
+        which belong to those activity intents.
+      - Calorie queries with no activity named, which are
+        Cmd.ActivityCalories.
     boundary_cases:
       - The named activity decides the intent; running and jogging both resolve
         here.
@@ -778,8 +897,9 @@ intents:
       - Cmd.ActivityWalk
       - Cmd.ActivityExercise
       - Cmd.ActivityCycle
-      - Help_Activity
       - Default Fallback Intent
+      - Cmd.ActivityCalories
+      - Help_Activity
     positive_example: "How much more running do I need to do today?"
     hard_negative_example: "How do I set my running goal?"
 
@@ -797,8 +917,13 @@ intents:
       - Requests to set or change a biking goal, which are Help_Activity.
       - Questions about where cycling distance is displayed, which are
         Help_Health.
-      - Queries naming a different activity.
-      - Calorie queries with no activity named, which are Cmd.ActivityCalories.
+      - Queries naming a different activity - walking (Cmd.ActivityWalk),
+        steps (Cmd.ActivityStep), running or jogging (Cmd.ActivityRun),
+        standing (Cmd.ActivityStand), aerobics (Cmd.ActivityAerobics), or
+        exercise/workout (Cmd.ActivityExercise) - which belong to that
+        activity's intent.
+      - Calorie queries with no activity named, which are
+        Cmd.ActivityCalories.
     boundary_cases:
       - The named activity decides the intent; cycling, biking, bicycling and
         riding all resolve here.
@@ -808,8 +933,8 @@ intents:
       - Cmd.ActivityRun
       - Cmd.ActivityWalk
       - Cmd.ActivityExercise
-      - Help_Activity
       - Default Fallback Intent
+      - Help_Activity
     positive_example: "How far have I cycled this week?"
     hard_negative_example: "Where can I see the distance that I biked?"
 
@@ -827,7 +952,10 @@ intents:
     do_not_trigger:
       - Requests to set or change a stand goal, which are Help_Activity.
       - Questions about where standing data appears, which are Help_Health.
-      - Queries about walking or steps, which are separate intents.
+      - Queries about walking (Cmd.ActivityWalk), steps (Cmd.ActivityStep),
+        running (Cmd.ActivityRun), cycling or biking (Cmd.ActivityCycle),
+        aerobics (Cmd.ActivityAerobics), or exercise/workout
+        (Cmd.ActivityExercise), which belong to those separate intents.
     boundary_cases:
       - The named activity decides the intent; standing and stood resolve here.
       - Querying is a Command, configuring is Help_Activity, locating the screen
@@ -835,9 +963,8 @@ intents:
     neighbor_intents:
       - Cmd.ActivityStep
       - Cmd.ActivityWalk
-      - Help_Activity
-      - Help_Health
       - Default Fallback Intent
+      - Help_Activity
     positive_example: "How close am I to my standing goal?"
     hard_negative_example: "How do I change my stand goal?"
 
@@ -855,32 +982,34 @@ intents:
     do_not_trigger:
       - Requests to set or change an aerobic goal, which are Help_Activity.
       - Questions about where aerobic data appears, which are Help_Health.
-      - Queries naming a specific activity such as running or cycling.
+      - Queries naming a specific activity such as running or cycling -
+        including walking (Cmd.ActivityWalk), steps (Cmd.ActivityStep),
+        running (Cmd.ActivityRun), cycling (Cmd.ActivityCycle), standing
+        (Cmd.ActivityStand), or exercise/workout (Cmd.ActivityExercise) -
+        which belong to those intents.
     boundary_cases:
       - The named activity decides the intent; aerobics and aerobic resolve
         here.
-      - Tiebreak with Cmd.ActivityExercise - a bare "activity goal" query that
-        names no activity and contains none of the words exercise, workout or
-        working out resolves HERE - the seed evidence places it here. The words
-        exercise, workout or working out resolve to Cmd.ActivityExercise. Both
-        specs state this rule identically.
-      - Querying is a Command, configuring is Help_Activity, locating the screen
-        is Help_Health.
+      - >-
+        Tiebreak with Cmd.ActivityExercise: a bare "activity goal" query with
+        no named activity resolves here. Queries containing exercise, workout
+        or working out resolve to Cmd.ActivityExercise, per the seed evidence.
+      - Querying is a Command, configuring is Help_Activity, locating the
+        screen is Help_Health.
     neighbor_intents:
       - Cmd.ActivityExercise
       - Cmd.ActivityCalories
-      - Help_Activity
-      - Help_Health
       - Default Fallback Intent
+      - Help_Activity
     positive_example: "Have I reached my aerobics goal?"
     hard_negative_example: "How do I change my aerobic goal?"
 
   - name: "Cmd.ActivityExercise"
     authored_by: "assistant-session (claude-opus-5), pending human review"
     business_description: >-
-      Report the user's general exercise or workout data when no specific
-      tracked activity is named - duration, progress toward the exercise goal,
-      or calories burned working out.
+      Report the user's exercise or workout data when the user explicitly
+      refers to exercise, working out, or a workout - duration, progress
+      toward the exercise goal, or calories burned exercising.
     trigger_conditions:
       - User asks how long they have been exercising or working out.
       - User asks about progress toward, or the value of, their exercise goal.
@@ -889,26 +1018,32 @@ intents:
     do_not_trigger:
       - Requests to set or change an exercise goal, which are Help_Activity.
       - Questions about where exercise data appears, which are Help_Health.
-      - Queries naming a specific tracked activity - walking, running, cycling,
-        standing, steps or aerobics - which belong to those intents.
+      - Queries naming a specific tracked activity - walking
+        (Cmd.ActivityWalk), running (Cmd.ActivityRun), cycling
+        (Cmd.ActivityCycle), standing (Cmd.ActivityStand), steps
+        (Cmd.ActivityStep) or aerobics (Cmd.ActivityAerobics) - which belong
+        to those intents.
     boundary_cases:
-      - This intent is the generic case. A named activity always wins over it.
-      - Tiebreak with Cmd.ActivityAerobics - the words exercise, workout or
-        working out resolve HERE. A bare "activity goal" query with none of
-        those words and no named activity resolves to Cmd.ActivityAerobics,
-        per the seed evidence. Both specs state this rule identically.
+      - This intent handles exercise/workout queries. A named tracked activity
+        always wins over it; a bare "activity goal" query is intentionally
+        routed to Cmd.ActivityAerobics by the seed-backed tiebreak below.
+      - >-
+        Tiebreak with Cmd.ActivityAerobics: exercise, workout or working out
+        resolves here. A bare "activity goal" query with no named activity and
+        none of those words resolves to Cmd.ActivityAerobics, per the seed
+        evidence.
       - Exercise and working out are treated as the same concept.
-      - Querying is a Command, configuring is Help_Activity, locating the screen
-        is Help_Health. Note that a small number of progress-query utterances
-        are mislabelled into Help_Activity in the legacy seed data; the rule
-        above overrides them.
+      - Querying is a Command, configuring is Help_Activity, locating the
+        screen is Help_Health. Note that a small number of progress-query
+        utterances are mislabelled into Help_Activity in the legacy seed data;
+        the rule above overrides them.
     neighbor_intents:
       - Cmd.ActivityAerobics
       - Cmd.ActivityRun
       - Cmd.ActivityCalories
       - Help_Activity
-      - Help_Health
       - Default Fallback Intent
+      - Cmd.ActivityCycle
     positive_example: "How much longer do I need to work out today?"
     hard_negative_example: "How do I set up my exercise goal?"
 
@@ -922,12 +1057,15 @@ intents:
       - User asks for their calorie count for a period, with no activity named.
       - User uses a bare calorie phrase such as calories burned today.
     do_not_trigger:
-      - Calorie queries that name an activity - walking, running, cycling,
-        standing, steps, aerobics or exercise - which belong to that activity's
-        intent.
+      - Calorie queries that name an activity - walking (Cmd.ActivityWalk),
+        running (Cmd.ActivityRun), cycling (Cmd.ActivityCycle), standing
+        (Cmd.ActivityStand), steps (Cmd.ActivityStep), aerobics
+        (Cmd.ActivityAerobics) or exercise (Cmd.ActivityExercise) - which
+        belong to that activity's intent.
       - Questions about where calorie data appears in the app, which are
         Help_Health.
       - Questions about how calories are calculated, which are Help_Health.
+      - Requests to set or change a calorie goal, which are Help_Activity.
     boundary_cases:
       - The absence of a named activity is what defines this intent. Naming any
         tracked activity moves the utterance to that activity's intent, which is
@@ -937,9 +1075,9 @@ intents:
       - Cmd.ActivityExercise
       - Cmd.ActivityWalk
       - Cmd.ActivityRun
-      - Help_Activity
-      - Help_Health
       - Default Fallback Intent
+      - Cmd.ActivityAerobics
+      - Help_Activity
     positive_example: "How many calories have I burned today?"
     hard_negative_example: "How many calories have I burned while biking?"
 
@@ -977,6 +1115,9 @@ intents:
         Help_SelfCheck. A volume-framed symptom with no fault claim - "I'm
         getting no sound", "the volume dropped to nothing" - stays here; a
         device described as faulty or not working is a fault report.
+      - Questions about powering the aids on or off. That is not volume
+        control, and the taxonomy has no intent for it; both direct requests
+        and how-to questions are Default Fallback Intent.
     boundary_cases:
       - >-
         This intent sits on the taxonomy's costliest boundary: its four
@@ -1002,9 +1143,11 @@ intents:
       - Cmd.VolumeIncrease
       - Cmd.VolumeDecrease
       - Cmd.VolumeMute
-      - Help_Tinnitus
-      - Help_Customize
+      - Cmd.VolumeUnmute
+      - Help_Accessories
       - Default Fallback Intent
+      - Help_SelfCheck
+      - Help_Tinnitus
     positive_example: "How do I turn the volume down on just one aid?"
     hard_negative_example: "Turn the volume down on my left aid."
 
@@ -1037,6 +1180,8 @@ intents:
       - Cmd.EdgeModeDecrease
       - Cmd.EdgeModeDeactivate
       - Help_Customize
+      - Help_IntelliVoice
+      - Help_MaskMode
       - Default Fallback Intent
     positive_example: "What does Edge Mode actually do?"
     hard_negative_example: "Use edge mode to hear the speaker better."
@@ -1049,7 +1194,7 @@ intents:
     trigger_conditions:
       - User asks what IntelliVoice is or what it does.
       - User asks how to use or run IntelliVoice.
-      - User asks when they should use IntelliVoice.
+      - User asks when, or how often, they should use IntelliVoice.
       - User asks where IntelliVoice is, or for its user guide.
       - User asks whether their hearing aids support IntelliVoice.
     do_not_trigger:
@@ -1064,10 +1209,16 @@ intents:
         assistant are Help_VoiceAssistant.
       - The seed data contains the variant spelling Intelligent Voice; it refers
         to the same feature.
+      - There is no Cmd intent for IntelliVoice, so a direct request to run or
+        switch it on stays here rather than resolving to a command. The
+        deployed rows are entirely question-shaped, so this covers generated
+        edge cases rather than observed speech - but the nearest command
+        attractor is Cmd.EdgeModeIncrease, which would apply Edge Mode
+        instead, and that is a device action the user never asked for.
+        Help_MaskMode states the same rule for the same reason.
     neighbor_intents:
       - Help_EdgeMode
       - Help_VoiceAssistant
-      - Help_Customize
       - Default Fallback Intent
     positive_example: "When should I use IntelliVoice?"
     hard_negative_example: "How does the voice assistant work?"
@@ -1087,7 +1238,12 @@ intents:
         Help_EdgeMode.
       - Questions about adding mask as a saved memory, which are
         Help_MemoryOptions.
-      - Direct requests to improve clarity now, which are Cmd.EdgeModeIncrease.
+      - Direct requests to improve clarity now, which are
+        Cmd.EdgeModeIncrease.
+      - Requests to switch to the "Mask" MEMORY, which are Cmd.MemoryChange.
+        "Mask" is both a memory name and this intent's subject; an explicit
+        request to change memory or program is that intent, anything else is
+        this one.
     boundary_cases:
       - Even though this intent covers turning Mask Mode on and off, the seed
         evidence contains only how-to phrasings; there is no Cmd intent for
@@ -1097,8 +1253,8 @@ intents:
     neighbor_intents:
       - Help_EdgeMode
       - Help_MemoryOptions
-      - Help_Customize
       - Default Fallback Intent
+      - Cmd.MemoryChange
     positive_example: "How do I turn Mask Mode on?"
     hard_negative_example: "Add mask as a customized memory."
 
@@ -1112,7 +1268,6 @@ intents:
         noise.
       - User asks where tinnitus settings are in the app.
       - User asks how to change tinnitus levels or programs.
-      - User asks what the ringing in their ears is.
       - User asks whether the tinnitus feature can be turned off or changed.
     do_not_trigger:
       - Requests to change HEARING AID volume, which are the Cmd.Volume*
@@ -1121,6 +1276,14 @@ intents:
         Help_Volume.
       - Requests to change to a different listening memory, which are
         Help_ChangingMemories.
+      - Requests to switch to the "Tinnitus" MEMORY, which are
+        Cmd.MemoryChange. "Tinnitus" is both a memory name and this intent's
+        subject; an explicit request to change memory or program is that
+        intent, anything else is this one.
+      - Questions about the medical condition itself - what tinnitus is, why
+        the ears ring, whether it can be cured. This intent explains the
+        masker FEATURE. The product does not answer clinical questions, so
+        those are Default Fallback Intent.
     boundary_cases:
       - The object decides the intent. Loudness words attached to tinnitus,
         masker or white noise resolve here; the same words attached to the aids
@@ -1129,11 +1292,10 @@ intents:
         between adjusting the masker and adjusting amplification, prefer this
         intent's explanation over a volume command.
     neighbor_intents:
-      - Help_Volume
-      - Cmd.VolumeIncrease
       - Help_ChangingMemories
-      - Help_Customize
       - Default Fallback Intent
+      - Help_Volume
+      - Cmd.MemoryChange
     positive_example: "How do I turn up the tinnitus noise?"
     hard_negative_example: "Turn up the volume in my hearing aids."
 
@@ -1158,8 +1320,11 @@ intents:
       - User uses a bare configuration phrase such as edit step goal or set up
         walking goal.
     do_not_trigger:
-      - Any query for the user's actual progress or goal VALUE, which belongs to
-        the matching Cmd.Activity* intent. Configuring differs from querying.
+      - Any query for the user's actual progress or goal VALUE, which belongs
+        to one of the matching Cmd.Activity* intents - Cmd.ActivityStep,
+        Cmd.ActivityWalk, Cmd.ActivityRun, Cmd.ActivityCycle,
+        Cmd.ActivityStand, Cmd.ActivityAerobics, Cmd.ActivityExercise or
+        Cmd.ActivityCalories. Configuring differs from querying.
       - Questions about the Health screen as a whole, or about viewing health
         goals, which are Help_Health.
       - Questions about heart rate, which are Help_HeartRate.
@@ -1182,6 +1347,12 @@ intents:
       - Cmd.ActivityWalk
       - Cmd.ActivityExercise
       - Default Fallback Intent
+      - Help_ThriveScore
+      - Cmd.ActivityRun
+      - Cmd.ActivityCycle
+      - Cmd.ActivityStand
+      - Cmd.ActivityAerobics
+      - Cmd.ActivityCalories
     positive_example: "How do I change my walking goal?"
     hard_negative_example: "How far have I walked today?"
 
@@ -1214,8 +1385,9 @@ intents:
       - Help_Activity
       - Help_HeartRate
       - Help_ThriveScore
-      - Help_FallAlert
       - Cmd.ActivityStep
+      - Help_HeartRateRecovery
+      - Help_FallAlert
       - Default Fallback Intent
     positive_example: "What does the Health screen show?"
     hard_negative_example: "How do I set my step goal?"
@@ -1307,7 +1479,6 @@ intents:
     neighbor_intents:
       - Help_Health
       - Help_SelfCheck
-      - Help_DeviceSettings
       - Default Fallback Intent
     positive_example: "How do I set up fall detection?"
     hard_negative_example: "Where are my hearing aids?"
@@ -1339,6 +1510,7 @@ intents:
       - Help_HeartRate
       - Help_Activity
       - Default Fallback Intent
+      - Help_HeartRateRecovery
     positive_example: "How is the Thrive score calculated?"
     hard_negative_example: "How do I see my health goals?"
 
@@ -1349,7 +1521,9 @@ intents:
   - name: "Help_FindMyHearingAids"
     authored_by: "assistant-session (claude-opus-5), pending human review"
     business_description: >-
-      Help the user locate misplaced HEARING AIDS, including one specific side.
+      Help the user locate misplaced HEARING AIDS, including one specific
+      side. The assistant cannot locate an aid itself - it explains how to
+      find one - so requests phrased as commands belong here too.
     trigger_conditions:
       - User asks where their hearing aids or one named aid is.
       - User reports that an aid is lost, missing or misplaced.
@@ -1364,13 +1538,20 @@ intents:
     boundary_cases:
       - The object decides the intent. Aid, aids or hearing aids resolve here;
         phone, telephone or a phone brand resolves to Cmd.FindMyPhone.
-      - Lost differs from broken. An aid that cannot be found is this intent; an
-        aid that is found but faulty is Help_SelfCheck.
+      - Lost differs from broken. An aid that cannot be found is this intent;
+        an aid that is found but faulty is Help_SelfCheck.
       - An aid that will not connect is Help_Pairing, not a location problem.
+      - Direct requests belong here as much as how-to questions. The assistant
+        cannot locate an aid; it can only explain how to. Precedence rule 4's
+        clause "when the requested action IS explaining, it is the Help
+        intent" therefore covers both phrasings - "find my hearing aids" and
+        "how do I find my hearing aids" are the same intent. Deployed speech
+        for this intent is 40.6% command-shaped, and generation must match
+        that rather than producing how-to phrasing only; a generated rate near
+        zero is a defect, not a success.
     neighbor_intents:
       - Cmd.FindMyPhone
       - Help_SelfCheck
-      - Help_Pairing
       - Default Fallback Intent
     positive_example: "I've misplaced my left hearing aid."
     hard_negative_example: "I can't find my phone."
@@ -1434,7 +1615,6 @@ intents:
     neighbor_intents:
       - Cmd.TranslationStart
       - Help_Transcribe
-      - Help_VoiceAssistant
       - Default Fallback Intent
     positive_example: "What translation languages are available?"
     hard_negative_example: "How do I say good morning in Russian?"
@@ -1457,8 +1637,11 @@ intents:
         intents.
       - Any actual request to send or play a message, which are
         Cmd.SendMessage and Cmd.ListenMessage.
-      - Any actual command directed at the assistant, which belongs to whichever
-        intent that command names.
+      - Any actual command directed at the assistant, which belongs to
+        whichever intent that command names.
+      - How-to questions about messaging or push-to-talk. This intent explains
+        the assistant itself, not an individual feature; with no messaging
+        Help intent in the taxonomy these are Default Fallback Intent.
     boundary_cases:
       - This intent is the assistant talking about itself. Any request that asks
         it to DO something resolves to that action's intent instead.
@@ -1471,6 +1654,7 @@ intents:
       - Cmd.ListenMessage
       - Help_Transcribe
       - Default Fallback Intent
+      - Help_Home
     positive_example: "What can I ask Thrive Assistant to do?"
     hard_negative_example: "What is IntelliVoice?"
 
@@ -1506,6 +1690,10 @@ intents:
         Cmd.StreamingStart.
       - Reports that an aid is faulty rather than unconnected, which are
         Help_SelfCheck.
+      - Requests to switch to the "Telephone" MEMORY, which are
+        Cmd.MemoryChange. "Telephone" is both a memory name and this intent's
+        subject; an explicit request to change memory or program is that
+        intent, anything else is this one.
     boundary_cases:
       - The other endpoint decides the intent. Phone, tablet or car resolves
         here; TV streamer or remote mic resolves to Help_Accessories; the
@@ -1518,6 +1706,7 @@ intents:
       - Help_SelfCheck
       - Cmd.StreamingStart
       - Default Fallback Intent
+      - Cmd.MemoryChange
     positive_example: "Why won't my hearing aids sync with my phone?"
     hard_negative_example: "How do I unpair my Remote Mic?"
 
@@ -1551,9 +1740,7 @@ intents:
         this intent.
     neighbor_intents:
       - Help_Pairing
-      - Help_Customize
       - Help_HearShare
-      - Help_DeviceSettings
       - Default Fallback Intent
     positive_example: "Can my audiologist adjust my aids remotely?"
     hard_negative_example: "How do I customize my hearing aid settings myself?"
@@ -1582,8 +1769,6 @@ intents:
         is Help_Pairing.
     neighbor_intents:
       - Help_RemoteProgramming
-      - Help_Pairing
-      - Help_Health
       - Default Fallback Intent
     positive_example: "How do I share my hearing information with my daughter?"
     hard_negative_example: "How do I connect to my audiologist?"
@@ -1640,6 +1825,8 @@ intents:
       - Reports that an aid has stopped working, which are Help_SelfCheck,
         unless the user attributes it to wax.
     boundary_cases:
+      - Wax-related complaints stay here when the user attributes the problem
+        to wax; unexplained device failure is Help_SelfCheck.
       - Wax questions resolve here even when phrased as a malfunction, because
         the seed evidence treats wax as a cleaning topic.
       - Where a fault is described with no cleaning or wax context, prefer
@@ -1647,7 +1834,6 @@ intents:
     neighbor_intents:
       - Help_Battery
       - Help_InsertDevice
-      - Help_SelfCheck
       - Default Fallback Intent
     positive_example: "How do I get rid of wax build-up in my hearing aid?"
     hard_negative_example: "Why doesn't my right hearing aid work?"
@@ -1714,9 +1900,12 @@ intents:
     neighbor_intents:
       - Help_FindMyHearingAids
       - Help_Pairing
-      - Help_CleanCare
       - Cmd.VolumeIncrease
+      - Help_Battery
+      - Help_InsertDevice
+      - Help_FallAlert
       - Default Fallback Intent
+      - Help_Volume
     positive_example: "There's a problem with my left hearing aid."
     hard_negative_example: "My hearing aids are too quiet, turn them up."
 
@@ -1740,6 +1929,8 @@ intents:
       - Requests to change HEARING AID volume, which are the Cmd.Volume*
         intents.
     boundary_cases:
+      - Accessory/TV volume questions belong here; hearing-aid volume changes
+        belong to the Cmd.Volume* intents.
       - The named device decides the intent between this and Help_Pairing --
         accessory here, phone or car there.
       - Question form separates this intent from the streaming commands; an
@@ -1778,8 +1969,6 @@ intents:
       - Balance is a CROS-specific control and is not the same as volume, even
         though both affect loudness.
     neighbor_intents:
-      - Help_Volume
-      - Help_ChangingMemories
       - Help_DeviceSettings
       - Default Fallback Intent
     positive_example: "How does the CROS balance feature work?"
@@ -1815,6 +2004,8 @@ intents:
       - Questions about what is new in this version, which are Help_WhatsNew.
       - Questions about the Home screen, which are Help_Home.
     boundary_cases:
+      - App version questions are Help_AppSettings; questions about newly
+        introduced changes are Help_WhatsNew.
       - The object of the setting decides the intent. The app itself resolves
         here; the hearing aids resolve to Help_DeviceSettings.
       - App version identification resolves here, but asking what CHANGED in
@@ -1825,6 +2016,7 @@ intents:
       - Help_Home
       - Help_Customize
       - Default Fallback Intent
+      - Help_DemoMode
     positive_example: "What's the difference between Basic and Advanced mode?"
     hard_negative_example: "What's the firmware version of my aid?"
 
@@ -1859,10 +2051,8 @@ intents:
         right now is Cmd.StreamingStart.
     neighbor_intents:
       - Help_AppSettings
-      - Help_Customize
       - Help_MemoryOptions
       - Help_WiCROS
-      - Help_Pairing
       - Default Fallback Intent
     positive_example: "The double tap is too sensitive, can I adjust it?"
     hard_negative_example: "How do I access the app settings?"
@@ -1896,9 +2086,10 @@ intents:
       - Saving the result as a memory is Help_MemoryOptions.
     neighbor_intents:
       - Help_MemoryOptions
-      - Help_DeviceSettings
       - Help_EdgeMode
-      - Help_Volume
+      - Help_AppSettings
+      - Cmd.MemoryChange
+      - Cmd.EdgeModeIncrease
       - Default Fallback Intent
     positive_example: "How do I use the equalizer to turn down machine noise?"
     hard_negative_example: "It's too noisy in here, help me hear him."
@@ -1938,9 +2129,9 @@ intents:
     neighbor_intents:
       - Cmd.MemoryChange
       - Help_MemoryOptions
-      - Help_Customize
       - Cmd.EdgeModeIncrease
       - Default Fallback Intent
+      - Help_Tinnitus
     positive_example: "How do I switch to the Music memory?"
     hard_negative_example: "How do I create a custom memory?"
 
@@ -1975,6 +2166,7 @@ intents:
       - Help_Customize
       - Help_MaskMode
       - Default Fallback Intent
+      - Help_DeviceSettings
     positive_example: "Can I create my own custom memory?"
     hard_negative_example: "How do I change to a different memory?"
 
@@ -2002,7 +2194,6 @@ intents:
     neighbor_intents:
       - Help_AppSettings
       - Help_WhatsNew
-      - Help_Pairing
       - Help_Home
       - Default Fallback Intent
     positive_example: "Can I use the app without hearing aids connected?"
@@ -2036,6 +2227,8 @@ intents:
       - Help_WhatsNew
       - Help_VoiceAssistant
       - Default Fallback Intent
+      - Help_DemoMode
+      - Help_Reminder
     positive_example: "What's on the Home screen?"
     hard_negative_example: "Where do I find the app settings?"
 
@@ -2095,37 +2288,59 @@ intents:
       - User reports that the current program does not suit where they are.
     do_not_trigger:
       - Questions asking HOW to change memories, which are
-        Help_ChangingMemories. This is the highest-volume Command-versus-
-        Question boundary in the product.
+        Help_ChangingMemories. This is the highest-volume
+        Command-versus-Question boundary in the product.
       - Requests to CREATE, save, customize, geotag or delete a memory, which
         are Help_MemoryOptions.
-      - Complaints about hearing difficulty with no environment named and no
-        program named, which are Cmd.EdgeModeIncrease.
+      - Complaints about hearing difficulty naming neither a program nor an
+        environment and asking for no action, which are Default Fallback
+        Intent. With an environment named, or with a request for clarity, they
+        are Cmd.EdgeModeIncrease.
       - Requests to change loudness, which belong to the AudioControl family.
       - Observations about the DEVICE's state ("it sounds quiet today"), which
         are Fallback.
+      - Bare uses of a word that is both a memory name and another intent's
+        subject - "mute", "tinnitus", "television". With no explicit request
+        to change memory or program these are Cmd.VolumeMute, Help_Tinnitus,
+        Cmd.StreamingStart and the rest.
     boundary_cases:
-      - A named environment or program is the deciding signal. This is the one
-        place where a pure observation IS an actionable command - "I'm outdoors
-        now" and "I just walked into church" are requests to switch memory,
-        because the product's memories are environment-scoped. This is a
-        deliberate, evidence-backed exception to the general observation rule,
-        and the Fallback specification carries the matching carve-out.
+      - A named memory, program, profile or setting is an explicit change
+        request. A hearing-difficulty complaint naming none of those and
+        asking for no action is Default Fallback Intent; one that names an
+        environment, or asks for clarity, is Cmd.EdgeModeIncrease.
+      - A named environment or program is the deciding signal, and this is the
+        one place where a pure observation IS an actionable command - "I'm
+        outdoors now", "I just walked into church" - because the product's
+        memories are environment-scoped. The observation must be about WHERE
+        THE USER IS. An environment named as the CAUSE OF DIFFICULTY ("it's
+        noisy in this restaurant, I can't follow") is Cmd.EdgeModeIncrease.
+        Default Fallback Intent carries the matching carve-out.
       - The exception is narrow. It applies only when the observation names a
-        listening ENVIRONMENT. An observation about the hearing aids themselves
-        stays Fallback.
+        listening ENVIRONMENT. An observation about the hearing aids
+        themselves stays Fallback.
       - Some seed utterances name a sound feature rather than a memory
-        ("activate speech focus", "apply wind noise reduction"). Treat those as
-        this intent only when phrased as selecting a setting; a description of
-        struggling to hear is Cmd.EdgeModeIncrease.
-      - The memory name is a slot, not a separate intent. All values in the
-        memory vocabulary resolve here.
+        ("activate speech focus", "apply wind noise reduction"). Treat those
+        as this intent only when phrased as selecting a setting; a description
+        of struggling to hear is Cmd.EdgeModeIncrease.
+      - >-
+        The memory name is a slot, not a separate intent - but a bare memory
+        name is not enough. This intent requires an EXPLICIT request to change
+        memory or program: "switch to X", "change my memory to X", "put me in
+        X", "activate the X memory". Several memory names are also other
+        intents' subjects (Mute, Tinnitus, Television, Speech, Noise, Mask,
+        Telephone); with no explicit change request those utterances belong to
+        the intent that owns the subject.
     neighbor_intents:
       - Help_ChangingMemories
       - Help_MemoryOptions
       - Cmd.EdgeModeIncrease
       - Help_Customize
       - Default Fallback Intent
+      - Cmd.VolumeMute
+      - Cmd.StreamingStart
+      - Help_Tinnitus
+      - Help_MaskMode
+      - Help_Pairing
     positive_example: "I've just sat down in a busy restaurant."
     hard_negative_example: "How do I change to a different memory?"
 
@@ -2151,6 +2366,10 @@ intents:
         Help_VoiceAssistant.
       - Bare confirmations such as yes or cancel. Those are handled by the
         confirmation gate, not by any intent.
+      - How-to questions about sending messages or using push-to-talk ("how do
+        I send a voice message?"). The taxonomy has no messaging Help intent,
+        so these are Default Fallback Intent. Help_VoiceAssistant explains the
+        assistant itself, not this feature.
     boundary_cases:
       - Direction decides this intent against Cmd.ListenMessage - outbound is
         this, inbound is that.
@@ -2186,18 +2405,24 @@ intents:
         Cmd.TranscribeStart.
       - Requests to start streaming audio from a TV or microphone, which are
         Cmd.StreamingStart.
-      - Questions about the messaging feature itself, which are
-        Help_VoiceAssistant.
+      - How-to questions about messaging or push-to-talk ("how do I play my
+        messages?"). The taxonomy has no messaging Help intent, so these are
+        Default Fallback Intent until one exists - Help_VoiceAssistant
+        explains the assistant itself, not this feature.
     boundary_cases:
       - Direction decides this intent against Cmd.SendMessage - inbound is
         this, outbound is that.
-      - This intent covers both voice messages and texts read aloud; the medium
-        is not a distinguishing factor.
+      - This intent covers both voice messages and texts read aloud; the
+        medium is not a distinguishing factor.
       - Playing a received message differs from streaming live audio. A named
         message or sender resolves here; a named external source is
         Cmd.StreamingStart.
       - A bare "play it" with no other context resolves here, since the seed
         evidence establishes terse replay requests as normal usage.
+      - The product plays the most recent message; it does not list or
+        summarise a mailbox. Inventory-style queries ("what messages do I
+        have?", "who messaged me?") still resolve here and are answered by
+        playing the latest message.
     neighbor_intents:
       - Cmd.SendMessage
       - Cmd.TranscribeStart
