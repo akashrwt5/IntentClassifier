@@ -1396,6 +1396,8 @@ intents:
       - Questions about heart rate or heart rate recovery, which have their own
         intents.
       - Questions about the Thrive score, which are Help_ThriveScore.
+      - Questions about the Home or main screen, or broad questions about the
+        app naming no health figure, which are Help_Home.
     boundary_cases:
       - This intent is about LOCATING and VIEWING; Help_Activity is about
         CONFIGURING a target; the Cmd.Activity* intents return the data itself.
@@ -1410,6 +1412,7 @@ intents:
       - Help_HeartRateRecovery
       - Help_FallAlert
       - Default Fallback Intent
+      - Help_Home
     positive_example: "What does the Health screen show?"
     hard_negative_example: "How do I set my step goal?"
 
@@ -2075,6 +2078,7 @@ intents:
       - Help_MemoryOptions
       - Help_WiCROS
       - Default Fallback Intent
+      - Help_Customize
     positive_example: "The double tap is too sensitive, can I adjust it?"
     hard_negative_example: "How do I access the app settings?"
 
@@ -2112,6 +2116,7 @@ intents:
       - Cmd.MemoryChange
       - Cmd.EdgeModeIncrease
       - Default Fallback Intent
+      - Help_DeviceSettings
     positive_example: "How do I use the equalizer to turn down machine noise?"
     hard_negative_example: "It's too noisy in here, help me hear him."
 
@@ -2230,19 +2235,25 @@ intents:
       - User asks how to get to or back to the Home screen.
       - User asks what is on the Home screen or what can be adjusted there.
       - User asks for help with the main screen.
-      - User asks a broad orientation question about how to use the app or the
-        hearing aids.
     do_not_trigger:
       - Questions about app settings, which are Help_AppSettings.
-      - Questions about what is new in the app, which are Help_WhatsNew.
+      - Questions about what is new in the app, and requests for a quick
+        start, overview or getting-started guide, which are Help_WhatsNew.
       - Questions about a specific feature, which belong to that feature's
         intent.
+      - Questions about where a health, hearing or activity figure can be seen
+        in the app, which are Help_Health. This intent is the Home or main
+        screen itself, not any screen that happens to be in the app.
     boundary_cases:
-      - This intent is the general orientation fallback WITHIN the help space.
-        Where a specific feature is named, that feature's intent always wins.
-      - A broad question with no feature named and no out-of-scope content
-        resolves here rather than to Fallback, since the user is asking about
-        this product.
+      - Where a specific feature is named, that feature's intent always wins.
+        This intent is the Home or main SCREEN itself, not a general
+        orientation catch-all for the help space.
+      - A broad question naming no screen and no feature is Default Fallback
+        Intent. An earlier version of this spec claimed those as orientation
+        questions. The claim had no support in the seed evidence - 16 of this
+        intent's 23 seeds name the home or main screen outright and none is a
+        general how-do-I-use-the-app question - and it collided with
+        Help_WhatsNew, Help_DemoMode and Help_Health at once.
     neighbor_intents:
       - Help_AppSettings
       - Help_WhatsNew
@@ -2250,6 +2261,7 @@ intents:
       - Default Fallback Intent
       - Help_DemoMode
       - Help_Reminder
+      - Help_Health
     positive_example: "What's on the Home screen?"
     hard_negative_example: "Where do I find the app settings?"
 

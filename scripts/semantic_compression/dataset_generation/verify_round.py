@@ -117,10 +117,34 @@ add('41 Section 6 really is the blueprint precedence section',
 add('42 reminders.add itself unchanged (still unreviewed)',
     len(by['reminders.add']['boundary_cases']) == 3 and len(by['reminders.add']['do_not_trigger']) == 4)
 
+# --- HelpAppSettings family round ----------------------------------------
+home, health = by['Help_Home'], by['Help_Health']
+add('43 D8 orientation catch-all trigger removed from Help_Home',
+    not any('broad orientation question' in x for x in home['trigger_conditions'])
+    and len(home['trigger_conditions']) == 4)
+add('44 D8 both dependent boundary cases rewritten',
+    not any('general orientation fallback' in x for x in home['boundary_cases'])
+    and any('naming no screen and no feature is Default Fallback' in x for x in home['boundary_cases']))
+add('45 D8 quick start / overview named on the Help_WhatsNew exclusion',
+    any('quick start, overview or getting-started' in x for x in home['do_not_trigger']))
+add('46 E1 CLOSED -- Health/Home guarded on both sides',
+    any('Help_Health' in x for x in home['do_not_trigger'])
+    and any('Help_Home' in x for x in health['do_not_trigger']))
+add('47 E1 CLOSED -- and linked, so it cannot drift back',
+    'Help_Health' in home['neighbor_intents'] and 'Help_Home' in health['neighbor_intents'])
+add('48 D9 DeviceSettings <-> Customize now mutual neighbours',
+    'Help_Customize' in by['Help_DeviceSettings']['neighbor_intents']
+    and 'Help_DeviceSettings' in by['Help_Customize']['neighbor_intents'])
+add('49 the other four HelpAppSettings specs untouched',
+    len(by['Help_AppSettings']['trigger_conditions']) == 5
+    and len(by['Help_WhatsNew']['trigger_conditions']) == 4
+    and len(by['Help_DemoMode']['trigger_conditions']) == 5
+    and len(by['Help_DeviceSettings']['trigger_conditions']) == 7)
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
-add('31 Section 2a empty -- Health/Home fell to 0.1999, NOT fixed (see DEFERRED E1)',
+add('31 Section 2a empty -- Health/Home now guarded on both sides (DEFERRED E1 closed)',
     'None' in a)
 b = md.split('### 2b')[1].split('### 2c')[0]
 # 2b is NOT empty and is not expected to be: the one pair below is logged in

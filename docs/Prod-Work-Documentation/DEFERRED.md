@@ -9,8 +9,8 @@ report. The per-family sign-off table in `SPEC_REVIEW.md` records what has been
 Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
-Last updated 2026-08-26, after the `Cmd.*` review, the HelpAudio family and
-`Default Fallback Intent`.
+Last updated 2026-08-26, after the `Cmd.*` review, the HelpAudio and
+HelpAppSettings families, and `Default Fallback Intent`.
 
 ---
 
@@ -21,7 +21,7 @@ Last updated 2026-08-26, after the `Cmd.*` review, the HelpAudio family and
 | `Cmd.*` reviewed | 19 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8 |
 | `Cmd.*` deferred | 5 | EdgeMode 3, SpeechServices 2 |
 | `Help*` deferred | 1 | `Help_EdgeMode`, grouped with the EdgeMode commands |
-| `Help*` reviewed | 4 of 33 | `Help_Volume`, `Help_Tinnitus`, `Help_IntelliVoice`, `Help_MaskMode` — **HelpAudio is complete except the deferred `Help_EdgeMode`**. Four others were *read as counterparts* only |
+| `Help*` reviewed | 10 of 33 | **HelpAudio** 4 of 5 (`Help_EdgeMode` deferred) and **HelpAppSettings** 6 of 6. Four others were *read as counterparts* only |
 | Other | 1 of 3 | `Default Fallback Intent` reviewed. `reminders.add` and `reminders.complete` still not |
 
 `Default Fallback Intent` has now been read end to end (2026-08-26). It had been
@@ -370,7 +370,57 @@ is still unreviewed.
 neighbour reasoning is not re-litigated.
 
 
----
+### D8. `Help_Home` is the Home screen, not the help space's catch-all
+
+Decided by Akash, 2026-08-26, during the HelpAppSettings review.
+
+`Help_Home` carried a fifth trigger — *"User asks a broad orientation question
+about how to use the app or the hearing aids"* — supported by two boundary cases
+that made it the general orientation fallback **within** the help space, ahead of
+`Default Fallback Intent`.
+
+**The seed evidence does not support it.** 16 of its 23 seeds name the home or
+main screen outright, and not one is a general how-do-I-use-the-app question.
+
+**And it collided with three intents at once**, measured on the deployed rows:
+
+| phrasing | `Help_Home` | `Help_WhatsNew` | `Help_DemoMode` |
+|---|---:|---:|---:|
+| quick start | 0 of 104 | **7 of 68** | 0 of 44 |
+| overview / summary | 4 | **22** | 0 |
+| getting started | 2 | 1 | 0 |
+| how to use the app | 2 | 0 | **3 of 44** |
+| home / main screen | **19** | 0 | 0 |
+
+`Help_WhatsNew` owns quick start and overview outright; `Help_DemoMode` owns
+using the app without aids; `Help_Health` owns finding a health figure in the
+app. All three were claimed in passing by that one trigger, and **none of the
+three collisions was guarded** — the two specs that did name each other did so on
+a different axis entirely (what's new, and the Home screen), so they read as
+guarded while the real overlap sat open.
+
+Trigger removed. Both dependent boundary cases rewritten. A broad question naming
+no screen and no feature is `Default Fallback Intent`, which is what that intent
+is for. The `Help_WhatsNew` exclusion now names quick start, overview and
+getting-started explicitly.
+
+This also closed `Help_Health` ↔ `Help_Home`, the long-running Section 2a item —
+see E1.
+
+**Nothing to close.**
+
+### D9. `Help_DeviceSettings` ↔ `Help_Customize` had the boundary but not the link
+
+Found in the same round. Both specs name the other in `do_not_trigger` — device
+level preferences versus per-memory sound shaping, which is this family's
+most-used boundary — and neither listed the other in `neighbor_intents`.
+
+Because the absence was symmetric it passed the one-directional-link check, and
+at **0.16** the pair sits below `spec_review.py`'s 0.20 reporting threshold, so
+nothing flagged it. The boundary was documented and never sampled as a hard
+negative. Made mutual.
+
+**Nothing to close** for this pair. The wider pattern is not closed — see E4.
 
 ## E. Not started
 
@@ -381,8 +431,9 @@ Four were read as counterparts during `Cmd.*` reviews — `Help_Battery`,
 two of those were edited. None was reviewed in its own right, and reading a spec
 against one partner is not the same as reading it against its own family.
 
-Largest families first: HelpAppSettings 6, HelpDeviceCare 6, HelpHealth 6,
-HelpAudio 5 (4 done, 1 deferred), HelpConnectivity 3, HelpSpeechServices 2, HelpFind 1.
+Remaining, largest first: HelpDeviceCare 6, HelpHealth 6, HelpConnectivity 3,
+HelpSpeechServices 2, HelpFind 1. Done: HelpAppSettings 6 of 6, HelpAudio 4 of 5
+with `Help_EdgeMode` deferred.
 
 **One finding is already open against two of them.** `spec_review.py` Section 2a
 — the highest-priority tier, where neither spec names the other and neither so
@@ -410,19 +461,15 @@ Two honest qualifications, both verified rather than assumed:
   not a device action. Zero False-Accept-Rate impact. That is why it is recorded
   here rather than fixed in the middle of another family's round.
 
-**It has since stopped showing up, and nothing was fixed.** The `Help_MaskMode`
-edits moved the score to **0.1999** — one ten-thousandth under the threshold — so
-`SPEC_REVIEW.md` now reports Section 2a as empty. Neither spec has been touched
-in any round; only the IDF weights moved, twice, in opposite directions.
+It twice drifted across the 0.20 reporting threshold on edits made to other
+specs entirely — 0.1937, then 0.2007, then 0.1999 — appearing and disappearing
+from Section 2a without either spec being touched. Worth remembering as what a
+hard cut on a continuous score does at its boundary.
 
-That cuts both ways and both are worth stating. The finding is exactly as real as
-it was, and a green Section 2a is not evidence it was fixed. And a hard cut on a
-continuous score behaves like this at the boundary: a pair drifts in and out of
-the report on edits made to other specs entirely.
-
-**To close:** it falls out of the HelpHealth and HelpAppSettings reviews — not
-out of the table looking clean. If the answer is the obvious one, it is two lines
-— name the sibling in each spec's `do_not_trigger`.
+**CLOSED 2026-08-26**, in the HelpAppSettings round, on both sides and with a
+neighbour link, so it cannot drift back. `Help_Home` excludes questions about
+where a health figure can be seen; `Help_Health` excludes Home-screen and broad
+app questions. The larger cause was removed at the same time — see D8.
 
 ### E2. `reminders.add` and `reminders.complete`
 
@@ -482,6 +529,39 @@ if `Mute` and `Quiet` turn out to be real, two closed rounds reopen.
 
 **To close:** run the scan, decide each of the 17 individually, and either add a
 guard or record why the overlap is harmless. Only then is the set complete.
+
+---
+
+### E4. Prose-only neighbour links are a taxonomy-wide pattern, counted only here
+
+The HelpAppSettings review counted them properly for the first time, within one
+family. Each row is a boundary a spec states in prose while the sampling link it
+needs does not exist:
+
+| Intent | Named in a rule, but not a neighbour | Neighbour, but named in no rule |
+|---|---|---|
+| `Help_DeviceSettings` | `Cmd.StreamingStart`, `Help_ChangingMemories`, `Help_Pairing` | `Help_WiCROS` |
+| `Help_DemoMode` | `Help_Pairing` | `Help_Home` |
+| `Help_Customize` | — | `Cmd.MemoryChange`, `Help_AppSettings` |
+| `Help_AppSettings` | — | `Help_DemoMode` |
+| `Help_WhatsNew` | — | `Help_DemoMode` |
+| `Help_Home` | — | `Help_Reminder`, `Help_VoiceAssistant` |
+
+`Help_DeviceSettings` is the worst of them: it names six intents in its rules and
+lists four as neighbours, and only one of those four appears in any rule.
+
+Only `Help_DeviceSettings` ↔ `Help_Customize` was fixed (D9), because both specs
+sit in this family. The rest reach into `Help_Pairing`, `Help_ChangingMemories`
+and `Cmd.StreamingStart`, which have not been reviewed, and fixing a link
+requires editing both sides.
+
+Neither direction is automatically wrong. A neighbour named in no rule may be a
+sensible confusion nobody wrote down; a rule with no link may be a boundary too
+coarse to need hard negatives. What is wrong is that no one has decided.
+
+**To close:** run the same count across all 60 specs, decide each row, and either
+add the link, add the rule, or record why neither is needed. Same shape as E3 —
+a systematic pass, not a per-family patch.
 
 ## F. Outside the spec review
 
