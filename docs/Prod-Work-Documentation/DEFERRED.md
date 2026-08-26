@@ -9,7 +9,8 @@ report. The per-family sign-off table in `SPEC_REVIEW.md` records what has been
 Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
-Last updated 2026-08-26, after the `Cmd.*` review and the HelpAudio family.
+Last updated 2026-08-26, after the `Cmd.*` review, the HelpAudio family and
+`Default Fallback Intent`.
 
 ---
 
@@ -21,12 +22,12 @@ Last updated 2026-08-26, after the `Cmd.*` review and the HelpAudio family.
 | `Cmd.*` deferred | 5 | EdgeMode 3, SpeechServices 2 |
 | `Help*` deferred | 1 | `Help_EdgeMode`, grouped with the EdgeMode commands |
 | `Help*` reviewed | 4 of 33 | `Help_Volume`, `Help_Tinnitus`, `Help_IntelliVoice`, `Help_MaskMode` — **HelpAudio is complete except the deferred `Help_EdgeMode`**. Four others were *read as counterparts* only |
-| Other | 0 of 3 | `Default Fallback Intent`, `reminders.add`, `reminders.complete` |
+| Other | 1 of 3 | `Default Fallback Intent` reviewed. `reminders.add` and `reminders.complete` still not |
 
-`Default Fallback Intent` has been edited repeatedly during the `Cmd.*` review —
-it is the destination for most boundary decisions — but it has never been read
-end to end as its own spec. It carries more accumulated rules than any other
-intent and is the least reviewed. That is the wrong way round.
+`Default Fallback Intent` has now been read end to end (2026-08-26). It had been
+edited in almost every round without ever being reviewed itself — the most rules
+of any intent and the least scrutiny, which was the wrong way round. Its 22 rules
+held up; what did not was its neighbour list. See D7.
 
 **No sign-off box in `SPEC_REVIEW.md` is ticked, and `intent_specs.yaml` still
 carries `REQUIRES HUMAN REVIEW`. Both are correct: the review is not finished.**
@@ -320,6 +321,55 @@ naming mask at all**, which would be odd if users did ask to switch to it.
 
 **Nothing to close.** Recorded so nobody restores the old reasoning.
 
+### D7. `Default Fallback Intent` reviewed — the rules were right, the neighbours were not
+
+Read end to end on 2026-08-26. Its 10 triggers, 6 exclusions and 6 boundary cases
+survived; two findings were raised against them and **one of the two was mine and
+wrong**.
+
+**Withdrawn — `Section 6` is a real reference.** The trigger *"where the intent
+remains genuinely ambiguous after the Section 6 precedence rules have been
+applied"* was flagged as a dead pointer, because `SYSTEM_PROMPT` numbers its
+precedence rules 1–5 and contains no "Section 6". It refers to the **blueprint**,
+not the prompt: `nlu_super_dataset_architecture.md` §6 is "Structured Ambiguity &
+Out-of-Scope (OOS)", whose subsection is "Compound & Conflict Precedence Rules".
+`generator.py` uses the same convention twice in its own comments, one of them
+saying so outright — "stated the way the blueprint states it". The line is
+correct and was left alone. Akash pushed back before it was changed.
+
+**The neighbour list is where the real defect was.** 59 specs list Fallback as a
+neighbour; Fallback lists 6. The asymmetry check exempts it by design, because it
+cannot carry 59 — but the exemption meant nobody ever asked *which* 6, and the
+answer had drifted from what the spec argues about.
+
+`Cmd.MemoryChange` was **not** among them, while the listening-environment
+exception — Fallback's single most intricate rule, stated across three fields —
+is entirely about it. Added. One-sided, since `Cmd.MemoryChange` already lists
+Fallback.
+
+The other three were first read as stale and that reading was also wrong; naming
+an intent and sharing its subject are not the same test:
+
+| neighbour | in Fallback's rules | from its own side | verdict |
+|---|---|---|---|
+| `Cmd.StreamingStart` | "TV, phone, smart-home, music services"; "Turn the TV up" | names Fallback 3× | real, kept |
+| `Help_Volume` | trigger 8 and exclusion 2, the power on/off gap | names Fallback for that gap | real, kept |
+| `reminders.add` | nothing | nothing | link real, rule missing — below |
+
+**The reminders boundary existed on one side only.** `reminders.add` says "the
+subject never changes the intent" and its own positive example has a shopping
+subject, while Fallback's trigger 1 claims shopping outright. Both specs claimed
+"remind me to buy milk" and only one of them knew it.
+
+Decided (Akash, 2026-08-26): **a reminder is a reminder whatever it is about.** An
+exclusion naming `reminders.add` now sits on the Fallback side, so trigger 1
+cannot swallow reminders. `reminders.add` unchanged — it was already right, and it
+is still unreviewed.
+
+**Nothing to close.** Recorded so the withdrawn finding is not re-raised and the
+neighbour reasoning is not re-litigated.
+
+
 ---
 
 ## E. Not started
@@ -374,10 +424,21 @@ the report on edits made to other specs entirely.
 out of the table looking clean. If the answer is the obvious one, it is two lines
 — name the sibling in each spec's `do_not_trigger`.
 
-### E2. `Default Fallback Intent`, `reminders.add`, `reminders.complete`
+### E2. `reminders.add` and `reminders.complete`
 
-Never reviewed as specs. `Default Fallback Intent` is the priority — see the
-note at the top of this file.
+Never reviewed as specs. `Default Fallback Intent` was the third and has now been
+done — see D7.
+
+Both were read *around* during the Fallback review, which surfaced two things
+worth carrying into their own round rather than acting on now:
+
+- `reminders.add`'s boundary case — "the subject never changes the intent" — is
+  now relied on by a Fallback exclusion. It was right, but it is still a rule in
+  an unreviewed spec that another spec has started leaning on.
+- `reminders.complete` routes delete, cancel and postpone to Fallback as
+  unsupported actions. Fallback covers that only through the generic "requests
+  for a capability the product does not have"; it never names reminders. Another
+  one-way route, not yet checked from the Fallback side.
 
 ---
 

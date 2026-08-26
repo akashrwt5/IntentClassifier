@@ -94,6 +94,10 @@ intents:
       - A negated command that supplies a replacement action. "Don't turn it
         up, turn it down" is Cmd.VolumeDecrease by last-explicit-command
         precedence.
+      - A request to be reminded of something, whatever the reminder is about.
+        The subject of a reminder never decides the intent, so "remind me to
+        buy milk" is reminders.add even though shopping is out of scope on its
+        own. reminders.add states this identically.
     boundary_cases:
       - Uncertainty always resolves here. Fallback is the intended destination
         for ambiguity, never a failure state - False Accepts are costlier than
@@ -121,6 +125,7 @@ intents:
       - reminders.add
       - Help_Volume
 
+      - Cmd.MemoryChange
     positive_example: "The left one has been sounding a bit quiet today."
 
     hard_negative_example: "It's quieter today, make it louder."

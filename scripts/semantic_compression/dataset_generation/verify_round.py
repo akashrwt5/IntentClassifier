@@ -4,6 +4,7 @@ from pathlib import Path
 
 # Lives beside the specs it checks, so it runs from anywhere.
 D = str(Path(__file__).resolve().parent)
+ROOT = str(Path(D).parents[2])
 sys.path.insert(0, D)
 import bootstrap_specs as bs
 import spec_review as sr  # noqa: F401  (import proves it loads)
@@ -99,6 +100,22 @@ add('29 Mask is genuinely a runtime memory name (entity list)',
 add('30 no plain-scalar ": " introduced into authored_specs',
     all(': ' not in l.split('- ', 1)[1] for l in open(f'{D}/authored_specs.yaml').read().splitlines()
         if l.lstrip().startswith('- ') and l.startswith('      - ')))
+
+# --- Default Fallback Intent round ---------------------------------------
+fb = by[FB]
+add('36 F27 Cmd.MemoryChange is now a Fallback neighbour', 'Cmd.MemoryChange' in fb['neighbor_intents'])
+add('37 F27 stayed one-sided -- Cmd.MemoryChange untouched (10 neighbours)',
+    len(by['Cmd.MemoryChange']['neighbor_intents']) == 10)
+add('38 F27 the three real neighbours kept',
+    all(x in fb['neighbor_intents'] for x in ('Cmd.StreamingStart', 'Help_Volume', 'reminders.add')))
+add('39 reminders exclusion present on the Fallback side',
+    any('reminders.add' in x for x in fb['do_not_trigger']))
+add('40 WITHDRAWN FINDING -- the Section 6 reference is left intact',
+    any('Section 6' in x for x in fb['trigger_conditions']))
+add('41 Section 6 really is the blueprint precedence section',
+    '## 6. Structured Ambiguity' in open(f'{ROOT}/docs/Prod-Work-Documentation/nlu_super_dataset_architecture.md').read())
+add('42 reminders.add itself unchanged (still unreviewed)',
+    len(by['reminders.add']['boundary_cases']) == 3 and len(by['reminders.add']['do_not_trigger']) == 4)
 
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
