@@ -43,9 +43,7 @@ For each row, one of three things is true. Write down which:
 Neither spec names the other, and neither so much as mentions its subject in a
 rule field. Nothing anywhere separates these two.
 
-| # | Intent A | Intent B | Overlap | Same family |
-|---:|---|---|---:|:-:|
-| 1 | `Help_Health` | `Help_Home` | 0.20 | no |
+- ✅ None.
 
 ### 2b. Subject mentioned, sibling never named
 
@@ -56,7 +54,9 @@ gets one spec at a time and cannot resolve it to a sibling it has never been sho
 Cheapest section to clear: for most of these the boundary already exists in prose
 and only needs the intent name added beside it.
 
-- ✅ None.
+| # | Intent A | Intent B | Overlap | Same family |
+|---:|---|---|---:|:-:|
+| 1 | `Cmd.EdgeModeDeactivate` | `Help_MaskMode` | 0.24 | no |
 
 ### 2c. Named by one side only
 

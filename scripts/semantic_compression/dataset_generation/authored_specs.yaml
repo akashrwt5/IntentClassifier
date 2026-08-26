@@ -1226,13 +1226,12 @@ intents:
   - name: "Help_MaskMode"
     authored_by: "assistant-session (claude-opus-5), pending human review"
     business_description: >-
-      Explain Mask Mode - the setting that compensates for speech muffled by
-      face masks - including how to switch it on or off.
+      Explain Mask Mode - the Mask listening program in the app's memory list
+      - what it is, where to find it, and how to switch it on or off.
     trigger_conditions:
       - User asks what Mask Mode is or what it does.
       - User asks how to enable, disable or find Mask Mode.
       - User asks whether Mask Mode will help them.
-      - User asks for help with face-mask-related hearing problems.
     do_not_trigger:
       - Questions about Edge Mode or general noise reduction, which are
         Help_EdgeMode.
@@ -1240,21 +1239,34 @@ intents:
         Help_MemoryOptions.
       - Direct requests to improve clarity now, which are
         Cmd.EdgeModeIncrease.
-      - Requests to switch to the "Mask" MEMORY, which are Cmd.MemoryChange.
-        "Mask" is both a memory name and this intent's subject; an explicit
-        request to change memory or program is that intent, anything else is
-        this one.
+      - Requests to switch to the "Mask" MEMORY by its bare name, which are
+        Cmd.MemoryChange - "switch to Mask", "change my memory to Mask".
+        "Mask" is both a memory name and this intent's subject, and the change
+        verb with the bare name is what separates them. The phrase "Mask Mode"
+        stays here even with an on or off verb.
+      - Questions about the tinnitus masker, which are Help_Tinnitus. The two
+        are separate features that merely share a word stem - masking sound
+        for tinnitus is not the Mask listening program.
     boundary_cases:
-      - Even though this intent covers turning Mask Mode on and off, the seed
-        evidence contains only how-to phrasings; there is no Cmd intent for
-        Mask Mode, so instructional requests stay here.
+      - The phrase "Mask Mode" names this feature, so it resolves here
+        whatever verb surrounds it - asking what it is, asking how to find it,
+        and asking to turn it on or off are all this intent. Naming a mode is
+        not a request to change program. A memory switch needs the bare memory
+        name with an explicit change verb, as in "switch to Mask", and that is
+        Cmd.MemoryChange.
       - Creating a custom memory named mask is memory management and belongs to
         Help_MemoryOptions.
+      - Mask Mode is a listening program in the app's memory list, alongside
+        Restaurant, Car and Noise. It is NOT a face-mask remedy - an earlier
+        version of this spec described it that way and that description was
+        wrong. A complaint about struggling to hear someone names no feature
+        and is not this intent.
     neighbor_intents:
       - Help_EdgeMode
       - Help_MemoryOptions
       - Default Fallback Intent
       - Cmd.MemoryChange
+      - Help_Tinnitus
     positive_example: "How do I turn Mask Mode on?"
     hard_negative_example: "Add mask as a customized memory."
 
@@ -1284,6 +1296,9 @@ intents:
         the ears ring, whether it can be cured. This intent explains the
         masker FEATURE. The product does not answer clinical questions, so
         those are Default Fallback Intent.
+      - Questions about Mask Mode, the Mask listening program in the app's
+        memory list, which are Help_MaskMode. The shared mask stem is a
+        coincidence - this intent's subject is the tinnitus masker.
     boundary_cases:
       - The object decides the intent. Loudness words attached to tinnitus,
         masker or white noise resolve here; the same words attached to the aids
@@ -1296,6 +1311,7 @@ intents:
       - Default Fallback Intent
       - Help_Volume
       - Cmd.MemoryChange
+      - Help_MaskMode
     positive_example: "How do I turn up the tinnitus noise?"
     hard_negative_example: "Turn up the volume in my hearing aids."
 
@@ -2330,6 +2346,11 @@ intents:
         intents' subjects (Mute, Tinnitus, Television, Speech, Noise, Mask,
         Telephone); with no explicit change request those utterances belong to
         the intent that owns the subject.
+      - Naming a MODE is not a request to change program. "Mask Mode" is the
+        subject of Help_MaskMode and resolves there whatever verb surrounds
+        it, in the same way that naming any other mode is not by itself a
+        memory switch. This intent needs the bare memory name with an explicit
+        change verb.
     neighbor_intents:
       - Help_ChangingMemories
       - Help_MemoryOptions

@@ -9,8 +9,7 @@ report. The per-family sign-off table in `SPEC_REVIEW.md` records what has been
 Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
-Last updated 2026-08-26, after the `Cmd.*` review, `Help_Volume`,
-`Help_Tinnitus` and `Help_IntelliVoice`.
+Last updated 2026-08-26, after the `Cmd.*` review and the HelpAudio family.
 
 ---
 
@@ -21,7 +20,7 @@ Last updated 2026-08-26, after the `Cmd.*` review, `Help_Volume`,
 | `Cmd.*` reviewed | 19 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8 |
 | `Cmd.*` deferred | 5 | EdgeMode 3, SpeechServices 2 |
 | `Help*` deferred | 1 | `Help_EdgeMode`, grouped with the EdgeMode commands |
-| `Help*` reviewed | 3 of 33 | `Help_Volume`, `Help_Tinnitus`, `Help_IntelliVoice` — all HelpAudio, 3 of that family's 5. Four others were *read as counterparts* only |
+| `Help*` reviewed | 4 of 33 | `Help_Volume`, `Help_Tinnitus`, `Help_IntelliVoice`, `Help_MaskMode` — **HelpAudio is complete except the deferred `Help_EdgeMode`**. Four others were *read as counterparts* only |
 | Other | 0 of 3 | `Default Fallback Intent`, `reminders.add`, `reminders.complete` |
 
 `Default Fallback Intent` has been edited repeatedly during the `Cmd.*` review —
@@ -70,10 +69,9 @@ questions to `Help_EdgeMode`, and none of those four cross-references has been
 checked from the other side. Same shape as the `Cmd.ListenMessage` →
 `Cmd.TranscribeStart` dependency in A2.
 
-**Two edits are queued against `Cmd.EdgeModeIncrease` and deliberately not
-applied** (Akash, 2026-08-26), so that the blind-edit count stays at five. Both
-came out of the `Help_IntelliVoice` review and both belong to this family's own
-round:
+**Three edits are queued against this family and deliberately not applied**
+(Akash, 2026-08-26), so that `Cmd.EdgeModeIncrease`'s blind-edit count stays at
+five. All three belong to this family's own round:
 
 1. **A disclaimer naming the two features it does not own.** Searched all 60
    specs: "IntelliVoice" appears in 2 (`Help_IntelliVoice`, `Help_VoiceAssistant`)
@@ -91,11 +89,22 @@ round:
    from the Help side alone, because the check requires the link to be mutual.
    `spec_review.py` cannot see it either — the pair sits below the 0.20 TF-IDF
    reporting threshold.
+3. **`Cmd.EdgeModeDeactivate` and `Help_MaskMode` now claim overlapping ground
+   with nothing on either side naming the other.** Surfaced by the
+   `Help_MaskMode` round, and caused by it: correcting that spec's description to
+   "how to switch it on or off" moved the pair from **0.1491 to 0.2381**, into
+   `SPEC_REVIEW.md` Section 2b. The overlap is real rather than a threshold
+   artefact — `Cmd.EdgeModeDeactivate` triggers on "turn off, stop, end, cancel
+   or deactivate", `Help_MaskMode` on "how to enable, disable or find", and
+   *"turn off mask mode"* is a sentence both shapes fit. It names Edge Mode
+   explicitly, which is what keeps them apart today, but the generator sees one
+   spec at a time. Naming it from the `Help_MaskMode` side alone would only move
+   the pair to Section 2c, so it waits for a fix on both sides.
 
 **To close:** read all four specs against each other; confirm the five edits
-above still hold when the family is read as a whole; apply the two queued edits;
-and check the four cross-references from `Help_IntelliVoice` and `Help_MaskMode`
-from this side.
+above still hold when the family is read as a whole; apply the three queued
+edits; and check the four cross-references from `Help_IntelliVoice` and
+`Help_MaskMode` from this side.
 
 ### A2. SpeechServices — `Cmd.TranscribeStart`, `Cmd.TranslationStart`
 
@@ -283,6 +292,34 @@ Recorded because the absence of a carve-out here is a measured result, not an
 oversight. The 40.6%/0.0% check is worth running on each Help intent as its
 family comes up.
 
+### D6. Naming a mode is not a request to change program
+
+Decided by Akash, 2026-08-26, during the `Help_MaskMode` round.
+
+    "switch to Mask", "change my memory to Mask"   ->  Cmd.MemoryChange
+    anything saying "Mask Mode", on/off verb or not ->  Help_MaskMode
+
+The reasoning is his: "Personal Mode on kar do" would not be read as a request to
+load the Personal memory either. A memory switch needs the **bare memory name
+with an explicit change verb**; the phrase "<name> Mode" names a feature.
+
+This changed a REASON, not an outcome. `Help_MaskMode` already kept those
+utterances, but it justified doing so with "there is no Cmd intent for Mask
+Mode" — which stopped being true the moment `Mask` turned out to be a memory,
+because `Cmd.MemoryChange` is exactly that intent. A spec that reaches the right
+answer through a false premise will reach a wrong one as soon as the premise is
+leaned on again, so the premise was replaced rather than left alone.
+
+Stated in three places now: `Help_MaskMode`'s boundary cases and its Mask-memory
+exclusion, and `Cmd.MemoryChange`'s boundary cases.
+
+Two pieces of evidence pointed opposite ways and the product call settled it. For
+Help: the deployed model already routes the four command-shaped `Help_MaskMode`
+rows to Help. For Command: `Cmd.MemoryChange`'s own seed file contains **no row
+naming mask at all**, which would be odd if users did ask to switch to it.
+
+**Nothing to close.** Recorded so nobody restores the old reasoning.
+
 ---
 
 ## E. Not started
@@ -295,7 +332,7 @@ two of those were edited. None was reviewed in its own right, and reading a spec
 against one partner is not the same as reading it against its own family.
 
 Largest families first: HelpAppSettings 6, HelpDeviceCare 6, HelpHealth 6,
-HelpAudio 5 (2 done), HelpConnectivity 3, HelpSpeechServices 2, HelpFind 1.
+HelpAudio 5 (4 done, 1 deferred), HelpConnectivity 3, HelpSpeechServices 2, HelpFind 1.
 
 **One finding is already open against two of them.** `spec_review.py` Section 2a
 — the highest-priority tier, where neither spec names the other and neither so
@@ -323,9 +360,19 @@ Two honest qualifications, both verified rather than assumed:
   not a device action. Zero False-Accept-Rate impact. That is why it is recorded
   here rather than fixed in the middle of another family's round.
 
-**To close:** it falls out of the HelpHealth and HelpAppSettings reviews. If the
-answer is the obvious one, it is two lines — name the sibling in each spec's
-`do_not_trigger` — and the tier empties.
+**It has since stopped showing up, and nothing was fixed.** The `Help_MaskMode`
+edits moved the score to **0.1999** — one ten-thousandth under the threshold — so
+`SPEC_REVIEW.md` now reports Section 2a as empty. Neither spec has been touched
+in any round; only the IDF weights moved, twice, in opposite directions.
+
+That cuts both ways and both are worth stating. The finding is exactly as real as
+it was, and a green Section 2a is not evidence it was fixed. And a hard cut on a
+continuous score behaves like this at the boundary: a pair drifts in and out of
+the report on edits made to other specs entirely.
+
+**To close:** it falls out of the HelpHealth and HelpAppSettings reviews — not
+out of the table looking clean. If the answer is the obvious one, it is two lines
+— name the sibling in each spec's `do_not_trigger`.
 
 ### E2. `Default Fallback Intent`, `reminders.add`, `reminders.complete`
 
@@ -333,6 +380,47 @@ Never reviewed as specs. `Default Fallback Intent` is the priority — see the
 note at the top of this file.
 
 ---
+
+### E3. The memory-name collision set was never derived from the entity list
+
+Seven guards exist, each saying a word is "both a memory name and this intent's
+subject", so an explicit request to change memory or program is
+`Cmd.MemoryChange` and anything else is the owning intent:
+
+| Intent | Memory name |
+|---|---|
+| `Cmd.EdgeModeIncrease` | `Speech`, `Noise` |
+| `Cmd.StreamingStart` | `Television` |
+| `Cmd.VolumeMute` | `Mute` |
+| `Help_MaskMode` | `Mask` |
+| `Help_Pairing` | `Telephone` |
+| `Help_Tinnitus` | `Tinnitus` |
+
+The `Help_Tinnitus` round recorded this as a finished set — "seven memory names,
+seven guards". **That claim was not verified and should not have been made.** The
+seven are the ones that happened to come up in conversation; nobody compared them
+against the memory names the runtime actually recognises.
+
+That list exists: `language_packs/en/nlu_entities.json`, under `memory.values`,
+38 entries. Scanned against every spec's own subject — business description plus
+trigger conditions — it gives **31 name/intent overlaps, 17 of them unguarded**.
+
+Most of the 17 are ordinary English rather than defects: `Work` matches
+`Help_SelfCheck` only through "working", `Speech` matches `Help_Transcribe`
+through speech-to-text. A handful look real:
+
+    Home       -> Help_Home              the Home SCREEN vs the Home memory
+    Mute       -> Help_Volume            Help_Volume explains muting; Mute is a memory
+    Noise      -> Help_EdgeMode          noise reduction vs the Noise memory
+    Quiet      -> Cmd.VolumeIncrease     "make it quieter" vs switching to Quiet
+    Telephone  -> Cmd.FindMyPhone        the phone vs the Telephone memory
+    Meeting    -> Cmd.TranscribeStart    transcribing a meeting vs the Meeting memory
+
+`Help_Volume` and `Cmd.VolumeIncrease` are already reviewed and signed nothing;
+if `Mute` and `Quiet` turn out to be real, two closed rounds reopen.
+
+**To close:** run the scan, decide each of the 17 individually, and either add a
+guard or record why the overlap is harmless. Only then is the set complete.
 
 ## F. Outside the spec review
 
@@ -353,6 +441,20 @@ last thing standing.
   never actually tested, because the instruction meant to fix it was written into
   `prompt.txt` rather than `SYSTEM_PROMPT` and was never sent. A `--pilot` run
   with the corrected prompt has not yet been done.
+- **`spec_review.py` reads specs, never seeds.** Found during the `Help_MaskMode`
+  round. `Help_Tinnitus` and `Help_MaskMode` overlap heavily in seed vocabulary —
+  50 of 130 tinnitus rows carry `masker`/`masking`, against 18 of 18 mask-mode
+  rows carrying `mask` — while the two specs score **0.056** against each other
+  and never approach any reporting tier. The tool cannot see a collision that
+  lives in the data rather than in the prose, and nothing else currently looks.
+  Worth knowing before a clean `SPEC_REVIEW.md` is read as "no collisions".
+- **Seed files are UTF-16 (61 of 68) and must be read through `seed_loader.py`.**
+  A direct `read_text()` on `Help_MaskMode.txt` yields 37 junk lines averaging
+  3.2 words where the file holds 18 real ones averaging 5.5, and every count
+  derived from it is then wrong in a way that still looks plausible.
+  `seed_loader.decode_seed_file` already tries `utf-8-sig`, `utf-16`,
+  `utf-16-le`, `utf-16-be` in order, so the pipeline is correct — ad-hoc analysis
+  scripts are where this bites.
 - **`boundary_lint.py` over-counts its own baseline.** Found during the
   `Help_IntelliVoice` review. `HELP_VERB` matches `guide me` but not a bare
   `guide`, so a polite request for a user guide is scored command-shaped rather
