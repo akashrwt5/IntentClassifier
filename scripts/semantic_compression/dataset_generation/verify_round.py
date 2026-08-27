@@ -141,6 +141,33 @@ add('49 the other four HelpAppSettings specs untouched',
     and len(by['Help_DemoMode']['trigger_conditions']) == 5
     and len(by['Help_DeviceSettings']['trigger_conditions']) == 7)
 
+# --- HelpHealth family round ---------------------------------------------
+hr, hrr = by['Help_HeartRate'], by['Help_HeartRateRecovery']
+add('50 D10 the current-heart-rate VALUE trigger is gone',
+    not any('current heart rate' in x for x in hr['trigger_conditions']) and len(hr['trigger_conditions']) == 4)
+add('51 D10 the business description says it does not report the value',
+    'does not report the value' in hr['business_description'])
+add('52 D10 the boundary case gives the explaining-IS-the-action reason',
+    any('when the requested action IS explaining' in x for x in hr['boundary_cases'])
+    and not any('No Cmd intent exists for reading heart rate' in x for x in hr['boundary_cases']))
+add('53 D11 both interpretation triggers removed from Help_HeartRateRecovery',
+    not any('normal value' in x or 'improve their heart rate' in x for x in hrr['trigger_conditions'])
+    and len(hrr['trigger_conditions']) == 3)
+add('54 D11 business description no longer promises what a good value looks like',
+    'good value' not in hrr['business_description'])
+add('55 D11 routed to Fallback by name, from the HRR side',
+    any('Default Fallback Intent' in x for x in hrr['do_not_trigger']))
+add('56 D11 D4 widened -- Fallback covers a measured VALUE, not just a condition',
+    any('measured health value is good or normal' in x for x in by[FB]['trigger_conditions']))
+add('57 three vague heart-rate cross-references now name the intent',
+    any('which are Help_HeartRateRecovery' in x for x in by['Help_Health']['do_not_trigger'])
+    and any('prefer Help_HeartRate' in x for x in by['Help_Health']['boundary_cases'])
+    and any('Help_HeartRate and Help_HeartRateRecovery' in x for x in by['Help_ThriveScore']['do_not_trigger']))
+add('58 the other three HelpHealth specs untouched',
+    len(by['Help_Activity']['trigger_conditions']) == 3
+    and len(by['Help_FallAlert']['trigger_conditions']) == 6
+    and len(by['Help_ThriveScore']['trigger_conditions']) == 5)
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]

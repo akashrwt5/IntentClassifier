@@ -9,8 +9,8 @@ report. The per-family sign-off table in `SPEC_REVIEW.md` records what has been
 Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
-Last updated 2026-08-26, after the `Cmd.*` review, the HelpAudio and
-HelpAppSettings families, and `Default Fallback Intent`.
+Last updated 2026-08-26, after the `Cmd.*` review, the HelpAudio,
+HelpAppSettings and HelpHealth families, and `Default Fallback Intent`.
 
 ---
 
@@ -21,7 +21,7 @@ HelpAppSettings families, and `Default Fallback Intent`.
 | `Cmd.*` reviewed | 19 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8 |
 | `Cmd.*` deferred | 5 | EdgeMode 3, SpeechServices 2 |
 | `Help*` deferred | 1 | `Help_EdgeMode`, grouped with the EdgeMode commands |
-| `Help*` reviewed | 10 of 33 | **HelpAudio** 4 of 5 (`Help_EdgeMode` deferred) and **HelpAppSettings** 6 of 6. Four others were *read as counterparts* only |
+| `Help*` reviewed | 16 of 33 | **HelpAudio** 4 of 5 (`Help_EdgeMode` deferred), **HelpAppSettings** 6 of 6, **HelpHealth** 6 of 6. Four others were *read as counterparts* only |
 | Other | 1 of 3 | `Default Fallback Intent` reviewed. `reminders.add` and `reminders.complete` still not |
 
 `Default Fallback Intent` has now been read end to end (2026-08-26). It had been
@@ -256,6 +256,16 @@ Playing a message is reversible; muting the aids or ending a stream changes the
 device. The asymmetry looks correct, but it is nowhere stated, so today it reads
 as two specs disagreeing.
 
+A **third** departure surfaced in the HelpHealth review, and this one is
+deliberate and written down. `Help_FallAlert` says that where an utterance is
+ambiguous between it and a general help intent, prefer it — "an unanswered safety
+question is costlier than a redundant explanation". That is risk weighting stated
+outright, on a different axis (Help versus Help, so no device action and no FAR
+cost) and in the opposite direction to inaction.
+
+Three specs now weight risk against the absolute principle, in two directions and
+for good reasons each time. The principle as written admits none of them.
+
 **To close:** one line in `Default Fallback Intent`'s boundary cases making the
 risk weighting explicit, or a decision that the principle is absolute and
 `Cmd.ListenMessage` should change. Raised, not answered.
@@ -422,6 +432,54 @@ negative. Made mutual.
 
 **Nothing to close** for this pair. The wider pattern is not closed — see E4.
 
+### D10. The assistant does not report a heart rate
+
+Decided by Akash, 2026-08-26, in the HelpHealth review. `Help_HeartRate` carried
+the trigger *"User asks for their current heart rate"* — a request for a VALUE,
+in a Help intent — justified by a boundary case reading *"No Cmd intent exists
+for reading heart rate, so a direct request for the current value also resolves
+here rather than to Fallback."*
+
+The justification was backwards. There is no Cmd intent because **the product
+does not report the value**; it shows where the reading is found. Written as it
+was, the spec asserted a capability the product does not have — the same defect
+B2 tracks for reading texts aloud.
+
+The trigger is gone and the business description now says outright that the
+assistant explains where the reading is shown and does not report it. The
+utterance still lands here, and the boundary case now gives the correct reason:
+`Help_FindMyHearingAids`' reason. The assistant cannot do the thing, so
+explaining IS the action, and precedence rule 4's clause — *"when the requested
+action IS explaining, it is the Help intent"* — covers the direct phrasing as
+well as the how-to. 5.9% of this intent's deployed rows are command-shaped, and
+that is correct rather than a leak.
+
+**Nothing to close.**
+
+### D11. Interpreting a health value is a health question, not a product question
+
+Decided by Akash, 2026-08-26. `Help_HeartRateRecovery` claimed two things beyond
+explaining its measurement — *"whether their heart rate recovery is good, or what
+a normal value is"* and *"how to improve their heart rate recovery"* — and its
+business description promised *"what a good value looks like"*.
+
+D4 had already decided that a medical or clinical question is
+`Default Fallback Intent`, because the product explains its own features and not
+the user's health. Nothing connected the two rules, so the taxonomy declined to
+say what tinnitus is while offering to interpret a cardiac measurement and advise
+on improving it.
+
+Both triggers removed, the business description corrected, the boundary case
+rewritten, and an exclusion added naming Fallback. **D4's Fallback trigger is
+widened to match** — it covered a medical *condition*, and now also covers
+whether a measured health value is good or normal and how to improve one.
+Explaining what the measurement means stays here; interpreting the user's own
+result does not.
+
+**Nothing to close.** The strict reading was chosen over two softer options.
+
+---
+
 ## E. Not started
 
 ### E1. All 33 `Help*` intents
@@ -431,9 +489,9 @@ Four were read as counterparts during `Cmd.*` reviews — `Help_Battery`,
 two of those were edited. None was reviewed in its own right, and reading a spec
 against one partner is not the same as reading it against its own family.
 
-Remaining, largest first: HelpDeviceCare 6, HelpHealth 6, HelpConnectivity 3,
-HelpSpeechServices 2, HelpFind 1. Done: HelpAppSettings 6 of 6, HelpAudio 4 of 5
-with `Help_EdgeMode` deferred.
+Remaining, largest first: HelpDeviceCare 6, HelpConnectivity 3,
+HelpSpeechServices 2, HelpFind 1. Done: HelpAppSettings 6 of 6, HelpHealth 6 of 6,
+HelpAudio 4 of 5 with `Help_EdgeMode` deferred.
 
 **One finding is already open against two of them.** `spec_review.py` Section 2a
 — the highest-priority tier, where neither spec names the other and neither so
@@ -534,8 +592,8 @@ guard or record why the overlap is harmless. Only then is the set complete.
 
 ### E4. Prose-only neighbour links are a taxonomy-wide pattern, counted only here
 
-The HelpAppSettings review counted them properly for the first time, within one
-family. Each row is a boundary a spec states in prose while the sampling link it
+Counted properly for the first time in the HelpAppSettings review, and again
+across HelpHealth. Each row is a boundary a spec states in prose while the sampling link it
 needs does not exist:
 
 | Intent | Named in a rule, but not a neighbour | Neighbour, but named in no rule |
@@ -546,12 +604,17 @@ needs does not exist:
 | `Help_AppSettings` | — | `Help_DemoMode` |
 | `Help_WhatsNew` | — | `Help_DemoMode` |
 | `Help_Home` | — | `Help_Reminder`, `Help_VoiceAssistant` |
+| `Help_Activity` | `Help_HeartRate` | `Help_ThriveScore` |
+| `Help_Health` | — | `Cmd.ActivityStep`, `Help_FallAlert` |
+| `Help_ThriveScore` | — | `Help_Activity`, `Help_HeartRateRecovery` |
+| `Help_FallAlert` | `Help_FindMyHearingAids` | — |
 
 `Help_DeviceSettings` is the worst of them: it names six intents in its rules and
 lists four as neighbours, and only one of those four appears in any rule.
 
 Only `Help_DeviceSettings` ↔ `Help_Customize` was fixed (D9), because both specs
-sit in this family. The rest reach into `Help_Pairing`, `Help_ChangingMemories`
+sat in the same family. The HelpHealth rows were counted and left alone for the
+same reason the rest were. The rest reach into `Help_Pairing`, `Help_ChangingMemories`
 and `Cmd.StreamingStart`, which have not been reviewed, and fixing a link
 requires editing both sides.
 
@@ -562,6 +625,51 @@ coarse to need hard negatives. What is wrong is that no one has decided.
 **To close:** run the same count across all 60 specs, decide each row, and either
 add the link, add the rule, or record why neither is needed. Same shape as E3 —
 a systematic pass, not a per-family patch.
+
+### E5. Five generic activity queries were dropped with `Cmd.Health` and never revisited
+
+Not a defect — a documented decision with a documented loose end. `Cmd.Health` is
+dropped in `generator_config.yaml` because it is a rollup PARENT: 155 of its 160
+unique utterances appear verbatim under the `Cmd.Activity*` children, so keeping
+it would train the classifier to split identical text between a parent and a
+child. That reasoning is sound and is written down.
+
+The config also records what the decision costs, and that part is not recorded
+anywhere a reviewer would look:
+
+> 5 utterances exist only under `Cmd.Health` and are dropped with it … Revisit if
+> generic activity queries need coverage.
+
+All five are duration or generic-progress questions. Checked how exposed that
+leaves the taxonomy: duration phrasing does appear in the deployed
+`Cmd.Activity*` rows — 40 rows across six of the eight — so a duration question
+that NAMES its activity is covered. What has no home is a duration question that
+names an activity the product does not track, or none at all.
+
+Two related things confirmed while checking, both fine: `Cmd.Health`'s seed file
+contains **zero** heart-rate rows, so dropping it does not affect
+`Help_HeartRate`; and `Help.Activity`, the dot-variant file, is merged into
+`Help_Activity` by config rather than orphaned.
+
+**To close:** decide whether a generic activity query needs an intent, or record
+that unnamed-activity questions are `Default Fallback Intent` and say so in a
+spec. Today no spec mentions the case at all.
+
+### E6. `Help_Activity` has no deployed rows and cannot be evaluated
+
+`Help_Activity` is one of the four intents in the 60-vs-57 runtime delta, and the
+only one of the four that is not an EdgeMode command. It has **0 rows in
+`train.csv`** and 0 in `dev_hard`, against 26 seed utterances.
+
+It was reviewed here on its spec and its seeds alone. Every other intent in this
+family could be checked against deployed speech; this one could not, so the
+command-shaped measurement that has caught three defects so far is simply
+unavailable for it.
+
+This is the instrument gap the architecture doc already records, seen from the
+review side rather than the evaluation side.
+
+**To close:** it closes when the instrument gap does — see F.
 
 ## F. Outside the spec review
 

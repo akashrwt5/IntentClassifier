@@ -18,7 +18,7 @@ intents:
   - Any utterance where the intent remains genuinely ambiguous after the Section 6 precedence rules have been applied.
   - Complaints about hearing difficulty that carry no loudness word, name no environment and ask for no action ("I can't hear", "I'm struggling to hear people"). Acting on these would change the device on a guess.
   - How-to questions about a feature the taxonomy has no Help intent for - messaging, push-to-talk, and powering the aids on or off. The feature works; there is simply no intent that explains it, so a clarification is the correct response.
-  - Questions about a medical or clinical condition rather than a product feature - what tinnitus is, why the ears ring, whether hearing loss can be cured. The product explains its own features, not health questions.
+  - Questions about a medical or clinical matter rather than a product feature - what tinnitus is, why the ears ring, whether hearing loss can be cured, whether a measured health value is good or normal, or how to improve one. The product explains its own features and what its measurements mean, not the user's health.
   do_not_trigger:
   - An actionable in-scope command, however indirectly phrased. "I need more volume" is Cmd.VolumeIncrease, not Fallback - an implicit request carrying a loudness word is still a request.
   - An observation that is followed by an actionable command. Per the compound precedence rule the command decides the label, so "it's quieter today, make it louder" is Cmd.VolumeIncrease.
@@ -946,13 +946,13 @@ intents:
   do_not_trigger:
   - Any query for the actual value of tracked activity data, which belongs to the matching Cmd.Activity* intent.
   - Questions specifically about setting up an activity goal's target, which are Help_Activity.
-  - Questions about heart rate or heart rate recovery, which have their own intents.
+  - Questions about heart rate, which are Help_HeartRate, or about heart rate recovery, which are Help_HeartRateRecovery.
   - Questions about the Thrive score, which are Help_ThriveScore.
   - Questions about the Home or main screen, or broad questions about the app naming no health figure, which are Help_Home.
   boundary_cases:
   - This intent is about LOCATING and VIEWING; Help_Activity is about CONFIGURING a target; the Cmd.Activity* intents return the data itself.
   - Changing the measurement period is a Health screen concern and resolves here, not to Help_Activity.
-  - Where a question names heart rate, prefer the heart-rate intents.
+  - Where a question names heart rate, prefer Help_HeartRate, or Help_HeartRateRecovery when it names recovery.
   neighbor_intents:
   - Help_Activity
   - Help_HeartRate
@@ -970,20 +970,19 @@ intents:
     attempts: 0
     source: authored_specs.yaml
 - name: Help_HeartRate
-  business_description: Explain the heart rate feature - what it is, how it works, how to measure heart rate, and where to find it in the app.
+  business_description: Explain the heart rate feature - what it is, how it works, how to take a reading, and where to find it in the app. The assistant explains where the reading is shown; it does not report the value.
   trigger_conditions:
   - User asks what heart rate is, or how the heart rate function works.
   - User asks how to check, measure or monitor their heart rate.
   - User asks where the heart rate feature is in the app.
   - User asks whether the product can measure heart rate.
-  - User asks for their current heart rate.
   do_not_trigger:
   - Questions about heart rate RECOVERY, which are Help_HeartRateRecovery - a distinct measurement.
   - Questions about the Health screen generally, which are Help_Health.
   - Questions about activity or exercise data, which are the Cmd.Activity* intents.
   boundary_cases:
   - The word recovery moves an utterance to Help_HeartRateRecovery. Without it, heart rate questions resolve here.
-  - No Cmd intent exists for reading heart rate, so a direct request for the current value also resolves here rather than to Fallback.
+  - The assistant does not report a heart rate. It explains where the reading is found, so a direct request for the current value belongs here as much as a how-to question - precedence rule 4's clause "when the requested action IS explaining, it is the Help intent" covers both. Help_FindMyHearingAids is the same shape. An earlier version claimed the value itself as a trigger, which asserted a capability the product does not have.
   neighbor_intents:
   - Help_HeartRateRecovery
   - Help_Health
@@ -997,20 +996,19 @@ intents:
     attempts: 0
     source: authored_specs.yaml
 - name: Help_HeartRateRecovery
-  business_description: Explain heart rate recovery - what the measurement means, how it is calculated, how to access it, and what a good value looks like.
+  business_description: Explain heart rate recovery - what the measurement means, how it is calculated, and how to access it in the app.
   trigger_conditions:
   - User asks what heart rate recovery is or means.
   - User asks how heart rate recovery is measured or calculated.
   - User asks how to find or access the heart rate recovery feature.
-  - User asks whether their heart rate recovery is good, or what a normal value is.
-  - User asks how to improve their heart rate recovery.
   do_not_trigger:
   - Questions about plain heart rate measurement, which are Help_HeartRate.
   - Questions about the Health screen generally, which are Help_Health.
   - Questions about the Thrive score, which are Help_ThriveScore.
+  - Questions asking whether the user's own value is good or normal, or how to improve it, which are Default Fallback Intent. This intent explains the measurement, not the user's health.
   boundary_cases:
   - The word recovery is the deciding signal, and it is the only thing separating this intent from Help_HeartRate.
-  - Interpretation questions about what a good value means resolve here rather than to a general health intent.
+  - Explaining the measurement is this intent; interpreting the user's own result is not. Whether a value is good, what counts as normal, and how to improve it are health questions rather than product questions, and are Default Fallback Intent under the same rule that sends clinical tinnitus questions there.
   neighbor_intents:
   - Help_HeartRate
   - Help_Health
@@ -1061,7 +1059,7 @@ intents:
   do_not_trigger:
   - Questions about the Health screen or health goals generally, which are Help_Health.
   - Questions about specific activity data, which are the Cmd.Activity* intents.
-  - Questions about heart rate measurements.
+  - Questions about heart rate measurements, which are Help_HeartRate and Help_HeartRateRecovery.
   boundary_cases:
   - A named score - Thrive, Body, Brain, Kind or iPro - is the deciding signal for this intent.
   - Improving a score is an information request, not an action; there is no command that changes a score.
