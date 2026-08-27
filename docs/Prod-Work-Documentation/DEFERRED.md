@@ -10,7 +10,8 @@ Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
 Last updated 2026-08-27, after the `Cmd.*` review, the HelpAudio,
-HelpAppSettings and HelpHealth families, and `Default Fallback Intent`.
+HelpAppSettings, HelpHealth and HelpDeviceCare families, and
+`Default Fallback Intent`.
 
 ---
 
@@ -21,7 +22,7 @@ HelpAppSettings and HelpHealth families, and `Default Fallback Intent`.
 | `Cmd.*` reviewed | 19 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8 |
 | `Cmd.*` deferred | 5 | EdgeMode 3, SpeechServices 2 |
 | `Help*` deferred | 1 | `Help_EdgeMode`, grouped with the EdgeMode commands |
-| `Help*` reviewed | 16 of 33 | **HelpAudio** 4 of 5 (`Help_EdgeMode` deferred), **HelpAppSettings** 6 of 6, **HelpHealth** 6 of 6. Four others were *read as counterparts* only |
+| `Help*` reviewed | 22 of 33 | **HelpAudio** 4 of 5 (`Help_EdgeMode` deferred), **HelpAppSettings** 6 of 6, **HelpHealth** 6 of 6, **HelpDeviceCare** 6 of 6. Two others were *read as counterparts* only |
 | Other | 1 of 3 | `Default Fallback Intent` reviewed. `reminders.add` and `reminders.complete` still not |
 
 `Default Fallback Intent` has now been read end to end (2026-08-26). It had been
@@ -496,6 +497,54 @@ touched, and is in E7's unsupported set in any case.
 
 ---
 
+### D12. `Help_SelfCheck` carries fault reports, and generation must match that
+
+Akash, 2026-08-27. The app **does** have a self-check feature, but only
+`Help_SelfCheck` is supported — no voice command runs it and none is planned.
+
+That makes it the second-most command-shaped intent in the taxonomy. Of its 110
+deployed rows, **27 (24.5%) are command-shaped**, behind only
+`Help_FindMyHearingAids` at 40.6%. Opening those 27 by shape shows they are not a
+linter artefact: 7 carry an action verb (`check`, `test`, `fix`) and **20 are
+genuine fault reports** — their vocabulary is *not*, *work*, *problem*,
+*doesn't*, *left*, *right*, *respond*, *diagnose*.
+
+The spec already listed fault reports as triggers, so the routing was right. What
+was missing was the reason and the generation instruction. Added as a boundary
+case, and worded for THIS case rather than copied — `Help_FindMyHearingAids` says
+the assistant *cannot* do the thing, which is not true here. Here the app can, but
+no voice command drives it, so explaining is still the action the assistant
+performs and precedence rule 4 covers the direct phrasing.
+
+The generation half matters as much: **a generated command-shaped rate near zero
+is a defect, not a success.** Without that line, generation produces how-to
+phrasing only and the corpus misses a quarter of how users actually speak to this
+intent.
+
+**Nothing to close.**
+
+### D13. Two more boundaries that existed in prose but not as links
+
+Same shape as D9, found in the HelpDeviceCare review.
+
+`Help_CleanCare` ↔ `Help_SelfCheck` — wax-attributed trouble versus unexplained
+device failure. This family's subtlest distinction, stated in `do_not_trigger` on
+**both** sides, with neither listing the other as a neighbour. Symmetric absence,
+so the one-directional check passed; below the 0.20 threshold, so no tier reported
+it. Made mutual.
+
+`Help_WiCROS` → `Help_Volume` was one-way. `Help_WiCROS` sends general volume
+questions to `Help_Volume`, and `Help_Volume` never mentioned CROS, WiCROS or the
+balance control at all — so the route had no destination that knew about it.
+`Help_Volume` now names the balance control and yields it back, and the pair is
+mutual. Balance and volume both change loudness, which is exactly why the boundary
+needs stating.
+
+`Help_WiCROS` → `Help_ChangingMemories` is the same shape and was left alone —
+`Help_ChangingMemories` has not been reviewed. Logged in E4.
+
+**Nothing to close** for these two pairs.
+
 ## E. Not started
 
 ### E1. All 33 `Help*` intents
@@ -505,9 +554,10 @@ Four were read as counterparts during `Cmd.*` reviews — `Help_Battery`,
 two of those were edited. None was reviewed in its own right, and reading a spec
 against one partner is not the same as reading it against its own family.
 
-Remaining, largest first: HelpDeviceCare 6, HelpConnectivity 3,
-HelpSpeechServices 2, HelpFind 1. Done: HelpAppSettings 6 of 6, HelpHealth 6 of 6,
-HelpAudio 4 of 5 with `Help_EdgeMode` deferred.
+Remaining: HelpConnectivity 3, HelpSpeechServices 2 (deferred with A2),
+HelpFind 1, plus `Help_VoiceAssistant`, `Help_ChangingMemories`,
+`Help_MemoryOptions` and `Help_Reminder` from mixed families. Done:
+HelpAppSettings, HelpHealth and HelpDeviceCare 6 of 6 each, HelpAudio 4 of 5.
 
 **One finding is already open against two of them.** `spec_review.py` Section 2a
 — the highest-priority tier, where neither spec names the other and neither so
@@ -624,6 +674,10 @@ needs does not exist:
 | `Help_Health` | — | `Cmd.ActivityStep`, `Help_FallAlert` |
 | `Help_ThriveScore` | — | `Help_Activity`, `Help_HeartRateRecovery` |
 | `Help_FallAlert` | `Help_FindMyHearingAids` | — |
+| `Help_InsertDevice` | `Help_FindMyHearingAids` | — |
+| `Help_WiCROS` | `Help_ChangingMemories` | `Help_DeviceSettings` |
+| `Help_SelfCheck` | — | `Help_Battery`, `Help_FallAlert`, `Help_InsertDevice` |
+| `Help_Accessories` | — | `Help_Volume` |
 
 `Help_DeviceSettings` is the worst of them: it names six intents in its rules and
 lists four as neighbours, and only one of those four appears in any rule.

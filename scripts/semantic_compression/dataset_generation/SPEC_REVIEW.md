@@ -110,10 +110,10 @@ The closest such pair in each of the 6 most affected specs, strongest first. A s
 - TRIGGER: User reports wax build-up in their aid.
 - DO NOT: Reports that an aid has stopped working, which are Help_SelfCheck, unless the user attributes it to wax.
 
-**`Help_Volume`** — similarity 0.27
+**`Help_Volume`** — similarity 0.25
 
 - TRIGGER: User asks where the volume control is or what it does.
-- DO NOT: Questions about powering the aids on or off. That is not volume control, and the taxonomy has no intent for it; both direct requests and how-to quest…
+- DO NOT: Questions about the CROS or WiCROS balance control, which are Help_WiCROS. Balance sets the level between a transmitter and a receiver and is a separ…
 
 **`Help_Health`** — similarity 0.23
 

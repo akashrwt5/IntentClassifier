@@ -1125,6 +1125,10 @@ intents:
       - Questions about powering the aids on or off. That is not volume
         control, and the taxonomy has no intent for it; both direct requests
         and how-to questions are Default Fallback Intent.
+      - Questions about the CROS or WiCROS balance control, which are
+        Help_WiCROS. Balance sets the level between a transmitter and a
+        receiver and is a separate control from hearing-aid volume, even
+        though both change loudness.
     boundary_cases:
       - >-
         This intent sits on the taxonomy's costliest boundary: its four
@@ -1155,6 +1159,7 @@ intents:
       - Default Fallback Intent
       - Help_SelfCheck
       - Help_Tinnitus
+      - Help_WiCROS
     positive_example: "How do I turn the volume down on just one aid?"
     hard_negative_example: "Turn the volume down on my left aid."
 
@@ -1871,6 +1876,7 @@ intents:
       - Help_Battery
       - Help_InsertDevice
       - Default Fallback Intent
+      - Help_SelfCheck
     positive_example: "How do I get rid of wax build-up in my hearing aid?"
     hard_negative_example: "Why doesn't my right hearing aid work?"
 
@@ -1933,6 +1939,15 @@ intents:
         report, unless the user says the aid is not working.
       - Where a fault report is ambiguous against a volume command, prefer this
         intent - diagnosing is safer than amplifying.
+      - The app has a self-check feature, but no voice command runs it, so
+        explaining is the action the assistant performs. A direct fault
+        report, or a bare request to run a check, belongs here as much as a
+        how-to question - precedence rule 4's clause "when the requested
+        action IS explaining, it is the Help intent" covers both. Deployed
+        speech for this intent is 24.5% command-shaped, second only to
+        Help_FindMyHearingAids, and generation must match that rather than
+        producing how-to phrasing only. A generated rate near zero is a
+        defect, not a success.
     neighbor_intents:
       - Help_FindMyHearingAids
       - Help_Pairing
@@ -1942,6 +1957,7 @@ intents:
       - Help_FallAlert
       - Default Fallback Intent
       - Help_Volume
+      - Help_CleanCare
     positive_example: "There's a problem with my left hearing aid."
     hard_negative_example: "My hearing aids are too quiet, turn them up."
 
@@ -2007,6 +2023,7 @@ intents:
     neighbor_intents:
       - Help_DeviceSettings
       - Default Fallback Intent
+      - Help_Volume
     positive_example: "How does the CROS balance feature work?"
     hard_negative_example: "How do I change the volume on my hearing aids?"
 

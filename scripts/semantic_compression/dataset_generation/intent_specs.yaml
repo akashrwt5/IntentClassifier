@@ -766,6 +766,7 @@ intents:
   - Questions about equalizer or sound-tuning settings, which are Help_Customize.
   - Reports that an aid is broken, dead or not working, which are Help_SelfCheck. A volume-framed symptom with no fault claim - "I'm getting no sound", "the volume dropped to nothing" - stays here; a device described as faulty or not working is a fault report.
   - Questions about powering the aids on or off. That is not volume control, and the taxonomy has no intent for it; both direct requests and how-to questions are Default Fallback Intent.
+  - Questions about the CROS or WiCROS balance control, which are Help_WiCROS. Balance sets the level between a transmitter and a receiver and is a separate control from hearing-aid volume, even though both change loudness.
   boundary_cases:
   - 'This intent sits on the taxonomy''s costliest boundary: its four Command siblings physically change the device. Apply precedence rule 4, and where the two readings are genuinely balanced prefer this intent - explaining something unnecessarily is far cheaper than changing a device unbidden.'
   - 'Rule 4''s exception for outcomes only the assistant can produce never fires here. Changing, raising, lowering, muting and unmuting all have a manual path the user controls - this intent''s own trigger conditions are exactly those how-to questions - so no volume question is secretly a request. "Can I make it louder?" is this intent: the user can change the volume themselves, so they are asking how. "Can YOU make it louder?" names the assistant as the doer and is Cmd.VolumeIncrease.'
@@ -779,6 +780,7 @@ intents:
   - Default Fallback Intent
   - Help_SelfCheck
   - Help_Tinnitus
+  - Help_WiCROS
   positive_example: How do I turn the volume down on just one aid?
   hard_negative_example: Turn the volume down on my left aid.
   intent_family: HelpAudio
@@ -1324,6 +1326,7 @@ intents:
   - Help_Battery
   - Help_InsertDevice
   - Default Fallback Intent
+  - Help_SelfCheck
   positive_example: How do I get rid of wax build-up in my hearing aid?
   hard_negative_example: Why doesn't my right hearing aid work?
   intent_family: HelpDeviceCare
@@ -1377,6 +1380,7 @@ intents:
   - Broken differs from lost and from unconnected. A device fault is this intent; a missing device is Help_FindMyHearingAids; a connection issue is Help_Pairing.
   - A complaint that sound is too quiet is a volume request, not a fault report, unless the user says the aid is not working.
   - Where a fault report is ambiguous against a volume command, prefer this intent - diagnosing is safer than amplifying.
+  - The app has a self-check feature, but no voice command runs it, so explaining is the action the assistant performs. A direct fault report, or a bare request to run a check, belongs here as much as a how-to question - precedence rule 4's clause "when the requested action IS explaining, it is the Help intent" covers both. Deployed speech for this intent is 24.5% command-shaped, second only to Help_FindMyHearingAids, and generation must match that rather than producing how-to phrasing only. A generated rate near zero is a defect, not a success.
   neighbor_intents:
   - Help_FindMyHearingAids
   - Help_Pairing
@@ -1386,6 +1390,7 @@ intents:
   - Help_FallAlert
   - Default Fallback Intent
   - Help_Volume
+  - Help_CleanCare
   positive_example: There's a problem with my left hearing aid.
   hard_negative_example: My hearing aids are too quiet, turn them up.
   intent_family: HelpDeviceCare
@@ -1443,6 +1448,7 @@ intents:
   neighbor_intents:
   - Help_DeviceSettings
   - Default Fallback Intent
+  - Help_Volume
   positive_example: How does the CROS balance feature work?
   hard_negative_example: How do I change the volume on my hearing aids?
   intent_family: HelpDeviceCare

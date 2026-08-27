@@ -175,6 +175,27 @@ add('58 the other three HelpHealth specs untouched',
     and len(by['Help_FallAlert']['trigger_conditions']) == 6
     and len(by['Help_ThriveScore']['trigger_conditions']) == 5)
 
+# --- HelpDeviceCare family round -----------------------------------------
+sc = by['Help_SelfCheck']
+add('59 D12 SelfCheck carve-out present, worded for THIS case',
+    any('no voice command runs it' in x for x in sc['boundary_cases']))
+add('60 D12 the generation-rate instruction is in the spec',
+    any('generated rate near zero is a defect' in x for x in sc['boundary_cases']))
+add('61 D12 it does NOT copy the "assistant cannot" wording, which is false here',
+    not any('assistant cannot' in x for x in sc['boundary_cases']))
+add('62 D13 CleanCare <-> SelfCheck mutual',
+    'Help_SelfCheck' in by['Help_CleanCare']['neighbor_intents']
+    and 'Help_CleanCare' in sc['neighbor_intents'])
+add('63 D13 WiCROS <-> Volume mutual, and Volume now names the balance control',
+    'Help_Volume' in by['Help_WiCROS']['neighbor_intents']
+    and 'Help_WiCROS' in by['Help_Volume']['neighbor_intents']
+    and any('balance control' in x for x in by['Help_Volume']['do_not_trigger']))
+add('64 the other four HelpDeviceCare specs untouched',
+    len(by['Help_Battery']['trigger_conditions']) == 4
+    and len(by['Help_InsertDevice']['trigger_conditions']) == 5
+    and len(by['Help_Accessories']['trigger_conditions']) == 6
+    and len(by['Help_WiCROS']['trigger_conditions']) == 6)
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
