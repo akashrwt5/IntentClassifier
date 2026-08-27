@@ -10,8 +10,8 @@ Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
 Last updated 2026-08-27, after the `Cmd.*` review, the HelpAudio,
-HelpAppSettings, HelpHealth and HelpDeviceCare families, and
-`Default Fallback Intent`.
+HelpAppSettings, HelpHealth, HelpDeviceCare and HelpConnectivity families,
+and `Default Fallback Intent`.
 
 ---
 
@@ -22,7 +22,7 @@ HelpAppSettings, HelpHealth and HelpDeviceCare families, and
 | `Cmd.*` reviewed | 19 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8 |
 | `Cmd.*` deferred | 5 | EdgeMode 3, SpeechServices 2 |
 | `Help*` deferred | 1 | `Help_EdgeMode`, grouped with the EdgeMode commands |
-| `Help*` reviewed | 22 of 33 | **HelpAudio** 4 of 5 (`Help_EdgeMode` deferred), **HelpAppSettings** 6 of 6, **HelpHealth** 6 of 6, **HelpDeviceCare** 6 of 6. Two others were *read as counterparts* only |
+| `Help*` reviewed | 25 of 33 | **HelpAudio** 4 of 5 (`Help_EdgeMode` deferred), **HelpAppSettings**, **HelpHealth**, **HelpDeviceCare** 6 of 6 each, **HelpConnectivity** 3 of 3. Two others were *read as counterparts* only |
 | Other | 1 of 3 | `Default Fallback Intent` reviewed. `reminders.add` and `reminders.complete` still not |
 
 `Default Fallback Intent` has now been read end to end (2026-08-26). It had been
@@ -545,6 +545,55 @@ needs stating.
 
 **Nothing to close** for these two pairs.
 
+### D14. The whole HelpConnectivity family was written as how-to and is not spoken that way
+
+Reviewed 2026-08-27. Every trigger in all three specs is a question form — 4 of 6,
+4 of 7 and 3 of 5 literally begin *"User asks how…"* — while the deployed speech
+is substantially direct requests.
+
+| intent | deployed | command-shaped | what the flagged rows are |
+|---|---:|---:|---|
+| `Help_Pairing` | 224 | **66 (29.5%)** | 47 carry `connect`, `pair`, `sync`, `link`, `unpair`, `disconnect`; the other 19 still name pairing |
+| `Help_RemoteProgramming` | 127 | 16 (12.6%) | 11 are stated needs — `need`, `adjustment`, `talk`, `audiologist` |
+| `Help_HearShare` | 72 | 6 (8.3%) | `accept`, `invitation` |
+
+`Help_Pairing` is the third most command-shaped intent in the taxonomy and is
+**more command-shaped than help-shaped** — 29.5% against 24.1%. As checked in the
+`Help_IntelliVoice` and `Help_SelfCheck` rounds, these are not linter artefacts.
+
+**For `Help_Pairing` the routing was already decided, on the wrong spec.**
+`Cmd.StreamingStart` — reviewed in the Streaming round — says outright
+*"Requests to pair hearing aids to a phone over Bluetooth, which are
+Help_Pairing"*, and distinguishes it from the accessory case, where *"connecting
+is done by hand, not by voice — a direct request is Default Fallback Intent"*.
+So the taxonomy knew that a direct pairing request belongs here, and the intent
+that receives them did not. The one-way route again, this time on the highest
+-volume instance of it.
+
+Akash, 2026-08-27, for the other two: the assistant does **not** submit an
+adjustment request and does **not** accept a HearShare invitation. It explains
+how, for both.
+
+All three now carry the same carve-out, worded per case, and each states its
+measured rate so generation reproduces it. Without that line the generator writes
+how-to phrasing only, and for `Help_Pairing` that would miss the larger half of
+how users actually speak to it.
+
+**Nothing to close.**
+
+### D15. Three prose-only links in HelpConnectivity, all fixable within reach
+
+`Help_Pairing` ↔ `Help_HearShare`, `Help_HearShare` ↔ `Help_Health` and
+`Help_RemoteProgramming` ↔ `Help_Customize` each had a boundary in prose and no
+neighbour link. All four partners are reviewed, so all three were made mutual
+rather than logged.
+
+`Help_HearShare` and `Help_RemoteProgramming` had only two and three neighbours
+respectively — the thinnest in the taxonomy after `Help_WiCROS`, and both sit on
+the sharing-versus-clinician boundary, which is a real confusion.
+
+**Nothing to close.**
+
 ## E. Not started
 
 ### E1. All 33 `Help*` intents
@@ -554,10 +603,10 @@ Four were read as counterparts during `Cmd.*` reviews — `Help_Battery`,
 two of those were edited. None was reviewed in its own right, and reading a spec
 against one partner is not the same as reading it against its own family.
 
-Remaining: HelpConnectivity 3, HelpSpeechServices 2 (deferred with A2),
-HelpFind 1, plus `Help_VoiceAssistant`, `Help_ChangingMemories`,
-`Help_MemoryOptions` and `Help_Reminder` from mixed families. Done:
-HelpAppSettings, HelpHealth and HelpDeviceCare 6 of 6 each, HelpAudio 4 of 5.
+Remaining: HelpSpeechServices 2 (deferred with A2), HelpFind 1, plus
+`Help_VoiceAssistant`, `Help_ChangingMemories`, `Help_MemoryOptions` and
+`Help_Reminder` from mixed families. Done: HelpAppSettings, HelpHealth and
+HelpDeviceCare 6 of 6 each, HelpConnectivity 3 of 3, HelpAudio 4 of 5.
 
 **One finding is already open against two of them.** `spec_review.py` Section 2a
 — the highest-priority tier, where neither spec names the other and neither so

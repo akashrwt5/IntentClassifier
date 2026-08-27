@@ -964,6 +964,7 @@ intents:
   - Help_FallAlert
   - Default Fallback Intent
   - Help_Home
+  - Help_HearShare
   positive_example: What does the Health screen show?
   hard_negative_example: How do I set my step goal?
   intent_family: HelpHealth
@@ -1210,6 +1211,7 @@ intents:
   boundary_cases:
   - The other endpoint decides the intent. Phone, tablet or car resolves here; TV streamer or remote mic resolves to Help_Accessories; the audiologist resolves to Help_RemoteProgramming.
   - Not connecting differs from not working. A connection problem is this intent; a device fault is Help_SelfCheck.
+  - Bluetooth pairing is done by hand, not by voice, so explaining is the action the assistant performs and a direct request belongs here as much as a how-to question. Cmd.StreamingStart already routes "requests to pair hearing aids to a phone over Bluetooth" here, and this states the same rule from this side. Deployed speech for this intent is 29.5% command-shaped - the third highest in the taxonomy, and more command-shaped than help-shaped - so generation must match that rather than producing how-to phrasing only. A generated rate near zero is a defect, not a success.
   neighbor_intents:
   - Help_Accessories
   - Help_RemoteProgramming
@@ -1217,6 +1219,7 @@ intents:
   - Cmd.StreamingStart
   - Default Fallback Intent
   - Cmd.MemoryChange
+  - Help_HearShare
   positive_example: Why won't my hearing aids sync with my phone?
   hard_negative_example: How do I unpair my Remote Mic?
   intent_family: HelpConnectivity
@@ -1242,10 +1245,12 @@ intents:
   - A hearing professional, audiologist or clinic on the other end is the deciding signal.
   - The seed data contains many ASR corruptions of the brand names, such as tele hear, tally here and telomere. Treat brand-name corruption as this intent when the surrounding context is about professional adjustment.
   - Self-service adjustment is Help_Customize; professional adjustment is this intent.
+  - The assistant does not submit an adjustment request; it explains how to send one, so a stated need such as wanting an adjustment or wanting to speak to the professional belongs here as much as a how-to question. Deployed speech is 12.6% command-shaped, mostly stated needs rather than imperatives, and generation must reproduce that share.
   neighbor_intents:
   - Help_Pairing
   - Help_HearShare
   - Default Fallback Intent
+  - Help_Customize
   positive_example: Can my audiologist adjust my aids remotely?
   hard_negative_example: How do I customize my hearing aid settings myself?
   intent_family: HelpConnectivity
@@ -1268,9 +1273,12 @@ intents:
   boundary_cases:
   - A family member or carer as the recipient is the deciding signal; a clinician as the recipient means Help_RemoteProgramming.
   - Sharing data with a person differs from connecting a device; the latter is Help_Pairing.
+  - The assistant does not accept or send an invitation; it explains how, so a direct request to accept or invite belongs here as much as a how-to question. Deployed speech is 8.3% command-shaped - small but real, and generation should not drop it to zero.
   neighbor_intents:
   - Help_RemoteProgramming
   - Default Fallback Intent
+  - Help_Pairing
+  - Help_Health
   positive_example: How do I share my hearing information with my daughter?
   hard_negative_example: How do I connect to my audiologist?
   intent_family: HelpConnectivity
@@ -1545,6 +1553,7 @@ intents:
   - Cmd.EdgeModeIncrease
   - Default Fallback Intent
   - Help_DeviceSettings
+  - Help_RemoteProgramming
   positive_example: How do I use the equalizer to turn down machine noise?
   hard_negative_example: It's too noisy in here, help me hear him.
   intent_family: HelpAppSettings

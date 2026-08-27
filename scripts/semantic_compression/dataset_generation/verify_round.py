@@ -196,6 +196,25 @@ add('64 the other four HelpDeviceCare specs untouched',
     and len(by['Help_Accessories']['trigger_conditions']) == 6
     and len(by['Help_WiCROS']['trigger_conditions']) == 6)
 
+# --- HelpConnectivity family round ---------------------------------------
+add('65 D14 Help_Pairing carve-out cites the Cmd.StreamingStart rule it mirrors',
+    any('Cmd.StreamingStart already routes' in x for x in by['Help_Pairing']['boundary_cases']))
+add('66 D14 all three carry a measured command-shaped rate for generation',
+    any('29.5% command-shaped' in x for x in by['Help_Pairing']['boundary_cases'])
+    and any('12.6% command-shaped' in x for x in by['Help_RemoteProgramming']['boundary_cases'])
+    and any('8.3% command-shaped' in x for x in by['Help_HearShare']['boundary_cases']))
+add('67 D14 RemoteProgramming and HearShare say the assistant does NOT act',
+    any('does not submit an adjustment request' in x for x in by['Help_RemoteProgramming']['boundary_cases'])
+    and any('does not accept or send an invitation' in x for x in by['Help_HearShare']['boundary_cases']))
+add('68 D15 three prose-only pairs made mutual',
+    all(b in by[a]['neighbor_intents'] and a in by[b]['neighbor_intents'] for a, b in
+        (('Help_Pairing', 'Help_HearShare'), ('Help_HearShare', 'Help_Health'),
+         ('Help_RemoteProgramming', 'Help_Customize'))))
+add('69 no trigger_conditions changed in this family',
+    len(by['Help_Pairing']['trigger_conditions']) == 6
+    and len(by['Help_RemoteProgramming']['trigger_conditions']) == 7
+    and len(by['Help_HearShare']['trigger_conditions']) == 5)
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
