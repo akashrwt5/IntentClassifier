@@ -100,10 +100,10 @@ The closest such pair in each of the 6 most affected specs, strongest first. A s
 - TRIGGER: User asks how to change the volume of an accessory or the TV sound.
 - DO NOT: Requests to change HEARING AID volume, which are the Cmd.Volume* intents.
 
-**`Default Fallback Intent`** — similarity 0.35
+**`Default Fallback Intent`** — similarity 0.40
 
-- TRIGGER: How-to questions about a feature the taxonomy has no Help intent for - messaging, push-to-talk, and powering the aids on or off. The feature works; t…
-- DO NOT: A genuine how-to question about a supported feature that has a matching Help_* intent. Those belong to that intent, not here. (Messaging, push-to-tal…
+- TRIGGER: Questions about a medical or clinical matter rather than a product feature - what tinnitus is, why the ears ring, whether hearing loss can be cured, …
+- DO NOT: Questions about what the heart rate feature is, how it works, or where the reading is shown, which are Help_HeartRate. Naming a clinical reading does…
 
 **`Help_CleanCare`** — similarity 0.27
 
@@ -115,15 +115,15 @@ The closest such pair in each of the 6 most affected specs, strongest first. A s
 - TRIGGER: User asks where the volume control is or what it does.
 - DO NOT: Questions about the CROS or WiCROS balance control, which are Help_WiCROS. Balance sets the level between a transmitter and a receiver and is a separ…
 
-**`Help_Health`** — similarity 0.23
-
-- TRIGGER: User asks where in the app a particular health figure can be seen.
-- DO NOT: Questions about the Home or main screen, or broad questions about the app naming no health figure, which are Help_Home.
-
 **`Cmd.ActivityStep`** — similarity 0.23
 
 - TRIGGER: User asks about progress toward, or the value of, their step goal.
 - DO NOT: Requests to set up or edit a step goal, which are Help_Activity.
+
+**`Help_AppSettings`** — similarity 0.21
+
+- TRIGGER: User asks which version of the app they are running.
+- DO NOT: Questions about what is new in this version, which are Help_WhatsNew.
 
 ---
 
@@ -134,6 +134,7 @@ The flagged similarities below were reviewed by hand and accepted as valid bound
 - ✅ **`Help_Accessories`** — Accessory/TV volume is Help; hearing-aid volume is Cmd.Volume*.
 - ✅ **`Help_CleanCare`** — Wax-attributed problems stay here; unexplained device failure is Help_SelfCheck.
 - ✅ **`Cmd.ActivityStep`** — Step-goal progress is distinct from configuring/editing the step goal in Help_Activity.
+- ✅ **`Help_AppSettings`** — App version is AppSettings; new features/changes are Help_WhatsNew.
 
 ---
 

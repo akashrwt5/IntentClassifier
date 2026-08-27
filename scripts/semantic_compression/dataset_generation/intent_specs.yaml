@@ -27,6 +27,7 @@ intents:
   - An observation naming a LISTENING ENVIRONMENT for which the product has a memory ("I'm outdoors now", "I've just walked into church"). The product's memories are environment-scoped, so this is an implicit request to switch and belongs to Cmd.MemoryChange. This is the single narrow exception to the observation rule below.
   - A negated command that supplies a replacement action. "Don't turn it up, turn it down" is Cmd.VolumeDecrease by last-explicit-command precedence.
   - A request to be reminded of something, whatever the reminder is about. The subject of a reminder never decides the intent, so "remind me to buy milk" is reminders.add even though shopping is out of scope on its own. reminders.add states this identically.
+  - Questions about what the heart rate feature is, how it works, or where the reading is shown, which are Help_HeartRate. Naming a clinical reading does not make a question clinical - only asking whether the value is good or how to improve it does.
   boundary_cases:
   - Uncertainty always resolves here. Fallback is the intended destination for ambiguity, never a failure state - False Accepts are costlier than False Rejects for these users, so the tie goes to inaction.
   - Observation versus command is the decisive test. If nothing in the utterance asks for a change, it is Fallback regardless of how much in-scope vocabulary it contains. The one exception is a named listening environment, which is an implicit memory switch - see above.
@@ -833,7 +834,7 @@ intents:
   boundary_cases:
   - IntelliVoice and the Thrive voice assistant are different features despite both containing the word voice. Questions about talking TO the assistant are Help_VoiceAssistant.
   - The seed data contains the variant spelling Intelligent Voice; it refers to the same feature.
-  - There is no Cmd intent for IntelliVoice, so a direct request to run or switch it on stays here rather than resolving to a command. The deployed rows are entirely question-shaped, so this covers generated edge cases rather than observed speech - but the nearest command attractor is Cmd.EdgeModeIncrease, which would apply Edge Mode instead, and that is a device action the user never asked for. Help_MaskMode states the same rule for the same reason.
+  - There is no Cmd intent for IntelliVoice, so a direct request to run or switch it on stays here rather than resolving to a command. The deployed rows carry no genuine command phrasing - boundary_lint flags 6 of 92, and 5 of those 6 are its known bare-guide artefact - so this covers generated edge cases rather than observed speech. - but the nearest command attractor is Cmd.EdgeModeIncrease, which would apply Edge Mode instead, and that is a device action the user never asked for. Help_MaskMode states the same rule for the same reason.
   neighbor_intents:
   - Help_EdgeMode
   - Help_VoiceAssistant
@@ -950,7 +951,7 @@ intents:
   - Questions specifically about setting up an activity goal's target, which are Help_Activity.
   - Questions about heart rate, which are Help_HeartRate, or about heart rate recovery, which are Help_HeartRateRecovery.
   - Questions about the Thrive score, which are Help_ThriveScore.
-  - Questions about the Home or main screen, or broad questions about the app naming no health figure, which are Help_Home.
+  - Questions about the Home or main screen, which are Help_Home.
   boundary_cases:
   - This intent is about LOCATING and VIEWING; Help_Activity is about CONFIGURING a target; the Cmd.Activity* intents return the data itself.
   - Changing the measurement period is a Health screen concern and resolves here, not to Help_Activity.
@@ -1211,7 +1212,7 @@ intents:
   boundary_cases:
   - The other endpoint decides the intent. Phone, tablet or car resolves here; TV streamer or remote mic resolves to Help_Accessories; the audiologist resolves to Help_RemoteProgramming.
   - Not connecting differs from not working. A connection problem is this intent; a device fault is Help_SelfCheck.
-  - Bluetooth pairing is done by hand, not by voice, so explaining is the action the assistant performs and a direct request belongs here as much as a how-to question. Cmd.StreamingStart already routes "requests to pair hearing aids to a phone over Bluetooth" here, and this states the same rule from this side. Deployed speech for this intent is 29.5% command-shaped - the third highest in the taxonomy, and more command-shaped than help-shaped - so generation must match that rather than producing how-to phrasing only. A generated rate near zero is a defect, not a success.
+  - Bluetooth pairing is done by hand, not by voice, so explaining is the action the assistant performs and a direct request belongs here as much as a how-to question. Cmd.StreamingStart already routes "requests to pair hearing aids to a phone over Bluetooth" here, and this states the same rule from this side. Deployed speech for this intent is 29.5% command-shaped - the second highest of any Help intent, after Help_FindMyHearingAids at 40.6%, and more command-shaped than help-shaped at 24.1%. generator_config.yaml records the same order in its pilot list. Generation must match that rather than producing how-to phrasing only. A generated rate near zero is a defect, not a success.
   neighbor_intents:
   - Help_Accessories
   - Help_RemoteProgramming
@@ -1388,7 +1389,7 @@ intents:
   - Broken differs from lost and from unconnected. A device fault is this intent; a missing device is Help_FindMyHearingAids; a connection issue is Help_Pairing.
   - A complaint that sound is too quiet is a volume request, not a fault report, unless the user says the aid is not working.
   - Where a fault report is ambiguous against a volume command, prefer this intent - diagnosing is safer than amplifying.
-  - The app has a self-check feature, but no voice command runs it, so explaining is the action the assistant performs. A direct fault report, or a bare request to run a check, belongs here as much as a how-to question - precedence rule 4's clause "when the requested action IS explaining, it is the Help intent" covers both. Deployed speech for this intent is 24.5% command-shaped, second only to Help_FindMyHearingAids, and generation must match that rather than producing how-to phrasing only. A generated rate near zero is a defect, not a success.
+  - The app has a self-check feature, but no voice command runs it, so explaining is the action the assistant performs. A direct fault report, or a bare request to run a check, belongs here as much as a how-to question - precedence rule 4's clause "when the requested action IS explaining, it is the Help intent" covers both. Deployed speech for this intent is 24.5% command-shaped, the third highest of any Help intent after Help_FindMyHearingAids at 40.6% and Help_Pairing at 29.5%, and generation must match that rather than producing how-to phrasing only. A generated rate near zero is a defect, not a success.
   neighbor_intents:
   - Help_FindMyHearingAids
   - Help_Pairing

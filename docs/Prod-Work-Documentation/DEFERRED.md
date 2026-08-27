@@ -11,7 +11,7 @@ wish, not a task.
 
 Last updated 2026-08-27, after the `Cmd.*` review, the HelpAudio,
 HelpAppSettings, HelpHealth, HelpDeviceCare and HelpConnectivity families,
-and `Default Fallback Intent`.
+`Default Fallback Intent`, and an audit of everything above.
 
 ---
 
@@ -27,7 +27,7 @@ and `Default Fallback Intent`.
 
 `Default Fallback Intent` has now been read end to end (2026-08-26). It had been
 edited in almost every round without ever being reviewed itself — the most rules
-of any intent and the least scrutiny, which was the wrong way round. Its 22 rules
+of any intent and the least scrutiny, which was the wrong way round. Its 23 rules
 held up; what did not was its neighbour list. See D7.
 
 **No sign-off box in `SPEC_REVIEW.md` is ticked, and `intent_specs.yaml` still
@@ -75,14 +75,22 @@ checked from the other side. Same shape as the `Cmd.ListenMessage` →
 (Akash, 2026-08-26), so that `Cmd.EdgeModeIncrease`'s blind-edit count stays at
 five. All three belong to this family's own round:
 
-1. **A disclaimer naming the two features it does not own.** Searched all 60
-   specs: "IntelliVoice" appears in 2 (`Help_IntelliVoice`, `Help_VoiceAssistant`)
-   and "Mask Mode" in 2 (`Help_MaskMode`, `Help_MemoryOptions`). **No `Cmd.*`
-   spec names either.** `Cmd.EdgeModeIncrease` claims "activate, add or increase
-   Edge Mode *or adaptive tuning*" and "asks for voices to be made clearer",
-   which makes it the nearest attractor for a direct request naming either
-   feature — and acting on one applies Edge Mode, a device action the user did
-   not ask for. Both Help specs now state their side; this side is silent.
+1. **A disclaimer naming the two features it does not own.** `Cmd.EdgeModeIncrease`
+   claims "activate, add or increase Edge Mode *or adaptive tuning*" and "asks
+   for voices to be made clearer", which makes it the nearest attractor for a
+   direct request naming either feature — and acting on one applies Edge Mode, a
+   device action the user did not ask for. Both Help specs state their side; this
+   one is silent.
+
+   **Corrected 2026-08-27.** This item originally read "Searched all 60 specs …
+   **No `Cmd.*` spec names either**". That was true when written and D6 made it
+   false three rounds later, by adding *"Naming a MODE is not a request to change
+   program. \"Mask Mode\" is the subject of Help_MaskMode"* to
+   `Cmd.MemoryChange`'s boundary cases. "Mask Mode" now appears in four specs —
+   `Help_MaskMode`, `Help_Tinnitus`, `Help_MemoryOptions` and `Cmd.MemoryChange`.
+   `Cmd.EdgeModeIncrease` still names neither feature, which is the part that
+   matters here, but the absolute claim was left to rot for three rounds. A
+   finding that quotes a search result has to be re-run before it is relied on.
 2. **The neighbour link.** `Help_IntelliVoice` and `Help_MaskMode` each name
    `Cmd.EdgeModeIncrease` in `do_not_trigger` but neither lists it in
    `neighbor_intents`. That is the prose-only downgrade this review has now
@@ -334,7 +342,7 @@ naming mask at all**, which would be odd if users did ask to switch to it.
 
 ### D7. `Default Fallback Intent` reviewed — the rules were right, the neighbours were not
 
-Read end to end on 2026-08-26. Its 10 triggers, 6 exclusions and 6 boundary cases
+Read end to end on 2026-08-26. Its 10 triggers, 7 exclusions and 6 boundary cases
 survived; two findings were raised against them and **one of the two was mine and
 wrong**.
 
@@ -684,7 +692,7 @@ against the memory names the runtime actually recognises.
 
 That list exists: `language_packs/en/nlu_entities.json`, under `memory.values`,
 38 entries. Scanned against every spec's own subject — business description plus
-trigger conditions — it gives **31 name/intent overlaps, 17 of them unguarded**.
+trigger conditions — it gives **30 name/intent overlaps, 17 of them unguarded**.
 
 Most of the 17 are ordinary English rather than defects: `Work` matches
 `Help_SelfCheck` only through "working", `Speech` matches `Help_Transcribe`
@@ -708,7 +716,9 @@ guard or record why the overlap is harmless. Only then is the set complete.
 ### E4. Prose-only neighbour links are a taxonomy-wide pattern, counted only here
 
 Counted properly for the first time in the HelpAppSettings review, and again
-across HelpHealth. Each row is a boundary a spec states in prose while the sampling link it
+across HelpHealth. **Both counts were far too small.** An audit on 2026-08-27
+scanned all 60 specs rather than the `Help*` ones and found **59 prose-only
+routes across 25 specs**, against the 14 rows tabled below. Each row is a boundary a spec states in prose while the sampling link it
 needs does not exist:
 
 | Intent | Named in a rule, but not a neighbour | Neighbour, but named in no rule |
@@ -879,6 +889,95 @@ work will be done on them.
 **To close:** apply the plan above, or record that the two stay in the taxonomy
 while disabled at runtime and say why.
 
+### E8. Defects the audit found INSIDE families already signed as reviewed
+
+Found 2026-08-27 by auditing this review's own output, not by the review itself.
+Each sits in a family the standings table calls done, so each is a hole in a
+sign-off rather than a new area of work.
+
+**`Help_Activity` versus the eight `Cmd.Activity*` intents — three specs, one
+utterance, no guard.** (HelpHealth, marked 6 of 6.)
+
+    Help_Activity trigger  "...or where to see distance for a tracked activity"
+    all 8 Cmd.Activity*    "locating the screen is Help_Health"
+    Help_Health trigger    "User asks where in the app a particular health figure can be seen"
+
+`Cmd.ActivityCycle`'s own `hard_negative_example` is *"Where can I see the
+distance that I biked?"* — an utterance its spec sends to `Help_Health` and
+`Help_Activity` claims outright. `Help_Activity` then contradicts its own trigger
+in its boundary cases — *"Where the question is about finding a screen rather
+than changing a goal, prefer Help_Health"*.
+
+**`Help_SelfCheck` contradicts itself.** (HelpDeviceCare, 6 of 6.)
+
+    trigger   "User reports that an aid does not work, IS FAINT, or has a problem."
+    boundary  "A complaint that sound is too quiet is a volume request, not a fault report."
+
+"My left one is faint" carries no request and no not-working claim. The trigger
+takes it; the boundary case refuses it.
+
+**`Help_Volume` ↔ `Help_Pairing` both claim no-sound-from-the-phone.** Both
+reviewed. Neither names the other and they are not neighbours.
+
+    Help_Volume   "...such as getting no sound or the volume dropping to nothing"
+    Help_Pairing  "User reports that audio is not coming through the aids from the phone"
+
+**Seven of the eight `Cmd.Activity*` intents route to `Help_Health` with no
+neighbour link** — a family marked 8 of 8 reviewed, and the largest single block
+of the E4 pattern.
+
+**To close:** reopen HelpHealth, HelpDeviceCare and the ActivityTracking `Cmd.*`
+family for these specific items. They are not full re-reviews.
+
+### E9. `generator_config.yaml` and the specs disagree, in two places
+
+**`command_help_pairs` declares a messaging pair that C1 says does not exist.**
+
+    generator_config.yaml   Cmd.SendMessage:   Help_VoiceAssistant
+                            Cmd.ListenMessage: Help_VoiceAssistant
+
+against `Cmd.SendMessage`, `Cmd.ListenMessage` and `Help_VoiceAssistant`, which
+all state that the taxonomy has no messaging Help intent and send how-to
+questions to `Default Fallback Intent`. C1 records that decision as *"stated in
+four places"* and never checked the config, which asserts the opposite. Worse,
+`verify_round.py` asserts all 23 pairs are mutual neighbours, so the contradiction
+is held in place by a passing test.
+
+`Cmd.FindMyPhone: Help_FindMyHearingAids` was removed from this table earlier in
+the review for being a false pair; nobody then re-read the rest of the table.
+
+**Provenance counts are stale.** `authored_specs.yaml`'s header says *"The
+remaining 56 were drafted in an assistant session"* and `generator_config.yaml`
+says *"All 57 are currently listed"*, while both files hold **60**.
+`intent_specs.yaml`'s `meta` is the only one right, at 59 assistant-session plus 1
+human.
+
+**To close:** decide whether the messaging pairs stay (and C1 is wrong) or go (and
+the config is wrong); correct the two counts either way.
+
+### E10. 81 passing checks coexisted with 15 real defects
+
+The audit that produced E8, E9 and the corrections in D-section is itself the
+finding. `verify_round.py` had 76 checks, all green, while the specs carried two
+false rankings, a false absolute claim, a self-contradicting route, an unguarded
+collision, and five stale numbers in this file.
+
+Every one of those checks asserted **that an intended edit had been made**. None
+asserted **that what was written was true**. Those are different questions, and
+only the second one protects the generated corpus.
+
+Two checks now close part of that gap — 74 re-derives every command-shaped
+percentage a spec asserts, from `train.csv`, and fails naming the intent and both
+numbers; 71 forbids any spec claiming its deployed rows are "entirely" one shape.
+Both were mutation-tested.
+
+What is still unchecked, and is how E8 was found rather than caught: no test
+verifies that an intent named as a destination actually claims the subject sent
+to it, or that two specs do not claim the same subject.
+
+**To close:** add those two checks. They are the whole one-way-route and
+collision bug class, which is the class this review has hit most.
+
 ## F. Outside the spec review
 
 These are pipeline-level and already documented in
@@ -899,17 +998,27 @@ last thing standing.
   `prompt.txt` rather than `SYSTEM_PROMPT` and was never sent. A `--pilot` run
   with the corrected prompt has not yet been done.
 - **`spec_review.py` is structurally blind to `Default Fallback Intent`.** Its
-  highest pairwise score against any of the other 59 intents is **0.099**, half
-  the 0.20 reporting threshold. 35 of 60 intents reach that threshold with at
-  least one partner; Fallback cannot reach it with any, because its vocabulary is
-  a grab-bag — weather, sport, television, greetings, ASR noise, medical — so
-  TF-IDF cosine dilutes to nothing no matter what the spec claims.
+  pairwise scores against the other 59 intents sit far below the 0.20 reporting
+  threshold, because its vocabulary is a grab-bag — weather, sport, television,
+  greetings, ASR noise, medical — so TF-IDF cosine dilutes no matter what the
+  spec claims. Measured before the D11 correction its highest score was **0.099**,
+  half the threshold, against 35 of 60 intents that reach it with some partner.
+
+  **The number moved, and how it moved is the point.** The D11 correction added
+  the words "a clinical reading such as a heart rate" to a Fallback trigger, and
+  that alone took Fallback ↔ `Help_HeartRate` from below 0.1 to **0.183** —
+  within 0.017 of being reported. So "Fallback can never reach the threshold" was
+  too strong: three added words nearly got it there. What holds is the weaker and
+  more useful statement, that Fallback's score is driven by how much unusual
+  vocabulary a single edit adds rather than by how much ground the spec claims,
+  so the tool reports it late or not at all.
 
   That is the wrong intent to be blind to. Fallback is named by 59 specs, is
   edited in almost every round, and is where every boundary decision lands. The
-  D11 collision above sat at 0.039 and would never have been reported. Any future
-  widening of Fallback has to be checked by reading, because the tool will always
-  say it is clean.
+  D11 collision sat at 0.039 and would never have been reported; the pair D11's
+  fix then created sat at 0.183 and was not reported either, and was found by
+  audit rather than by the tool. Any change to Fallback has to be checked by
+  reading.
 - **`spec_review.py` reads specs, never seeds.** Found during the `Help_MaskMode`
   round. `Help_Tinnitus` and `Help_MaskMode` overlap heavily in seed vocabulary —
   50 of 130 tinnitus rows carry `masker`/`masking`, against 18 of 18 mask-mode
@@ -927,8 +1036,8 @@ last thing standing.
 - **`boundary_lint.py` over-counts its own baseline.** Found during the
   `Help_IntelliVoice` review. `HELP_VERB` matches `guide me` but not a bare
   `guide`, so a polite request for a user guide is scored command-shaped rather
-  than explain-request. Across the deployed data this is **18 of the 283
-  command-shaped flags on `Help*` intents — 6.4%** — but it concentrates badly:
+  than explain-request. Across the deployed data this is **18 of the 279
+  command-shaped flags on `Help*` intents in the taxonomy — 6.5%** — but it concentrates badly:
   5 of `Help_IntelliVoice`'s 6 flags are this one artefact, which is what made
   that intent briefly look like it carried command traffic when its rows are
   entirely question-shaped.

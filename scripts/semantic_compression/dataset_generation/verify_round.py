@@ -55,7 +55,13 @@ add('13 F17 clinical trigger removed', not any('ringing in their ears is' in x f
 add('14 F17 stated on BOTH sides',
     any('clinical' in x for x in t['do_not_trigger']) and any('medical or clinical' in x for x in by[FB]['trigger_conditions']))
 coll = [n for n in names if any('both a memory name and' in x for x in by[n]['do_not_trigger'])]
-add(f'15 F16 all 7 memory-name collisions guarded (found {len(coll)})', len(coll) == 7)
+# The set is known INCOMPLETE -- DEFERRED E3 counts 30 memory-name/intent overlaps,
+# 17 unguarded. So this asserts a FLOOR, not an exact count. An exact count would
+# fail the moment someone adds a guard E3 says is missing, which is the opposite of
+# what a test should do.
+add(f'15 F16 the seven original memory-name guards still present (found {len(coll)})',
+    len(coll) >= 7 and {'Cmd.EdgeModeIncrease', 'Cmd.StreamingStart', 'Cmd.VolumeMute',
+                        'Help_MaskMode', 'Help_Pairing', 'Help_Tinnitus'} <= set(coll))
 add('16 F16 three new mutual neighbour pairs',
     all(x in by['Cmd.MemoryChange']['neighbor_intents'] and 'Cmd.MemoryChange' in by[x]['neighbor_intents']
         for x in ('Help_Tinnitus', 'Help_MaskMode', 'Help_Pairing')))
@@ -71,8 +77,8 @@ add('21 F20 capability trigger left intact', any('support IntelliVoice' in x for
 add('22 Cmd.EdgeModeIncrease STILL UNCHANGED (6 do_not_trigger, 8 neighbours)',
     len(by['Cmd.EdgeModeIncrease']['do_not_trigger']) == 6 and len(by['Cmd.EdgeModeIncrease']['neighbor_intents']) == 8)
 guards = {n for n, s in by.items() if any('both a memory name and' in x for x in s['do_not_trigger'])}
-add('23 6 owning intents + Cmd.MemoryChange carry the memory-name rule',
-    len(guards) == 7 and 'Cmd.MemoryChange' in guards)
+add('23 Cmd.MemoryChange mirrors the memory-name rule (set incomplete, DEFERRED E3)',
+    len(guards) >= 7 and 'Cmd.MemoryChange' in guards)
 
 # --- Help_MaskMode round -------------------------------------------------
 mm = by['Help_MaskMode']
@@ -214,6 +220,49 @@ add('69 no trigger_conditions changed in this family',
     len(by['Help_Pairing']['trigger_conditions']) == 6
     and len(by['Help_RemoteProgramming']['trigger_conditions']) == 7
     and len(by['Help_HearShare']['trigger_conditions']) == 5)
+
+# --- audit fixes, 2026-08-27 ---------------------------------------------
+# Every check below pins a defect found by auditing this review's own committed
+# work. They exist because 76 passing checks coexisted with 15 real defects --
+# the checks asserted what was DONE, not that it was TRUE.
+add('70 AUDIT ranking claims match generator_config, which had it right all along',
+    any('second highest of any Help intent' in x for x in by['Help_Pairing']['boundary_cases'])
+    and any('third highest of any Help intent' in x for x in by['Help_SelfCheck']['boundary_cases'])
+    and not any('third highest in the taxonomy' in x for x in by['Help_Pairing']['boundary_cases'])
+    and not any('second only to' in x for x in by['Help_SelfCheck']['boundary_cases']))
+add('71 AUDIT no spec claims deployed rows are "entirely" one shape',
+    not any('entirely question-shaped' in x
+            for s in specs for x in s['boundary_cases'] + s['do_not_trigger']))
+add('72 AUDIT Help_Health no longer routes broad app questions to Help_Home',
+    not any('broad questions about the app' in x for x in by['Help_Health']['do_not_trigger'])
+    and any('naming no screen and no feature is Default Fallback' in x
+            for x in by['Help_Home']['boundary_cases']))
+add('73 AUDIT Fallback <-> Help_HeartRate guarded, the pair D11s fix created',
+    any('Help_HeartRate' in x for x in by[FB]['do_not_trigger']))
+# The check that would have caught the ranking errors. Every percentage a spec
+# asserts about its own deployed speech is re-derived from train.csv here, so a
+# stale number fails the run instead of reaching the generation prompt.
+try:
+    import csv as _csv, collections as _c, boundary_lint as _bl
+    _rows = list(_csv.DictReader(open(_bl.DEPLOYED)))
+    _byi = _c.defaultdict(list)
+    for _r in _rows:
+        _byi[_r['intent']].append(_r['text'])
+    _bad = []
+    for _s in specs:
+        _txt = [_s['business_description']] + _s['trigger_conditions'] + _s['do_not_trigger'] + _s['boundary_cases']
+        for _x in _txt:
+            for _m in re.finditer(r'(\d+\.?\d*)%\s*command-shaped', _x):
+                _rs = _byi.get(_s['name'], [])
+                if not _rs:
+                    _bad.append((_s['name'], 'no deployed rows')); continue
+                _cc = _c.Counter(_bl.surface_form(_t)[0] for _t in _rs)
+                _act = 100 * _cc['command-shaped'] / len(_rs)
+                if abs(_act - float(_m.group(1))) >= 0.05:
+                    _bad.append((_s['name'], f"claims {_m.group(1)}%, actual {_act:.1f}%"))
+    add(f'74 AUDIT every command-shaped percentage in a spec re-derives exactly {_bad or ""}', not _bad)
+except Exception as _e:
+    add(f'74 AUDIT percentage re-derivation could not run ({type(_e).__name__})', False)
 
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
