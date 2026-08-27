@@ -157,8 +157,15 @@ add('54 D11 business description no longer promises what a good value looks like
     'good value' not in hrr['business_description'])
 add('55 D11 routed to Fallback by name, from the HRR side',
     any('Default Fallback Intent' in x for x in hrr['do_not_trigger']))
-add('56 D11 D4 widened -- Fallback covers a measured VALUE, not just a condition',
-    any('measured health value is good or normal' in x for x in by[FB]['trigger_conditions']))
+add('56 D11 D4 widened -- Fallback covers a clinical READING, not just a condition',
+    any('clinical reading such as a heart rate' in x for x in by[FB]['trigger_conditions']))
+add('56b D11 correction -- the over-broad wording is gone',
+    not any('measured health value' in x for x in by[FB]['trigger_conditions']))
+add('56c D11 correction -- app scores explicitly carved out of the Fallback rule',
+    any('app score is not a clinical reading' in x for x in by[FB]['trigger_conditions']))
+add('56d D11 correction -- Help_ThriveScore untouched and still owns improving a score',
+    any('improve or increase a score' in x for x in by['Help_ThriveScore']['trigger_conditions'])
+    and len(by['Help_ThriveScore']['do_not_trigger']) == 3)
 add('57 three vague heart-rate cross-references now name the intent',
     any('which are Help_HeartRateRecovery' in x for x in by['Help_Health']['do_not_trigger'])
     and any('prefer Help_HeartRate' in x for x in by['Help_Health']['boundary_cases'])

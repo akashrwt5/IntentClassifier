@@ -70,9 +70,10 @@ intents:
         is the correct response.
       - Questions about a medical or clinical matter rather than a product
         feature - what tinnitus is, why the ears ring, whether hearing loss
-        can be cured, whether a measured health value is good or normal, or
-        how to improve one. The product explains its own features and what its
-        measurements mean, not the user's health.
+        can be cured, or whether a clinical reading such as a heart rate is
+        normal for this user and how to improve it. The product explains its
+        own features and what its measurements mean, not the user's health. An
+        app score is not a clinical reading.
     do_not_trigger:
       - An actionable in-scope command, however indirectly phrased. "I need
         more volume" is Cmd.VolumeIncrease, not Fallback - an implicit request

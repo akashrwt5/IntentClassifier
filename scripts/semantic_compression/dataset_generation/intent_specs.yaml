@@ -18,7 +18,7 @@ intents:
   - Any utterance where the intent remains genuinely ambiguous after the Section 6 precedence rules have been applied.
   - Complaints about hearing difficulty that carry no loudness word, name no environment and ask for no action ("I can't hear", "I'm struggling to hear people"). Acting on these would change the device on a guess.
   - How-to questions about a feature the taxonomy has no Help intent for - messaging, push-to-talk, and powering the aids on or off. The feature works; there is simply no intent that explains it, so a clarification is the correct response.
-  - Questions about a medical or clinical matter rather than a product feature - what tinnitus is, why the ears ring, whether hearing loss can be cured, whether a measured health value is good or normal, or how to improve one. The product explains its own features and what its measurements mean, not the user's health.
+  - Questions about a medical or clinical matter rather than a product feature - what tinnitus is, why the ears ring, whether hearing loss can be cured, or whether a clinical reading such as a heart rate is normal for this user and how to improve it. The product explains its own features and what its measurements mean, not the user's health. An app score is not a clinical reading.
   do_not_trigger:
   - An actionable in-scope command, however indirectly phrased. "I need more volume" is Cmd.VolumeIncrease, not Fallback - an implicit request carrying a loudness word is still a request.
   - An observation that is followed by an actionable command. Per the compound precedence rule the command decides the label, so "it's quieter today, make it louder" is Cmd.VolumeIncrease.

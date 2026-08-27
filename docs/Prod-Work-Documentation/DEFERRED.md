@@ -9,7 +9,7 @@ report. The per-family sign-off table in `SPEC_REVIEW.md` records what has been
 Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
-Last updated 2026-08-26, after the `Cmd.*` review, the HelpAudio,
+Last updated 2026-08-27, after the `Cmd.*` review, the HelpAudio,
 HelpAppSettings and HelpHealth families, and `Default Fallback Intent`.
 
 ---
@@ -476,6 +476,22 @@ whether a measured health value is good or normal and how to improve one.
 Explaining what the measurement means stays here; interpreting the user's own
 result does not.
 
+**A correction, made 2026-08-27.** The widened wording said *"whether a measured
+health value is good or normal, or how to improve one"*. That reaches the app's
+own wellness scores, and `Help_ThriveScore` already claims *"how to improve or
+increase a score"* — so two live specs claimed the same utterance, neither named
+the other, and generation would have produced the same sentence under two labels.
+
+Nothing would have caught it. Dedup is inline and scoped `within_intent`; Stage 2,
+which exists to find cross-intent collisions, is not built; and the pair scores
+**0.039** against `spec_review.py`'s 0.20 threshold. It was found only because
+Akash asked what the Fallback edit had done to generation.
+
+Narrowed to a **clinical reading** — heart rate and the like — with the sentence
+"An app score is not a clinical reading" added so the distinction is explicit.
+D11's decision is unchanged; only its reach is. `Help_ThriveScore` was not
+touched, and is in E7's unsupported set in any case.
+
 **Nothing to close.** The strict reading was chosen over two softer options.
 
 ---
@@ -671,6 +687,95 @@ review side rather than the evaluation side.
 
 **To close:** it closes when the instrument gap does — see F.
 
+### E7. Unsupported intents — decided to drop, NOT yet applied
+
+Akash, 2026-08-27. `Help_HeartRate` and `Help_HeartRateRecovery` are disabled in
+Dialogflow; `Help_ThriveScore` will not be supported either. Decision is to drop
+all three from the taxonomy the way `Help_HearingCareAnywhereConnect` already is,
+taking it **60 → 57**. Nothing has been applied. This entry is the plan and the
+cost, so the decision can be made against both.
+
+That 57 is **not** the runtime label map's 57. All three are still in
+`nlu_schema.json`, so the drop widens the delta rather than closing it.
+
+**`Help_HearingCareAnywhereConnect` needs nothing.** It is already dropped in
+`generator_config.yaml` and has never been in the 60. No round has touched it.
+
+**The other two are a different case, and this is the part worth reading before
+applying.** `Help_HearingCareAnywhereConnect` was gone from the runtime as well.
+These two are **still in the shipping label map** — both appear in
+`language_packs/en/nlu_schema.json` — and they still carry deployed data.
+
+| | `train.csv` | `dev_hard.csv` | seeds | in `nlu_schema.json` |
+|---|---:|---:|---:|:-:|
+| `Help_HeartRate` | 51 | 7 | 19 | yes |
+| `Help_HeartRateRecovery` | 46 | 7 | 22 | yes |
+| `Help_ThriveScore` | 105 | 13 | 65 | yes |
+
+**The cost lands on the measurement, and it stops being small.** The architecture
+doc records that `dev_hard` carries 7 rows of `Help_HearingCareAnywhereConnect`
+which this taxonomy drops, so a model following the taxonomy is marked wrong on
+each — a bias, not noise, pointing against the change the Super Dataset exists to
+make. It calls that 7 of 813 "under a point and well inside the 0.038 MDE".
+
+These three add **27 more rows of exactly that kind**:
+
+    7 of 813   =  0.9%   today            well inside the 0.038 MDE
+    34 of 813  =  4.2%   after the drop   LARGER than the MDE
+
+That crosses the line the doc drew. At 4.2% the instrument gap is no longer a
+footnote on a Super Dataset result — it is bigger than the effect the experiment
+is powered to detect, and it points one way. The doc already requires an explicit
+decision before any result is reported (exclude those rows and re-state the
+0.8327 baseline, or accept and record). **After this drop that decision cannot be
+deferred at all.**
+
+**What applying it takes:**
+
+    generator_config.yaml   add all three to taxonomy.drop_intents with a reason
+                            remove all three from families.HelpHealth  (6 -> 3)
+                            remove all three from taxonomy.hand_authored_intents
+    authored_specs.yaml     delete the three spec blocks
+    intent_specs.yaml       regenerate  (60 -> 57)
+    Help_Health             remove 3 neighbours, rewrite 2 do_not_trigger and
+                            1 boundary case that name them
+    Help_Activity           remove 1 neighbour, rewrite 1 do_not_trigger
+    Default Fallback Intent state the unsupported set explicitly -- see below
+    verify_round.py         checks 50-58 assert edits to two of these specs and
+                            would need removing with them
+
+HelpHealth is left with `Help_Activity`, `Help_Health` and `Help_FallAlert`.
+
+Their seed files stay in the folder untouched, as
+`Help_HearingCareAnywhereConnect`'s does.
+
+**Fallback must be updated in the SAME change, and not before it.** With the three
+gone, nothing in the taxonomy covers heart rate, heart rate recovery or the Thrive
+scores. Those questions reach `Default Fallback Intent` — correct once the
+features are unsupported, but it has to be *stated in a spec* rather than happening
+by absence, exactly as C1 and C2 state the messaging and power-on/off gaps.
+
+The ordering matters and is not cosmetic. Writing those subjects into Fallback
+while the three intents are still live would make Fallback and each of them claim
+the same utterances — a new cross-intent collision, and the same mistake D11
+already made once (below). Drop first, or drop and state in one change; never
+state first.
+
+`Help_Health` and `Help_Activity` currently route these subjects to the three by
+name. After the drop those routes have no destination, which is the one-way-route
+shape this review has now found five times — so they must be rewritten in the
+same change, not left to be discovered.
+
+**Already done and deliberately kept** (Akash, 2026-08-27): the HelpHealth round
+edited both specs before the disable was known — D10 and D11. Those edits stand.
+They removed a claimed capability the product does not have and stopped the
+taxonomy offering health advice, so the specs are more truthful than they were; if
+the intents are ever re-enabled the correct spec is waiting. No further review
+work will be done on them.
+
+**To close:** apply the plan above, or record that the two stay in the taxonomy
+while disabled at runtime and say why.
+
 ## F. Outside the spec review
 
 These are pipeline-level and already documented in
@@ -690,6 +795,18 @@ last thing standing.
   never actually tested, because the instruction meant to fix it was written into
   `prompt.txt` rather than `SYSTEM_PROMPT` and was never sent. A `--pilot` run
   with the corrected prompt has not yet been done.
+- **`spec_review.py` is structurally blind to `Default Fallback Intent`.** Its
+  highest pairwise score against any of the other 59 intents is **0.099**, half
+  the 0.20 reporting threshold. 35 of 60 intents reach that threshold with at
+  least one partner; Fallback cannot reach it with any, because its vocabulary is
+  a grab-bag — weather, sport, television, greetings, ASR noise, medical — so
+  TF-IDF cosine dilutes to nothing no matter what the spec claims.
+
+  That is the wrong intent to be blind to. Fallback is named by 59 specs, is
+  edited in almost every round, and is where every boundary decision lands. The
+  D11 collision above sat at 0.039 and would never have been reported. Any future
+  widening of Fallback has to be checked by reading, because the tool will always
+  say it is clean.
 - **`spec_review.py` reads specs, never seeds.** Found during the `Help_MaskMode`
   round. `Help_Tinnitus` and `Help_MaskMode` overlap heavily in seed vocabulary —
   50 of 130 tinnitus rows carry `masker`/`masking`, against 18 of 18 mask-mode
