@@ -889,7 +889,7 @@ work will be done on them.
 **To close:** apply the plan above, or record that the two stay in the taxonomy
 while disabled at runtime and say why.
 
-### E8. Defects the audit found INSIDE families already signed as reviewed
+### E8. Defects the audit found INSIDE families already signed as reviewed — CLOSED
 
 Found 2026-08-27 by auditing this review's own output, not by the review itself.
 Each sits in a family the standings table calls done, so each is a hole in a
@@ -926,8 +926,29 @@ reviewed. Neither names the other and they are not neighbours.
 neighbour link** — a family marked 8 of 8 reviewed, and the largest single block
 of the E4 pattern.
 
-**To close:** reopen HelpHealth, HelpDeviceCare and the ActivityTracking `Cmd.*`
-family for these specific items. They are not full re-reviews.
+**CLOSED 2026-08-27.** All four fixed, and the first one resolved the opposite
+way to the assumption.
+
+`Help_Activity` versus `Help_Health` on locating activity data — Akash decided it
+belongs to **`Help_Activity`**, on the evidence: 5 of `Help_Activity`'s 26 seeds
+name distance, and 0 of `Help_Health`'s 23 do. Nine specs were pointing at the
+intent with no evidence, including `Help_Activity` itself. All **17**
+`Help_Health` references across the eight `Cmd.Activity*` specs now read
+`Help_Activity`; `Help_Activity`'s trigger widened from distance to any tracked
+activity's data and how a figure is calculated, which also closes the separate
+calorie-calculation one-way route; its self-contradicting boundary case replaced;
+and `Help_Health` yields it back by name. No new neighbour links were needed —
+`Help_Activity` was already a neighbour of all eight — so `Help_Health` stays at
+9 rather than going to 16.
+
+`Help_SelfCheck`'s "is faint" trigger removed. Deployed data settles it: one row
+of 110 names faint and none names quiet, weak, low or soft, while
+`Cmd.VolumeIncrease` has 3 and 23.
+
+`Help_Volume` ↔ `Help_Pairing` guarded on both sides and made mutual. The
+collision was in the spec text rather than in the data — 107 of `Help_Pairing`'s
+224 rows name a phone or Bluetooth against 1 of `Help_Volume`'s 146 — but
+generation writes new rows, and the SOURCE is now stated as the discriminator.
 
 ### E9. `generator_config.yaml` and the specs disagree, in two places
 

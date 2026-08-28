@@ -264,6 +264,27 @@ try:
 except Exception as _e:
     add(f'74 AUDIT percentage re-derivation could not run ({type(_e).__name__})', False)
 
+# --- E8, defects found inside families already signed off ----------------
+add('75 E8-1 all Cmd.Activity* now route locating to Help_Activity, not Help_Health',
+    not any('Help_Health' in x for n, s in by.items() if n.startswith('Cmd.Activity')
+            for f in ('do_not_trigger', 'boundary_cases') for x in s[f])
+    and sum(1 for n, s in by.items() if n.startswith('Cmd.Activity')
+            for f in ('do_not_trigger', 'boundary_cases') for x in s[f] if 'Help_Activity' in x) >= 16)
+add('76 E8-1 Help_Activity claims it and no longer defers to Help_Health',
+    any("tracked activity's data is shown" in x for x in by['Help_Activity']['trigger_conditions'])
+    and not any('prefer Help_Health' in x for x in by['Help_Activity']['boundary_cases']))
+add('77 E8-1 Help_Health yields it back by name',
+    any('which are Help_Activity' in x for x in by['Help_Health']['do_not_trigger']))
+add('78 E8-2 Help_SelfCheck no longer claims a faint aid against its own rule',
+    not any('faint' in x for x in by['Help_SelfCheck']['trigger_conditions'])
+    and any('too quiet is a volume request' in x for x in by['Help_SelfCheck']['boundary_cases']))
+add('79 E8-3 Help_Volume <-> Help_Pairing guarded on both sides and linked',
+    any('Help_Pairing' in x for x in by['Help_Volume']['do_not_trigger'])
+    and any('Help_Volume' in x for x in by['Help_Pairing']['do_not_trigger'])
+    and 'Help_Pairing' in by['Help_Volume']['neighbor_intents'])
+add('80 E8 no Cmd.Activity* lost its Help_Activity neighbour link',
+    all('Help_Activity' in by[n]['neighbor_intents'] for n in by if n.startswith('Cmd.Activity')))
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]

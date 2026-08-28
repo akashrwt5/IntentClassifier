@@ -110,7 +110,7 @@ The closest such pair in each of the 6 most affected specs, strongest first. A s
 - TRIGGER: User reports wax build-up in their aid.
 - DO NOT: Reports that an aid has stopped working, which are Help_SelfCheck, unless the user attributes it to wax.
 
-**`Help_Volume`** — similarity 0.25
+**`Help_Volume`** — similarity 0.26
 
 - TRIGGER: User asks where the volume control is or what it does.
 - DO NOT: Questions about the CROS or WiCROS balance control, which are Help_WiCROS. Balance sets the level between a transmitter and a receiver and is a separ…
@@ -133,8 +133,11 @@ The flagged similarities below were reviewed by hand and accepted as valid bound
 
 - ✅ **`Help_Accessories`** — Accessory/TV volume is Help; hearing-aid volume is Cmd.Volume*.
 - ✅ **`Help_CleanCare`** — Wax-attributed problems stay here; unexplained device failure is Help_SelfCheck.
-- ✅ **`Cmd.ActivityStep`** — Step-goal progress is distinct from configuring/editing the step goal in Help_Activity.
 - ✅ **`Help_AppSettings`** — App version is AppSettings; new features/changes are Help_WhatsNew.
+
+**Stale approvals — re-review required.** The approved `trigger_conditions` or `do_not_trigger` text has changed since sign-off, so the decision below no longer describes what is in the spec.
+
+- ❌ **`Cmd.ActivityStep`** — approval hash no longer matches the current spec text.
 
 ---
 

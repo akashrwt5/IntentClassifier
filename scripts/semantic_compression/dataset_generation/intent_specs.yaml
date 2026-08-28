@@ -527,12 +527,12 @@ intents:
   - User asks to see their walking history.
   do_not_trigger:
   - Requests to SET, change or edit a walking goal, which are Help_Activity.
-  - Questions about where in the app walking data is displayed, which are Help_Health.
+  - Questions about where in the app walking data is displayed, which are Help_Activity.
   - Queries naming a different activity - steps (Cmd.ActivityStep), running or jogging (Cmd.ActivityRun), cycling or biking (Cmd.ActivityCycle), standing (Cmd.ActivityStand), aerobics (Cmd.ActivityAerobics), or exercise/workout (Cmd.ActivityExercise) - which belong to that activity's intent.
   - Calorie queries with no activity named, which are Cmd.ActivityCalories.
   boundary_cases:
   - The named activity decides the intent; walking, walked and walk resolve here.
-  - Querying is a Command, configuring is Help_Activity, and locating the screen is Help_Health. This split is identical across all eight activity intents.
+  - Querying is a Command, configuring is Help_Activity, and locating it is Help_Activity. This split is identical across all eight activity intents.
   - Standing and stepping are tracked separately and are not walking.
   - A distance query that NAMES walking resolves here. A bare distance query with no activity named ("how far have I gone?") is Cmd.ActivityStep, where distance is derived from step count. Cmd.ActivityStep states this identically.
   neighbor_intents:
@@ -560,14 +560,14 @@ intents:
   - User asks how much distance they have covered.
   do_not_trigger:
   - Requests to set up or edit a step goal, which are Help_Activity.
-  - Questions about where step data appears in the app, which are Help_Health.
+  - Questions about where step data appears in the app, which are Help_Activity.
   - Queries that NAME walking - how far or how long the user has walked - which are Cmd.ActivityWalk.
   - Queries about running or jogging (Cmd.ActivityRun), cycling or biking (Cmd.ActivityCycle), standing (Cmd.ActivityStand), aerobics (Cmd.ActivityAerobics), or exercise/workout (Cmd.ActivityExercise), which belong to those activity intents.
   - Calorie queries with no activity named, which are Cmd.ActivityCalories.
   boundary_cases:
   - Step-goal progress is a Command; creating or editing the step goal is Help_Activity.
   - The named activity decides the intent; steps and step count resolve here even though steps are produced by walking.
-  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  - Querying is a Command, configuring is Help_Activity, locating it is Help_Activity.
   - Distance with no activity named resolves here, because the device derives distance from step count. A distance query that names walking is Cmd.ActivityWalk. Cmd.ActivityWalk states this identically.
   neighbor_intents:
   - Cmd.ActivityWalk
@@ -591,13 +591,13 @@ intents:
   - User asks about calories burned while running or jogging.
   do_not_trigger:
   - Requests to set or change a running goal, which are Help_Activity.
-  - Questions about where running data appears, which are Help_Health.
+  - Questions about where running data appears, which are Help_Activity.
   - Queries naming walking rather than running, which are Cmd.ActivityWalk.
   - Queries about step count (Cmd.ActivityStep), cycling or biking (Cmd.ActivityCycle), standing (Cmd.ActivityStand), aerobics (Cmd.ActivityAerobics), or exercise/workout (Cmd.ActivityExercise), which belong to those activity intents.
   - Calorie queries with no activity named, which are Cmd.ActivityCalories.
   boundary_cases:
   - The named activity decides the intent; running and jogging both resolve here.
-  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  - Querying is a Command, configuring is Help_Activity, locating it is Help_Activity.
   neighbor_intents:
   - Cmd.ActivityWalk
   - Cmd.ActivityExercise
@@ -621,12 +621,12 @@ intents:
   - User asks about calories burned while biking.
   do_not_trigger:
   - Requests to set or change a biking goal, which are Help_Activity.
-  - Questions about where cycling distance is displayed, which are Help_Health.
+  - Questions about where cycling distance is displayed, which are Help_Activity.
   - Queries naming a different activity - walking (Cmd.ActivityWalk), steps (Cmd.ActivityStep), running or jogging (Cmd.ActivityRun), standing (Cmd.ActivityStand), aerobics (Cmd.ActivityAerobics), or exercise/workout (Cmd.ActivityExercise) - which belong to that activity's intent.
   - Calorie queries with no activity named, which are Cmd.ActivityCalories.
   boundary_cases:
   - The named activity decides the intent; cycling, biking, bicycling and riding all resolve here.
-  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  - Querying is a Command, configuring is Help_Activity, locating it is Help_Activity.
   neighbor_intents:
   - Cmd.ActivityRun
   - Cmd.ActivityWalk
@@ -650,11 +650,11 @@ intents:
   - User asks to see their standing history.
   do_not_trigger:
   - Requests to set or change a stand goal, which are Help_Activity.
-  - Questions about where standing data appears, which are Help_Health.
+  - Questions about where standing data appears, which are Help_Activity.
   - Queries about walking (Cmd.ActivityWalk), steps (Cmd.ActivityStep), running (Cmd.ActivityRun), cycling or biking (Cmd.ActivityCycle), aerobics (Cmd.ActivityAerobics), or exercise/workout (Cmd.ActivityExercise), which belong to those separate intents.
   boundary_cases:
   - The named activity decides the intent; standing and stood resolve here.
-  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  - Querying is a Command, configuring is Help_Activity, locating it is Help_Activity.
   neighbor_intents:
   - Cmd.ActivityStep
   - Cmd.ActivityWalk
@@ -676,12 +676,12 @@ intents:
   - User asks about their general activity goal without naming a specific tracked activity.
   do_not_trigger:
   - Requests to set or change an aerobic goal, which are Help_Activity.
-  - Questions about where aerobic data appears, which are Help_Health.
+  - Questions about where aerobic data appears, which are Help_Activity.
   - Queries naming a specific activity such as running or cycling - including walking (Cmd.ActivityWalk), steps (Cmd.ActivityStep), running (Cmd.ActivityRun), cycling (Cmd.ActivityCycle), standing (Cmd.ActivityStand), or exercise/workout (Cmd.ActivityExercise) - which belong to those intents.
   boundary_cases:
   - The named activity decides the intent; aerobics and aerobic resolve here.
   - 'Tiebreak with Cmd.ActivityExercise: a bare "activity goal" query with no named activity resolves here. Queries containing exercise, workout or working out resolve to Cmd.ActivityExercise, per the seed evidence.'
-  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health.
+  - Querying is a Command, configuring is Help_Activity, locating it is Help_Activity.
   neighbor_intents:
   - Cmd.ActivityExercise
   - Cmd.ActivityCalories
@@ -703,13 +703,13 @@ intents:
   - User asks about calories burned exercising or working out.
   do_not_trigger:
   - Requests to set or change an exercise goal, which are Help_Activity.
-  - Questions about where exercise data appears, which are Help_Health.
+  - Questions about where exercise data appears, which are Help_Activity.
   - Queries naming a specific tracked activity - walking (Cmd.ActivityWalk), running (Cmd.ActivityRun), cycling (Cmd.ActivityCycle), standing (Cmd.ActivityStand), steps (Cmd.ActivityStep) or aerobics (Cmd.ActivityAerobics) - which belong to those intents.
   boundary_cases:
   - This intent handles exercise/workout queries. A named tracked activity always wins over it; a bare "activity goal" query is intentionally routed to Cmd.ActivityAerobics by the seed-backed tiebreak below.
   - 'Tiebreak with Cmd.ActivityAerobics: exercise, workout or working out resolves here. A bare "activity goal" query with no named activity and none of those words resolves to Cmd.ActivityAerobics, per the seed evidence.'
   - Exercise and working out are treated as the same concept.
-  - Querying is a Command, configuring is Help_Activity, locating the screen is Help_Health. Note that a small number of progress-query utterances are mislabelled into Help_Activity in the legacy seed data; the rule above overrides them.
+  - Querying is a Command, configuring is Help_Activity, locating it is Help_Activity. Note that a small number of progress-query utterances are mislabelled into Help_Activity in the legacy seed data; the rule above overrides them.
   neighbor_intents:
   - Cmd.ActivityAerobics
   - Cmd.ActivityRun
@@ -732,12 +732,12 @@ intents:
   - User uses a bare calorie phrase such as calories burned today.
   do_not_trigger:
   - Calorie queries that name an activity - walking (Cmd.ActivityWalk), running (Cmd.ActivityRun), cycling (Cmd.ActivityCycle), standing (Cmd.ActivityStand), steps (Cmd.ActivityStep), aerobics (Cmd.ActivityAerobics) or exercise (Cmd.ActivityExercise) - which belong to that activity's intent.
-  - Questions about where calorie data appears in the app, which are Help_Health.
-  - Questions about how calories are calculated, which are Help_Health.
+  - Questions about where calorie data appears in the app, which are Help_Activity.
+  - Questions about how calories are calculated, which are Help_Activity.
   - Requests to set or change a calorie goal, which are Help_Activity.
   boundary_cases:
   - The absence of a named activity is what defines this intent. Naming any tracked activity moves the utterance to that activity's intent, which is the single most likely confusion for this label.
-  - Querying is a Command, locating the screen is Help_Health.
+  - Querying is a Command, locating it is Help_Activity.
   neighbor_intents:
   - Cmd.ActivityExercise
   - Cmd.ActivityWalk
@@ -768,6 +768,7 @@ intents:
   - Reports that an aid is broken, dead or not working, which are Help_SelfCheck. A volume-framed symptom with no fault claim - "I'm getting no sound", "the volume dropped to nothing" - stays here; a device described as faulty or not working is a fault report.
   - Questions about powering the aids on or off. That is not volume control, and the taxonomy has no intent for it; both direct requests and how-to questions are Default Fallback Intent.
   - Questions about the CROS or WiCROS balance control, which are Help_WiCROS. Balance sets the level between a transmitter and a receiver and is a separate control from hearing-aid volume, even though both change loudness.
+  - Reports that audio is not coming through from the phone, which are Help_Pairing. The SOURCE decides it - phone audio failing to arrive is a connection problem, while hearing-aid loudness itself at nothing is this intent.
   boundary_cases:
   - 'This intent sits on the taxonomy''s costliest boundary: its four Command siblings physically change the device. Apply precedence rule 4, and where the two readings are genuinely balanced prefer this intent - explaining something unnecessarily is far cheaper than changing a device unbidden.'
   - 'Rule 4''s exception for outcomes only the assistant can produce never fires here. Changing, raising, lowering, muting and unmuting all have a manual path the user controls - this intent''s own trigger conditions are exactly those how-to questions - so no volume question is secretly a request. "Can I make it louder?" is this intent: the user can change the volume themselves, so they are asking how. "Can YOU make it louder?" names the assistant as the doer and is Cmd.VolumeIncrease.'
@@ -782,6 +783,7 @@ intents:
   - Help_SelfCheck
   - Help_Tinnitus
   - Help_WiCROS
+  - Help_Pairing
   positive_example: How do I turn the volume down on just one aid?
   hard_negative_example: Turn the volume down on my left aid.
   intent_family: HelpAudio
@@ -909,7 +911,7 @@ intents:
   business_description: Explain how to set up, change or edit activity goals - steps, walking, running, biking, standing, aerobics, exercise and calories - and where activity distance is shown.
   trigger_conditions:
   - User asks how to set, set up, change or edit an activity goal.
-  - User asks how to calculate or where to see distance for a tracked activity.
+  - User asks where a tracked activity's data is shown in the app, or how a figure such as distance or calories is calculated.
   - User uses a bare configuration phrase such as edit step goal or set up walking goal.
   do_not_trigger:
   - Any query for the user's actual progress or goal VALUE, which belongs to one of the matching Cmd.Activity* intents - Cmd.ActivityStep, Cmd.ActivityWalk, Cmd.ActivityRun, Cmd.ActivityCycle, Cmd.ActivityStand, Cmd.ActivityAerobics, Cmd.ActivityExercise or Cmd.ActivityCalories. Configuring differs from querying.
@@ -919,7 +921,7 @@ intents:
   - Setting versus reading is the whole distinction. Set, set up, change, edit and create resolve here; how far, how long, how many and have I reached resolve to the Cmd.Activity* intents.
   - The split covers ALL EIGHT tracked activities - walking, steps, running, cycling/biking, standing, aerobics, exercise and calories. A set/change/edit request for any of their goals resolves here; the matching Cmd.Activity* intent owns the data query.
   - The legacy seed file for this intent contains a small number of progress-query utterances that are mislabelled. The rule above overrides the seed data.
-  - Where the question is about finding a screen rather than changing a goal, prefer Help_Health.
+  - Locating a tracked activity's data, and how one of its figures is calculated, resolve here. Help_Health owns the Health SCREEN itself and the health and hearing goals on it. An earlier version of this spec deferred activity screens to Help_Health while all eight Cmd.Activity* intents routed them there as well - and Help_Health names distance in none of its 23 seeds against this intent's five of 26.
   neighbor_intents:
   - Help_Health
   - Cmd.ActivityStep
@@ -952,6 +954,7 @@ intents:
   - Questions about heart rate, which are Help_HeartRate, or about heart rate recovery, which are Help_HeartRateRecovery.
   - Questions about the Thrive score, which are Help_ThriveScore.
   - Questions about the Home or main screen, which are Help_Home.
+  - Questions about where a tracked activity's data is shown, or how one of its figures is calculated, which are Help_Activity. This intent owns the Health screen itself and the goals on it.
   boundary_cases:
   - This intent is about LOCATING and VIEWING; Help_Activity is about CONFIGURING a target; the Cmd.Activity* intents return the data itself.
   - Changing the measurement period is a Health screen concern and resolves here, not to Help_Activity.
@@ -1209,6 +1212,7 @@ intents:
   - Requests to start streaming once already connected, which are Cmd.StreamingStart.
   - Reports that an aid is faulty rather than unconnected, which are Help_SelfCheck.
   - Requests to switch to the "Telephone" MEMORY, which are Cmd.MemoryChange. "Telephone" is both a memory name and this intent's subject; an explicit request to change memory or program is that intent, anything else is this one.
+  - Reports that hearing-aid loudness itself has dropped to nothing, with no phone, car or Bluetooth named, which are Help_Volume. The source decides it, and Help_Volume states this identically.
   boundary_cases:
   - The other endpoint decides the intent. Phone, tablet or car resolves here; TV streamer or remote mic resolves to Help_Accessories; the audiologist resolves to Help_RemoteProgramming.
   - Not connecting differs from not working. A connection problem is this intent; a device fault is Help_SelfCheck.
@@ -1221,6 +1225,7 @@ intents:
   - Default Fallback Intent
   - Cmd.MemoryChange
   - Help_HearShare
+  - Help_Volume
   positive_example: Why won't my hearing aids sync with my phone?
   hard_negative_example: How do I unpair my Remote Mic?
   intent_family: HelpConnectivity
@@ -1376,7 +1381,7 @@ intents:
   trigger_conditions:
   - User asks how to run or interpret a self-check.
   - User asks whether their aids are working properly or how to test them.
-  - User reports that an aid does not work, is faint, or has a problem.
+  - User reports that an aid does not work or has a problem.
   - User reports that one aid is not being found by the app.
   - User asks what a failed self-check or an X result means.
   do_not_trigger:
