@@ -20,21 +20,23 @@ intents:
   - How-to questions about a feature the taxonomy has no Help intent for - messaging, push-to-talk, and powering the aids on or off. The feature works; there is simply no intent that explains it, so a clarification is the correct response.
   - Questions about a medical or clinical matter rather than a product feature - what tinnitus is, why the ears ring, whether hearing loss can be cured, or whether a clinical reading such as a heart rate is normal for this user and how to improve it. The product explains its own features and what its measurements mean, not the user's health. An app score is not a clinical reading.
   - Requests to delete, cancel or postpone a reminder. None is a supported action, so they resolve here - reminders.complete states this identically and only completion is supported.
+  - A bare request to put things back to normal that names neither a memory nor a feature. Cmd.MemoryChange and Cmd.EdgeModeDeactivate can each perform it and nothing in the words chooses, so the tie goes to inaction.
   do_not_trigger:
   - An actionable in-scope command, however indirectly phrased. "I need more volume" is Cmd.VolumeIncrease, not Fallback - an implicit request carrying a loudness word is still a request.
   - An observation that is followed by an actionable command. Per the compound precedence rule the command decides the label, so "it's quieter today, make it louder" is Cmd.VolumeIncrease.
   - A genuine how-to question about a supported feature that has a matching Help_* intent. Those belong to that intent, not here. (Messaging, push-to-talk and powering the aids on or off have no such intent - see the trigger conditions.)
   - An in-scope command that merely arrives garbled by ASR. Degraded transcription of a real command is still that command, as long as the intent is recoverable.
-  - An observation naming a LISTENING ENVIRONMENT for which the product has a memory ("I'm outdoors now", "I've just walked into church"). The product's memories are environment-scoped, so this is an implicit request to switch and belongs to Cmd.MemoryChange. This is the single narrow exception to the observation rule below.
+  - An observation naming a LISTENING ENVIRONMENT for which the product has a memory ("I'm outdoors now", "I've just walked into church"). The product's memories are environment-scoped, so this is an implicit request to switch and belongs to Cmd.MemoryChange. The exception needs a PLACE named. This is the single narrow exception to the observation rule below.
   - A negated command that supplies a replacement action. "Don't turn it up, turn it down" is Cmd.VolumeDecrease by last-explicit-command precedence.
   - A request to be reminded of something, whatever the reminder is about. The subject of a reminder never decides the intent, so "remind me to buy milk" is reminders.add even though shopping is out of scope on its own. reminders.add states this identically.
   - Questions about what the heart rate feature is, how it works, or where the reading is shown, which are Help_HeartRate. Naming a clinical reading does not make a question clinical - only asking whether the value is good or how to improve it does.
   - How-to questions about reminders - what the feature is, whether it is available, where reminders live - which are Help_Reminder. Only an unsupported reminder ACTION resolves here.
   - Requests to mark a reminder complete, done or finished, which are reminders.complete. Completion is the one reminder action the product supports, so it never falls here.
+  - A how-to question about returning to the normal memory, which is Help_ChangingMemories. Only a bare instruction to put things back to normal, in no question form and naming no memory, resolves here.
   boundary_cases:
   - Uncertainty always resolves here. Fallback is the intended destination for ambiguity, never a failure state - False Accepts are costlier than False Rejects for these users, so the tie goes to inaction.
   - Observation versus command is the decisive test. If nothing in the utterance asks for a change, it is Fallback regardless of how much in-scope vocabulary it contains. The one exception is a named listening environment, which is an implicit memory switch - see above.
-  - The exception is narrow and turns on WHAT is being observed. Stating where the user is ("I'm outdoors now") is Cmd.MemoryChange. Naming an environment as the cause of difficulty ("it's noisy in this restaurant, I can't follow") is Cmd.EdgeModeIncrease. The DEVICE's own state ("it sounds quiet today") stays here.
+  - The exception is narrow and turns on WHAT is being observed. Stating where the user is ("I'm outdoors now") is Cmd.MemoryChange. Naming an environment as the cause of difficulty ("it's noisy in this restaurant, I can't follow") is Cmd.EdgeModeIncrease. The DEVICE's own state ("it sounds quiet today") stays here. A remark on the environment with neither a place nor a difficulty ("it is noisy in here") stays here as well - Cmd.EdgeModeIncrease and Cmd.MemoryChange state this identically.
   - A bare negation that cancels without replacing ("no, forget it", "cancel that") is Fallback.
   - An in-scope topic aimed at the wrong device stays here. "Turn the TV up" mentions volume but is not a hearing-aid request.
   - Where an utterance is unintelligible, prefer Fallback over guessing the nearest command, even when a few tokens match one.
@@ -191,6 +193,7 @@ intents:
   - User asks to focus on a particular speaker or on the people near them.
   - User names a difficult listening environment and asks for it to be improved without naming a feature ("it's noisy here, can you help?").
   - User asks for voices to be made clearer.
+  - User asks for more of the comfort or communication aspect of Edge Mode.
   do_not_trigger:
   - Requests framed purely in terms of loudness - louder, quieter, volume, too soft. Those are Cmd.VolumeIncrease.
   - Requests to reduce or switch off Edge Mode, which are Cmd.EdgeModeDecrease or Cmd.EdgeModeDeactivate.
@@ -198,11 +201,12 @@ intents:
   - Requests to change equalizer or noise settings within a memory, which are Help_Customize.
   - Requests to switch to the "Speech" MEMORY, which are Cmd.MemoryChange. "Speech" is both a memory name and this intent's subject; an explicit request to change memory or program is that intent, anything else is this one.
   - Requests to switch to the "Noise" MEMORY, which are Cmd.MemoryChange. "Noise" is both a memory name and this intent's subject; an explicit request to change memory or program is that intent, anything else is this one.
+  - Direct requests naming IntelliVoice or Mask Mode, which are Help_IntelliVoice and Help_MaskMode. Neither feature has a Cmd intent, so the nearest command attractor is this one, and acting on it applies Edge Mode - a device change the user did not ask for. Both of those specs state their side of this.
   boundary_cases:
   - Environmental cues and clarity requests decide this intent. Wind, noise, a crowd, a named speaker, or an explicit request for speech to be clearer or for focus resolves here even when the phrasing is indirect. A bare complaint about not understanding is not a cue - see below.
   - Loudness words override. If the user says "louder" or "too quiet", it is Cmd.VolumeIncrease regardless of any noise mentioned.
   - 'A complaint about hearing difficulty that carries no loudness word, names no environment and asks for no action ("I can''t hear", "I''m struggling to hear people") is Default Fallback Intent. A request for clarity or focus is different: it asks for an action only this intent performs, and stays here. Cmd.VolumeIncrease, Cmd.MemoryChange and Default Fallback Intent state this identically.'
-  - Pure observations about the environment with no implied request ("it's noisy in here") remain Fallback.
+  - Pure observations about the environment with no implied request ("it's noisy in here") remain Default Fallback Intent. A named PLACE is the single exception and is Cmd.MemoryChange, because the product's memories are environment-scoped. A remark on how the sound is where the user already is names no place, asks for nothing, and is neither. Cmd.MemoryChange and Default Fallback Intent state this identically.
   - A wish to hear a person with no clarity word and no external source named ("I want to hear the presenter") is Default Fallback Intent. A request for focus or clarity is this intent; a named external source is Cmd.StreamingStart. Cmd.StreamingStart states this identically.
   neighbor_intents:
   - Cmd.EdgeModeDecrease
@@ -251,15 +255,17 @@ intents:
   business_description: Switch Edge Mode off entirely and return the hearing aids to their previous program.
   trigger_conditions:
   - User asks to turn off, stop, end, cancel or deactivate Edge Mode or adaptive tuning.
-  - User asks to return to normal listening after Edge Mode was engaged.
+  - User asks to return to normal listening, with Edge Mode or adaptive tuning named or already the subject.
   do_not_trigger:
   - Requests merely to soften Edge Mode, which are Cmd.EdgeModeDecrease.
   - Requests to mute the hearing aids, which are Cmd.VolumeMute - Edge Mode ending does not silence anything.
-  - Requests to switch to a different saved memory or program, which are Help_ChangingMemories.
+  - Requests to switch to a different saved memory or program, which are Cmd.MemoryChange. A how-to question about switching is Help_ChangingMemories, which disclaims the switch itself.
   - Requests to stop streaming external audio, which are Cmd.StreamingStop.
+  - Questions about enabling or disabling Mask Mode, which are Help_MaskMode. "Turn off mask mode" fits this intent's shape but names a different feature, and no Cmd intent owns it.
   boundary_cases:
   - Only an explicit termination resolves here. Any wording that implies a remaining amount ("less", "not so much") is Cmd.EdgeModeDecrease.
   - Under the negation rule, cancelling Edge Mode without naming a replacement resolves here rather than to Fallback, because the seed evidence establishes deactivation as a supported action.
+  - A bare return to normal naming neither Edge Mode nor a memory is Default Fallback Intent. Cmd.MemoryChange can perform it too and nothing in the words chooses, so the tie goes to inaction. Cmd.MemoryChange and Default Fallback Intent state this identically.
   neighbor_intents:
   - Cmd.EdgeModeDecrease
   - Cmd.EdgeModeIncrease
@@ -267,6 +273,8 @@ intents:
   - Help_EdgeMode
   - Default Fallback Intent
   - Cmd.StreamingStop
+  - Cmd.MemoryChange
+  - Help_MaskMode
   positive_example: That's enough, cancel edge mode.
   hard_negative_example: Give me a little less edge mode.
   intent_family: EdgeMode
@@ -863,6 +871,7 @@ intents:
   - Direct requests to improve clarity now, which are Cmd.EdgeModeIncrease.
   - Requests to switch to the "Mask" MEMORY by its bare name, which are Cmd.MemoryChange - "switch to Mask", "change my memory to Mask". "Mask" is both a memory name and this intent's subject, and the change verb with the bare name is what separates them. The phrase "Mask Mode" stays here even with an on or off verb.
   - Questions about the tinnitus masker, which are Help_Tinnitus. The two are separate features that merely share a word stem - masking sound for tinnitus is not the Mask listening program.
+  - Direct requests to turn Edge Mode off, which are Cmd.EdgeModeDeactivate. This intent explains how to switch Mask Mode on or off; a request naming Edge Mode is that command.
   boundary_cases:
   - The phrase "Mask Mode" names this feature, so it resolves here whatever verb surrounds it - asking what it is, asking how to find it, and asking to turn it on or off are all this intent. Naming a mode is not a request to change program. A memory switch needs the bare memory name with an explicit change verb, as in "switch to Mask", and that is Cmd.MemoryChange.
   - Creating a custom memory named mask is memory management and belongs to Help_MemoryOptions.
@@ -873,6 +882,7 @@ intents:
   - Default Fallback Intent
   - Cmd.MemoryChange
   - Help_Tinnitus
+  - Cmd.EdgeModeDeactivate
   positive_example: How do I turn Mask Mode on?
   hard_negative_example: Add mask as a customized memory.
   intent_family: HelpAudio
@@ -1729,7 +1739,7 @@ intents:
   - User asks to change, switch, go to or activate a named memory, program, profile or setting.
   - User names a listening environment from the memory vocabulary and asks to be put into it.
   - User states which environment they have just entered or are currently in, where the product has a memory for it.
-  - User asks to return to normal, default or automatic.
+  - User asks to return to the default, automatic or everyday memory, or names any other memory as the one to return to.
   - User reports that the current program does not suit where they are.
   do_not_trigger:
   - Questions asking HOW to change memories, which are Help_ChangingMemories. This is the highest-volume Command-versus-Question boundary in the product.
@@ -1740,11 +1750,12 @@ intents:
   - Bare uses of a word that is both a memory name and another intent's subject - "mute", "tinnitus", "television". With no explicit request to change memory or program these are Cmd.VolumeMute, Help_Tinnitus, Cmd.StreamingStart and the rest.
   boundary_cases:
   - A named memory, program, profile or setting is an explicit change request. A hearing-difficulty complaint naming none of those and asking for no action is Default Fallback Intent; one that names an environment, or asks for clarity, is Cmd.EdgeModeIncrease.
-  - A named environment or program is the deciding signal, and this is the one place where a pure observation IS an actionable command - "I'm outdoors now", "I just walked into church" - because the product's memories are environment-scoped. The observation must be about WHERE THE USER IS. An environment named as the CAUSE OF DIFFICULTY ("it's noisy in this restaurant, I can't follow") is Cmd.EdgeModeIncrease. Default Fallback Intent carries the matching carve-out.
+  - A named environment or program is the deciding signal, and this is the one place where a pure observation IS an actionable command - "I'm outdoors now", "I just walked into church" - because the product's memories are environment-scoped. The observation must be about WHERE THE USER IS. An environment named as the CAUSE OF DIFFICULTY ("it's noisy in this restaurant, I can't follow") is Cmd.EdgeModeIncrease. A remark on how the sound is rather than on where the user is names no place and is Default Fallback Intent; Cmd.EdgeModeIncrease claims it only when the environment is named as the cause of difficulty. Default Fallback Intent carries the matching carve-out.
   - The exception is narrow. It applies only when the observation names a listening ENVIRONMENT. An observation about the hearing aids themselves stays Fallback.
   - Some seed utterances name a sound feature rather than a memory ("activate speech focus", "apply wind noise reduction"). Treat those as this intent only when phrased as selecting a setting; a description of struggling to hear is Cmd.EdgeModeIncrease.
   - 'The memory name is a slot, not a separate intent - but a bare memory name is not enough. This intent requires an EXPLICIT request to change memory or program: "switch to X", "change my memory to X", "put me in X", "activate the X memory". Several memory names are also other intents'' subjects (Mute, Tinnitus, Television, Speech, Noise, Mask, Telephone); with no explicit change request those utterances belong to the intent that owns the subject.'
   - Naming a MODE is not a request to change program. "Mask Mode" is the subject of Help_MaskMode and resolves there whatever verb surrounds it, in the same way that naming any other mode is not by itself a memory switch. This intent needs the bare memory name with an explicit change verb.
+  - A bare return to normal naming no memory and no feature is Default Fallback Intent. Cmd.EdgeModeDeactivate can perform it too and nothing in the words chooses, so the tie goes to inaction. Cmd.EdgeModeDeactivate and Default Fallback Intent state this identically.
   neighbor_intents:
   - Help_ChangingMemories
   - Help_MemoryOptions
@@ -1756,6 +1767,7 @@ intents:
   - Help_Tinnitus
   - Help_MaskMode
   - Help_Pairing
+  - Cmd.EdgeModeDeactivate
   positive_example: I've just sat down in a busy restaurant.
   hard_negative_example: How do I change to a different memory?
   intent_family: Memories

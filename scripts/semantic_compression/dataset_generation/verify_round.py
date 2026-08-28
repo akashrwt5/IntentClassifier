@@ -65,7 +65,8 @@ add(f'15 F16 the seven original memory-name guards still present (found {len(col
 add('16 F16 three new mutual neighbour pairs',
     all(x in by['Cmd.MemoryChange']['neighbor_intents'] and 'Cmd.MemoryChange' in by[x]['neighbor_intents']
         for x in ('Help_Tinnitus', 'Help_MaskMode', 'Help_Pairing')))
-add('17 Cmd.MemoryChange has 10 neighbours', len(by['Cmd.MemoryChange']['neighbor_intents']) == 10)
+# 11 since D17 added the Cmd.EdgeModeDeactivate link. Was 10 for the F16/F27 rounds.
+add('17 Cmd.MemoryChange has 11 neighbours', len(by['Cmd.MemoryChange']['neighbor_intents']) == 11)
 
 # --- Help_IntelliVoice round ---------------------------------------------
 iv = by['Help_IntelliVoice']
@@ -74,8 +75,12 @@ add('19 F22 old occasion-only trigger gone',
     not any(x == 'User asks when they should use IntelliVoice.' for x in iv['trigger_conditions']))
 add('20 F18 precautionary boundary case present', any('no Cmd intent for IntelliVoice' in x for x in iv['boundary_cases']))
 add('21 F20 capability trigger left intact', any('support IntelliVoice' in x for x in iv['trigger_conditions']))
-add('22 Cmd.EdgeModeIncrease STILL UNCHANGED (6 do_not_trigger, 8 neighbours)',
-    len(by['Cmd.EdgeModeIncrease']['do_not_trigger']) == 6 and len(by['Cmd.EdgeModeIncrease']['neighbor_intents']) == 8)
+# Was '6 do_not_trigger, 8 neighbours -- STILL UNCHANGED' while EdgeMode was
+# deferred. D17 read the family and added the seventh exclusion (queued A1 edit
+# 1). The neighbour count is deliberately still 8: A1 edit 2 was declined, so
+# the IntelliVoice and Mask Mode boundaries stay prose-only. Check 98 pins that.
+add('22 Cmd.EdgeModeIncrease after D17 (7 do_not_trigger, 8 neighbours)',
+    len(by['Cmd.EdgeModeIncrease']['do_not_trigger']) == 7 and len(by['Cmd.EdgeModeIncrease']['neighbor_intents']) == 8)
 guards = {n for n, s in by.items() if any('both a memory name and' in x for x in s['do_not_trigger'])}
 add('23 Cmd.MemoryChange mirrors the memory-name rule (set incomplete, DEFERRED E3)',
     len(guards) >= 7 and 'Cmd.MemoryChange' in guards)
@@ -110,8 +115,15 @@ add('30 no plain-scalar ": " introduced into authored_specs',
 # --- Default Fallback Intent round ---------------------------------------
 fb = by[FB]
 add('36 F27 Cmd.MemoryChange is now a Fallback neighbour', 'Cmd.MemoryChange' in fb['neighbor_intents'])
-add('37 F27 stayed one-sided -- Cmd.MemoryChange untouched (10 neighbours)',
-    len(by['Cmd.MemoryChange']['neighbor_intents']) == 10)
+# Was 'Cmd.MemoryChange untouched (10 neighbours)'. D17 touched it, so the
+# premise is retired and the list is pinned BY NAME instead -- Fallback appears
+# in all 59, so its presence here proves nothing about F27. The eleventh entry
+# is D17's, and any twelfth fails the run.
+add('37 Cmd.MemoryChange neighbours are the F16 set plus D17s EdgeModeDeactivate',
+    set(by['Cmd.MemoryChange']['neighbor_intents']) == {
+        'Help_ChangingMemories', 'Help_MemoryOptions', 'Cmd.EdgeModeIncrease',
+        'Help_Customize', FB, 'Cmd.VolumeMute', 'Cmd.StreamingStart',
+        'Help_Tinnitus', 'Help_MaskMode', 'Help_Pairing', 'Cmd.EdgeModeDeactivate'})
 add('38 F27 the three real neighbours kept',
     all(x in fb['neighbor_intents'] for x in ('Cmd.StreamingStart', 'Help_Volume', 'reminders.add')))
 add('39 reminders exclusion present on the Fallback side',
@@ -319,8 +331,9 @@ _OW_KNOWN = {('Help_AppSettings', 'Help_WhatsNew'),
              ('Help_HearShare', 'Help_RemoteProgramming'),
              ('Help_IntelliVoice', 'Help_MaskMode'),
              ('Help_RemoteProgramming', 'Help_Customize')}
-_CO_KNOWN = {('Cmd.EdgeModeDeactivate', 'Cmd.MemoryChange'),
-             ('Cmd.ListenMessage', 'reminders.complete'),
+# ('Cmd.EdgeModeDeactivate', 'Cmd.MemoryChange') removed by D17: the two now
+# name each other over the bare back-to-normal tie. 7 -> 6.
+_CO_KNOWN = {('Cmd.ListenMessage', 'reminders.complete'),
              ('Cmd.VolumeMute', 'Help_Tinnitus'),
              (FB, 'Help_Health'), (FB, 'Help_HearShare'), (FB, 'Help_ThriveScore'),
              ('Help_MemoryOptions', 'reminders.add')}
@@ -353,6 +366,66 @@ add('93 D16 Help_FindMyHearingAids left alone -- its carve-out was already the m
     len(by['Help_FindMyHearingAids']['trigger_conditions']) == 4
     and any('40.6% command-shaped' in x for x in by['Help_FindMyHearingAids']['boundary_cases']))
 
+# --- D17, the EdgeMode family -------------------------------------------
+ei, ed, hem = by['Cmd.EdgeModeIncrease'], by['Cmd.EdgeModeDeactivate'], by['Help_EdgeMode']
+cm2, mm2 = by['Cmd.MemoryChange'], by['Help_MaskMode']
+
+add('94 D17 EdgeModeDeactivate routes a memory switch to the COMMAND, not the Help intent',
+    any('which are Cmd.MemoryChange' in x for x in ed['do_not_trigger'])
+    and not any('program, which are Help_ChangingMemories' in x for x in ed['do_not_trigger']))
+
+# Akash: bare "back to normal" names two intents that can both perform it, so
+# the tie goes to inaction. All three specs must say it, or generation will
+# write the sentence under whichever label it happens to be generating.
+add('95 D17 the bare back-to-normal tie goes to Fallback, stated in all three specs',
+    any('bare return to normal' in x for x in ed['boundary_cases'])
+    and any('bare return to normal' in x for x in cm2['boundary_cases'])
+    and any('back to normal' in x for x in fb['trigger_conditions'])
+    and any('Cmd.EdgeModeDeactivate' in x for x in cm2['boundary_cases'])
+    and any('Cmd.MemoryChange' in x for x in ed['boundary_cases']))
+add('95b D17 Cmd.MemoryChange no longer claims a bare "normal"',
+    not any(x == 'User asks to return to normal, default or automatic.'
+            for x in cm2['trigger_conditions']))
+add('95c D17 and Cmd.EdgeModeDeactivate needs Edge Mode named for it',
+    any('Edge Mode or adaptive tuning named' in x for x in ed['trigger_conditions']))
+add('95d D17 the how-to side of it is left with Help_ChangingMemories',
+    any('Help_ChangingMemories' in x for x in fb['do_not_trigger']))
+
+# Akash: a bare environment observation stays Fallback. The exception needs a
+# PLACE, because the memories are environment-scoped; a remark on how the sound
+# is names no place.
+add('96 D17 bare environment observation stays Fallback, stated in all three specs',
+    any('named PLACE is the single exception' in x for x in ei['boundary_cases'])
+    and any('exception needs a PLACE named' in x for x in fb['do_not_trigger'])
+    and any('names no place and is Default Fallback Intent' in x for x in cm2['boundary_cases']))
+
+add('97 D17 queued A1 edit 1 applied -- EdgeModeIncrease names IntelliVoice and Mask Mode',
+    any('Help_IntelliVoice' in x and 'Help_MaskMode' in x for x in ei['do_not_trigger']))
+# DELIBERATE. Akash declined A1 edit 2, so this boundary never reaches the
+# prompt as a confusion and is never sampled for hard negatives. Asserted so
+# that it is a recorded decision rather than an omission nobody noticed.
+add('98 D17 queued A1 edit 2 deliberately NOT applied -- the pair stays prose-only',
+    'Help_IntelliVoice' not in ei['neighbor_intents']
+    and 'Help_MaskMode' not in ei['neighbor_intents']
+    and 'Cmd.EdgeModeIncrease' not in by['Help_IntelliVoice']['neighbor_intents']
+    and 'Cmd.EdgeModeIncrease' not in mm2['neighbor_intents'])
+add('99 D17 queued A1 edit 3 applied -- named on both sides AND mutual',
+    any('Help_MaskMode' in x for x in ed['do_not_trigger'])
+    and any('Cmd.EdgeModeDeactivate' in x for x in mm2['do_not_trigger'])
+    and 'Help_MaskMode' in ed['neighbor_intents']
+    and 'Cmd.EdgeModeDeactivate' in mm2['neighbor_intents'])
+
+# 20 of Cmd.EdgeModeIncrease's 152 seeds name comfort or communication, 8 of
+# them with an increase word, while only Cmd.EdgeModeDecrease claimed the axis.
+add('100 D17 the comfort/communication axis is mirrored on both direction intents',
+    any('comfort or communication' in x for x in ei['trigger_conditions'])
+    and any('comfort or communication' in x for x in by['Cmd.EdgeModeDecrease']['trigger_conditions']))
+# Help_EdgeMode's 19 seeds are 100% help-shaped, so unlike the five Help intents
+# that got a command carve-out this one needs none. Assert it was left alone.
+add('101 D17 Help_EdgeMode untouched -- no carve-out, none warranted',
+    len(hem['trigger_conditions']) == 4 and len(hem['do_not_trigger']) == 3
+    and len(hem['boundary_cases']) == 3 and len(hem['neighbor_intents']) == 7)
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
@@ -362,8 +435,9 @@ b = md.split('### 2b')[1].split('### 2c')[0]
 # 2b is NOT empty and is not expected to be: the one pair below is logged in
 # DEFERRED A1 as a queued edit against a deferred spec. Assert the exact known
 # state so that a NEW pair appearing here fails the run.
-add('32 Section 2b holds only the logged EdgeModeDeactivate/MaskMode pair',
-    'Cmd.EdgeModeDeactivate' in b and 'Help_MaskMode' in b and '| 1 |' in b and '| 2 |' not in b)
+# Was 'holds only the logged EdgeModeDeactivate/MaskMode pair'. D17 closed it
+# from both sides -- queued A1 edit 3 -- so 2b is now empty like 2a and 2c.
+add('32 Section 2b empty -- the last logged pair closed by D17', '✅ None' in b)
 add('32b Section 2c empty', 'both sides' in md.split('### 2c')[1].split('## 3')[0])
 # 21, not 23 -- the two messaging pairs were a false contract, see DEFERRED E9.
 add('33 Section 3: 0 of 21 pairs failing', '**0 of 21 pairs are not mutual neighbours.**' in md)

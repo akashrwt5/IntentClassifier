@@ -9,10 +9,10 @@ report. The per-family sign-off table in `SPEC_REVIEW.md` records what has been
 Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
-Last updated 2026-08-27, after the `Cmd.*` review, the HelpAudio,
-all Help families, `Default Fallback Intent`, the Reminders intents, and an
-audit of everything above. **52 of 60 reviewed; the 8 that remain are the
-deferred EdgeMode and SpeechServices families.**
+Last updated 2026-08-28, after the `Cmd.*` review, the HelpAudio,
+all Help families, `Default Fallback Intent`, the Reminders intents, an
+audit of everything above, and the EdgeMode family. **56 of 60 reviewed; the 4
+that remain are the deferred SpeechServices family.**
 
 ---
 
@@ -20,10 +20,10 @@ deferred EdgeMode and SpeechServices families.**
 
 | | Count | State |
 |---|---:|---|
-| `Cmd.*` reviewed | 19 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8 |
-| `Cmd.*` deferred | 5 | EdgeMode 3, SpeechServices 2 |
-| `Help*` deferred | 1 | `Help_EdgeMode`, grouped with the EdgeMode commands |
-| `Help*` reviewed | 31 of 33 | Every Help family except the deferred `Help_EdgeMode`, `Help_Transcribe` and `Help_Translate` |
+| `Cmd.*` reviewed | 22 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8, EdgeMode 3 |
+| `Cmd.*` deferred | 2 | SpeechServices 2 |
+| `Help*` deferred | 0 | `Help_EdgeMode` closed with the EdgeMode commands (D17) |
+| `Help*` reviewed | 32 of 33 | Every Help family except `Help_Transcribe` and `Help_Translate`, which wait on A2 |
 | Other | 3 of 3 | `Default Fallback Intent`, `reminders.add`, `reminders.complete` |
 
 `Default Fallback Intent` has now been read end to end (2026-08-26). It had been
@@ -38,7 +38,12 @@ carries `REQUIRES HUMAN REVIEW`. Both are correct: the review is not finished.**
 
 ## A. Deferred intent reviews
 
-### A1. EdgeMode — `Cmd.EdgeModeIncrease`, `Cmd.EdgeModeDecrease`, `Cmd.EdgeModeDeactivate`, `Help_EdgeMode`
+### A1. EdgeMode — `Cmd.EdgeModeIncrease`, `Cmd.EdgeModeDecrease`, `Cmd.EdgeModeDeactivate`, `Help_EdgeMode` — CLOSED
+
+**Closed 2026-08-28. See D17 for what the family review found and decided.** Two
+of the three queued edits below were applied; edit 2 was declined by Akash and is
+now a standing gap, recorded in D17 and pinned by check 98. The text below is
+left as written so the reasoning that produced the deferral stays readable.
 
 Deferred by decision. Not skipped quietly — but it is the *least* safe family to
 leave, because `Cmd.EdgeModeIncrease` has now been edited **five** times during
@@ -112,10 +117,11 @@ five. All three belong to this family's own round:
    spec at a time. Naming it from the `Help_MaskMode` side alone would only move
    the pair to Section 2c, so it waits for a fix on both sides.
 
-**To close:** read all four specs against each other; confirm the five edits
+**To close:** ~~read all four specs against each other; confirm the five edits
 above still hold when the family is read as a whole; apply the three queued
 edits; and check the four cross-references from `Help_IntelliVoice` and
-`Help_MaskMode` from this side.
+`Help_MaskMode` from this side.~~ Done 2026-08-28, except edit 2 — declined, see
+D17.
 
 ### A2. SpeechServices — `Cmd.TranscribeStart`, `Cmd.TranslationStart`
 
@@ -649,6 +655,117 @@ other four were written from, and it reads correctly.
 
 **Nothing to close.**
 
+### D17. The EdgeMode family
+
+Reviewed 2026-08-28, closing A1. All four specs read together, the five blind
+edits re-checked against the family as a whole, and the four cross-references
+from `Help_IntelliVoice` and `Help_MaskMode` checked from this side.
+
+**This family has no deployed rows to check against.** All three `Cmd.EdgeMode*`
+intents are in the 60-vs-57 runtime delta — they are absent from
+`language_packs/en/nlu_schema.json`, so the shipped model cannot emit them and
+`dev_hard` holds 0 rows for all three (`Help_EdgeMode` has 9). The
+command-shaped-rate check that caught three defects in other families cannot run
+here. Everything below rests on the seed corpus instead, which is smaller and is
+label-noise from the same source.
+
+**A one-way route, and the checker could not see it.** `Cmd.EdgeModeDeactivate`
+sent *"requests to switch to a different saved memory or program"* to
+`Help_ChangingMemories`, whose own first exclusion says *"any actual request to
+switch memory now, which is Cmd.MemoryChange"*. The destination denies the
+subject. Section 7 passed it because the two share `switch`, `memory` and
+`program` — the destination is the right SUBJECT and the wrong SIDE of the
+Command/Help split, which is a semantic distinction and outside what word overlap
+can see. Now routed to `Cmd.MemoryChange`, with the Help intent named for the
+how-to reading.
+
+**"Put it back to normal" — two intents claimed it, Fallback gets it** (Akash).
+`Cmd.EdgeModeDeactivate` triggered on *"return to normal listening"*,
+`Cmd.MemoryChange` on *"return to normal, default or automatic"*, neither named
+the other and they were not neighbours. This was `SPEC_REVIEW.md` Section 8's
+pinned `Cmd.EdgeModeDeactivate vs Cmd.MemoryChange` flag.
+
+The evidence is thin in every direction and worth recording rather than hiding:
+0 of `Cmd.EdgeModeDeactivate`'s 16 seeds and 0 of `Cmd.MemoryChange`'s 58 carry
+`normal`, `default`, `automatic` or `everyday`; 5 of Fallback's 613 do. In
+`dev_hard`, exactly 1 row carries a bare `normal` with no memory word and it is
+labelled `Cmd.MemoryChange`. In the generated master file, bare-normal rows are
+spread across five intents. **Nothing settles it**, which is itself the argument
+Akash took: two intents can each perform the action, nothing in the words
+chooses, so the tie goes to inaction. Bare *"put it back to normal"* is Fallback;
+a named memory is `Cmd.MemoryChange`; Edge Mode named or in context is
+`Cmd.EdgeModeDeactivate`. Stated in all three specs. The two commands now name
+each other, which closes the Section 8 flag — 7 collisions to 6.
+
+**Three specs disagreed on a bare environment observation — Fallback wins**
+(Akash). `Cmd.EdgeModeIncrease` said *"pure observations about the environment
+with no implied request ('it's noisy in here') remain Fallback"*, while
+Fallback's own exclusion sends *"an observation naming a LISTENING ENVIRONMENT
+for which the product has a memory"* to `Cmd.MemoryChange` — and `Noise`,
+`Restaurant`, `Crowd` and `Outdoors` are all real memory names in
+`nlu_entities.json`. So Fallback's rule as written claimed the very sentence
+`Cmd.EdgeModeIncrease` was handing back to it.
+
+Resolved by narrowing the exception to a named PLACE: the memories are
+environment-scoped, so *"I'm outdoors now"* is an implicit switch, but a remark
+on how the sound is where the user already is names no place and asks for
+nothing. Stated identically in `Cmd.EdgeModeIncrease`, `Cmd.MemoryChange` and
+`Default Fallback Intent`.
+
+**The seed corpus disagrees with this decision and that is on the record.** By
+shape and keyword — `boundary_lint` neutral, an environment word, no request verb
+and no difficulty word — the bare-observation shape sits 14 rows in
+`Cmd.EdgeModeIncrease`, 6 in `Default Fallback Intent` and 0 in
+`Cmd.MemoryChange`. The deployed labellers put most of them in the command. This
+is a keyword-and-shape probe rather than a reading, so it is evidence and not
+proof, but it points the other way from the decision and should be revisited if
+`Cmd.EdgeModeIncrease` recall comes out low.
+
+**A mirror-image gap between the two direction intents.**
+`Cmd.EdgeModeDecrease` triggers on *"decrease the comfort or communication aspect
+of Edge Mode"*; `Cmd.EdgeModeIncrease` never named that axis at all, while 20 of
+its 152 seeds carry `comfort` or `communication` and 8 of those carry an increase
+word. Added. This is exactly the asymmetry A1 warned about — five edits made to
+`Cmd.EdgeModeIncrease` from other families' rounds, none of them checked against
+`Cmd.EdgeModeDecrease`, which has to share the same trigger surface reversed.
+
+**Queued edit 1 applied, edit 3 applied, edit 2 DECLINED** (Akash).
+
+- Edit 1. `Cmd.EdgeModeIncrease` now names `Help_IntelliVoice` and
+  `Help_MaskMode` and says why acting on either would apply Edge Mode instead.
+- Edit 3. `Cmd.EdgeModeDeactivate` ↔ `Help_MaskMode` named on both sides and made
+  mutual. This was the last pair standing in `SPEC_REVIEW.md` Section 2b, which
+  is now empty — 2a, 2b and 2c are all clear for the first time.
+- Edit 2. **Declined.** `Help_IntelliVoice` and `Help_MaskMode` still name
+  `Cmd.EdgeModeIncrease` in `do_not_trigger` without listing it in
+  `neighbor_intents`. **Consequence, stated plainly: that boundary never renders
+  into the Stage 1 prompt as a "most likely confusion" and is never sampled for
+  hard negatives.** It is prose the generator sees for one spec at a time and
+  nothing else. Pinned by check 98 so it stays a decision rather than becoming an
+  omission nobody noticed. `spec_review.py` cannot see it either — the pair sits
+  below the 0.20 TF-IDF threshold.
+
+**`Help_EdgeMode` needed nothing.** All 19 of its seeds are help-shaped, so unlike
+the five Help intents that got a command carve-out this one has no leakage to
+document — the three `Cmd.EdgeMode*` intents exist and absorb the direct
+requests. Its *"where the reading is balanced, prefer this intent over the
+command"* tiebreak is the FAR-safe direction and was left alone. Check 101 pins
+that it was not touched.
+
+**The new checks caught this round's own edits, twice.** Adding the Fallback
+carve-outs produced a new Section 7 route (`Cmd.MemoryChange` →
+`Cmd.EdgeModeIncrease`, a bare pointer sentence carrying no subject) and a new
+Section 8 collision (`Default Fallback Intent` vs `Help_ChangingMemories`, over
+`return to the normal memory`). The second was a real gap — a how-to question
+about going back to normal is the Help intent and neither spec said so — and is
+now stated on the Fallback side. The first was rewritten so the sentence naming
+`Cmd.EdgeModeIncrease` carries the subject it is talking about instead of being a
+bare cross-reference. Fourth time this session a check has caught the reviewer
+rather than the corpus.
+
+**Nothing to close.** The remaining EdgeMode item is edit 2, which is a decision,
+not an open question.
+
 ## E. Not started
 
 ### E1. All 33 `Help*` intents
@@ -1087,6 +1204,7 @@ They are next round's reading, not defects proven:
                 Help_RemoteProgramming -> Help_Customize
 
     Section 8   Cmd.EdgeModeDeactivate vs Cmd.MemoryChange   normal, return
+                                                             CLOSED by D17
                 Cmd.ListenMessage vs reminders.complete      last, latest
                 Cmd.VolumeMute vs Help_Tinnitus              off, turned
                 Default Fallback Intent vs Help_Health       features, health
