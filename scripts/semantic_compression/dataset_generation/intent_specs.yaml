@@ -19,6 +19,7 @@ intents:
   - Complaints about hearing difficulty that carry no loudness word, name no environment and ask for no action ("I can't hear", "I'm struggling to hear people"). Acting on these would change the device on a guess.
   - How-to questions about a feature the taxonomy has no Help intent for - messaging, push-to-talk, and powering the aids on or off. The feature works; there is simply no intent that explains it, so a clarification is the correct response.
   - Questions about a medical or clinical matter rather than a product feature - what tinnitus is, why the ears ring, whether hearing loss can be cured, or whether a clinical reading such as a heart rate is normal for this user and how to improve it. The product explains its own features and what its measurements mean, not the user's health. An app score is not a clinical reading.
+  - Requests to delete, cancel or postpone a reminder. None is a supported action, so they resolve here - reminders.complete states this identically and only completion is supported.
   do_not_trigger:
   - An actionable in-scope command, however indirectly phrased. "I need more volume" is Cmd.VolumeIncrease, not Fallback - an implicit request carrying a loudness word is still a request.
   - An observation that is followed by an actionable command. Per the compound precedence rule the command decides the label, so "it's quieter today, make it louder" is Cmd.VolumeIncrease.
@@ -28,6 +29,8 @@ intents:
   - A negated command that supplies a replacement action. "Don't turn it up, turn it down" is Cmd.VolumeDecrease by last-explicit-command precedence.
   - A request to be reminded of something, whatever the reminder is about. The subject of a reminder never decides the intent, so "remind me to buy milk" is reminders.add even though shopping is out of scope on its own. reminders.add states this identically.
   - Questions about what the heart rate feature is, how it works, or where the reading is shown, which are Help_HeartRate. Naming a clinical reading does not make a question clinical - only asking whether the value is good or how to improve it does.
+  - How-to questions about reminders - what the feature is, whether it is available, where reminders live - which are Help_Reminder. Only an unsupported reminder ACTION resolves here.
+  - Requests to mark a reminder complete, done or finished, which are reminders.complete. Completion is the one reminder action the product supports, so it never falls here.
   boundary_cases:
   - Uncertainty always resolves here. Fallback is the intended destination for ambiguity, never a failure state - False Accepts are costlier than False Rejects for these users, so the tie goes to inaction.
   - Observation versus command is the decisive test. If nothing in the utterance asks for a change, it is Fallback regardless of how much in-scope vocabulary it contains. The one exception is a named listening environment, which is an implicit memory switch - see above.
@@ -1103,6 +1106,7 @@ intents:
   - Cmd.FindMyPhone
   - Help_SelfCheck
   - Default Fallback Intent
+  - Help_Pairing
   positive_example: I've misplaced my left hearing aid.
   hard_negative_example: I can't find my phone.
   intent_family: HelpFind
@@ -1174,7 +1178,7 @@ intents:
   - User asks whether the assistant works without the phone.
   do_not_trigger:
   - Questions about IntelliVoice, a sound-processing feature, which are Help_IntelliVoice.
-  - Questions about transcription or translation, which have their own intents.
+  - Questions about transcription, which are Help_Transcribe, or about translation, which are Help_Translate.
   - Any actual request to send or play a message, which are Cmd.SendMessage and Cmd.ListenMessage.
   - Any actual command directed at the assistant, which belongs to whichever intent that command names.
   - How-to questions about messaging or push-to-talk. This intent explains the assistant itself, not an individual feature; with no messaging Help intent in the taxonomy these are Default Fallback Intent.
@@ -1226,6 +1230,7 @@ intents:
   - Cmd.MemoryChange
   - Help_HearShare
   - Help_Volume
+  - Help_FindMyHearingAids
   positive_example: Why won't my hearing aids sync with my phone?
   hard_negative_example: How do I unpair my Remote Mic?
   intent_family: HelpConnectivity
@@ -1560,6 +1565,7 @@ intents:
   - Default Fallback Intent
   - Help_DeviceSettings
   - Help_RemoteProgramming
+  - Help_ChangingMemories
   positive_example: How do I use the equalizer to turn down machine noise?
   hard_negative_example: It's too noisy in here, help me hear him.
   intent_family: HelpAppSettings
@@ -1582,6 +1588,7 @@ intents:
   - Questions about CREATING, saving, customizing or deleting a memory, which are Help_MemoryOptions.
   - Questions about tuning sound within a memory, which are Help_Customize.
   - Requests to switch to Edge Mode now, which are Cmd.EdgeModeIncrease.
+  - Reports that an expected memory is MISSING from the list, which are Help_MemoryOptions. Asking whether a memory is available is a step towards switching and stays here; reporting that one has gone is memory management.
   boundary_cases:
   - Switching between memories that already exist is this intent; bringing a new memory into existence, or changing what a memory contains, is Help_MemoryOptions. This is the single most likely confusion for this label.
   - Asking what memory is currently active resolves here even though it is a status question, since no command intent exists for it.
@@ -1592,6 +1599,7 @@ intents:
   - Cmd.EdgeModeIncrease
   - Default Fallback Intent
   - Help_Tinnitus
+  - Help_Customize
   positive_example: How do I switch to the Music memory?
   hard_negative_example: How do I create a custom memory?
   intent_family: Memories
@@ -1612,10 +1620,12 @@ intents:
   - Questions about SWITCHING to an existing memory, which are Help_ChangingMemories.
   - Questions about the equalizer or sound tuning controls themselves, which are Help_Customize.
   - Questions about Mask Mode as a feature, which are Help_MaskMode.
+  - Questions asking whether a particular memory is available, which are Help_ChangingMemories. That question precedes a switch; this intent owns a report that a memory has gone missing from the list.
   boundary_cases:
   - Managing the set of memories is this intent; moving between them is Help_ChangingMemories.
   - A request to add a named mode as a saved memory resolves here, even when that mode has its own help intent.
   - Saving equalizer changes is memory management; making those changes is Help_Customize.
+  - No command creates a memory - Cmd.MemoryChange only switches between memories that already exist - so explaining is the action the assistant performs and a direct request to add or save one belongs here as much as a how-to question. Deployed speech for this intent is 18.1% command-shaped, and generation must reproduce that rather than writing how-to phrasing only. A generated rate near zero is a defect, not a success.
   neighbor_intents:
   - Help_ChangingMemories
   - Cmd.MemoryChange

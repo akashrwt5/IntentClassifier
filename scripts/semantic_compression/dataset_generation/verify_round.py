@@ -332,6 +332,27 @@ add(f'87 E10 and the known ones have not been quietly fixed without updating thi
     f'{sorted((_OW_KNOWN - _ow) | (_CO_KNOWN - _co))}',
     not ((_OW_KNOWN - _ow) or (_CO_KNOWN - _co)))
 
+# --- D16, the last seven intents -----------------------------------------
+add('88 D16 Help_MemoryOptions carve-out, with the reason and the measured rate',
+    any('No command creates a memory' in x for x in by['Help_MemoryOptions']['boundary_cases'])
+    and any('18.1% command-shaped' in x for x in by['Help_MemoryOptions']['boundary_cases']))
+add('89 D16 the memory-availability split is stated on both sides',
+    any('MISSING from the list' in x for x in by['Help_ChangingMemories']['do_not_trigger'])
+    and any('whether a particular memory is available' in x for x in by['Help_MemoryOptions']['do_not_trigger']))
+add('90 D16 Help_VoiceAssistant names Transcribe and Translate instead of "their own intents"',
+    any('Help_Transcribe' in x and 'Help_Translate' in x for x in by['Help_VoiceAssistant']['do_not_trigger'])
+    and not any('which have their own intents' in x for x in by['Help_VoiceAssistant']['do_not_trigger']))
+add('91 D16 the reminders.complete one-way route is closed on the Fallback side',
+    any('delete, cancel or postpone a reminder' in x for x in by[FB]['trigger_conditions']))
+add('92 D16 two prose-only links made mutual',
+    'Help_Pairing' in by['Help_FindMyHearingAids']['neighbor_intents']
+    and 'Help_FindMyHearingAids' in by['Help_Pairing']['neighbor_intents']
+    and 'Help_Customize' in by['Help_ChangingMemories']['neighbor_intents']
+    and 'Help_ChangingMemories' in by['Help_Customize']['neighbor_intents'])
+add('93 D16 Help_FindMyHearingAids left alone -- its carve-out was already the model',
+    len(by['Help_FindMyHearingAids']['trigger_conditions']) == 4
+    and any('40.6% command-shaped' in x for x in by['Help_FindMyHearingAids']['boundary_cases']))
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]

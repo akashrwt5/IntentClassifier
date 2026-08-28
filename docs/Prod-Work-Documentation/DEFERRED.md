@@ -10,8 +10,9 @@ Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
 Last updated 2026-08-27, after the `Cmd.*` review, the HelpAudio,
-HelpAppSettings, HelpHealth, HelpDeviceCare and HelpConnectivity families,
-`Default Fallback Intent`, and an audit of everything above.
+all Help families, `Default Fallback Intent`, the Reminders intents, and an
+audit of everything above. **52 of 60 reviewed; the 8 that remain are the
+deferred EdgeMode and SpeechServices families.**
 
 ---
 
@@ -22,8 +23,8 @@ HelpAppSettings, HelpHealth, HelpDeviceCare and HelpConnectivity families,
 | `Cmd.*` reviewed | 19 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8 |
 | `Cmd.*` deferred | 5 | EdgeMode 3, SpeechServices 2 |
 | `Help*` deferred | 1 | `Help_EdgeMode`, grouped with the EdgeMode commands |
-| `Help*` reviewed | 25 of 33 | **HelpAudio** 4 of 5 (`Help_EdgeMode` deferred), **HelpAppSettings**, **HelpHealth**, **HelpDeviceCare** 6 of 6 each, **HelpConnectivity** 3 of 3. Two others were *read as counterparts* only |
-| Other | 1 of 3 | `Default Fallback Intent` reviewed. `reminders.add` and `reminders.complete` still not |
+| `Help*` reviewed | 31 of 33 | Every Help family except the deferred `Help_EdgeMode`, `Help_Transcribe` and `Help_Translate` |
+| Other | 3 of 3 | `Default Fallback Intent`, `reminders.add`, `reminders.complete` |
 
 `Default Fallback Intent` has now been read end to end (2026-08-26). It had been
 edited in almost every round without ever being reviewed itself — the most rules
@@ -599,6 +600,52 @@ rather than logged.
 `Help_HearShare` and `Help_RemoteProgramming` had only two and three neighbours
 respectively — the thinnest in the taxonomy after `Help_WiCROS`, and both sit on
 the sharing-versus-clinician boundary, which is a real confusion.
+
+**Nothing to close.**
+
+### D16. The last seven intents
+
+Reviewed 2026-08-27, closing every family the deferrals do not hold.
+
+**`Help_MemoryOptions` gets the carve-out its speech demands** (Akash). 15 of its
+83 deployed rows are command-shaped — 18.1%, fourth highest of any Help intent —
+and 8 of the 15 carry `add` or `create`. Checked before writing it: **no `Cmd.*`
+intent creates a memory**; `Cmd.MemoryChange` only switches between memories that
+already exist. So explaining is the action, and a direct request to add or save a
+memory belongs here. The spec half-knew this already — its boundary case said *"a
+request to add a named mode as a saved memory resolves here"* and its own
+hard-negative example is a bare imperative — but it never said why, and never
+told generation to reproduce the rate. Both now stated. That is the fifth intent
+in this review to need it, after `Help_FindMyHearingAids`, `Help_SelfCheck`,
+`Help_Pairing` and `Help_HearShare`.
+
+**`Help_ChangingMemories` ↔ `Help_MemoryOptions` on memory availability.** One
+claimed *"whether they have a particular memory available"*, the other *"an
+expected memory is missing from their list"*, and neither exclusion covered the
+other. Split along the line the two specs already use everywhere else — asking
+whether a memory is available precedes a SWITCH and stays with
+`Help_ChangingMemories`; reporting that one has gone is MANAGEMENT and is
+`Help_MemoryOptions`. Stated on both sides.
+
+**`Help_VoiceAssistant`'s last vague cross-reference** — *"transcription or
+translation, which have their own intents"* — now names `Help_Transcribe` and
+`Help_Translate`. Its C1 rules were read closely and hold; the whole
+messaging-has-no-Help-intent decision rests on this spec and it says so correctly
+in three places.
+
+**`reminders.complete` had a one-way route.** It sends delete, cancel and postpone
+to Fallback as unsupported actions, and Fallback covered them only through the
+generic *"a capability the product does not have"*, never naming reminders. Now
+stated on the Fallback side, closing the second of E2's two carry-forwards. The
+first — `reminders.add`'s *"the subject never changes the intent"*, which a
+Fallback exclusion now leans on — was read and is correct.
+
+**Two prose-only links made mutual**: `Help_FindMyHearingAids` ↔ `Help_Pairing`
+(lost versus unconnected, the distinction that spec calls out itself) and
+`Help_ChangingMemories` ↔ `Help_Customize`.
+
+`Help_FindMyHearingAids` needed nothing else. Its 40.6% carve-out is the model the
+other four were written from, and it reads correctly.
 
 **Nothing to close.**
 
