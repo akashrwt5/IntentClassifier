@@ -950,7 +950,7 @@ collision was in the spec text rather than in the data — 107 of `Help_Pairing`
 224 rows name a phone or Bluetooth against 1 of `Help_Volume`'s 146 — but
 generation writes new rows, and the SOURCE is now stated as the discriminator.
 
-### E9. `generator_config.yaml` and the specs disagree, in two places — CLOSED
+### E9. `generator_config.yaml` and the specs disagree, in two places
 
 **`command_help_pairs` declares a messaging pair that C1 says does not exist.**
 
@@ -965,8 +965,7 @@ four places"* and never checked the config, which asserts the opposite. Worse,
 is held in place by a passing test.
 
 `Cmd.FindMyPhone: Help_FindMyHearingAids` was removed from this table earlier in
-the review for being a false pair. Nobody re-read the rest of the table then,
-which is how these two survived.
+the review for being a false pair; nobody then re-read the rest of the table.
 
 **Provenance counts are stale.** `authored_specs.yaml`'s header says *"The
 remaining 56 were drafted in an assistant session"* and `generator_config.yaml`
@@ -974,34 +973,10 @@ says *"All 57 are currently listed"*, while both files hold **60**.
 `intent_specs.yaml`'s `meta` is the only one right, at 59 assistant-session plus 1
 human.
 
-**CLOSED 2026-08-27.** The pairs go. Two independent reasons, either sufficient.
+**To close:** decide whether the messaging pairs stay (and C1 is wrong) or go (and
+the config is wrong); correct the two counts either way.
 
-**The decision was already made and the config predates it.** C1 was decided by
-Akash — `Help_VoiceAssistant` explains the assistant, not messaging, so a how-to
-question about sending or playing a message is `Default Fallback Intent` because
-the taxonomy has no `Help_Messaging` or `Help_PushToTalk`. Three specs state it.
-This table asserted the opposite and nobody re-read it when C1 was decided.
-
-**And they never fitted the block's own definition.** Its header says the pairs
-exist because *"the costliest confusion is CROSS-family"*. `Cmd.SendMessage`,
-`Cmd.ListenMessage` and `Help_VoiceAssistant` are all in `families.Messaging`.
-
-**Removing them costs no sampling.** All three stay in the same family, so they
-are already always drawn against each other, and both neighbour links remain
-mutual. Only the false contract is gone. `command_help_pairs` 23 → 21, and
-`SPEC_REVIEW.md` Section 3 now reads 21.
-
-The provenance counts are corrected in both places — `generator_config.yaml`'s
-*"All 57 … the other 56"* and `authored_specs.yaml`'s *"The remaining 56"* now
-read 60 and 59, matching `intent_specs.yaml`'s `meta`, which was the only one
-right.
-
-One part of this item was wrong when written. It repeated the audit's claim that
-`Cmd.FindMyPhone: Help_FindMyHearingAids` is still in the table. It is not — it
-was removed in the first spec-review commit. The audit read a stale copy, and the
-claim was carried here without re-checking against the repo. Corrected.
-
-### E10. 81 passing checks coexisted with 15 real defects
+### E10. 81 passing checks coexisted with 15 real defects — CLOSED
 
 The audit that produced E8, E9 and the corrections in D-section is itself the
 finding. `verify_round.py` had 76 checks, all green, while the specs carried two
@@ -1021,8 +996,62 @@ What is still unchecked, and is how E8 was found rather than caught: no test
 verifies that an intent named as a destination actually claims the subject sent
 to it, or that two specs do not claim the same subject.
 
-**To close:** add those two checks. They are the whole one-way-route and
-collision bug class, which is the class this review has hit most.
+**CLOSED 2026-08-27.** Both added, as `spec_review.py` Sections 7 and 8, so they
+appear in the report a human reads and are asserted by `verify_round.py`.
+
+    Section 7  Routes with no destination
+               A sends X to B, and B's own text barely mentions X.
+    Section 8  Two intents claiming the same utterance
+               Two triggers claiming the same ground, neither spec naming the
+               other and not mutual neighbours. Only words appearing in six or
+               fewer intents' triggers count, so shared hearing-aid vocabulary
+               cannot raise a flag by itself.
+
+**What they actually catch, replayed against the commits where each defect was
+still live — 2 of the 5 this review found by reading:**
+
+| | defect | |
+|---|---|---|
+| ✅ | `Cmd.ActivityCycle` → `Help_Health` | Section 7 |
+| ✅ | Fallback vs `Help_HeartRate` | Section 8 |
+| ❌ | `Help_Health` → `Help_Home` | destination shared enough ordinary vocabulary |
+| ❌ | Fallback vs `Help_ThriveScore` | *value* against *score* |
+| ❌ | `Help_Volume` vs `Help_Pairing` | *no sound* against *audio not coming through* |
+
+Every miss is semantic rather than lexical. That is the honest limit of word
+overlap, and it is why these are a floor rather than a gate. **They do not
+replace reading two specs against each other**, and nothing in this review should
+be taken to mean a clean Section 7 and 8 means the specs agree.
+
+Calibration is not free either. First integration was quietly weaker than the
+prototype it was validated as: `spec_review.py`'s `STOP` set omits ordinary
+function words, so the routed subject *"Questions ABOUT where cycling distance is
+displayed"* scored an overlap of exactly 1 against `Help_Health` on the word
+"about" alone, and the check passed a route that was a real defect. Sections 7
+and 8 now use their own vocabulary set.
+
+**11 flags stand today** — 4 routes and 7 collisions — and they are pinned BY NAME
+in `verify_round.py`, so a new one fails the run while the known ones do not nag.
+They are next round's reading, not defects proven:
+
+    Section 7   Help_AppSettings -> Help_WhatsNew
+                Help_HearShare -> Help_RemoteProgramming
+                Help_IntelliVoice -> Help_MaskMode
+                Help_RemoteProgramming -> Help_Customize
+
+    Section 8   Cmd.EdgeModeDeactivate vs Cmd.MemoryChange   normal, return
+                Cmd.ListenMessage vs reminders.complete      last, latest
+                Cmd.VolumeMute vs Help_Tinnitus              off, turned
+                Default Fallback Intent vs Help_Health       features, health
+                Default Fallback Intent vs Help_HearShare    another, person
+                Default Fallback Intent vs Help_ThriveScore  improve, score
+                Help_MemoryOptions vs reminders.add          add, create
+
+The `Default Fallback Intent` vs `Help_ThriveScore` row is worth naming: that is
+the collision D11's correction was supposed to close. The wording now disclaims
+it — *"An app score is not a clinical reading"* — but **the intent is still never
+named**, which is the exact standard this review has applied to everyone else.
+The check found the reviewer's own half-finished fix.
 
 ## F. Outside the spec review
 

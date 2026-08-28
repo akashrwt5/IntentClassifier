@@ -58,6 +58,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import itertools
 import json
 import math
 import re
@@ -367,8 +368,134 @@ def analyse(specs: list[dict], top: int) -> dict:
         "half": half,
         "internal": internal,
         "ch_pairs": ch_pairs,
+        "one_way": one_way_routes(specs),
+        "collisions": subject_collisions(specs),
         "_specs": specs,
     }
+
+
+# --- Sections 7 and 8 -------------------------------------------------------
+# Added 2026-08-27 after an audit found fifteen defects while 81 checks passed.
+# Sections 1-6 verify structure and lexical similarity BETWEEN WHOLE SPECS. The
+# defects that got through were of two shapes neither of those can see:
+#
+#   a spec routes X to an intent whose own spec never mentions X   (Section 7)
+#   two specs claim the same utterance and neither names the other (Section 8)
+#
+# Both work on SENTENCES rather than whole specs, because a whole-spec TF-IDF
+# average is exactly what hides a single over-claiming line.
+#
+# HOW MUCH THEY CATCH, MEASURED, NOT CLAIMED. Replayed against the commits where
+# each defect was still live, these two sections catch 2 of the 5 this review
+# found by reading:
+#
+#   CAUGHT  Cmd.ActivityCycle -> Help_Health   a route to an intent whose own
+#           text never mentioned the subject                      (Section 7)
+#   CAUGHT  Fallback vs Help_HeartRate         "heart rate" on both sides
+#                                                                 (Section 8)
+#   missed  Help_Health -> Help_Home           the destination shared enough
+#           ordinary vocabulary to clear the floor
+#   missed  Fallback vs Help_ThriveScore       "value" against "score"
+#   missed  Help_Volume vs Help_Pairing        "no sound" against "audio not
+#                                              coming through"
+#
+# Every miss is semantic rather than lexical, which is the honest limit of word
+# overlap and the reason these sections are a floor rather than a gate. They do
+# not replace reading two specs against each other.
+
+ROUTE_MIN_SUBJECT = 3   # a routed subject shorter than this cannot be judged
+ROUTE_MIN_OVERLAP = 1   # destination must share at least this much with it
+COLLIDE_MIN_RARE = 2    # shared words needed to call two triggers a collision
+COLLIDE_MAX_DF = 6      # ...and only words appearing in <=6 intents' triggers count
+
+INTENT_IN_TEXT = re.compile(r"\b((?:Cmd|Help)[._][A-Za-z]+|Default Fallback Intent)")
+
+
+# Template vocabulary. These words carry no subject -- they are how every spec in
+# this corpus phrases a trigger ("User uses a bare X phrase such as..."), so left
+# in they raise flags on the sentence FRAME rather than on what it claims. Local
+# to Sections 7 and 8; the module STOP set that Sections 2 and 4 are calibrated on
+# is untouched.
+TEMPLATE = set("""
+bare phrase phrases uses using named naming name names brand asks asking wants
+states stating reports reporting expresses expressing whether refers referring
+about over under into from with here there their them they its user users
+request requests requesting question questions intent intents resolve resolves
+resolving belong belongs belonging rather instead any some other others still
+also both each per one two three what when where why how which who whom whose
+""".split())
+
+
+def content(text: str) -> set:
+    return {w for w in re.findall(r"[a-z][a-z']{2,}", str(text).lower())
+            if w not in STOP and w not in TEMPLATE}
+
+
+def routed_subjects(spec: dict, names: set) -> list:
+    """(subject words, destination, sentence) for each routing sentence."""
+    out = []
+    for field in ("do_not_trigger", "boundary_cases"):
+        for rule in spec.get(field) or []:
+            for sent in re.split(r"(?<=[.;])\s+", rule):
+                dests = {m for m in INTENT_IN_TEXT.findall(sent)
+                         if m in names and m != spec["name"]}
+                if not dests:
+                    continue
+                subj = INTENT_IN_TEXT.sub(" ", sent)
+                subj = re.sub(r"\b(which|that)\s+(are|is)\b.*$", "", subj)
+                subj = re.sub(r"^\s*(requests?|questions?|utterances?|reports?|any|an?)\b",
+                              "", subj, flags=re.I)
+                for dest in dests:
+                    out.append((content(subj), dest, " ".join(sent.split())))
+    return out
+
+
+def one_way_routes(specs: list) -> list:
+    """Spec A sends X to spec B, and B's whole text barely mentions X."""
+    by = {s["name"]: s for s in specs}
+    names = set(by)
+    whole = {n: content(" ".join([s.get("business_description", "")]
+                                 + (s.get("trigger_conditions") or [])
+                                 + (s.get("do_not_trigger") or [])
+                                 + (s.get("boundary_cases") or [])))
+             for n, s in by.items()}
+    out = []
+    for name, spec in by.items():
+        for subj, dest, sent in routed_subjects(spec, names):
+            if len(subj) < ROUTE_MIN_SUBJECT:
+                continue
+            shared = subj & whole[dest]
+            if len(shared) < ROUTE_MIN_OVERLAP:
+                out.append({"from": name, "to": dest, "sentence": sent,
+                            "subject": sorted(subj)[:6]})
+    return sorted(out, key=lambda r: (r["from"], r["to"]))
+
+
+def subject_collisions(specs: list) -> list:
+    """Two triggers claiming the same ground, with nothing separating them."""
+    by = {s["name"]: s for s in specs}
+    names = sorted(by)
+    df = Counter()
+    for n in names:
+        df.update(content(" ".join(by[n].get("trigger_conditions") or [])))
+    out = []
+    for a, b in itertools.combinations(names, 2):
+        prose_a = " ".join((by[a].get("do_not_trigger") or []) + (by[a].get("boundary_cases") or []))
+        prose_b = " ".join((by[b].get("do_not_trigger") or []) + (by[b].get("boundary_cases") or []))
+        if b in prose_a or a in prose_b:
+            continue                                  # named on one side, guarded
+        if is_neighbour(by[a], b) and is_neighbour(by[b], a):
+            continue                                  # already sampled as a confusion
+        best = None
+        for ta in by[a].get("trigger_conditions") or []:
+            for tb in by[b].get("trigger_conditions") or []:
+                rare = {w for w in content(ta) & content(tb) if df[w] <= COLLIDE_MAX_DF}
+                if len(rare) >= COLLIDE_MIN_RARE and (best is None or len(rare) > len(best[0])):
+                    best = (rare, ta, tb)
+        if best:
+            out.append({"a": a, "b": b, "shared": sorted(best[0]),
+                        "ta": best[1], "tb": best[2]})
+    return sorted(out, key=lambda r: (-len(r["shared"]), r["a"], r["b"]))
 
 
 def clip(text: str, width: int = 150) -> str:
@@ -661,6 +788,61 @@ def render(r: dict, top: int) -> str:
                 "the current spec text."
             )
         out += [""]
+    out += [
+        "---",
+        "",
+        "## 7. Routes with no destination",
+        "",
+        "Spec A sends something to spec B, and B's own text barely mentions it. This",
+        "is the shape that has caused more defects in this review than any other, and",
+        "Sections 1-6 cannot see it: the link is legal, the wording is sensible, and",
+        "only the destination's silence gives it away.",
+        "",
+        "Read the sentence, then read the destination's triggers. If the destination",
+        "does not claim the subject, one of the two specs is wrong.",
+        "",
+    ]
+    if not r["one_way"]:
+        out += ["- ✅ Every routed subject appears in its destination's spec.", ""]
+    else:
+        out += ["| # | From | To | The sentence |", "|---:|---|---|---|"]
+        for i, row in enumerate(r["one_way"], 1):
+            out.append(f"| {i} | `{row['from']}` | `{row['to']}` | {clip(row['sentence'], 95)} |")
+        out += [""]
+
+    out += [
+        "---",
+        "",
+        "## 8. Two intents claiming the same utterance",
+        "",
+        "A trigger in one spec and a trigger in another that claim the same ground,",
+        "where neither spec names the other and they are not mutual neighbours — so",
+        "nothing separates them and nothing samples them against each other. Generation",
+        "then writes the same sentence under two labels, and no later stage looks:",
+        "deduplication is scoped `within_intent` and Stage 2 is not built.",
+        "",
+        "Only words appearing in six or fewer intents' triggers count, so the shared",
+        "vocabulary every hearing-aid spec has cannot raise a flag on its own.",
+        "",
+        "**This finds LEXICAL collisions only.** Replayed against the commits where each",
+        "defect was live, Sections 7 and 8 together catch 2 of the 5 this review found by",
+        "reading. The three misses are all semantic rather than lexical — `value` against",
+        "`score`, `no sound` against `audio not coming through`, and a destination that",
+        "shared enough ordinary vocabulary to clear the floor. A floor, not a gate.",
+        "",
+    ]
+    if not r["collisions"]:
+        out += ["- ✅ No unguarded lexical collision between any two triggers.", ""]
+    else:
+        for row in r["collisions"]:
+            out += [
+                f"**`{row['a']}` vs `{row['b']}`** — shared: {', '.join('`' + w + '`' for w in row['shared'])}",
+                "",
+                f"- A: {clip(row['ta'], 130)}",
+                f"- B: {clip(row['tb'], 130)}",
+                "",
+            ]
+
     out += [
         "---",
         "",

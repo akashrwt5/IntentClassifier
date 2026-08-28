@@ -141,6 +141,79 @@ The flagged similarities below were reviewed by hand and accepted as valid bound
 
 ---
 
+## 7. Routes with no destination
+
+Spec A sends something to spec B, and B's own text barely mentions it. This
+is the shape that has caused more defects in this review than any other, and
+Sections 1-6 cannot see it: the link is legal, the wording is sensible, and
+only the destination's silence gives it away.
+
+Read the sentence, then read the destination's triggers. If the destination
+does not claim the subject, one of the two specs is wrong.
+
+| # | From | To | The sentence |
+|---:|---|---|---|
+| 1 | `Help_AppSettings` | `Help_WhatsNew` | questions about newly introduced changes are Help_WhatsNew. |
+| 2 | `Help_HearShare` | `Help_RemoteProgramming` | a clinician as the recipient means Help_RemoteProgramming. |
+| 3 | `Help_IntelliVoice` | `Help_MaskMode` | Help_MaskMode states the same rule for the same reason. |
+| 4 | `Help_RemoteProgramming` | `Help_Customize` | Self-service adjustment is Help_Customize; |
+
+---
+
+## 8. Two intents claiming the same utterance
+
+A trigger in one spec and a trigger in another that claim the same ground,
+where neither spec names the other and they are not mutual neighbours — so
+nothing separates them and nothing samples them against each other. Generation
+then writes the same sentence under two labels, and no later stage looks:
+deduplication is scoped `within_intent` and Stage 2 is not built.
+
+Only words appearing in six or fewer intents' triggers count, so the shared
+vocabulary every hearing-aid spec has cannot raise a flag on its own.
+
+**This finds LEXICAL collisions only.** Replayed against the commits where each
+defect was live, Sections 7 and 8 together catch 2 of the 5 this review found by
+reading. The three misses are all semantic rather than lexical — `value` against
+`score`, `no sound` against `audio not coming through`, and a destination that
+shared enough ordinary vocabulary to clear the floor. A floor, not a gate.
+
+**`Cmd.EdgeModeDeactivate` vs `Cmd.MemoryChange`** — shared: `normal`, `return`
+
+- A: User asks to return to normal listening after Edge Mode was engaged.
+- B: User asks to return to normal, default or automatic.
+
+**`Cmd.ListenMessage` vs `reminders.complete`** — shared: `last`, `latest`
+
+- A: User asks to hear the last or latest message again.
+- B: User refers to their latest or last reminder as finished.
+
+**`Cmd.VolumeMute` vs `Help_Tinnitus`** — shared: `off`, `turned`
+
+- A: User asks for silence, muting, or for the sound to be turned off.
+- B: User asks whether the tinnitus feature can be turned off or changed.
+
+**`Default Fallback Intent` vs `Help_Health`** — shared: `features`, `health`
+
+- A: Questions about a medical or clinical matter rather than a product feature - what tinnitus is, why the ears ring, whether hearing…
+- B: User asks what the Health screen shows or what health features exist.
+
+**`Default Fallback Intent` vs `Help_HearShare`** — shared: `another`, `person`
+
+- A: Speech captured incidentally rather than addressed to the assistant - fragments of conversation with another person, background d…
+- B: User asks how to invite or add another person.
+
+**`Default Fallback Intent` vs `Help_ThriveScore`** — shared: `improve`, `score`
+
+- A: Questions about a medical or clinical matter rather than a product feature - what tinnitus is, why the ears ring, whether hearing…
+- B: User asks how to improve or increase a score.
+
+**`Help_MemoryOptions` vs `reminders.add`** — shared: `add`, `create`
+
+- A: User asks how to create, add or make a custom memory.
+- B: User asks to add, set, create or schedule a reminder.
+
+---
+
 ## 6. Sign-off
 
 Stage 0 is the gate on Stage 1, and `intent_specs.yaml` still carries

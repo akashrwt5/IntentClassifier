@@ -309,6 +309,29 @@ add('84 E9 provenance counts match the 60 specs that exist',
     and 'All 60 are currently listed' in open(f'{D}/generator_config.yaml').read()
     and 'The remaining 59 were drafted' in open(f'{D}/authored_specs.yaml').read())
 
+# --- E10, the two checks the audit said were missing ---------------------
+# Sections 7 and 8 of spec_review.py. Both baselines are pinned by NAME, not by
+# count, so a NEW route or collision fails the run while the known ones do not
+# nag. Anything listed here is next round's work, recorded in DEFERRED E10.
+_ow = {(r['from'], r['to']) for r in sr.one_way_routes(specs)}
+_co = {(r['a'], r['b']) for r in sr.subject_collisions(specs)}
+_OW_KNOWN = {('Help_AppSettings', 'Help_WhatsNew'),
+             ('Help_HearShare', 'Help_RemoteProgramming'),
+             ('Help_IntelliVoice', 'Help_MaskMode'),
+             ('Help_RemoteProgramming', 'Help_Customize')}
+_CO_KNOWN = {('Cmd.EdgeModeDeactivate', 'Cmd.MemoryChange'),
+             ('Cmd.ListenMessage', 'reminders.complete'),
+             ('Cmd.VolumeMute', 'Help_Tinnitus'),
+             (FB, 'Help_Health'), (FB, 'Help_HearShare'), (FB, 'Help_ThriveScore'),
+             ('Help_MemoryOptions', 'reminders.add')}
+add(f'85 E10 Section 7 finds no NEW route without a destination {sorted(_ow - _OW_KNOWN)}',
+    not (_ow - _OW_KNOWN))
+add(f'86 E10 Section 8 finds no NEW unguarded collision {sorted(_co - _CO_KNOWN)}',
+    not (_co - _CO_KNOWN))
+add(f'87 E10 and the known ones have not been quietly fixed without updating this list '
+    f'{sorted((_OW_KNOWN - _ow) | (_CO_KNOWN - _co))}',
+    not ((_OW_KNOWN - _ow) or (_CO_KNOWN - _co)))
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
