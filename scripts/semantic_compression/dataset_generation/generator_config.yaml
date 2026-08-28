@@ -632,8 +632,8 @@ taxonomy:
   # and never sent to the LLM API. They are still validated by the same rules
   # that gate generated specs, and all of them need HUMAN REVIEW before Stage 1.
   #
-  # All 57 are currently listed. `Default Fallback Intent` is here for the
-  # privacy reason below; the other 56 were drafted in an assistant session,
+  # All 60 are currently listed. `Default Fallback Intent` is here for the
+  # privacy reason below; the other 59 were drafted in an assistant session,
   # family by family, so that sibling boundaries are mutually consistent -- a
   # per-intent API call cannot do that, because it never sees the sibling it
   # must avoid overlapping with. Remove a name from this list to hand that
@@ -897,8 +897,20 @@ families:
 # negatives regardless of family.
 command_help_pairs:
   Cmd.MemoryChange: Help_ChangingMemories
-  Cmd.SendMessage: Help_VoiceAssistant
-  Cmd.ListenMessage: Help_VoiceAssistant
+  # Cmd.SendMessage and Cmd.ListenMessage were paired with Help_VoiceAssistant
+  # here and are removed (2026-08-27). Two reasons, either sufficient.
+  #
+  # The decision: Help_VoiceAssistant explains the ASSISTANT, not messaging.
+  # A how-to question about sending or playing a message goes to
+  # Default Fallback Intent, because the taxonomy has no Help_Messaging or
+  # Help_PushToTalk intent. Cmd.SendMessage, Cmd.ListenMessage and
+  # Help_VoiceAssistant all state this; DEFERRED.md C1 records it. This table
+  # asserted the opposite and nobody re-read it when C1 was decided.
+  #
+  # The mechanics: this block is for CROSS-family boundaries, as its own header
+  # says. All three sit in families.Messaging, so they are already always
+  # sampled against each other, and they remain mutual neighbor_intents. The
+  # confusion is real and keeps its sampling; only the false CONTRACT goes.
   Cmd.VolumeIncrease: Help_Volume
   Cmd.VolumeDecrease: Help_Volume
   Cmd.VolumeMute: Help_Volume

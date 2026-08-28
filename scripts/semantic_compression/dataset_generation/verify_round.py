@@ -285,6 +285,30 @@ add('79 E8-3 Help_Volume <-> Help_Pairing guarded on both sides and linked',
 add('80 E8 no Cmd.Activity* lost its Help_Activity neighbour link',
     all('Help_Activity' in by[n]['neighbor_intents'] for n in by if n.startswith('Cmd.Activity')))
 
+# --- E9, config against specs --------------------------------------------
+_cfg = yaml.safe_load(open(f'{D}/generator_config.yaml'))
+def _find(o, k):
+    if isinstance(o, dict):
+        for kk, v in o.items():
+            if kk == k: return v
+            r = _find(v, k)
+            if r is not None: return r
+_pairs = _find(_cfg, 'command_help_pairs')
+add('81 E9 the false messaging pairs are gone from command_help_pairs',
+    not [k for k in _pairs if 'Message' in k] and len(_pairs) == 21)
+add('82 E9 but the messaging confusion keeps its sampling -- family and neighbours',
+    'Help_VoiceAssistant' in _find(_cfg, 'families')['Messaging']
+    and 'Help_VoiceAssistant' in by['Cmd.SendMessage']['neighbor_intents']
+    and 'Help_VoiceAssistant' in by['Cmd.ListenMessage']['neighbor_intents'])
+add('83 E9 config no longer contradicts what the three specs say',
+    all(any('no messaging Help intent' in x or 'has no messaging Help intent' in x
+            for x in by[n]['do_not_trigger'] + by[n]['boundary_cases'])
+        for n in ('Cmd.SendMessage', 'Cmd.ListenMessage')))
+add('84 E9 provenance counts match the 60 specs that exist',
+    len(_find(_cfg, 'hand_authored_intents')) == 60
+    and 'All 60 are currently listed' in open(f'{D}/generator_config.yaml').read()
+    and 'The remaining 59 were drafted' in open(f'{D}/authored_specs.yaml').read())
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
@@ -297,7 +321,8 @@ b = md.split('### 2b')[1].split('### 2c')[0]
 add('32 Section 2b holds only the logged EdgeModeDeactivate/MaskMode pair',
     'Cmd.EdgeModeDeactivate' in b and 'Help_MaskMode' in b and '| 1 |' in b and '| 2 |' not in b)
 add('32b Section 2c empty', 'both sides' in md.split('### 2c')[1].split('## 3')[0])
-add('33 Section 3: 0 of 23 pairs failing', '**0 of 23 pairs are not mutual neighbours.**' in md)
+# 21, not 23 -- the two messaging pairs were a false contract, see DEFERRED E9.
+add('33 Section 3: 0 of 21 pairs failing', '**0 of 21 pairs are not mutual neighbours.**' in md)
 add('34 sign-off boxes all unticked', md.count('☑') == 0 and md.count('☐') == 18)
 add('35 REQUIRES HUMAN REVIEW still in meta', 'REQUIRES HUMAN REVIEW' in str(I.get('meta')))
 

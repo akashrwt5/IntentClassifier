@@ -950,7 +950,7 @@ collision was in the spec text rather than in the data — 107 of `Help_Pairing`
 224 rows name a phone or Bluetooth against 1 of `Help_Volume`'s 146 — but
 generation writes new rows, and the SOURCE is now stated as the discriminator.
 
-### E9. `generator_config.yaml` and the specs disagree, in two places
+### E9. `generator_config.yaml` and the specs disagree, in two places — CLOSED
 
 **`command_help_pairs` declares a messaging pair that C1 says does not exist.**
 
@@ -965,7 +965,8 @@ four places"* and never checked the config, which asserts the opposite. Worse,
 is held in place by a passing test.
 
 `Cmd.FindMyPhone: Help_FindMyHearingAids` was removed from this table earlier in
-the review for being a false pair; nobody then re-read the rest of the table.
+the review for being a false pair. Nobody re-read the rest of the table then,
+which is how these two survived.
 
 **Provenance counts are stale.** `authored_specs.yaml`'s header says *"The
 remaining 56 were drafted in an assistant session"* and `generator_config.yaml`
@@ -973,8 +974,32 @@ says *"All 57 are currently listed"*, while both files hold **60**.
 `intent_specs.yaml`'s `meta` is the only one right, at 59 assistant-session plus 1
 human.
 
-**To close:** decide whether the messaging pairs stay (and C1 is wrong) or go (and
-the config is wrong); correct the two counts either way.
+**CLOSED 2026-08-27.** The pairs go. Two independent reasons, either sufficient.
+
+**The decision was already made and the config predates it.** C1 was decided by
+Akash — `Help_VoiceAssistant` explains the assistant, not messaging, so a how-to
+question about sending or playing a message is `Default Fallback Intent` because
+the taxonomy has no `Help_Messaging` or `Help_PushToTalk`. Three specs state it.
+This table asserted the opposite and nobody re-read it when C1 was decided.
+
+**And they never fitted the block's own definition.** Its header says the pairs
+exist because *"the costliest confusion is CROSS-family"*. `Cmd.SendMessage`,
+`Cmd.ListenMessage` and `Help_VoiceAssistant` are all in `families.Messaging`.
+
+**Removing them costs no sampling.** All three stay in the same family, so they
+are already always drawn against each other, and both neighbour links remain
+mutual. Only the false contract is gone. `command_help_pairs` 23 → 21, and
+`SPEC_REVIEW.md` Section 3 now reads 21.
+
+The provenance counts are corrected in both places — `generator_config.yaml`'s
+*"All 57 … the other 56"* and `authored_specs.yaml`'s *"The remaining 56"* now
+read 60 and 59, matching `intent_specs.yaml`'s `meta`, which was the only one
+right.
+
+One part of this item was wrong when written. It repeated the audit's claim that
+`Cmd.FindMyPhone: Help_FindMyHearingAids` is still in the table. It is not — it
+was removed in the first spec-review commit. The audit read a stale copy, and the
+claim was carried here without re-checking against the repo. Corrected.
 
 ### E10. 81 passing checks coexisted with 15 real defects
 

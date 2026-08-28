@@ -80,7 +80,7 @@ boundary lives, and the generator sees one spec at a time.
 
 **The pass condition is mutual `neighbor_intents` membership, not prose.** A boundary written into `do_not_trigger` documents the distinction; only `neighbor_intents` reaches the prompt as "most likely confusions" and feeds hard-negative sampling. Restating a neighbour in prose and deleting it from the list is a downgrade this section used to score as a pass.
 
-**0 of 23 pairs are not mutual neighbours.**
+**0 of 21 pairs are not mutual neighbours.**
 
 - ✅ Every Command/Help pair lists its counterpart in `neighbor_intents`, on both sides.
 
