@@ -91,14 +91,14 @@ over textbook grammar; production robustness over dataset size.
 Word-substitution variants are near-worthless here. "Increase volume" / "Raise \
 volume" / "Turn volume up" occupy almost the same point in embedding space and \
 teach the model nothing. Utterances like "Can you make it easier to hear?", \
-"I'm struggling to hear people" and "Could you speak louder?" introduce \
+"I need more volume" and "Could you speak louder?" introduce \
 genuinely different semantic representations. Produce the second kind.
 
 # Type (use these EXACT values, and these definitions)
 - ExplicitCommand: direct request for action. NOTE: a grammatical question that \
 requests an action ("Can you turn it up?") is a COMMAND, not a Question.
 - ImplicitCommand: indirect request expressing a personal need that implies an \
-action ("I'm struggling to hear people").
+action ("I need more volume").
 - Observation: factual statement describing a state WITHOUT requesting a \
 change. Reserved for the Fallback intent.
 - ObservationPlusCommand: an observation followed by a request.
@@ -110,8 +110,13 @@ change. Reserved for the Fallback intent.
 # Difficulty
 - Easy: short, single-clause and direct. No observation clause, no hedging.
 - Medium: indirect requests, polite phrasing, mild ASR variation.
-- Hard: compound utterances, heavy ASR corruption, long conversational \
-phrasing, boundary cases.
+- Hard: compound utterances, heavy ASR corruption, boundary cases, and \
+utterances genuinely ambiguous between two intents.
+- Difficulty is NOT length, and the two must not be tied together. A three-word \
+utterance can be the hardest row in a batch, and usually is: measured on this \
+product's held-out set, the classifier scores 79% on utterances of four words or \
+fewer against 89% on those of eight to twelve words. Short and ambiguous is the \
+failure case. Never reach for extra words to make a row Hard.
 
 # Precedence rules -- apply consistently
 1. Compound: if an utterance contains BOTH an observation and an actionable \
@@ -119,7 +124,14 @@ command, the command determines the intent. Pure observations are Fallback.
 2. Conflicting commands: the LAST explicit command wins.
 3. Negations: cancelling with no replacement is Fallback; with a replacement, \
 classify by the replacement.
-4. Anything still unresolved defers to the spec's Boundary Cases, then Fallback.
+4. Help versus Command in question forms: decide by the ACTION the assistant \
+must perform, not by the opening words. Asked to bring the action about now -> \
+the Command intent (imperative; "can / could / will you"; "please ..."; a stated \
+want or need; a bare complaint about the current state). Asked how, where or \
+what about doing it themselves -> the Help intent. When the requested action IS \
+explaining, it is the Help intent. An "I"-framed question is still a Command \
+when only the assistant can produce the outcome.
+5. Anything still unresolved defers to the spec's Boundary Cases, then Fallback.
 
 # Hard constraints -- violating any of these makes the batch worthless
 - NEVER invent a product capability that the specification does not state.

@@ -7,11 +7,11 @@ Your objective is not paraphrasing. It is to engineer a semantic dataset that ma
 # Philosophy
 Prioritise semantic diversity over syntactic diversity; real user behaviour over textbook grammar; production robustness over dataset size.
 
-Word-substitution variants are near-worthless here. "Increase volume" / "Raise volume" / "Turn volume up" occupy almost the same point in embedding space and teach the model nothing. Utterances like "Can you make it easier to hear?", "I'm struggling to hear people" and "Could you speak louder?" introduce genuinely different semantic representations. Produce the second kind.
+Word-substitution variants are near-worthless here. "Increase volume" / "Raise volume" / "Turn volume up" occupy almost the same point in embedding space and teach the model nothing. Utterances like "Can you make it easier to hear?", "I need more volume" and "Could you speak louder?" introduce genuinely different semantic representations. Produce the second kind.
 
 # Type (use these EXACT values, and these definitions)
 - ExplicitCommand: direct request for action. NOTE: a grammatical question that requests an action ("Can you turn it up?") is a COMMAND, not a Question.
-- ImplicitCommand: indirect request expressing a personal need that implies an action ("I'm struggling to hear people").
+- ImplicitCommand: indirect request expressing a personal need that implies an action ("I need more volume").
 - Observation: factual statement describing a state WITHOUT requesting a change. Reserved for the Fallback intent.
 - ObservationPlusCommand: an observation followed by a request.
 - Question: a request for INFORMATION ONLY.
@@ -20,7 +20,7 @@ Word-substitution variants are near-worthless here. "Increase volume" / "Raise v
 - Fallback: out-of-scope or unsupported.
 
 # Difficulty
-- Easy: direct commands, high lexical similarity to seed data.
+- Easy: short, single-clause and direct. No observation clause, no hedging.
 - Medium: indirect requests, polite phrasing, mild ASR variation.
 - Hard: compound utterances, heavy ASR corruption, boundary cases, and utterances genuinely ambiguous between two intents.
 - Difficulty is NOT length, and the two must not be tied together. A three-word utterance can be the hardest row in a batch, and usually is: measured on this product's held-out set, the classifier scores 79% on utterances of four words or fewer against 89% on those of eight to twelve words. Short and ambiguous is the failure case. Never reach for extra words to make a row Hard.
@@ -29,7 +29,7 @@ Word-substitution variants are near-worthless here. "Increase volume" / "Raise v
 1. Compound: if an utterance contains BOTH an observation and an actionable command, the command determines the intent. Pure observations are Fallback.
 2. Conflicting commands: the LAST explicit command wins.
 3. Negations: cancelling with no replacement is Fallback; with a replacement, classify by the replacement.
-4. Help versus Command in question forms: decide by the action the assistant must perform, not by the opening words. Asked to bring the action about now -> the Command intent (imperative; "can / could / will you"; "please ..."; a stated want or need; a bare complaint about the current state). Asked how, where or what about doing it themselves -> the Help intent. When the requested action IS explaining, it is the Help intent. An "I"-framed question is still a Command when only the assistant can produce the outcome.
+4. Help versus Command in question forms: decide by the ACTION the assistant must perform, not by the opening words. Asked to bring the action about now -> the Command intent (imperative; "can / could / will you"; "please ..."; a stated want or need; a bare complaint about the current state). Asked how, where or what about doing it themselves -> the Help intent. When the requested action IS explaining, it is the Help intent. An "I"-framed question is still a Command when only the assistant can produce the outcome.
 5. Anything still unresolved defers to the spec's Boundary Cases, then Fallback.
 
 # Hard constraints -- violating any of these makes the batch worthless
@@ -54,50 +54,59 @@ Trigger conditions:
 - User asks for the hearing aids to be louder, by any phrasing.
 - User states that what they are hearing is too quiet, too soft or too low and wants that corrected.
 - User asks for volume to be raised on one specific side or ear.
-- User asks for maximum or full volume.
+- User asks for the volume to be raised as far as it will go.
 - User expresses a personal need for more loudness ("I need more volume").
 
 Do NOT trigger:
 - Difficulty understanding speech that is attributed to the ENVIRONMENT - background noise, wind, a crowded room, a distant speaker. That is Cmd.EdgeModeIncrease; raising volume amplifies the noise too.
 - Any request to raise the volume of a TV, phone, streamer, or other device that is not the hearing aids.
+- Requests to mute or silence the hearing aids, which are Cmd.VolumeMute.
 - Any request about the loudness of the tinnitus masker or white noise feature, which is Help_Tinnitus.
 - Questions asking HOW to change volume rather than asking for the change. Those are Help_Volume.
 - An observation that says nothing is being requested ("it sounds quiet today"), which is Fallback.
 
 Boundary / uncertain cases:
 - Loudness words decide this intent. If the utterance references volume, loudness, quietness, softness or "turn it up", it is this intent even when noise is also mentioned.
-- An unqualified complaint about hearing difficulty with no loudness word and no environmental cue ("I can't hear") is genuinely ambiguous against Cmd.EdgeModeIncrease. Route to Fallback rather than guessing; a wrong guess changes the device.
+- A complaint about hearing difficulty that carries no loudness word, names no environment and asks for no action ("I can't hear", "I'm struggling to hear people") is Default Fallback Intent. A wrong guess changes the device. Cmd.EdgeModeIncrease, Cmd.MemoryChange and Default Fallback Intent state this identically.
 - Per the compound rule, an observation followed by a request resolves here ("it's too quiet, turn it up").
 - Side-specific requests stay here; the side is a slot, not a different intent.
+- Magnitude words do not change the intent or the action. "All the way up" is the same request as "a bit louder": the product applies a fixed step and accepts no target level, so no spec or utterance may imply that a level can be set.
 
 Neighbour intents (most likely confusions):
-Cmd.VolumeDecrease, Cmd.VolumeUnmute, Cmd.EdgeModeIncrease, Help_Volume, Cmd.StreamingStart, Default Fallback Intent
+Cmd.VolumeDecrease, Cmd.VolumeUnmute, Help_Volume, Cmd.StreamingStart, Default Fallback Intent, Help_SelfCheck, Cmd.VolumeMute
 
 Reference positive: Could you make my hearing aids a bit louder please?
 Reference hard negative (must NOT be generated as a positive): How do I make my hearing aids louder?
 
 # Real seed utterances for this intent (style reference only)
 Do NOT copy or lightly reword these. They show how real users speak; your job is to extend that space, not restate it.
-- adjust right ear for higher sound
-- Go up in volume
-- hearing aid volume up
-- I need more volume
-- I want more volume
-- increase the left hearing aid
 - increase the loudness in my aids
-- increase the right hearing aid
+- It's too quiet turn it up
+- make it louder
+- My volume is too soft
+- volume up right aid
+- max sound
+- set to 90% volume
+- Halloween Kris the volume and Harriet's
 
 # Task
 Generate exactly 25 NEW positive utterances for `Cmd.VolumeIncrease`.
 
 Every utterance must have `intent` set to exactly `Cmd.VolumeIncrease`.
-Aim for roughly this difficulty mix: 35% Easy, 40% Medium, 25% Hard.
+
+Composition of this batch -- these are COUNTS, not suggestions. Of the 25 utterances:
+- at least 10 must be FOUR WORDS OR FEWER. Real users say "Louder" and "Turn it up" far more often than they say anything longer; this is the commonest shape, not a garnish.
+- at least 10 must have type `ExplicitCommand`.
+- at least 3 must have type `ImplicitCommand`.
+- between 5 and 7 must have type `ObservationPlusCommand`.
+- between 3 and 5 must be source `ASR-Simulated`. The rest are `LLM-Generated`.
+- difficulty: exactly 9 Easy, 10 Medium, 6 Hard.
+Count them before you answer.
 
 Cover a spread of speaking styles, not a spread of wordings:
 polite/indirect requests; short abrupt commands; elderly phrasing; partial
-sentences and filled pauses; compound observation-then-command; and plausible
-ASR mis-transcription (mark those `ASR-Simulated`, everything else
-`LLM-Generated`).
+sentences and filled pauses; and plausible ASR mis-transcription (mark those
+`ASR-Simulated`, everything else `LLM-Generated`).
 
 
 Return the batch.
@@ -116,3 +125,4 @@ Reply with JSON ONLY — no commentary, no markdown fence. A single object:
 ObservationPlusCommand, Question, Negation, Conversation, Fallback.
 `difficulty` must be exactly one of: Easy, Medium, Hard.
 `source` must be exactly one of: LLM-Generated, ASR-Simulated, Human-Seed.
+
