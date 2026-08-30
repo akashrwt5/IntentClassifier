@@ -1073,23 +1073,62 @@ the diff.
 
 **Two things left open rather than fixed — see E11 and E12.**
 
-### E11. `redistribute_seeds_to` is dead config, and Fallback now claims a subject it has no seeds for
+### E11. The Fallback privacy block contradicted the taxonomy — CLOSED 2026-08-30
 
-All five `drop_intents` entries carry `redistribute_seeds_to`, and **no Python
-reads it** — `grep` across the whole pipeline returns YAML only. So the 19 + 22 +
-65 = **106 seed utterances** of the three dropped intents are discarded outright.
+**The fix originally written here was wrong on both counts, and is left visible
+rather than quietly replaced.** It said to implement `redistribute_seeds_to` and
+point the three dropped intents' 106 seeds at `Default Fallback Intent`. That
+would have been:
 
-Meanwhile D20 gave `Default Fallback Intent` a trigger that explicitly claims
-heart rate, heart rate recovery and the Thrive scores, and only **5 of its 613
-seeds** carry any of those tokens. Stage 1 will therefore generate Fallback rows
-against a rule with almost no exemplar — which is the same failure D18 argues
-against for `Cmd.TranslationStart`, on the intent with the largest budget (800
-rows) and the one that decides FAR.
+- **useless** — `Default Fallback Intent` is listed under
+  `generation.privacy.no_seed_block_intents`, so `_seed_block_for` returns a
+  hand-written substitute and its seed block is **never sent at all**. A larger
+  seed pool changes nothing that reaches the API.
+- **exactly the thing to stop and ask about** — it would have moved 106 more raw
+  production transcripts into the pool that is withheld for PII reasons.
 
-**To close:** either implement `redistribute_seeds_to` and point the three at
-`Default Fallback Intent`, or delete the inert key and accept that the new
-Fallback subject ships without seed evidence — with that stated in the spec, so a
-low generated rate is read as expected rather than as a defect.
+It also said "all five `drop_intents` entries carry" the key. Four do;
+`Cmd.Health` never had it and documents its loss with
+`orphaned_utterances_note` instead — which is the pattern the others should have
+followed.
+
+**Underneath it was a real defect, introduced by D20 and caught by nothing.**
+The hand-written substitute block is the ONLY thing telling the model how
+Fallback sounds. Its SCOPE GUARD read:
+
+    This product ITSELF supports: ... battery status, find-my-phone, and
+    activity/health queries. NEVER generate a request for any of those
+    capabilities, however phrased
+
+D20 had just made heart rate, heart rate recovery and the Thrive scores
+unsupported and given Fallback a trigger claiming them. So the block steering
+Fallback's generation **forbade the utterances Fallback now owns**. Stage 1 would
+have produced a Fallback set with none of them, and the low rate would have read
+as normal rather than as a suppressed rule.
+
+**Fixed (Akash, 2026-08-30).** The guard now says *"activity tracking, and the
+Health screen and its goals"* — both still supported — and carries a named
+exception telling the model to write ordinary questions about the three
+unsupported subjects, with a note that they need real coverage because the
+specification claims them and almost no observed speech does. Written by hand
+from the decision, not from the corpus; nothing in it is a transcript or a
+paraphrase of one, which is the standard the block's own comment sets.
+
+**`redistribute_seeds_to` removed** from all four entries (Akash). No Python has
+ever read it, in any commit, and no document defines it. The `drop_intents`
+comment now states that seeds of a dropped intent are discarded, and why
+redistribution to the obvious target would not have helped.
+
+**Five new checks.** 120 pins that Fallback is still the one intent whose seed
+block is withheld; 121 and 122 pin the corrected guard; **123 is the general
+form** — no subject Fallback's own triggers claim may appear in the guard's
+supported-and-never-generate list, which is the contradiction nothing could see;
+124 fails if the dead key comes back. Mutation-tested: restoring either the old
+guard wording or the key fails its check.
+
+**The two remaining dead config keys are NOT closed by this.**
+`hard_negatives_per_intent: 40` and `oos_ratio: 0.15` are still read by no code.
+They belong to the unbuilt Stage 2 and Stage 3 and are a separate decision.
 
 ### E12. Two committed generated artefacts are stale
 

@@ -281,16 +281,26 @@ generation:
         - Fully formed but out-of-scope requests: weather, news, shopping,
           navigation, smart-home devices, another assistant, the television.
         - Greetings, thanks and small talk aimed at the assistant.
+        - THE EXCEPTION to the scope guard. Heart rate, heart rate recovery
+          and the Thrive wellness scores are NOT supported. Write ordinary
+          questions about them -- what the number means, where to see it, how
+          it is worked out, whether a reading is good -- phrased the way a
+          user who expects the feature to exist would ask. They belong here
+          because nothing explains them, not because the subject is foreign.
+          These are the only product-adjacent requests that belong in this
+          intent, and they need real coverage: the specification claims them
+          and almost no observed speech for this intent does.
         SCOPE GUARD -- read before writing any request-shaped utterance. This
         product ITSELF supports: hearing-aid volume and mute control, Edge
         Mode, switching listening memories, audio streaming, transcription,
         translation, reminders, voice messages to named people, battery
-        status, find-my-phone, and activity/health queries. NEVER generate a
-        request for any of those capabilities, however phrased -- "remind me
-        to...", "send a message to...", "text her that..." are real commands
-        this assistant must act on, and putting them here teaches it to
-        ignore its own users. Out-of-scope means OTHER products and other
-        life domains, not this product's own features.
+        status, find-my-phone, activity tracking, and the Health screen and
+        its goals. NEVER generate a request for any of those capabilities,
+        however phrased -- "remind me to...", "send a message to...", "text
+        her that..." are real commands this assistant must act on, and putting
+        them here teaches it to ignore its own users. Out-of-scope means OTHER
+        products and other life domains, not this product's own features --
+        with ONE exception, below.
         Aim for roughly half well-formed out-of-scope requests and half of the
         messy incidental kind.
 
@@ -785,6 +795,14 @@ taxonomy:
         phrases.
 
   # Intents removed from the taxonomy entirely, with their seed files.
+  # Seeds of a dropped intent are DISCARDED, not redistributed. There was a
+  # `redistribute_seeds_to` key here that said otherwise; no Python has ever
+  # read it, in any commit, and every entry was null. Removed 2026-08-30 rather
+  # than left to look functional -- see DEFERRED E11. Redistribution would not
+  # help the obvious target either: `Default Fallback Intent` is under
+  # `generation.privacy.no_seed_block_intents`, so its seed block is never sent
+  # at all and a larger pool would change nothing that reaches the API. Where a
+  # drop loses utterances worth naming, record them the way `Cmd.Health` does.
   drop_intents:
     "Cmd.Health":
       reason: >-
@@ -811,7 +829,6 @@ taxonomy:
         51 train.csv rows, 7 dev_hard.csv rows and 19 seeds. Dropping it widens
         the 60-vs-57 runtime delta rather than closing it. See DEFERRED E7 and
         D20 for the measurement cost.
-      redistribute_seeds_to: null
     "Help_HeartRateRecovery":
       reason: >-
         Not a supported feature, same decision as Help_HeartRate. Disabled in
@@ -819,7 +836,6 @@ taxonomy:
       note: >-
         Still in nlu_schema.json. 46 train.csv rows, 7 dev_hard.csv rows,
         22 seeds.
-      redistribute_seeds_to: null
     "Help_ThriveScore":
       reason: >-
         Not a supported feature. Akash, 2026-08-27. The Thrive wellness scores
@@ -828,12 +844,10 @@ taxonomy:
       note: >-
         Still in nlu_schema.json. 105 train.csv rows, 13 dev_hard.csv rows and
         65 seeds -- the largest of the three.
-      redistribute_seeds_to: null
     "Help_HearingCareAnywhereConnect":
       reason: >-
         Disabled in Dialogflow. All 72 of its unique utterances also appear
         under Help_RemoteProgramming (100% subset, zero distinguishing phrase).
-      redistribute_seeds_to: null
 
 # -----------------------------------------------------------------------------
 # Intent families (Architecture Section 4)

@@ -560,6 +560,38 @@ add('119 D21 no spec has a list marker stranded mid-sentence',
     not [s['name'] for s in specs for f in ('trigger_conditions', 'do_not_trigger', 'boundary_cases')
          for x in s[f] if re.search(r'[.;]\s+-\s+[a-z]', x)])
 
+# --- E11, the Fallback privacy substitute block --------------------------
+# Nothing verified this block against the specs, and D20 put them in direct
+# contradiction: the SCOPE GUARD listed "activity/health queries" as supported
+# and said NEVER to generate a request for a supported capability, while D20
+# had just given Fallback a trigger claiming heart rate, HRR and Thrive. The
+# block steering Fallback generation forbade the utterances Fallback now owns.
+#
+# It is hand-written on purpose -- Fallback's 613 seeds are raw production ASR
+# and are withheld under generation.privacy.no_seed_block_intents, so this text
+# is the ONLY thing telling the model how the intent sounds. Nothing in it is a
+# transcript or a paraphrase of one.
+_priv = ((_cfg.get('generation') or {}).get('privacy') or {})
+_sub = (_priv.get('seed_block_replacement') or {}).get(FB, '')
+add('120 E11 Fallback is still the one intent whose seed block is withheld',
+    _priv.get('no_seed_block_intents') == [FB] and len(_sub) > 500)
+add('121 E11 the scope guard no longer calls health queries supported',
+    'activity/health queries' not in _sub
+    and 'activity tracking' in _sub
+    and 'Health screen and\nits goals' in _sub)
+add('122 E11 and it names the three unsupported subjects as belonging here',
+    'THE EXCEPTION to the scope guard' in _sub
+    and all(w in _sub for w in ('Heart rate', 'heart rate recovery', 'Thrive')))
+# The contradiction in general form: a subject Fallback's own triggers claim
+# must not sit in the guard's supported-and-never-generate list.
+_supported = _sub.split('product ITSELF supports:')[-1].split('NEVER generate')[0].lower()
+add('123 E11 no subject Fallback claims is listed as a supported capability',
+    not [w for w in ('heart rate', 'thrive', 'wellness score')
+         if w in ' '.join(by[FB]['trigger_conditions']).lower() and w in _supported])
+add('124 E11 the dead redistribute_seeds_to key is gone from every drop entry',
+    not [n for n, v in _find(_cfg, 'drop_intents').items() if 'redistribute_seeds_to' in v]
+    and 'redistribute_seeds_to' in open(f'{D}/generator_config.yaml').read())
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
