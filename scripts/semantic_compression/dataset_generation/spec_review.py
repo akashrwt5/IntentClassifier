@@ -408,7 +408,13 @@ ROUTE_MIN_OVERLAP = 1   # destination must share at least this much with it
 COLLIDE_MIN_RARE = 2    # shared words needed to call two triggers a collision
 COLLIDE_MAX_DF = 6      # ...and only words appearing in <=6 intents' triggers count
 
-INTENT_IN_TEXT = re.compile(r"\b((?:Cmd|Help)[._][A-Za-z]+|Default Fallback Intent)")
+# The bare spelling "Fallback" matters. 23 routing sentences across 14 specs use
+# it instead of the full label, and while this matcher knew only the full name,
+# every one of those routes was invisible to Section 7 -- a blind spot over the
+# single most common destination in the taxonomy. The full name is listed first
+# so it wins the alternation; routed_subjects normalises the short form.
+INTENT_IN_TEXT = re.compile(r"\b((?:Cmd|Help)[._][A-Za-z]+|Default Fallback Intent|Fallback)")
+FALLBACK = "Default Fallback Intent"
 
 
 # Template vocabulary. These words carry no subject -- they are how every spec in
@@ -437,8 +443,9 @@ def routed_subjects(spec: dict, names: set) -> list:
     for field in ("do_not_trigger", "boundary_cases"):
         for rule in spec.get(field) or []:
             for sent in re.split(r"(?<=[.;])\s+", rule):
-                dests = {m for m in INTENT_IN_TEXT.findall(sent)
-                         if m in names and m != spec["name"]}
+                dests = {FALLBACK if m == "Fallback" else m
+                         for m in INTENT_IN_TEXT.findall(sent)}
+                dests = {m for m in dests if m in names and m != spec["name"]}
                 if not dests:
                     continue
                 subj = INTENT_IN_TEXT.sub(" ", sent)

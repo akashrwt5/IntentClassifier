@@ -65,8 +65,9 @@ add(f'15 F16 the seven original memory-name guards still present (found {len(col
 add('16 F16 three new mutual neighbour pairs',
     all(x in by['Cmd.MemoryChange']['neighbor_intents'] and 'Cmd.MemoryChange' in by[x]['neighbor_intents']
         for x in ('Help_Tinnitus', 'Help_MaskMode', 'Help_Pairing')))
-# 11 since D17 added the Cmd.EdgeModeDeactivate link. Was 10 for the F16/F27 rounds.
-add('17 Cmd.MemoryChange has 11 neighbours', len(by['Cmd.MemoryChange']['neighbor_intents']) == 11)
+# 12 since D18 added the Cmd.TranscribeStart link, 11 after D17's
+# Cmd.EdgeModeDeactivate, 10 for the F16/F27 rounds. Check 37 pins the names.
+add('17 Cmd.MemoryChange has 12 neighbours', len(by['Cmd.MemoryChange']['neighbor_intents']) == 12)
 
 # --- Help_IntelliVoice round ---------------------------------------------
 iv = by['Help_IntelliVoice']
@@ -119,11 +120,13 @@ add('36 F27 Cmd.MemoryChange is now a Fallback neighbour', 'Cmd.MemoryChange' in
 # premise is retired and the list is pinned BY NAME instead -- Fallback appears
 # in all 59, so its presence here proves nothing about F27. The eleventh entry
 # is D17's, and any twelfth fails the run.
-add('37 Cmd.MemoryChange neighbours are the F16 set plus D17s EdgeModeDeactivate',
+add('37 Cmd.MemoryChange neighbours are the F16 set plus the two memory-name rounds',
     set(by['Cmd.MemoryChange']['neighbor_intents']) == {
         'Help_ChangingMemories', 'Help_MemoryOptions', 'Cmd.EdgeModeIncrease',
         'Help_Customize', FB, 'Cmd.VolumeMute', 'Cmd.StreamingStart',
-        'Help_Tinnitus', 'Help_MaskMode', 'Help_Pairing', 'Cmd.EdgeModeDeactivate'})
+        'Help_Tinnitus', 'Help_MaskMode', 'Help_Pairing',
+        'Cmd.EdgeModeDeactivate',   # D17, the bare back-to-normal tie
+        'Cmd.TranscribeStart'})     # D18, the Meeting memory name
 add('38 F27 the three real neighbours kept',
     all(x in fb['neighbor_intents'] for x in ('Cmd.StreamingStart', 'Help_Volume', 'reminders.add')))
 add('39 reminders exclusion present on the Fallback side',
@@ -272,7 +275,18 @@ try:
                 _act = 100 * _cc['command-shaped'] / len(_rs)
                 if abs(_act - float(_m.group(1))) >= 0.05:
                     _bad.append((_s['name'], f"claims {_m.group(1)}%, actual {_act:.1f}%"))
-    add(f'74 AUDIT every command-shaped percentage in a spec re-derives exactly {_bad or ""}', not _bad)
+            # Same guard for the other direction. D18 put a question-shaped rate on
+            # a Cmd intent for the first time, so it needs re-deriving too.
+            # question-shaped = help-shaped + explain-request, per boundary_lint.
+            for _m in re.finditer(r'(\d+\.?\d*)%\s*question-shaped', _x):
+                _rs = _byi.get(_s['name'], [])
+                if not _rs:
+                    _bad.append((_s['name'], 'no deployed rows')); continue
+                _cc = _c.Counter(_bl.surface_form(_t)[0] for _t in _rs)
+                _act = 100 * (_cc['help-shaped'] + _cc['explain-request']) / len(_rs)
+                if abs(_act - float(_m.group(1))) >= 0.05:
+                    _bad.append((_s['name'], f"claims {_m.group(1)}% question, actual {_act:.1f}%"))
+    add(f'74 AUDIT every command- and question-shaped percentage re-derives exactly {_bad or ""}', not _bad)
 except Exception as _e:
     add(f'74 AUDIT percentage re-derivation could not run ({type(_e).__name__})', False)
 
@@ -425,6 +439,54 @@ add('100 D17 the comfort/communication axis is mirrored on both direction intent
 add('101 D17 Help_EdgeMode untouched -- no carve-out, none warranted',
     len(hem['trigger_conditions']) == 4 and len(hem['do_not_trigger']) == 3
     and len(hem['boundary_cases']) == 3 and len(hem['neighbor_intents']) == 7)
+
+# --- D18, the SpeechServices family --------------------------------------
+_tr, _ts = by['Cmd.TranscribeStart'], by['Cmd.TranslationStart']
+_htr, _hts = by['Help_Transcribe'], by['Help_Translate']
+
+# First question-shaped carve-out in the review, and the first on a Cmd intent.
+# The rate itself is re-derived by check 74; this only asserts it is stated and
+# that generation is told to reproduce it.
+add('102 D18 Cmd.TranslationStart carries a measured question-shaped rate for generation',
+    any('17.5% question-shaped' in x and 'near zero is a defect' in x
+        for x in _ts['boundary_cases']))
+# E3 listed Meeting -> Cmd.TranscribeStart among the overlaps that "look real".
+# 48 of Cmd.MemoryChange's 1,601 deployed rows name a meeting against 5 of this
+# intent's 50, so the memory reading is the common one and needs the guard.
+add('103 D18 the Meeting memory-name guard, worded like the other six',
+    any('both a memory name and' in x and 'Meeting' in x for x in _tr['do_not_trigger'])
+    and any('Cmd.TranscribeStart' in x for x in by['Cmd.MemoryChange']['do_not_trigger'])
+    and 'Cmd.MemoryChange' in _tr['neighbor_intents']
+    and 'Cmd.TranscribeStart' in by['Cmd.MemoryChange']['neighbor_intents'])
+# Cmd.SendMessage and Cmd.ListenMessage both named this intent; it named neither,
+# while 11 of its 50 deployed rows carry "record" against 7 of SendMessage's 154.
+add('104 D18 the record-to-transcribe vs record-to-send boundary is now stated from this side',
+    any('Cmd.SendMessage' in x for x in _tr['do_not_trigger']))
+# A2's one known dependency, checked from the destination: Cmd.ListenMessage
+# sends live transcription here and this intent's triggers do claim it.
+add('105 D18 A2 dependency holds -- Cmd.TranscribeStart claims what ListenMessage sends it',
+    any('transcrib' in x.lower() for x in _tr['trigger_conditions'])
+    and any('conversation' in x.lower() for x in _tr['trigger_conditions'])
+    and any('Cmd.TranscribeStart' in x for x in by['Cmd.ListenMessage']['do_not_trigger']))
+# Both Help specs are 0.0% command-shaped on 70 and 66 deployed rows, so unlike
+# the five Help intents that needed a carve-out these two need nothing. Assert
+# they were left alone rather than "improved" for symmetry.
+add('106 D18 Help_Transcribe and Help_Translate untouched -- no carve-out warranted',
+    len(_htr['trigger_conditions']) == 5 and len(_htr['do_not_trigger']) == 3
+    and len(_htr['boundary_cases']) == 3
+    and len(_hts['trigger_conditions']) == 6 and len(_hts['do_not_trigger']) == 2
+    and len(_hts['boundary_cases']) == 2)
+# Akash: transcription needs no stop action, so the "no stop intent exists"
+# route to Fallback is left generic by decision, not by oversight. See D18.
+add('107 D18 the stop-transcribing route is left as it was, by decision',
+    any('No stop intent exists in this taxonomy' in x for x in _tr['do_not_trigger']))
+# Section 7 was blind to the bare "Fallback" spelling. The matcher now knows it,
+# and Cmd.FindMyPhone -- the one real route that surfaced -- is closed.
+add('108 D18 spec_review knows the bare "Fallback" spelling',
+    sr.INTENT_IN_TEXT.findall('which map to Fallback.') == ['Fallback'])
+add('109 D18 the route it surfaced is closed on the Fallback side',
+    any('other than the phone or the hearing aids' in x for x in fb['trigger_conditions'])
+    and any('Default Fallback Intent' in x for x in by['Cmd.FindMyPhone']['do_not_trigger']))
 
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()

@@ -11,8 +11,12 @@ wish, not a task.
 
 Last updated 2026-08-28, after the `Cmd.*` review, the HelpAudio,
 all Help families, `Default Fallback Intent`, the Reminders intents, an
-audit of everything above, and the EdgeMode family. **56 of 60 reviewed; the 4
-that remain are the deferred SpeechServices family.**
+audit of everything above, and the EdgeMode and SpeechServices families.
+**60 of 60 reviewed. Every intent in the taxonomy has now been read.**
+
+That is the review finished, not the gate opened. The sign-off boxes in
+`SPEC_REVIEW.md` are a human's to tick and `intent_specs.yaml` still carries
+`REQUIRES HUMAN REVIEW`.
 
 ---
 
@@ -20,10 +24,10 @@ that remain are the deferred SpeechServices family.**
 
 | | Count | State |
 |---|---:|---|
-| `Cmd.*` reviewed | 22 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8, EdgeMode 3 |
-| `Cmd.*` deferred | 2 | SpeechServices 2 |
-| `Help*` deferred | 0 | `Help_EdgeMode` closed with the EdgeMode commands (D17) |
-| `Help*` reviewed | 32 of 33 | Every Help family except `Help_Transcribe` and `Help_Translate`, which wait on A2 |
+| `Cmd.*` reviewed | 24 of 24 | AudioControl 4, Streaming 2, Messaging 2, Memories 1, DeviceStatus 1, DeviceLocate 1, ActivityTracking 8, EdgeMode 3, SpeechServices 2 |
+| `Cmd.*` deferred | 0 | — |
+| `Help*` deferred | 0 | — |
+| `Help*` reviewed | 33 of 33 | Every Help family |
 | Other | 3 of 3 | `Default Fallback Intent`, `reminders.add`, `reminders.complete` |
 
 `Default Fallback Intent` has now been read end to end (2026-08-26). It had been
@@ -123,7 +127,10 @@ edits; and check the four cross-references from `Help_IntelliVoice` and
 `Help_MaskMode` from this side.~~ Done 2026-08-28, except edit 2 — declined, see
 D17.
 
-### A2. SpeechServices — `Cmd.TranscribeStart`, `Cmd.TranslationStart`
+### A2. SpeechServices — `Cmd.TranscribeStart`, `Cmd.TranslationStart` — CLOSED
+
+**Closed 2026-08-28. See D18.** The known dependency below was checked from the
+destination and holds. The text is left as written.
 
 Deferred by decision. Neither spec has been read.
 
@@ -132,8 +139,8 @@ One known dependency: `Cmd.ListenMessage`'s boundary rests on
 Cmd.TranscribeStart"). That rule was accepted during the Messaging review
 without reading the intent it points at.
 
-**To close:** read both specs, plus `Help_Transcribe` and `Help_Translate`; check
-the `Cmd.ListenMessage` cross-reference from the other side.
+**To close:** ~~read both specs, plus `Help_Transcribe` and `Help_Translate`; check
+the `Cmd.ListenMessage` cross-reference from the other side.~~ Done 2026-08-28.
 
 ---
 
@@ -766,6 +773,109 @@ rather than the corpus.
 **Nothing to close.** The remaining EdgeMode item is edit 2, which is a decision,
 not an open question.
 
+### D18. The SpeechServices family
+
+Reviewed 2026-08-28, closing A2 and with it the whole taxonomy. All four specs
+read against each other, and `Cmd.ListenMessage`'s cross-reference checked from
+the destination.
+
+**A2's known dependency holds.** `Cmd.ListenMessage` sends *"requests to start
+live transcription of a conversation"* to `Cmd.TranscribeStart`, and that intent's
+first two triggers claim exactly that. Nothing to fix. This is the first deferred
+cross-reference in the review that turned out to be correct as accepted.
+
+**The first question-shaped carve-out, and the first on a `Cmd.` intent**
+(Akash). Five Help intents have needed the opposite — a spec that read as
+question-only while its deployed speech carried commands. `Cmd.TranslationStart`
+is that failure in mirror:
+
+    Cmd.TranslationStart   11 of 63 deployed rows   17.5% question-shaped
+    Cmd.TranscribeStart     1 of 50                  2.0%
+    Cmd.ListenMessage       7 of 85                  8.2%
+    Cmd.SendMessage         9 of 154                 5.8%
+
+17.5% is the highest of any action command in the taxonomy. (`Cmd.ActivityStep`
+and the other status queries run higher still, but a status query is a question
+by nature; this one is an action.) The spec already carried the rule — *"a
+question form does not make an utterance a Question type"* — and its own
+`positive_example` is a question. What it never did was tell GENERATION that, so
+generated data would have been imperatives only and the model would have learnt
+that a question is never this intent. The measured rate and the
+reproduce-it-or-it-is-a-defect instruction are now stated, in the same wording the
+five Help carve-outs use.
+
+**The sample is small and that is written into the spec.** 11 rows. The direction
+is not in doubt but the number is approximate. Check 74 now re-derives
+question-shaped percentages as well as command-shaped ones, so a stale rate fails
+the run instead of reaching a generation prompt.
+
+**The `Meeting` memory name, from E3's own shortlist** (Akash). E3 flagged
+`Meeting -> Cmd.TranscribeStart` as one of the handful of overlaps that "look
+real", and the deployed data agrees: 48 of `Cmd.MemoryChange`'s 1,601 rows name a
+meeting against 5 of `Cmd.TranscribeStart`'s 50. The memory reading is the common
+one, and *"transcribe the meeting"* is this intent's own subject. Guarded in the
+wording the other six already use, mirrored on the `Cmd.MemoryChange` side, and
+made a mutual neighbour pair. **One of E3's 17; sixteen remain.** Guard count
+7 → 8.
+
+**`Cmd.TranscribeStart` was named by two specs and named neither back.**
+`Cmd.SendMessage` (*"recording to send differs from recording to transcribe"*) and
+`Cmd.ListenMessage` both state the boundary; this intent said nothing, while
+`record` appears in 11 of its 50 deployed rows against 7 of `Cmd.SendMessage`'s
+154. Both claim the word. Now stated from this side, with the discriminator that
+`Cmd.SendMessage` already uses — whether another person receives it.
+
+**The stop-transcription gap: left alone, by decision** (Akash — *"stop ki need
+nahi hai"*). `Cmd.TranscribeStart` sends stop requests to Fallback with *"no stop
+intent exists in this taxonomy"*, and Fallback covers them only through the
+generic *"a capability the product does not have"*, never naming transcription —
+the same shape D16 closed for `reminders.complete`. Streaming has
+`Cmd.StreamingStop`; transcription has no counterpart. **This is recorded as
+decided, not as missed:** the capability is not wanted, so no `Cmd.TranscribeStop`
+is proposed and the route is left generic. The seed evidence for it is one
+mislabelled utterance — 1 of 16 seeds and 1 of 50 deployed rows carry a stop word,
+which the spec's own boundary case already calls out and which this round
+re-verified as still true rather than stale.
+
+`Cmd.TranslationStart`'s *"translate content that is not speech"* route to
+Fallback is the same shape and is left the same way, for the same reason.
+
+**`Help_Transcribe` and `Help_Translate` needed nothing.** Both are 0.0%
+command-shaped across 70 and 66 deployed rows — the cleanest Command/Help
+separation in the taxonomy — so neither needs the carve-out five other Help
+intents did. `Help_Translate`'s *"how to talk to someone speaking another
+language"* trigger was checked against `Cmd.TranslationStart` because it looked
+like a collision: 30 of 63 `Cmd.TranslationStart` rows name a language against 5
+of `Help_Translate`'s 66, and both specs already state the naming-a-language
+discriminator. It holds. Check 106 asserts both specs were left alone rather than
+edited for symmetry.
+
+**SECTION 7 WAS BLIND TO THE MOST COMMON DESTINATION IN THE TAXONOMY**
+
+`INTENT_IN_TEXT` matched `Cmd.X`, `Help_X` and `Default Fallback Intent`, but not
+the bare spelling `Fallback` — which **23 routing sentences across 14 specs**
+actually use. Every one of those routes was invisible to the check written
+specifically to catch routes with no destination. The matcher now normalises the
+short form.
+
+Fixing it surfaced exactly one real route, in a family signed off three rounds
+ago: `Cmd.FindMyPhone` sends *"requests to find any other object"* to Fallback,
+which never claimed locating anything. Closed on the Fallback side, and
+`Cmd.FindMyPhone`'s two bare-`Fallback` sentences rewritten to the full name.
+
+**And the fix immediately caught this round's own edit.** The new Fallback trigger
+collided with `Cmd.FindMyPhone` in Section 8 on `locate` and `phone`, because
+`subject_collisions` clears a pair only when one spec NAMES the other and
+`Cmd.FindMyPhone` used the short spelling. The rename closed it. Fifth time this
+session a check has caught the reviewer rather than the corpus.
+
+**What the fix does not catch, stated so nobody misreads a clean Section 7.**
+Neither the stop-transcribing route nor the non-speech-translate route flags even
+with the matcher repaired, because their subject words overlap Fallback's very
+broad vocabulary. Still a floor, not a gate.
+
+**Nothing to close.**
+
 ## E. Not started
 
 ### E1. All 33 `Help*` intents
@@ -868,6 +978,7 @@ through speech-to-text. A handful look real:
     Quiet      -> Cmd.VolumeIncrease     "make it quieter" vs switching to Quiet
     Telephone  -> Cmd.FindMyPhone        the phone vs the Telephone memory
     Meeting    -> Cmd.TranscribeStart    transcribing a meeting vs the Meeting memory
+                                         GUARDED by D18 -- 16 unguarded remain
 
 `Help_Volume` and `Cmd.VolumeIncrease` are already reviewed and signed nothing;
 if `Mute` and `Quiet` turn out to be real, two closed rounds reopen.

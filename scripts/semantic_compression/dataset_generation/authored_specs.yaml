@@ -81,6 +81,10 @@ intents:
         memory nor a feature. Cmd.MemoryChange and Cmd.EdgeModeDeactivate can
         each perform it and nothing in the words chooses, so the tie goes to
         inaction.
+      - Requests to find or locate an object other than the phone or the
+        hearing aids - keys, a wallet, a remote. The product locates only
+        those two, so anything else resolves here. Cmd.FindMyPhone states this
+        identically.
     do_not_trigger:
       - An actionable in-scope command, however indirectly phrased. "I need
         more volume" is Cmd.VolumeIncrease, not Fallback - an implicit request
@@ -611,6 +615,14 @@ intents:
       - Questions about what transcribe does or where to find it, which are
         Help_Transcribe.
       - Requests to set a reminder about a meeting, which are reminders.add.
+      - Requests to switch to the "Meeting" MEMORY, which are
+        Cmd.MemoryChange. "Meeting" is both a memory name and this intent's
+        subject; an explicit request to change memory or program is that
+        intent, anything else is this one.
+      - Requests to record a message for another person to receive, which are
+        Cmd.SendMessage. Recording to transcribe produces a transcript for the
+        user; recording to send produces a message someone else hears.
+        Cmd.SendMessage and Cmd.ListenMessage both state this from their side.
     boundary_cases:
       - The seed file for this intent contains a mislabelled stop-recording
         utterance. Start and stop are different actions; only starting resolves
@@ -624,6 +636,7 @@ intents:
       - Default Fallback Intent
       - Cmd.ListenMessage
       - Cmd.SendMessage
+      - Cmd.MemoryChange
     positive_example: "Write down this conversation for me."
     hard_negative_example: "What does transcribe do?"
 
@@ -652,6 +665,14 @@ intents:
       - Asking which languages are available is genuinely information-only and
         belongs to Help_Translate.
       - A named target language is the strongest signal for this intent.
+      - Deployed speech for this intent is 17.5% question-shaped - 11 of 63
+        rows, the highest of any action command in the taxonomy and more than
+        eight times its own family sibling Cmd.TranscribeStart at 2.0%. The
+        sample is small and the rate is approximate, but the direction is not.
+        Generation must reproduce it rather than writing imperatives only. A
+        generated rate near zero is a defect, not a success - it teaches the
+        model that a question is never this intent, and this spec's own
+        positive example is a question.
     neighbor_intents:
       - Cmd.TranscribeStart
       - Help_Translate
@@ -709,15 +730,18 @@ intents:
       - User names their phone by brand or type when asking to find it.
     do_not_trigger:
       - Requests to find the HEARING AIDS themselves, which are
-        Help_FindMyHearingAids. This is the only distinction that matters here.
-      - Requests to find any other object, which map to Fallback.
-      - Questions about Bluetooth pairing or connection to the phone, which are
-        Help_Pairing.
+        Help_FindMyHearingAids. This is the only distinction that matters
+        here.
+      - Requests to find any other object - keys, a wallet, a remote - which
+        map to Default Fallback Intent. That intent states this identically.
+      - Questions about Bluetooth pairing or connection to the phone, which
+        are Help_Pairing.
     boundary_cases:
       - The object decides the intent. Phone, telephone, mobile, iPhone or
         Android resolve here; aid, aids or hearing aids resolve to
         Help_FindMyHearingAids.
-      - Where the object is genuinely absent ("I can't find it"), use Fallback.
+      - Where the object is genuinely absent ("I can't find it"), use Default
+        Fallback Intent.
     neighbor_intents:
       - Help_FindMyHearingAids
       - Default Fallback Intent
@@ -2479,6 +2503,10 @@ intents:
         subject - "mute", "tinnitus", "television". With no explicit request
         to change memory or program these are Cmd.VolumeMute, Help_Tinnitus,
         Cmd.StreamingStart and the rest.
+      - Requests to transcribe or write down a meeting, which are
+        Cmd.TranscribeStart. "Meeting" is a memory name and a transcribed
+        meeting is that intent's subject, so only an explicit request to
+        change memory or program resolves here.
     boundary_cases:
       - A named memory, program, profile or setting is an explicit change
         request. A hearing-difficulty complaint naming none of those and
@@ -2531,6 +2559,7 @@ intents:
       - Help_MaskMode
       - Help_Pairing
       - Cmd.EdgeModeDeactivate
+      - Cmd.TranscribeStart
     positive_example: "I've just sat down in a busy restaurant."
     hard_negative_example: "How do I change to a different memory?"
 
