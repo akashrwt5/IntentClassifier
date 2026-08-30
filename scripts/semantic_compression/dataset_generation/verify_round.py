@@ -17,10 +17,11 @@ F = ['business_description', 'trigger_conditions', 'do_not_trigger', 'boundary_c
      'neighbor_intents', 'positive_example', 'hard_negative_example']
 R = []; add = lambda l, v: R.append((l, bool(v)))
 
-add('1  60 intents, unique names', len(specs) == 60 and len(names) == 60)
+# 57 since D20 dropped the three unsupported intents. Was 60 for the review.
+add('1  57 intents, unique names', len(specs) == 57 and len(names) == 57)
 add('2  authored/intent_specs identical on 7 fields',
     set(abn) == names and all(abn[n].get(f) == by[n].get(f) for n in names for f in F))
-add('3  authored_by present on all 60', all(abn[n].get('authored_by') for n in names))
+add('3  authored_by present on all 57', all(abn[n].get('authored_by') for n in names))
 add('4  129 comments preserved in authored_specs',
     sum(1 for l in open(f'{D}/authored_specs.yaml').read().splitlines() if l.strip().startswith('#')) == 129)
 blob = ' '.join(x for n in names for f in F for x in ([by[n][f]] if isinstance(by[n][f], str) else by[n][f]))
@@ -41,13 +42,13 @@ def fp(o):
 pr = fp(cfg); pl = list(pr.items()) if isinstance(pr, dict) else [tuple(p) for p in pr]
 add(f'10 {len(pl)}/{len(pl)} Cmd/Help pairs mutual neighbours',
     not [(c, h) for c, h in pl if h not in by[c]['neighbor_intents'] or c not in by[h]['neighbor_intents']])
-add('11 Fallback is a neighbour of 59/59', sum(1 for n, s in by.items() if n != FB and FB in s['neighbor_intents']) == 59)
+add('11 Fallback is a neighbour of 56/56', sum(1 for n, s in by.items() if n != FB and FB in s['neighbor_intents']) == 56)
 
 mf = set(bs.IntentSpecification.model_fields); ok = 0; probs = 0
 for s in specs:
     o = bs.IntentSpecification(**{k: v for k, v in s.items() if k in mf}); ok += 1
     probs += len(bs.validate_spec(o, s['name'], names))
-add('12 60/60 IntentSpecification + validate_spec clean', ok == 60 and probs == 0)
+add('12 57/57 IntentSpecification + validate_spec clean', ok == 57 and probs == 0)
 
 # --- Help_Tinnitus round -------------------------------------------------
 t = by['Help_Tinnitus']
@@ -162,39 +163,19 @@ add('49 the other four HelpAppSettings specs untouched',
     and len(by['Help_DemoMode']['trigger_conditions']) == 5
     and len(by['Help_DeviceSettings']['trigger_conditions']) == 7)
 
-# --- HelpHealth family round ---------------------------------------------
-hr, hrr = by['Help_HeartRate'], by['Help_HeartRateRecovery']
-add('50 D10 the current-heart-rate VALUE trigger is gone',
-    not any('current heart rate' in x for x in hr['trigger_conditions']) and len(hr['trigger_conditions']) == 4)
-add('51 D10 the business description says it does not report the value',
-    'does not report the value' in hr['business_description'])
-add('52 D10 the boundary case gives the explaining-IS-the-action reason',
-    any('when the requested action IS explaining' in x for x in hr['boundary_cases'])
-    and not any('No Cmd intent exists for reading heart rate' in x for x in hr['boundary_cases']))
-add('53 D11 both interpretation triggers removed from Help_HeartRateRecovery',
-    not any('normal value' in x or 'improve their heart rate' in x for x in hrr['trigger_conditions'])
-    and len(hrr['trigger_conditions']) == 3)
-add('54 D11 business description no longer promises what a good value looks like',
-    'good value' not in hrr['business_description'])
-add('55 D11 routed to Fallback by name, from the HRR side',
-    any('Default Fallback Intent' in x for x in hrr['do_not_trigger']))
+# --- HelpHealth family round, as it stands after D20 ---------------------
+# Checks 50-55, 56c, 56d and 57 are RETIRED, not deleted quietly: they asserted
+# D10 and D11 edits to Help_HeartRate, Help_HeartRateRecovery and
+# Help_ThriveScore, and D20 dropped all three. What survived them is the
+# Fallback widening those rounds produced, which outlives the intents.
 add('56 D11 D4 widened -- Fallback covers a clinical READING, not just a condition',
     any('clinical reading such as a heart rate' in x for x in by[FB]['trigger_conditions']))
 add('56b D11 correction -- the over-broad wording is gone',
     not any('measured health value' in x for x in by[FB]['trigger_conditions']))
-add('56c D11 correction -- app scores explicitly carved out of the Fallback rule',
-    any('app score is not a clinical reading' in x for x in by[FB]['trigger_conditions']))
-add('56d D11 correction -- Help_ThriveScore untouched and still owns improving a score',
-    any('improve or increase a score' in x for x in by['Help_ThriveScore']['trigger_conditions'])
-    and len(by['Help_ThriveScore']['do_not_trigger']) == 3)
-add('57 three vague heart-rate cross-references now name the intent',
-    any('which are Help_HeartRateRecovery' in x for x in by['Help_Health']['do_not_trigger'])
-    and any('prefer Help_HeartRate' in x for x in by['Help_Health']['boundary_cases'])
-    and any('Help_HeartRate and Help_HeartRateRecovery' in x for x in by['Help_ThriveScore']['do_not_trigger']))
-add('58 the other three HelpHealth specs untouched',
+add('58 the surviving HelpHealth specs untouched',
     len(by['Help_Activity']['trigger_conditions']) == 3
     and len(by['Help_FallAlert']['trigger_conditions']) == 6
-    and len(by['Help_ThriveScore']['trigger_conditions']) == 5)
+    and len(by['Help_Health']['trigger_conditions']) == 4)
 
 # --- HelpDeviceCare family round -----------------------------------------
 sc = by['Help_SelfCheck']
@@ -252,8 +233,8 @@ add('72 AUDIT Help_Health no longer routes broad app questions to Help_Home',
     not any('broad questions about the app' in x for x in by['Help_Health']['do_not_trigger'])
     and any('naming no screen and no feature is Default Fallback' in x
             for x in by['Help_Home']['boundary_cases']))
-add('73 AUDIT Fallback <-> Help_HeartRate guarded, the pair D11s fix created',
-    any('Help_HeartRate' in x for x in by[FB]['do_not_trigger']))
+# 73 retired by D20. It asserted Fallback disclaimed Help_HeartRate, which no
+# longer exists -- Fallback now CLAIMS the subject outright. Check 111 covers it.
 # The check that would have caught the ranking errors. Every percentage a spec
 # asserts about its own deployed speech is re-derived from train.csv here, so a
 # stale number fails the run instead of reaching the generation prompt.
@@ -331,9 +312,9 @@ add('83 E9 config no longer contradicts what the three specs say',
             for x in by[n]['do_not_trigger'] + by[n]['boundary_cases'])
         for n in ('Cmd.SendMessage', 'Cmd.ListenMessage')))
 add('84 E9 provenance counts match the 60 specs that exist',
-    len(_find(_cfg, 'hand_authored_intents')) == 60
-    and 'All 60 are currently listed' in open(f'{D}/generator_config.yaml').read()
-    and 'The remaining 59 were drafted' in open(f'{D}/authored_specs.yaml').read())
+    len(_find(_cfg, 'hand_authored_intents')) == 57
+    and 'All 57 are currently listed' in open(f'{D}/generator_config.yaml').read()
+    and 'The remaining 56 were drafted' in open(f'{D}/authored_specs.yaml').read())
 
 # --- E10, the two checks the audit said were missing ---------------------
 # Sections 7 and 8 of spec_review.py. Both baselines are pinned by NAME, not by
@@ -349,7 +330,10 @@ _OW_KNOWN = {('Help_AppSettings', 'Help_WhatsNew'),
 # name each other over the bare back-to-normal tie. 7 -> 6.
 _CO_KNOWN = {('Cmd.ListenMessage', 'reminders.complete'),
              ('Cmd.VolumeMute', 'Help_Tinnitus'),
-             (FB, 'Help_Health'), (FB, 'Help_HearShare'), (FB, 'Help_ThriveScore'),
+             # D20 removed two: (FB, 'Help_ThriveScore') went with the intent,
+             # and (FB, 'Help_Health') closed because Help_Health's rewritten
+             # exclusion now names Default Fallback Intent outright. 6 -> 4.
+             (FB, 'Help_HearShare'),
              ('Help_MemoryOptions', 'reminders.add')}
 add(f'85 E10 Section 7 finds no NEW route without a destination {sorted(_ow - _OW_KNOWN)}',
     not (_ow - _OW_KNOWN))
@@ -488,6 +472,48 @@ add('109 D18 the route it surfaced is closed on the Fallback side',
     any('other than the phone or the hearing aids' in x for x in fb['trigger_conditions'])
     and any('Default Fallback Intent' in x for x in by['Cmd.FindMyPhone']['do_not_trigger']))
 
+# --- D20, dropping the three unsupported intents -------------------------
+_D3 = ('Help_HeartRate', 'Help_HeartRateRecovery', 'Help_ThriveScore')
+_cfgtxt = open(f'{D}/generator_config.yaml').read()
+add('110 D20 all three gone from the taxonomy itself',
+    not [n for n in _D3 if n in names]
+    and not [n for n in _D3 if n in _find(_cfg, 'hand_authored_intents')]
+    and len(_find(_cfg, 'families')['HelpHealth']) == 3)
+# Fallback must CLAIM them, not merely be where they land by absence. Same
+# standard C1 and C2 set for messaging and powering the aids on or off.
+add('111 D20 Fallback states the unsupported set explicitly',
+    any(all(w in x for w in ('heart rate', 'Thrive', 'None of the three is a supported'))
+        for x in by[FB]['trigger_conditions'])
+    and not any('which are Help_HeartRate' in x for x in by[FB]['do_not_trigger']))
+# That carve-out existed only to keep app scores with Help_ThriveScore. With the
+# intent gone it would send scores nowhere, so it had to go in the same change.
+add('112 D20 the app-score carve-out went with the intent it protected',
+    not any('app score is not a clinical reading' in x for x in by[FB]['trigger_conditions']))
+add('113 D20 Help_Health and Help_Activity route them to Fallback and lost the links',
+    any('None of the three is a supported feature' in x
+        for x in by['Help_Health']['do_not_trigger'])
+    and any('none of the three is a supported feature' in x
+            for x in by['Help_Activity']['do_not_trigger'])
+    and not set(by['Help_Health']['neighbor_intents']) & set(_D3)
+    and not set(by['Help_Activity']['neighbor_intents']) & set(_D3))
+# Dropping an intent that is still in the shipping label map is not the same as
+# dropping one that was already gone. The config has to say so.
+add('114 D20 drop_intents records all three, with the still-in-runtime warning',
+    all(n in _find(_cfg, 'drop_intents') for n in _D3)
+    and all(_find(_cfg, 'drop_intents')[n].get('reason') for n in _D3)
+    and 'STILL in the shipping label map'
+        in _find(_cfg, 'drop_intents')['Help_HeartRate'].get('note', '')
+    and all('nlu_schema.json' in _find(_cfg, 'drop_intents')[n].get('note', '')
+            for n in _D3))
+add('115 D20 no spec anywhere still names one of them',
+    not [(n, f) for n, s_ in by.items() for f in
+         ('business_description', 'trigger_conditions', 'do_not_trigger', 'boundary_cases')
+         for x in ([s_[f]] if isinstance(s_[f], str) else s_[f])
+         for d3 in _D3 if d3 in x])
+add('116 D20 length_targets carries no entry for them',
+    not [n for n in _D3
+         if n in yaml.safe_load(open(f'{D}/length_targets.yaml'))['intents']])
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
@@ -533,7 +559,7 @@ add('35d authored_by matches _provenance.model on all 60',
     not [n for n, s in by.items()
          if _A[n].get('authored_by') != s.get('_provenance', {}).get('model')])
 add('35e provenance tally matches the specs it describes',
-    I['meta']['sources'] == {'assistant-session (claude-opus-5)': 59,
+    I['meta']['sources'] == {'assistant-session (claude-opus-5)': 56,
                              'human (from blueprint, for privacy)': 1})
 
 for l, v in R: print(f'{l:<56}{"PASS" if v else "FAIL"}')

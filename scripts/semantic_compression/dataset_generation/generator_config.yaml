@@ -632,8 +632,8 @@ taxonomy:
   # and never sent to the LLM API. They are still validated by the same rules
   # that gate generated specs, and all of them need HUMAN REVIEW before Stage 1.
   #
-  # All 60 are currently listed. `Default Fallback Intent` is here for the
-  # privacy reason below; the other 59 were drafted in an assistant session,
+  # All 57 are currently listed. `Default Fallback Intent` is here for the
+  # privacy reason below; the other 56 were drafted in an assistant session,
   # family by family, so that sibling boundaries are mutually consistent -- a
   # per-intent API call cannot do that, because it never sees the sibling it
   # must avoid overlapping with. Remove a name from this list to hand that
@@ -684,10 +684,7 @@ taxonomy:
     - "Help_Tinnitus"
     - "Help_Activity"
     - "Help_Health"
-    - "Help_HeartRate"
-    - "Help_HeartRateRecovery"
     - "Help_FallAlert"
-    - "Help_ThriveScore"
     - "Help_FindMyHearingAids"
     - "Help_Transcribe"
     - "Help_Translate"
@@ -794,6 +791,35 @@ taxonomy:
         "how much further do i need to walk", "how long have i danced",
         "how many steps have i walked". Revisit if generic activity queries
         need coverage.
+    "Help_HeartRate":
+      reason: >-
+        Not a supported feature. Disabled in Dialogflow, and confirmed
+        unsupported by Akash on 2026-08-27. Questions about it resolve to
+        Default Fallback Intent, which states the unsupported set explicitly.
+      note: >-
+        Unlike Help_HearingCareAnywhereConnect, this intent is STILL in the
+        shipping label map (language_packs/en/nlu_schema.json) and still carries
+        51 train.csv rows, 7 dev_hard.csv rows and 19 seeds. Dropping it widens
+        the 60-vs-57 runtime delta rather than closing it. See DEFERRED E7 and
+        D20 for the measurement cost.
+      redistribute_seeds_to: null
+    "Help_HeartRateRecovery":
+      reason: >-
+        Not a supported feature, same decision as Help_HeartRate. Disabled in
+        Dialogflow and confirmed unsupported on 2026-08-27.
+      note: >-
+        Still in nlu_schema.json. 46 train.csv rows, 7 dev_hard.csv rows,
+        22 seeds.
+      redistribute_seeds_to: null
+    "Help_ThriveScore":
+      reason: >-
+        Not a supported feature. Akash, 2026-08-27. The Thrive wellness scores
+        and their component scores are not explained by this assistant, so the
+        questions resolve to Default Fallback Intent.
+      note: >-
+        Still in nlu_schema.json. 105 train.csv rows, 13 dev_hard.csv rows and
+        65 seeds -- the largest of the three.
+      redistribute_seeds_to: null
     "Help_HearingCareAnywhereConnect":
       reason: >-
         Disabled in Dialogflow. All 72 of its unique utterances also appear
@@ -873,10 +899,7 @@ families:
     - Help_WhatsNew
   HelpHealth:
     - Help_Health
-    - Help_HeartRate
-    - Help_HeartRateRecovery
     - Help_FallAlert
-    - Help_ThriveScore
     - Help_Activity
   HelpSpeechServices:
     - Help_Transcribe

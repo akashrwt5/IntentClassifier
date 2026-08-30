@@ -15,8 +15,8 @@ audit of everything above, and the EdgeMode and SpeechServices families.
 **60 of 60 reviewed. Every intent in the taxonomy has now been read.**
 
 **Signed off 2026-08-30 by Akash Rawat, all 18 families.** Stage 0 is closed.
-See D19 for what sign-off does and does not claim, and for the three things that
-still stand between here and a paid Stage 1 run.
+E7 applied the same day, taking the taxonomy **60 → 57**. See D19 for what
+sign-off does and does not claim and D20 for the drop.
 
 ---
 
@@ -937,6 +937,82 @@ Stage 1 and none is a spec defect:
 
 **Nothing to close.**
 
+### D20. E7 applied — the taxonomy is 57
+
+**2026-08-30.** `Help_HeartRate`, `Help_HeartRateRecovery` and `Help_ThriveScore`
+dropped, as decided on 2026-08-27. E7 is the plan and the cost; this is what was
+actually done and what it moved.
+
+**E7's checklist was followed and was not quite complete.** It was written before
+D11, D16, D17 and D18 all edited `Default Fallback Intent`, so a fresh scan was
+run rather than trusting it. The scan found one thing the list did not name:
+
+    Default Fallback Intent   trigger  "An app score is not a clinical reading."
+
+That sentence was added by D11's correction and exists ONLY to keep app scores
+with `Help_ThriveScore`. Left in place with the intent gone, it would have carved
+scores out of Fallback's clinical rule while nothing else claimed them — scores
+would have belonged nowhere. Removed in the same change. Check 112 pins it.
+
+**What moved:**
+
+    intent_specs / authored_specs   60 -> 57 specs, 129 comments preserved
+    generator_config.yaml           3 added to drop_intents with reasons,
+                                    removed from families.HelpHealth (6 -> 3)
+                                    and from hand_authored_intents (60 -> 57)
+    length_targets.yaml             3 entries removed
+    neighbour links                 338 -> 321
+    Fallback                        1 exclusion removed, 1 trigger added,
+                                    the app-score carve-out removed
+    Help_Health                     2 exclusions merged into 1, 1 boundary case
+                                    rewritten, 3 neighbours dropped
+    Help_Activity                   1 exclusion rewritten, 1 neighbour dropped
+    Stage 1 plan                    8,360 -> 8,000 rows, 348 -> 333 calls forced
+
+**Fallback CLAIMS them; it is not merely where they land.** The ordering E7
+insisted on was kept — the three were dropped and Fallback updated in the same
+change, never stated first. The new trigger names all three subjects and says why
+they resolve there, the same standard C1 and C2 set for messaging and for
+powering the aids on or off.
+
+**Nine checks retired rather than deleted quietly.** 50-55, 56c, 56d, 57 and 73
+asserted D10 and D11 edits to two specs that no longer exist. The comment in
+`verify_round.py` says which round wrote them and why they went. What survived is
+the Fallback widening those rounds produced — checks 56 and 56b — because it
+outlives the intents that prompted it.
+
+**A Section 8 flag closed as a side effect, and it is worth naming.**
+`Default Fallback Intent vs Help_Health` cleared, not because the collision was
+argued away but because `Help_Health`'s rewritten exclusion now names
+`Default Fallback Intent` outright and `subject_collisions` skips a pair once one
+side names the other. Section 8 goes 6 → 4. That is a real fix, but it is worth
+recording that the mechanism was incidental.
+
+**THE MEASUREMENT COST IS NOW LIVE, AND IT IS THE ONE THING E7 SAID NOT TO
+FORGET.** All three are still in `language_packs/en/nlu_schema.json` and still
+carry deployed data, so the drop WIDENS the 60-vs-57 runtime delta rather than
+closing it:
+
+    7 of 813   =  0.9%   before   well inside the 0.038 MDE
+    34 of 813  =  4.2%   now      LARGER than the MDE
+
+`dev_hard` now contains 34 rows for intents this taxonomy does not have. A model
+following the taxonomy is marked wrong on every one, and the bias points against
+the change the Super Dataset exists to demonstrate. The architecture doc already
+requires an explicit decision before any result is reported — exclude those rows
+and re-state the 0.8327 baseline, or accept and record it. **After this drop that
+decision cannot be deferred.** It is not a Stage 1 blocker; it is a
+report-the-result blocker, and it is now the largest open item in this file.
+
+**Sign-off was given for 60 intents, hours before the taxonomy became 57.**
+`meta.sign_off.scope` says so rather than implying the 57 were signed as such.
+Three specs — Fallback, `Help_Health`, `Help_Activity` — were edited after
+sign-off, all three as the direct consequence of the E7 decision of 2026-08-27
+rather than as new review findings. Recorded here so nobody later reads the
+sign-off as covering text it did not.
+
+**Nothing to close.**
+
 ## E. Not started
 
 ### E1. All 33 `Help*` intents
@@ -1136,7 +1212,7 @@ review side rather than the evaluation side.
 
 **To close:** it closes when the instrument gap does — see F.
 
-### E7. Unsupported intents — decided to drop, NOT yet applied
+### E7. Unsupported intents — decided to drop, NOT yet applied — APPLIED 2026-08-30, see D20
 
 Akash, 2026-08-27. `Help_HeartRate` and `Help_HeartRateRecovery` are disabled in
 Dialogflow; `Help_ThriveScore` will not be supported either. Decision is to drop

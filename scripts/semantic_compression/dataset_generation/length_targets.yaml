@@ -317,22 +317,6 @@ intents:
     target_short_share: 0.65
     deployed_mean_words: 6.9
     source: measured
-  Help_HeartRate:
-    profile: help
-    short_max_words: 7
-    deployed_rows: 51
-    deployed_short_share: 0.86
-    target_short_share: 0.85
-    deployed_mean_words: 5.8
-    source: measured (capped from 86%)
-  Help_HeartRateRecovery:
-    profile: help
-    short_max_words: 7
-    deployed_rows: 46
-    deployed_short_share: 0.83
-    target_short_share: 0.83
-    deployed_mean_words: 6.0
-    source: measured
   Help_Home:
     profile: help
     short_max_words: 7
@@ -404,14 +388,6 @@ intents:
     deployed_short_share: 0.65
     target_short_share: 0.65
     deployed_mean_words: 6.8
-    source: measured
-  Help_ThriveScore:
-    profile: help
-    short_max_words: 7
-    deployed_rows: 105
-    deployed_short_share: 0.84
-    target_short_share: 0.84
-    deployed_mean_words: 6.3
     source: measured
   Help_Tinnitus:
     profile: help
