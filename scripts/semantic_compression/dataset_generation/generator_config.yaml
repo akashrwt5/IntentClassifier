@@ -605,10 +605,11 @@ taxonomy:
   # ---------------------------------------------------------------------------
   # RUNTIME DELTA -- outstanding work outside this pipeline
   # ---------------------------------------------------------------------------
-  # The derived taxonomy is 60 intents; the shipping label map
-  # (packages/runtime/nlu_engine/legacy_label_map.json) has 57. `seed_audit.py`
-  # section 4b reports the difference on every run. The remaining gap is all
-  # deliberate, but it is NOT yet reflected in the runtime:
+  # Both sides are now 57 and they still do NOT match: the taxonomy and the
+  # shipping label map overlap on only 53, with four names on each side. Do not
+  # read the equal totals as agreement. `seed_audit.py` section 4b reports the
+  # difference on every run. The gap is all deliberate, but it is NOT yet
+  # reflected in the runtime:
   #
   #   ADD to the runtime label map + dispatch handlers:
   #     Cmd.EdgeModeIncrease, Cmd.EdgeModeDecrease, Cmd.EdgeModeDeactivate
@@ -624,13 +625,21 @@ taxonomy:
   #       -- disabled in Dialogflow and a 100% seed subset of
   #          Help_RemoteProgramming, but still shipped (55 rows). Decision:
   #          finish the deprecation.
+  #     Help_HeartRate, Help_HeartRateRecovery, Help_ThriveScore
+  #       -- dropped from the taxonomy on 2026-08-30, see drop_intents above and
+  #          DEFERRED.md D20. All three are STILL in the shipping label map and
+  #          still carry deployed data, so until this lands dev_hard scores a
+  #          taxonomy-following model wrong on 34 of its 813 rows -- 4.2%, which
+  #          is LARGER than the 0.038 MDE and points one way. That is a
+  #          report-the-result blocker, not a Stage 1 blocker.
   #
-  # Until this lands, a model trained on the 60 is NOT drop-in compatible with
-  # the current app.
+  # Until this lands, a model trained on this taxonomy is NOT drop-in compatible
+  # with the current app.
 
   # Intents whose specification is authored directly in `authored_specs.yaml`
   # and never sent to the LLM API. They are still validated by the same rules
-  # that gate generated specs, and all of them need HUMAN REVIEW before Stage 1.
+  # that gate generated specs. Human review completed 2026-08-30 -- see the
+  # meta.sign_off block in intent_specs.yaml and DEFERRED.md D19.
   #
   # All 57 are currently listed. `Default Fallback Intent` is here for the
   # privacy reason below; the other 56 were drafted in an assistant session,

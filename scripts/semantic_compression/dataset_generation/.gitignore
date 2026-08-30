@@ -1,0 +1,11 @@
+# Stage 1 generation output. Checkpoints are the RESULT of a paid run, not
+# source, and four of them were tracked by accident -- 373 rows written on
+# 2026-08-17 and 2026-08-23, before the prompt fix of 2026-08-28 and before the
+# spec rounds that followed it. Tracked, they came back on every checkout and
+# generator.py counted them as already generated, so a run without --force
+# silently shipped them. Untracked, the worst case is a stale working copy.
+#
+# generator.py resumes from whatever is here. If you want a clean run, either
+# pass --force (which truncates per intent) or delete the directory.
+.checkpoints/
+.checkpoints-pilot/

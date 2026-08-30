@@ -582,7 +582,7 @@ def render(r: dict, top: int) -> str:
             "really neighbours. Decide which, per row.",
             "",
             f"{r['fallback_links']} further link(s) point at the Fallback intent and are NOT",
-            "listed: Fallback is a neighbour of everything by definition and cannot name 59",
+            "listed: Fallback is a neighbour of everything by definition and cannot name 56",
             "intents back. Reporting those buries the real ones.",
             "",
             f"**{len(same)} of these are within a single family** — read those first. Two",

@@ -9,7 +9,7 @@ report. The per-family sign-off table in `SPEC_REVIEW.md` records what has been
 Every item states what closing it needs. An item with no closing condition is a
 wish, not a task.
 
-Last updated 2026-08-28, after the `Cmd.*` review, the HelpAudio,
+Last updated 2026-08-30, after the `Cmd.*` review, the HelpAudio,
 all Help families, `Default Fallback Intent`, the Reminders intents, an
 audit of everything above, and the EdgeMode and SpeechServices families.
 **60 of 60 reviewed. Every intent in the taxonomy has now been read.**
@@ -670,7 +670,7 @@ edits re-checked against the family as a whole, and the four cross-references
 from `Help_IntelliVoice` and `Help_MaskMode` checked from this side.
 
 **This family has no deployed rows to check against.** All three `Cmd.EdgeMode*`
-intents are in the 60-vs-57 runtime delta — they are absent from
+intents are in the runtime delta (57 vs 57, overlapping on 53) — they are absent from
 `language_packs/en/nlu_schema.json`, so the shipped model cannot emit them and
 `dev_hard` holds 0 rows for all three (`Help_EdgeMode` has 9). The
 command-shaped-rate check that caught three defects in other families cannot run
@@ -923,9 +923,8 @@ was a review STATE wedged into an authorship field; the state now lives in
 **Sign-off does not authorise a paid run.** Three things still stand in front of
 Stage 1 and none is a spec defect:
 
-1. **E7 is decided and not applied.** Three unsupported intents are still in the
-   taxonomy. Generating 8,360 rows now writes ~360 rows for intents that are
-   being dropped.
+1. ~~**E7 is decided and not applied.**~~ **Applied the same day — see D20.**
+   Written before D20 existed and left standing so the sequence stays readable.
 2. **749 stale rows would carry through.** Sixteen checkpoint files date from
    2026-08-17 and 2026-08-23 — before the prompt fix of 2026-08-28 and before 18
    rounds of spec edits. Without `--force` the plan is 317 calls rather than 348,
@@ -990,7 +989,7 @@ recording that the mechanism was incidental.
 
 **THE MEASUREMENT COST IS NOW LIVE, AND IT IS THE ONE THING E7 SAID NOT TO
 FORGET.** All three are still in `language_packs/en/nlu_schema.json` and still
-carry deployed data, so the drop WIDENS the 60-vs-57 runtime delta rather than
+carry deployed data, so the drop WIDENS the runtime delta (57 vs 57, overlapping on 53) rather than
 closing it:
 
     7 of 813   =  0.9%   before   well inside the 0.038 MDE
@@ -1012,6 +1011,100 @@ rather than as new review findings. Recorded here so nobody later reads the
 sign-off as covering text it did not.
 
 **Nothing to close.**
+
+### D21. A review of this session's own changes, and what it found
+
+Run 2026-08-30 after the EdgeMode, SpeechServices, sign-off and E7 commits, as an
+adversarial pass rather than a confirmation one. Fourteen findings, every one
+verified against the repo before being accepted. The four that mattered:
+
+**A false superlative reached a spec. Third time in this review.**
+`Cmd.TranslationStart` claimed 17.5% question-shaped was *"the highest of any
+action command in the taxonomy"*. `Cmd.FindMyPhone` is **20.2%** and is an action
+command — it rings the phone. The claim came from an analysis that excluded it
+through a hardcoded status-query list the spec never disclosed, which is the same
+shape as the ranking errors the audit round found in `Help_Pairing` and
+`Help_SelfCheck`. Check 70 guards those two by name and nothing generalised it.
+
+Fixed by dropping the ranking and keeping the comparison that carries the actual
+argument — the two halves of one family, eight times apart. Two new guards: check
+117 fails any taxonomy-wide superlative about a spec's own rate, and **check 74
+now re-derives CITED percentages too**, not just a spec's own. That is the gap
+that let this through twice: `Help_FindMyHearingAids at 40.6%` and
+`Cmd.TranscribeStart at 2.0%` were never checked by anything.
+
+**`meta.sign_off.scope` had already drifted from the source that writes it.**
+`intent_specs.yaml` carried D20's qualifier — *"Three unsupported intents dropped
+afterwards"* — and `bootstrap_specs.py` still wrote the unqualified sentence. The
+next regeneration would have erased exactly the sentence D20 added so nobody
+reads the sign-off as covering 57 intents. **This is the trap D19 documents,
+reproduced one field over, by the commit that documented it.** Check 35b was a
+presence check (`"sign_off"` appears in the source) and could not see a drifting
+value; it now compares all five fields against the literal the source would emit.
+
+**The RUNTIME DELTA block still described the world before E7.** It said the
+taxonomy is 60 and the label map 57, and its REMOVE list named one intent. Both
+sides are now **57 and still do not match** — they overlap on 53, four names each
+side. Equal totals reading as agreement is worse than the old mismatch, so the
+block now says so in its first line, and the three dropped intents are on the
+REMOVE list with the 4.2% dev_hard cost attached.
+
+**A dangling `- but` mid-sentence in `Help_IntelliVoice`,** left by the audit
+round. Pre-existing, but D17 claimed to have checked that spec's cross-references
+from the other side and did not notice the wording. Check 5's corruption regex
+looks for `[a-z]- [a-z]` and cannot match `. - but`; check 119 now covers it.
+
+**Also fixed:** `spec_review.py` rendered "cannot name 59 intents" (56);
+`generator_config.yaml` still said all specs *"need HUMAN REVIEW before Stage 1"*
+in the same file as the sign-off that closed it; `generator.py --pilot` help
+quoted 348 calls and 8,360 rows (333 and 8,000); and three check labels lied
+about what they assert — 84 and 35d said 60, and 58 said *"the surviving
+HelpHealth specs untouched"* when D20 had edited two of them in that very commit.
+58 now pins the shape D20 left them in.
+
+**Verified clean:** `seed_loader` loads 57 with no warning and files all three
+orphaned seed files under `dropped` with reasons; every `.py` compiles and
+`bootstrap_specs` imports; `Cmd.EdgeModeDeactivate`'s narrowing orphans 1 of its
+16 seeds, and that one names a different mode which the same commit disclaims;
+`Cmd.MemoryChange`'s narrowing orphans 0 train rows and the 1 `dev_hard` row D17
+already recorded; the nine checks E7 retired all have live successors, so no
+coverage was lost; no dropped, duplicated or mangled list items anywhere else in
+the diff.
+
+**Two things left open rather than fixed — see E11 and E12.**
+
+### E11. `redistribute_seeds_to` is dead config, and Fallback now claims a subject it has no seeds for
+
+All five `drop_intents` entries carry `redistribute_seeds_to`, and **no Python
+reads it** — `grep` across the whole pipeline returns YAML only. So the 19 + 22 +
+65 = **106 seed utterances** of the three dropped intents are discarded outright.
+
+Meanwhile D20 gave `Default Fallback Intent` a trigger that explicitly claims
+heart rate, heart rate recovery and the Thrive scores, and only **5 of its 613
+seeds** carry any of those tokens. Stage 1 will therefore generate Fallback rows
+against a rule with almost no exemplar — which is the same failure D18 argues
+against for `Cmd.TranslationStart`, on the intent with the largest budget (800
+rows) and the one that decides FAR.
+
+**To close:** either implement `redistribute_seeds_to` and point the three at
+`Default Fallback Intent`, or delete the inert key and accept that the new
+Fallback subject ships without seed evidence — with that stated in the spec, so a
+low generated rate is read as expected rather than as a defect.
+
+### E12. Two committed generated artefacts are stale
+
+`specs_summary.md` still opens *"60 intents. Provenance: 59 × assistant-session
+(claude-opus-5), pending human review"* and still carries rows and
+neighbour-table entries for all three dropped intents. `seed_audit_report.md`
+(2026-08-13) is stale the same way. Both are build output; nothing regenerates
+them in this session and no check covers them. `seed_audit.py` section 4b also
+labels the three *"runtime only — no seeds, no spec"*, which is wrong: they have
+19, 22 and 65 seed files on disk. They are dropped, not seedless.
+
+**To close:** regenerate both, and fix the 4b label. Regenerating `specs_summary`
+means running `bootstrap_specs.py`, which rewrites `intent_specs.yaml` at a
+different line width and would produce a very large diff — so it wants its own
+commit, not a corner of another one.
 
 ## E. Not started
 
@@ -1198,7 +1291,9 @@ spec. Today no spec mentions the case at all.
 
 ### E6. `Help_Activity` has no deployed rows and cannot be evaluated
 
-`Help_Activity` is one of the four intents in the 60-vs-57 runtime delta, and the
+`Help_Activity` is one of the four taxonomy-only intents in the runtime delta
+(60-vs-57 when this was written; both sides are 57 since D20, overlapping on 53
+with four names on each side), and the
 only one of the four that is not an EdgeMode command. It has **0 rows in
 `train.csv`** and 0 in `dev_hard`, against 26 seed utterances.
 
@@ -1479,7 +1574,7 @@ last thing standing.
 - **Stage 3 (hard negatives) is not built.** `hard_negatives_per_intent: 40` and
   `oos_ratio: 0.15` are in `generator_config.yaml` and referenced by no code.
 - **Tier-2 sealed holdout does not exist.** Never blocked by the generator.
-- **The 60-vs-57 instrument gap.** `dev_hard` cannot score four intents and
+- **The runtime-delta instrument gap.** `dev_hard` cannot score four intents and
   carries seven rows of one this taxonomy drops.
 - **Length/difficulty tilt.** The generator over-produces long rows; the fix was
   never actually tested, because the instruction meant to fix it was written into

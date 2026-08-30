@@ -794,8 +794,8 @@ def main() -> int:
         action="store_true",
         help=(
             "Run the stratified pilot set from generation.pilot -- one batch per "
-            "intent, 12 calls against a full run's 348. Use this to test a CONFIG "
-            "change; a config question does not need 8,360 rows to answer."
+            "intent, 12 calls against a full run's 333. Use this to test a CONFIG "
+            "change; a config question does not need 8,000 rows to answer."
         ),
     )
     parser.add_argument("--limit", type=int, default=0)

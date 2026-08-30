@@ -415,7 +415,10 @@ def export_yaml(config: GeneratorConfig, specs: list[dict[str, Any]]) -> Path:
             "sign_off": {
                 "reviewed_by": "Akash Rawat",
                 "date": "2026-08-30",
-                "scope": "All 60 intents, family by family, 18 rounds.",
+                "scope": (
+                    "All 60 intents as reviewed, family by family, 18 rounds. "
+                    "Three unsupported intents dropped afterwards -- see D20."
+                ),
                 "record": "docs/Prod-Work-Documentation/DEFERRED.md, D1-D18.",
                 "method": (
                     "Specs drafted and read in an assistant session; every "

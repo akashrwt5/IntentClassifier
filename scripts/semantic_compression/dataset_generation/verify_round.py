@@ -1,4 +1,5 @@
 """Full verification, run against the REAL repo. No API, no network, reads specs only."""
+import ast as _ast
 import re, sys, yaml
 from pathlib import Path
 
@@ -172,10 +173,16 @@ add('56 D11 D4 widened -- Fallback covers a clinical READING, not just a conditi
     any('clinical reading such as a heart rate' in x for x in by[FB]['trigger_conditions']))
 add('56b D11 correction -- the over-broad wording is gone',
     not any('measured health value' in x for x in by[FB]['trigger_conditions']))
-add('58 the surviving HelpHealth specs untouched',
+# Was 'the surviving HelpHealth specs untouched', which was false the moment it
+# was written: D20 edited Help_Health and Help_Activity. Now pins the shape D20
+# left them in, so a later round cannot quietly widen either.
+add('58 the surviving HelpHealth specs are the shape D20 left them in',
     len(by['Help_Activity']['trigger_conditions']) == 3
+    and len(by['Help_Activity']['do_not_trigger']) == 3
     and len(by['Help_FallAlert']['trigger_conditions']) == 6
-    and len(by['Help_Health']['trigger_conditions']) == 4)
+    and len(by['Help_Health']['trigger_conditions']) == 4
+    and len(by['Help_Health']['do_not_trigger']) == 5
+    and len(by['Help_Health']['boundary_cases']) == 3)
 
 # --- HelpDeviceCare family round -----------------------------------------
 sc = by['Help_SelfCheck']
@@ -267,7 +274,27 @@ try:
                 _act = 100 * (_cc['help-shaped'] + _cc['explain-request']) / len(_rs)
                 if abs(_act - float(_m.group(1))) >= 0.05:
                     _bad.append((_s['name'], f"claims {_m.group(1)}% question, actual {_act:.1f}%"))
-    add(f'74 AUDIT every command- and question-shaped percentage re-derives exactly {_bad or ""}', not _bad)
+    # A spec may also cite ANOTHER intent's rate -- "Cmd.TranscribeStart at
+    # 2.0%", "Help_FindMyHearingAids at 40.6%". Nothing re-derived those, which
+    # is how a false comparative reached a spec twice: once in the audit round
+    # and once in D18. Accept either shape measure, since the sentence decides
+    # which is meant and this only needs to catch a fabricated number.
+    for _s in specs:
+        _txt = ([_s['business_description']] + _s['trigger_conditions']
+                + _s['do_not_trigger'] + _s['boundary_cases'])
+        for _x in _txt:
+            for _m in re.finditer(r'((?:Cmd|Help)[._]\w+) at (\d+\.?\d*)%', _x):
+                _rs = _byi.get(_m.group(1), [])
+                if not _rs:
+                    _bad.append((_s['name'], f'cites {_m.group(1)}, which has no deployed rows'))
+                    continue
+                _cc = _c.Counter(_bl.surface_form(_t)[0] for _t in _rs)
+                _cand = (100 * _cc['command-shaped'] / len(_rs),
+                         100 * (_cc['help-shaped'] + _cc['explain-request']) / len(_rs))
+                if not any(abs(_v - float(_m.group(2))) < 0.05 for _v in _cand):
+                    _bad.append((_s['name'], f'cites {_m.group(1)} at {_m.group(2)}%, '
+                                             f'actual {_cand[0]:.1f}/{_cand[1]:.1f}'))
+    add(f'74 AUDIT every percentage a spec states or cites re-derives exactly {_bad or ""}', not _bad)
 except Exception as _e:
     add(f'74 AUDIT percentage re-derivation could not run ({type(_e).__name__})', False)
 
@@ -311,7 +338,7 @@ add('83 E9 config no longer contradicts what the three specs say',
     all(any('no messaging Help intent' in x or 'has no messaging Help intent' in x
             for x in by[n]['do_not_trigger'] + by[n]['boundary_cases'])
         for n in ('Cmd.SendMessage', 'Cmd.ListenMessage')))
-add('84 E9 provenance counts match the 60 specs that exist',
+add('84 E9 provenance counts match the 57 specs that exist',
     len(_find(_cfg, 'hand_authored_intents')) == 57
     and 'All 57 are currently listed' in open(f'{D}/generator_config.yaml').read()
     and 'The remaining 56 were drafted' in open(f'{D}/authored_specs.yaml').read())
@@ -514,6 +541,25 @@ add('116 D20 length_targets carries no entry for them',
     not [n for n in _D3
          if n in yaml.safe_load(open(f'{D}/length_targets.yaml'))['intents']])
 
+# --- D21, the defects this session's own review found --------------------
+# A spec asserted "the highest of any action command in the taxonomy" for a
+# 17.5% question-shaped rate. Cmd.FindMyPhone is 20.2% and is an action command
+# -- it rings the phone. The claim came from an analysis that excluded it via a
+# hardcoded status-query list the spec never disclosed. Superlatives about
+# deployed speech are the defect class check 70 exists for, and this is the
+# third one this review has produced.
+add('117 D21 no spec claims a taxonomy-wide superlative about its own rate',
+    not [s['name'] for s in specs for x in s['boundary_cases']
+         if 'highest of any action command' in x or 'highest in the taxonomy' in x])
+add('118 D21 the surviving comparison names the sibling and disclaims the ranking',
+    any('the sibling it shares a family with' in x and 'not a taxonomy record' in x
+        for x in by['Cmd.TranslationStart']['boundary_cases']))
+# A dangling "- but" mid-sentence, left by the audit round. Check 5's corruption
+# regex looks for "[a-z]- [a-z]" and cannot see ". - but".
+add('119 D21 no spec has a list marker stranded mid-sentence',
+    not [s['name'] for s in specs for f in ('trigger_conditions', 'do_not_trigger', 'boundary_cases')
+         for x in s[f] if re.search(r'[.;]\s+-\s+[a-z]', x)])
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]
@@ -543,9 +589,27 @@ add('35 REQUIRES HUMAN REVIEW gone, replaced by a sign_off record',
     and 'D1-D18' in I['meta']['sign_off']['record'])
 # bootstrap_specs.py WRITES that meta block, so editing intent_specs.yaml alone
 # would have been reverted by the next regeneration. Assert the source agrees.
-add('35b the sign_off block is written by bootstrap_specs.py, not just present in the yaml',
-    '"sign_off"' in open(f'{D}/bootstrap_specs.py').read()
-    and 'REQUIRES HUMAN REVIEW' not in open(f'{D}/bootstrap_specs.py').read())
+# Was a presence check only -- '"sign_off"' appears in the source, done. That
+# could not see a drifting VALUE, and one had already drifted: meta.sign_off.scope
+# said one thing in the yaml and another in the source that regenerates it, so
+# the next bootstrap run would have erased D20's qualifier. Now compares every
+# field of the block against the literal the source would emit.
+_bs = open(f'{D}/bootstrap_specs.py').read()
+_blk = re.search(r'"sign_off": \{(.*?)\n            \},', _bs, re.S)
+_src = {}
+if _blk:
+    for _k in ('reviewed_by', 'date', 'scope', 'record', 'method'):
+        _m = re.search(rf'"{_k}": \(\n((?:\s*".*?"\n)+)\s*\)', _blk.group(1))
+        if _m:
+            _src[_k] = ''.join(_ast.literal_eval(_l.strip()) for _l in _m.group(1).splitlines())
+        else:
+            _m = re.search(rf'"{_k}": "(.*?)"', _blk.group(1))
+            if _m:
+                _src[_k] = _m.group(1)
+add(f'35b bootstrap_specs.py would REGENERATE the same sign_off block '
+    f'{sorted(k for k in _src if _src[k] != I["meta"]["sign_off"].get(k))}',
+    bool(_blk) and len(_src) == 5 and _src == dict(I['meta']['sign_off'])
+    and 'REQUIRES HUMAN REVIEW' not in _bs)
 add('35c authored_specs.yaml no longer claims review is pending',
     'pending human review' not in open(f'{D}/authored_specs.yaml').read()
     and 'Human review completed 2026-08-30' in open(f'{D}/authored_specs.yaml').read())
@@ -555,7 +619,7 @@ add('35c authored_specs.yaml no longer claims review is pending',
 # _provenance, so a regeneration would have silently changed the provenance
 # tally. Now guarded.
 _A = {s['name']: s for s in yaml.safe_load(open(f'{D}/authored_specs.yaml'))['intents']}
-add('35d authored_by matches _provenance.model on all 60',
+add('35d authored_by matches _provenance.model on all 57',
     not [n for n, s in by.items()
          if _A[n].get('authored_by') != s.get('_provenance', {}).get('model')])
 add('35e provenance tally matches the specs it describes',

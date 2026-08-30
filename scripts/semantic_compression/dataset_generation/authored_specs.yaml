@@ -667,13 +667,14 @@ intents:
         belongs to Help_Translate.
       - A named target language is the strongest signal for this intent.
       - Deployed speech for this intent is 17.5% question-shaped - 11 of 63
-        rows, the highest of any action command in the taxonomy and more than
-        eight times its own family sibling Cmd.TranscribeStart at 2.0%. The
-        sample is small and the rate is approximate, but the direction is not.
-        Generation must reproduce it rather than writing imperatives only. A
-        generated rate near zero is a defect, not a success - it teaches the
-        model that a question is never this intent, and this spec's own
-        positive example is a question.
+        rows, against Cmd.TranscribeStart at 2.0%, the sibling it shares a
+        family with. Higher rates exist elsewhere, so this is not a taxonomy
+        record; what matters is that the two halves of this family are eight
+        times apart. The sample is small and the rate is approximate, but the
+        direction is not. Generation must reproduce it rather than writing
+        imperatives only. A generated rate near zero is a defect, not a
+        success - it teaches the model that a question is never this intent,
+        and this spec's own positive example is a question.
     neighbor_intents:
       - Cmd.TranscribeStart
       - Help_Translate
@@ -1296,16 +1297,16 @@ intents:
       - IntelliVoice and the Thrive voice assistant are different features
         despite both containing the word voice. Questions about talking TO the
         assistant are Help_VoiceAssistant.
-      - The seed data contains the variant spelling Intelligent Voice; it refers
-        to the same feature.
+      - The seed data contains the variant spelling Intelligent Voice; it
+        refers to the same feature.
       - There is no Cmd intent for IntelliVoice, so a direct request to run or
         switch it on stays here rather than resolving to a command. The
         deployed rows carry no genuine command phrasing - boundary_lint flags
         6 of 92, and 5 of those 6 are its known bare-guide artefact - so this
-        covers generated edge cases rather than observed speech. - but the
-        nearest command attractor is Cmd.EdgeModeIncrease, which would apply
-        Edge Mode instead, and that is a device action the user never asked
-        for. Help_MaskMode states the same rule for the same reason.
+        covers generated edge cases rather than observed speech. The nearest
+        command attractor is Cmd.EdgeModeIncrease, which would apply Edge Mode
+        instead, and that is a device action the user never asked for.
+        Help_MaskMode states the same rule for the same reason.
     neighbor_intents:
       - Help_EdgeMode
       - Help_VoiceAssistant
