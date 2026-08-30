@@ -55,6 +55,8 @@ from collections import Counter, defaultdict
 from math import comb
 from pathlib import Path
 
+import yaml
+
 HERE = Path(__file__).resolve().parent
 CHECKPOINTS = HERE / ".checkpoints" / "stage1"
 
@@ -148,6 +150,50 @@ def p_at_least(flags: int, rows: int, rate: float) -> float:
     return sum(comb(rows, i) * rate**i * (1.0 - rate) ** (rows - i) for i in range(flags, rows + 1))
 
 
+def p_at_most(flags: int, rows: int, rate: float) -> float:
+    """P(flags or fewer) under the deployed rate. The other tail.
+
+    This half exists because the test above could not see the failure it was
+    most needed for. Five Help specs carry a CARVE-OUT: the assistant cannot
+    perform the action, so explaining IS the action and a direct request
+    belongs to the Help intent. Each states a measured command-shaped rate and
+    says in terms that "a generated rate near zero is a defect, not a success".
+
+    The 2026-08-30 pilot generated 0 of 26 for Help_FindMyHearingAids against a
+    deployed 40.6%, and 0 of 25 for Help_Pairing against 29.5%. This file marked
+    both `ok`, because a one-sided "at or below deployed" test cannot fail an
+    intent for producing NONE of the thing it was asked for. Five rounds of
+    spec work were invisible to the only instrument that could check them.
+    """
+    if rows <= 0 or not 0.0 < rate < 1.0:
+        return 1.0
+    return sum(comb(rows, i) * rate**i * (1.0 - rate) ** (rows - i) for i in range(0, flags + 1))
+
+
+def carve_out_intents(path=None) -> set:
+    """Intents whose spec asks generation to REPRODUCE a command-shaped rate.
+
+    Read from the specs rather than listed here, so adding a sixth carve-out
+    turns the two-sided test on for it without touching this file.
+    """
+    path = path or (HERE / "intent_specs.yaml")
+    if not path.exists():
+        return set()
+    doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    # Detect on the STATED RATE, not on a catchphrase. The first version of this
+    # matched "near zero is a defect" and silently missed Help_HearShare, whose
+    # carve-out says "should not drop it to zero" instead -- the one intent of
+    # the five whose rate already fitted the old quota, and so the one nobody
+    # would have noticed was unguarded. A mutation test found it.
+    rate = re.compile(r"\d+\.?\d*% command-shaped")
+    return {
+        s["name"]
+        for s in doc.get("intents") or []
+        if s["name"].startswith("Help")
+        and any(rate.search(x) for x in (s.get("boundary_cases") or []))
+    }
+
+
 def family(intent: str) -> str:
     if intent.startswith("Help"):
         return "Help"
@@ -166,12 +212,39 @@ def flagged(intent: str, form: str) -> bool:
     return False  # Fallback and reminders.* have no such boundary
 
 
+def carries_command(text: str) -> bool:
+    """Does the utterance carry a command pattern ANYWHERE, short-circuit aside?
+
+    `surface_form` returns explain-request the moment it sees a help-verb, and
+    that is deliberate -- an explain-request is properly Help however it opens.
+    But it means "can you help me find my hearing aids" is counted as an
+    explain-request and NOT as command-shaped, so a batch full of direct
+    requests phrased that way reports as 0% command-shaped.
+
+    The 2026-08-30 pilots made that misleading rather than merely subtle:
+
+        Help_FindMyHearingAids generated   4.0% command-shaped
+                                          32.0% carrying a command pattern
+                              deployed    40.6% / 46.4%
+
+    Reading 4.0% alone says generation produced almost no direct requests. It
+    produced them at about seven tenths of the deployed rate and phrased them
+    with a help-verb. Those are different defects with different fixes, and the
+    headline number cannot tell them apart. This is REPORTED, never scored: the
+    pass condition stays on the same measure for both sides.
+    """
+    t = normalise(text)
+    return any(re.search(pat, t) for _, pat in COMMAND_SHAPED)
+
+
 def scan(pairs) -> dict:
-    per = defaultdict(lambda: {"n": 0, "flags": 0, "why": Counter()})
+    per = defaultdict(lambda: {"n": 0, "flags": 0, "cmd": 0, "why": Counter()})
     for text, intent in pairs:
         form, which = surface_form(text)
         rec = per[intent]
         rec["n"] += 1
+        if family(intent) == "Help" and carries_command(text):
+            rec["cmd"] += 1
         if flagged(intent, form):
             rec["flags"] += 1
             rec["why"][which] += 1
@@ -203,12 +276,19 @@ def load_generated(only=None, root=None) -> list[tuple[str, str]]:
 
 
 def report(base, gen, tolerance: float) -> tuple[str, int]:
+    carve = carve_out_intents()
     lines = [
         "# Help / Command boundary lint",
         "",
         "Surface form measured against the intent's family. `deployed` is the same",
         "check run over `language_packs/en/train.csv` — the rate real users produce.",
-        "A generated rate at or below deployed is the pass condition; the target is",
+        "A generated rate at or below deployed is the pass condition for most intents.",
+        "For the CARVE-OUT intents -- those whose spec states a measured",
+        "command-shaped rate and asks generation to reproduce it -- the test is",
+        "TWO-SIDED, because for them a rate near zero is the defect their own spec",
+        "names. Carve-outs found in the specs: "
+        + (", ".join(f"`{x}`" for x in sorted(carve)) or "none") + ".",
+        "The target is",
         "never zero, because an explain-request is properly Help however it opens.",
         "",
         "An intent fails when a one-sided exact binomial test puts this many flags or more",
@@ -219,14 +299,20 @@ def report(base, gen, tolerance: float) -> tuple[str, int]:
         f"and an intent fails only when at least {MIN_FLAGS_TO_FAIL} rows are flagged -- on a",
         "small batch one row is several points, and noise should not decide a gate.",
         "",
-        "| Intent | Rows | Flagged | Deployed | Expected | p | Verdict | Cause |",
-        "|---|---:|---:|---:|---:|---:|:-:|---|",
+        "`Cmd-patterned` is DIAGNOSTIC, not scored: the share of rows carrying a",
+        "command pattern anywhere, generated against deployed. A row reading \"can you",
+        "help me find my hearing aids\" is a direct request that `Flagged` cannot see,",
+        "because a help-verb makes it an explain-request first. When `Flagged` is near",
+        "zero and this column is not, the defect is PHRASING, not a missing shape.",
+        "",
+        "| Intent | Rows | Flagged | Deployed | Cmd-patterned | Expected | p | Verdict | Cause |",
+        "|---|---:|---:|---:|---:|---:|---:|:-:|---|",
     ]
     failures = 0
     review: list[str] = []
     for intent in sorted(gen):
         g = gen[intent]
-        b = base.get(intent, {"n": 0, "flags": 0})
+        b = base.get(intent, {"n": 0, "flags": 0, "cmd": 0})
         g_rate = g["flags"] / g["n"] if g["n"] else 0.0
         b_rate = b["flags"] / b["n"] if b["n"] else 0.0
         # An intent with no deployed rows has no baseline, and this whole check is
@@ -239,17 +325,37 @@ def report(base, gen, tolerance: float) -> tuple[str, int]:
         uncalibrated = not b["n"]
         pvalue = 1.0 if uncalibrated else p_at_least(g["flags"], g["n"], b_rate)
         bad = not uncalibrated and pvalue < ALPHA and g["flags"] >= MIN_FLAGS_TO_FAIL
-        failures += bad
+        # The other tail, for carve-out intents only. Everywhere else a low rate
+        # is the desired outcome and testing for it would fail correct work.
+        # Guarded the same way as the upper tail: only judge when deployed speech
+        # predicts at least MIN_FLAGS_TO_FAIL rows, so noise does not decide.
+        under = False
+        if not uncalibrated and intent in carve:
+            expected_rows = b_rate * g["n"]
+            if expected_rows >= MIN_FLAGS_TO_FAIL:
+                p_low = p_at_most(g["flags"], g["n"], b_rate)
+                under = p_low < ALPHA
+                if under:
+                    pvalue = p_low
+        failures += bad or under
         if uncalibrated and g["flags"]:
             review.append(intent)
         expected_txt = "—" if uncalibrated else f"{b_rate * g['n']:.1f}"
         p_txt = "—" if uncalibrated else f"{pvalue:.3f}"
         cause = ", ".join(f"{k} {v}" for k, v in g["why"].most_common(2)) or "-"
+        # Diagnostic only. See carries_command: it separates "produced no direct
+        # requests" from "produced them with a help-verb in front".
+        if family(intent) == "Help" and (g.get("cmd") or b.get("cmd")):
+            gc = g.get("cmd", 0) / g["n"] if g["n"] else 0.0
+            bc = b.get("cmd", 0) / b["n"] if b.get("n") else 0.0
+            patt = f"{gc:.1%} vs {bc:.1%}" if b.get("n") else f"{gc:.1%}"
+        else:
+            patt = "—"
         base_txt = f"{b_rate:.1%}" if b["n"] else "no baseline"
         lines.append(
             f"| `{intent}` | {g['n']} | {g['flags']} ({g_rate:.1%}) | {base_txt} | "
-            f"{expected_txt} | {p_txt} | "
-            f"{'**FAIL**' if bad else ('*review*' if uncalibrated and g['flags'] else 'ok')} "
+            f"{patt} | {expected_txt} | {p_txt} | "
+            f"{'**FAIL**' if bad else ('**FAIL (UNDER)**' if under else ('*review*' if uncalibrated and g['flags'] else 'ok'))} "
             f"| {cause} |"
         )
     lines += ["", f"**{failures} intent(s) failed.**", ""]
@@ -265,10 +371,17 @@ def report(base, gen, tolerance: float) -> tuple[str, int]:
         ]
     if failures:
         lines += [
-            "A FAIL means the generator placed more form-contradicting utterances in that",
-            "intent than deployed speech contains. Read a sample before changing anything:",
-            "the fix is usually one sentence in that intent's boundary_cases, not a prompt",
-            "rewrite — and a prompt rewrite invalidates every measured run.",
+            "A **FAIL** means the generator placed MORE form-contradicting utterances in",
+            "that intent than deployed speech contains. Read a sample before changing",
+            "anything: the fix is usually one sentence in that intent's boundary_cases, not",
+            "a prompt rewrite — and a prompt rewrite invalidates every measured run.",
+            "",
+            "A **FAIL (UNDER)** is the opposite and has a different cause. The intent is a",
+            "carve-out, its spec asked generation to reproduce a measured command-shaped",
+            "rate, and generation produced far fewer. Check the QUOTAS before the spec: a",
+            "type floor in generator_config.yaml can make the spec's rate arithmetically",
+            "impossible, which is exactly what the 2026-08-30 pilot found. Prose loses to a",
+            "number in the same prompt.",
             "",
         ]
     return "\n".join(lines) + "\n", failures

@@ -407,6 +407,71 @@ generation:
       "reminders.": open
       "Default Fallback Intent": open
 
+    # -------------------------------------------------------------------
+    # PER-INTENT OVERRIDES -- merged on top of the assigned profile.
+    # -------------------------------------------------------------------
+    # A profile is a SHAPE. Six intents do not have their profile's shape, and
+    # the pilot of 2026-08-30 proved that the profile silently won:
+    #
+    #     Help_FindMyHearingAids   0 of 26 command-shaped, deployed 40.6%
+    #     Help_Pairing             0 of 25 command-shaped, deployed 29.5%
+    #
+    # Both prompts carried the carve-out sentence -- "generation must match
+    # that rather than producing how-to phrasing only; a generated rate near
+    # zero is a defect, not a success" -- AND the line "at least 22 must have
+    # type `Question`" from the help profile's 0.88 floor. Prose against a
+    # number: the number won. 0.88 leaves at most 3 rows of 25 for every other
+    # type, so five of the six carve-out rates were arithmetically impossible.
+    # The sixth, Help_RemoteProgramming at 12.6%, was found only after the
+    # carve-out detector stopped matching a catchphrase and started matching the
+    # stated rate -- a mutation test forced that change.
+    #
+    # The fix is the lesson this file already states twice: QUOTA WHAT THE
+    # MODEL UNDER-PRODUCES. Lowering the Question floor alone would only make
+    # room; an ExplicitCommand floor asks for the thing.
+    #
+    # Each row is (ExplicitCommand floor, Question floor) chosen so that
+    # EC + Question + 3 = 25 -- the carve-out rate rounded down to whole rows,
+    # and three rows of slack for the other types. The rate is the one the
+    # spec states, which verify_round.py re-derives from train.csv, so these
+    # numbers cannot drift away from the specs without a check failing.
+    #
+    # This does NOT reopen the length loophole the 0.88 floor was raised to
+    # close. That loophole was ObservationPlusCommand, which is exempt from the
+    # word cap; ExplicitCommand is not exempt and stays capped.
+    per_intent:
+      Help_FindMyHearingAids:        # 40.6% command-shaped -> 10 of 25
+        types:
+          ExplicitCommand: [0.40, null]
+          Question: [0.48, null]
+      Help_Pairing:                  # 29.5% -> 7 of 25
+        types:
+          ExplicitCommand: [0.28, null]
+          Question: [0.60, null]
+      Help_SelfCheck:                # 24.5% -> 6 of 25
+        types:
+          ExplicitCommand: [0.24, null]
+          Question: [0.64, null]
+      Help_MemoryOptions:            # 18.1% -> 4 of 25
+        types:
+          ExplicitCommand: [0.16, null]
+          Question: [0.72, null]
+      Help_RemoteProgramming:        # 12.6% -> 3 of 25
+        types:
+          ExplicitCommand: [0.12, null]
+          Question: [0.76, null]
+      Help_HearShare:                # 8.3% -> 2 of 25. The only one of the six
+        types:                       # that already fitted under the 0.88 floor.
+          ExplicitCommand: [0.08, null]
+          Question: [0.80, null]
+      # The mirror case, on a Cmd intent. D18 measured 17.5% question-shaped
+      # and told generation to reproduce it; the command profile never quotaed
+      # Question at all, so nothing asked for it. Its floors already leave 7
+      # rows free, so this was tight rather than impossible -- but unasked-for.
+      Cmd.TranslationStart:          # 17.5% question-shaped -> 4 of 25
+        types:
+          Question: [0.16, null]
+
     profiles:
       # 24 intents, 3,280 rows. The only profile with measurements behind it.
       command:

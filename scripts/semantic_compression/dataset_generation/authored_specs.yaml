@@ -1584,6 +1584,16 @@ intents:
         for this intent is 40.6% command-shaped, and generation must match
         that rather than producing how-to phrasing only; a generated rate near
         zero is a defect, not a success.
+      - >-
+        What a direct request actually looks like here, measured on the same
+        rows and named with boundary_lint's own pattern names: can-you 18.8%,
+        please 18.3%, imperative 3.1%, stated-need 0.4%. Users make the
+        request with can you or please far more than with a bare imperative,
+        so generation that reproduces the RATE with the wrong SHAPE has not
+        reproduced the speech. Deployed explain-request share for this intent
+        is 12.9%. Generation must not exceed it: an explain-request outranks
+        every other surface form, so a request phrased as one can never count
+        toward the shares above, however direct it is.
     neighbor_intents:
       - Cmd.FindMyPhone
       - Help_SelfCheck
@@ -1750,6 +1760,16 @@ intents:
         its pilot list. Generation must match that rather than producing
         how-to phrasing only. A generated rate near zero is a defect, not a
         success.
+      - >-
+        What a direct request actually looks like here, measured on the same
+        rows and named with boundary_lint's own pattern names: can-you 11.6%,
+        please 11.2%, stated-need 3.6%, imperative 3.1%. Users make the
+        request with can you or please far more than with a bare imperative,
+        so generation that reproduces the RATE with the wrong SHAPE has not
+        reproduced the speech. Deployed explain-request share for this intent
+        is 25.4%. Generation must not exceed it: an explain-request outranks
+        every other surface form, so a request phrased as one can never count
+        toward the shares above, however direct it is.
     neighbor_intents:
       - Help_Accessories
       - Help_RemoteProgramming
@@ -1786,9 +1806,10 @@ intents:
     boundary_cases:
       - A hearing professional, audiologist or clinic on the other end is the
         deciding signal.
-      - The seed data contains many ASR corruptions of the brand names, such as
-        tele hear, tally here and telomere. Treat brand-name corruption as this
-        intent when the surrounding context is about professional adjustment.
+      - The seed data contains many ASR corruptions of the brand names, such
+        as tele hear, tally here and telomere. Treat brand-name corruption as
+        this intent when the surrounding context is about professional
+        adjustment.
       - Self-service adjustment is Help_Customize; professional adjustment is
         this intent.
       - The assistant does not submit an adjustment request; it explains how
@@ -1796,6 +1817,16 @@ intents:
         to speak to the professional belongs here as much as a how-to
         question. Deployed speech is 12.6% command-shaped, mostly stated needs
         rather than imperatives, and generation must reproduce that share.
+      - >-
+        What a direct request actually looks like here, measured on the same
+        rows and named with boundary_lint's own pattern names: please 4.7%,
+        can-you 4.7%, stated-need 3.1%. Users make the request with can you or
+        please far more than with a bare imperative, so generation that
+        reproduces the RATE with the wrong SHAPE has not reproduced the
+        speech. Deployed explain-request share for this intent is 13.4%.
+        Generation must not exceed it: an explain-request outranks every other
+        surface form, so a request phrased as one can never count toward the
+        shares above, however direct it is.
     neighbor_intents:
       - Help_Pairing
       - Help_HearShare
@@ -1824,12 +1855,22 @@ intents:
     boundary_cases:
       - A family member or carer as the recipient is the deciding signal; a
         clinician as the recipient means Help_RemoteProgramming.
-      - Sharing data with a person differs from connecting a device; the latter
-        is Help_Pairing.
+      - Sharing data with a person differs from connecting a device; the
+        latter is Help_Pairing.
       - The assistant does not accept or send an invitation; it explains how,
         so a direct request to accept or invite belongs here as much as a
         how-to question. Deployed speech is 8.3% command-shaped - small but
         real, and generation should not drop it to zero.
+      - >-
+        What a direct request actually looks like here, measured on the same
+        rows and named with boundary_lint's own pattern names: please 2.8%,
+        can-you 2.8%, stated-need 1.4%, imperative 1.4%. Users make the
+        request with can you or please far more than with a bare imperative,
+        so generation that reproduces the RATE with the wrong SHAPE has not
+        reproduced the speech. Deployed explain-request share for this intent
+        is 12.5%. Generation must not exceed it: an explain-request outranks
+        every other surface form, so a request phrased as one can never count
+        toward the shares above, however direct it is.
     neighbor_intents:
       - Help_RemoteProgramming
       - Default Fallback Intent
@@ -1961,8 +2002,8 @@ intents:
         is Help_Pairing.
       - A complaint that sound is too quiet is a volume request, not a fault
         report, unless the user says the aid is not working.
-      - Where a fault report is ambiguous against a volume command, prefer this
-        intent - diagnosing is safer than amplifying.
+      - Where a fault report is ambiguous against a volume command, prefer
+        this intent - diagnosing is safer than amplifying.
       - The app has a self-check feature, but no voice command runs it, so
         explaining is the action the assistant performs. A direct fault
         report, or a bare request to run a check, belongs here as much as a
@@ -1972,6 +2013,16 @@ intents:
         any Help intent after Help_FindMyHearingAids at 40.6% and Help_Pairing
         at 29.5%, and generation must match that rather than producing how-to
         phrasing only. A generated rate near zero is a defect, not a success.
+      - >-
+        What a direct request actually looks like here, measured on the same
+        rows and named with boundary_lint's own pattern names: please 13.6%,
+        can-you 10.9%. Users make the request with can you or please far more
+        than with a bare imperative, so generation that reproduces the RATE
+        with the wrong SHAPE has not reproduced the speech. Deployed
+        explain-request share for this intent is 12.7%. Generation must not
+        exceed it: an explain-request outranks every other surface form, so a
+        request phrased as one can never count toward the shares above,
+        however direct it is.
     neighbor_intents:
       - Help_FindMyHearingAids
       - Help_Pairing
@@ -2257,6 +2308,16 @@ intents:
         18.1% command-shaped, and generation must reproduce that rather than
         writing how-to phrasing only. A generated rate near zero is a defect,
         not a success.
+      - >-
+        What a direct request actually looks like here, measured on the same
+        rows and named with boundary_lint's own pattern names: can-you 9.6%,
+        please 6.0%, stated-need 2.4%. Users make the request with can you or
+        please far more than with a bare imperative, so generation that
+        reproduces the RATE with the wrong SHAPE has not reproduced the
+        speech. Deployed explain-request share for this intent is 6.0%.
+        Generation must not exceed it: an explain-request outranks every other
+        surface form, so a request phrased as one can never count toward the
+        shares above, however direct it is.
     neighbor_intents:
       - Help_ChangingMemories
       - Cmd.MemoryChange

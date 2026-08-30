@@ -1166,6 +1166,174 @@ Its headline was already right: derived 57, runtime 57, overlapping on 53.
 **Nothing to close.**
 
 
+### D23. The pilot, and the quota that had been overruling six specs
+
+First paid run against the corrected prompt, 2026-08-30. 12 intents, 12 calls,
+$0.15, **0 failures and 0 rejections**, 301 rows, all unique, no cross-intent
+duplicates.
+
+**E11's fix is confirmed by data rather than by reasoning.** 5 of Fallback's 25
+rows carry the heart-rate/Thrive subject D20 gave it. Before the scope-guard fix
+that was structurally impossible — the block told the model never to write them.
+D17's environment observations came through too, 3 of 25.
+
+**And the pilot found something five rounds of spec work could not.**
+
+    Help_FindMyHearingAids   0 of 26 command-shaped   deployed 40.6%   expected 10.6
+    Help_Pairing             0 of 25                  deployed 29.5%   expected  7.4
+
+Not model disobedience. The prompt contained **both instructions at once**:
+
+    line 68   "...40.6% command-shaped, and generation must match that rather
+               than producing how-to phrasing only; a generated rate near zero
+               is a defect, not a success."
+    line 94   "- at least 22 must have type `Question`."
+
+The second comes from the `help` profile's `Question: [0.88, null]`. A 0.88 floor
+leaves at most 3 rows of 25 for every other type — a 12% ceiling. Five of the six
+carve-out rates sit above it, so they were **arithmetically impossible**. Prose
+against a number in the same prompt: the number won.
+
+The quota was raised for a length reason (the model was using
+`ObservationPlusCommand`, exempt from the word cap, to write 22+ word rows). The
+carve-outs were written three rounds later, in spec prose, with no config change.
+Nobody checked the two against each other.
+
+**`boundary_lint` marked both `ok`.** Its pass condition is *"a generated rate at
+or below deployed"* — one-sided, built to catch a generator putting TOO MUCH
+command phrasing in a Help intent. It cannot fail an intent for producing none of
+what it was asked for. So the only instrument that could have seen this was
+structurally blind to it, and five rounds of carve-out work were invisible.
+
+**The fix, in three parts.**
+
+1. `_quota_profile` merges a `quotas.per_intent` map on top of the assigned
+   profile, `types` key by key. An override states only what differs. Nothing is
+   relaxed globally: the other 28 Help intents keep 0.88.
+2. Seven per-intent overrides. Each **asks for the thing** rather than merely
+   making room — an `ExplicitCommand` floor equal to the rate the spec states,
+   with the `Question` floor lowered to fit and three rows of slack. This is the
+   config's own lesson, written in its comments twice: *quota what the model
+   under-produces*. The loophole the 0.88 floor closed is not reopened:
+   `ExplicitCommand` is not in `LONG_FORM_TYPES` and stays capped at 20 words.
+3. `boundary_lint` is now **two-sided for carve-out intents only**. Everywhere
+   else a low rate is the desired outcome and testing for it would fail correct
+   work. Guarded like the upper tail — it only judges when deployed speech
+   predicts at least 3 rows, so noise does not decide. Re-run against the same
+   pilot data it had passed, it now reports `FAIL (UNDER)` for both.
+
+**A mutation test found a sixth carve-out, and a check that could be walked
+through.** The first detector matched the phrase *"near zero is a defect"* and
+missed `Help_HearShare` (*"should not drop it to zero"*) and
+`Help_RemoteProgramming` (12.6%, which the 12% ceiling also blocked). Detecting
+on the STATED RATE instead found all six. Separately, check 129 grepped for
+`def p_at_most` — which `def p_at_most_DISABLED` also satisfies. It now calls
+the function and asserts the maths: 0 of 26 against 40.6% must be improbable,
+and 10 of 26 must not be.
+
+A third mutation exposed a worse habit: a missing override made check 126 raise
+`KeyError` and kill the run **before check 125 could report the finding**. A
+check that takes the report down with it is worse than no check. Both now
+tolerate the absence and let 125 name it.
+
+**Twelve new checks (124b–130).** 127 is the load-bearing one: each
+`ExplicitCommand` floor must equal the rate its own spec states, and check 74
+re-derives that rate from `train.csv` — so the config cannot drift away from the
+specs without something failing.
+
+**NOT YET PROVEN.** The pilot proved the bug; nothing has yet proved the fix.
+The rendered prompts now read *"at least 10 must have type `ExplicitCommand`"*
+for `Help_FindMyHearingAids` and *"at least 7"* for `Help_Pairing`, and both are
+in the pilot set — so a second pilot would settle it for ~$0.15. Until then this
+is a corrected instruction, not a measured result.
+
+**Length is the other open result.** 5 of 12 intents failed `length_lint`: four
+too long, and `Help_Pairing` too short-share (2 rows at or under 7 words against
+8.4 expected). The lint's own note points at where to look first — *"tying Hard
+to length is what caused this once already"*. Not touched in this round; one
+thing per paid run.
+
+
+### D24-D26. Three pilots, and what they actually settled
+
+$0.21 across four calls after the first 12-call pilot. Each change was made
+alone, measured, and the next decided from the result.
+
+**Pilot 1 (12 intents, $0.15) found the quota conflict** — D23.
+
+**D24, the SHAPE of a direct request.** The quota fix moved the type labels
+0 -> 13 and 0 -> 11, and `boundary_lint` still failed both. The model labelled
+rows `ExplicitCommand` while writing them as how-to questions. Measured, deployed
+speech makes the request a different way, and no spec had ever said so:
+
+    Help_FindMyHearingAids   can-you 18.8%, please 18.3%, imperative 3.1%
+    Help_Pairing             can-you 11.6%, please 11.2%, imperative 3.1%
+    Help_SelfCheck           please 13.6%, can-you 10.9%, imperative 0%
+
+Real users almost never use a bare imperative. All six carve-outs now carry
+their measured breakdown, named with `boundary_lint`'s own pattern names so the
+spec and the instrument share a vocabulary, and check 131 re-derives every share
+from `train.csv`.
+
+**D25, a sentence that may have primed what it warned against.** D24's line ended
+by NAMING the trigger words — *"show me, tell me and help me are
+explain-requests rather than commands"*. After it:
+
+    Help_FindMyHearingAids   explain-request  32.0% -> 54.5%   (deployed 12.9%)
+    Help_Pairing                              21.7% -> 16.0%   (deployed 25.4%)
+
+It went the wrong way on exactly the intent that was still failing, and the right
+way on the one that was recovering. **n is 22 and 25, so this is a signal and not
+a proof** — but naming the words was a bad idea regardless. Replaced with a
+per-intent measured ceiling, re-derived by check 133; check 134 fails if any spec
+names those words again.
+
+**Pilot 3 settled Help_Pairing and did not settle the other.**
+
+    Help_Pairing              cmd-shaped  8.7% -> 20.0% -> 20.8%   deployed 29.5%   ok
+    Help_FindMyHearingAids                0.0% ->  0.0% ->  4.0%   deployed 40.6%   FAIL
+
+**D26, and a prediction of mine that was half wrong.** I expected the lint's
+`EXPLAIN` short-circuit to be treating generated data unfairly. It is not — it
+falls the same way on both sides, so the comparison is sound. What it does do is
+hide the shape of the remaining gap:
+
+                                    command-shaped   carries a command pattern
+    Help_FindMyHearingAids  deployed        40.6%                       46.4%
+    Help_FindMyHearingAids  generated        4.0%                       32.0%
+    Help_Pairing            deployed        29.5%                       48.7%
+    Help_Pairing            generated       20.8%                       41.7%
+
+**Generation is not producing zero direct requests. It is producing them at about
+seven tenths of the deployed rate and putting a help-verb in front**, which
+resolves to explain-request before the command patterns are ever tested. "4.0%"
+read as a near-total failure; the truth is a phrasing defect on top of a
+roughly-right rate.
+
+`boundary_lint` now reports a `Cmd-patterned` column beside the scored one.
+**Diagnostic, never scored** — the pass condition stays on the same measure for
+both sides, because changing it would compare two different things. When
+`Flagged` is near zero and `Cmd-patterned` is not, the defect is phrasing.
+
+**Deliberately stopped here.** A fourth pilot would be a third attempt at the
+same move — rewording a spec and hoping. Three data points say prose steers this
+model well on `Help_Pairing` and weakly on `Help_FindMyHearingAids`, and the
+residual is one intent phrasing direct requests as "can you help me X" instead of
+"can you X".
+
+**What this means for the full run, stated so nobody reads it as "all fixed".**
+`Help_Pairing`'s result is what the fix looks like when it works, and it is good
+enough. `Help_FindMyHearingAids` will ship with roughly 70% of its deployed
+direct-request rate, most of it phrased with a help-verb. That is a real
+shortfall on one intent, it is measured, and it is written here. It is not a
+reason to hold a 333-call run — but a Super Dataset result must not be read as
+if this intent matched deployed speech, because it does not.
+
+**Not investigated:** whether the other four carve-outs behave like
+`Help_Pairing` or like `Help_FindMyHearingAids`. None is in the pilot set. The
+full run is the first time anyone will see them.
+
+
 ## E. Not started
 
 ### E1. All 33 `Help*` intents

@@ -592,6 +592,168 @@ add('124 E11 the dead redistribute_seeds_to key is gone from every drop entry',
     not [n for n, v in _find(_cfg, 'drop_intents').items() if 'redistribute_seeds_to' in v]
     and 'redistribute_seeds_to' in open(f'{D}/generator_config.yaml').read())
 
+# --- D23, the quota that overruled five specs ----------------------------
+# The 2026-08-30 pilot generated 0 of 26 and 0 of 25 command-shaped rows for
+# the two highest carve-outs. Not model disobedience: the prompt carried the
+# carve-out prose AND "at least 22 must have type `Question`" from the help
+# profile's 0.88 floor, which leaves at most 3 rows of 25 for every other type.
+# Four of the five carve-out rates were arithmetically impossible.
+_gen = _cfg.get('generation') or {}
+_q = _gen.get('quotas') or {}
+_per = _q.get('per_intent') or {}
+# Detect on the STATED RATE, exactly as boundary_lint does, and assert the two
+# agree. The first version matched the phrase 'near zero is a defect' and missed
+# Help_HearShare and Help_RemoteProgramming, whose carve-outs are worded
+# differently -- a mutation test found it, and finding it added a sixth intent
+# to the fix.
+import boundary_lint as _bl2
+_RATE = re.compile(r'\d+\.?\d*% command-shaped')
+_carve = {s_['name']: s_ for s_ in specs
+          if s_['name'].startswith('Help')
+          and any(_RATE.search(x) for x in s_['boundary_cases'])}
+add(f'124b D23 verify_round and boundary_lint agree on which intents are carve-outs '
+    f'{sorted(set(_carve) ^ _bl2.carve_out_intents())}',
+    set(_carve) == _bl2.carve_out_intents() and len(_carve) == 6)
+add(f'125 D23 every carve-out spec has a per-intent quota override {sorted(set(_carve) - set(_per))}',
+    len(_carve) >= 6 and not (set(_carve) - set(_per)))
+# The override must ASK for the thing, not merely make room for it. This file's
+# own lesson, stated twice in its comments: quota what the model under-produces.
+# .get(n, {}) rather than [n]: a MISSING override is check 125's finding, and
+# 126 crashing on it killed the whole run before 125 could print. A check must
+# not take the report down with it.
+add('126 D23 each Help override floors ExplicitCommand, not just lowers Question',
+    all('ExplicitCommand' in ((_per.get(n) or {}).get('types') or {}) for n in _carve))
+# The floor has to match the rate the spec states, which check 74 re-derives
+# from train.csv -- so the config cannot drift away from the specs silently.
+_bad_q = []
+_BATCH = int(_gen.get('batch_size', 25))
+for _n, _s in _carve.items():
+    if not _n.startswith('Help'):
+        continue
+    _m = re.search(r'(\d+\.?\d*)% command-shaped', ' '.join(_s['boundary_cases']))
+    if not _m:
+        _bad_q.append((_n, 'spec states no rate')); continue
+    _want = int(float(_m.group(1)) / 100 * _BATCH)
+    _floor = ((_per.get(_n) or {}).get('types') or {}).get('ExplicitCommand')
+    if not _floor:
+        _bad_q.append((_n, 'no ExplicitCommand floor')); continue
+    _got = int(_floor[0] * _BATCH)
+    if _got != _want:
+        _bad_q.append((_n, f'spec {_m.group(1)}% = {_want} rows, quota floors {_got}'))
+add(f'127 D23 each ExplicitCommand floor equals the rate its own spec states {_bad_q}',
+    not _bad_q)
+# And the floors must fit. This is the arithmetic nobody did the first time.
+add('128 D23 no override over-subscribes the batch',
+    not [n for n in _per
+         if sum(int(v[0] * _BATCH) for v in (_per[n].get('types') or {}).values()) > _BATCH])
+# The lint that marked both failures "ok" is now two-sided for carve-outs only.
+# Was a grep for 'def p_at_most', which 'def p_at_most_DISABLED' also satisfies
+# -- a mutation test walked straight through it. Call the function instead.
+_p_lo = getattr(_bl2, 'p_at_most', None)
+add('129 D23 boundary_lint really tests the other tail, and the maths is right',
+    callable(_p_lo)
+    # 0 of 26 against a deployed 40.6% is the pilot's actual result. It must be
+    # overwhelmingly improbable, or the test cannot fail what it was built for.
+    and _p_lo(0, 26, 0.406) < 0.0001
+    # and it must NOT fire on a rate that genuinely matches deployed speech.
+    and _p_lo(10, 26, 0.406) > 0.05
+    and 'FAIL (UNDER)' in open(f'{D}/boundary_lint.py').read())
+# A subset pilot must never be able to write into the corpus directory. That is
+# the one property the --pilot block exists to guarantee, and --only now runs
+# inside it rather than around it.
+_gsrc = open(f'{D}/generator.py').read()
+add('129b D23 --only narrows the pilot instead of bypassing it',
+    'must name intents IN the pilot set' in _gsrc
+    and _gsrc.index('args.only = subset') < _gsrc.index('"checkpoint_dir"] = (')
+    and 'args.force = True' in _gsrc)
+add('130 D23 and it reads the carve-out list from the specs, not a hardcoded list',
+    _bl2.carve_out_intents() and 'intent_specs.yaml' in open(f'{D}/boundary_lint.py').read())
+
+# --- D24, the SHAPE of a direct request ----------------------------------
+# The quota fix moved the type labels 0 -> 13 and 0 -> 11, and boundary_lint
+# still failed both: the model labelled rows ExplicitCommand while writing them
+# as "show me how to ..." and "I can't find them". Measured, deployed speech
+# makes the request a different way -- can-you 18.8% and please 18.3% for
+# Help_FindMyHearingAids against a bare imperative at 3.1%. Reproducing the RATE
+# with the wrong SHAPE has not reproduced the speech, and no spec said so.
+#
+# Every share below is re-derived from train.csv here, the same standard check
+# 74 holds the headline rates to, and named with boundary_lint's own pattern
+# names so the spec and the instrument share a vocabulary.
+_bad_shape = []
+_SHARE = re.compile(r'(can-you|please|imperative|stated-need) (\d+\.?\d*)%')
+for _n in sorted(_bl2.carve_out_intents()):
+    _line = [x for x in by[_n]['boundary_cases'] if 'measured on the same rows' in x]
+    if not _line:
+        _bad_shape.append((_n, 'no shape breakdown')); continue
+    _dep = _byi.get(_n, [])
+    _c = __import__('collections').Counter()
+    for _t in _dep:
+        _cls, _which = _bl2.surface_form(_t)
+        if _cls == 'command-shaped':
+            _c[_which] += 1
+    for _which, _pct in _SHARE.findall(_line[0]):
+        _act = 100 * _c[_which] / len(_dep) if _dep else 0.0
+        # Compared at one decimal place, which is what the spec states, rather
+        # than with check 74's 0.05 window. 42 of 224 is 18.75%, which the spec
+        # writes as 18.8% and a 0.05 tolerance rejects by exactly nothing.
+        if round(_act, 1) != round(float(_pct), 1):
+            _bad_shape.append((_n, f'{_which} claims {_pct}%, actual {_act:.2f}%'))
+    # the breakdown must account for the headline rate, not a subset of it
+    _sum = sum(float(p) for _, p in _SHARE.findall(_line[0]))
+    _tot = 100 * sum(_c.values()) / len(_dep) if _dep else 0.0
+    if abs(_sum - round(_tot, 1)) >= 0.15:
+        _bad_shape.append((_n, f'shares sum to {_sum:.1f}%, headline is {_tot:.1f}%'))
+add(f'131 D24 every carve-out states its shape breakdown, and every share re-derives {_bad_shape}',
+    not _bad_shape)
+add('132 D24 and each says the rate alone is not enough',
+    all(any('the wrong SHAPE has not reproduced the speech' in x
+            for x in by[_n]['boundary_cases'])
+        for _n in _bl2.carve_out_intents()))
+
+# --- D25, the sentence that may have primed what it warned against -------
+# D24's line ended by NAMING the explain-request trigger words ("show me, tell
+# me and help me"). After it, Help_FindMyHearingAids' explain-request share went
+# 32.0% -> 54.5% against a deployed 12.9%, on the one intent that did not
+# improve -- while Help_Pairing went 21.7% -> 16.0%. n is 22 and 25, so that is
+# a signal and not a proof, but it points the wrong way on exactly the intent
+# that was still failing. The words are gone; a measured ceiling replaces them.
+_bad_ex = []
+_EX = re.compile(r'explain-request share for this intent is (\d+\.?\d*)%')
+for _n in sorted(_bl2.carve_out_intents()):
+    _txt = ' '.join(by[_n]['boundary_cases'])
+    _m = _EX.search(_txt)
+    if not _m:
+        _bad_ex.append((_n, 'no explain-request ceiling')); continue
+    _rows = _byi.get(_n, [])
+    _act = 100 * sum(1 for _t in _rows
+                     if _bl2.surface_form(_t)[0] == 'explain-request') / len(_rows)
+    if round(_act, 1) != round(float(_m.group(1)), 1):
+        _bad_ex.append((_n, f'claims {_m.group(1)}%, actual {_act:.2f}%'))
+add(f'133 D25 every carve-out states a re-derived explain-request ceiling {_bad_ex}',
+    not _bad_ex)
+add('134 D25 and none of them names the trigger words',
+    not [s_['name'] for s_ in specs for x in s_['boundary_cases']
+         if 'show me, tell me and help me' in x])
+
+# --- D26, the number that overstated the gap -----------------------------
+# boundary_lint reported 4.0% command-shaped for Help_FindMyHearingAids against
+# a deployed 40.6%, which reads as "generation produced almost no direct
+# requests". It produced them at about seven tenths of the deployed rate and
+# phrased them with a help-verb, which surface_form resolves to explain-request
+# before it ever tests the command patterns. Two different defects, one number.
+# The pass condition is unchanged -- both sides are measured the same way -- but
+# the report now carries the diagnostic beside it.
+add('135 D26 boundary_lint separates "no direct requests" from "phrased with a help-verb"',
+    callable(getattr(_bl2, 'carries_command', None))
+    and _bl2.carries_command('can you help me find my hearing aids')
+    # ...and that same row is NOT command-shaped, which is the whole point
+    and _bl2.surface_form('can you help me find my hearing aids')[0] == 'explain-request'
+    and 'Cmd-patterned' in open(f'{D}/boundary_lint.py').read())
+add('136 D26 and it is reported, never scored',
+    'DIAGNOSTIC, not scored' in open(f'{D}/boundary_lint.py').read()
+    and 'rec["cmd"]' in open(f'{D}/boundary_lint.py').read())
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]

@@ -464,7 +464,30 @@ def _quota_profile(config: GeneratorConfig, intent: str) -> dict[str, Any]:
     for pattern, name in (quotas.get("assign") or {}).items():
         if (intent == pattern or intent.startswith(pattern)) and len(pattern) > best:
             chosen, best = name, len(pattern)
-    return dict(profiles.get(chosen) or {})
+    profile = dict(profiles.get(chosen) or {})
+
+    # A profile is a shape, and five intents do not have their profile's shape.
+    # The `help` profile floors Question at 0.88 -- at most 3 rows of 25 can be
+    # anything else -- while five Help specs carry a measured command-shaped
+    # rate of 8% to 41% and say in terms that a generated rate near zero is a
+    # DEFECT. The prompt therefore contained both instructions at once and the
+    # numeric one won: the pilot produced 0 of 26 and 0 of 25 command-shaped
+    # rows for the two highest.
+    #
+    # `per_intent` is merged ON TOP of the profile, and `types` is merged key by
+    # key rather than replaced, so an override states only what differs and the
+    # profile keeps saying everything else. Nothing here relaxes a cap: the
+    # types being made room for -- ExplicitCommand, ImplicitCommand -- are not
+    # in LONG_FORM_TYPES, so they stay under the word limit. The Question floor
+    # was raised to close a length loophole, and that loophole is not reopened
+    # by letting a capped type through.
+    override = (quotas.get("per_intent") or {}).get(intent) or {}
+    if override:
+        types = {**(profile.get("types") or {}), **(override.get("types") or {})}
+        profile = {**profile, **{k: v for k, v in override.items() if k != "types"}}
+        if types:
+            profile["types"] = types
+    return profile
 
 
 _LENGTH_TARGETS: dict[str, Any] | None = None
@@ -835,7 +858,24 @@ def main() -> int:
         if missing_pilot:
             print(f"ERROR: generation.pilot names unknown intents: {missing_pilot}")
             return 1
-        args.only = list(pilot)
+        # --only NARROWS the pilot rather than being ignored by it. Re-testing
+        # one fix does not need the whole stratified set: after the 2026-08-30
+        # quota fix only two intents had anything to prove, and 12 calls to
+        # answer a 2-call question is waste. Without this the only ways to run a
+        # subset were to edit generation.pilot -- a documented set where "every
+        # entry earns its place" -- or to use --only alone, which writes into
+        # the CORPUS directory and is the contamination this block exists to
+        # prevent.
+        if args.only:
+            outside = [i for i in args.only if i not in pilot]
+            if outside:
+                print(f"ERROR: --only with --pilot must name intents IN the pilot set. "
+                      f"Not in it: {outside}")
+                return 1
+            subset = [i for i in pilot if i in set(args.only)]
+        else:
+            subset = list(pilot)
+        args.only = subset
         if not args.batches:
             args.batches = 1
 
@@ -855,7 +895,15 @@ def main() -> int:
             str(config.raw["paths"].get("checkpoint_dir", ".checkpoints")) + "-pilot"
         )
         args.force = True
-        print(f"Pilot: {len(pilot)} intents, {args.batches} batch(es) each.")
+        print(f"Pilot: {len(subset)} intents, {args.batches} batch(es) each.")
+        if len(subset) < len(pilot):
+            # Say it, because a stale file in this directory is exactly the
+            # "two configs averaged into one number" failure the block below
+            # describes -- it just arrives from an earlier PILOT instead of an
+            # earlier run. Scoring tools take --only for the same reason.
+            print(f"  SUBSET of the {len(pilot)}-intent pilot set. Files for the other "
+                  f"{len(pilot) - len(subset)} are left as an EARLIER pilot wrote them;")
+            print("  pass the same --only to boundary_lint / length_lint when scoring.")
         print(f"  writing to {config.checkpoint_dir}  (separate from the corpus, always fresh)")
 
     if args.only:
