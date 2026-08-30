@@ -14,9 +14,9 @@ all Help families, `Default Fallback Intent`, the Reminders intents, an
 audit of everything above, and the EdgeMode and SpeechServices families.
 **60 of 60 reviewed. Every intent in the taxonomy has now been read.**
 
-That is the review finished, not the gate opened. The sign-off boxes in
-`SPEC_REVIEW.md` are a human's to tick and `intent_specs.yaml` still carries
-`REQUIRES HUMAN REVIEW`.
+**Signed off 2026-08-30 by Akash Rawat, all 18 families.** Stage 0 is closed.
+See D19 for what sign-off does and does not claim, and for the three things that
+still stand between here and a paid Stage 1 run.
 
 ---
 
@@ -35,8 +35,9 @@ edited in almost every round without ever being reviewed itself — the most rul
 of any intent and the least scrutiny, which was the wrong way round. Its 23 rules
 held up; what did not was its neighbour list. See D7.
 
-**No sign-off box in `SPEC_REVIEW.md` is ticked, and `intent_specs.yaml` still
-carries `REQUIRES HUMAN REVIEW`. Both are correct: the review is not finished.**
+**All 18 sign-off boxes are ticked and `intent_specs.yaml` carries a
+`meta.sign_off` record instead of `REQUIRES HUMAN REVIEW`.** The ticks live in
+`spec_review.py`'s `SIGNED_OFF`, not in the generated Markdown — see D19.
 
 ---
 
@@ -873,6 +874,66 @@ session a check has caught the reviewer rather than the corpus.
 Neither the stop-transcribing route nor the non-speech-translate route flags even
 with the matcher repaired, because their subject words overlap Fallback's very
 broad vocabulary. Still a floor, not a gate.
+
+**Nothing to close.**
+
+### D19. Sign-off
+
+**2026-08-30, Akash Rawat, all 18 families.** 60 of 60 intents read against their
+siblings across 18 rounds, recorded D1-D18.
+
+**What it claims and what it does not.** Not that the specs are perfect. That
+every intent has been read against the ones it can be confused with, and that
+what is still open is written down here rather than unknown. Sections A through F
+of this file are the list of what is known-open; E3, E4, E7 and the eleven
+Section 7/8 flags are all still open and none of them blocks the gate.
+
+**A tick had nowhere to live that survived.** `SPEC_REVIEW.md` is regenerated on
+every run — its own first line says so — and the boxes were hardcoded `☐` at
+`spec_review.py:869`. Ticking them by hand would have been erased the next time
+anyone ran the tool, silently. The same trap sat under the `meta` note:
+`bootstrap_specs.py` WRITES that block, so editing `intent_specs.yaml` alone
+would have restored `REQUIRES HUMAN REVIEW` on the next regeneration.
+
+Sign-off therefore lives in four places, all of them source rather than output:
+
+    spec_review.py       SIGNED_OFF -- family, who, date; renders the ticks
+    bootstrap_specs.py   the meta.sign_off block it writes into intent_specs
+    intent_specs.yaml    meta.sign_off, matching what bootstrap would emit
+    authored_specs.yaml  the header no longer says review is pending
+
+Checks 34, 35, 35b and 35c were FLIPPED rather than deleted. They used to assert
+the gate was shut — 18 unticked boxes, `REQUIRES HUMAN REVIEW` present. They now
+assert it is open and properly recorded, so the state cannot drift back
+unnoticed in either direction.
+
+**A drift found while wiring it.** `Cmd.VolumeIncrease`'s `authored_by` said
+`assistant-session, pending human review` in `authored_specs.yaml` and
+`assistant-session (claude-opus-5), pending human review` in `intent_specs.yaml`.
+Nothing noticed, because the drift guard covers the seven CONTENT fields only and
+provenance is not one of them. `bootstrap_specs.py` reads `authored_by` to build
+`_provenance`, so a regeneration would have silently changed the provenance tally
+from 59/1 to 58/1/1. Corrected, and check 35d now guards `authored_by` against
+`_provenance.model` on all 60.
+
+The stale `, pending human review` was dropped from all 59 at the same time. It
+was a review STATE wedged into an authorship field; the state now lives in
+`meta.sign_off` where it can be verified.
+
+**Sign-off does not authorise a paid run.** Three things still stand in front of
+Stage 1 and none is a spec defect:
+
+1. **E7 is decided and not applied.** Three unsupported intents are still in the
+   taxonomy. Generating 8,360 rows now writes ~360 rows for intents that are
+   being dropped.
+2. **749 stale rows would carry through.** Sixteen checkpoint files date from
+   2026-08-17 and 2026-08-23 — before the prompt fix of 2026-08-28 and before 18
+   rounds of spec edits. Without `--force` the plan is 317 calls rather than 348,
+   and `Cmd.VolumeIncrease` (180 rows) and `Help_Volume` (120 rows) get ZERO new
+   calls, shipping entirely pre-fix output. Both of those specs were edited after
+   those rows were written.
+3. **The corrected prompt has never been run.** Last generation 2026-08-23;
+   `prompt.txt` fixed 2026-08-28. No pilot has been run against it.
 
 **Nothing to close.**
 

@@ -503,8 +503,38 @@ add('32 Section 2b empty -- the last logged pair closed by D17', '✅ None' in b
 add('32b Section 2c empty', 'both sides' in md.split('### 2c')[1].split('## 3')[0])
 # 21, not 23 -- the two messaging pairs were a false contract, see DEFERRED E9.
 add('33 Section 3: 0 of 21 pairs failing', '**0 of 21 pairs are not mutual neighbours.**' in md)
-add('34 sign-off boxes all unticked', md.count('☑') == 0 and md.count('☐') == 18)
-add('35 REQUIRES HUMAN REVIEW still in meta', 'REQUIRES HUMAN REVIEW' in str(I.get('meta')))
+# Flipped at sign-off (2026-08-30). Both used to assert the gate was SHUT --
+# 18 unticked boxes and REQUIRES HUMAN REVIEW in meta. They now assert it is
+# open and properly recorded, so the state cannot drift back unnoticed either
+# way. The ticks come from spec_review.SIGNED_OFF, never from the Markdown.
+add('34 all 18 sign-off boxes ticked, none left open',
+    md.count('☑') == 18 and md.count('☐') == 0 and len(sr.SIGNED_OFF) == 18
+    and 'Akash Rawat' in md)
+add('35 REQUIRES HUMAN REVIEW gone, replaced by a sign_off record',
+    'REQUIRES HUMAN REVIEW' not in str(I.get('meta'))
+    and I['meta']['sign_off']['reviewed_by'] == 'Akash Rawat'
+    and I['meta']['sign_off']['date'] == '2026-08-30'
+    and 'D1-D18' in I['meta']['sign_off']['record'])
+# bootstrap_specs.py WRITES that meta block, so editing intent_specs.yaml alone
+# would have been reverted by the next regeneration. Assert the source agrees.
+add('35b the sign_off block is written by bootstrap_specs.py, not just present in the yaml',
+    '"sign_off"' in open(f'{D}/bootstrap_specs.py').read()
+    and 'REQUIRES HUMAN REVIEW' not in open(f'{D}/bootstrap_specs.py').read())
+add('35c authored_specs.yaml no longer claims review is pending',
+    'pending human review' not in open(f'{D}/authored_specs.yaml').read()
+    and 'Human review completed 2026-08-30' in open(f'{D}/authored_specs.yaml').read())
+# FOUND WHILE WIRING THE SIGN-OFF. authored_by drifted between the two files on
+# Cmd.VolumeIncrease and nothing noticed, because the drift guard covers the 7
+# CONTENT fields only. bootstrap_specs.py reads authored_by to build
+# _provenance, so a regeneration would have silently changed the provenance
+# tally. Now guarded.
+_A = {s['name']: s for s in yaml.safe_load(open(f'{D}/authored_specs.yaml'))['intents']}
+add('35d authored_by matches _provenance.model on all 60',
+    not [n for n, s in by.items()
+         if _A[n].get('authored_by') != s.get('_provenance', {}).get('model')])
+add('35e provenance tally matches the specs it describes',
+    I['meta']['sources'] == {'assistant-session (claude-opus-5)': 59,
+                             'human (from blueprint, for privacy)': 1})
 
 for l, v in R: print(f'{l:<56}{"PASS" if v else "FAIL"}')
 n = sum(1 for _, v in R if v)

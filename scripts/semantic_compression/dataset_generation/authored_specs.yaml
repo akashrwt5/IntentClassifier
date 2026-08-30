@@ -10,8 +10,8 @@
 # between siblings are mutually consistent -- something a per-intent API call
 # cannot do, because it never sees the sibling it must not overlap with.
 #
-# All of them still require HUMAN REVIEW before Stage 1. They are the source of
-# truth for every downstream label.
+# Human review completed 2026-08-30, signed off per family in SPEC_REVIEW.md section 6.
+# They remain the source of truth for every downstream label.
 #
 # `bootstrap_specs.py` loads these, validates them with the same rules it
 # applies to generated specs, and merges them into `intent_specs.yaml`.
@@ -168,7 +168,7 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.VolumeIncrease"
-    authored_by: "assistant-session, pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Raise the amplification of the hearing aids, either on both sides or on
       one named side. The user wants sound to be LOUDER.
@@ -224,7 +224,7 @@ intents:
     hard_negative_example: "How do I make my hearing aids louder?"
 
   - name: "Cmd.VolumeDecrease"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Lower the amplification of the hearing aids, either on both sides or on
       one named side. The user wants sound to be QUIETER but still audible.
@@ -269,7 +269,7 @@ intents:
     hard_negative_example: "It sounds tinny."
 
   - name: "Cmd.VolumeMute"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Silence the hearing aids completely, on both sides or on one named side.
       The endpoint is no sound, not merely low sound.
@@ -313,7 +313,7 @@ intents:
     hard_negative_example: "Stop streaming from the TV."
 
   - name: "Cmd.VolumeUnmute"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Restore sound after the hearing aids have been muted, on both sides or on
       one named side.
@@ -354,7 +354,7 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.EdgeModeIncrease"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Apply or strengthen Edge Mode - the adaptive processing that improves
       speech clarity in difficult listening environments. The user is
@@ -430,7 +430,7 @@ intents:
     hard_negative_example: "How do I improve my hearing with Edge Mode?"
 
   - name: "Cmd.EdgeModeDecrease"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Reduce the strength of Edge Mode processing while leaving it active. The
       user finds the current processing excessive or unnatural.
@@ -462,7 +462,7 @@ intents:
     hard_negative_example: "Turn edge mode off completely."
 
   - name: "Cmd.EdgeModeDeactivate"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Switch Edge Mode off entirely and return the hearing aids to their
       previous program.
@@ -510,7 +510,7 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.StreamingStart"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Begin routing audio from an external source - a TV streamer or a remote
       microphone - directly into the hearing aids.
@@ -565,7 +565,7 @@ intents:
     hard_negative_example: "How do I start streaming from my TV streamer?"
 
   - name: "Cmd.StreamingStop"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Stop routing external audio into the hearing aids and return them to
       ambient listening.
@@ -599,7 +599,7 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.TranscribeStart"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Begin live speech-to-text transcription of the current conversation.
     trigger_conditions:
@@ -641,7 +641,7 @@ intents:
     hard_negative_example: "What does transcribe do?"
 
   - name: "Cmd.TranslationStart"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Begin translation, either by starting the translation feature for a named
       language or by asking for a specific phrase to be translated.
@@ -685,7 +685,7 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.BatteryLevel"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report the current remaining battery level of the hearing aids.
     trigger_conditions:
@@ -719,7 +719,7 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.FindMyPhone"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Help the user locate their misplaced PHONE using the hearing aids.
     trigger_conditions:
@@ -756,7 +756,7 @@ intents:
   # ===========================================================================
 
   - name: "reminders.add"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Create a new reminder, optionally with a subject, a time, a date or a
       recurrence.
@@ -792,7 +792,7 @@ intents:
     hard_negative_example: "Can I set reminders in my hearing aids?"
 
   - name: "reminders.complete"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Mark an existing reminder as done.
     trigger_conditions:
@@ -817,7 +817,7 @@ intents:
     hard_negative_example: "Delete that reminder."
 
   - name: "Help_Reminder"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the reminders feature - what it is, whether it is available, and
       how to create or manage reminders.
@@ -858,7 +858,7 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.ActivityWalk"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report the user's walking data - distance, duration, progress toward the
       walking goal, or calories burned walking.
@@ -903,7 +903,7 @@ intents:
     hard_negative_example: "How do I change my walking goal?"
 
   - name: "Cmd.ActivityStep"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report the user's step count data - steps taken, progress toward the step
       goal, distance covered, or calories burned from steps.
@@ -945,7 +945,7 @@ intents:
     hard_negative_example: "How do I set up my step goal?"
 
   - name: "Cmd.ActivityRun"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report the user's running or jogging data - distance, duration, progress
       toward the running goal, or calories burned running.
@@ -981,7 +981,7 @@ intents:
     hard_negative_example: "How do I set my running goal?"
 
   - name: "Cmd.ActivityCycle"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report the user's cycling or biking data - distance, duration, progress
       toward the cycling goal, or calories burned cycling.
@@ -1016,7 +1016,7 @@ intents:
     hard_negative_example: "Where can I see the distance that I biked?"
 
   - name: "Cmd.ActivityStand"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report the user's standing data - time spent standing, progress toward
       the stand goal, or calories burned standing.
@@ -1047,7 +1047,7 @@ intents:
     hard_negative_example: "How do I change my stand goal?"
 
   - name: "Cmd.ActivityAerobics"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report the user's aerobic activity data - duration, progress toward the
       aerobics goal, or calories burned doing aerobics.
@@ -1083,7 +1083,7 @@ intents:
     hard_negative_example: "How do I change my aerobic goal?"
 
   - name: "Cmd.ActivityExercise"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report the user's exercise or workout data when the user explicitly
       refers to exercise, working out, or a workout - duration, progress
@@ -1126,7 +1126,7 @@ intents:
     hard_negative_example: "How do I set up my exercise goal?"
 
   - name: "Cmd.ActivityCalories"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Report total calories burned over a period when NO specific activity is
       named.
@@ -1168,7 +1168,7 @@ intents:
   # ===========================================================================
 
   - name: "Help_Volume"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to control hearing-aid volume - adjusting, muting, unmuting,
       per-side control - and help with volume problems.
@@ -1240,7 +1240,7 @@ intents:
     hard_negative_example: "Turn the volume down on my left aid."
 
   - name: "Help_EdgeMode"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain what Edge Mode is and how to use it to improve hearing in
       difficult environments.
@@ -1275,7 +1275,7 @@ intents:
     hard_negative_example: "Use edge mode to hear the speaker better."
 
   - name: "Help_IntelliVoice"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the IntelliVoice feature - what it is, what it does, when to use
       it, and where to find it.
@@ -1313,7 +1313,7 @@ intents:
     hard_negative_example: "How does the voice assistant work?"
 
   - name: "Help_MaskMode"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain Mask Mode - the Mask listening program in the app's memory list
       - what it is, where to find it, and how to switch it on or off.
@@ -1364,7 +1364,7 @@ intents:
     hard_negative_example: "Add mask as a customized memory."
 
   - name: "Help_Tinnitus"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the tinnitus masker feature - the therapeutic noise or white noise
       the aids can play - and how to find and adjust its settings.
@@ -1417,7 +1417,7 @@ intents:
   # ===========================================================================
 
   - name: "Help_Activity"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to set up, change or edit activity goals - steps, walking,
       running, biking, standing, aerobics, exercise and calories - and where
@@ -1471,7 +1471,7 @@ intents:
     hard_negative_example: "How far have I walked today?"
 
   - name: "Help_Health"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the Health screen - what it shows, how to view health and hearing
       goals, and how to change the period those goals are measured over.
@@ -1514,7 +1514,7 @@ intents:
     hard_negative_example: "How do I set my step goal?"
 
   - name: "Help_HeartRate"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the heart rate feature - what it is, how it works, how to take a
       reading, and where to find it in the app. The assistant explains where
@@ -1549,7 +1549,7 @@ intents:
     hard_negative_example: "What is a normal heart rate recovery number?"
 
   - name: "Help_HeartRateRecovery"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain heart rate recovery - what the measurement means, how it is
       calculated, and how to access it in the app.
@@ -1581,7 +1581,7 @@ intents:
     hard_negative_example: "How do I measure my heart rate?"
 
   - name: "Help_FallAlert"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the fall detection and alert feature - how it works, how to set it
       up, how alert contacts are managed, and what the user will see or hear
@@ -1613,7 +1613,7 @@ intents:
     hard_negative_example: "Where are my hearing aids?"
 
   - name: "Help_ThriveScore"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the Thrive wellness score and its component scores - Body, Brain,
       Kind and iPro - including how they are calculated and how to improve them.
@@ -1649,7 +1649,7 @@ intents:
   # ===========================================================================
 
   - name: "Help_FindMyHearingAids"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Help the user locate misplaced HEARING AIDS, including one specific
       side. The assistant cannot locate an aid itself - it explains how to
@@ -1692,7 +1692,7 @@ intents:
   # ===========================================================================
 
   - name: "Help_Transcribe"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the Transcribe feature - live speech-to-text captioning - what it
       does, how it works, where to find it, and whether transcripts are saved.
@@ -1722,7 +1722,7 @@ intents:
     hard_negative_example: "Start transcribing this conversation."
 
   - name: "Help_Translate"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the Translate feature - how it works, which languages are
       supported, where to find it, and whether conversations are saved.
@@ -1751,7 +1751,7 @@ intents:
     hard_negative_example: "How do I say good morning in Russian?"
 
   - name: "Help_VoiceAssistant"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the Thrive voice assistant itself - what it is, what it can be
       asked to do, how to reach it, and whether it works without a phone.
@@ -1799,7 +1799,7 @@ intents:
   # ===========================================================================
 
   - name: "Help_Pairing"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to pair, connect, disconnect, sync or troubleshoot the
       Bluetooth connection between the hearing aids and a phone, tablet or car.
@@ -1859,7 +1859,7 @@ intents:
     hard_negative_example: "How do I unpair my Remote Mic?"
 
   - name: "Help_RemoteProgramming"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain remote programming, also branded Hearing Care Anywhere or
       TeleHear - how a hearing professional adjusts the aids remotely, how to
@@ -1900,7 +1900,7 @@ intents:
     hard_negative_example: "How do I customize my hearing aid settings myself?"
 
   - name: "Help_HearShare"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain HearShare - sharing hearing-aid, activity and wellness data with a
       family member or carer - including invitations and adding people.
@@ -1938,7 +1938,7 @@ intents:
   # ===========================================================================
 
   - name: "Help_Battery"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to charge a rechargeable hearing aid or change a disposable
       battery, including for specific device styles.
@@ -1968,7 +1968,7 @@ intents:
     hard_negative_example: "What is my battery level?"
 
   - name: "Help_CleanCare"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to clean and care for hearing aids, including which tools and
       substances are safe, and how to deal with earwax build-up.
@@ -2000,7 +2000,7 @@ intents:
     hard_negative_example: "Why doesn't my right hearing aid work?"
 
   - name: "Help_InsertDevice"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to physically put hearing aids into the ears and take them
       out, including how a correctly seated aid should look.
@@ -2030,7 +2030,7 @@ intents:
     hard_negative_example: "How do I clean my hearing aid?"
 
   - name: "Help_SelfCheck"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the self-check diagnostic and help with hearing aids that are
       faulty, not detected, or performing poorly.
@@ -2081,7 +2081,7 @@ intents:
     hard_negative_example: "My hearing aids are too quiet, turn them up."
 
   - name: "Help_Accessories"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain hearing-aid accessories - TV streamer, remote microphone and
       others - including pairing, renaming, removing them, and controlling their
@@ -2117,7 +2117,7 @@ intents:
     hard_negative_example: "Start streaming from the TV."
 
   - name: "Help_WiCROS"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain CROS and WiCROS systems - the transmitter and receiver pair used
       for single-sided hearing - and the balance control between them.
@@ -2159,7 +2159,7 @@ intents:
   # ===========================================================================
 
   - name: "Help_AppSettings"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the app's own settings - where they are, how to change them, and
       the difference between Basic and Advanced app modes.
@@ -2193,7 +2193,7 @@ intents:
     hard_negative_example: "What's the firmware version of my aid?"
 
   - name: "Help_DeviceSettings"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain hearing-aid hardware settings - firmware and serial number, double
       tap sensitivity, notification playback, automatic streaming, Comfort
@@ -2231,7 +2231,7 @@ intents:
     hard_negative_example: "How do I access the app settings?"
 
   - name: "Help_Customize"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to fine-tune the SOUND of the hearing aids - the equalizer,
       bass and treble, background, wind and machine noise, and speech focus.
@@ -2271,7 +2271,7 @@ intents:
     hard_negative_example: "It's too noisy in here, help me hear him."
 
   - name: "Help_ChangingMemories"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to switch between existing hearing aid memories or programs,
       using the app or the button on the aid.
@@ -2318,7 +2318,7 @@ intents:
     hard_negative_example: "How do I create a custom memory?"
 
   - name: "Help_MemoryOptions"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain how to create, save, personalize, geotag, reset and delete hearing
       aid memories.
@@ -2363,7 +2363,7 @@ intents:
     hard_negative_example: "How do I change to a different memory?"
 
   - name: "Help_DemoMode"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain demo mode - using or demonstrating the app without hearing aids
       connected.
@@ -2392,7 +2392,7 @@ intents:
     hard_negative_example: "Why won't my hearing aids connect?"
 
   - name: "Help_Home"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain the Home or main screen - how to reach it, what it shows, and what
       can be adjusted from it.
@@ -2432,7 +2432,7 @@ intents:
     hard_negative_example: "Where do I find the app settings?"
 
   - name: "Help_WhatsNew"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Explain what has changed in the current version of the app or hearing
       aids, and provide the quick start or getting-started overview.
@@ -2470,7 +2470,7 @@ intents:
   # ===========================================================================
 
   - name: "Cmd.MemoryChange"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Switch the hearing aids to a different saved memory or program - Normal,
       Restaurant, Outdoors, Car, Music, Television and the rest - either by
@@ -2564,7 +2564,7 @@ intents:
     hard_negative_example: "How do I change to a different memory?"
 
   - name: "Cmd.SendMessage"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Record and send a voice or push-to-talk message, optionally to a named
       recipient.
@@ -2608,7 +2608,7 @@ intents:
     hard_negative_example: "Play my last message."
 
   - name: "Cmd.ListenMessage"
-    authored_by: "assistant-session (claude-opus-5), pending human review"
+    authored_by: "assistant-session (claude-opus-5)"
     business_description: >-
       Play back or read out messages the user has received - voice or
       push-to-talk messages, and incoming texts read aloud.

@@ -2,9 +2,15 @@ meta:
   generated_by: bootstrap_specs.py
   intent_count: 60
   sources:
-    assistant-session (claude-opus-5), pending human review: 59
+    assistant-session (claude-opus-5): 59
     human (from blueprint, for privacy): 1
-  note: Derived from legacy Dialogflow seeds. REQUIRES HUMAN REVIEW before Stage 1 generation; these specs are the source of truth for every downstream label. See `sources` for provenance.
+  note: Derived from legacy Dialogflow seeds. Human review COMPLETE; see `sign_off`. These specs are the source of truth for every downstream label. See `sources` for provenance.
+  sign_off:
+    reviewed_by: Akash Rawat
+    date: '2026-08-30'
+    scope: All 60 intents, family by family, 18 rounds.
+    record: docs/Prod-Work-Documentation/DEFERRED.md, D1-D18.
+    method: Specs drafted and read in an assistant session; every routing and boundary decision taken by the named reviewer. Verified by verify_round.py.
 intents:
 - name: Default Fallback Intent
   business_description: 'Catch-all for any utterance the assistant must not act on: input that is out of scope for the hearing aids, and in-scope observations that describe a state without requesting a change. Routing here produces a clarification rather than a device action, so it is the safe default whenever intent is uncertain.'
@@ -89,7 +95,7 @@ intents:
   hard_negative_example: How do I make my hearing aids louder?
   intent_family: AudioControl
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.VolumeDecrease
@@ -122,7 +128,7 @@ intents:
   hard_negative_example: It sounds tinny.
   intent_family: AudioControl
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.VolumeMute
@@ -155,7 +161,7 @@ intents:
   hard_negative_example: Stop streaming from the TV.
   intent_family: AudioControl
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.VolumeUnmute
@@ -183,7 +189,7 @@ intents:
   hard_negative_example: Turn on the TV streaming.
   intent_family: AudioControl
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.EdgeModeIncrease
@@ -222,7 +228,7 @@ intents:
   hard_negative_example: How do I improve my hearing with Edge Mode?
   intent_family: EdgeMode
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.EdgeModeDecrease
@@ -249,7 +255,7 @@ intents:
   hard_negative_example: Turn edge mode off completely.
   intent_family: EdgeMode
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.EdgeModeDeactivate
@@ -280,7 +286,7 @@ intents:
   hard_negative_example: Give me a little less edge mode.
   intent_family: EdgeMode
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.StreamingStart
@@ -317,7 +323,7 @@ intents:
   hard_negative_example: How do I start streaming from my TV streamer?
   intent_family: Streaming
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.StreamingStop
@@ -345,7 +351,7 @@ intents:
   hard_negative_example: Mute my hearing aids.
   intent_family: Streaming
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.TranscribeStart
@@ -376,7 +382,7 @@ intents:
   hard_negative_example: What does transcribe do?
   intent_family: SpeechServices
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.TranslationStart
@@ -403,7 +409,7 @@ intents:
   hard_negative_example: What languages can the translate feature use?
   intent_family: SpeechServices
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.BatteryLevel
@@ -427,7 +433,7 @@ intents:
   hard_negative_example: How do I charge my hearing aid?
   intent_family: DeviceStatus
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.FindMyPhone
@@ -451,7 +457,7 @@ intents:
   hard_negative_example: I can't find my left hearing aid.
   intent_family: DeviceLocate
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: reminders.add
@@ -480,7 +486,7 @@ intents:
   hard_negative_example: Can I set reminders in my hearing aids?
   intent_family: Reminders
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: reminders.complete
@@ -504,7 +510,7 @@ intents:
   hard_negative_example: Delete that reminder.
   intent_family: Reminders
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Reminder
@@ -530,7 +536,7 @@ intents:
   hard_negative_example: Set a daily reminder for my tablets.
   intent_family: Reminders
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ActivityWalk
@@ -563,7 +569,7 @@ intents:
   hard_negative_example: How do I change my walking goal?
   intent_family: ActivityTracking
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ActivityStep
@@ -595,7 +601,7 @@ intents:
   hard_negative_example: How do I set up my step goal?
   intent_family: ActivityTracking
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ActivityRun
@@ -625,7 +631,7 @@ intents:
   hard_negative_example: How do I set my running goal?
   intent_family: ActivityTracking
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ActivityCycle
@@ -653,7 +659,7 @@ intents:
   hard_negative_example: Where can I see the distance that I biked?
   intent_family: ActivityTracking
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ActivityStand
@@ -680,7 +686,7 @@ intents:
   hard_negative_example: How do I change my stand goal?
   intent_family: ActivityTracking
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ActivityAerobics
@@ -707,7 +713,7 @@ intents:
   hard_negative_example: How do I change my aerobic goal?
   intent_family: ActivityTracking
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ActivityExercise
@@ -737,7 +743,7 @@ intents:
   hard_negative_example: How do I set up my exercise goal?
   intent_family: ActivityTracking
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ActivityCalories
@@ -765,7 +771,7 @@ intents:
   hard_negative_example: How many calories have I burned while biking?
   intent_family: ActivityTracking
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Volume
@@ -804,7 +810,7 @@ intents:
   hard_negative_example: Turn the volume down on my left aid.
   intent_family: HelpAudio
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_EdgeMode
@@ -834,7 +840,7 @@ intents:
   hard_negative_example: Use edge mode to hear the speaker better.
   intent_family: HelpAudio
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_IntelliVoice
@@ -861,7 +867,7 @@ intents:
   hard_negative_example: How does the voice assistant work?
   intent_family: HelpAudio
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_MaskMode
@@ -892,7 +898,7 @@ intents:
   hard_negative_example: Add mask as a customized memory.
   intent_family: HelpAudio
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Tinnitus
@@ -922,7 +928,7 @@ intents:
   hard_negative_example: Turn up the volume in my hearing aids.
   intent_family: HelpAudio
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Activity
@@ -956,7 +962,7 @@ intents:
   hard_negative_example: How far have I walked today?
   intent_family: HelpHealth
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Health
@@ -991,7 +997,7 @@ intents:
   hard_negative_example: How do I set my step goal?
   intent_family: HelpHealth
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_HeartRate
@@ -1017,7 +1023,7 @@ intents:
   hard_negative_example: What is a normal heart rate recovery number?
   intent_family: HelpHealth
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_HeartRateRecovery
@@ -1043,7 +1049,7 @@ intents:
   hard_negative_example: How do I measure my heart rate?
   intent_family: HelpHealth
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_FallAlert
@@ -1070,7 +1076,7 @@ intents:
   hard_negative_example: Where are my hearing aids?
   intent_family: HelpHealth
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_ThriveScore
@@ -1098,7 +1104,7 @@ intents:
   hard_negative_example: How do I see my health goals?
   intent_family: HelpHealth
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_FindMyHearingAids
@@ -1126,7 +1132,7 @@ intents:
   hard_negative_example: I can't find my phone.
   intent_family: HelpFind
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Transcribe
@@ -1154,7 +1160,7 @@ intents:
   hard_negative_example: Start transcribing this conversation.
   intent_family: HelpSpeechServices
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Translate
@@ -1180,7 +1186,7 @@ intents:
   hard_negative_example: How do I say good morning in Russian?
   intent_family: HelpSpeechServices
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_VoiceAssistant
@@ -1212,7 +1218,7 @@ intents:
   hard_negative_example: What is IntelliVoice?
   intent_family: Messaging
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Pairing
@@ -1250,7 +1256,7 @@ intents:
   hard_negative_example: How do I unpair my Remote Mic?
   intent_family: HelpConnectivity
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_RemoteProgramming
@@ -1281,7 +1287,7 @@ intents:
   hard_negative_example: How do I customize my hearing aid settings myself?
   intent_family: HelpConnectivity
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_HearShare
@@ -1309,7 +1315,7 @@ intents:
   hard_negative_example: How do I connect to my audiologist?
   intent_family: HelpConnectivity
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Battery
@@ -1337,7 +1343,7 @@ intents:
   hard_negative_example: What is my battery level?
   intent_family: HelpDeviceCare
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_CleanCare
@@ -1365,7 +1371,7 @@ intents:
   hard_negative_example: Why doesn't my right hearing aid work?
   intent_family: HelpDeviceCare
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_InsertDevice
@@ -1393,7 +1399,7 @@ intents:
   hard_negative_example: How do I clean my hearing aid?
   intent_family: HelpDeviceCare
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_SelfCheck
@@ -1429,7 +1435,7 @@ intents:
   hard_negative_example: My hearing aids are too quiet, turn them up.
   intent_family: HelpDeviceCare
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Accessories
@@ -1460,7 +1466,7 @@ intents:
   hard_negative_example: Start streaming from the TV.
   intent_family: HelpDeviceCare
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_WiCROS
@@ -1487,7 +1493,7 @@ intents:
   hard_negative_example: How do I change the volume on my hearing aids?
   intent_family: HelpDeviceCare
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_AppSettings
@@ -1518,7 +1524,7 @@ intents:
   hard_negative_example: What's the firmware version of my aid?
   intent_family: HelpAppSettings
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_DeviceSettings
@@ -1549,7 +1555,7 @@ intents:
   hard_negative_example: How do I access the app settings?
   intent_family: HelpAppSettings
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Customize
@@ -1585,7 +1591,7 @@ intents:
   hard_negative_example: It's too noisy in here, help me hear him.
   intent_family: HelpAppSettings
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_ChangingMemories
@@ -1619,7 +1625,7 @@ intents:
   hard_negative_example: How do I create a custom memory?
   intent_family: Memories
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_MemoryOptions
@@ -1652,7 +1658,7 @@ intents:
   hard_negative_example: How do I change to a different memory?
   intent_family: Memories
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_DemoMode
@@ -1679,7 +1685,7 @@ intents:
   hard_negative_example: Why won't my hearing aids connect?
   intent_family: HelpAppSettings
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_Home
@@ -1709,7 +1715,7 @@ intents:
   hard_negative_example: Where do I find the app settings?
   intent_family: HelpAppSettings
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Help_WhatsNew
@@ -1735,7 +1741,7 @@ intents:
   hard_negative_example: Which version of the app am I using?
   intent_family: HelpAppSettings
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.MemoryChange
@@ -1779,7 +1785,7 @@ intents:
   hard_negative_example: How do I change to a different memory?
   intent_family: Memories
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.SendMessage
@@ -1812,7 +1818,7 @@ intents:
   hard_negative_example: Play my last message.
   intent_family: Messaging
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml
 - name: Cmd.ListenMessage
@@ -1844,6 +1850,6 @@ intents:
   hard_negative_example: Send a message to my son.
   intent_family: Messaging
   _provenance:
-    model: assistant-session (claude-opus-5), pending human review
+    model: assistant-session (claude-opus-5)
     attempts: 0
     source: authored_specs.yaml

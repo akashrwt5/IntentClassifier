@@ -208,34 +208,37 @@ shared enough ordinary vocabulary to clear the floor. A floor, not a gate.
 
 ## 6. Sign-off
 
-Stage 0 is the gate on Stage 1, and `intent_specs.yaml` still carries
-`REQUIRES HUMAN REVIEW`. Cheap pilots against unreviewed specs are fine. A paid
-full run is not: the specs are the source of truth for every downstream label,
-so a spec defect is not a data-quality problem that later stages can filter out.
+Stage 0 is the gate on Stage 1: the specs are the source of truth for every
+downstream label, so a spec defect is not a data-quality problem that later
+stages can filter out.
 
-Per family, so the work can be put down and picked up:
+Ticks come from `SIGNED_OFF` in `spec_review.py`, not from this file. This file
+is regenerated on every run, so a box ticked here by hand would be erased.
 
-| Family | Intents | Reviewed |
-|---|---:|:-:|
-| ActivityTracking | 8 | ☐ |
-| HelpAppSettings | 6 | ☐ |
-| HelpDeviceCare | 6 | ☐ |
-| HelpHealth | 6 | ☐ |
-| HelpAudio | 5 | ☐ |
-| AudioControl | 4 | ☐ |
-| EdgeMode | 3 | ☐ |
-| HelpConnectivity | 3 | ☐ |
-| Memories | 3 | ☐ |
-| Messaging | 3 | ☐ |
-| Reminders | 3 | ☐ |
-| HelpSpeechServices | 2 | ☐ |
-| SpeechServices | 2 | ☐ |
-| Streaming | 2 | ☐ |
-| DeviceLocate | 1 | ☐ |
-| DeviceStatus | 1 | ☐ |
-| Fallback | 1 | ☐ |
-| HelpFind | 1 | ☐ |
+| Family | Intents | Reviewed | By | Date |
+|---|---:|:-:|---|---|
+| ActivityTracking | 8 | ☑ | Akash Rawat | 2026-08-30 |
+| HelpAppSettings | 6 | ☑ | Akash Rawat | 2026-08-30 |
+| HelpDeviceCare | 6 | ☑ | Akash Rawat | 2026-08-30 |
+| HelpHealth | 6 | ☑ | Akash Rawat | 2026-08-30 |
+| HelpAudio | 5 | ☑ | Akash Rawat | 2026-08-30 |
+| AudioControl | 4 | ☑ | Akash Rawat | 2026-08-30 |
+| EdgeMode | 3 | ☑ | Akash Rawat | 2026-08-30 |
+| HelpConnectivity | 3 | ☑ | Akash Rawat | 2026-08-30 |
+| Memories | 3 | ☑ | Akash Rawat | 2026-08-30 |
+| Messaging | 3 | ☑ | Akash Rawat | 2026-08-30 |
+| Reminders | 3 | ☑ | Akash Rawat | 2026-08-30 |
+| HelpSpeechServices | 2 | ☑ | Akash Rawat | 2026-08-30 |
+| SpeechServices | 2 | ☑ | Akash Rawat | 2026-08-30 |
+| Streaming | 2 | ☑ | Akash Rawat | 2026-08-30 |
+| DeviceLocate | 1 | ☑ | Akash Rawat | 2026-08-30 |
+| DeviceStatus | 1 | ☑ | Akash Rawat | 2026-08-30 |
+| Fallback | 1 | ☑ | Akash Rawat | 2026-08-30 |
+| HelpFind | 1 | ☑ | Akash Rawat | 2026-08-30 |
 
-When every box is ticked, drop the `REQUIRES HUMAN REVIEW` note from
-`intent_specs.yaml`'s `meta` block and record who signed off, in the same commit.
+**All 18 families signed off.** `intent_specs.yaml`'s `meta.sign_off` block records who, when and against what; `bootstrap_specs.py` writes it, so a regeneration keeps it.
+
+Sign-off is not a claim that the specs are perfect. It is a claim that every
+intent has been read against its siblings and that what is still open is
+written down in `DEFERRED.md` rather than unknown.
 

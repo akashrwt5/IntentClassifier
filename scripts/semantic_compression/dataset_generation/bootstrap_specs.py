@@ -404,10 +404,25 @@ def export_yaml(config: GeneratorConfig, specs: list[dict[str, Any]]) -> Path:
             "intent_count": len(specs),
             "sources": _origin_counts(specs),
             "note": (
-                "Derived from legacy Dialogflow seeds. REQUIRES HUMAN REVIEW "
-                "before Stage 1 generation; these specs are the source of truth "
-                "for every downstream label. See `sources` for provenance."
+                "Derived from legacy Dialogflow seeds. Human review COMPLETE; see "
+                "`sign_off`. These specs are the source of truth for every "
+                "downstream label. See `sources` for provenance."
             ),
+            # A tick is a decision, so it lives in source rather than in the
+            # generated Markdown. SPEC_REVIEW.md is rewritten on every run and a
+            # box ticked by hand there would be erased the next time anyone
+            # regenerated it, silently.
+            "sign_off": {
+                "reviewed_by": "Akash Rawat",
+                "date": "2026-08-30",
+                "scope": "All 60 intents, family by family, 18 rounds.",
+                "record": "docs/Prod-Work-Documentation/DEFERRED.md, D1-D18.",
+                "method": (
+                    "Specs drafted and read in an assistant session; every "
+                    "routing and boundary decision taken by the named reviewer. "
+                    "Verified by verify_round.py."
+                ),
+            },
         },
         "intents": specs,
     }

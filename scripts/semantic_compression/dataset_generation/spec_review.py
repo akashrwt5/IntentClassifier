@@ -408,6 +408,17 @@ ROUTE_MIN_OVERLAP = 1   # destination must share at least this much with it
 COLLIDE_MIN_RARE = 2    # shared words needed to call two triggers a collision
 COLLIDE_MAX_DF = 6      # ...and only words appearing in <=6 intents' triggers count
 
+# Per-family sign-off. A tick is a DECISION, so it lives here in source. The
+# generated SPEC_REVIEW.md is rewritten on every run, so a box ticked by hand
+# there would be erased the next time anyone regenerated the report -- silently,
+# which is the failure mode this whole review kept finding elsewhere.
+SIGNED_OFF = {_f: ("Akash Rawat", "2026-08-30") for _f in (
+    "ActivityTracking", "AudioControl", "DeviceLocate", "DeviceStatus",
+    "EdgeMode", "Fallback", "HelpAppSettings", "HelpAudio", "HelpConnectivity",
+    "HelpDeviceCare", "HelpFind", "HelpHealth", "HelpSpeechServices",
+    "Memories", "Messaging", "Reminders", "SpeechServices", "Streaming",
+)}
+
 # The bare spelling "Fallback" matters. 23 routing sentences across 14 specs use
 # it instead of the full label, and while this matcher knew only the full name,
 # every one of those routes was invisible to Section 7 -- a blind spot over the
@@ -855,22 +866,33 @@ def render(r: dict, top: int) -> str:
         "",
         "## 6. Sign-off",
         "",
-        "Stage 0 is the gate on Stage 1, and `intent_specs.yaml` still carries",
-        "`REQUIRES HUMAN REVIEW`. Cheap pilots against unreviewed specs are fine. A paid",
-        "full run is not: the specs are the source of truth for every downstream label,",
-        "so a spec defect is not a data-quality problem that later stages can filter out.",
+        "Stage 0 is the gate on Stage 1: the specs are the source of truth for every",
+        "downstream label, so a spec defect is not a data-quality problem that later",
+        "stages can filter out.",
         "",
-        "Per family, so the work can be put down and picked up:",
+        "Ticks come from `SIGNED_OFF` in `spec_review.py`, not from this file. This file",
+        "is regenerated on every run, so a box ticked here by hand would be erased.",
         "",
-        "| Family | Intents | Reviewed |",
-        "|---|---:|:-:|",
+        "| Family | Intents | Reviewed | By | Date |",
+        "|---|---:|:-:|---|---|",
     ]
     for fam, count in sorted(fam_counts.items(), key=lambda kv: (-kv[1], kv[0])):
-        out.append(f"| {fam} | {count} | ☐ |")
+        who = SIGNED_OFF.get(fam)
+        mark = "☑" if who else "☐"
+        out.append(f"| {fam} | {count} | {mark} | {who[0] if who else '—'} "
+                   f"| {who[1] if who else '—'} |")
+    _open = [f for f in fam_counts if f not in SIGNED_OFF]
     out += [
         "",
-        "When every box is ticked, drop the `REQUIRES HUMAN REVIEW` note from",
-        "`intent_specs.yaml`'s `meta` block and record who signed off, in the same commit.",
+        (f"**{len(_open)} families still unsigned: {', '.join(sorted(_open))}.** The paid "
+         "run waits on them." if _open else
+         "**All 18 families signed off.** `intent_specs.yaml`'s `meta.sign_off` block "
+         "records who, when and against what; `bootstrap_specs.py` writes it, so a "
+         "regeneration keeps it."),
+        "",
+        "Sign-off is not a claim that the specs are perfect. It is a claim that every",
+        "intent has been read against its siblings and that what is still open is",
+        "written down in `DEFERRED.md` rather than unknown.",
         "",
     ]
     return "\n".join(out) + "\n"
