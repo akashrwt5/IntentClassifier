@@ -1,6 +1,6 @@
 # Seed Corpus Audit
 
-_Generated 2026-08-13 18:13 UTC by `seed_audit.py` from `dialogflow-en-dataset/`._
+_Generated 2026-08-30 16:27 UTC by `seed_audit.py` from `dialogflow-en-dataset/`._
 
 ## 1. Headline numbers
 
@@ -9,10 +9,10 @@ _Generated 2026-08-13 18:13 UTC by `seed_audit.py` from `dialogflow-en-dataset/`
 | Seed files on disk | 68 |
 | Excluded as entity lists | 6 |
 | Merged into another intent | 1 |
-| Dropped from taxonomy | 2 |
-| **Resolved intents** | **60** |
+| Dropped from taxonomy | 5 |
+| **Resolved intents** | **57** |
 | Raw non-empty lines | 4106 |
-| Unique utterances after normalisation | 3630 |
+| Unique utterances after normalisation | 3524 |
 
 ## 2. Encodings
 
@@ -63,7 +63,7 @@ claims; at 100% the smaller intent has no distinguishing evidence.
 
 ## 4b. Taxonomy vs the deployed label space
 
-⚠️ **MISMATCH.** Derived 60 intents; runtime dispatches 57. They overlap on 56.
+⚠️ **MISMATCH.** Derived 57 intents; runtime dispatches 57. They overlap on 53.
 
 The seed folder is not the same thing as the shipping label space, and
 the two have drifted. Training on the derived set alone would ship a
@@ -72,7 +72,10 @@ currently serves. Reconcile this BEFORE Stage 1 generation.
 
 | Direction | Intent |
 |---|---|
-| runtime only — no seeds, no spec | `Help_HearingCareAnywhereConnect` |
+| runtime only — dropped from the taxonomy, seeds retained | `Help_HearingCareAnywhereConnect` |
+| runtime only — dropped from the taxonomy, seeds retained | `Help_HeartRate` |
+| runtime only — dropped from the taxonomy, seeds retained | `Help_HeartRateRecovery` |
+| runtime only — dropped from the taxonomy, seeds retained | `Help_ThriveScore` |
 | derived only — runtime cannot dispatch | `Cmd.EdgeModeDeactivate` |
 | derived only — runtime cannot dispatch | `Cmd.EdgeModeDecrease` |
 | derived only — runtime cannot dispatch | `Cmd.EdgeModeIncrease` |
@@ -97,6 +100,9 @@ currently serves. Reconcile this BEFORE Stage 1 generation.
 
 - `Cmd.Health` — Rollup PARENT intent, not a sibling. 155 of its 160 unique utterances are drawn verbatim from the Cmd.Activity* children, leaving only 5 of its own. Keeping it would train the classifier on an impossible distinction (Cmd.Health vs Cmd.ActivityRun on identical text) and produce exactly the contradictory labels the blueprint forbids. Decision: keep the specific Cmd.Activity* intents; drop the parent.
 - `Help_HearingCareAnywhereConnect` — Disabled in Dialogflow. All 72 of its unique utterances also appear under Help_RemoteProgramming (100% subset, zero distinguishing phrase).
+- `Help_HeartRate` — Not a supported feature. Disabled in Dialogflow, and confirmed unsupported by Akash on 2026-08-27. Questions about it resolve to Default Fallback Intent, which states the unsupported set explicitly.
+- `Help_HeartRateRecovery` — Not a supported feature, same decision as Help_HeartRate. Disabled in Dialogflow and confirmed unsupported on 2026-08-27.
+- `Help_ThriveScore` — Not a supported feature. Akash, 2026-08-27. The Thrive wellness scores and their component scores are not explained by this assistant, so the questions resolve to Default Fallback Intent.
 
 ## 6. Per-intent counts (resolved taxonomy)
 
@@ -141,8 +147,6 @@ currently serves. Reconcile this BEFORE Stage 1 generation.
 | `Help_FindMyHearingAids` | HelpFind | 106 | 105 |
 | `Help_Health` | HelpHealth | 23 | 23 |
 | `Help_HearShare` | HelpConnectivity | 26 | 26 |
-| `Help_HeartRate` | HelpHealth | 19 | 19 |
-| `Help_HeartRateRecovery` | HelpHealth | 22 | 22 |
 | `Help_Home` | HelpAppSettings | 23 | 23 |
 | `Help_InsertDevice` | HelpDeviceCare | 30 | 30 |
 | `Help_IntelliVoice` | HelpAudio | 42 | 41 |
@@ -152,7 +156,6 @@ currently serves. Reconcile this BEFORE Stage 1 generation.
 | `Help_Reminder` | Reminders | 23 | 23 |
 | `Help_RemoteProgramming` | HelpConnectivity | 232 | 232 |
 | `Help_SelfCheck` | HelpDeviceCare | 66 | 65 |
-| `Help_ThriveScore` | HelpHealth | 65 | 65 |
 | `Help_Tinnitus` | HelpAudio | 130 | 129 |
 | `Help_Transcribe` | HelpSpeechServices | 37 | 35 |
 | `Help_Translate` | HelpSpeechServices | 43 | 43 |

@@ -219,7 +219,16 @@ def build_report(config: GeneratorConfig, *, include_phrases: bool = False) -> s
                 "| Direction | Intent |",
                 "|---|---|",
             ]
-            lines += [f"| runtime only — no seeds, no spec | `{name}` |" for name in missing]
+            # "no seeds" was true when every runtime-only name was also seedless.
+            # It stopped being true on 2026-08-30: three of them were DROPPED by
+            # DEFERRED D20 and still have 19, 22 and 65 seed files on disk. The
+            # label now says why the name is missing rather than asserting a fact
+            # about the seed folder that the drop made false.
+            _dropped = set(corpus.dropped)
+            lines += [
+                f"| runtime only — {'dropped from the taxonomy, seeds retained' if name in _dropped else 'no seeds, no spec'} | `{name}` |"
+                for name in missing
+            ]
             lines += [f"| derived only — runtime cannot dispatch | `{name}` |" for name in extra]
 
     lines += ["", "## 5. Applied taxonomy rules", ""]

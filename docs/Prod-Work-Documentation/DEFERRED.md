@@ -1130,20 +1130,41 @@ guard wording or the key fails its check.
 `hard_negatives_per_intent: 40` and `oos_ratio: 0.15` are still read by no code.
 They belong to the unbuilt Stage 2 and Stage 3 and are a separate decision.
 
-### E12. Two committed generated artefacts are stale
+### E12. Stale build output — CLOSED 2026-08-30
 
-`specs_summary.md` still opens *"60 intents. Provenance: 59 × assistant-session
-(claude-opus-5), pending human review"* and still carries rows and
-neighbour-table entries for all three dropped intents. `seed_audit_report.md`
-(2026-08-13) is stale the same way. Both are build output; nothing regenerates
-them in this session and no check covers them. `seed_audit.py` section 4b also
-labels the three *"runtime only — no seeds, no spec"*, which is wrong: they have
-19, 22 and 65 seed files on disk. They are dropped, not seedless.
+`specs_summary.md` still opened *"60 intents. Provenance: 59 × assistant-session
+(claude-opus-5), pending human review"* and carried rows and neighbour-table
+entries for all three dropped intents. `seed_audit_report.md` was dated
+2026-08-13. Both regenerated.
 
-**To close:** regenerate both, and fix the 4b label. Regenerating `specs_summary`
-means running `bootstrap_specs.py`, which rewrites `intent_specs.yaml` at a
-different line width and would produce a very large diff — so it wants its own
-commit, not a corner of another one.
+**Running `bootstrap_specs.py` turned out to be free and safe, which is worth
+recording because it was assumed otherwise.** All 57 intents are hand-authored,
+so `intents = [i for i in corpus.intent_names if i not in hand_authored_names]`
+is empty, no chain is built and no API key is required. Confirmed by `--dry-run`
+first — *"57 hand-authored, 0 to generate"* — and the run made **zero LLM
+calls**.
+
+**It also proved D19's claim rather than asserting it.** D19 said the sign-off
+survives a regeneration; that had only been checked by comparing strings. The
+regeneration ran and `meta` came back **identical**, with zero field differences
+across all 57 specs. The only change to `intent_specs.yaml` was line wrapping.
+
+**One thing to know before the next surgical edit.** `bootstrap_specs.py` writes
+`intent_specs.yaml` at `width=88`; the apply scripts used through this review
+dumped it at `width=100000`, one line per item. That is why this commit shows
+~1,000 lines of churn in a file whose content did not change. The file is now in
+bootstrap's canonical format, and the intended workflow is the one just proven:
+**edit `authored_specs.yaml`, then regenerate.** A future script that dumps
+`intent_specs.yaml` directly should match `width=88`, or the churn comes back.
+
+**`seed_audit.py` section 4b was also wrong.** It labelled every runtime-only
+name *"no seeds, no spec"*, which was true when every such name was seedless and
+stopped being true when D20 dropped three intents that keep 19, 22 and 65 seed
+files on disk. The label now distinguishes a dropped intent from a seedless one.
+Its headline was already right: derived 57, runtime 57, overlapping on 53.
+
+**Nothing to close.**
+
 
 ## E. Not started
 

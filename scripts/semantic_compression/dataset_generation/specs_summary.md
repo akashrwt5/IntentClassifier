@@ -1,6 +1,6 @@
 # Intent Specifications Summary
 
-60 intents. Provenance: 59 × assistant-session (claude-opus-5), pending human review, 1 × human (from blueprint, for privacy).
+57 intents. Provenance: 56 × assistant-session (claude-opus-5), 1 × human (from blueprint, for privacy).
 
 > **Review these before Stage 1.** They are the source of truth for every
 > downstream label, so an error here is multiplied by the per-intent
@@ -11,7 +11,7 @@
 | `Cmd.ActivityAerobics` | ActivityTracking | Report the user's aerobic activity data - duration, progress toward the aerobics goal, or calories burned doing aerobics. | Have I reached my aerobics goal? | How do I change my aerobic goal? |
 | `Cmd.ActivityCalories` | ActivityTracking | Report total calories burned over a period when NO specific activity is named. | How many calories have I burned today? | How many calories have I burned while biking? |
 | `Cmd.ActivityCycle` | ActivityTracking | Report the user's cycling or biking data - distance, duration, progress toward the cycling goal, or calories burned cycling. | How far have I cycled this week? | Where can I see the distance that I biked? |
-| `Cmd.ActivityExercise` | ActivityTracking | Report the user's general exercise or workout data when no specific tracked activity is named - duration, progress toward the exercise goal, or calories burned working out. | How much longer do I need to work out today? | How do I set up my exercise goal? |
+| `Cmd.ActivityExercise` | ActivityTracking | Report the user's exercise or workout data when the user explicitly refers to exercise, working out, or a workout - duration, progress toward the exercise goal, or calories burned exercising. | How much longer do I need to work out today? | How do I set up my exercise goal? |
 | `Cmd.ActivityRun` | ActivityTracking | Report the user's running or jogging data - distance, duration, progress toward the running goal, or calories burned running. | How much more running do I need to do today? | How do I set my running goal? |
 | `Cmd.ActivityStand` | ActivityTracking | Report the user's standing data - time spent standing, progress toward the stand goal, or calories burned standing. | How close am I to my standing goal? | How do I change my stand goal? |
 | `Cmd.ActivityStep` | ActivityTracking | Report the user's step count data - steps taken, progress toward the step goal, distance covered, or calories burned from steps. | How many more steps do I need today? | How do I set up my step goal? |
@@ -34,7 +34,7 @@
 | `Help_WhatsNew` | HelpAppSettings | Explain what has changed in the current version of the app or hearing aids, and provide the quick start or getting-started overview. | What's new in this version of the app? | Which version of the app am I using? |
 | `Help_EdgeMode` | HelpAudio | Explain what Edge Mode is and how to use it to improve hearing in difficult environments. | What does Edge Mode actually do? | Use edge mode to hear the speaker better. |
 | `Help_IntelliVoice` | HelpAudio | Explain the IntelliVoice feature - what it is, what it does, when to use it, and where to find it. | When should I use IntelliVoice? | How does the voice assistant work? |
-| `Help_MaskMode` | HelpAudio | Explain Mask Mode - the setting that compensates for speech muffled by face masks - including how to switch it on or off. | How do I turn Mask Mode on? | Add mask as a customized memory. |
+| `Help_MaskMode` | HelpAudio | Explain Mask Mode - the Mask listening program in the app's memory list - what it is, where to find it, and how to switch it on or off. | How do I turn Mask Mode on? | Add mask as a customized memory. |
 | `Help_Tinnitus` | HelpAudio | Explain the tinnitus masker feature - the therapeutic noise or white noise the aids can play - and how to find and adjust its settings. | How do I turn up the tinnitus noise? | Turn up the volume in my hearing aids. |
 | `Help_Volume` | HelpAudio | Explain how to control hearing-aid volume - adjusting, muting, unmuting, per-side control - and help with volume problems. | How do I turn the volume down on just one aid? | Turn the volume down on my left aid. |
 | `Help_HearShare` | HelpConnectivity | Explain HearShare - sharing hearing-aid, activity and wellness data with a family member or carer - including invitations and adding people. | How do I share my hearing information with my daughter? | How do I connect to my audiologist? |
@@ -46,13 +46,10 @@
 | `Help_InsertDevice` | HelpDeviceCare | Explain how to physically put hearing aids into the ears and take them out, including how a correctly seated aid should look. | Show me how to put my hearing aid in. | How do I clean my hearing aid? |
 | `Help_SelfCheck` | HelpDeviceCare | Explain the self-check diagnostic and help with hearing aids that are faulty, not detected, or performing poorly. | There's a problem with my left hearing aid. | My hearing aids are too quiet, turn them up. |
 | `Help_WiCROS` | HelpDeviceCare | Explain CROS and WiCROS systems - the transmitter and receiver pair used for single-sided hearing - and the balance control between them. | How does the CROS balance feature work? | How do I change the volume on my hearing aids? |
-| `Help_FindMyHearingAids` | HelpFind | Help the user locate misplaced HEARING AIDS, including one specific side. | I've misplaced my left hearing aid. | I can't find my phone. |
+| `Help_FindMyHearingAids` | HelpFind | Help the user locate misplaced HEARING AIDS, including one specific side. The assistant cannot locate an aid itself - it explains how to find one - so requests phrased as commands belong here too. | I've misplaced my left hearing aid. | I can't find my phone. |
 | `Help_Activity` | HelpHealth | Explain how to set up, change or edit activity goals - steps, walking, running, biking, standing, aerobics, exercise and calories - and where activity distance is shown. | How do I change my walking goal? | How far have I walked today? |
 | `Help_FallAlert` | HelpHealth | Explain the fall detection and alert feature - how it works, how to set it up, how alert contacts are managed, and what the user will see or hear when an alert is sent or cancelled. | How do I set up fall detection? | Where are my hearing aids? |
 | `Help_Health` | HelpHealth | Explain the Health screen - what it shows, how to view health and hearing goals, and how to change the period those goals are measured over. | What does the Health screen show? | How do I set my step goal? |
-| `Help_HeartRate` | HelpHealth | Explain the heart rate feature - what it is, how it works, how to measure heart rate, and where to find it in the app. | Where do I find my heart rate? | What is a normal heart rate recovery number? |
-| `Help_HeartRateRecovery` | HelpHealth | Explain heart rate recovery - what the measurement means, how it is calculated, how to access it, and what a good value looks like. | How is heart rate recovery calculated? | How do I measure my heart rate? |
-| `Help_ThriveScore` | HelpHealth | Explain the Thrive wellness score and its component scores - Body, Brain, Kind and iPro - including how they are calculated and how to improve them. | How is the Thrive score calculated? | How do I see my health goals? |
 | `Help_Transcribe` | HelpSpeechServices | Explain the Transcribe feature - live speech-to-text captioning - what it does, how it works, where to find it, and whether transcripts are saved. | Does transcribe save my conversations? | Start transcribing this conversation. |
 | `Help_Translate` | HelpSpeechServices | Explain the Translate feature - how it works, which languages are supported, where to find it, and whether conversations are saved. | What translation languages are available? | How do I say good morning in Russian? |
 | `Cmd.MemoryChange` | Memories | Switch the hearing aids to a different saved memory or program - Normal, Restaurant, Outdoors, Car, Music, Television and the rest - either by naming it directly or by describing the listening environment the user has just entered. | I've just sat down in a busy restaurant. | How do I change to a different memory? |
@@ -73,63 +70,60 @@
 
 | Intent | Neighbours |
 |---|---|
-| `Cmd.ActivityAerobics` | Cmd.ActivityExercise, Cmd.ActivityCalories, Help_Activity, Help_Health, Default Fallback Intent |
-| `Cmd.ActivityCalories` | Cmd.ActivityExercise, Cmd.ActivityWalk, Cmd.ActivityRun, Help_Activity, Help_Health, Default Fallback Intent |
-| `Cmd.ActivityCycle` | Cmd.ActivityRun, Cmd.ActivityWalk, Cmd.ActivityExercise, Help_Activity, Default Fallback Intent |
-| `Cmd.ActivityExercise` | Cmd.ActivityAerobics, Cmd.ActivityRun, Cmd.ActivityCalories, Help_Activity, Help_Health, Default Fallback Intent |
-| `Cmd.ActivityRun` | Cmd.ActivityWalk, Cmd.ActivityExercise, Cmd.ActivityCycle, Help_Activity, Default Fallback Intent |
-| `Cmd.ActivityStand` | Cmd.ActivityStep, Cmd.ActivityWalk, Help_Activity, Help_Health, Default Fallback Intent |
+| `Cmd.ActivityAerobics` | Cmd.ActivityExercise, Cmd.ActivityCalories, Default Fallback Intent, Help_Activity |
+| `Cmd.ActivityCalories` | Cmd.ActivityExercise, Cmd.ActivityWalk, Cmd.ActivityRun, Default Fallback Intent, Cmd.ActivityAerobics, Help_Activity |
+| `Cmd.ActivityCycle` | Cmd.ActivityRun, Cmd.ActivityWalk, Cmd.ActivityExercise, Default Fallback Intent, Help_Activity |
+| `Cmd.ActivityExercise` | Cmd.ActivityAerobics, Cmd.ActivityRun, Cmd.ActivityCalories, Help_Activity, Default Fallback Intent, Cmd.ActivityCycle |
+| `Cmd.ActivityRun` | Cmd.ActivityWalk, Cmd.ActivityExercise, Cmd.ActivityCycle, Default Fallback Intent, Cmd.ActivityCalories, Help_Activity |
+| `Cmd.ActivityStand` | Cmd.ActivityStep, Cmd.ActivityWalk, Default Fallback Intent, Help_Activity |
 | `Cmd.ActivityStep` | Cmd.ActivityWalk, Cmd.ActivityStand, Help_Activity, Help_Health, Default Fallback Intent |
-| `Cmd.ActivityWalk` | Cmd.ActivityStep, Cmd.ActivityRun, Cmd.ActivityStand, Help_Activity, Help_Health, Default Fallback Intent |
-| `Cmd.BatteryLevel` | Help_Battery, Help_SelfCheck, Default Fallback Intent |
-| `Cmd.EdgeModeDeactivate` | Cmd.EdgeModeDecrease, Cmd.EdgeModeIncrease, Cmd.VolumeMute, Help_EdgeMode, Default Fallback Intent |
+| `Cmd.ActivityWalk` | Cmd.ActivityStep, Cmd.ActivityRun, Cmd.ActivityStand, Help_Activity, Cmd.ActivityCalories, Cmd.ActivityCycle, Default Fallback Intent |
+| `Cmd.BatteryLevel` | Help_Battery, Default Fallback Intent |
+| `Cmd.EdgeModeDeactivate` | Cmd.EdgeModeDecrease, Cmd.EdgeModeIncrease, Cmd.VolumeMute, Help_EdgeMode, Default Fallback Intent, Cmd.StreamingStop, Cmd.MemoryChange, Help_MaskMode |
 | `Cmd.EdgeModeDecrease` | Cmd.EdgeModeIncrease, Cmd.EdgeModeDeactivate, Cmd.VolumeDecrease, Help_EdgeMode, Default Fallback Intent |
-| `Cmd.EdgeModeIncrease` | Cmd.EdgeModeDecrease, Cmd.EdgeModeDeactivate, Cmd.VolumeIncrease, Help_EdgeMode, Help_Customize, Default Fallback Intent |
-| `Cmd.FindMyPhone` | Help_FindMyHearingAids, Help_Pairing, Default Fallback Intent |
+| `Cmd.EdgeModeIncrease` | Cmd.EdgeModeDecrease, Cmd.EdgeModeDeactivate, Help_EdgeMode, Help_Customize, Cmd.MemoryChange, Help_ChangingMemories, Default Fallback Intent, Cmd.StreamingStart |
+| `Cmd.FindMyPhone` | Help_FindMyHearingAids, Default Fallback Intent |
 | `Cmd.ListenMessage` | Cmd.SendMessage, Cmd.TranscribeStart, Cmd.StreamingStart, Help_VoiceAssistant, Default Fallback Intent |
-| `Cmd.MemoryChange` | Help_ChangingMemories, Help_MemoryOptions, Cmd.EdgeModeIncrease, Help_Customize, Default Fallback Intent |
+| `Cmd.MemoryChange` | Help_ChangingMemories, Help_MemoryOptions, Cmd.EdgeModeIncrease, Help_Customize, Default Fallback Intent, Cmd.VolumeMute, Cmd.StreamingStart, Help_Tinnitus, Help_MaskMode, Help_Pairing, Cmd.EdgeModeDeactivate, Cmd.TranscribeStart |
 | `Cmd.SendMessage` | Cmd.ListenMessage, Cmd.TranscribeStart, reminders.add, Help_VoiceAssistant, Default Fallback Intent |
-| `Cmd.StreamingStart` | Cmd.StreamingStop, Cmd.VolumeUnmute, Help_Accessories, Help_Pairing, Default Fallback Intent |
-| `Cmd.StreamingStop` | Cmd.StreamingStart, Cmd.VolumeMute, Help_Accessories, Default Fallback Intent |
-| `Cmd.TranscribeStart` | Cmd.TranslationStart, Help_Transcribe, reminders.add, Default Fallback Intent |
+| `Cmd.StreamingStart` | Cmd.StreamingStop, Cmd.VolumeUnmute, Help_Accessories, Help_Pairing, Cmd.ListenMessage, Cmd.VolumeIncrease, Default Fallback Intent, Cmd.EdgeModeIncrease, Cmd.MemoryChange |
+| `Cmd.StreamingStop` | Cmd.StreamingStart, Cmd.VolumeMute, Help_Accessories, Default Fallback Intent, Cmd.EdgeModeDeactivate |
+| `Cmd.TranscribeStart` | Cmd.TranslationStart, Help_Transcribe, reminders.add, Default Fallback Intent, Cmd.ListenMessage, Cmd.SendMessage, Cmd.MemoryChange |
 | `Cmd.TranslationStart` | Cmd.TranscribeStart, Help_Translate, Default Fallback Intent |
-| `Cmd.VolumeDecrease` | Cmd.VolumeIncrease, Cmd.VolumeMute, Cmd.EdgeModeDecrease, Help_Volume, Default Fallback Intent |
-| `Cmd.VolumeIncrease` | Cmd.VolumeDecrease, Cmd.VolumeUnmute, Cmd.EdgeModeIncrease, Help_Volume, Cmd.StreamingStart, Default Fallback Intent |
-| `Cmd.VolumeMute` | Cmd.VolumeUnmute, Cmd.VolumeDecrease, Cmd.StreamingStop, Help_Volume, Default Fallback Intent |
-| `Cmd.VolumeUnmute` | Cmd.VolumeMute, Cmd.VolumeIncrease, Cmd.StreamingStart, Help_Volume, Default Fallback Intent |
-| `Default Fallback Intent` | Cmd.VolumeIncrease, Cmd.VolumeDecrease, Cmd.StreamingStart, Cmd.EdgeModeIncrease, reminders.add, Help_Volume |
+| `Cmd.VolumeDecrease` | Cmd.VolumeIncrease, Cmd.VolumeMute, Cmd.EdgeModeDecrease, Help_Volume, Default Fallback Intent, Cmd.VolumeUnmute |
+| `Cmd.VolumeIncrease` | Cmd.VolumeDecrease, Cmd.VolumeUnmute, Help_Volume, Cmd.StreamingStart, Default Fallback Intent, Help_SelfCheck, Cmd.VolumeMute |
+| `Cmd.VolumeMute` | Cmd.VolumeUnmute, Cmd.VolumeDecrease, Cmd.StreamingStop, Help_Volume, Default Fallback Intent, Cmd.EdgeModeDeactivate, Cmd.VolumeIncrease, Cmd.MemoryChange |
+| `Cmd.VolumeUnmute` | Cmd.VolumeMute, Cmd.VolumeIncrease, Cmd.StreamingStart, Help_Volume, Default Fallback Intent, Cmd.VolumeDecrease |
+| `Default Fallback Intent` | Cmd.VolumeIncrease, Cmd.VolumeDecrease, Cmd.StreamingStart, Cmd.EdgeModeIncrease, reminders.add, Help_Volume, Cmd.MemoryChange |
 | `Help_Accessories` | Cmd.StreamingStart, Cmd.StreamingStop, Help_Pairing, Help_Volume, Default Fallback Intent |
-| `Help_Activity` | Help_Health, Cmd.ActivityStep, Cmd.ActivityWalk, Cmd.ActivityExercise, Default Fallback Intent |
-| `Help_AppSettings` | Help_DeviceSettings, Help_WhatsNew, Help_Home, Help_Customize, Default Fallback Intent |
+| `Help_Activity` | Help_Health, Cmd.ActivityStep, Cmd.ActivityWalk, Cmd.ActivityExercise, Default Fallback Intent, Cmd.ActivityRun, Cmd.ActivityCycle, Cmd.ActivityStand, Cmd.ActivityAerobics, Cmd.ActivityCalories |
+| `Help_AppSettings` | Help_DeviceSettings, Help_WhatsNew, Help_Home, Help_Customize, Default Fallback Intent, Help_DemoMode |
 | `Help_Battery` | Cmd.BatteryLevel, Help_CleanCare, Help_InsertDevice, Help_SelfCheck, Default Fallback Intent |
-| `Help_ChangingMemories` | Cmd.MemoryChange, Help_MemoryOptions, Help_Customize, Cmd.EdgeModeIncrease, Default Fallback Intent |
-| `Help_CleanCare` | Help_Battery, Help_InsertDevice, Help_SelfCheck, Default Fallback Intent |
-| `Help_Customize` | Help_MemoryOptions, Help_DeviceSettings, Help_EdgeMode, Help_Volume, Default Fallback Intent |
-| `Help_DemoMode` | Help_AppSettings, Help_WhatsNew, Help_Pairing, Help_Home, Default Fallback Intent |
-| `Help_DeviceSettings` | Help_AppSettings, Help_Customize, Help_MemoryOptions, Help_WiCROS, Help_Pairing, Default Fallback Intent |
-| `Help_EdgeMode` | Cmd.EdgeModeIncrease, Cmd.EdgeModeDecrease, Cmd.EdgeModeDeactivate, Help_Customize, Default Fallback Intent |
-| `Help_FallAlert` | Help_Health, Help_SelfCheck, Help_DeviceSettings, Default Fallback Intent |
-| `Help_FindMyHearingAids` | Cmd.FindMyPhone, Help_SelfCheck, Help_Pairing, Default Fallback Intent |
-| `Help_Health` | Help_Activity, Help_HeartRate, Help_ThriveScore, Help_FallAlert, Cmd.ActivityStep, Default Fallback Intent |
-| `Help_HearShare` | Help_RemoteProgramming, Help_Pairing, Help_Health, Default Fallback Intent |
-| `Help_HeartRate` | Help_HeartRateRecovery, Help_Health, Help_ThriveScore, Default Fallback Intent |
-| `Help_HeartRateRecovery` | Help_HeartRate, Help_Health, Help_ThriveScore, Default Fallback Intent |
-| `Help_Home` | Help_AppSettings, Help_WhatsNew, Help_VoiceAssistant, Default Fallback Intent |
+| `Help_ChangingMemories` | Cmd.MemoryChange, Help_MemoryOptions, Cmd.EdgeModeIncrease, Default Fallback Intent, Help_Tinnitus, Help_Customize |
+| `Help_CleanCare` | Help_Battery, Help_InsertDevice, Default Fallback Intent, Help_SelfCheck |
+| `Help_Customize` | Help_MemoryOptions, Help_EdgeMode, Help_AppSettings, Cmd.MemoryChange, Cmd.EdgeModeIncrease, Default Fallback Intent, Help_DeviceSettings, Help_RemoteProgramming, Help_ChangingMemories |
+| `Help_DemoMode` | Help_AppSettings, Help_WhatsNew, Help_Home, Default Fallback Intent |
+| `Help_DeviceSettings` | Help_AppSettings, Help_MemoryOptions, Help_WiCROS, Default Fallback Intent, Help_Customize |
+| `Help_EdgeMode` | Cmd.EdgeModeIncrease, Cmd.EdgeModeDecrease, Cmd.EdgeModeDeactivate, Help_Customize, Help_IntelliVoice, Help_MaskMode, Default Fallback Intent |
+| `Help_FallAlert` | Help_Health, Help_SelfCheck, Default Fallback Intent |
+| `Help_FindMyHearingAids` | Cmd.FindMyPhone, Help_SelfCheck, Default Fallback Intent, Help_Pairing |
+| `Help_Health` | Help_Activity, Cmd.ActivityStep, Help_FallAlert, Default Fallback Intent, Help_Home, Help_HearShare |
+| `Help_HearShare` | Help_RemoteProgramming, Default Fallback Intent, Help_Pairing, Help_Health |
+| `Help_Home` | Help_AppSettings, Help_WhatsNew, Help_VoiceAssistant, Default Fallback Intent, Help_DemoMode, Help_Reminder, Help_Health |
 | `Help_InsertDevice` | Help_CleanCare, Help_SelfCheck, Help_Battery, Default Fallback Intent |
-| `Help_IntelliVoice` | Help_EdgeMode, Help_VoiceAssistant, Help_Customize, Default Fallback Intent |
-| `Help_MaskMode` | Help_EdgeMode, Help_MemoryOptions, Help_Customize, Default Fallback Intent |
-| `Help_MemoryOptions` | Help_ChangingMemories, Cmd.MemoryChange, Help_Customize, Help_MaskMode, Default Fallback Intent |
-| `Help_Pairing` | Help_Accessories, Help_RemoteProgramming, Help_SelfCheck, Cmd.StreamingStart, Default Fallback Intent |
+| `Help_IntelliVoice` | Help_EdgeMode, Help_VoiceAssistant, Default Fallback Intent |
+| `Help_MaskMode` | Help_EdgeMode, Help_MemoryOptions, Default Fallback Intent, Cmd.MemoryChange, Help_Tinnitus, Cmd.EdgeModeDeactivate |
+| `Help_MemoryOptions` | Help_ChangingMemories, Cmd.MemoryChange, Help_Customize, Help_MaskMode, Default Fallback Intent, Help_DeviceSettings |
+| `Help_Pairing` | Help_Accessories, Help_RemoteProgramming, Help_SelfCheck, Cmd.StreamingStart, Default Fallback Intent, Cmd.MemoryChange, Help_HearShare, Help_Volume, Help_FindMyHearingAids |
 | `Help_Reminder` | reminders.add, reminders.complete, Help_Home, Default Fallback Intent |
-| `Help_RemoteProgramming` | Help_Pairing, Help_Customize, Help_HearShare, Help_DeviceSettings, Default Fallback Intent |
-| `Help_SelfCheck` | Help_FindMyHearingAids, Help_Pairing, Help_CleanCare, Cmd.VolumeIncrease, Default Fallback Intent |
-| `Help_ThriveScore` | Help_Health, Help_HeartRate, Help_Activity, Default Fallback Intent |
-| `Help_Tinnitus` | Help_Volume, Cmd.VolumeIncrease, Help_ChangingMemories, Help_Customize, Default Fallback Intent |
+| `Help_RemoteProgramming` | Help_Pairing, Help_HearShare, Default Fallback Intent, Help_Customize |
+| `Help_SelfCheck` | Help_FindMyHearingAids, Help_Pairing, Cmd.VolumeIncrease, Help_Battery, Help_InsertDevice, Help_FallAlert, Default Fallback Intent, Help_Volume, Help_CleanCare |
+| `Help_Tinnitus` | Help_ChangingMemories, Default Fallback Intent, Help_Volume, Cmd.MemoryChange, Help_MaskMode |
 | `Help_Transcribe` | Cmd.TranscribeStart, Help_Translate, Help_VoiceAssistant, Default Fallback Intent |
-| `Help_Translate` | Cmd.TranslationStart, Help_Transcribe, Help_VoiceAssistant, Default Fallback Intent |
-| `Help_VoiceAssistant` | Help_IntelliVoice, Cmd.SendMessage, Cmd.ListenMessage, Help_Transcribe, Default Fallback Intent |
-| `Help_Volume` | Cmd.VolumeIncrease, Cmd.VolumeDecrease, Cmd.VolumeMute, Help_Tinnitus, Help_Customize, Default Fallback Intent |
+| `Help_Translate` | Cmd.TranslationStart, Help_Transcribe, Default Fallback Intent |
+| `Help_VoiceAssistant` | Help_IntelliVoice, Cmd.SendMessage, Cmd.ListenMessage, Help_Transcribe, Default Fallback Intent, Help_Home |
+| `Help_Volume` | Cmd.VolumeIncrease, Cmd.VolumeDecrease, Cmd.VolumeMute, Cmd.VolumeUnmute, Help_Accessories, Default Fallback Intent, Help_SelfCheck, Help_Tinnitus, Help_WiCROS, Help_Pairing |
 | `Help_WhatsNew` | Help_AppSettings, Help_Home, Help_DemoMode, Default Fallback Intent |
-| `Help_WiCROS` | Help_Volume, Help_ChangingMemories, Help_DeviceSettings, Default Fallback Intent |
-| `reminders.add` | reminders.complete, Help_Reminder, Cmd.TranscribeStart, Default Fallback Intent |
+| `Help_WiCROS` | Help_DeviceSettings, Default Fallback Intent, Help_Volume |
+| `reminders.add` | reminders.complete, Help_Reminder, Cmd.TranscribeStart, Default Fallback Intent, Cmd.SendMessage |
 | `reminders.complete` | reminders.add, Help_Reminder, Default Fallback Intent |
