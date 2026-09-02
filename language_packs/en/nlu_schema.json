@@ -597,10 +597,15 @@
   ],
   "lexicon": {
     "carriers": [
+      "^\\s*(?:can|could|would|will)\\s+you\\s+(?:please\\s+)?",
+      "^\\s*i\\s+want\\s+you\\s+to\\b\\s*",
       "^\\s*please\\s+",
-      "^\\s*(?:do\\s*n[o']?t|don't|dont)\\s+let\\s+me\\s+forget\\b\\s*(?:to|about)?\\s*",
-      "^\\s*(?:remind|tell|alert|notify)\\s+me\\b\\s*(?:to|that|about|of)?\\s*",
-      "^\\s*set(?:\\s+up)?\\s+(?:an?\\s+)?(?:reminder|alarm)\\b\\s*(?:to|about)?\\s*",
+      "^\\s*\\w+\\s+me\\s+(?:to|about|that|when)\\b\\s*",
+      "^\\s*i\\s+(?:must|mustn'?t|must\\s+not|can'?t|cannot|should|shouldn'?t)\\s+forget\\s*(?:(?:to|about)\\b)?\\s*",
+      "^\\s*(?:make|add|create|leave)\\s+(?:an?\\s+)?(?:note|reminder|alarm)\\s*(?:(?:to|about|that|for)\\b)?\\s*",
+      "^\\s*(?:do\\s*n[o']?t|don't|dont)\\s+let\\s+me\\s+forget\\b\\s*(?:(?:to|about)\\b)?\\s*",
+      "^\\s*(?:remind|tell|alert|notify)\\s+me\\b\\s*(?:(?:to|that|about|of)\\b)?\\s*",
+      "^\\s*set(?:\\s+up)?\\s+(?:an?\\s+)?(?:reminder|alarm)\\b\\s*(?:(?:to|about)\\b)?\\s*",
       "^\\s*make\\s+sure\\s+(?:i|to)\\b\\s*",
       "^\\s*i\\s+(?:need|have|want)\\s+to\\b\\s*"
     ],

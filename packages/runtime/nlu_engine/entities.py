@@ -270,14 +270,50 @@ class EntityExtractor:
         if self._strip_patterns_cache is not None:
             return self._strip_patterns_cache
         wd_alt = "|".join(re.escape(w) for w in self._WEEKDAYS)
+        # VIK-040. A clock number is a DIGIT OR A SPELLED-OUT NUMBER.
+        #
+        # `parse` normalises "nine" to 9 before it matches, but these strip patterns
+        # were written in `\d` only. So "remind me to call Mukesh at nine" had its
+        # time read correctly into date_time AND left the word in the name:
+        #
+        #     "...at 9"     -> name "call Mukesh"        correct
+        #     "...at nine"  -> name "call Mukesh nine"   wrong
+        #
+        # Built from the same `_WORD_NUMS` table `_normalise_word_numbers` uses, so
+        # the two agree by construction. Longest-first so "nineteen" is not matched
+        # as "nine".
+        #
+        # Applied ONLY to the two patterns that carry a time marker (`<at|by> N` and
+        # `N am/pm`), never to the bare-number patterns. Deliberately NOT fixed by
+        # normalising the whole string first: this text becomes the reminder's NAME,
+        # and normalising it would rewrite every other number the user said
+        # ("buy nine apples" -> "buy 9 apples").
+        _num_words = "|".join(re.escape(w) for w in
+                              sorted(self._WORD_NUMS, key=len, reverse=True))
+        clock_num = rf"(?:\d{{1,2}}|{_num_words})" if _num_words else r"(?:\d{1,2})"
         pats = [
             rf"\b(?:{self._alt_in_for})\s+\d+\s*(?:{self._alt_unit})\b",
-            rf"\b\d{{1,2}}(?::\d{{2}})?\s*(?:{self._alt_ampm})\b",
+            rf"\b{clock_num}(?::\d{{2}})?\s*(?:{self._alt_ampm})\b",
             r"\b\d{1,2}:\d{2}\b",
-            rf"\b(?:{self._alt_strip_atby})\s+\d{{1,2}}(?::\d{{2}})?\b",
+            rf"\b(?:{self._alt_strip_atby})\s+{clock_num}(?::\d{{2}})?\b",
             rf"\b(?:{self._alt_strip_anchor})\b",
-            rf"\b(?:{wd_alt})s?\b",
+            # RECURRENCE BEFORE WEEKDAYS, and the order is the whole fix.
+            #
+            # The recurrence pattern consumes its cue plus ONE FOLLOWING WORD, because
+            # that word is normally the unit ("every day", "every week"). Running it
+            # after the weekday strip meant the weekday had already been removed, so
+            # the `\w+` swallowed whatever real word had moved up behind it:
+            #
+            #     "every friday take the bins out"  ->  "the bins out"   ("take" eaten)
+            #     "every friday remind me to X"     ->  "me to X"        ("remind" eaten)
+            #
+            # and when nothing followed at all the pattern simply failed, stranding the
+            # cue: "take the bins out every friday" -> "take the bins out every".
+            #
+            # With recurrence first, "every friday" is consumed as the one unit it is.
+            # Whatever the cue does not take, the weekday pattern below still removes.
             rf"\b(?:{self._alt_strip_recur})\s+\w+\b",
+            rf"\b(?:{wd_alt})s?\b",
             rf"\b(?:{self._alt_in}\s+{self._alt_strip_the}\s+)?(?:{self._alt_strip_periods})\b",
             rf"\b(?:{self._alt_strip_conn})\b",
         ]
@@ -1100,6 +1136,18 @@ class EntityExtractor:
 
     def is_open(self, entity: str) -> bool:
         return bool(self.entities.get(entity, {}).get("open"))
+
+    #: Entity ids this runtime resolves with the date/time parser rather than a
+    #: value table. A tuple, not one literal: this schema spells it with a hyphen
+    #: and the v3 bundle surface spells it `sys.date_time`. iOS shipped a bug for
+    #: exactly that reason (VIK-018) — its engine compared the hyphenated form, so
+    #: under a pack the comparison was always false and every date slot silently
+    #: failed to fill. Keeping the spelling in one place is the fix on both sides.
+    DATETIME_ENTITY_IDS = ("sys.date-time", "sys.date_time")
+
+    def is_date_time(self, entity: str) -> bool:
+        """True if the date/time parser owns this entity, not a value table."""
+        return entity in self.DATETIME_ENTITY_IDS
 
     def strip_datetime(self, text: str) -> str:
         if self._lex is not None:

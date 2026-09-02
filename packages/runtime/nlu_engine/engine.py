@@ -52,9 +52,47 @@ DEFAULT_GENAI_URL = "https://genai.yourcompany.com/chat?query="
 # a language's own carriers come from its lexicon and are tried FIRST, with
 # these as the tail. English ships no lexicon file, so it uses these alone.
 _DEFAULT_CARRIERS = [
+    # VIK-041. Politeness prefixes, and they MUST STAY AT THE FRONT.
+    #
+    # `_derive_topic` makes ONE pass in list order and every pattern is
+    # `^`-anchored, so a pattern is only ever tested against the string as it
+    # stands when its turn comes. With these last, "^remind me" is tried against
+    # "can you remind me…", misses, and is never retried after "^can you" strips:
+    #
+    #   at the BACK  : 'Can you remind me to go for a walk' -> 'remind me to go for a walk'
+    #   at the FRONT : 'Can you remind me to go for a walk' -> 'go for a walk'
+    #
+    # Which is also why `^please` has always been index 0. Any future politeness
+    # prefix inherits the same requirement, in every language.
+    #
+    # Keep in step with `language_packs/*/platform.yaml`; a carrier that lives in
+    # one and not the other is VIK-022 all over again.
+    r"^\s*(?:can|could|would|will)\s+you\s+(?:please\s+)?",
+    r"^\s*i\s+want\s+you\s+to\b\s*",
     r"^\s*please\s+",
-    r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:to|about)?\s*",
-    r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:to|that|about|of)?\s*",
+
+    # Carriers by SHAPE, not by enumerated verb. The list used to name its verbs
+    # (`remind|tell|alert|notify`), so every phrasing outside that set kept its
+    # wrapper and the whole sentence became the reminder's name — "nudge me to
+    # stretch" stored "nudge me to stretch". The set of verbs people use is open;
+    # the sentence shape is not.
+    #
+    # These sit AFTER the prefix-strippers above and BEFORE the specific carriers
+    # below, and both halves of that matter. `_derive_topic` makes ONE pass in list
+    # order, so a prefix left in front ("please remind me to X") would stop these
+    # matching, and a specific carrier that fired first would leave these to run on
+    # the payload instead of the wrapper.
+    #
+    # `\w+\s+me\s+(?:to|about|that|when)` is deliberately verb-agnostic. It is safe
+    # BECAUSE of where it runs, not because it is narrow: topic derivation only
+    # happens for an OPEN slot, and `remind` is the only open entity in the pack —
+    # so the classifier has already decided this is a reminder before any of this
+    # executes. It never sees the other 56 intents.
+    r"^\s*\w+\s+me\s+(?:to|about|that|when)\b\s*",
+    r"^\s*i\s+(?:must|mustn'?t|must\s+not|can'?t|cannot|should|shouldn'?t)\s+forget\s*(?:(?:to|about)\b)?\s*",
+    r"^\s*(?:make|add|create|leave)\s+(?:an?\s+)?(?:note|reminder|alarm)\s*(?:(?:to|about|that|for)\b)?\s*",
+    r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:(?:to|about)\b)?\s*",
+    r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:(?:to|that|about|of)\b)?\s*",
     # No `for` branch, and no negative lookahead. The previous form guarded it
     # with `for\s+(?!\d)`; lookahead is outside the portable-regex subset
     # (spec/bundle/portable-regex.md), so `compile_lexicon` silently dropped this
@@ -67,7 +105,7 @@ _DEFAULT_CARRIERS = [
     # branch was redundant anyway. Keep this in step with
     # `language_packs/*/platform.yaml`; the point of the rewrite is that the two
     # can no longer diverge.
-    r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:to|about)?\s*",
+    r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:(?:to|about)\b)?\s*",
     r"^\s*make\s+sure\s+(?:i|to)\b\s*",
     r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
 ]
@@ -792,10 +830,15 @@ class NLUEngine:
         """True if `text` is a valid value for the slot we are waiting on.
 
         Only CLOSED enum entities are consulted. For an OPEN free-text entity
-        (e.g. @remind) every utterance is a valid value, so this test would make
-        interruption impossible for the whole flow — there the confidence bar
-        remains the only signal. `sys.date-time` is likewise left to the bar:
-        resolving it here would have to run the parser twice.
+        (e.g. @remind) every utterance is a valid value, so there is nothing this
+        test could assert; `sys.date-time` belongs to the parser for the same
+        reason, and resolving it here would run the parser twice.
+
+        Those two used to fall through to the confidence bar alone, which is the
+        defect VIK-038 records: the classifier is asked about input it was never
+        trained on, answers at 0.98+, and cancels the flow. They are now excluded
+        from the probe entirely by `_slot_can_refuse_the_answer`, so this test is
+        only ever reached for a slot whose answer can actually be checked.
 
         MATCHING IS STRICT — `fuzzy=False` and a high match floor. Extraction for
         STORAGE can afford to be lenient, because the user is already answering
@@ -817,19 +860,30 @@ class NLUEngine:
         value, _, conf = self.entities.extract(entity, text, fuzzy=False)
         return value is not None and conf >= self.SLOT_ANSWER_MATCH_FLOOR
 
+    def _slot_can_refuse_the_answer(self, session, cfg) -> bool:
+        """True if the awaited slot can supply evidence that a turn is NOT its answer.
+
+        This is the gate on the topic-switch probe (VIK-038); the reasoning lives
+        at the call site in `_handle_slot_filling`. In short: a closed enum can be
+        missed, so a miss is a fact worth acting on. An open free-text slot accepts
+        anything and a date-time slot belongs to the parser, so for those the
+        classifier has no question it can answer and must not be asked.
+
+        With no slot awaited the pre-existing behaviour stands: probe.
+        """
+        awaiting = session.awaiting_slot
+        if not awaiting:
+            return True
+        slot = self._slot_def(cfg, awaiting)
+        if not slot:
+            return True
+        entity = slot.get("entity", "")
+        return not (self.entities.is_open(entity) or self.entities.is_date_time(entity))
+
     def _handle_slot_filling(self, session, text, now=0.0):
         intent_name = session.pending_intent
         cfg = self.intents[intent_name]
 
-        # Check for intent interruption: re-classify every slot-filling turn.
-        # A different intent at high confidence means the user switched topics.
-        new_intent, new_conf = self.classifier.classify(text)
-        # A bare `contains` keyword hit is the weakest signal — an incidental
-        # mention ("ask about the translate feature") must NOT abandon an
-        # in-progress flow. Only stronger signals (TF-IDF, exact/regex keyword)
-        # may interrupt.
-        weak_keyword = (self.classifier.last_stage == "keyword"
-                        and self.classifier.last_keyword_tier == "contains")
         # An answer to the question we just asked is NOT a topic switch, however
         # confidently it classifies as something else. Several memory names are
         # also commands — "mute", "quiet", "telephone" — so asking "What is the
@@ -837,18 +891,76 @@ class NLUEngine:
         # instead of switching to the Mute memory. No threshold can fix that:
         # "tinnitus" and "mask" classify at 1.000. Answering the live question
         # has to take precedence over re-classification.
+        #
+        # Also consulted by the cancellation guard below, so it is computed on
+        # every turn, not only the ones that reach the probe.
         answers_prompt = self._answers_awaited_slot(session, cfg, text)
-        if (new_intent != intent_name
-                and new_intent != "Default Fallback Intent"
-                and new_conf >= self.interrupt_threshold
-                and not weak_keyword
-                and not answers_prompt
-                and self.intents.get(new_intent) is not None):
-            abandoned = intent_name
-            session.reset_slot_filling()
-            result = self._handle_new_intent(session, text, now)
-            result.interrupted_intent = abandoned
-            return result
+
+        # VIK-038. Topic-switch probe — but ONLY when the awaited slot can produce
+        # evidence that this utterance is not an answer to it.
+        #
+        # The classifier is trained on COMMANDS. A slot answer is out-of-distribution
+        # input for it, and a confidence score on OOD input is not a quantity that
+        # can be thresholded. Measured on this language pack's own weights, answering
+        # the reminder's "What do you want to be reminded?" with
+        #
+        #     "walk the dog"           -> Cmd.ActivityWalk      1.000
+        #     "clean my hearing aids"  -> Help_CleanCare        1.000
+        #     "start my workout"       -> Cmd.ActivityExercise  0.995
+        #     "Need to go to walk"     -> Cmd.ActivityWalk      0.994
+        #     "charge my hearing aids" -> Help_Battery          0.979
+        #
+        # cancelled the reminder the user was in the middle of setting and did the
+        # other thing instead. Raising `interrupt_threshold` does not help: "start
+        # my workout" (a legitimate reminder) outscores "start transcribing" (a real
+        # command, 0.962). The two are structurally identical and differ only in
+        # whether the object is a device capability or a thing in the world.
+        #
+        # The flow survived at all only by accident — "call mom", "buy milk" and
+        # "drink water" produce no vocabulary features, so they collapse to the
+        # vacuous floor (0.580) and land under the bar. That is luck, not a guard.
+        #
+        # What DOES carry evidence is the slot itself, so the gate is the awaited
+        # entity's KIND — never the intent's name, which this engine does not
+        # interpret:
+        #
+        #   closed enum      the value is in the list or it is not. A miss is a
+        #                    fact, and the only honest reason to ask the classifier
+        #                    where the user went instead. PROBE.
+        #   open free-text   every utterance is a legal value. There is nothing to
+        #                    be right about. DO NOT PROBE.
+        #   date-time        the parser decides, not the classifier. DO NOT PROBE.
+        #
+        # For `en` that means the reminder flow (`remind` open + `sys.date-time`)
+        # no longer interrupts, and the memory flow (`memory`, a closed enum) still
+        # does — "increase volume" is not a memory, so it still switches correctly.
+        #
+        # A user is not trapped by this: `_is_cancel` below still abandons the flow
+        # on an explicit cue, and MAX_SLOT_ATTEMPTS still applies to a slot that
+        # cannot be filled.
+        #
+        # PARITY: mirrors VoiceAIKit `NLUEngine.handleSlotFilling`
+        # (`slotCanRefuseTheAnswer`) condition for condition. The defect was fixed
+        # there first and left open here as a question; the two must not diverge.
+        if self._slot_can_refuse_the_answer(session, cfg):
+            new_intent, new_conf = self.classifier.classify(text)
+            # A bare `contains` keyword hit is the weakest signal — an incidental
+            # mention ("ask about the translate feature") must NOT abandon an
+            # in-progress flow. Only stronger signals (TF-IDF, exact/regex keyword)
+            # may interrupt.
+            weak_keyword = (self.classifier.last_stage == "keyword"
+                            and self.classifier.last_keyword_tier == "contains")
+            if (new_intent != intent_name
+                    and new_intent != "Default Fallback Intent"
+                    and new_conf >= self.interrupt_threshold
+                    and not weak_keyword
+                    and not answers_prompt
+                    and self.intents.get(new_intent) is not None):
+                abandoned = intent_name
+                session.reset_slot_filling()
+                result = self._handle_new_intent(session, text, now)
+                result.interrupted_intent = abandoned
+                return result
 
         # Meta-command: a pure cancellation/refusal ABANDONS the flow instead of
         # being mined for a slot value. Without this an open free-text slot
@@ -1274,10 +1386,31 @@ class NLUEngine:
                 slots[slot["name"]] = topic
 
     def _derive_topic(self, text: str):
-        t = text.strip()
+        """Strip the request wrapper off an utterance so the open slot gets the payload.
+
+        ORDER MATTERS, and the date/time goes FIRST. Every carrier is `^`-anchored,
+        so a carrier is only reachable when it is at the front of the string — and a
+        leading time expression pushes it out of reach:
+
+            "tomorrow morning remind me to water the plants"
+                carriers first -> "^remind me" misses -> "remind me to water the plants"
+                date/time first -> "remind me to water the plants" -> "water the plants"
+
+        This is safe in the other direction because `strip_datetime` only ever REMOVES
+        text; it never prepends. So running it first can only move an `^`-anchored
+        carrier closer to the front, never further from it — the change is strictly
+        additive, and an utterance whose time is in the middle or at the end (the
+        common shape: "remind me to drink water at 5") is unaffected. Verified over a
+        41-case battery: only leading-time utterances change, all of them to the right
+        answer.
+
+        The one way that invariant could break is a language whose carrier CONTAINS a
+        word `strip_datetime` removes. No English carrier does. A new language pack
+        must be checked for it — that is what the parity fixtures are for.
+        """
+        t = self.entities.strip_datetime(text.strip())
         for pat in self._carrier:
             t = re.sub(pat, "", t, count=1, flags=re.I)
-        t = self.entities.strip_datetime(t)
         t = self._leading_connector.sub("", t).strip(" .,")
         return t or None
 
