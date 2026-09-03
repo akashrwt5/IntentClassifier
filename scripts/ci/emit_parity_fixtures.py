@@ -120,11 +120,33 @@ def main(argv=None) -> int:
     }
 
     # --- 1. fire boundary --------------------------------------------------
+    # The classifier's VERDICT and the engine's OUTCOME are two different things,
+    # and conflating them is a mistake this fixture already caused once. The
+    # engine invents `GENAI` at fallback time (`_genai_fallback`) — it is a
+    # routing decision, not a label the model can produce. Feeding it back in as
+    # a classifier verdict, which the first Swift consumer did, scripts a label
+    # the classifier would never emit and the comparison becomes meaningless.
+    #
+    # So both are recorded: `classifier_*` is the INPUT to the decision, `type`
+    # and `intent` are what the engine did with it. A consumer scripts the first
+    # and compares the second.
+    def _verdict(text):
+        intent, conf = engine.classifier.classify(text)
+        return {"classifier_intent": intent,
+                "classifier_confidence": round(float(conf), 6),
+                # Corroboration is what drops the fire bar to `agreement`, and it
+                # is the reason a FULFILL can sit below the confidence threshold.
+                # A consumer that cannot see this cannot tell a real divergence
+                # from a bar it has not implemented (VIK-055).
+                "arbitration": getattr(engine.classifier, "last_arbitration", None),
+                "stage": getattr(engine.classifier, "last_stage", None)}
+
     fire = []
     for text in PROBES["fire_boundary"]:
         engine.reset("parity-fire")
+        v = _verdict(text)
         r = engine.handle("parity-fire", text)
-        fire.append({"text": text, "type": r.type, "intent": r.intent,
+        fire.append({"text": text, **v, "type": r.type, "intent": r.intent,
                      "confidence": round(float(r.confidence), 6)})
     out["fire_boundary"] = fire
 
@@ -141,6 +163,7 @@ def main(argv=None) -> int:
                     "oov_ratio": round(float(engine.classifier.oov_ratio(text)), 6),
                     "type": r.type, "intent": r.intent,
                     "confidence": round(float(r.confidence), 6)})
+        # (no classifier verdict needed here — this section is about the ratio)
     out["oov_guard"] = oov
 
     # --- 5. confirmation policy -------------------------------------------
