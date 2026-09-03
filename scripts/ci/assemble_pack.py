@@ -299,17 +299,50 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         pass
 
     def mod_ios(s_dir, s_man):
+        # Whatever this function deletes must also leave the manifest, or the pack
+        # declares an artifact it does not ship. `mod_android` below already does
+        # both halves; this one used to do only the first, so every iOS pack's
+        # bundle.json pointed at a `models/intent/<lang>/model.onnx` that this very
+        # function had just unlinked. Nothing caught it on either side: VoiceAIKit
+        # has the machinery for the check (`ModelSpec.declaredPaths`,
+        # `PackLoadPolicy.toleratedMissingArtifacts`) and never calls it.
+        intent_dir = s_dir / "models" / "intent" / lang
+        intent = s_man.get("models", {}).get("intent", {}).get(lang, {})
+
         for t in ["model.tflite", "model_int8.tflite"]:
-            f = s_dir / "models" / "intent" / lang / t
+            f = intent_dir / t
             if f.exists():
                 f.unlink()
-        onnx_file = s_dir / "models" / "intent" / lang / "model.onnx"
-        if onnx_file.exists():
-            onnx_file.unlink()
-
-        intent = s_man.get("models", {}).get("intent", {}).get(lang, {})
         for key in ["tflite_artifact", "tflite_int8_artifact"]:
             intent.pop(key, None)
+
+        # A Python pickle has no iOS consumer. The labels iOS reads are
+        # `labels.json`, which `compile_models` DERIVES from this file at compile
+        # time precisely so the two cannot disagree. Shipping the source pickle to
+        # a device puts a deserialization-primitive artifact in a signed medical
+        # bundle for no runtime benefit.
+        pkl = intent_dir / "labels.pkl"
+        if pkl.exists():
+            pkl.unlink()
+
+        # `artifact` and `format` are REQUIRED by bundle.schema.json and are
+        # non-optional in VoiceAIKit's `ModelSpec`, so unlike the tflite keys they
+        # cannot be dropped — they have to be made TRUE. The format enum already
+        # admits `mlmodelc-ref` for exactly this; it is what ADR-005's bundle
+        # layout means by `model.{onnx|mlmodelc-ref}`.
+        #
+        # Conditional on the compiled head actually being in this slice, and the
+        # ONNX is removed only together with the swap. A slice built without
+        # `--coreml-compiled` keeps its ONNX and keeps describing it: shipping no
+        # model at all, or naming a `.mlpackage` as an `mlmodelc-ref`, would each
+        # trade this drift for a different one.
+        compiled = intent.get("coreml_compiled_artifact")
+        if compiled:
+            onnx_file = intent_dir / "model.onnx"
+            if onnx_file.exists():
+                onnx_file.unlink()
+            intent["artifact"] = compiled
+            intent["format"] = "mlmodelc-ref"
 
     def mod_android(s_dir, s_man):
         for cml in [
