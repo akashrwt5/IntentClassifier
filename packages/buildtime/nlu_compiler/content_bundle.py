@@ -771,7 +771,7 @@ def _git_commit() -> str:
         return "unknown"
 
 
-def compile_models(lang: str, model_dir: Path, out: Path):
+def compile_models(lang: str, model_dir: Path, out: Path, schema: dict):
     """Copy trained artifacts.
 
     Returns (label count, relative artifact paths, intent CoreML path or None,
@@ -828,11 +828,41 @@ def compile_models(lang: str, model_dir: Path, out: Path):
     # in every pack we build today (`semantic_rescue_enabled: false`,
     # `cascade.json` semantic disabled), and turning it on requires a new pack
     # regardless, because `cascade.json` lives inside the pack.
+    # ...AND ONLY WHEN THE STAGE IS ON.
+    #
+    # The first version of this gated on "does semantic_head.json exist", which
+    # is not the same question. It does not exist in a fresh clone and DOES exist
+    # in CI, so the file was copied for the first time on a build machine and the
+    # validator saw it for the first time there — three errors deep in a stage
+    # nothing runs:
+    #
+    #   stage 1  SCHEMA_INVALID        'embedder' unexpected / 'embedder_id' required
+    #   stage 8  EMBEDDER_ID_MISMATCH  head 'onnx' vs manifest 'minilm-l6-v2'
+    #   stage 8  HEAD_LABEL_MISMATCH   57 labels; stage 8 wants the intents + OOS
+    #
+    # None of those are wrong. `train_semantic_head` writes `embedder: "onnx"` to
+    # record WHICH EMBED PATH BUILT THE HEAD (its own comment says so), which is
+    # not what `embedder_id` means — the schema defines that as the tie to "the
+    # exact encoder+vocab pair it was trained against", the thing whose mismatch
+    # is the silent-wrong-vector-space bug class. And the head trains on the 57
+    # classifier labels with no OOS class, which is not the label set a stage-3
+    # head is specified to carry.
+    #
+    # So the head as trained today is not shippable, and the stage that would use
+    # it is off (`semantic_rescue_enabled: false`, and cascade.json disables it).
+    # Shipping it means signing an artifact that fails its own contract in three
+    # places for a code path that never executes. Gate on the stage.
+    #
+    # BEFORE A SEMANTIC HEAD CAN SHIP, all three must be true, and all three are
+    # fixes to the TRAINER, not to the schema: the head must carry a real
+    # `embedder_id` naming the encoder it was trained against, it must carry the
+    # OOS class, and `semantic_rescue_enabled` must be true.
+    semantic_on = bool(schema.get("semantic_rescue_enabled"))
     semhead_json = model_dir.parents[1] / "semantic_head.json"
     semhead_pkg = model_dir.parents[1] / "SemanticHead.mlpackage"
     semhead_artifact = None
     semhead_coreml = None
-    if semhead_json.exists():
+    if semantic_on and semhead_json.exists():
         sem_dst = out / "models" / "semantic_head" / "shared"
         sem_dst.mkdir(parents=True, exist_ok=True)
         shutil.copy(semhead_json, sem_dst / "head.json")
@@ -990,7 +1020,7 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
     compile_plan_facts(intent_capability, out)
     compile_legacy_labels(out)
     (n_labels, copied, intent_coreml,
-     semhead_artifact, semhead_coreml) = compile_models(lang, model_dir, out)
+     semhead_artifact, semhead_coreml) = compile_models(lang, model_dir, out, schema)
     compile_cascade(schema, n_labels, out)
     carried = carry_templates(schema, out)
     card = compile_meta(lang, report_card, carried, gaps, out)
