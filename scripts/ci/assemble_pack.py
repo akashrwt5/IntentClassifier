@@ -356,17 +356,6 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         if pkl.exists():
             pkl.unlink()
 
-        # `artifact` and `format` are REQUIRED by bundle.schema.json and are
-        # non-optional in VoiceAIKit's `ModelSpec`, so unlike the tflite keys they
-        # cannot be dropped — they have to be made TRUE. The format enum already
-        # admits `mlmodelc-ref` for exactly this; it is what ADR-005's bundle
-        # layout means by `model.{onnx|mlmodelc-ref}`.
-        #
-        # Conditional on the compiled head actually being in this slice, and the
-        # ONNX is removed only together with the swap. A slice built without
-        # `--coreml-compiled` keeps its ONNX and keeps describing it: shipping no
-        # model at all, or naming a `.mlpackage` as an `mlmodelc-ref`, would each
-        # trade this drift for a different one.
         # WHICH HEADS RIDE ALONG IS THE CHANNEL'S DECISION.
         #
         # A pack carries two CoreML heads: the RFE-pruned one (~1317 features,
