@@ -5,9 +5,14 @@
   "description": "Linear head over the shared embedder. embedder_id ties the head to the exact encoder+vocab pair it was trained against — a mismatch is the silent-wrong-vector-space bug class, rejected at compile time (stage 8).",
   "type": "object",
   "additionalProperties": false,
-  "required": ["embedder_id", "labels", "weights", "bias"],
+  "required": ["labels", "weights", "bias"],
+  "anyOf": [
+    { "required": ["embedder_id"] },
+    { "required": ["embedder"] }
+  ],
   "properties": {
     "embedder_id": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+    "embedder": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
     "labels": {
       "description": "Ordered; must equal the intent set plus the OOS class (stage 8).",
       "type": "array",

@@ -302,9 +302,10 @@ def stage_8_parity(bundle: Path) -> list[Diagnostic]:
                                     f"shipped embedder {sorted(embedders)} — wrong-vector-space bug class"))
         if (bundle / rel).exists():
             head = _load(bundle, rel)
-            if head["embedder_id"] != declared:
+            head_embedder_id = head.get("embedder_id", head.get("embedder"))
+            if head_embedder_id != declared:
                 diags.append(Diagnostic(8, "EMBEDDER_ID_MISMATCH", rel,
-                                        f"head.json embedder_id '{head['embedder_id']}' != manifest '{declared}'"))
+                                        f"head.json embedder_id '{head_embedder_id}' != manifest '{declared}'"))
             expected = all_intents | {head.get("oos_label", "sys.oos")}
             if set(head["labels"]) != expected:
                 diags.append(Diagnostic(8, "HEAD_LABEL_MISMATCH", rel,
