@@ -60,7 +60,9 @@ weights = {
     "intercept": [round(x, 6) for x in clf.intercept_.tolist()],
     "conf_threshold": 0.70,
     "conf_gap_threshold": 0.20,
-    "genai_base_url": "https://genai.yourcompany.com/chat?query="
+    # No `genai_base_url`. See the note in export_ios_weights.py: an endpoint is
+    # deployment configuration, not a property of a trained model, and this one
+    # was a placeholder host nothing read.
 }
 
 with open(WEIGHTS_PATH, "w") as f:

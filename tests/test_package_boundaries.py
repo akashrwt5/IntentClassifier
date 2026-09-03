@@ -69,3 +69,50 @@ def test_runtime_engine_is_dependency_lean():
         if hit:
             violations.append(f"{pyfile.name} imports {sorted(hit)}")
     assert not violations, violations
+
+
+# --------------------------------------------------------------------------- #
+# No deployment endpoints inside signed artifacts
+# --------------------------------------------------------------------------- #
+
+def test_exported_weights_carry_no_endpoint():
+    """A trained artifact must not carry a network address.
+
+    `genai_base_url` shipped inside `intent_classifier_weights*.json` for as long
+    as those files have existed, and its value was the placeholder
+    `https://genai.yourcompany.com/chat?query=` — a host that does not exist,
+    signed into every pack, delivered to every device, and read by nothing:
+    not VoiceAIKit, not the reference engine, not a test.
+
+    Two reasons this is a rule and not a tidy-up. An endpoint is DEPLOYMENT
+    configuration, not a property of a model, so burying one in a signed artifact
+    means it can only be changed by retraining and re-signing. And a pack is
+    meant to be portable across deployments, which it stops being the moment it
+    names one deployment's address.
+
+    VIK-031 is what this class of mistake cost once already: unresolved turns
+    returned a URL built from pack data, with the user's transcript in its query
+    string.
+
+    Asserted at the SOURCE rather than on a built payload, because the payload
+    needs trained artifacts and this needs to fail in every environment.
+    """
+    exporters = sorted((REPO_ROOT / "packages" / "buildtime" / "nlu_export").glob("*.py"))
+    assert exporters, "no exporters found — has the package moved?"
+
+    offenders: list[str] = []
+    for path in exporters:
+        source = path.read_text(encoding="utf-8")
+        for node in ast.walk(ast.parse(source)):
+            if not isinstance(node, ast.Constant) or not isinstance(node.value, str):
+                continue
+            if node.value.startswith(("http://", "https://")):
+                offenders.append(f"{path.relative_to(REPO_ROOT)}:{node.lineno} {node.value}")
+
+    assert not offenders, (
+        "an exported artifact would carry a network address:\n  "
+        + "\n  ".join(offenders)
+        + "\nAn endpoint is deployment configuration; it does not belong in a "
+          "signed model artifact."
+    )
+

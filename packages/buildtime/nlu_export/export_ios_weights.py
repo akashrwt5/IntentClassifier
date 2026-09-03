@@ -43,7 +43,6 @@ DATA_PATH     = None
 
 CONF_THRESHOLD     = 0.70
 CONF_GAP_THRESHOLD = 0.20
-GENAI_BASE_URL     = "https://genai.yourcompany.com/chat?query="
 
 ROUND = 4   # decimal places — 4 dp is sufficient for LR inference
 T_BOUNDS = (0.05, 10.0)   # bounded search range for the scalar temperature `T`
@@ -322,6 +321,17 @@ def export(out_path: Path, top_per_class: int):
     # matches the logits Swift computes (req #2: device-equivalent logits).
     temperature = _fit_temperature(labels, new_vocab, idf, coef, intercept)
 
+    # NO ENDPOINT IN HERE. `genai_base_url` used to ride in this payload, and it
+    # was the placeholder `https://genai.yourcompany.com/chat?query=` — a
+    # non-existent host, signed into every pack, shipped to every device. Nothing
+    # ever read it: not VoiceAIKit, not the reference engine, not a test.
+    #
+    # An endpoint is deployment configuration, not a property of a trained model.
+    # Putting one in a signed artifact means it can only be changed by retraining
+    # and re-signing, and it means an artifact that is meant to be portable
+    # carries one deployment's address. VIK-031 is what that class of mistake
+    # cost once already: unresolved turns returned a URL built from pack data with
+    # the user's transcript in its query string.
     payload = {
         "labels":             labels,
         "vocab":              new_vocab,
@@ -330,7 +340,6 @@ def export(out_path: Path, top_per_class: int):
         "intercept":          intercept,
         "conf_threshold":     CONF_THRESHOLD,
         "conf_gap_threshold": CONF_GAP_THRESHOLD,
-        "genai_base_url":     GENAI_BASE_URL,
         # iOS inference must L2-normalise the TF-IDF vector before scoring:
         #   norm = sqrt(sum(v*v)); if norm > 0: vec /= norm
         "normalize":          "l2",
