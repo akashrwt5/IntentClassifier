@@ -265,6 +265,24 @@ def assemble(src: Path, version: str, out_dir: Path, *,
     manifest["version"] = version
     manifest["channel"] = channel
     manifest["created_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # A non-dev iOS pack carries ONE head, and it is the full one (see mod_ios).
+    # If this build never produced it, the slice would ship with no head the
+    # device can bind: `BundleDataLoader` defaults to `.full`, so the pack would
+    # fail at load with `declaredArtifactMissing` — loud, but on a device instead
+    # of in CI. Refuse here, where the person who can fix it is still watching.
+    if channel != "dev":
+        _intent = manifest.get("models", {}).get("intent", {}).get(lang, {})
+        _missing = [k for k in ("coreml_full_compiled_artifact",)
+                    if not _intent.get(k)]
+        if not (staged / "models" / "intent" / lang
+                / "intent_classifier_weights_full.json").exists():
+            _missing.append("intent_classifier_weights_full.json")
+        if _missing:
+            return _fail(
+                f"channel {channel!r} ships only the full head, and this build is "
+                f"missing {', '.join(_missing)}. Pass --coreml-compiled (and the "
+                f"full iOS weights), or build --channel dev.")
     (staged / "bundle.json").write_text(json.dumps(manifest, indent=2) + "\n",
                                         encoding="utf-8")
 
@@ -336,13 +354,54 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         # `--coreml-compiled` keeps its ONNX and keeps describing it: shipping no
         # model at all, or naming a `.mlpackage` as an `mlmodelc-ref`, would each
         # trade this drift for a different one.
-        compiled = intent.get("coreml_compiled_artifact")
-        if compiled:
-            onnx_file = intent_dir / "model.onnx"
-            if onnx_file.exists():
-                onnx_file.unlink()
-            intent["artifact"] = compiled
-            intent["format"] = "mlmodelc-ref"
+        # WHICH HEADS RIDE ALONG IS THE CHANNEL'S DECISION.
+        #
+        # A pack carries two CoreML heads: the RFE-pruned one (~1317 features,
+        # 88.57% on the honest holdout) and the full-vocabulary one (~4718,
+        # 90.20%). `BundleDataLoader` defaults to `.full` and no production path
+        # passes a variant, so the pruned head is loaded by nobody outside an A/B
+        # experiment or a test.
+        #
+        # dev   — both, so a variant can be flipped without republishing.
+        # beta,
+        # production — the full head only. Production cannot be fatter than beta,
+        #              so the same rule covers both.
+        #
+        # This rides on `channel` rather than a new field on purpose. `channel` is
+        # a TRUST axis (ADR-005 Part 11: channel + signing-key id is what lets a
+        # production runtime refuse dev-signed artifacts), so overloading it does
+        # cost something: there is now no way to build "dev channel, production
+        # contents" to isolate whether a field bug comes from the artifact set.
+        # Accepted deliberately — the alternative is a second axis that every
+        # reader has to keep straight, and `bundle.json` is
+        # `additionalProperties: false`, so it is a spec change either way. If
+        # that debug need ever arrives, it arrives as an explicit override flag.
+        #
+        # The pruned head is a TRIPLE, not a file: the `.mlmodelc`, its own
+        # vocabulary/idf in `intent_classifier_weights.json`, and its own fitted
+        # `temperature_coreml`. VoiceAIKit binds all three together or throws,
+        # because "mixing legs produces a shape mismatch at best and
+        # plausible-looking wrong confidences at worst". So all three go, or none.
+        if channel != "dev":
+            for name in ("IntentClassifier.mlmodelc", "IntentClassifier.mlpackage"):
+                path = intent_dir / name
+                if path.exists():
+                    shutil.rmtree(path)
+            for key in ("coreml_compiled_artifact", "coreml_artifact"):
+                intent.pop(key, None)
+            pruned_weights = intent_dir / "intent_classifier_weights.json"
+            if pruned_weights.exists():
+                pruned_weights.unlink()
+            # The third leg. Optional in calibration.schema.json, so removing it
+            # is legal — and leaving a temperature behind for a head that is not
+            # in the pack is exactly the drift this slice function exists to stop.
+            cal_path = intent_dir / "calibration.json"
+            if cal_path.exists():
+                cal = json.loads(cal_path.read_text(encoding="utf-8"))
+                if cal.pop("temperature_coreml", None) is not None:
+                    cal_path.write_text(json.dumps(cal, sort_keys=True,
+                                                   separators=(",", ":")) + "\n",
+                                        encoding="utf-8")
 
         # `.mlpackage` is the SOURCE form. iOS never opens it when the compiled
         # form is present: `ModelSpec.iOSModel(_:)` returns
@@ -367,6 +426,31 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             if pkg_path.exists():
                 shutil.rmtree(pkg_path)
             intent.pop(pkg_key, None)
+
+        # `artifact` and `format` are REQUIRED by bundle.schema.json and are
+        # non-optional in VoiceAIKit's `ModelSpec`, so unlike the tflite keys they
+        # cannot be dropped — they have to be made TRUE. The format enum already
+        # admits `mlmodelc-ref`; it is what ADR-005's bundle layout means by
+        # `model.{onnx|mlmodelc-ref}`.
+        #
+        # LAST, deliberately: everything above may remove a head, and this names
+        # the one that survived. Ordering it before the strips is how an earlier
+        # revision came to point `artifact` at a pruned `.mlmodelc` that the same
+        # function had just deleted — the exact defect this slice was fixed for,
+        # reintroduced one channel over.
+        #
+        # Prefers the FULL head because that is what the runtime binds:
+        # `BundleDataLoader` defaults to `.full` and no production path passes a
+        # variant. On a dev pack both heads are present and this still names the
+        # one that actually gets loaded.
+        primary = (intent.get("coreml_full_compiled_artifact")
+                   or intent.get("coreml_compiled_artifact"))
+        if primary:
+            onnx_file = intent_dir / "model.onnx"
+            if onnx_file.exists():
+                onnx_file.unlink()
+            intent["artifact"] = primary
+            intent["format"] = "mlmodelc-ref"
 
     def mod_android(s_dir, s_man):
         for cml in [
