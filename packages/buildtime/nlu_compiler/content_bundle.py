@@ -771,8 +771,13 @@ def _git_commit() -> str:
         return "unknown"
 
 
-def compile_models(lang: str, model_dir: Path, out: Path) -> tuple[int, list[str]]:
-    """Copy trained artifacts; return (label count, relative artifact paths)."""
+def compile_models(lang: str, model_dir: Path, out: Path):
+    """Copy trained artifacts.
+
+    Returns (label count, relative artifact paths, intent CoreML path or None,
+    semantic-head artifact path or None, semantic-head CoreML path or None).
+    The last two are None together when no head is shipped — see the note below.
+    """
     import joblib
 
     dst = out / "models" / "intent" / lang
@@ -807,14 +812,37 @@ def compile_models(lang: str, model_dir: Path, out: Path) -> tuple[int, list[str
         copied.append(f"models/intent/{lang}/IntentClassifier.mlpackage")
         intent_coreml = f"models/intent/{lang}/IntentClassifier.mlpackage"
 
+    # SEMANTIC HEAD — shipped only when there is a real head to declare.
+    #
+    # This block used to copy `SemanticHead.mlpackage` whenever it existed and
+    # then declare `artifact: models/semantic_head/shared/head.json`, a file it
+    # never produced. Every pack ever published named it and none shipped it, and
+    # VoiceAIKit carries a `toleratedMissingArtifacts` entry solely to forgive it
+    # (VIK-010). `artifact` is REQUIRED by the schema, so the old code could not
+    # simply omit it — but `models.semantic_head` ITSELF is optional (the schema
+    # requires only `models.intent`), which is the way out the original author
+    # was looking for and did not find.
+    #
+    # So: a semantic head is declared when `semantic_head.json` exists beside the
+    # trained model, and is not declared or shipped otherwise. The stage is off
+    # in every pack we build today (`semantic_rescue_enabled: false`,
+    # `cascade.json` semantic disabled), and turning it on requires a new pack
+    # regardless, because `cascade.json` lives inside the pack.
+    semhead_json = model_dir.parents[1] / "semantic_head.json"
     semhead_pkg = model_dir.parents[1] / "SemanticHead.mlpackage"
+    semhead_artifact = None
     semhead_coreml = None
-    if semhead_pkg.exists():
+    if semhead_json.exists():
         sem_dst = out / "models" / "semantic_head" / "shared"
         sem_dst.mkdir(parents=True, exist_ok=True)
-        shutil.copytree(semhead_pkg, sem_dst / "SemanticHead.mlpackage", dirs_exist_ok=True)
-        copied.append(f"models/semantic_head/shared/SemanticHead.mlpackage")
-        semhead_coreml = f"models/semantic_head/shared/SemanticHead.mlpackage"
+        shutil.copy(semhead_json, sem_dst / "head.json")
+        copied.append("models/semantic_head/shared/head.json")
+        semhead_artifact = "models/semantic_head/shared/head.json"
+        if semhead_pkg.exists():
+            shutil.copytree(semhead_pkg, sem_dst / "SemanticHead.mlpackage",
+                            dirs_exist_ok=True)
+            copied.append("models/semantic_head/shared/SemanticHead.mlpackage")
+            semhead_coreml = "models/semantic_head/shared/SemanticHead.mlpackage"
 
     # calibration.json is translated into the lean on-device contract by
     # scripts/ci/assemble_pack.py; emit the fitted temperature in that shape here
@@ -832,7 +860,7 @@ def compile_models(lang: str, model_dir: Path, out: Path) -> tuple[int, list[str
     if isinstance(src_hash, str) and len(src_hash) == 64:
         payload["fitted_on"] = src_hash
     _write(dst / "calibration.json", payload)
-    return len(labels), copied, intent_coreml, semhead_coreml
+    return len(labels), copied, intent_coreml, semhead_artifact, semhead_coreml
 
 
 def compile_meta(lang: str, report_card: Path | None, carried: list[str],
@@ -863,7 +891,8 @@ def compile_meta(lang: str, report_card: Path | None, carried: list[str],
 
 def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
                      schema: dict, version: str, channel: str, out: Path,
-                     intent_coreml: str | None, semhead_coreml: str | None) -> None:
+                     intent_coreml: str | None, semhead_artifact: str | None,
+                     semhead_coreml: str | None) -> None:
     train_csv = REPO / "datasets" / lang / "train.csv"
     # bool is a subclass of int in Python, so `isinstance(v, int)` admits
     # True/False — which report_card_summary rejects (number/string/integer only).
@@ -887,24 +916,19 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
     if intent_coreml:
         models["intent"][lang]["coreml_artifact"] = intent_coreml
 
-    if semhead_coreml:
-        models["semantic_head"] = {
-            "shared": {
-                "artifact": f"models/semantic_head/shared/head.json",
-                "format": "json",
-                "model_version": f"shared-{version}",
-                "embedder_id": "minilm-l6-v2",
-                "coreml_artifact": semhead_coreml
-            }
+    # Declared only when `compile_models` actually shipped a head — see the note
+    # there. `models.semantic_head` is optional in bundle.schema.json; only
+    # `models.intent` is required.
+    if semhead_artifact:
+        shared = {
+            "artifact": semhead_artifact,
+            "format": "json",
+            "model_version": f"shared-{version}",
+            "embedder_id": "minilm-l6-v2",
         }
-        # In order for the JSON validator to pass, we need an artifact for the semantic head.
-        # But this is just generating the manifest. The JSON would already be copied if we had one.
-        # Actually, let's just omit the artifact if we only have the coreml artifact. Wait!
-        # `artifact`, `format`, and `model_version` are REQUIRED by the schema.
-        # So we can't just add a semantic_head with ONLY a coreml_artifact.
-        # Let's rely on the fact that SemanticHead.mlpackage will be packaged but not strictly validated
-        # unless we explicitly modify the schema to make `artifact` optional.
-        pass
+        if semhead_coreml:
+            shared["coreml_artifact"] = semhead_coreml
+        models["semantic_head"] = {"shared": shared}
 
     _write(out / "bundle.json", {
         "bundle_id": f"pack-{lang}-v{version}",
@@ -965,11 +989,13 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
     compile_policies(schema, out)
     compile_plan_facts(intent_capability, out)
     compile_legacy_labels(out)
-    n_labels, copied, intent_coreml, semhead_coreml = compile_models(lang, model_dir, out)
+    (n_labels, copied, intent_coreml,
+     semhead_artifact, semhead_coreml) = compile_models(lang, model_dir, out)
     compile_cascade(schema, n_labels, out)
     carried = carry_templates(schema, out)
     card = compile_meta(lang, report_card, carried, gaps, out)
-    compile_manifest(lang, registry, n_labels, card, schema, version, channel, out, intent_coreml, semhead_coreml)
+    compile_manifest(lang, registry, n_labels, card, schema, version, channel, out,
+                     intent_coreml, semhead_artifact, semhead_coreml)
 
     print(f"language     : {lang}")
     print(f"capabilities : {len(registry)}")
