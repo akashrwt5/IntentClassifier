@@ -57,6 +57,17 @@ PROBES = {
         # Said while a slot flow is awaiting an answer. The question is whether
         # the reference abandons the flow for the new intent or treats the words
         # as the answer.
+        #
+        # THESE PROBES DO NOT YET REACH THE INTERRUPT PATH. On the first run all
+        # four came back PROMPT with `interrupted: None` — the reminder flow took
+        # them as slot answers, which is the VIK-038 gate doing its job. The
+        # section is recorded but nothing consumes it, and it should not be
+        # trusted until a probe here actually produces a non-null `interrupted`.
+        #
+        # Reaching it needs an utterance that (a) is not a plausible answer to the
+        # slot being awaited and (b) lands in [interrupt, 1.0] as a different
+        # intent. Finding one is a matter of running candidates against the
+        # reference, not of reasoning about it.
         "increase the volume",
         "turn it up",
         "cancel that",
