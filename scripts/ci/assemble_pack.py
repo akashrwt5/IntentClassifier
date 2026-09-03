@@ -347,6 +347,29 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         for key in ["tflite_artifact", "tflite_int8_artifact"]:
             intent.pop(key, None)
 
+        # The flattened `nlu_schema.json` / `nlu_entities.json` at the bundle root
+        # have no iOS consumer. They are the REFERENCE ENGINE's input — Python
+        # reads `language_packs/<lang>/nlu_schema.json`, and `compile_models`
+        # copies them into the bundle to "expose schema and entities at the
+        # bundle root (ADR-005)", which is an archive concern, not a device one.
+        #
+        # Swift reads the compiled tables instead: `runtime/policies.json`,
+        # `runtime/cascade.json`, `keywords/<lang>.json`, `lexicons/<lang>.json`
+        # and the per-capability directories. Every mention of these two files in
+        # VoiceAIKit is a comment about what a type USED to read before the pack
+        # format existed — `DialogSchema`, `PackSlotResolver` and
+        # `PackEntityExtractor` all say so at their declarations. There is no live
+        # read.
+        #
+        # Nothing enforces their presence either: neither is in the validator's
+        # REQUIRED_FILES, neither is declared in `bundle.json`, and
+        # `nlu_langpack`'s `_RUNTIME_TABLES` is (cascade, policies, plan_facts).
+        # They stay in the universal slice, which is the archive.
+        for flat in ("nlu_schema.json", "nlu_entities.json"):
+            flat_path = s_dir / flat
+            if flat_path.exists():
+                flat_path.unlink()
+
         # A Python pickle has no iOS consumer. The labels iOS reads are
         # `labels.json`, which `compile_models` DERIVES from this file at compile
         # time precisely so the two cannot disagree. Shipping the source pickle to
