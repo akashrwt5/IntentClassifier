@@ -344,6 +344,30 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             intent["artifact"] = compiled
             intent["format"] = "mlmodelc-ref"
 
+        # `.mlpackage` is the SOURCE form. iOS never opens it when the compiled
+        # form is present: `ModelSpec.iOSModel(_:)` returns
+        # `coreml_compiled_artifact` first, and `MLModel(contentsOf:)` requires
+        # `.mlmodelc` while `compileModel(at:)` REJECTS one — so the two keys are
+        # not interchangeable and the packaged form is dead weight in a device
+        # slice. Together they are ~1.7 MB of a 7.1 MB pack.
+        #
+        # Each is dropped only when ITS OWN compiled counterpart shipped, so a
+        # slice built without --coreml-compiled keeps the only model it has.
+        # `.mlpackage` stays in the universal slice, which is what model tooling
+        # and OTA debug read.
+        for pkg, pkg_key, compiled_key in (
+            ("IntentClassifier.mlpackage", "coreml_artifact",
+             "coreml_compiled_artifact"),
+            ("IntentClassifier_full.mlpackage", "coreml_full_artifact",
+             "coreml_full_compiled_artifact"),
+        ):
+            if not intent.get(compiled_key):
+                continue
+            pkg_path = intent_dir / pkg
+            if pkg_path.exists():
+                shutil.rmtree(pkg_path)
+            intent.pop(pkg_key, None)
+
     def mod_android(s_dir, s_man):
         for cml in [
             "IntentClassifier.mlpackage",
