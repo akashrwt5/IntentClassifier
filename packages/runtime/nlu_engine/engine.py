@@ -152,7 +152,15 @@ class NLUEngine:
 
     # A user who cannot complete a slot after this many tries is routed out of
     # the flow instead of being trapped in an unanswerable prompt loop.
-    MAX_SLOT_ATTEMPTS = 3
+    #
+    # FALLBACK ONLY, same as DEFAULT_INTERRUPT_THRESHOLD above. The live value is
+    # CONTENT-OWNED (`max_slot_attempts` in platform.yaml, per-language via
+    # overlay) and reaches a device runtime as `policies.limits.max_slot_attempts`;
+    # read it from `self.max_slot_attempts`, not from here. It was a bare class
+    # constant, so the budget the pack declared and the budget both engines
+    # applied were three independent 3s that only agreed by coincidence.
+    DEFAULT_MAX_SLOT_ATTEMPTS = 3
+    MAX_SLOT_ATTEMPTS = DEFAULT_MAX_SLOT_ATTEMPTS  # back-compat alias
 
     # How well an utterance must match a value of the slot being awaited before
     # it counts as the ANSWER and is allowed to suppress a topic switch (see
@@ -212,6 +220,8 @@ class NLUEngine:
             "interrupt_threshold", self.DEFAULT_INTERRUPT_THRESHOLD)
         self.agreement_threshold = self.schema.get(
             "agreement_threshold", self.DEFAULT_AGREEMENT_THRESHOLD)
+        self.max_slot_attempts = self.schema.get(
+            "max_slot_attempts", self.DEFAULT_MAX_SLOT_ATTEMPTS)
         # Share of an utterance's tokens that may be absent from the model's
         # vocabulary before the turn is refused outright. `None` disables the
         # guard. Content-owned so a language pack sets its own — the value
@@ -769,7 +779,7 @@ class NLUEngine:
                 return result
 
             session.confirm_attempts = getattr(session, "confirm_attempts", 0) + 1
-            if session.confirm_attempts >= self.MAX_SLOT_ATTEMPTS:
+            if session.confirm_attempts >= self.max_slot_attempts:
                 session.clear_context(fu["context"])
                 session.confirm_attempts = 0
                 return self._genai_fallback(0.0)
@@ -1005,7 +1015,7 @@ class NLUEngine:
         # trapped re-answering an un-parseable prompt.
         if awaiting and awaiting not in session.pending_slots:
             session.slot_attempts += 1
-            if session.slot_attempts >= self.MAX_SLOT_ATTEMPTS:
+            if session.slot_attempts >= self.max_slot_attempts:
                 session.reset_slot_filling()
                 return NLUResult(
                     type="FALLBACK", intent="GENAI", action="genai.fallback",

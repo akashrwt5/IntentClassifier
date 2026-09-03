@@ -611,7 +611,13 @@ def compile_policies(schema: dict, out: Path) -> None:
         "policy_content": 1,
         "confirmation": confirmation,
         "thresholds": thresholds,
-        "limits": {"max_slot_attempts": 3, "session_timeout_s": 120},
+        # CONTENT-OWNED, like every threshold above it. This was the literal
+        # `3`, which made `policies.limits.max_slot_attempts` a number the pack
+        # stated and no one could change — both engines carried their own
+        # hardcoded 3 beside it. `session_timeout_s` is still a literal because
+        # neither runtime reads it yet; see VIK-055.
+        "limits": {"max_slot_attempts": schema["max_slot_attempts"],
+                   "session_timeout_s": 120},
     })
 
 

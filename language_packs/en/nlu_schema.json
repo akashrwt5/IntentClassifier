@@ -7,6 +7,7 @@
   "oov_bypass_confidence": 0.97,
   "semantic_threshold": 0.4,
   "semantic_rescue_enabled": false,
+  "max_slot_attempts": 3,
   "keyword_triggers": [
     {
       "intent": "Cmd.TranslationStart",
