@@ -460,27 +460,62 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             intent["format"] = "mlmodelc-ref"
 
     def mod_android(s_dir, s_man):
+        intent_dir = s_dir / "models" / "intent" / lang
+        intent = s_man.get("models", {}).get("intent", {}).get(lang, {})
+
         for cml in [
             "IntentClassifier.mlpackage",
             "IntentClassifier.mlmodelc",
             "IntentClassifier_full.mlpackage",
             "IntentClassifier_full.mlmodelc",
         ]:
-            cml_path = s_dir / "models" / "intent" / lang / cml
+            cml_path = intent_dir / cml
             if cml_path.exists():
                 if cml_path.is_dir():
                     shutil.rmtree(cml_path)
                 else:
                     cml_path.unlink()
 
-        intent = s_man.get("models", {}).get("intent", {}).get(lang, {})
-        for key in ["coreml_artifact", "coreml_compiled_artifact", "coreml_full_artifact", "coreml_full_compiled_artifact", "temperature_coreml", "temperature_coreml_full"]:
+        for key in ["coreml_artifact", "coreml_compiled_artifact",
+                    "coreml_full_artifact", "coreml_full_compiled_artifact"]:
             intent.pop(key, None)
 
+        # The CoreML temperatures live in `calibration.json`, NOT in the manifest
+        # entry — `bundle.schema.json` has no `temperature_*` property, so the two
+        # keys this used to pop off `intent` were never there and the pop did
+        # nothing. The drift stayed in the file: an Android pack shipped
+        # `temperature_coreml` and `temperature_coreml_full` for two CoreML heads
+        # the same function had just deleted.
+        #
+        # Both are optional in calibration.schema.json, so removing them is legal.
+        # `temperature` (ONNX) and `temperature_int8` (tflite int8) stay, and so
+        # does `fitted_on` — the sha256 of the train.csv the fit was measured on,
+        # which is the file's provenance and must survive every slice.
+        cal_path = intent_dir / "calibration.json"
+        if cal_path.exists():
+            cal = json.loads(cal_path.read_text(encoding="utf-8"))
+            dropped = [k for k in ("temperature_coreml", "temperature_coreml_full")
+                       if cal.pop(k, None) is not None]
+            if dropped:
+                cal_path.write_text(json.dumps(cal, sort_keys=True,
+                                               separators=(",", ":")) + "\n",
+                                    encoding="utf-8")
+
         for w in ["intent_classifier_weights.json", "intent_classifier_weights_full.json"]:
-            w_file = s_dir / "models" / "intent" / lang / w
+            w_file = intent_dir / w
             if w_file.exists():
                 w_file.unlink()
+
+        # A Python pickle has no Android consumer either. `mod_ios` has removed it
+        # since VIK-051 with a rationale that applies here verbatim — the labels
+        # Android reads are `labels.json`, which `compile_models` DERIVES from this
+        # pickle at compile time precisely so the two cannot disagree — and this
+        # slice kept shipping it, so the fix was half done. A deserialization
+        # primitive does not belong in a signed medical bundle for no runtime
+        # benefit, on either platform.
+        pkl = intent_dir / "labels.pkl"
+        if pkl.exists():
+            pkl.unlink()
 
     try:
         nlu_universal = build_slice("universal", mod_universal)
