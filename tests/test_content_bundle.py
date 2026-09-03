@@ -113,12 +113,24 @@ def test_confirmation_policy_matches_the_authored_followups(bundle):
     assert all(v in ("always", "never") for v in conf.values())
 
 
-def test_routing_ladder_uses_our_fire_threshold(bundle):
-    """routing.json is a carried template, but this one value must be re-derived
-    or the pack escalates at a confidence the engine never uses."""
-    ladder = _j(bundle, "runtime/routing.json")["ladder"]
-    step = next(s for s in ladder if "below_confidence" in (s.get("when") or {}))
-    assert step["when"]["below_confidence"] == SCHEMA["confidence_threshold"]
+def test_no_routing_ladder_is_fabricated(bundle):
+    """The compiler must not emit `runtime/routing.json`.
+
+    It used to carry the spec example's ladder verbatim and re-derive one number
+    in it. That shipped an escalation ladder with no consumer on either runtime,
+    whose only confidence-triggered step (`reprompt`) contradicts both engines —
+    which are binary below the fire threshold — and ADR-004, whose ladder has no
+    such step. `assist_cloud.enabled` in the same file read as a cloud-egress
+    switch and gated nothing.
+
+    Asserted as an absence because the alternative is worse than a missing
+    section: a client tuning a documented knob that does nothing.
+    """
+    assert not (bundle / "runtime" / "routing.json").exists()
+    # The values it duplicated still have exactly one home each.
+    policies = _j(bundle, "runtime/policies.json")
+    assert policies["thresholds"]["confidence"] == SCHEMA["confidence_threshold"]
+    assert policies["limits"]["max_slot_attempts"] >= 1
 
 
 # --------------------------- shape translation -----------------------------

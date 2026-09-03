@@ -39,7 +39,7 @@ Derived from content (the compiler's actual work):
 Carried from the fixture as PLATFORM-OWNED TEMPLATES (owner decision, to be
 migrated to real authoring later):
 
-    runtime/routing.json      escalation ladder (one value re-derived: the
+    runtime/routing.json      NOT EMITTED — see CARRIED. (was: escalation ladder,
                               `below_confidence` step must equal our threshold)
     telemetry/schema.json     event-decoding enums; platform vocabulary, not
                               per-language content
@@ -100,8 +100,34 @@ TEMPLATE = SPEC / "examples" / "3.0" / "minimal"
 FORMAT_VERSION = "3.0"
 COMPILER_VERSION = "nlu-compiler 1.0.0-content"
 
-# Files taken verbatim from the fixture. Owner decision: platform-owned for now.
-CARRIED = ("telemetry/schema.json", "runtime/routing.json")
+# Files taken verbatim from the spec's minimal EXAMPLE. Owner decision:
+# platform-owned for now.
+#
+# `runtime/routing.json` used to be in here and is not any more. Carrying it made
+# every pack ship an escalation ladder nobody wrote and nothing ran:
+#
+#   * No consumer. VoiceAIKit decoded it into `ResolvedPack.routing` and never
+#     read the property; no Python path reads `resources["routing"]` either.
+#   * Wrong verb. Its one confidence-triggered step was `reprompt`. Both runtimes
+#     are BINARY below the fire threshold — see NLUEngine.__init__: "The decision
+#     ladder is BINARY: `confidence_threshold` and below it the fallback intent."
+#     ADR-004's ladder has no `reprompt` step at all; re-prompting is its rule 1,
+#     a MID-FLOW response to a garbled slot answer, unrelated to confidence.
+#     Below-threshold is rule 5 (clarify) or rule 6 (escalate).
+#   * A privacy control that controlled nothing. `assist_cloud.enabled: false`
+#     reads as the switch governing cloud egress of an utterance. ADR-004 makes
+#     consent a per-user, revocable AVAILABILITY condition resolved at runtime;
+#     a fleet-wide signed pack cannot carry it, and this copy gated nothing.
+#   * Not ours to invent. ADR-005 lists runtime/routing.json as the Platform
+#     team's file, produced by the policy-resolution stage (its §"pipeline"
+#     step 5) that this compiler does not implement.
+#
+# Everything it carried already has an owner: `below_confidence` is
+# policies.thresholds.confidence, `after_attempts` is
+# policies.limits.max_slot_attempts, and the per-slot `reprompt` response key in
+# the schema is a different mechanism that merely shares the word. The spec and
+# its schema keep the section defined; we simply stop fabricating one.
+CARRIED = ("telemetry/schema.json",)
 
 _PLACEHOLDER_SHA = "0" * 64
 
@@ -655,10 +681,9 @@ def compile_guards(schema: dict, out: Path) -> list[str]:
     fires on the question *about* it — "how do i turn up the volume" changes the
     volume. That is a wrong action, which is the metric this pack is gated on.
 
-    Kept out of `runtime/routing.json` deliberately: routing decides what to do
-    when confidence is LOW, whereas a guard fires regardless of confidence. They
-    are different mechanisms and merging them would make both harder to reason
-    about.
+    Kept out of the confidence thresholds deliberately: those decide whether an
+    intent fires at all, whereas a guard fires regardless of confidence. They are
+    different mechanisms and merging them would make both harder to reason about.
 
     Returns coverage gaps (non-conformant patterns), consistent with the other
     compile_* functions — a pattern outside the portable subset is reported and
@@ -707,17 +732,17 @@ def compile_guards(schema: dict, out: Path) -> list[str]:
 
 
 def carry_templates(schema: dict, out: Path) -> list[str]:
-    """Copy the platform-owned templates, re-deriving the values that are ours."""
+    """Copy the platform-owned templates verbatim.
+
+    `schema` is unused now that routing.json is not carried; it stays in the
+    signature because the next table that lands here will need it, and because
+    the caller's shape is not worth churning for one argument.
+    """
+    del schema  # see docstring
     carried = []
     for rel in CARRIED:
         src = TEMPLATE / rel
         data = json.loads(src.read_text(encoding="utf-8"))
-        if rel == "runtime/routing.json":
-            # The ladder's reprompt step must trigger at OUR fire threshold,
-            # otherwise the pack escalates at a confidence the engine never uses.
-            for step in data.get("ladder", []):
-                if "below_confidence" in (step.get("when") or {}):
-                    step["when"]["below_confidence"] = schema["confidence_threshold"]
         _write(out / rel, data)
         carried.append(rel)
     return carried

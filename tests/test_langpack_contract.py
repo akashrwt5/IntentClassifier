@@ -49,8 +49,12 @@ def test_minimal_golden_bundle_loads():
     # Real tables, not placeholders.
     assert pack.resources["lexicon"] and pack.resources["keyword_matcher"]
     assert pack.resources["capabilities"]
-    for table in ("cascade", "policies", "routing", "plan_facts"):
+    for table in ("cascade", "policies", "plan_facts"):
         assert table in pack.resources, f"runtime table {table} not resolved"
+    # `routing` is deliberately not among them — the loader stopped requiring a
+    # table nothing read, so that packs which no longer carry one still load.
+    # The golden bundle here still HAS the file; not resolving it is the point.
+    assert "routing" not in pack.resources
 
 
 def test_language_must_be_named_when_the_bundle_has_several(tmp_path):

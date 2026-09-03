@@ -44,7 +44,13 @@ _RESOURCE_FILES: dict[str, str] = {
 }
 
 # Language-neutral runtime tables — one copy per bundle, not per language.
-_RUNTIME_TABLES = ("cascade", "policies", "routing", "plan_facts")
+#
+# `routing` is NOT here. It was, and it was `strict`-required, which means the
+# moment the compiler stopped fabricating `runtime/routing.json` this loader
+# would have refused every new pack over a table nothing ever read. The spec
+# still defines the section; when a pack genuinely carries one it can come back
+# — with a consumer.
+_RUNTIME_TABLES = ("cascade", "policies", "plan_facts")
 
 # Optional per-language tables. Absent from today's golden bundles: the datetime
 # grammar arrives with the A7 eviction, and normalizer rules are not yet
