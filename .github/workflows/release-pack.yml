@@ -22,9 +22,24 @@ on:
         required: false
         default: "en"
       channel:
-        description: "dev | beta | production (production needs ND-8 keys)"
+        # A CHOICE, not free text. This was a plain string input, so the value
+        # was typed rather than picked: nothing on the form showed which channel
+        # a run would use, a browser could autofill the previous run's value, and
+        # the first place the answer appeared was `assemble_pack`'s output
+        # halfway down the log. A pack was published on `beta` that way while
+        # everyone believed it was `dev` — and on beta the iOS slice carries only
+        # the full CoreML head, so the difference is visible in the artifact and
+        # invisible on the form.
+        #
+        # `channel` decides both what a runtime will accept (ADR-005 Part 11 —
+        # channel plus signing-key id is what lets a production runtime refuse
+        # dev-signed artifacts) and, since VIK-057, which heads ship. It is the
+        # single most consequential input here and was the least guarded.
+        description: "which channel to publish on (production needs ND-8 keys)"
         required: false
+        type: choice
         default: "dev"
+        options: ["dev", "beta", "production"]
       key_id:
         description: "signing key id (blank -> the compiler's dev key)"
         required: false
@@ -320,6 +335,12 @@ jobs:
         run: |
           LANG_ARG="${{ github.event.inputs.language }}"
           CHANNEL="${{ github.event.inputs.channel }}"
+          # Echoed before anything is built, so the log answers "which channel?"
+          # at the top of the step rather than in assemble_pack's summary at the
+          # bottom. On beta and production the iOS slice ships only the full
+          # CoreML head, which is not something to discover from the artifact.
+          echo "::notice title=Release channel::${CHANNEL:-dev}"
+          echo "=== channel: ${CHANNEL:-dev} ==="
           KEY_ID="${{ github.event.inputs.key_id }}"
           L="${LANG_ARG:-en}"
           ARGS=(--src "dist/bundle-$L"
