@@ -33,7 +33,7 @@ FILE_SCHEMA_MAP = [
     (r"^bundle\.json$", "bundle.schema.json"),
     (r"^models/intent/[a-z]{2}/labels\.json$", "labels.schema.json"),
     (r"^models/intent/[a-z]{2}/calibration\.json$", "calibration.schema.json"),
-    (r"^models/semantic_head/[a-z]{2}/head\.json$", "semantic_head.schema.json"),
+    (r"^models/semantic_head/(?:[a-z]{2}|shared)/head\.json$", "semantic_head.schema.json"),
     (r"^runtime/cascade\.json$", "cascade.schema.json"),
     (r"^runtime/policies\.json$", "policies.schema.json"),
     (r"^runtime/routing\.json$", "routing.schema.json"),
