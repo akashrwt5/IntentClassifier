@@ -280,8 +280,91 @@ _BUILTIN_SOURCES = {
 _BUILTIN_FALLBACK = "runtime.builtin"
 
 
+def _date_terms(lang: str) -> set[str] | None:
+    """Every surface form this language's grammar treats as a DATE.
+
+    Built from the language's OWN `datetime.json` — weekdays, months and day
+    anchors — so nothing about English is compiled in here. A language that ships
+    no grammar, or one whose tables are shaped differently, returns None and the
+    caller stands down rather than guessing; a guard that silently passes because
+    it could not read its input is worse than no guard.
+    """
+    path = REPO / "language_packs" / lang / "datetime.json"
+    if not path.exists():
+        return None
+    try:
+        grammar = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    terms: set[str] = set()
+    for table in ("weekdays", "months", "day_anchors"):
+        block = grammar.get(table)
+        if not isinstance(block, dict):
+            continue
+        for synonyms in block.values():
+            if isinstance(synonyms, list):
+                terms.update(str(s).strip().lower() for s in synonyms if str(s).strip())
+    return terms or None
+
+
+def _check_values_are_not_dates(lang: str, src: dict) -> None:
+    """An entity that declares `values_are_not_dates` may not carry a bare date.
+
+    The `recurrence` slot is the reason this exists. It is rendered to the user as
+    "Repeat", so a value in it promises the reminder recurs — and seven of its
+    values were bare weekday names, which are DATES. "remind me to pay rent on
+    friday", a one-off, came back as `recurrence: Friday` and displayed
+    "Repeat: Friday". Nothing failed; the user was simply told the wrong thing.
+
+    CANONICALS ARE CHECKED, NOT JUST SYNONYMS. The runtime seeds its lookup with
+    `table[value.lower()] = value` before adding synonyms (`entities.py`), so the
+    canonical name is matchable text in its own right. "3 Months" went on matching
+    "in 3 months" after its bare synonym was removed, because the NAME still read
+    as a duration. A guard that only looked at synonyms would have passed it.
+
+    Opt-in by declaration, not by entity name. A date-like value is perfectly fine
+    in `memory` or `remind`; it is only wrong where the slot means "repeats". The
+    compiler therefore does not hardcode which entity that is — the content says
+    so, the way `open` and `fuzzy` already do.
+
+    A build failure, not a warning. VIK-022 is the precedent: a non-portable
+    carrier spent every build in a `gaps` log line while the two runtimes quietly
+    disagreed, and demoting it to a log entry is what let it survive.
+    """
+    flagged = {name: spec for name, spec in src.items()
+               if isinstance(spec, dict) and spec.get("values_are_not_dates")}
+    if not flagged:
+        return
+    terms = _date_terms(lang)
+    if terms is None:
+        print(f"  warning: {lang} declares values_are_not_dates on "
+              f"{sorted(flagged)} but ships no readable datetime grammar; "
+              f"the date check cannot run for this language")
+        return
+    offences: list[str] = []
+    for name, spec in flagged.items():
+        values = spec.get("values") or {}
+        # Canonical AND synonym: both are matchable at runtime.
+        matchable = set(values) | {s for syns in values.values() for s in syns}
+        for form in sorted(matchable):
+            if form.strip().lower() in terms:
+                offences.append(f"{name}: {form!r}")
+    if offences:
+        raise SystemExit(
+            f"\nentity values that are dates, not repetitions ({lang}):\n  "
+            + "\n  ".join(offences)
+            + "\n\nThese entities declare `values_are_not_dates`, and each form above is a\n"
+              "bare date in this language's own datetime grammar. At runtime a one-off\n"
+              "reminder mentioning one of them is reported as recurring, and the host\n"
+              "renders that to the user as \"Repeat\".\n\n"
+              "Fix the content, not this check: drop the value if a marked form already\n"
+              "covers the recurring phrasing (\"every friday\"/\"fridays\" cover \"friday\"),\n"
+              "or rename it so the name itself says it repeats (\"Every 3 Months\").\n")
+
+
 def compile_entities(lang: str, out: Path) -> None:
     src = json.loads((REPO / "language_packs" / lang / "nlu_entities.json").read_text(encoding="utf-8"))
+    _check_values_are_not_dates(lang, src)
     entities: dict[str, dict] = {}
     for name, spec in src.items():
         eid = entity_id(name)

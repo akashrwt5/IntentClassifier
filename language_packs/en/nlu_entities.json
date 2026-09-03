@@ -47,6 +47,8 @@
   "recurrence": {
     "type": "enum",
     "fuzzy": false,
+    "_values_are_not_dates_why": "This slot is rendered to the user as 'Repeat', so every value in it is a promise that the reminder recurs. A bare date is not a recurrence: seven singular weekday values once made 'pay rent on friday' come back as recurrence 'Friday'. Checked at build time by compile_entities.",
+    "values_are_not_dates": true,
     "values": {
       "Daily": ["daily", "each afternoon", "each evening", "each night", "each morning", "every afternoon", "every day", "every evening", "every morning", "every night", "everyday"],
       "Fridays": ["each friday", "every friday", "fridays"],
