@@ -215,6 +215,12 @@ class EntityExtractor:
         strip = g.get("strip", {})
         self._alt_strip_atby = _alt(strip.get("at_by", []))
         self._alt_strip_conn = _alt(strip.get("connectors", []))
+        # Clock-hour markers ("o'clock") on the ENGLISH path. `_lex_clock_hour`
+        # is built by `_build_lex_tables`, which only runs for a language that
+        # ships a lexicon file — so English never had these compiled at all.
+        self._en_clock_hour = sorted(
+            [m.lower() for m in g.get("clock_hour_markers", []) if m and m.strip()],
+            key=len, reverse=True)
         self._alt_strip_recur = _alt(strip.get("recurrence", []))
         self._alt_strip_the = _alt(strip.get("the", []))
         self._alt_strip_anchor = _alt(
@@ -317,6 +323,22 @@ class EntityExtractor:
             rf"\b(?:{self._alt_in}\s+{self._alt_strip_the}\s+)?(?:{self._alt_strip_periods})\b",
             rf"\b(?:{self._alt_strip_conn})\b",
         ]
+        # 10 — a bare clock-hour marker ("6 o'clock" -> the "o'clock").
+        #
+        #      The digit is already gone by now: step 4 removes "at 6" together,
+        #      so a `\d+\s+marker` pattern — which is what the LEXICON path and
+        #      the Swift runtime both carry — cannot fire on "at 6 o'clock" and
+        #      the word survives into the reminder's name ("take medicine
+        #      o'clock"). The marker has to be strippable on its own.
+        #
+        #      This table was read only by `_extract_datetime_lex` and
+        #      `_strip_datetime_lex`, the fr/de/da path. English takes
+        #      `_en_strip_patterns`, which never consulted it — so filling the
+        #      table in content alone would have stripped the word on iOS and
+        #      left it here, which is the VIK-025 divergence exactly.
+        if self._en_clock_hour:
+            _hr = "|".join(re.escape(m) for m in self._en_clock_hour)
+            pats.append(rf"(?:{_hr})")
         self._strip_patterns_cache = [re.compile(p, re.I) for p in pats]
         return self._strip_patterns_cache
 
@@ -517,39 +539,39 @@ class EntityExtractor:
         elif period in ("pm", "afternoon", "evening", "night"):
             h24 = h % 12 + 12     # 12pm → 12
         else:
-            # AMBIGUOUS bare hour — "at 6" could be 06:00 or 18:00.
+            # AMBIGUOUS bare hour — "at 6" is 06:00 or 18:00, and the utterance
+            # does not say which. Take the EARLIEST reading that is still ahead
+            # of us. One rule, everywhere: today, tomorrow, a named weekday.
             #
-            # TODAY FIRST: if either reading is still ahead of us TODAY, take the
-            # nearer one. Only when today has run out does a preference apply.
+            # This is deliberately literal rather than clever. The engine does not
+            # know whether "at 6" is a wake-up or a dinner, so it does not pretend
+            # to: the user said six, six is what they get, and "6 pm" is available
+            # to anyone who means the evening. Predictable beats helpful here —
+            # a rule a user can learn in one try is worth more than one that is
+            # right slightly more often and cannot be explained.
             #
-            # The rule this replaces guessed the half of the clock BEFORE looking
-            # at the time (1-6 -> PM, 7-12 -> AM) and consulted `now` only to
-            # rescue a guess that had landed in the past. So at 05:41 "wake me at
-            # 6" scheduled 18:00, even though 06:00 was nineteen minutes away and
-            # in the future: the guess had not landed in the past, so nothing
-            # rescued it.
+            # It also finishes what VIK-042 asked for. The rule this replaces was
+            # `1-6 -> PM, 7-12 -> AM`, an English-speaking assumption compiled into
+            # the engine that no language pack could disagree with. Narrowing that
+            # range (1-5? 1-4?) would only have retuned the magic number. There is
+            # now no constant to configure: the answer comes from the clock.
             #
-            # Plain "next future occurrence" is not the fix either. Say "at 2" at
-            # 16:00 and both readings fall tomorrow - 02:00 in ten hours, 14:00 in
-            # twenty-two - so nearest picks 02:00. That is arithmetic, not
-            # evidence: the small hours won only because morning comes first.
-            # Measured over 288 (now, hour) pairs it breaks 51 and fixes 33.
-            # Today-first fixes 21 and breaks none.
-            #
-            # ONLY WHEN `base_day` IS TODAY. A named day ("tomorrow at 3",
-            # "friday at 3") has both readings ahead of us by definition, so
-            # "earliest ahead of us" would silently mean 03:00. There is no
-            # today to prefer, so the daytime reading applies as before.
-            if base_day.date() == now.date():
-                ahead = sorted(
-                    d for d in (base_day.replace(hour=x, minute=minute,
-                                                 second=0, microsecond=0)
-                                for x in (h % 12, h % 12 + 12))
-                    if d > now)
-                if ahead:
-                    return ahead[0]
-            # Today is spent, or the day was named: read it as daytime.
-            h24 = h + 12 if 1 <= h <= 6 else h
+            # Known cost, accepted: on a named day both readings are ahead of us,
+            # so the earliest is always the morning one — "meeting tomorrow at 5"
+            # resolves to 05:00. Saying "5 pm" fixes it, and that is the user's
+            # half of the contract.
+            ahead = sorted(
+                d for d in (base_day.replace(hour=x, minute=minute,
+                                             second=0, microsecond=0)
+                            for x in (h % 12, h % 12 + 12))
+                if d > now)
+            if ahead:
+                return ahead[0]
+            # Both readings are behind us (only possible when base_day is today):
+            # the same choice, one day on.
+            return min(base_day.replace(hour=x, minute=minute,
+                                        second=0, microsecond=0)
+                       for x in (h % 12, h % 12 + 12)) + timedelta(days=1)
 
         dt = base_day.replace(hour=h24, minute=minute, second=0, microsecond=0)
 
@@ -1085,8 +1107,10 @@ class EntityExtractor:
                     hour, minute = h, 0; span = m.group()
 
         # Named time only (no digit found at all)
+        hour_is_a_named_time = False
         if hour is None and period in named_hour:
             hour, minute = named_hour[period], 0; span = period
+            hour_is_a_named_time = True
 
         # --- 7. Build datetime ---
         if hour is not None:
@@ -1097,7 +1121,21 @@ class EntityExtractor:
             if not (0 <= minute <= 59):
                 return None, None, 0.0, False, False
             try:
-                if 1 <= hour <= 12 and not explicit_ampm and period not in ("am",):
+                # `hour_is_a_named_time` means the hour CAME FROM the name
+                # ("noon", "midnight") with no digit in the utterance at all. That
+                # is not ambiguous — noon is 12:00 and says so — and sending it
+                # through disambiguation would read the 12 as a bare clock hour and
+                # offer 00:00 as its other half, landing "at noon" on midnight. The
+                # rule this replaced kept noon by leaving 7-12 alone: luck, not
+                # handling.
+                #
+                # It must be the FLAG and not `period in named_hour`. "3 in the
+                # afternoon" also carries a named period, but the 3 came from the
+                # user, and it is the period that tells us which 3 they meant.
+                # Excluding every named period sends that to the literal branch and
+                # resolves it as 03:00 — the exact opposite of what was said.
+                if (1 <= hour <= 12 and not explicit_ampm
+                        and period not in ("am",) and not hour_is_a_named_time):
                     # Need disambiguation — use period hint
                     p = period if period in ("am","pm","morning","afternoon","evening","night") else period
                     dt = self._pick_future_hour(hour, minute, base_day, now, p)
