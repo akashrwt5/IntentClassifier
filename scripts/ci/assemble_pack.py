@@ -271,8 +271,20 @@ def assemble(src: Path, version: str, out_dir: Path, *,
     # device can bind: `BundleDataLoader` defaults to `.full`, so the pack would
     # fail at load with `declaredArtifactMissing` — loud, but on a device instead
     # of in CI. Refuse here, where the person who can fix it is still watching.
-    if channel != "dev":
-        _intent = manifest.get("models", {}).get("intent", {}).get(lang, {})
+    # Only meaningful for a build that HAS CoreML. A pack with no CoreML head at
+    # all is a legitimate shape — an ONNX-only build, which is what a plain
+    # `assemble_pack` run without --coreml-compiled produces — and the
+    # pruned/full split does not exist there, so there is nothing for the channel
+    # to choose between and nothing to refuse. Guarding on `channel` alone
+    # refused exactly that build, which is what
+    # test_key_id_and_channel_are_parameters_not_constants exists to catch: the
+    # ND-8 cutover must be a settings change, and a guard that rejects
+    # `--channel production` on its own makes it a code change.
+    _intent = manifest.get("models", {}).get("intent", {}).get(lang, {})
+    _has_coreml = any(_intent.get(k) for k in
+                      ("coreml_artifact", "coreml_compiled_artifact",
+                       "coreml_full_artifact", "coreml_full_compiled_artifact"))
+    if channel != "dev" and _has_coreml:
         _missing = [k for k in ("coreml_full_compiled_artifact",)
                     if not _intent.get(k)]
         if not (staged / "models" / "intent" / lang
@@ -280,9 +292,10 @@ def assemble(src: Path, version: str, out_dir: Path, *,
             _missing.append("intent_classifier_weights_full.json")
         if _missing:
             return _fail(
-                f"channel {channel!r} ships only the full head, and this build is "
-                f"missing {', '.join(_missing)}. Pass --coreml-compiled (and the "
-                f"full iOS weights), or build --channel dev.")
+                f"channel {channel!r} ships only the full head, and this CoreML "
+                f"build is missing {', '.join(_missing)} — the slice would carry "
+                f"no head the device can bind. Pass --coreml-compiled with the "
+                f"full head and its weights, or build --channel dev.")
     (staged / "bundle.json").write_text(json.dumps(manifest, indent=2) + "\n",
                                         encoding="utf-8")
 
@@ -382,7 +395,12 @@ def assemble(src: Path, version: str, out_dir: Path, *,
         # `temperature_coreml`. VoiceAIKit binds all three together or throws,
         # because "mixing legs produces a shape mismatch at best and
         # plausible-looking wrong confidences at worst". So all three go, or none.
-        if channel != "dev":
+        # Conditional on the FULL head existing, not just on the channel: with no
+        # full head there is nothing to strip down to, and removing the pruned one
+        # would leave the slice with no CoreML at all. The guard above already
+        # refuses that combination for a CoreML build; this keeps a non-CoreML
+        # build untouched.
+        if channel != "dev" and intent.get("coreml_full_compiled_artifact"):
             for name in ("IntentClassifier.mlmodelc", "IntentClassifier.mlpackage"):
                 path = intent_dir / name
                 if path.exists():
