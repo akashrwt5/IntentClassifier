@@ -94,14 +94,24 @@ def test_the_authored_send_confirmation_asks_then_fires(engine):
     assert "send" in (r1.message or "").lower()
     r2 = engine.handle("send1", "yes please")
     assert r2.type == "FULFILL" and r2.intent == "Cmd.SendMessage"
-    assert r2.action == "message.compose"
+    assert r2.action == _authored("Cmd.SendMessage", "yes")
 
 
-def test_declining_the_authored_confirmation_carries_no_action(engine):
+def test_declining_the_authored_confirmation_never_sends(engine):
+    """Renamed from `..._carries_no_action`.
+
+    The content now authors an action for the decline branch (`message.cancel`)
+    so the client can close the recording it already opened. "No action" is
+    therefore no longer the contract; "not the send action" is, and that is the
+    half that keeps a refused message unsent.
+    """
     engine.reset("send2")
     assert engine.handle("send2", "send a message").type == "CONFIRM"
     r2 = engine.handle("send2", "no")
-    assert r2.type == "FULFILL" and r2.action is None
+    assert r2.type == "FULFILL"
+    assert r2.action == _authored("Cmd.SendMessage", "no")
+    assert r2.action != _authored("Cmd.SendMessage", "yes"), (
+        "a declined send fired the send action")
 
 
 def test_an_unclear_reply_never_fires_the_held_action(engine):
@@ -121,3 +131,17 @@ def test_confident_commands_fire_without_friction(engine):
         engine.reset("cf1")
         r = engine.handle("cf1", text)
         assert r.type == "FULFILL" and r.intent == intent, (text, r.type, r.intent)
+
+
+def _authored(intent: str, branch: str) -> str | None:
+    """The action the CONTENT authors for a confirmation branch.
+
+    Read rather than written down: these tests are about the engine honouring
+    what the content says, and a literal here would make them pass while the
+    engine fired something else entirely.
+    """
+    import json
+    from pathlib import Path
+    schema = json.loads((Path(__file__).resolve().parents[1] / "language_packs"
+                         / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
+    return schema["intents"][intent]["followup"][branch]["action"]

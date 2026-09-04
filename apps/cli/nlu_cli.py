@@ -27,7 +27,10 @@ def render(r, engine, text):
     if r.type == "FULFILL":
         params = f"  {r.parameters}" if r.parameters else ""
         print(f"  ✅ {r.intent}  →  action={r.action}{params}")
-        print(f"     [{via}]")
+        if getattr(r, "_confirm_polarity", None):
+            print(f"     [context: confirmed {r._confirm_polarity}]")
+        else:
+            print(f"     [{via}]")
         if r.message:
             print(f"  💬 {r.message}")
     elif r.type == "PROMPT":
@@ -36,7 +39,7 @@ def render(r, engine, text):
         if r.parameters:
             print(f"     (collected so far: {r.parameters})")
     elif r.type == "CONFIRM":
-        print(f"  ❓ {r.message}  [yes/no]")
+        print(f"  ❓ {r.message}  [yes/no]  (intent: {r.intent})")
     elif r.type == "FALLBACK":
         print(f"  🤖 GenAI fallback  (confidence {r.confidence:.2f})")
         if r.message:
@@ -60,7 +63,7 @@ def main():
         import traceback
         traceback.print_exc()
         print(f"Failed to load language pack from dist/bundle-en: {e}")
-        print("Run './build_language.sh en' first.")
+        print("Run './scripts/build_local_release.sh' first.")
         return
         
     while True:

@@ -480,12 +480,12 @@
         "context": "await_send_confirmation",
         "lifespan": 2,
         "no": {
-          "action": null,
+          "action": "message.cancel",
           "fulfillment": "Okay, I won't."
         },
         "prompt": "Just to be sure — send a message?",
         "yes": {
-          "action": "message.compose",
+          "action": "message.send",
           "fulfillment": "Ready to record your message."
         }
       },
@@ -580,7 +580,14 @@
     "do it",
     "go ahead",
     "please do",
-    "affirmative"
+    "affirmative",
+    "alright",
+    "that's right",
+    "that's fine",
+    "that's okay",
+    "i agree",
+    "i approve",
+    "approved"
   ],
   "negative": [
     "no",
@@ -594,7 +601,14 @@
     "no thanks",
     "do not",
     "never mind",
-    "nevermind"
+    "nevermind",
+    "forget",
+    "skip",
+    "leave it",
+    "leave message",
+    "changed my mind",
+    "not now",
+    "hold on"
   ],
   "lexicon": {
     "carriers": [

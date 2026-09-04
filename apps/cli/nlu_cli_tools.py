@@ -68,7 +68,7 @@ def main():
         import traceback
         traceback.print_exc()
         print(f"Failed to load language pack from dist/bundle-en: {e}")
-        print("Run './build_language.sh en' first.")
+        print("Run './scripts/build_local_release.sh' first.")
         return
         
     while True:

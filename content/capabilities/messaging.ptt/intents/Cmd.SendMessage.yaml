@@ -1,14 +1,21 @@
 action: message.compose
+# GATES THE PACK'S CONFIRMATION BLOCK. `content_bundle.compile_capabilities`
+# writes `workflows.confirmation` only `if cfg.get("confirm_prompt")`, and
+# VoiceAIKit builds its `FollowupDef` only when `workflow.confirmation` and its
+# response text both resolve. Remove this key and iOS loses the send
+# confirmation entirely — `Cmd.SendMessage` fires `message.compose` without
+# asking. It duplicates `followup.prompt` because the two feed different
+# consumers: this one the bundle, that one the reference engine.
 confirm_prompt: Just to be sure — send a message?
 followup:
   context: await_send_confirmation
   lifespan: 2
   'no':
-    action: null
+    action: message.cancel
     fulfillment: Okay, I won't.
   prompt: Just to be sure — send a message?
   'yes':
-    action: message.compose
+    action: message.send
     fulfillment: Ready to record your message.
 fulfillment: Ready to record your message.
 intent: Cmd.SendMessage

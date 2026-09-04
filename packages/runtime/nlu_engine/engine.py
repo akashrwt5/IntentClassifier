@@ -804,8 +804,23 @@ class NLUEngine:
     _NO_IDIOMS = ("no worries", "no problem", "no doubt", "no biggie",
                   "no probs", "no sweat", "not a problem")
 
+    # Typographic apostrophes, folded to ASCII before the polarity scan.
+    #
+    # The negative list carries `don't` with a STRAIGHT apostrophe, and dictation
+    # produces the curly one. `"Don't send"` matched `don't` and returned False;
+    # `"Don’t send"` matched nothing negative, matched `send` (which is in the
+    # affirmative list), and returned TRUE — the user declined and the message
+    # went. Three of the fifty authored decline phrases inverted this way.
+    #
+    # Folded here rather than in the lists so every list is written one way and
+    # every input is compared one way. U+02BC is the modifier letter apostrophe
+    # some keyboards emit.
+    _APOSTROPHES = ("\u2019", "\u02bc", "\u2018")
+
     def _yes_no(self, text: str):
         t = text.lower().strip()
+        for ch in self._APOSTROPHES:
+            t = t.replace(ch, "'")
         if any(p in t for p in self._UNCERTAIN):
             return None
         # Neutralise affirmative idioms containing "no" before polarity scan so
@@ -813,6 +828,16 @@ class NLUEngine:
         scan = t
         for idiom in self._NO_IDIOMS:
             scan = scan.replace(idiom, " ")
+
+        # ONE vocabulary, from the content. Confirmation phrasing is a LANGUAGE
+        # fact, not an intent fact: "go ahead" means yes to whatever was asked.
+        # A per-intent list was tried and reverted — it could not reach a device
+        # (`workflows.schema.json` fixes the intent's key set with
+        # `additionalProperties: false`), and it bought no safety, because this
+        # function is only ever reached with a confirmation context already
+        # active (`_handle_confirmation`, and `_is_cancel` mid-slot-flow). An
+        # utterance arriving with no context goes to the classifier instead and
+        # never consults these lists at all.
         neg = any(re.search(rf"\b{re.escape(p)}\b", scan) for p in self.negative)
         pos = any(re.search(rf"\b{re.escape(p)}\b", scan) for p in self.affirmative)
         if neg and not pos: return False

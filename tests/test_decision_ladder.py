@@ -156,16 +156,41 @@ def test_an_authored_followup_confirms_regardless_of_confidence(engine):
 
 
 def test_yes_completes_the_authored_flow_and_no_cancels_it(engine):
+    """Each branch fires the action ITS OWN content authors.
+
+    This used to assert that declining carried NO action at all. The content now
+    authors one — `message.cancel` — because a decline is a thing the client has
+    to act on: a recording is already open and something has to close it. So the
+    property worth guarding is not "no action" but "not the SEND action", which
+    is what actually protects a user who said no.
+    """
     engine.reset("send-yes")
     engine.handle("send-yes", "send a message")
     done = engine.handle("send-yes", "yes")
-    assert done.type == "FULFILL" and done.action
+    assert done.type == "FULFILL"
+    assert done.action == _authored("Cmd.SendMessage", "yes")
 
     engine.reset("send-no")
     engine.handle("send-no", "send a message")
     stopped = engine.handle("send-no", "no")
-    assert stopped.type == "FULFILL" and not stopped.action, (
-        "declining a send must not carry an action")
+    assert stopped.type == "FULFILL"
+    assert stopped.action == _authored("Cmd.SendMessage", "no")
+    assert stopped.action != _authored("Cmd.SendMessage", "yes"), (
+        "declining a send must never carry the send action")
+
+
+def _authored(intent: str, branch: str) -> str | None:
+    """The action the CONTENT authors for a confirmation branch.
+
+    Read rather than written down: these tests are about the engine honouring
+    what the content says, and a literal here would make them pass while the
+    engine fired something else entirely.
+    """
+    import json
+    from pathlib import Path
+    schema = json.loads((Path(__file__).resolve().parents[1] / "language_packs"
+                         / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
+    return schema["intents"][intent]["followup"][branch]["action"]
 
 
 def test_a_different_command_escapes_the_confirmation(engine):

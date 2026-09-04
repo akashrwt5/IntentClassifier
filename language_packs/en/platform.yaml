@@ -34,6 +34,22 @@ affirmative:
 - go ahead
 - please do
 - affirmative
+# Added from the authored Cmd.SendMessage confirmation phrases. Only these
+# seven were missing: the other 43 already resolved through the entries above
+# (`yes`, `sure`, `okay`, `do it`, `go ahead`, `send`, `send it`), measured
+# against all 50 authored "yes" utterances.
+#
+# LANGUAGE-level on purpose, not per-intent. "that's fine" means yes to whatever
+# was asked, and both engines consult this list only with a confirmation context
+# already active — Python `_handle_confirmation`, Swift `handleConfirmation` —
+# so an utterance arriving with no context never reaches it.
+- alright
+- that's right
+- that's fine
+- that's okay
+- i agree
+- i approve
+- approved
 agreement_threshold: 0.5
 confidence_threshold: 0.7
 help_marker_guard:
@@ -264,6 +280,26 @@ negative:
 - do not
 - never mind
 - nevermind
+# Added from the authored Cmd.SendMessage decline phrases. Without these,
+# "forget send" and "skip send" resolved to YES — `send` is in the affirmative
+# list above and nothing negative matched, so a decline sent the message.
+#
+# `forget it` was already a cancel cue but NOT a negative, so it cancelled a
+# slot flow and did nothing in a confirmation. `forget` covers both.
+#
+# NOTE, deliberately visible: `negative` is also read by `_is_cancel` during
+# slot filling, where a refusal of <= 2 tokens abandons the flow. So `skip`,
+# `leave it`, `leave message`, `not now` and `hold on` now also cancel an
+# in-progress reminder. That is the intended reading for four of them; `leave
+# message` is the odd one and is here because the authored list treats it as a
+# decline of a send.
+- forget
+- skip
+- leave it
+- leave message
+- changed my mind
+- not now
+- hold on
 oov_bypass_confidence: 0.97
 oov_reject_ratio: 0.25
 polarity_guards: []
