@@ -1,11 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://spec.intent-platform.local/bundle/3.0/workflows.schema.json",
-  "title": "capabilities/{id}/workflows.json — compiled intent micro-flows (ADR-005 Parts 2/4)",
+  "title": "capabilities/{id}/workflows.json \u2014 compiled intent micro-flows (ADR-005 Parts 2/4)",
   "description": "Facts, not behavior: slot lists, prompt references, validation instances bound to the closed predicate vocabulary, confirmation/completion wiring. Behavior kinds live in versioned runtimes (ADR-001.1 fact/behavior split).",
   "type": "object",
   "additionalProperties": false,
-  "required": ["intents"],
+  "required": [
+    "intents"
+  ],
   "properties": {
     "intents": {
       "type": "object",
@@ -15,39 +17,77 @@
         "^[A-Za-z0-9_. -]+$": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["completion"],
+          "required": [
+            "completion"
+          ],
           "properties": {
-            "status": { "type": "string", "enum": ["draft", "active", "deprecated"], "default": "active" },
-            "superseded_by": { "$ref": "defs.schema.json#/$defs/intentId" },
+            "status": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "active",
+                "deprecated"
+              ],
+              "default": "active"
+            },
+            "superseded_by": {
+              "$ref": "defs.schema.json#/$defs/intentId"
+            },
             "slots": {
               "type": "array",
               "items": {
                 "type": "object",
                 "additionalProperties": false,
-                "required": ["name", "entity", "prompt"],
+                "required": [
+                  "name",
+                  "entity",
+                  "prompt"
+                ],
                 "properties": {
-                  "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+                  "name": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$"
+                  },
                   "entity": {
                     "description": "Capability-scoped or shared entity id (resolved by compiler stage 3).",
                     "$ref": "defs.schema.json#/$defs/stableId"
                   },
-                  "required": { "type": "boolean", "default": true },
-                  "prompt": { "$ref": "defs.schema.json#/$defs/responseKey" },
-                  "reprompt": { "$ref": "defs.schema.json#/$defs/responseKey" },
+                  "required": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "prompt": {
+                    "$ref": "defs.schema.json#/$defs/responseKey"
+                  },
+                  "reprompt": {
+                    "$ref": "defs.schema.json#/$defs/responseKey"
+                  },
                   "validation": {
                     "description": "Instances of the closed predicate set; parameters type-checked at compile time (stage 1/2).",
                     "type": "array",
                     "items": {
                       "type": "object",
                       "additionalProperties": false,
-                      "required": ["predicate"],
+                      "required": [
+                        "predicate"
+                      ],
                       "properties": {
                         "predicate": {
                           "type": "string",
-                          "enum": ["in_range", "one_of", "matches", "not_past", "max_length"]
+                          "enum": [
+                            "in_range",
+                            "one_of",
+                            "matches",
+                            "not_past",
+                            "max_length"
+                          ]
                         },
-                        "params": { "type": "object" },
-                        "failure_prompt": { "$ref": "defs.schema.json#/$defs/responseKey" }
+                        "params": {
+                          "type": "object"
+                        },
+                        "failure_prompt": {
+                          "$ref": "defs.schema.json#/$defs/responseKey"
+                        }
                       }
                     }
                   }
@@ -57,42 +97,127 @@
             "confirmation": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["required", "prompt"],
+              "required": [
+                "required",
+                "prompt"
+              ],
               "properties": {
-                "required": { "type": "boolean" },
-                "prompt": { "$ref": "defs.schema.json#/$defs/responseKey" },
-                "high_cost": { "type": "boolean", "default": false }
+                "required": {
+                  "type": "boolean"
+                },
+                "prompt": {
+                  "$ref": "defs.schema.json#/$defs/responseKey"
+                },
+                "high_cost": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "yes": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "action",
+                    "response"
+                  ],
+                  "properties": {
+                    "action": {
+                      "description": "Action key from this capability's capability.json, same rule as `completion.action` (ADR-002 A9). The two are NOT interchangeable: `completion.action` is what the intent does when it needs no permission, these are what each answer to the question does.",
+                      "$ref": "defs.schema.json#/$defs/stableId"
+                    },
+                    "response": {
+                      "$ref": "defs.schema.json#/$defs/responseKey"
+                    },
+                    "label": {
+                      "description": "OPTIONAL, compat only. The single name a host's intent table uses for this outcome \u2014 the Dialogflow-era `Cmd.SendMessage - yes`. Not a model class and not an intent id: polarity is decided after classification, so the head's label space cannot contain it. A client reports this instead of the intent id when present, and the intent id unchanged when absent. Drop the key when the host consumes plain intent ids; nothing else depends on it.",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "no": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "action",
+                    "response"
+                  ],
+                  "properties": {
+                    "action": {
+                      "description": "Action key from this capability's capability.json, same rule as `completion.action` (ADR-002 A9). The two are NOT interchangeable: `completion.action` is what the intent does when it needs no permission, these are what each answer to the question does.",
+                      "$ref": "defs.schema.json#/$defs/stableId"
+                    },
+                    "response": {
+                      "$ref": "defs.schema.json#/$defs/responseKey"
+                    },
+                    "label": {
+                      "description": "OPTIONAL, compat only. The single name a host's intent table uses for this outcome \u2014 the Dialogflow-era `Cmd.SendMessage - yes`. Not a model class and not an intent id: polarity is decided after classification, so the head's label space cannot contain it. A client reports this instead of the intent id when present, and the intent id unchanged when absent. Drop the key when the host consumes plain intent ids; nothing else depends on it.",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "description": "How this intent asks permission, and what each answer does. `yes`/`no` are OPTIONAL IN THIS SCHEMA ONLY so that packs signed before the branches existed still verify; they are not optional in practice. A pack that asks a question without stating both answers forces every client to invent them, and clients invent different things \u2014 VoiceAIKit took `completion.action` for yes and an empty action for no, which silently disagreed with the reference engine the moment content authored a decline with its own action. A runtime is entitled to REFUSE such a pack, and VoiceAIKit does. Emit both branches for anything built from here on; the golden example in spec/examples/3.0/full shows the complete shape.",
+              "dependentRequired": {
+                "yes": [
+                  "no"
+                ],
+                "no": [
+                  "yes"
+                ]
               }
             },
             "completion": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["action", "response"],
+              "required": [
+                "action",
+                "response"
+              ],
               "properties": {
                 "action": {
-                  "description": "Action key from this capability's capability.json (cross-capability references are a compile error — ADR-002 A9).",
+                  "description": "Action key from this capability's capability.json (cross-capability references are a compile error \u2014 ADR-002 A9).",
                   "$ref": "defs.schema.json#/$defs/stableId"
                 },
-                "response": { "$ref": "defs.schema.json#/$defs/responseKey" }
+                "response": {
+                  "$ref": "defs.schema.json#/$defs/responseKey"
+                }
               }
             },
             "followup": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["prompt", "on_yes"],
+              "required": [
+                "prompt",
+                "on_yes"
+              ],
               "properties": {
-                "prompt": { "$ref": "defs.schema.json#/$defs/responseKey" },
-                "on_yes": { "$ref": "defs.schema.json#/$defs/intentId" },
-                "on_no": { "$ref": "defs.schema.json#/$defs/responseKey" },
-                "timeout_prompt": { "$ref": "defs.schema.json#/$defs/responseKey" }
+                "prompt": {
+                  "$ref": "defs.schema.json#/$defs/responseKey"
+                },
+                "on_yes": {
+                  "$ref": "defs.schema.json#/$defs/intentId"
+                },
+                "on_no": {
+                  "$ref": "defs.schema.json#/$defs/responseKey"
+                },
+                "timeout_prompt": {
+                  "$ref": "defs.schema.json#/$defs/responseKey"
+                }
               }
             },
             "back_reference": {
               "description": "Referent-table hook for corrections ('no, the other one').",
               "type": "object",
               "additionalProperties": false,
-              "required": ["slot"],
-              "properties": { "slot": { "type": "string" } }
+              "required": [
+                "slot"
+              ],
+              "properties": {
+                "slot": {
+                  "type": "string"
+                }
+              }
             }
           }
         }

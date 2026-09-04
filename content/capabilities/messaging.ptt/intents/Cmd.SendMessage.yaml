@@ -6,17 +6,28 @@ action: message.compose
 # confirmation entirely — `Cmd.SendMessage` fires `message.compose` without
 # asking. It duplicates `followup.prompt` because the two feed different
 # consumers: this one the bundle, that one the reference engine.
-confirm_prompt: Just to be sure — send a message?
+confirm_prompt: What is your message?
 followup:
   context: await_send_confirmation
   lifespan: 2
+  prompt: What is your message?
+  # Each branch declares everything its outcome needs: what to DO, what to SAY,
+  # and what the host CALLS it. All three now compile into
+  # `workflows.confirmation`, so the device reads the same three facts the
+  # reference engine does instead of inferring them from `completion`.
+  #
+  # `label` is compat only — the Dialogflow-era compound name. It is not a model
+  # class and cannot become one: polarity is decided after classification, so
+  # the head's 57 labels do not contain it. Delete these two keys when the app
+  # consumes plain intent ids; the schema marks them optional for that day.
+  'yes':
+    action: message.send
+    fulfillment: Message sent!!
+    label: Cmd.SendMessage - yes
   'no':
     action: message.cancel
     fulfillment: Okay, I won't.
-  prompt: Just to be sure — send a message?
-  'yes':
-    action: message.send
-    fulfillment: Ready to record your message.
+    label: Cmd.SendMessage - no
 fulfillment: Ready to record your message.
 intent: Cmd.SendMessage
 slots: []

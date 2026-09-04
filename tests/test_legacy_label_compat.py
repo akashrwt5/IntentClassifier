@@ -60,33 +60,45 @@ def test_apply_rewrites_all_label_fields():
     assert r.tfidf_intent == "reminders.add"
 
 
-def test_send_confirmation_yes_becomes_compound():
-    r = NLUResult(type="FULFILL", intent="Cmd.SendMessage",
-                  action="message.compose", complete=True)
-    r._confirm_polarity = "yes"
+def test_the_compound_labels_are_no_longer_this_shims_business():
+    """The three tests that stood here moved to the layer that now owns them.
+
+    `apply` used to synthesise `Cmd.SendMessage - yes` from two attributes the
+    engine tagged onto the result. The compound name is still reported — nothing
+    about the app contract changed — but it is now authored on the confirmation
+    branch in content, alongside that branch's action and text, and
+    `_handle_confirmation` reads it straight off the branch. That is asserted in
+    `test_confirmation_branches.py`, against the engine, not against this shim.
+
+    What is asserted HERE is that the shim stopped doing it: a result carrying
+    the old tags must come out untouched, so no second code path can quietly
+    start renaming intents again.
+    """
+    r = NLUResult(type="FULFILL", intent="Cmd.SendMessage", action="message.send", complete=True)
+    r._confirm_polarity = "yes"  # the tags a stale caller might still set
     r._confirmed_intent = "Cmd.SendMessage"
+
     label_compat.apply(r)
-    assert r.intent == "Cmd.SendMessage - yes"
+
+    assert r.intent == "Cmd.SendMessage", (
+        "the shim rewrote a confirmation outcome — that job belongs to the "
+        "content's `label`, and two places doing it is what was removed"
+    )
 
 
-def test_send_confirmation_no_becomes_compound():
-    # Engine surfaces sys.confirm.cancelled, but the tags still carry which
-    # intent was being confirmed, so the app gets the exact legacy "- no".
-    r = NLUResult(type="FULFILL", intent="sys.confirm.cancelled", complete=True)
-    r._confirm_polarity = "no"
-    r._confirmed_intent = "Cmd.SendMessage"
-    label_compat.apply(r)
-    assert r.intent == "Cmd.SendMessage - no"
+def test_the_source_no_longer_carries_confirm_compound():
+    """The other half: the data moved too, not just the code that read it."""
+    import json
+    from pathlib import Path as _P
 
-
-def test_internal_tags_do_not_leak_into_payload():
-    r = NLUResult(type="FULFILL", intent="Cmd.SendMessage", complete=True)
-    r._confirm_polarity = "yes"
-    r._confirmed_intent = "Cmd.SendMessage"
-    payload = label_compat.apply(r).to_dict()
-    assert payload["intent"] == "Cmd.SendMessage - yes"
-    assert "_confirm_polarity" not in payload
-    assert "_confirmed_intent" not in payload
+    src = json.loads(
+        (_P(label_compat.__file__).with_name("legacy_label_map.json")).read_text(encoding="utf-8")
+    )
+    assert "confirm_compound" not in src, (
+        "confirm_compound is back in legacy_label_map.json — the labels are "
+        "authored in content now, and two sources drift"
+    )
+    assert src.get("map"), "the map the completeness gate checks is gone"
 
 
 def test_every_trained_intent_has_a_legacy_mapping():

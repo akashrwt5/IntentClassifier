@@ -91,9 +91,18 @@ def test_the_authored_send_confirmation_asks_then_fires(engine):
     engine.reset("send1")
     r1 = engine.handle("send1", "send a message")
     assert r1.type == "CONFIRM" and r1.intent == "Cmd.SendMessage"
-    assert "send" in (r1.message or "").lower()
+    # The question is whatever the content authors, read rather than guessed at.
+    # This asserted that the prompt contains "send", which was true only while the
+    # wording happened to be "Just to be sure — send a message?" — a literal about
+    # copy, dressed up as a behavioural claim. Rewording it to "What is your
+    # message?" broke a test that has nothing to do with wording.
+    assert r1.message == _prompt("Cmd.SendMessage")
     r2 = engine.handle("send1", "yes please")
-    assert r2.type == "FULFILL" and r2.intent == "Cmd.SendMessage"
+    assert r2.type == "FULFILL"
+    # A resolved confirmation reports the branch's own `label` when content
+    # authors one, and the intent id when it does not — so read the expectation
+    # from the branch rather than assuming either shape.
+    assert r2.intent == _reported("Cmd.SendMessage", "yes")
     assert r2.action == _authored("Cmd.SendMessage", "yes")
 
 
@@ -133,6 +142,16 @@ def test_confident_commands_fire_without_friction(engine):
         assert r.type == "FULFILL" and r.intent == intent, (text, r.type, r.intent)
 
 
+def _prompt(intent: str) -> str:
+    """The confirmation question the content authors."""
+    return _followup(intent)["prompt"]
+
+
+def _reported(intent: str, branch: str) -> str:
+    """The intent a resolved confirmation reports: the branch's `label`, else the id."""
+    return _branch(intent, branch).get("label") or intent
+
+
 def _authored(intent: str, branch: str) -> str | None:
     """The action the CONTENT authors for a confirmation branch.
 
@@ -140,8 +159,17 @@ def _authored(intent: str, branch: str) -> str | None:
     what the content says, and a literal here would make them pass while the
     engine fired something else entirely.
     """
+    return _branch(intent, branch)["action"]
+
+
+def _branch(intent: str, branch: str) -> dict:
+    """One confirmation branch, straight from the content."""
+    return _followup(intent)[branch]
+
+
+def _followup(intent: str) -> dict:
     import json
     from pathlib import Path
     schema = json.loads((Path(__file__).resolve().parents[1] / "language_packs"
                          / "en" / "nlu_schema.json").read_text(encoding="utf-8"))
-    return schema["intents"][intent]["followup"][branch]["action"]
+    return schema["intents"][intent]["followup"]

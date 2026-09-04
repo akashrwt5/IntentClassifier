@@ -54,11 +54,6 @@ def _load_map() -> dict[str, str]:
     return dict(_load().get("map", {}))
 
 
-def _load_compound() -> dict[str, dict[str, str]]:
-    """confirmed-intent -> {"yes"|"no" -> legacy dialogue-act label}."""
-    return dict(_load().get("confirm_compound", {}))
-
-
 def to_app_label(label: Optional[str]) -> Optional[str]:
     """Translate one modern label to the legacy app label.
 
@@ -74,32 +69,27 @@ def to_app_label(label: Optional[str]) -> Optional[str]:
 def apply(result):
     """Rewrite the label-bearing fields on an NLUResult in place, return it.
 
-    Two passes:
-      1. Simple rename: modern label -> legacy label on every label field.
-      2. Confirmation compound: if this turn resolved a yes/no confirmation
-         (engine tagged ``_confirm_polarity`` + ``_confirmed_intent``) and that
-         intent has a compound legacy label, override ``intent`` with it — e.g.
-         a "yes" to a send confirmation becomes ``Cmd.SendMessage - yes`` and a
-         "no" becomes ``Cmd.SendMessage - no`` (even though the engine surfaced
-         ``sys.confirm.cancelled``). This reproduces the exact Dialogflow
-         dialogue-act contract the app still consumes.
+    ONE pass: the simple rename, modern label -> legacy app label, on every
+    label field. Passthrough for anything not in the map.
+
+    It used to have a second pass. A resolved confirmation was tagged by the
+    engine with ``_confirm_polarity`` + ``_confirmed_intent``, and this function
+    looked the pair up in ``confirm_compound`` to override ``intent`` with
+    ``Cmd.SendMessage - yes``. That is gone, and not because the behaviour
+    changed — the compound name is still reported. It moved to where it belongs:
+    the content authors it on the confirmation branch, beside that branch's
+    action and text, and ``_handle_confirmation`` reads it there. One turn, one
+    place, and the device gets the same string from the same source instead of
+    from a separate artifact that had to be shipped and kept in step.
 
     Safe to call unconditionally: a missing/disabled map makes this a no-op.
     """
     m = _load_map()
-    compound = _load_compound()
-    if not m and not compound:
+    if not m:
         return result
 
     for name in _LABEL_FIELDS:
         val = getattr(result, name, None)
         if val is not None:
             setattr(result, name, m.get(val, val))
-
-    polarity = getattr(result, "_confirm_polarity", None)
-    confirmed = getattr(result, "_confirmed_intent", None)
-    if polarity and confirmed and confirmed in compound:
-        legacy = compound[confirmed].get(polarity)
-        if legacy is not None:
-            result.intent = legacy
     return result

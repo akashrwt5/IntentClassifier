@@ -25,7 +25,15 @@
       "confirmation": {
         "required": true,
         "prompt": "reminder.confirm",
-        "high_cost": true
+        "high_cost": true,
+        "yes": {
+          "action": "assistant.reminder.create",
+          "response": "reminder.created"
+        },
+        "no": {
+          "action": "assistant.reminder.cancel",
+          "response": "reminder.cancelled"
+        }
       },
       "completion": {
         "action": "assistant.reminder.create",

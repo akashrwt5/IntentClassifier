@@ -39,12 +39,12 @@ FILE_SCHEMA_MAP = [
     (r"^runtime/routing\.json$", "routing.schema.json"),
     (r"^runtime/guards\.json$", "guards.schema.json"),
     (r"^runtime/plan_facts\.json$", "plan_facts.schema.json"),
+    # Two superseded artifacts, both retained ONLY so `nlu_compiler.verify` still
+    # passes on packs signed before the confirmation branches moved into
+    # `workflows.confirmation`. Nothing emits either file: an unmapped file is a
+    # stage-1 error, so deleting these entries would make every already-published
+    # pack stop verifying. Do not add to them.
     (r"^runtime/confirmation_labels\.json$", "confirmation_labels.schema.json"),
-    # Retained for packs published before the split. Nothing emits
-    # `runtime/legacy_labels.json` any more, but `nlu_compiler.verify` is run
-    # against already-signed artifacts too, and an unmapped file is a stage-1
-    # error — dropping this entry would make every published pack stop
-    # verifying, which is a worse outcome than one dead regex.
     (r"^runtime/legacy_labels\.json$", "legacy_labels.schema.json"),
     (r"^capabilities/[^/]+/capability\.json$", "capability.schema.json"),
     (r"^capabilities/[^/]+/workflows\.json$", "workflows.schema.json"),
@@ -173,6 +173,23 @@ def stage_3_references(bundle: Path) -> list[Diagnostic]:
             if action not in action_keys:
                 diags.append(Diagnostic(3, "DANGLING_ACTION", loc,
                                         f"{intent_id}: completion action '{action}' not in capability.json"))
+            # The confirmation branches are actions the same way `completion` is,
+            # and were unchecked while they did not exist in the bundle at all.
+            # An undeclared one reaches a device as a key no capability owns, so
+            # the client dispatches on a string nothing answers to — a silently
+            # dead yes or no, which is the worst shape this bug can take.
+            for polarity in ("yes", "no"):
+                branch = (intent.get("confirmation") or {}).get(polarity)
+                if branch and branch["action"] not in action_keys:
+                    diags.append(
+                        Diagnostic(
+                            3,
+                            "DANGLING_ACTION",
+                            loc,
+                            f"{intent_id}: confirmation.{polarity} action "
+                            f"'{branch['action']}' not in capability.json",
+                        )
+                    )
             for slot in intent.get("slots", []):
                 ent = slot["entity"]
                 if ent in shared_entities:

@@ -789,11 +789,25 @@ class NLUEngine:
         session.clear_context(fu["context"])
         session.confirm_attempts = 0
         branch = fu["yes"] if polarity else fu["no"]
-        result = NLUResult(type="FULFILL", intent=intent_name,
-                           action=branch["action"], message=branch.get("fulfillment", ""),
-                           confidence=1.0, complete=True)
-        result._confirm_polarity = "yes" if polarity else "no"
-        result._confirmed_intent = intent_name
+        # `label` is the host's single name for this outcome — the Dialogflow-era
+        # `Cmd.SendMessage - yes`. It comes from the branch the content authored,
+        # beside the action and the text, because all three describe the SAME
+        # fact: what happens when the question is answered this way.
+        #
+        # It used to live in `legacy_label_map.json`'s `confirm_compound`, applied
+        # afterwards by `label_compat` from two tags this method set. That put one
+        # turn in two files: whoever changed the yes branch had to remember the
+        # other one, and the device never got the label at all unless a THIRD
+        # artifact shipped it. Absent label means report the intent id, which is
+        # what a host that has moved off the compound names wants.
+        result = NLUResult(
+            type="FULFILL",
+            intent=branch.get("label") or intent_name,
+            action=branch["action"],
+            message=branch.get("fulfillment", ""),
+            confidence=1.0,
+            complete=True,
+        )
         return result
 
     _UNCERTAIN = ("not sure", "maybe", "dunno", "don't know", "dont know",

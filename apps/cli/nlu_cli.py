@@ -27,10 +27,7 @@ def render(r, engine, text):
     if r.type == "FULFILL":
         params = f"  {r.parameters}" if r.parameters else ""
         print(f"  ✅ {r.intent}  →  action={r.action}{params}")
-        if getattr(r, "_confirm_polarity", None):
-            print(f"     [context: confirmed {r._confirm_polarity}]")
-        else:
-            print(f"     [{via}]")
+        print(f"     [{via}]")
         if r.message:
             print(f"  💬 {r.message}")
     elif r.type == "PROMPT":

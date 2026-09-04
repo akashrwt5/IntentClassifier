@@ -475,18 +475,20 @@
     },
     "Cmd.SendMessage": {
       "action": "message.compose",
-      "confirm_prompt": "Just to be sure — send a message?",
+      "confirm_prompt": "What is your message?",
       "followup": {
         "context": "await_send_confirmation",
         "lifespan": 2,
-        "no": {
-          "action": "message.cancel",
-          "fulfillment": "Okay, I won't."
-        },
-        "prompt": "Just to be sure — send a message?",
+        "prompt": "What is your message?",
         "yes": {
           "action": "message.send",
-          "fulfillment": "Ready to record your message."
+          "fulfillment": "Message sent!!",
+          "label": "Cmd.SendMessage - yes"
+        },
+        "no": {
+          "action": "message.cancel",
+          "fulfillment": "Okay, I won't.",
+          "label": "Cmd.SendMessage - no"
         }
       },
       "fulfillment": "Ready to record your message.",

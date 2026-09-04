@@ -262,6 +262,49 @@ def compile_capabilities(lang: str, out: Path) -> tuple[dict, dict, dict]:
                 wf["confirmation"] = {"required": bool(cfg.get("followup")),
                                       "prompt": ckey}
 
+                # THE BRANCHES. Until these compiled, the bundle said an intent
+                # asks but never what either answer DOES, so a device had to
+                # infer it — VoiceAIKit used `completion.action` for yes and an
+                # empty string for no. That guess was wrong the moment content
+                # authored a decline with its own action: the reference engine
+                # fired `message.cancel` and the device fired nothing, same
+                # utterance, same pack.
+                #
+                # `label` rides along because it belongs to the same fact. A
+                # resolved confirmation carries two things — which intent, and
+                # how — and the host names that pair with one string. It has no
+                # other home: not the classifier (polarity is decided after
+                # classification), not a client (neither runtime may compose an
+                # intent label). It replaces `runtime/legacy_labels.json` and
+                # the `runtime/confirmation_labels.json` that briefly succeeded
+                # it, both of which stated half a turn in a second file.
+                for polarity in ("yes", "no"):
+                    fu_branch = (cfg.get("followup") or {}).get(polarity)
+                    if not fu_branch:
+                        continue
+                    b_action = fu_branch.get("action")
+                    if not b_action:
+                        raise SystemExit(
+                            f"{intent}: followup.{polarity} has no `action`. A branch that "
+                            f"cannot say what it does leaves the client to guess, which is "
+                            f"the defect this block exists to close."
+                        )
+                    # Register it like any other action: the validator refuses a
+                    # workflow action that capability.json does not declare, and
+                    # these are actions the same way `completion.action` is.
+                    if b_action not in actions:
+                        actions[b_action] = {
+                            "key": b_action,
+                            "params": [],
+                            "descriptor": f"{intent} — confirmation answered {polarity}",
+                        }
+                    rkey = _response_key(intent, f"confirm_{polarity}")
+                    responses[rkey] = (fu_branch.get("fulfillment") or "").strip() or "Done."
+                    branch_out = {"action": b_action, "response": rkey}
+                    if fu_branch.get("label"):
+                        branch_out["label"] = fu_branch["label"]
+                    wf["confirmation"][polarity] = branch_out
+
             workflows[intent] = wf
             intent_capability[intent] = cap_id
 
@@ -626,48 +669,6 @@ def compile_plan_facts(intent_capability: dict, out: Path) -> None:
         "intents": {i: {"capability": c}
                     for i, c in sorted(intent_capability.items())},
         "admission_caps": {"max_concurrent_flows": 1},
-    })
-
-
-def compile_confirmation_labels(out: Path) -> None:
-    """Ship the host's names for a RESOLVED confirmation, and nothing else.
-
-    A confirmation turn carries two facts — which intent was confirmed and how
-    it resolved — and this host names that pair with one string, the
-    Dialogflow-era ``Cmd.SendMessage - yes``. The classifier cannot emit those:
-    polarity is decided after classification, so they are not in its label
-    space and never will be. Nor can a client compose them, because neither
-    runtime is allowed to interpret or build an intent label. Content is
-    therefore the only place they can be declared, and this is that place.
-
-    PROJECTED, not copied. The source
-    (``packages/runtime/nlu_engine/legacy_label_map.json``) is also a legacy
-    ``map`` of modern -> app label, and the reference engine reads it whole, so
-    the two sides cannot drift on the strings that matter. But that ``map`` is
-    IDENTITY for all 57 intents and the completeness gate that justifies
-    keeping it complete — ``test_every_trained_intent_has_a_legacy_mapping`` —
-    reads the SOURCE, not the pack. Shipping it put 57 no-op lookups on every
-    device to satisfy a build-time check that never looked at them. So only
-    ``confirm_compound`` crosses into the bundle.
-
-    Optional in both directions: no source, or a source with no
-    ``confirm_compound``, writes no file, and a client that finds none reports
-    the plain intent — the host can still tell the branches apart by the
-    completion action. Validated against
-    spec/bundle/3.0/confirmation_labels.schema.json (stage 1).
-    """
-    src = REPO / "packages" / "runtime" / "nlu_engine" / "legacy_label_map.json"
-    if not src.exists():
-        return
-    compound = json.loads(src.read_text(encoding="utf-8")).get("confirm_compound") or {}
-    if not compound:
-        return
-    _write(out / "runtime" / "confirmation_labels.json", {
-        "$comment": ("Host-facing labels for a resolved confirmation. Not model "
-                     "classes — the classifier's label space does not contain "
-                     "them, because polarity is decided after classification."),
-        "generated_from": "packages/runtime/nlu_engine/legacy_label_map.json",
-        "confirm_compound": compound,
     })
 
 
@@ -1046,7 +1047,6 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
     compile_confirm_responses(lang, schema, out)
     compile_policies(schema, out)
     compile_plan_facts(intent_capability, out)
-    compile_confirmation_labels(out)
     (n_labels, copied, intent_coreml,
      semhead_artifact, semhead_coreml) = compile_models(lang, model_dir, out, schema)
     compile_cascade(schema, n_labels, out)
