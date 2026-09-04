@@ -39,6 +39,12 @@ FILE_SCHEMA_MAP = [
     (r"^runtime/routing\.json$", "routing.schema.json"),
     (r"^runtime/guards\.json$", "guards.schema.json"),
     (r"^runtime/plan_facts\.json$", "plan_facts.schema.json"),
+    (r"^runtime/confirmation_labels\.json$", "confirmation_labels.schema.json"),
+    # Retained for packs published before the split. Nothing emits
+    # `runtime/legacy_labels.json` any more, but `nlu_compiler.verify` is run
+    # against already-signed artifacts too, and an unmapped file is a stage-1
+    # error — dropping this entry would make every published pack stop
+    # verifying, which is a worse outcome than one dead regex.
     (r"^runtime/legacy_labels\.json$", "legacy_labels.schema.json"),
     (r"^capabilities/[^/]+/capability\.json$", "capability.schema.json"),
     (r"^capabilities/[^/]+/workflows\.json$", "workflows.schema.json"),

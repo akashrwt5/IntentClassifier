@@ -1,19 +1,29 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://spec.intent-platform.local/bundle/3.0/legacy_labels.schema.json",
-  "title": "runtime/legacy_labels.json — app-compatibility label map (modern -> legacy Dialogflow contract)",
-  "description": "Optional. Present only when an app build still consumes the legacy Dialogflow label space. Each native client (iOS/Android) reads this and translates the engine's modern domain.object.action label to the legacy label at its own output boundary; nothing about classification or the model changes. 'confirm_compound' reconstructs dialogue-act labels (e.g. Cmd.SendMessage - yes/no) from a resolved confirmation outcome — those are not model labels.",
+  "title": "runtime/legacy_labels.json \u2014 app-compatibility label map (modern -> legacy Dialogflow contract)",
+  "$comment": "SUPERSEDED by confirmation_labels.schema.json. No build emits runtime/legacy_labels.json any more: its `map` was identity for every intent and travelled to devices for nothing, and its `confirm_compound` now ships as runtime/confirmation_labels.json. This schema stays because `nlu_compiler.verify` also runs against packs that were signed before the split, where an unmapped file is a stage-1 error. Do not add to it.",
+  "description": "Optional. Present only when an app build still consumes the legacy Dialogflow label space. Each native client (iOS/Android) reads this and translates the engine's modern domain.object.action label to the legacy label at its own output boundary; nothing about classification or the model changes. 'confirm_compound' reconstructs dialogue-act labels (e.g. Cmd.SendMessage - yes/no) from a resolved confirmation outcome \u2014 those are not model labels.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["map"],
+  "required": [
+    "map"
+  ],
   "properties": {
-    "$comment": { "type": "string" },
-    "generated_from": { "type": "string" },
+    "$comment": {
+      "type": "string"
+    },
+    "generated_from": {
+      "type": "string"
+    },
     "map": {
       "description": "modern label -> legacy app label. Passthrough is expected for any label absent here.",
       "type": "object",
       "minProperties": 1,
-      "additionalProperties": { "type": "string", "minLength": 1 }
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "confirm_compound": {
       "description": "intent-under-confirmation -> legacy dialogue-act labels for its yes/no outcome.",
@@ -21,10 +31,19 @@
       "additionalProperties": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["yes", "no"],
+        "required": [
+          "yes",
+          "no"
+        ],
         "properties": {
-          "yes": { "type": "string", "minLength": 1 },
-          "no": { "type": "string", "minLength": 1 }
+          "yes": {
+            "type": "string",
+            "minLength": 1
+          },
+          "no": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     }

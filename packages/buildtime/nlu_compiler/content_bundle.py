@@ -629,18 +629,46 @@ def compile_plan_facts(intent_capability: dict, out: Path) -> None:
     })
 
 
-def compile_legacy_labels(out: Path) -> None:
-    """Ship the app-compatibility label map (modern -> legacy Dialogflow) so
-    native clients (iOS/Android) can translate at their OWN output boundary —
-    one JSON contract instead of a per-platform adapter. Copied verbatim from
-    the canonical source, which the reference Python engine
-    (nlu_engine/label_compat.py) reads too, so both sides never drift. Optional
-    artifact: if absent, clients simply get modern labels. Validated against
-    spec/bundle/3.0/legacy_labels.schema.json (stage 1)."""
+def compile_confirmation_labels(out: Path) -> None:
+    """Ship the host's names for a RESOLVED confirmation, and nothing else.
+
+    A confirmation turn carries two facts — which intent was confirmed and how
+    it resolved — and this host names that pair with one string, the
+    Dialogflow-era ``Cmd.SendMessage - yes``. The classifier cannot emit those:
+    polarity is decided after classification, so they are not in its label
+    space and never will be. Nor can a client compose them, because neither
+    runtime is allowed to interpret or build an intent label. Content is
+    therefore the only place they can be declared, and this is that place.
+
+    PROJECTED, not copied. The source
+    (``packages/runtime/nlu_engine/legacy_label_map.json``) is also a legacy
+    ``map`` of modern -> app label, and the reference engine reads it whole, so
+    the two sides cannot drift on the strings that matter. But that ``map`` is
+    IDENTITY for all 57 intents and the completeness gate that justifies
+    keeping it complete — ``test_every_trained_intent_has_a_legacy_mapping`` —
+    reads the SOURCE, not the pack. Shipping it put 57 no-op lookups on every
+    device to satisfy a build-time check that never looked at them. So only
+    ``confirm_compound`` crosses into the bundle.
+
+    Optional in both directions: no source, or a source with no
+    ``confirm_compound``, writes no file, and a client that finds none reports
+    the plain intent — the host can still tell the branches apart by the
+    completion action. Validated against
+    spec/bundle/3.0/confirmation_labels.schema.json (stage 1).
+    """
     src = REPO / "packages" / "runtime" / "nlu_engine" / "legacy_label_map.json"
-    if src.exists():
-        _write(out / "runtime" / "legacy_labels.json",
-               json.loads(src.read_text(encoding="utf-8")))
+    if not src.exists():
+        return
+    compound = json.loads(src.read_text(encoding="utf-8")).get("confirm_compound") or {}
+    if not compound:
+        return
+    _write(out / "runtime" / "confirmation_labels.json", {
+        "$comment": ("Host-facing labels for a resolved confirmation. Not model "
+                     "classes — the classifier's label space does not contain "
+                     "them, because polarity is decided after classification."),
+        "generated_from": "packages/runtime/nlu_engine/legacy_label_map.json",
+        "confirm_compound": compound,
+    })
 
 
 def compile_cascade(schema: dict, n_labels: int, out: Path) -> None:
@@ -1018,7 +1046,7 @@ def compile_bundle(lang: str, out: Path, model_dir: Path,
     compile_confirm_responses(lang, schema, out)
     compile_policies(schema, out)
     compile_plan_facts(intent_capability, out)
-    compile_legacy_labels(out)
+    compile_confirmation_labels(out)
     (n_labels, copied, intent_coreml,
      semhead_artifact, semhead_coreml) = compile_models(lang, model_dir, out, schema)
     compile_cascade(schema, n_labels, out)

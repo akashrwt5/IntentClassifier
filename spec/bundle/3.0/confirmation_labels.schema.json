@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.intent-platform.local/bundle/3.0/confirmation_labels.schema.json",
+  "title": "runtime/confirmation_labels.json — host-facing labels for a resolved confirmation",
+  "description": "Optional. A confirmation turn carries two facts — WHICH intent was confirmed, and HOW it resolved — and some hosts name that pair with a single label (the Dialogflow-era 'Cmd.SendMessage - yes'). Those strings are not model classes: the classifier's label space does not contain them and cannot, because polarity is decided after classification. They are also not derivable by the SDK, which by contract never composes or interprets an intent label. So they are declared here, in content, and each native client applies them at its own output boundary.\n\nReplaces the `confirm_compound` half of `runtime/legacy_labels.json`. The other half of that file — a modern -> legacy `map` — was IDENTITY for every intent and is no longer shipped to devices: the completeness gate that justified it (`test_every_trained_intent_has_a_legacy_mapping`) reads the repo-side source, not the pack, so 57 no-op lookups travelled to every device for nothing. Re-add a `map` artifact only when a host actually needs a rename, which is a different file and a different decision.\n\nOmit this file entirely once the host consumes plain intent labels; a client that finds nothing reports the intent unchanged, and the host can still separate the branches by the completion action.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["confirm_compound"],
+  "properties": {
+    "$comment": { "type": "string" },
+    "generated_from": { "type": "string" },
+    "confirm_compound": {
+      "description": "intent-under-confirmation -> the host's label for each yes/no outcome. Both polarities are required: a map that names only one leaves the other branch reporting a different shape of label for the same turn, which is worse than naming neither.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["yes", "no"],
+        "properties": {
+          "yes": { "type": "string", "minLength": 1 },
+          "no": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
