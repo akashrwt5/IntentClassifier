@@ -132,6 +132,84 @@ def test_the_bundle_carries_the_branches(intent):
 
 
 @pytest_bundle
+def test_a_confirmation_block_does_not_imply_a_gated_intent():
+    """The shape that broke the iOS app, asserted from the bundle's own side.
+
+    `compile_capabilities` writes `workflows.confirmation` for every intent that
+    authors a `confirm_prompt`, whether or not it authors a `followup`. pack-en
+    has 13 such intents and every one is `never` in `runtime/policies.json` — a
+    prompt string for a question that is never asked.
+
+    VoiceAIKit's first version of the branch rule demanded `yes`/`no` from EVERY
+    confirmation block and threw on the first one it met, so a correct pack could
+    not load at all. The tests here did not catch it because they were
+    parametrised over intents WITH a followup, which is exactly the set that has
+    branches. This asserts the other set exists and is legal.
+    """
+    policies = json.loads((_BUNDLE / "runtime" / "policies.json").read_text(encoding="utf-8"))[
+        "confirmation"
+    ]
+    blocks = _confirmation_blocks()
+
+    ungated = {i: c for i, c in blocks.items() if policies.get(i, "never") == "never"}
+    assert ungated, (
+        "no intent carries a confirmation block it never uses. If that is now "
+        "true the compiler stopped emitting them, and a client may legitimately "
+        "tighten its rule — check VoiceAIKit before deleting this test."
+    )
+    for intent, conf in ungated.items():
+        assert "yes" not in conf and "no" not in conf, (
+            f"{intent} is `never` gated but states branches — harmless, but it "
+            f"means the compiler's `required` flag and the policy disagree"
+        )
+        assert conf.get("required") is False, (
+            f"{intent} is `never` in policies but its workflow says required="
+            f"{conf.get('required')!r}; a client reading either must get the same answer"
+        )
+
+
+@pytest_bundle
+def test_every_gated_intent_states_both_answers():
+    """The invariant a runtime is entitled to enforce, held from this side too.
+
+    Gated means `runtime/policies.json` says the intent gets confirmed. Such an
+    intent MUST say what each answer does, or the client is left inferring it —
+    which is the divergence this whole change removes.
+    """
+    policies = json.loads((_BUNDLE / "runtime" / "policies.json").read_text(encoding="utf-8"))[
+        "confirmation"
+    ]
+    blocks = _confirmation_blocks()
+
+    gated = [i for i, p in policies.items() if p != "never"]
+    assert gated, "no intent is gated, so this asserts nothing"
+    for intent in gated:
+        conf = blocks.get(intent)
+        assert conf, f"{intent} is gated but its workflow has no confirmation block"
+        for polarity in ("yes", "no"):
+            assert polarity in conf, (
+                f"{intent} is gated but does not state what {polarity!r} does — "
+                f"VoiceAIKit refuses this pack (confirmationBranchesMissing)"
+            )
+        assert (
+            conf.get("required") is True
+        ), f"{intent} is gated but its workflow says required={conf.get('required')!r}"
+
+
+def _confirmation_blocks() -> dict:
+    """intent -> its workflow's confirmation block, across every capability."""
+    out = {}
+    for cap_dir in (_BUNDLE / "capabilities").iterdir():
+        wf = cap_dir / "workflows.json"
+        if not wf.exists():
+            continue
+        for intent, spec in json.loads(wf.read_text(encoding="utf-8"))["intents"].items():
+            if "confirmation" in spec:
+                out[intent] = spec["confirmation"]
+    return out
+
+
+@pytest_bundle
 def test_the_superseded_artifacts_are_gone():
     for stale in ("runtime/legacy_labels.json", "runtime/confirmation_labels.json"):
         assert not (_BUNDLE / stale).exists(), (
