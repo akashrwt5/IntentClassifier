@@ -152,14 +152,14 @@ def _write(path: Path, data) -> None:
 # --------------------------------------------------------------------------- #
 
 def entity_id(name: str) -> str:
-    """`sys.date-time` -> `sys.date_time`. Hyphens are illegal in a stableId."""
-    return name.replace("-", "_").lower()
+    """`sys.date-time` -> `sys.date-time`. Hyphens are legal in a stableId."""
+    return name.lower()
 
 
 def slot_name(name: str) -> str:
-    """`MemoryName` -> `memory_name`; the spec requires `^[a-z][a-z0-9_]*$`."""
+    """`MemoryName` -> `memory_name`; the spec requires `^[a-z][a-z0-9_-]*$`."""
     s = re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
-    return re.sub(r"[^a-z0-9_]", "_", s)
+    return re.sub(r"[^a-z0-9_-]", "_", s)
 
 
 def _response_key(intent: str, kind: str) -> str:

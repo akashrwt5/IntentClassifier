@@ -42,7 +42,7 @@
               "additionalProperties": false,
               "required": ["name", "type"],
               "properties": {
-                "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+                "name": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
                 "type": { "type": "string", "enum": ["string", "integer", "number", "boolean", "datetime", "entity_ref"] },
                 "required": { "type": "boolean", "default": true },
                 "entity": {

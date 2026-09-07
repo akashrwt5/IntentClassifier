@@ -46,7 +46,7 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "pattern": "^[a-z][a-z0-9_]*$"
+                    "pattern": "^[a-z][a-z0-9_-]*$"
                   },
                   "entity": {
                     "description": "Capability-scoped or shared entity id (resolved by compiler stage 3).",

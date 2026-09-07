@@ -136,11 +136,10 @@ def test_no_routing_ladder_is_fabricated(bundle):
 # --------------------------- shape translation -----------------------------
 
 def test_identifiers_are_translated_to_the_spec_grammar(bundle):
-    """content/ predates the spec: `sys.date-time` has a hyphen (illegal in a
-    stableId) and slots are CamelCase (the spec requires ^[a-z][a-z0-9_]*$)."""
+    """content/ predates the spec: `sys.date-time` has a hyphen (legal in a
+    stableId) and slots are CamelCase (the spec requires ^[a-z][a-z0-9_-]*$)."""
     ents = _j(bundle, "entities/shared/content.json")["entities"]
-    assert "sys.date_time" in ents and "sys.date-time" not in ents
-    assert all("-" not in e for e in ents)
+    assert "sys.date-time" in ents and "sys.date_time" not in ents
 
     wf = _j(bundle, "capabilities/device.memory/workflows.json")
     slots = wf["intents"]["Cmd.MemoryChange"]["slots"]
