@@ -1334,6 +1334,118 @@ if this intent matched deployed speech, because it does not.
 full run is the first time anyone will see them.
 
 
+### D27. The Help-vs-Command verification spec, checked against the code
+
+An external specification (Akash, 2026-09-08) setting out what the pipeline must
+teach about Help versus Command. Reviewed against the executable path rather than
+the documentation, as its own section 15 demands. One check built from it.
+
+**Its central assumption does not hold for this product.** The document treats
+Help-vs-Command as one global boundary. Deployed speech says it is per intent:
+
+    Help_FindMyHearingAids   40.6% command-shaped
+    Help_Pairing             29.5%
+    Help_SelfCheck           24.5%
+    Help_Tinnitus             0.0%
+    Help_Translate            0.0%
+
+A single rule would be wrong at both ends. That is why six intents carry measured
+carve-outs and the other 24 do not, and it is the most expensive thing this
+review learned.
+
+**Already implemented, with the code that does it.** Agency (its sections 1 and
+5) is precedence rule 4 in `generator.py`'s SYSTEM_PROMPT, in those words.
+Indirect commands (6) are the `ImplicitCommand` type with a 0.12 floor in the
+`command` quota profile -- enforced, not merely described. "Not a keyword list"
+(2, 10) is the six carve-outs plus `Help_Volume`'s measured table: `"how do I"`
+95 Help to 0 Cmd, `"can you"` 4 to 149, `"can I"` 88 to 10 across the taxonomy --
+measured rather than asserted. Fragmentary Help (4.6) is the prompt's FRAGMENT
+instruction with per-intent `min_short` targets. `can I` versus `can you` (12.E)
+is `boundary_lint`'s `can-i` and `can-you` patterns, and holds in generated data:
+2 `can I` rows in the 301-row pilot, both Help.
+
+**Genuinely missing, and it is the document's own centre.** Minimal pairs and
+hard negatives (8, 9, 12.A/B) have NO generation mechanism.
+`hard_negatives_per_intent: 40` and `oos_ratio: 0.15` are read by no code; Stage
+3 does not exist. The prompt sends ONE `hard_negative_example` and a list of
+neighbour intent NAMES with no utterances, so the model is never shown a Help and
+a Command side by side. `deduplication.scope: within_intent` at least means
+minimal pairs would survive if they were ever produced.
+
+**Declined: its section 11 `speech_act` and `agency` fields.** This session
+measured the model labelling 13 rows `type: ExplicitCommand` while writing them
+as questions. Two more self-declared enums are two more places for the label to
+disagree with the text, plus prompt tokens. The property is measured FROM the
+text instead -- which is what `boundary_lint` does, identically on both sides.
+Its section 13 warning against keyword classifiers does not apply either: these
+patterns are a measuring instrument compared against deployed data, not a
+labeller.
+
+**Built: section 12.C, marker-free Help.** Measured before building, because a
+check that cannot fire is worse than none. 45.9% of the 2,946 deployed Help rows
+carry none of `how`, `what`, `where`, `can I`, `is there`; per intent it runs
+19.3% to 78.1%. It fires on real pilot data:
+
+    Help_Tinnitus            generated  8.0%  deployed 55.0%   FAIL  p = 0.000
+    Help_FindMyHearingAids             40.0%           68.8%   FAIL  p = 0.003
+    Help_Pairing                       62.5%           78.1%   ok    p = 0.060
+    Help_ChangingMemories              32.0%           47.8%   ok    p = 0.083
+    Help_Translate                     48.0%           51.5%   ok    p = 0.439
+
+**And it sees something the rest of the pipeline cannot.** `Help_Tinnitus` is
+0.0% command-shaped on BOTH sides and passes every existing check, while
+generating Help rows that lean on a question marker 92% of the time against a
+real 45%. The two metrics are close to independent: of `Help_Tinnitus`'s 105
+marker-free deployed rows, **0** are command-shaped.
+
+Design choices, each measured rather than assumed: per-intent baseline (the
+spread is 19.3-78.1%); one-sided on the LOWER tail (producing MORE marker-free
+rows is another check's business); the marker list is the specification's five
+verbatim, because widening it shrinks the marker-free set and makes the test
+quietly stricter than the property it names; CONTAINS rather than starts-with,
+because `HELP_SHAPED`'s anchored patterns answer a different question -- "tell me
+how to pair them" is an explain-request by surface form and marker-carrying by
+this one.
+
+**A check of mine was fooled by a substring for the second time.** Check 140
+grepped for `failures += marker_failures`, which `pass  # failures += ...` also
+satisfies, so a mutation that unwired the scoring passed. It now calls
+`report_markers` on a case whose answer is arithmetic and reads the wiring out of
+the parsed syntax tree. The earlier instance was check 129 and `def
+p_at_most_DISABLED`. Grepping source text is not a test.
+
+**A review of the check, before it was committed, found four things in it.**
+
+1. **The rendered report hardcoded "45.9% marker-free".** A corpus statistic
+   written into generated output is the exact defect this review has now fixed
+   six times. Computed at render time instead, with the row count beside it.
+2. **Check 138 dissected the compiled regex's pattern string** to prove the
+   marker list was unchanged. Fragile surgery on an implementation detail, and
+   this file had already been fooled twice by inspecting text rather than running
+   the thing. It now asserts behaviour: five markers must be detected, and six
+   near-misses (`why`, `which`, `when`, `please`, `tell me`, a bare imperative)
+   must not.
+3. **The regex assumes apostrophes survive `normalise`.** `"what's"` becomes
+   `"what s"` and matches; `"whats"` does not, and such a row would be counted
+   marker-FREE, inflating the deployed baseline and making the test stricter than
+   the property it names. Measured: **zero in Help**. Not hypothetical though --
+   the corpus already holds four, 2 in `Cmd.BatteryLevel` and 2 in Fallback. One
+   Help row away from being wrong, so check 138c asserts it rather than noting it.
+4. **Two statistical limits are now printed with the result rather than left
+   implicit.** At alpha 0.05 over the 30 Help intents a full run judges, roughly
+   1.5 failures are expected BY CHANCE from a perfect generator -- so one or two
+   FAILs is not evidence, a pattern across related intents is. And the exact
+   binomial assumes independent rows, which a batch is not: it is one LLM call
+   under composition quotas and an avoid-list, so its rows are negatively
+   correlated and the p-values are optimistic. **Both limits apply equally to the
+   Help-versus-Command section that has been in this file all along**, and were
+   never stated there either.
+
+**Recommended, not done:** the document is the right requirements source for
+Stage 3 when it is built. `command_help_pairs` already names the 21 Cmd/Help
+pairs the minimal pairs would be drawn from.
+
+
 ## E. Not started
 
 ### E1. All 33 `Help*` intents

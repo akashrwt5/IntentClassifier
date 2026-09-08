@@ -754,6 +754,88 @@ add('136 D26 and it is reported, never scored',
     'DIAGNOSTIC, not scored' in open(f'{D}/boundary_lint.py').read()
     and 'rec["cmd"]' in open(f'{D}/boundary_lint.py').read())
 
+# --- D27, marker-free Help (verification spec section 12.C) --------------
+# "Are there Help examples that contain none of how/what/where/can I/is there?
+#  If not, the Help dataset is probably too template-driven."
+#
+# Measured before it was built, because a check that cannot fire is worse than
+# none: 45.9% of the 2,946 deployed Help rows are marker-free, per-intent 19.3%
+# to 78.1%. It fires on real data -- Help_Tinnitus generated 8.0% against a
+# deployed 55.0% -- and it sees something boundary_lint's other half cannot:
+# Help_Tinnitus is 0.0% command-shaped on BOTH sides and passes that section.
+_blsrc = open(f'{D}/boundary_lint.py').read()
+add('137 D27 marker_free exists and is independent of surface form',
+    callable(getattr(_bl2, 'marker_free', None))
+    # carries "how" in the middle -- marker-carrying, and an explain-request
+    and not _bl2.marker_free('tell me how to pair them')
+    and _bl2.surface_form('tell me how to pair them')[0] == 'explain-request'
+    # no marker at all, and command-shaped
+    and _bl2.marker_free('please find my hearing aids')
+    and _bl2.surface_form('please find my hearing aids')[0] == 'command-shaped')
+# The list is the specification's, verbatim. Widening it shrinks the marker-free
+# set and makes the test quietly stricter than the property it names.
+#
+# Tested by BEHAVIOUR, not by dissecting the compiled pattern string -- that was
+# fragile surgery on an implementation detail, and this file has already been
+# fooled twice by inspecting text instead of running the thing.
+_M_IN = ['how do i pair', 'what does this do', 'where is the button',
+         'can i pair them myself', 'is there a way to pair']
+_M_OUT = ['why is it doing that', 'which memory is on', 'when does it charge',
+          'please pair my aids', 'tell me about pairing', 'pair my hearing aids']
+add(f'138 D27 the marker list is exactly the five the spec names '
+    f'{[t for t in _M_IN if _bl2.marker_free(t)] + [t for t in _M_OUT if not _bl2.marker_free(t)]}',
+    all(not _bl2.marker_free(t) for t in _M_IN)
+    and all(_bl2.marker_free(t) for t in _M_OUT))
+# The report must not carry a hardcoded corpus statistic. Five stale numbers have
+# been found in this codebase already; a generated report is the worst place for
+# a sixth, because it looks freshly measured.
+add('138b D27 the overall marker-free share is computed, not written down',
+    'overall = f"{_hf / _hn:.1%}"' in _blsrc and '45.9%' not in _blsrc.split('def report_markers')[1])
+# The marker regex assumes apostrophes survive normalise ("what's" -> "what s").
+# An ASR corpus that drops them spells it "whats", which \bwhat\b does not match:
+# such a row would be counted marker-FREE, inflating the deployed baseline and
+# making the test stricter than the property it names.
+#
+# Scoped to Help intents, because that is where the metric applies. Measured
+# 2026-09-08: zero in Help. NOT hypothetical though -- the corpus already holds
+# four of them, 2 in Cmd.BatteryLevel and 2 in Fallback. The assumption is one
+# Help row away from being wrong, which is why it is asserted rather than noted.
+_CONTR = re.compile(r"\b(whats|hows|wheres|whos|whens|whys)\b")
+_contr_hits = [(_n, _t) for _n, _rs in _byi.items() if _n.startswith('Help')
+               for _t in _rs if _CONTR.search(_bl2.normalise(_t))]
+add(f'138c D27 no apostrophe-less wh-contraction in Help, which the marker list '
+    f'would miss ({len(_contr_hits)} found)', not _contr_hits)
+# Lower tail only. Producing MORE marker-free rows is another check's business.
+add('139 D27 the test is one-sided on the lower tail, per intent',
+    'p_at_most(g["free"], g["n"], b_rate)' in _blsrc
+    and 'LOWER tail only' in _blsrc
+    and 'b_rate = b["free"] / b["n"]' in _blsrc)
+# Scored, not decorative: it has to reach the exit code. Grepping the source for
+# 'failures += marker_failures' is NOT enough -- a mutation test walked straight
+# through that, because `pass  # failures += marker_failures` contains it too.
+# That is the second time a substring check has been fooled in this file. So:
+# call the function on a case whose answer is arithmetic, and read the WIRING
+# out of the parsed syntax tree rather than the text.
+_fail_case = _bl2.report_markers(
+    {'Help_X': {'n': 100, 'free': 60}},
+    {'Help_X': {'n': 25, 'free': 0, 'flags': 0, 'cmd': 0, 'why': __import__('collections').Counter()}},
+)
+_pass_case = _bl2.report_markers(
+    {'Help_X': {'n': 100, 'free': 60}},
+    {'Help_X': {'n': 25, 'free': 15, 'flags': 0, 'cmd': 0, 'why': __import__('collections').Counter()}},
+)
+_wired = False
+for _node in _ast.walk(_ast.parse(_blsrc)):
+    if (isinstance(_node, _ast.AugAssign) and isinstance(_node.op, _ast.Add)
+            and isinstance(_node.target, _ast.Name) and _node.target.id == 'failures'
+            and isinstance(_node.value, _ast.Name) and _node.value.id == 'marker_failures'):
+        _wired = True
+add('140 D27 the section is scored, and the scoring is really wired to the exit code',
+    _fail_case[1] == 1 and _pass_case[1] == 0 and _wired)
+# Same noise guard as everywhere else in this file.
+add('141 D27 it refuses to judge when deployed predicts fewer than 3 rows',
+    'if expected < MIN_FLAGS_TO_FAIL' in _blsrc)
+
 # --- the generated report ------------------------------------------------
 md = open(f'{D}/SPEC_REVIEW.md').read()
 a = md.split('### 2a')[1].split('### 2b')[0]

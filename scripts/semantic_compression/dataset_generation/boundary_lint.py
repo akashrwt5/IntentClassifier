@@ -212,6 +212,32 @@ def flagged(intent: str, form: str) -> bool:
     return False  # Fallback and reminders.* have no such boundary
 
 
+# Section 12.C of the Help-vs-Command verification spec. Help data that leans on
+# a handful of question openers is TEMPLATE-DRIVEN, and a model trained on it
+# learns the opener rather than the intent. Deployed speech does not lean that
+# way: 45.9% of all 2,946 deployed Help rows carry none of these markers, and the
+# per-intent spread runs 19.3% (Help_Customize) to 78.1% (Help_Pairing). A global
+# threshold would be wrong for both ends, so the baseline is per intent, like
+# every other number in this file.
+#
+# THE MARKER LIST IS EXACTLY THE ONE THAT DOCUMENT NAMES and is not extended
+# here. Adding markers shrinks the marker-free set and quietly makes the test
+# stricter than the property it claims to measure.
+#
+# CONTAINS, not starts-with. HELP_SHAPED's patterns are anchored because they
+# classify SURFACE FORM. This asks a different question -- does the row lean on a
+# question marker anywhere. "tell me how to pair them" is an explain-request by
+# surface form and marker-carrying by this one; both readings are right for their
+# own purpose, and the two metrics are close to independent in the data: of
+# Help_Tinnitus's 105 marker-free deployed rows, 0 are command-shaped.
+QUESTION_MARKERS = re.compile(r"\b(how|what|where|can i|is there)\b")
+
+
+def marker_free(text: str) -> bool:
+    """True when no classic Help question marker appears anywhere."""
+    return not QUESTION_MARKERS.search(normalise(text))
+
+
 def carries_command(text: str) -> bool:
     """Does the utterance carry a command pattern ANYWHERE, short-circuit aside?
 
@@ -238,13 +264,15 @@ def carries_command(text: str) -> bool:
 
 
 def scan(pairs) -> dict:
-    per = defaultdict(lambda: {"n": 0, "flags": 0, "cmd": 0, "why": Counter()})
+    per = defaultdict(lambda: {"n": 0, "flags": 0, "cmd": 0, "free": 0, "why": Counter()})
     for text, intent in pairs:
         form, which = surface_form(text)
         rec = per[intent]
         rec["n"] += 1
         if family(intent) == "Help" and carries_command(text):
             rec["cmd"] += 1
+        if family(intent) == "Help" and marker_free(text):
+            rec["free"] += 1
         if flagged(intent, form):
             rec["flags"] += 1
             rec["why"][which] += 1
@@ -403,6 +431,101 @@ def baseline_only(base) -> str:
     return "\n".join(lines) + "\n"
 
 
+def report_markers(base, gen) -> tuple[str, int]:
+    """Help rows carrying no classic question marker, generated against deployed.
+
+    Scored, one-sided, LOWER tail only. Producing more marker-free rows than
+    deployed is not this check's business -- a Help row that reads as a command
+    is boundary_lint's other half, and one that reads as a fragment is what
+    length_lint measures. Producing FEWER is the template-driven failure this
+    exists to catch, and nothing else in the pipeline can see it: Help_Tinnitus
+    scores 0.0% command-shaped on both sides and passes the section above while
+    generating 8.0% marker-free against a deployed 55.0%.
+    """
+    # Computed, never written down. A hardcoded corpus statistic in a generated
+    # report is the exact defect this review has fixed five times elsewhere.
+    _hn = sum(v["n"] for k, v in base.items() if family(k) == "Help")
+    _hf = sum(v.get("free", 0) for k, v in base.items() if family(k) == "Help")
+    overall = f"{_hf / _hn:.1%}" if _hn else "n/a"
+    lines = [
+        "",
+        "## Marker-free Help",
+        "",
+        "Help rows containing none of `how`, `what`, `where`, `can I`, `is there` --"
+        " anywhere,",
+        f"not only at the start. Deployed speech is {overall} marker-free across all"
+        f" {_hn} Help rows,",
+        "so a generator that always opens with a question word is not reproducing it;"
+        " it is",
+        "teaching the opener instead of the intent.",
+        "",
+        "One-sided on the LOWER tail, per-intent baseline, and judged only when"
+        " deployed",
+        f"speech predicts at least {MIN_FLAGS_TO_FAIL} marker-free rows -- so a short"
+        " batch cannot fail on noise.",
+        "",
+        "| Intent | Rows | Marker-free | Deployed | Expected | p | Verdict |",
+        "|---|---:|---:|---:|---:|---:|:-:|",
+    ]
+    failures = 0
+    judged = 0
+    for intent in sorted(gen):
+        if family(intent) != "Help":
+            continue
+        g = gen[intent]
+        b = base.get(intent, {"n": 0, "free": 0})
+        if not g["n"]:
+            continue
+        g_rate = g["free"] / g["n"]
+        if not b.get("n"):
+            lines.append(
+                f"| `{intent}` | {g['n']} | {g['free']} ({g_rate:.1%}) | no baseline "
+                f"| — | — | *review* |"
+            )
+            continue
+        b_rate = b["free"] / b["n"]
+        expected = b_rate * g["n"]
+        if expected < MIN_FLAGS_TO_FAIL:
+            verdict, p_txt = "—", "—"
+        else:
+            judged += 1
+            pvalue = p_at_most(g["free"], g["n"], b_rate)
+            bad = pvalue < ALPHA
+            failures += bad
+            verdict, p_txt = ("**FAIL (TEMPLATE)**" if bad else "ok"), f"{pvalue:.3f}"
+        lines.append(
+            f"| `{intent}` | {g['n']} | {g['free']} ({g_rate:.1%}) | {b_rate:.1%} "
+            f"| {expected:.1f} | {p_txt} | {verdict} |"
+        )
+    lines += ["", f"**{failures} of {judged} judged intent(s) failed.**", ""]
+    if judged:
+        lines += [
+            f"Read that against two limits of the test itself. At alpha {ALPHA} over"
+            f" {judged} intents,",
+            f"roughly {ALPHA * judged:.1f} failure(s) are expected BY CHANCE even from a"
+            " perfect generator,",
+            "so one or two FAILs on a full run is not evidence of a defect -- a pattern"
+            " across",
+            "related intents is. And the exact binomial assumes rows are independent,"
+            " which",
+            "they are not: a batch is one LLM call under composition quotas and an"
+            " avoid-list,",
+            "so its rows are negatively correlated and these p-values are optimistic."
+            " Both",
+            "limits apply equally to the section above.",
+            "",
+        ]
+    if failures:
+        lines += [
+            "A FAIL means the generator produced Help rows that lean on a question",
+            "marker far more than real users do. The lever is the intent's own spec and",
+            "the FRAGMENT instruction in the prompt, not this list -- widening the",
+            "marker list would hide the failure rather than fix it.",
+            "",
+        ]
+    return "\n".join(lines), failures
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--baseline", action="store_true", help="print deployed rates and stop")
@@ -429,6 +552,9 @@ def main(argv=None) -> int:
         return 0
     gen = scan(rows)
     text, failures = report(base, gen, args.tolerance)
+    marker_text, marker_failures = report_markers(base, gen)
+    text = text + marker_text
+    failures += marker_failures
     if args.markdown:
         args.markdown.write_text(text, encoding="utf-8")
         print(f"wrote {args.markdown}")
