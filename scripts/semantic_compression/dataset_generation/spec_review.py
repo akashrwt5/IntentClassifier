@@ -127,7 +127,7 @@ REVIEWED_INTERNAL_HASHES = {
     "Help_CleanCare": "130f166cf6671ff8326eab129d43ed6cb6bf2fd36d6aabe8bcb6d84f0cbde477",
     "Help_AppSettings": "60656b0c1c3da74d3ba72bb7a49bdd1eecab92697fc0f1ba8a76f79c242d959a",
     "Cmd.MemoryChange": "8644ac4e4d2addc9e4fba261290e2ce985c35fdfd3049b90b5f3ab084e76062d",
-    "Cmd.ActivityStep": "bc857620b9c642dae090d7099a1c6e6a87f78cef0786199e1ece6ca6627bfb10",
+    "Cmd.ActivityStep": "00912b9618e28ca81bcb3f56e23bb3130c86e85dab1ca4db1f0fc987bcfcbe41",
 }
 
 

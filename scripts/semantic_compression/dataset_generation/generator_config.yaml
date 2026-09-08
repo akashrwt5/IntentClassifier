@@ -584,7 +584,7 @@ generation:
       # 20-word cap, and both were 22+ words -- the model used the type to
       # dodge the limit.
       help:
-        min_short: 0.28                # at least 7 of 25 at or under the short cap
+        min_short: 0.36                # at least 9 of 25 at or under the short cap
         short_max_words: 7             # "short" for a question is <=7 words, not <=4
         types:
           Question: [0.88, null]       # at least 22 of 25
