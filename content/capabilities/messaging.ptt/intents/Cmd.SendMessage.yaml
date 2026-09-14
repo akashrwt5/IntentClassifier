@@ -22,12 +22,12 @@ followup:
   # consumes plain intent ids; the schema marks them optional for that day.
   'yes':
     action: message.send
-    fulfillment: Message sent!!
+    fulfillment: ''
     label: Cmd.SendMessage - yes
   'no':
     action: message.cancel
-    fulfillment: Okay, I won't.
+    fulfillment: ''
     label: Cmd.SendMessage - no
-fulfillment: Ready to record your message.
+fulfillment: ''
 intent: Cmd.SendMessage
 slots: []

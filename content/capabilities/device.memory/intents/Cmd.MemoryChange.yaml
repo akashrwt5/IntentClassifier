@@ -5,7 +5,7 @@ back_reference:
   slot: MemoryName
   source: prev_memory
 confirm_prompt: Just to be sure — switch your hearing aid program?
-fulfillment: Memory changed.
+fulfillment: ''
 intent: Cmd.MemoryChange
 slots:
 - entity: memory
