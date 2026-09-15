@@ -29,6 +29,7 @@ from .entities import EntityExtractor
 from .context import SessionStore
 from .model_paths import resolve_model_set
 from . import label_compat
+from .slot_tagger import extract_slot_title
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 # Paths are dynamic based on language pack
@@ -70,6 +71,8 @@ _DEFAULT_CARRIERS = [
     r"^\s*(?:can|could|would|will)\s+you\s+(?:please\s+)?",
     r"^\s*i\s+want\s+you\s+to\b\s*",
     r"^\s*please\s+",
+    r"^\s*(?:thanks?(?:\s+you)?|thank\s+u)\b[,.]?\s*",
+    r"^\s*(?:hey|hi|hello|ok|okay|alright)\b[,.]?\s*",
 
     # Carriers by SHAPE, not by enumerated verb. The list used to name its verbs
     # (`remind|tell|alert|notify`), so every phrasing outside that set kept its
@@ -90,7 +93,7 @@ _DEFAULT_CARRIERS = [
     # executes. It never sees the other 56 intents.
     r"^\s*\w+\s+me\s+(?:to|about|that|when)\b\s*",
     r"^\s*i\s+(?:must|mustn'?t|must\s+not|can'?t|cannot|should|shouldn'?t)\s+forget\s*(?:(?:to|about)\b)?\s*",
-    r"^\s*(?:make|add|create|leave)\s+(?:an?\s+)?(?:note|reminder|alarm)\s*(?:(?:to|about|that|for)\b)?\s*",
+    r"^\s*(?:make|add|create|leave)\s+(?:an?\s+)?(?:note|reminder|remindr|alarm)\s*(?:(?:to|about|that|for)\b)?\s*",
     r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:(?:to|about)\b)?\s*",
     r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:(?:to|that|about|of)\b)?\s*",
     # No `for` branch, and no negative lookahead. The previous form guarded it
@@ -105,7 +108,7 @@ _DEFAULT_CARRIERS = [
     # branch was redundant anyway. Keep this in step with
     # `language_packs/*/platform.yaml`; the point of the rewrite is that the two
     # can no longer diverge.
-    r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:(?:to|about)\b)?\s*",
+    r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|remindr|alarm)\b\s*(?:(?:to|about)\b)?\s*",
     r"^\s*make\s+sure\s+(?:i|to)\b\s*",
     r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
 ]
@@ -208,7 +211,7 @@ class NLUEngine:
         self.pack = pack
         self.backend = backend
         self.language = (getattr(pack, "language", None) or language)
-        if not schema_path: 
+        if not schema_path:
             schema_path = BASE_DIR / "language_packs" / self.language / "nlu_schema.json"
             if not schema_path.exists():
                 schema_path = BASE_DIR / "language_packs" / "en" / "nlu_schema.json"
@@ -305,6 +308,7 @@ class NLUEngine:
         self._carrier = self._build_carrier_patterns(language)
         self._leading_connector = self._build_leading_connector(language)
         self.sessions = SessionStore()
+        self.slot_tagger = self._load_slot_tagger(self.language)
         self._availability: dict = {}  # runtime-contract-v1 §5 snapshot
         # Semantic rescue: ONE plug-and-play flag. Resolution order:
         #   1. constructor param (tests/harness/apps),
@@ -566,6 +570,33 @@ class NLUEngine:
         if models.calibration is not None:
             kwargs["calibration_path"] = models.calibration
         return IntentClassifier(**kwargs)
+
+    def _load_slot_tagger(self, language: str):
+        """Load slot tagger from language pack or fallback directory."""
+        if self.pack is not None:
+            p = getattr(self.pack, "model_paths", {}).get(f"slot_tagger.{language}")
+            if p is not None and Path(p).exists():
+                try:
+                    import joblib
+
+                    return joblib.load(p)
+                except Exception as e:
+                    logger.warning("nlu.slot_tagger.load_failed err=%s", e)
+        candidates = [
+            BASE_DIR / "dist" / "nlu_pack" / "models" / "slot" / language / "slot_tagger.pkl",
+            BASE_DIR / "models" / "slot" / language / "slot_tagger.pkl",
+            BASE_DIR / "models" / "bio_slot_tagger.pkl",
+            BASE_DIR / "language_packs" / language / "models" / "slot" / "slot_tagger.pkl",
+        ]
+        for c in candidates:
+            if c.exists():
+                try:
+                    import joblib
+
+                    return joblib.load(c)
+                except Exception:
+                    pass
+        return None
 
     @staticmethod
     def _load_semantic(threshold: float):
@@ -1430,7 +1461,11 @@ class NLUEngine:
                 continue
             if not self.entities.is_open(slot["entity"]):
                 continue
-            topic = self._derive_topic(text)
+            topic = None
+            if self.slot_tagger is not None:
+                topic = extract_slot_title(self.slot_tagger, text)
+            if not topic:
+                topic = self._derive_topic(text)
             if topic:
                 slots[slot["name"]] = topic
 
@@ -1460,6 +1495,16 @@ class NLUEngine:
         t = self.entities.strip_datetime(text.strip())
         for pat in self._carrier:
             t = re.sub(pat, "", t, count=1, flags=re.I)
+        # Robust fallback: if an explicit reminder anchor ("set reminder to", "remind me to")
+        # is preceded by arbitrary conversational filler words (e.g. "bro set reminder to..."),
+        # strip everything up to the anchor payload.
+        anchor_match = re.search(
+            r"\b(?:(?:set(?:\s+up)?|make|create|add)\s+(?:an?\s+)?(?:reminder|remindr|alarm)|remind\s+me)\s+(?:to|about|that|for)\s+",
+            t,
+            flags=re.I,
+        )
+        if anchor_match:
+            t = t[anchor_match.end() :]
         t = self._leading_connector.sub("", t).strip(" .,")
         return t or None
 
