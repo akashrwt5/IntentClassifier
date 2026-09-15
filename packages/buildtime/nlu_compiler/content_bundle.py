@@ -913,6 +913,15 @@ def compile_models(lang: str, model_dir: Path, out: Path, schema: dict):
         shutil.copy(slot_src, slot_dst / "slot_tagger.pkl")
         copied.append(f"models/slot/{lang}/slot_tagger.pkl")
 
+    slot_w_src = REPO / "language_packs" / lang / "models" / "slot" / "slot_tagger_weights.json"
+    if not slot_w_src.exists():
+        slot_w_src = REPO / "models" / "slot_tagger_weights.json"
+    if slot_w_src.exists():
+        slot_dst = out / "models" / "slot" / lang
+        slot_dst.mkdir(parents=True, exist_ok=True)
+        shutil.copy(slot_w_src, slot_dst / "slot_tagger_weights.json")
+        copied.append(f"models/slot/{lang}/slot_tagger_weights.json")
+
     # calibration.json is translated into the lean on-device contract by
     # scripts/ci/assemble_pack.py; emit the fitted temperature in that shape here
     # so a bundle compiled standalone is already valid.
@@ -1002,11 +1011,15 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
     # SLOT TAGGER — declared when compile_models shipped it into the bundle.
     slot_file = out / "models" / "slot" / lang / "slot_tagger.pkl"
     if slot_file.exists():
-        models["slot_tagger"] = {lang: {
+        slot_spec = {
             "artifact": f"models/slot/{lang}/slot_tagger.pkl",
             "format": "joblib",
             "model_version": f"{lang}-{version}",
-        }}
+        }
+        slot_weights = out / "models" / "slot" / lang / "slot_tagger_weights.json"
+        if slot_weights.exists():
+            slot_spec["device_weights_artifact"] = f"models/slot/{lang}/slot_tagger_weights.json"
+        models["slot_tagger"] = {lang: slot_spec}
 
     _write(out / "bundle.json", {
         "bundle_id": f"pack-{lang}-v{version}",

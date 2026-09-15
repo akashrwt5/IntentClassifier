@@ -84,7 +84,7 @@ def _is_device_weights(rel: str) -> bool:
     suffix sits before the extension.
     """
     name = rel.rsplit("/", 1)[-1]
-    return name.startswith("intent_classifier_weights") and name.endswith(".json")
+    return (name.startswith("intent_classifier_weights") or name.startswith("slot_tagger_weights")) and name.endswith(".json")
 
 
 def _bundle_files(bundle: Path) -> list[str]:

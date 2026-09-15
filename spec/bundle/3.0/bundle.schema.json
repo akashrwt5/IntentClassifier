@@ -198,6 +198,10 @@
             "tflite_int8_artifact": {
               "description": "Archive-relative path to the dynamic-range int8 TFLite head (optional, smaller).",
               "$ref": "defs.schema.json#/$defs/nonEmptyString"
+            },
+            "device_weights_artifact": {
+              "description": "Archive-relative path to native iOS (Swift) / Android (Kotlin) feature weights JSON.",
+              "$ref": "defs.schema.json#/$defs/nonEmptyString"
             }
           }
         }
