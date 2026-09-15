@@ -62,7 +62,7 @@
     "modelStage": {
       "description": "Cascade stages with model artifacts.",
       "type": "string",
-      "enum": ["intent", "embedder", "semantic_head"]
+      "enum": ["intent", "embedder", "semantic_head", "slot_tagger"]
     },
     "nonEmptyString": {
       "type": "string",

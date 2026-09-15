@@ -903,6 +903,16 @@ def compile_models(lang: str, model_dir: Path, out: Path, schema: dict):
             copied.append("models/semantic_head/shared/SemanticHead.mlpackage")
             semhead_coreml = "models/semantic_head/shared/SemanticHead.mlpackage"
 
+    # SLOT TAGGER — shipped when slot_tagger.pkl exists for the language.
+    slot_src = REPO / "language_packs" / lang / "models" / "slot" / "slot_tagger.pkl"
+    if not slot_src.exists():
+        slot_src = REPO / "models" / "slot" / lang / "slot_tagger.pkl"
+    if slot_src.exists():
+        slot_dst = out / "models" / "slot" / lang
+        slot_dst.mkdir(parents=True, exist_ok=True)
+        shutil.copy(slot_src, slot_dst / "slot_tagger.pkl")
+        copied.append(f"models/slot/{lang}/slot_tagger.pkl")
+
     # calibration.json is translated into the lean on-device contract by
     # scripts/ci/assemble_pack.py; emit the fitted temperature in that shape here
     # so a bundle compiled standalone is already valid.
@@ -988,6 +998,15 @@ def compile_manifest(lang: str, registry: dict, n_labels: int, card: dict,
         if semhead_coreml:
             shared["coreml_artifact"] = semhead_coreml
         models["semantic_head"] = {"shared": shared}
+
+    # SLOT TAGGER — declared when compile_models shipped it into the bundle.
+    slot_file = out / "models" / "slot" / lang / "slot_tagger.pkl"
+    if slot_file.exists():
+        models["slot_tagger"] = {lang: {
+            "artifact": f"models/slot/{lang}/slot_tagger.pkl",
+            "format": "joblib",
+            "model_version": f"{lang}-{version}",
+        }}
 
     _write(out / "bundle.json", {
         "bundle_id": f"pack-{lang}-v{version}",

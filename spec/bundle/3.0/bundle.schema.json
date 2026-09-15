@@ -89,7 +89,8 @@
       "properties": {
         "intent": { "$ref": "#/$defs/modelLangMap" },
         "embedder": { "$ref": "#/$defs/modelLangMap" },
-        "semantic_head": { "$ref": "#/$defs/modelLangMap" }
+        "semantic_head": { "$ref": "#/$defs/modelLangMap" },
+        "slot_tagger": { "$ref": "#/$defs/modelLangMap" }
       }
     },
     "policy_versions": {
@@ -167,7 +168,7 @@
               "description": "Archive-relative path to the model file.",
               "$ref": "defs.schema.json#/$defs/nonEmptyString"
             },
-            "format": { "type": "string", "enum": ["onnx", "mlmodelc-ref", "json"] },
+            "format": { "type": "string", "enum": ["onnx", "mlmodelc-ref", "json", "joblib", "pkl"] },
             "model_version": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
             "embedder_id": {
               "description": "Required for semantic_head entries: the embedder this head was trained against (mismatch = compile error, stage 8).",
