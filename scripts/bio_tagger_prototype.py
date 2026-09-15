@@ -2,6 +2,11 @@
 """
 Robust BIO Tagging Prototype for IntentClassifier (Slot Extraction).
 
+Feature building, preprocessing and BIO decoding all come from
+``nlu_engine.slot_tagger`` -- this script owns the CORPUS and the TRAINING only.
+Never redefine a feature here; change :data:`nlu_engine.slot_tagger.FEATURE_SPEC`
+so the runtime, the exporter and the mobile ports move with it.
+
 Trained and hardened against 7 real-world failure categories:
 1. Spelling mistakes (e.g., medcine, docotr, tomorow, perscription)
 2. Slang & colloquialisms (e.g., gimme a ping, drop a reminder, hit me up)
@@ -18,297 +23,277 @@ Usage:
 
 import csv
 import random
-import re
 import sys
 from pathlib import Path
+
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(PROJECT_ROOT / "packages" / "runtime"))
 
-from nlu_engine import NLUEngine
-from nlu_langpack import load_pack
+from nlu_engine import NLUEngine  # noqa: E402
+from nlu_engine.slot_tagger import (  # noqa: E402
+    FEATURE_SPEC,
+    extract_slot_title,
+    extract_title_span,
+    extract_token_features,
+    prepare,
+    robust_preprocess,
+    tokenize,
+)
+from nlu_langpack import load_pack  # noqa: E402
+
+# Backwards compatibility aliases
+extract_features = extract_token_features
+
+# Augmentation draws on this, so a model is reproducible from its seed alone.
+SEED = 42
+HOLDOUT_FRACTION = 0.15
+
+BEGIN = FEATURE_SPEC["labels"]["begin"]
+INSIDE = FEATURE_SPEC["labels"]["inside"]
+OUTSIDE = FEATURE_SPEC["labels"]["outside"]
+
+TYPO_MAP = {
+    "doctor": "docotr",
+    "medicine": "medcine",
+    "prescription": "perscription",
+    "groceries": "groseries",
+    "tomorrow": "tomorow",
+    "reminder": "remndr",
+    "appointment": "apointment",
+}
+
+FILLERS = [
+    "um like",
+    "you know uhhh",
+    "well basically",
+    "yo bro",
+    "listen buddy",
+    "can someone please",
+    "hey",
+    "thanks",
+    "gimme a ping to",
+    "drop a reminder to",
+]
+
+RUN_ONS = ["dont forget", "please thanks", "thanks"]
 
 
-def robust_preprocess(text: str) -> str:
-    """Preprocess text to normalize speech-to-text errors, contractions, slang, and fillers."""
-    # 1. ASR / Speech-to-text phonetic error repair
-    text = re.sub(r"\bset\s+a\s+remind\s+her\b", "set a reminder", text, flags=re.I)
-    text = re.sub(r"\bremind\s+me\s+two\b", "remind me to", text, flags=re.I)
-    text = re.sub(r"\bat\s+for\s+(am|pm)\b", r"at 4 \1", text, flags=re.I)
-    text = re.sub(r"\bto\s+by\b", "to buy", text, flags=re.I)
+def best_span(tokens: list[str], title_tokens: list[str]) -> tuple[int, int] | None:
+    """
+    Locate the title inside the text, tolerating a title the rule engine mangled.
 
-    # 2. Slang & colloquial carrier normalization
-    text = re.sub(r"\bgimme\s+a\s+ping\s+to\b", "remind me to", text, flags=re.I)
-    text = re.sub(r"\bdrop\s+a\s+reminder\s+to\b", "remind me to", text, flags=re.I)
-    text = re.sub(r"\bhit\s+me\s+up\s+to\b", "remind me to", text, flags=re.I)
-    text = re.sub(r"\bjot\s+down\s+a\s+reminder\s+to\b", "remind me to", text, flags=re.I)
+    The engine builds a title by DELETING date words, so "call mom on christmas"
+    comes back as "call mom christmas" -- a string that no longer occurs in the
+    sentence. Matching it whole therefore fails, and 53 of 707 sentences used to
+    become all-"O" because of it, teaching the model that a normal reminder has no
+    title. Instead, take the best contiguous run of title tokens that DOES occur.
 
-    # 3. Conversational fillers at sentence start
-    text = re.sub(
-        r"^\s*(?:um|uh|uhhh|you know|well basically|hey so yeah|like)\b[,.]?\s*",
-        "",
-        text,
-        flags=re.I,
-    )
-    text = re.sub(r"\b(?:um|uh|uhhh)\b", "", text, flags=re.I)
+    Ranked by real words first, then length, then earliest. Words-before-length is
+    what keeps a leaked carrier ("reminder for 4 .") from beating the real title
+    ("visit grandma please") on token count alone.
+    """
+    lowered = [t.lower() for t in tokens]
+    wanted = [t.lower() for t in title_tokens]
 
-    # 4. Contractions expansion
-    text = re.sub(r"\bdon't\b|\bdont\b", "do not", text, flags=re.I)
-    text = re.sub(r"\bcan't\b|\bcant\b", "cannot", text, flags=re.I)
-    text = re.sub(r"\bi've\s+gotta\b|\bive\s+gotta\b", "i have to", text, flags=re.I)
-    text = re.sub(r"\bi'd\s+like\b|\bid\s+like\b", "i would like", text, flags=re.I)
-
-    # Clean double spaces
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
-
-
-def tokenize(text: str) -> list[str]:
-    """Tokenize text into words and punctuation."""
-    return re.findall(r"\b\w+(?:'\w+)?\b|[^\w\s]", text)
+    best: tuple[int, int] | None = None
+    best_key: tuple[int, int, int] | None = None
+    for first in range(len(wanted)):
+        for last in range(first + 1, len(wanted) + 1):
+            piece = wanted[first:last]
+            for start in range(len(lowered) - len(piece) + 1):
+                if lowered[start : start + len(piece)] != piece:
+                    continue
+                words = sum(1 for token in piece if any(c.isalpha() for c in token))
+                key = (words, len(piece), -start)
+                if best_key is None or key > best_key:
+                    best_key = key
+                    best = (start, start + len(piece))
+                break
+    return best
 
 
-def extract_features(tokens: list[str], i: int) -> dict:
-    """Extract rich character n-gram, positional, and syntactic features for token at i."""
-    word = tokens[i]
-    w_low = word.lower()
+def annotate(text: str, title: str | None) -> tuple[list[str], list[str]] | None:
+    """
+    Turn one (text, title) pair into BIO tags over the PREPROCESSED tokens.
 
-    # Find position relative to nearest trigger word ('to', 'for', 'about', 'that', 'remind')
-    trigger_dist = 99
-    for idx, t in enumerate(tokens):
-        if t.lower() in ("to", "about", "for", "that", "remind", "reminder", "alarm"):
-            dist = i - idx
-            if 0 < dist < abs(trigger_dist):
-                trigger_dist = dist
+    Returns None only when nothing at all could be located, so a failure is dropped
+    and counted rather than quietly becoming a negative example.
+    """
+    tokens = prepare(text)
+    if not tokens:
+        return None
 
-    features = {
-        "bias": 1.0,
-        "word.lower()": w_low,
-        "len": len(w_low),
-        # Multi-scale character n-grams (prefix & suffix) for strong typo tolerance
-        "p2": w_low[:2],
-        "p3": w_low[:3],
-        "p4": w_low[:4] if len(w_low) >= 4 else w_low,
-        "s2": w_low[-2:],
-        "s3": w_low[-3:],
-        "s4": w_low[-4:] if len(w_low) >= 4 else w_low,
-        "isupper": word.isupper(),
-        "istitle": word.istitle(),
-        "isdigit": word.isdigit(),
-        "after_trigger": trigger_dist < 6,
-        "rel_pos": round(i / max(len(tokens), 1), 1),
-    }
+    tags = [OUTSIDE] * len(tokens)
+    if not title:
+        # A genuine negative: "every day", "set up a reminder". Worth training on.
+        return tokens, tags
 
-    # Context window: previous token
-    if i > 0:
-        prev = tokens[i - 1].lower()
-        features.update(
-            {
-                "-1:w": prev,
-                "-1:s3": prev[-3:],
-                "-1:is_prep": prev in ("to", "for", "about", "that", "at", "by", "on"),
-            }
-        )
-    else:
-        features["BOS"] = True
+    title_tokens = prepare(title)
+    if not title_tokens:
+        return tokens, tags
 
-    # Context window: next token
-    if i < len(tokens) - 1:
-        nxt = tokens[i + 1].lower()
-        features.update(
-            {
-                "+1:w": nxt,
-                "+1:s3": nxt[-3:],
-                "+1:is_time": nxt
-                in ("am", "pm", "tomorrow", "today", "tonight", "morning", "night", "at", "in"),
-            }
-        )
-    else:
-        features["EOS"] = True
+    span = best_span(tokens, title_tokens)
+    if span is None:
+        return None
 
-    return features
+    start, end = span
+    tags[start] = BEGIN
+    for offset in range(start + 1, end):
+        tags[offset] = INSIDE
+    return tokens, tags
 
 
-def build_training_data():
-    """Build token-level training dataset from train.csv with multi-category augmentation."""
-    pack_path = PROJECT_ROOT / "dist" / "nlu_pack"
-    pack = load_pack(str(pack_path))
+def apply_typos(text: str) -> str:
+    """Swap known words for their common misspellings, leaving everything else alone."""
+    return " ".join(TYPO_MAP.get(word.lower(), word) for word in text.split())
+
+
+def build_corpus() -> tuple[list[tuple[list[str], list[str]]], list[tuple[str, str | None]]]:
+    """
+    Build token-level training data from train.csv, with multi-category augmentation.
+
+    Labels come from the rule-based NLUEngine, so the tagger inherits whatever that
+    pipeline gets right AND wrong. Every sentence it cannot label is counted and
+    reported below rather than silently becoming a negative example.
+    """
+    rng = random.Random(SEED)
+    pack = load_pack(str(PROJECT_ROOT / "dist" / "nlu_pack"))
     engine = NLUEngine(pack=pack)
 
     csv_path = PROJECT_ROOT / "language_packs" / "en" / "train.csv"
-    train_sentences = []
+    with open(csv_path, "r", encoding="utf-8") as handle:
+        sentences = [
+            row["text"].strip()
+            for row in csv.DictReader(handle)
+            if row["intent"] == "reminders.add"
+        ]
 
-    with open(csv_path, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            if row["intent"] == "reminders.add":
-                train_sentences.append(row["text"].strip())
-
-    labeled_corpus = []
-
-    # 1. Base annotation
-    for text in train_sentences:
-        res = engine.handle("build_session", text)
-        title = res.parameters.get("name")
+    # 1. Base annotation, straight from the engine.
+    pairs: list[tuple[str, str | None]] = []
+    for text in sentences:
+        result = engine.handle("build_session", text)
+        pairs.append((text, result.parameters.get("name")))
         engine.reset("build_session")
 
-        tokens = tokenize(text)
-        if not tokens:
-            continue
+    # 2. Augmentation at TEXT level, so preprocessing sees it exactly as production will.
+    augmented: list[tuple[str, str | None]] = []
+    for text, title in pairs:
+        if rng.random() < 0.3:
+            augmented.append((f"{rng.choice(FILLERS)} {text}", title))
 
-        tags = ["O"] * len(tokens)
+        typo_text = apply_typos(text)
+        if typo_text != text:
+            augmented.append((typo_text, apply_typos(title) if title else title))
 
-        if title:
-            title_tokens = tokenize(title)
-            t_len = len(title_tokens)
-            for j in range(len(tokens) - t_len + 1):
-                if [t.lower() for t in tokens[j : j + t_len]] == [t.lower() for t in title_tokens]:
-                    tags[j] = "B-TITLE"
-                    for k in range(j + 1, j + t_len):
-                        tags[k] = "I-TITLE"
-                    break
+        if rng.random() < 0.2:
+            augmented.append((f"{text} {rng.choice(RUN_ONS)}", title))
 
-        labeled_corpus.append((tokens, tags))
+    corpus: list[tuple[list[str], list[str]]] = []
+    dropped: list[tuple[str, str | None]] = []
+    for text, title in pairs + augmented:
+        annotated = annotate(text, title)
+        if annotated is None:
+            dropped.append((text, title))
+        else:
+            corpus.append(annotated)
 
-    # 2. Targeted Augmentation across the 7 categories:
-    augmented = []
-    typo_map = {
-        "doctor": "docotr",
-        "medicine": "medcine",
-        "prescription": "perscription",
-        "groceries": "groseries",
-        "tomorrow": "tomorow",
-        "reminder": "remndr",
-        "appointment": "apointment",
-    }
+    total = len(pairs) + len(augmented)
+    negatives = sum(1 for _, tags in corpus if all(tag == OUTSIDE for tag in tags))
+    print(f"  base sentences           : {len(pairs)}")
+    print(f"  augmented sentences      : {len(augmented)}")
+    print(
+        f"  dropped (title not locatable): {len(dropped)}  "
+        f"({len(dropped) * 100 // max(total, 1)}%)"
+    )
+    print(f"  kept                     : {len(corpus)}")
+    print(f"  of which all-O negatives : {negatives}")
+    if dropped:
+        print("  examples the engine could not align:")
+        for text, title in dropped[:5]:
+            print(f"     {text!r}\n        title={title!r}")
 
-    fillers = [
-        "um like",
-        "you know uhhh",
-        "well basically",
-        "yo bro",
-        "listen buddy",
-        "can someone please",
-        "hey",
-        "thanks",
-        "gimme a ping to",
-        "drop a reminder to",
-    ]
+    return corpus, pairs
 
-    for tokens, tags in labeled_corpus:
-        # Category A: Filler prefix injection
-        if random.random() < 0.3:
-            filler = random.choice(fillers)
-            f_tokens = tokenize(filler)
-            aug_tokens = f_tokens + tokens
-            aug_tags = ["O"] * len(f_tokens) + tags
-            augmented.append((aug_tokens, aug_tags))
 
-        # Category B: Spelling mistake injection
-        new_tokens = list(tokens)
-        changed = False
-        for idx, tok in enumerate(new_tokens):
-            tok_low = tok.lower()
-            if tok_low in typo_map:
-                new_tokens[idx] = typo_map[tok_low]
-                changed = True
-        if changed:
-            augmented.append((new_tokens, list(tags)))
-
-        # Category C: Missing punctuation / run-on phrase at end
-        if random.random() < 0.2:
-            suffix = random.choice(["dont forget", "please thanks", "thanks"])
-            s_tokens = tokenize(suffix)
-            aug_tokens = tokens + s_tokens
-            aug_tags = tags + ["O"] * len(s_tokens)
-            augmented.append((aug_tokens, aug_tags))
-
-    full_dataset = labeled_corpus + augmented
-    print(f"✅ Prepared {len(full_dataset)} training sequences with 7-category augmentation.")
-    return full_dataset
+def to_instances(corpus):
+    """Flatten sequences into per-token (features, label) pairs."""
+    features, labels = [], []
+    for tokens, tags in corpus:
+        for index in range(len(tokens)):
+            features.append(extract_token_features(tokens, index))
+            labels.append(tags[index])
+    return features, labels
 
 
 def train_bio_tagger(corpus):
-    """Train a scikit-learn LogisticRegression token classification model."""
-    X_features = []
-    y_labels = []
+    """Train a LogisticRegression token classifier and report held-out quality."""
+    train_seqs, test_seqs = train_test_split(corpus, test_size=HOLDOUT_FRACTION, random_state=SEED)
+    x_train, y_train = to_instances(train_seqs)
 
-    for tokens, tags in corpus:
-        for i in range(len(tokens)):
-            X_features.append(extract_features(tokens, i))
-            y_labels.append(tags[i])
-
-    print(f"📊 Training on {len(X_features)} total token instances...")
+    print(f"\n  training tokens: {len(x_train)}  (held out {len(test_seqs)} sequences)")
     vec = DictVectorizer(sparse=True)
-    X_vec = vec.fit_transform(X_features)
+    x_vec = vec.fit_transform(x_train)
 
-    clf = LogisticRegression(max_iter=500, C=15.0)
-    clf.fit(X_vec, y_labels)
-    print("🎯 Model training completed successfully!")
+    # Roughly 70% of tokens are "O", so without balancing the model is happiest
+    # predicting "no title here" -- which is the failure this tagger exists to fix.
+    clf = LogisticRegression(max_iter=500, C=15.0, class_weight="balanced")
+    clf.fit(x_vec, y_train)
 
+    evaluate(vec, clf, test_seqs)
     return vec, clf
 
 
-def predict_bio(tokens: list[str], vec, clf):
-    """Predict BIO tags for a list of tokens."""
-    feats = [extract_features(tokens, i) for i in range(len(tokens))]
-    X = vec.transform(feats)
-    return clf.predict(X)
+def predict_tags(tokens, vec, clf):
+    """Predict BIO tags for a list of already-prepared tokens."""
+    features = [extract_token_features(tokens, i) for i in range(len(tokens))]
+    return list(clf.predict(vec.transform(features)))
 
 
-def extract_entities_from_bio(tokens: list[str], tags: list[str]) -> dict:
-    """Reconstruct Title and other entities from predicted BIO tags."""
-    entities = {}
-    current_entity = None
-    current_tokens = []
+def evaluate(vec, clf, test_seqs) -> None:
+    """Report token-level precision/recall and, more usefully, exact span accuracy."""
+    if not test_seqs:
+        print("  no held-out data -- skipping evaluation")
+        return
 
-    for token, tag in zip(tokens, tags):
-        if tag.startswith("B-"):
-            if current_entity:
-                entities[current_entity] = " ".join(current_tokens)
-            current_entity = tag[2:]
-            current_tokens = [token]
-        elif tag.startswith("I-") and current_entity == tag[2:]:
-            current_tokens.append(token)
-        else:
-            if current_entity:
-                entities[current_entity] = " ".join(current_tokens)
-                current_entity = None
-                current_tokens = []
+    x_test, y_test = to_instances(test_seqs)
+    predicted = list(clf.predict(vec.transform(x_test)))
+    print("\n  token-level:")
+    print(classification_report(y_test, predicted, zero_division=0, digits=3))
 
-    if current_entity:
-        entities[current_entity] = " ".join(current_tokens)
-
-    return entities
+    exact = 0
+    for tokens, tags in test_seqs:
+        gold = extract_title_span(tokens, tags)
+        guess = extract_title_span(tokens, predict_tags(tokens, vec, clf))
+        if gold == guess:
+            exact += 1
+    share = exact * 100 / len(test_seqs)
+    print(f"  exact title match: {exact}/{len(test_seqs)}  ({share:.1f}%)")
 
 
-def test_custom_phrase(phrase: str, vec, clf):
-    clean_phrase = robust_preprocess(phrase)
-    tokens = tokenize(clean_phrase)
-    tags = predict_bio(tokens, vec, clf)
-    entities = extract_entities_from_bio(tokens, tags)
+def test_custom_phrase(phrase: str, vec, clf) -> None:
+    """Show the tokens, their tags and the extracted title for one phrase."""
+    tokens = prepare(phrase)
+    tags = predict_tags(tokens, vec, clf)
 
     print("\n" + "=" * 65)
-    print(f'📥 Raw Input    : "{phrase}"')
-    if clean_phrase != phrase:
-        print(f'🧹 Preprocessed : "{clean_phrase}"')
+    print(f'Input : "{phrase}"')
     print("-" * 65)
-    print("🏷️  Token BIO Tags:")
-    for t, tag in zip(tokens, tags):
-        tag_disp = f"[{tag}]" if tag != "O" else "O"
-        print(f"   {t:<15} -> {tag_disp}")
+    for token, tag in zip(tokens, tags):
+        print(f"   {token:<15} -> {tag if tag != OUTSIDE else 'O'}")
     print("-" * 65)
-    title = entities.get("TITLE", "(None)")
-    print(f'🎯 Extracted Title : "{title}"')
+    print(f'Title : "{extract_title_span(tokens, tags) or "(None)"}"')
     print("=" * 65)
 
 
-def main():
+def main() -> None:
     print("=== Training Robust BIO Slot Tagging Model ===")
-    corpus = build_training_data()
+    corpus, _ = build_corpus()
     vec, clf = train_bio_tagger(corpus)
 
     import joblib
@@ -316,25 +301,23 @@ def main():
     joblib.dump(
         {"vectorizer": vec, "classifier": clf}, PROJECT_ROOT / "models" / "bio_slot_tagger.pkl"
     )
-    print("💾 Updated models/bio_slot_tagger.pkl with robust model!")
+    print("\nUpdated models/bio_slot_tagger.pkl")
 
-    custom_args = sys.argv[1:]
-    if "--interactive" in custom_args or "-i" in custom_args:
-        print("\n=== Interactive BIO Slot Tester ===")
-        print("  Type 'exit' to quit.\n")
+    args = sys.argv[1:]
+    if "--interactive" in args or "-i" in args:
+        print("\n=== Interactive BIO Slot Tester (type 'exit' to quit) ===\n")
         while True:
             try:
-                user_input = input("Enter phrase: ").strip()
+                phrase = input("Enter phrase: ").strip()
             except (KeyboardInterrupt, EOFError):
                 break
-            if not user_input or user_input.lower() in ("exit", "quit"):
+            if not phrase or phrase.lower() in ("exit", "quit"):
                 break
-            test_custom_phrase(user_input, vec, clf)
+            test_custom_phrase(phrase, vec, clf)
         return
 
-    if custom_args:
-        test_custom_phrase(" ".join(custom_args), vec, clf)
-        return
+    if args:
+        test_custom_phrase(" ".join(args), vec, clf)
 
 
 if __name__ == "__main__":

@@ -62,6 +62,55 @@ python apps/cli/nlu_cli_multilingual.py
 - Semantic rescue threshold: `nlu_schema.json` key `semantic_threshold`
   (fallback `DEFAULT_SEMANTIC_THRESHOLD = 0.55`).
 
+## BIO slot tagger (reminder title)
+
+`packages/runtime/nlu_engine/slot_tagger.py` is the **single source of truth** for slot-tagger
+behaviour. It exports `FEATURE_SPEC` — preprocessing rewrites, tokenizer pattern, affix sizes,
+trigger/preposition/time word lists, the `rel_pos` rounding and the BIO labels — as DATA.
+
+Three consumers read that one object, and none of them may redefine a rule:
+
+| consumer | uses |
+|---|---|
+| `scripts/bio_tagger_prototype.py` (trainer) | `prepare`, `extract_token_features`, `extract_title_span` |
+| `NLUEngine` (this runtime) | `extract_slot_title` |
+| `nlu_export/export_slot_weights.py` | embeds `FEATURE_SPEC` in the weights JSON |
+
+The export ships as `models/slot/<lang>/slot_tagger_weights.json` (payload `version` 2.0.0,
+registered in `bundle.json` as `slot_tagger.<lang>.device_weights_artifact`). Because the spec
+travels inside that file, the Swift and Kotlin ports hold **no word lists and no regexes of
+their own** — changing a rule here reaches the devices through a pack update, with no app build.
+
+Model shape: scikit-learn `LogisticRegression` over a `DictVectorizer`, classes
+`B-TITLE / I-TITLE / O`, **no transition matrix** — each token is scored independently and the
+label is the arg-max. There is no DATETIME class: date/time still comes from the entity path.
+
+Decoding is `extract_title_span`: the LAST complete B-/I- run wins, and an `I-` tag with no
+`B-` in front of it does not open a span. Training and inference share this function, so they
+cannot drift. (Before this consolidation the runtime concatenated every span while the trainer
+kept only the last — same model, two different answers.)
+
+### Training caveats that still bite
+
+- **Labels come from the rule-based `NLUEngine`**, so the tagger inherits that pipeline's
+  mistakes along with its successes. It is imitating the system it replaces.
+- The engine builds a title by DELETING date words, so `"remind me to call mom on christmas"`
+  comes back as `"call mom christmas"` — a string that no longer occurs in the sentence.
+  Matching it whole failed for **53 of 707** base sentences, and each one silently became an
+  all-`O` sequence: 160 sentences in total were teaching the model that a normal reminder has
+  no title. `best_span()` now takes the best contiguous run of title tokens that DOES occur
+  (ranked by real words, then length, then earliest), which recovers all 53 with a BETTER
+  label than the engine gave — `"call mom"`, not `"call mom christmas"`. All-`O` sequences
+  drop from 160 to the 107 genuine negatives. Anything still unlocatable is dropped and
+  counted, never kept as a negative.
+- Augmentation happens at TEXT level and then goes through `prepare()`, so an injected filler
+  is preprocessed exactly as production will preprocess it.
+- `SEED = 42` and a `HOLDOUT_FRACTION` split; the trainer prints a token-level
+  `classification_report` plus **exact title-match accuracy**. Judge a retrain on that number.
+- `class_weight="balanced"` — roughly 70% of tokens are `O`.
+- `isupper` / `istitle` were removed: `train.csv` is all lower-case, so both were always false
+  and the exporter dropped their (zero) weights anyway.
+
 ## Semantic rescue
 
 `packages/runtime/nlu_engine/semantic.py` — embeds the utterance (MiniLM via ONNX, one sentence

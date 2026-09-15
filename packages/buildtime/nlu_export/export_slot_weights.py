@@ -9,10 +9,15 @@ Usage:
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
 import joblib
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPO_ROOT / "packages" / "runtime"))
+
+from nlu_engine.slot_tagger import FEATURE_SPEC  # noqa: E402
 
 
 def export_weights(lang: str, out_path: Path) -> Path:
@@ -42,17 +47,40 @@ def export_weights(lang: str, out_path: Path) -> Path:
         if any(abs(w) > 0.0001 for w in w_list):
             weights[feat] = w_list
 
+    # The feature spec is NOT copied here: it is imported from the runtime module that
+    # the trainer and the Python engine also use, and shipped inside the payload so the
+    # Kotlin and Swift ports hold no word lists or regexes of their own.
     payload = {
-        "version": "1.0.0",
+        "version": "2.0.0",
         "lang": lang,
         "classes": classes,
+        "feature_spec": FEATURE_SPEC,
         "intercept": intercept,
         "weights": weights,
     }
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    print(f"Exported slot tagger weights to {out_path} ({len(weights)} active features)")
+    print(
+        f"Exported slot tagger weights to {out_path} "
+        f"({len(weights)} active features, feature_spec v{FEATURE_SPEC['version']})"
+    )
+
+    # The pack compiler prefers language_packs/<lang>/models/slot/ and only falls back to
+    # models/slot_tagger_weights.json, so a stale copy there SHADOWS a fresh export and the
+    # built pack silently ships the old model. Keep both in step from here.
+    synced = [
+        REPO_ROOT / "language_packs" / lang / "models" / "slot" / "slot_tagger_weights.json",
+        REPO_ROOT / "dist" / "nlu_pack" / "models" / "slot" / lang / "slot_tagger_weights.json",
+    ]
+    body = json.dumps(payload, indent=2)
+    for target in synced:
+        if target.resolve() == out_path.resolve():
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(body, encoding="utf-8")
+        print(f"Synced slot tagger weights to {target}")
+
     return out_path
 
 

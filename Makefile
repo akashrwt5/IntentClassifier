@@ -111,6 +111,10 @@ export-coreml-test: ## Numeric-equivalence (Tier-A) CoreML export test
 export-tflite: ## Export the TFLite head (fp32 + int8) from the fitted pipeline (LANG=en)
 	PYTHONPATH=packages/buildtime $(PYTHON) -m nlu_export.export_tflite --lang $(or $(LANG),en)
 
+.PHONY: export-slot
+export-slot: ## Export BIO slot tagger weights + feature_spec for iOS/Android (LANG=en)
+	PYTHONPATH=packages/buildtime $(PYTHON) -m nlu_export.export_slot_weights --lang $(or $(LANG),en)
+
 # ---------------------------------------------------------------------------
 # Housekeeping
 # ---------------------------------------------------------------------------
