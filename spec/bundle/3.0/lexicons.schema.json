@@ -67,6 +67,17 @@
       "type": "array",
       "items": { "type": "string" },
       "description": "Function words that can be safely stripped from the end of an utterance."
+    },
+    "cancel_cues": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+      "description": "Cues used to cancel or abort."
+    },
+    "lemmas": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Plural folding mapping for surface-form normalization."
     }
   }
 }

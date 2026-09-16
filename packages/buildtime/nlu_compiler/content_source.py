@@ -39,7 +39,7 @@ LANGS = tuple(p.name for p in LOC.iterdir() if p.is_dir() and p.name != "en")
 PLATFORM_KEYS = ("version", "confidence_threshold",
                  "interrupt_threshold", "agreement_threshold", "oov_reject_ratio", "oov_bypass_confidence",
                  "semantic_threshold", "semantic_rescue_enabled", "max_slot_attempts",
-                 "keyword_triggers", "affirmative", "negative", "lexicon",
+                 "keyword_triggers", "affirmative", "negative", "cancel_cues", "lexicon",
                  "polarity_guards", "help_marker_guard", "uncertain_confirm")
 
 
@@ -146,7 +146,7 @@ def assemble(write: bool = True) -> dict:
         if key in schema:
             ordered[key] = schema[key]
     ordered["intents"] = intents
-    for key in ("affirmative", "negative", "lexicon", "polarity_guards",
+    for key in ("affirmative", "negative", "cancel_cues", "lexicon", "polarity_guards",
                 "help_marker_guard", "uncertain_confirm"):
         if key in schema:
             ordered[key] = schema[key]
