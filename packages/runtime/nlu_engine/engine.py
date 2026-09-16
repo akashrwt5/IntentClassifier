@@ -90,7 +90,7 @@ _DEFAULT_CARRIERS = [
     # executes. It never sees the other 56 intents.
     r"^\s*\w+\s+me\s+(?:to|about|that|when)\b\s*",
     r"^\s*i\s+(?:must|mustn'?t|must\s+not|can'?t|cannot|should|shouldn'?t)\s+forget\s*(?:(?:to|about)\b)?\s*",
-    r"^\s*(?:make|add|create|leave)\s+(?:an?\s+)?(?:note|reminder|alarm)\s*(?:(?:to|about|that|for)\b)?\s*",
+    r"^\s*(?:make|add|create|leave)\s+(?:an?\s+)?(?:note|reminder|alarm|timer)\s*(?:(?:to|about|that|for)\b)?\s*",
     r"^\s*(?:do\s*n[o']?t|don't|dont)\s+let\s+me\s+forget\b\s*(?:(?:to|about)\b)?\s*",
     r"^\s*(?:remind|tell|alert|notify)\s+me\b\s*(?:(?:to|that|about|of)\b)?\s*",
     # No `for` branch, and no negative lookahead. The previous form guarded it
@@ -105,7 +105,7 @@ _DEFAULT_CARRIERS = [
     # branch was redundant anyway. Keep this in step with
     # `language_packs/*/platform.yaml`; the point of the rewrite is that the two
     # can no longer diverge.
-    r"^\s*set(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm)\b\s*(?:(?:to|about)\b)?\s*",
+    r"^\s*(?:set|start)(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm|timer)\b\s*(?:(?:to|about|for)\b)?\s*",
     r"^\s*make\s+sure\s+(?:i|to)\b\s*",
     r"^\s*i\s+(?:need|have|want)\s+to\b\s*",
 ]
