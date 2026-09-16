@@ -198,13 +198,13 @@
     },
     "Cmd.ActivityStep": {
       "action": "activity.step",
-      "fulfillment": "Showing step count.",
+      "fulfillment": "",
       "slots": [],
       "capability": "activity"
     },
     "Cmd.ActivityWalk": {
       "action": "activity.walk",
-      "fulfillment": "Starting walk activity.",
+      "fulfillment": "",
       "slots": [],
       "capability": "activity"
     },
@@ -216,7 +216,7 @@
         "source": "prev_memory"
       },
       "confirm_prompt": "Just to be sure — switch your hearing aid program?",
-      "fulfillment": "Memory changed.",
+      "fulfillment": "",
       "slots": [
         {
           "entity": "memory",
@@ -229,240 +229,240 @@
     },
     "Cmd.BatteryLevel": {
       "action": "battery.level",
-      "fulfillment": "Checking battery level.",
+      "fulfillment": "",
       "slots": [],
       "capability": "device.status"
     },
     "Cmd.VolumeDecrease": {
       "action": "volume.decrease",
       "confirm_prompt": "Just to be sure — turn the volume down?",
-      "fulfillment": "Volume decreased.",
+      "fulfillment": "",
       "slots": [],
       "capability": "device.volume"
     },
     "Cmd.VolumeIncrease": {
       "action": "volume.increase",
       "confirm_prompt": "Just to be sure — turn the volume up?",
-      "fulfillment": "Volume increased.",
+      "fulfillment": "",
       "slots": [],
       "capability": "device.volume"
     },
     "Cmd.VolumeMute": {
       "action": "volume.mute",
       "confirm_prompt": "Just to be sure — mute your hearing aids?",
-      "fulfillment": "Muted.",
+      "fulfillment": "",
       "slots": [],
       "capability": "device.volume"
     },
     "Cmd.VolumeUnmute": {
       "action": "volume.unmute",
       "confirm_prompt": "Just to be sure — unmute your hearing aids?",
-      "fulfillment": "Unmuted.",
+      "fulfillment": "",
       "slots": [],
       "capability": "device.volume"
     },
     "Cmd.FindMyPhone": {
       "action": "phone.find",
       "confirm_prompt": "Just to be sure — ring your phone to find it?",
-      "fulfillment": "Finding your phone.",
+      "fulfillment": "",
       "slots": [],
       "capability": "find"
     },
     "Help_Accessories": {
       "action": "help.accessories",
-      "fulfillment": "Here is help with accessories.",
+      "fulfillment": "Here is your help for accessories.",
       "slots": [],
       "capability": "help"
     },
     "Help_AppSettings": {
       "action": "help.app_settings",
-      "fulfillment": "Here is help with app settings.",
+      "fulfillment": "Here is your help for app settings.",
       "slots": [],
       "capability": "help"
     },
     "Help_Battery": {
       "action": "help.battery",
-      "fulfillment": "Here is help with battery.",
+      "fulfillment": "Here is your help for battery.",
       "slots": [],
       "capability": "help"
     },
     "Help_ChangingMemories": {
       "action": "help.memories",
-      "fulfillment": "Here is help with memories.",
+      "fulfillment": "Here is your help for memories.",
       "slots": [],
       "capability": "help"
     },
     "Help_CleanCare": {
       "action": "help.clean_care",
-      "fulfillment": "Here is help with cleaning and care.",
+      "fulfillment": "Here is your help for cleaning and care.",
       "slots": [],
       "capability": "help"
     },
     "Help_Customize": {
       "action": "help.customize",
-      "fulfillment": "Here is help with customization.",
+      "fulfillment": "Here is your help with customization.",
       "slots": [],
       "capability": "help"
     },
     "Help_DemoMode": {
       "action": "help.demo_mode",
-      "fulfillment": "Here is help with Demo Mode.",
+      "fulfillment": "Here is your help for Demo Mode.",
       "slots": [],
       "capability": "help"
     },
     "Help_DeviceSettings": {
       "action": "help.device_settings",
-      "fulfillment": "Here is help with device settings.",
+      "fulfillment": "Here is your help for device settings.",
       "slots": [],
       "capability": "help"
     },
     "Help_EdgeMode": {
       "action": "help.edge_mode",
-      "fulfillment": "Here is help with Edge Mode.",
+      "fulfillment": "Here is your help for Edge Mode.",
       "slots": [],
       "capability": "help"
     },
     "Help_FallAlert": {
       "action": "help.fall_alert",
-      "fulfillment": "Here is help with Fall Alert.",
+      "fulfillment": "Here is your help for Fall Alert.",
       "slots": [],
       "capability": "help"
     },
     "Help_FindMyHearingAids": {
       "action": "help.find_aids",
-      "fulfillment": "Here is help finding your hearing aids.",
+      "fulfillment": "Here is your help for finding your hearing aids.",
       "slots": [],
       "capability": "help"
     },
     "Help_Health": {
       "action": "help.health",
-      "fulfillment": "Here is help with Health.",
+      "fulfillment": "Here is your help for Health.",
       "slots": [],
       "capability": "help"
     },
     "Help_HearShare": {
       "action": "help.hear_share",
-      "fulfillment": "Here is help with HearShare.",
+      "fulfillment": "Here is your help for HearShare.",
       "slots": [],
       "capability": "help"
     },
     "Help_HearingCareAnywhereConnect": {
       "action": "help.hearing_care_connect",
-      "fulfillment": "Here is help with Hearing Care Anywhere.",
+      "fulfillment": "Here is your help for Hearing Care Anywhere.",
       "slots": [],
       "capability": "help"
     },
     "Help_HeartRate": {
       "action": "help.heart_rate",
-      "fulfillment": "Here is help with Heart Rate.",
+      "fulfillment": "Here is your help for Heart Rate.",
       "slots": [],
       "capability": "help"
     },
     "Help_HeartRateRecovery": {
       "action": "help.heart_rate_recovery",
-      "fulfillment": "Here is help with Heart Rate Recovery.",
+      "fulfillment": "Here is your help for Heart Rate Recovery.",
       "slots": [],
       "capability": "help"
     },
     "Help_Home": {
       "action": "help.home",
-      "fulfillment": "Here is help with the home screen.",
+      "fulfillment": "Here is your help for the home screen.",
       "slots": [],
       "capability": "help"
     },
     "Help_InsertDevice": {
       "action": "help.insert_device",
-      "fulfillment": "Here is help inserting your device.",
+      "fulfillment": "Here is your help for inserting your device.",
       "slots": [],
       "capability": "help"
     },
     "Help_IntelliVoice": {
       "action": "help.intelli_voice",
-      "fulfillment": "Here is help with IntelliVoice.",
+      "fulfillment": "Here is your help for IntelliVoice.",
       "slots": [],
       "capability": "help"
     },
     "Help_MaskMode": {
       "action": "help.mask_mode",
-      "fulfillment": "Here is help with Mask Mode.",
+      "fulfillment": "Here is your help for Mask Mode.",
       "slots": [],
       "capability": "help"
     },
     "Help_MemoryOptions": {
       "action": "help.memory_options",
-      "fulfillment": "Here are memory options.",
+      "fulfillment": "Here is your help for program options.",
       "slots": [],
       "capability": "help"
     },
     "Help_Pairing": {
       "action": "help.pairing",
-      "fulfillment": "Here is help with pairing.",
+      "fulfillment": "Here is your help for pairing your device.",
       "slots": [],
       "capability": "help"
     },
     "Help_Reminder": {
       "action": "help.reminder",
-      "fulfillment": "Here is help with reminders.",
+      "fulfillment": "Here is your help for reminders.",
       "slots": [],
       "capability": "help"
     },
     "Help_RemoteProgramming": {
       "action": "help.remote_programming",
-      "fulfillment": "Here is help with remote programming.",
+      "fulfillment": "Here is your help for remote programming.",
       "slots": [],
       "capability": "help"
     },
     "Help_SelfCheck": {
       "action": "help.selfcheck",
-      "fulfillment": "Here is help with SelfCheck.",
+      "fulfillment": "Here is your help for self check.",
       "slots": [],
       "capability": "help"
     },
     "Help_ThriveScore": {
       "action": "help.thrive_score",
-      "fulfillment": "Here is help with Thrive Score.",
+      "fulfillment": "Here is your help for Thrive Score.",
       "slots": [],
       "capability": "help"
     },
     "Help_Tinnitus": {
       "action": "help.tinnitus",
-      "fulfillment": "Here is help with tinnitus.",
+      "fulfillment": "Here is your help for tinnitus.",
       "slots": [],
       "capability": "help"
     },
     "Help_Transcribe": {
       "action": "help.transcribe",
-      "fulfillment": "Here is help with Transcribe.",
+      "fulfillment": "Here is your help for Transcribe.",
       "slots": [],
       "capability": "help"
     },
     "Help_Translate": {
       "action": "help.translate",
-      "fulfillment": "Here is help with Translate.",
+      "fulfillment": "Here is your help for Translate.",
       "slots": [],
       "capability": "help"
     },
     "Help_VoiceAssistant": {
       "action": "help.voice_assistant",
-      "fulfillment": "Here is help with Voice Assistant.",
+      "fulfillment": "Here is your help for Assistant.",
       "slots": [],
       "capability": "help"
     },
     "Help_Volume": {
       "action": "help.volume",
-      "fulfillment": "Here is help with volume.",
+      "fulfillment": "Here is your help for volume.",
       "slots": [],
       "capability": "help"
     },
     "Help_WhatsNew": {
       "action": "help.whats_new",
-      "fulfillment": "Here is what's new.",
+      "fulfillment": "Here is your help for what's new.",
       "slots": [],
       "capability": "help"
     },
     "Help_WiCROS": {
       "action": "help.wicros",
-      "fulfillment": "Here is help with WiCROS.",
+      "fulfillment": "Here is your help for WiCROS.",
       "slots": [],
       "capability": "help"
     },
@@ -482,16 +482,16 @@
         "prompt": "What is your message?",
         "yes": {
           "action": "message.send",
-          "fulfillment": "Message sent!!",
+          "fulfillment": "",
           "label": "Cmd.SendMessage - yes"
         },
         "no": {
           "action": "message.cancel",
-          "fulfillment": "Okay, I won't.",
+          "fulfillment": "",
           "label": "Cmd.SendMessage - no"
         }
       },
-      "fulfillment": "Ready to record your message.",
+      "fulfillment": "",
       "slots": [],
       "capability": "messaging.ptt"
     },
@@ -519,7 +519,7 @@
         {
           "entity": "sys.date-time",
           "name": "date-time",
-          "prompt": "When should I remind you? You can say things like '9am', 'tomorrow at 3', or 'in 10 minutes'.",
+          "prompt": "When should I remind you?",
           "required": true
         }
       ],
@@ -528,41 +528,41 @@
     "reminders.complete": {
       "action": "reminders.complete",
       "confirm_prompt": "Just to be sure — mark your reminder as done?",
-      "fulfillment": "Reminder marked as complete.",
+      "fulfillment": "Reminder completed.",
       "slots": [],
       "capability": "reminders"
     },
     "Cmd.StreamingStart": {
       "action": "streaming.start",
       "confirm_prompt": "Just to be sure — start streaming?",
-      "fulfillment": "Streaming started.",
+      "fulfillment": "",
       "slots": [],
       "capability": "streaming"
     },
     "Cmd.StreamingStop": {
       "action": "streaming.stop",
       "confirm_prompt": "Just to be sure — stop streaming?",
-      "fulfillment": "Streaming stopped.",
+      "fulfillment": "",
       "slots": [],
       "capability": "streaming"
     },
     "Default Fallback Intent": {
       "action": "genai.fallback",
-      "fulfillment": "",
+      "fulfillment": "I can provide help for your questions. Please ask me a question.",
       "slots": [],
       "capability": "sys"
     },
     "Cmd.TranscribeStart": {
       "action": "transcribe.open",
       "confirm_prompt": "Just to be sure — start transcription?",
-      "fulfillment": "Opening Transcribe.",
+      "fulfillment": "",
       "slots": [],
       "capability": "transcription"
     },
     "Cmd.TranslationStart": {
       "action": "translate.open",
       "confirm_prompt": "Just to be sure — start translation?",
-      "fulfillment": "Opening Translate.",
+      "fulfillment": "",
       "slots": [],
       "capability": "translation"
     }
@@ -611,6 +611,16 @@
     "changed my mind",
     "not now",
     "hold on"
+  ],
+  "cancel_cues": [
+    "cancel",
+    "stop",
+    "never mind",
+    "nevermind",
+    "forget it",
+    "forget about it",
+    "quit",
+    "abort"
   ],
   "lexicon": {
     "carriers": [
@@ -726,7 +736,7 @@
   },
   "polarity_guards": [],
   "help_marker_guard": {
-    "markers": "(how\\s+(to|do\\s+i|does|can\\s+i|is|would\\s+i)\\b)|(\\bguide\\b)|(\\bexplain\\b)|(\\btutorial\\b)|(what\\s+(is|are|does)\\b)|(where\\s+(can|do)\\s+i\\s+(see|find|view))|(is\\s+there\\s+a\\s+way)|(help\\s+(with|me\\s+understand|for|understanding))|(how\\s+to\\s+use)|(\\w+\\s+help\\b)|(does\\s+\\w+\\s+(keep|save|store|record|work))|(can\\s+the\\s+app)",
+    "markers": "(how\\s+(to|do\\b|does|can\\b|is|would\\b)\\b)|(\\bguide\\b)|(\\bexplain\\b)|(\\btutorial\\b)|(what\\s+(is|are|does)\\b)|(where\\s+(can|do)\\s+i\\s+(see|find|view))|(is\\s+there\\s+a\\s+way)|(help\\s+(with|me\\s+understand|for|understanding))|(how\\s+to\\s+use)|(\\w+\\s+help\\b)|(does\\s+\\w+\\s+(keep|save|store|record|work))|(can\\s+the\\s+app)",
     "pairs": {
       "Cmd.MemoryChange": "Help_MemoryOptions",
       "Cmd.VolumeDecrease": "Help_Volume",
