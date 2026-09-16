@@ -1,6 +1,7 @@
 # Session handover — NLU quality work (Python + iOS)
 
-**Last updated:** 2026-09-16 — 13 commits on this branch; iOS port done, uncommitted
+**Last updated:** 2026-09-16 — 14 commits here, 2 in `STT`. Everything committed,
+**nothing pushed** (see §3).
 **Branch:** `feature/removeing_confirmation_code_APIVersion-Bugtracker-fixes-ReminderFixes-Layer2-QAAuditDataFix`
 **iOS repo:** `STT` (VoiceAIKit) — same engagement, separate working tree
 **Android:** explicitly out of scope this session.
@@ -89,61 +90,54 @@ the same reason. Both are live now — the owner ran `assemble` on 16 Sep and
 
 ## 3. Current repo state
 
-### Commits made this session (already on the branch)
+### Commits on this branch (all local — NOTHING IS PUSHED)
+
+Neither branch exists on its remote. The Cowork VM has no git credentials
+(no helper, no `gh`, no `GITHUB_TOKEN`) — reads work, pushes cannot. Push from
+the owner's own terminal, where the auth lives. First push creates the remote
+branch, and note the size: this branch is **344 commits ahead of
+`origin/main`** and `STT` is **200** — most of that predates this work and
+arrived with the branch point, so a PR diff will be large.
+
+**IntentClassifier — 14 commits**
 
 | sha | what |
 |---|---|
 | `cce284e7` | help-marker `how` clause drops the pronoun restriction |
-| `bb0838d0` | +30 training rows: 22 `Cmd.MemoryChange` plural forms, 8 `Help_RemoteProgramming` |
+| `bb0838d0` | +30 rows: `Cmd.MemoryChange` plurals, audiologist asks |
+| `2b0c0430` | compiler carries `cancel_cues` + the lemma table into the bundle |
+| `fe56d953` | pack-own the cancellation cues (VIK-068) |
+| `0aed80cd` | regenerate the compiled schema — the `assemble` step (see §2) |
+| `af35ed46` | three export sites normalise text the way the vectorizer was fitted |
+| `05049adc` | plural folding, fitted by ablation (`fit_lemmas.py`) |
+| `e51bf33b` | refit en artifacts on the folded featurizer |
+| `84fa18a0` | `Cmd.MemoryChange` learns the hearing-aid carriers |
+| `64c59b91` | the corpus learns what a timer is (Bug 2, data half) |
+| `ef5bea4c` | strip the timer carrier — a timer is not named "set a timer" |
+| `6ac0e904` | a bare duration answers "when?", but only there |
+| `f9778942` | seconds are a relative unit; one `_UNIT_DELTA` |
+| `834c9548` | **bare-value guard** — a bare entity value is not a request |
+| `33213eeb` | unpoison "put it on", teach "go to" |
+| `328b732e` | this handover |
 
-### Working tree — modified, NOT yet committed
+**STT (VoiceAIKit) — 2 commits**
 
-```
-content/capabilities/sys/intents/Default Fallback Intent.yaml   <- owner's edit
-language_packs/en/nlu_schema.json                               <- regenerated
-language_packs/en/platform.yaml                                 <- cancel_cues
-models/intent/en/calibration.json                               <- refit, T=0.68127
-packages/buildtime/nlu_compiler/content_bundle.py               <- ship cancel_cues
-packages/buildtime/nlu_compiler/content_source.py               <- cancel_cues key
-```
+| sha | what |
+|---|---|
+| `c445488` | cancel cues + bare-value guard, both from the pack |
+| `86d705d` | docs: P4(b) reversal recorded |
 
-Owner has confirmed `Default Fallback Intent.yaml` **should** be committed with
-this batch.
+`c445488` carries both engine changes because they touch the same regions of
+`NLUEngine` and `PackEngineFactory`; splitting would have meant rewriting a
+diff whose Xcode build was already verified. The message covers both under
+separate headings.
 
-### Working tree — untracked, DO NOT COMMIT
+### Do not commit
 
-```
-docs/help-intent-misrouting.md
-scripts/analysis/arbitration_holdout.py
-scripts/analysis/help_phrase_audit.py
-tests/fixtures/help_phrases_en.json
-```
+`STT`: `VoiceAIKit/docs/VoiceAIKit_Architecture_Review.md` (owner's deletion).
+`IntentClassifier`: `scratch_*.py`, `models.bak-*/`, `docs/help-intent-misrouting.md`,
+`scripts/analysis/*`, `tests/fixtures/help_phrases_en.json`.
 
-### iOS repo — uncommitted (VIK-068)
-
-```
-VoiceAIKit/Sources/VoiceAIKit/Pack/Schema/PackLexicon.swift      cancelCues
-VoiceAIKit/Sources/VoiceAIKit/Pack/Loader/DialogSchema.swift     NLUSchema.cancelCues
-VoiceAIKit/Sources/VoiceAIKit/Pack/Loader/PackEngineFactory.swift
-VoiceAIKit/Sources/VoiceAIKit/NLU/Engine/NLUEngine.swift         isCancel + slot cancel
-```
-
-Also do not commit in the iOS repo: `VoiceAIKit/docs/VoiceAIKit_Architecture_Review.md`
-(owner's deletion).
-
-### Commit plan awaiting owner approval
-
-1. `build(compiler): carry cancel_cues through assemble and the bundle` — the two compiler files
-2. `content(en): pack-own the cancellation cues (VIK-068)` — `platform.yaml`
-3. `content(en): regenerate the compiled schema from source` — `nlu_schema.json`, `Default Fallback Intent.yaml`, `models/intent/en/calibration.json`
-
-Pre-commit hooks cannot run here (the repo `.venv` is macOS-built; the hook
-shim also cannot fetch from GitHub through the VM proxy). Precedent set by
-`f21df3e3`: run the applicable hooks manually (check-yaml, trailing-whitespace,
-end-of-file-fixer, mixed-line-ending, large-files), record that in the commit
-message, then `--no-verify`.
-
----
 
 ## 4. Work completed and verified
 
@@ -520,7 +514,9 @@ labelling decision and training data, not normalisation.
 
 ### 7.6 Agreed approach (owner asked for B; scope was then split)
 
-**Part 1 — DONE (uncommitted). Behaviour-neutral: `lemmas.json` ships empty.**
+**Part 1 — DONE and committed (`05049adc`). Landed behaviour-neutral: with
+`lemmas.json` empty every metric was bit-identical; the table was filled by
+ablation afterwards.**
 
 Verified with the table empty: `holdout_honest` **1333/1470 = 90.68%** and
 `leakage_guard` **251/331 = 75.83%** — both exactly the §5 baseline.
@@ -593,15 +589,15 @@ as it is. Then run the conformance fixtures in Swift CI.
 
 ## 8. Pending, in priority order
 
-Everything through the bare-value guard and the carrier fix is COMMITTED on
-this branch (13 commits, none pushed — the branch has no upstream). What is
-left:
+Everything through the bare-value guard, the carrier fix and the iOS port is
+COMMITTED. Nothing is pushed — see §3. What is left, in the order it should be
+done:
 
-1. **Commit the iOS work.** Two separate commits in the `STT` repo:
-   VIK-068 cancel cues (4 files, carried from earlier) and the `bare_value`
-   guard (4 files: `PackSections`, `PackSlotResolver`, `PackEngineFactory`,
-   `NLUEngine`). Builds clean in Xcode; not verified by any toolchain in the
-   Cowork VM, which has no Swift.
+1. **Push both branches, then build a pack and put it on a device.** Both
+   guards are code-complete on Python and iOS but INERT on any pack built
+   before `fe56d953` / `834c9548` — they decode with `decodeIfPresent ?? []`.
+   Nothing is really verified until a device runs a pack from this branch.
+   `dist/bundle-en` is current.
 2. **Android** — both guards are absent there. Until ported, a bare memory name
    still switches programs on Android while Python and iOS refuse it. Out of
    scope by owner directive; recorded so it is not forgotten.
