@@ -1,23 +1,19 @@
-_oov_bypass_confidence_note: 'Fit out-of-fold by nlu_training.fit_oov_guard, and soundly
-  so — a confidence is the one quantity out-of-fold estimates correctly here. Above
-  this the guard stands down: an unknown token is evidence of being out of scope only
-  when the REST of the utterance is also ambiguous. Entity values are unknown BY NATURE
-  (a contact name, a brand, a free-text reminder topic can never all be in a finite
-  vocabulary), so ''send a message to john'' (oov 0.25, conf 1.000) and ''stream from
-  netflix'' (oov 0.33, conf 0.996) are real commands while ''help me find a paper''
-  (oov 0.25, conf 0.771) is not.'
-_oov_reject_ratio_note: 'PROVISIONAL — the one value in this file that is NOT soundly
-  fitted. The out-of-vocabulary ratio is defined against a vocabulary, and neither
-  vocabulary available at fit time is the one the guard faces: fold vocabularies overstate
-  it (they have seen 80% of the rows), while against the shipped vocabulary 94.7%
-  of training rows score exactly 0.0 by construction, leaving no tail to place a threshold
-  in. nlu_training.fit_oov_guard reports its fold-space answer and refuses to pretend
-  it can correct it; two corrections were tried and both fail for that one reason.
-  0.25 is chosen deliberately: it is where the honest holdout halves out-of-scope
-  actions (10 -> 5) for 5 correct commands, and it is the smallest value that catches
-  the reported case. RE-FIT FROM FIELD TELEMETRY — `nlu.oov_guard` records oov_ratio
-  on every blocked turn, which is the sample that would make this fittable. Also re-fit
-  whenever the vocabulary changes; the pruned device head needs its own value.'
+_oov_bypass_confidence_note: 'Fit out-of-fold by nlu_training.fit_oov_guard, and soundly so — a confidence
+  is the one quantity out-of-fold estimates correctly here. Above this the guard stands down: an unknown
+  token is evidence of being out of scope only when the REST of the utterance is also ambiguous. Entity
+  values are unknown BY NATURE (a contact name, a brand, a free-text reminder topic can never all be in
+  a finite vocabulary), so ''send a message to john'' (oov 0.25, conf 1.000) and ''stream from netflix''
+  (oov 0.33, conf 0.996) are real commands while ''help me find a paper'' (oov 0.25, conf 0.771) is not.'
+_oov_reject_ratio_note: 'PROVISIONAL — the one value in this file that is NOT soundly fitted. The out-of-vocabulary
+  ratio is defined against a vocabulary, and neither vocabulary available at fit time is the one the guard
+  faces: fold vocabularies overstate it (they have seen 80% of the rows), while against the shipped vocabulary
+  94.7% of training rows score exactly 0.0 by construction, leaving no tail to place a threshold in. nlu_training.fit_oov_guard
+  reports its fold-space answer and refuses to pretend it can correct it; two corrections were tried and
+  both fail for that one reason. 0.25 is chosen deliberately: it is where the honest holdout halves out-of-scope
+  actions (10 -> 5) for 5 correct commands, and it is the smallest value that catches the reported case.
+  RE-FIT FROM FIELD TELEMETRY — `nlu.oov_guard` records oov_ratio on every blocked turn, which is the
+  sample that would make this fittable. Also re-fit whenever the vocabulary changes; the pruned device
+  head needs its own value.'
 affirmative:
 - 'yes'
 - yeah
@@ -34,15 +30,6 @@ affirmative:
 - go ahead
 - please do
 - affirmative
-# Added from the authored Cmd.SendMessage confirmation phrases. Only these
-# seven were missing: the other 43 already resolved through the entries above
-# (`yes`, `sure`, `okay`, `do it`, `go ahead`, `send`, `send it`), measured
-# against all 50 authored "yes" utterances.
-#
-# LANGUAGE-level on purpose, not per-intent. "that's fine" means yes to whatever
-# was asked, and both engines consult this list only with a confirmation context
-# already active — Python `_handle_confirmation`, Swift `handleConfirmation` —
-# so an utterance arriving with no context never reaches it.
 - alright
 - that's right
 - that's fine
@@ -51,10 +38,9 @@ affirmative:
 - i approve
 - approved
 agreement_threshold: 0.5
-# Explicit cancellation cues, honoured only while a slot-filling flow is open.
-# Verbatim the tuple that `NLUEngine._cancel_cues` carried as a code default:
-# moved here so every runtime reads one list instead of each carrying its own,
-# and so a language pack can replace them. See VIK-068.
+bare_value_guard:
+- entity: memory
+  intent: Cmd.MemoryChange
 cancel_cues:
 - cancel
 - stop
@@ -69,25 +55,25 @@ help_marker_guard:
   markers: (how\s+(to|do\b|does|can\b|is|would\b)\b)|(\bguide\b)|(\bexplain\b)|(\btutorial\b)|(what\s+(is|are|does)\b)|(where\s+(can|do)\s+i\s+(see|find|view))|(is\s+there\s+a\s+way)|(help\s+(with|me\s+understand|for|understanding))|(how\s+to\s+use)|(\w+\s+help\b)|(does\s+\w+\s+(keep|save|store|record|work))|(can\s+the\s+app)
   pairs:
     Cmd.MemoryChange: Help_MemoryOptions
-    Cmd.VolumeDecrease: Help_Volume
-    Cmd.VolumeIncrease: Help_Volume
-    Cmd.VolumeMute: Help_Volume
-    Cmd.VolumeUnmute: Help_Volume
-    reminders.complete: Help_Reminder
-    reminders.add: Help_Reminder
     Cmd.StreamingStart: Help_Accessories
     Cmd.StreamingStop: Help_Accessories
     Cmd.TranscribeStart: Help_Transcribe
     Cmd.TranslationStart: Help_Translate
+    Cmd.VolumeDecrease: Help_Volume
+    Cmd.VolumeIncrease: Help_Volume
+    Cmd.VolumeMute: Help_Volume
+    Cmd.VolumeUnmute: Help_Volume
+    reminders.add: Help_Reminder
+    reminders.complete: Help_Reminder
 interrupt_threshold: 0.68
 keyword_triggers:
 - intent: Cmd.TranslationStart
-  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where
-    (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
+  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is
+    there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
   regex: \btranslat(e|es|ing|ion)\b
 - intent: Cmd.TranscribeStart
-  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where
-    (is|do|are)|is there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
+  not_regex: \b(feature|function|explain|guide me|how (do|does|to)|what (is|are|languages|can)|where (is|do|are)|is
+    there|does (it|the)|can (it|i)|help (with|me understand|understanding)|saved?|tutorial|available|supported|support|offered?|which|options?)\b
   regex: \btranscri(be|bing|ption)\b
 - exact:
   - mute
@@ -118,8 +104,7 @@ keyword_triggers:
 - intent: Cmd.VolumeIncrease
   regex: \bsound(s)? like whispers?\b|\bwhispers?\b.{0,20}\b(voices?|sounds?|them|talking)\b
 - intent: Cmd.VolumeIncrease
-  regex: \bnothing\b.{0,20}\bcoming through\b|\b(slipping|passing)\b.{0,15}\bpast
-    me\b
+  regex: \bnothing\b.{0,20}\bcoming through\b|\b(slipping|passing)\b.{0,15}\bpast me\b
 - intent: Cmd.VolumeIncrease
   regex: \b(asking|ask)\b.{0,20}\brepeat (themselves|himself|herself|yourself)\b
 - intent: Cmd.VolumeIncrease
@@ -139,29 +124,27 @@ keyword_triggers:
 - intent: reminders.add
   regex: \b(set|create|add|make)\b.{0,20}\breminder\b
 - intent: reminders.add
-  regex: \bnudge me\b|\bslip my mind\b|\bjot this down\b|\bnote this down\b|\bdon'?t
-    (let me )?forget\b
+  regex: \bnudge me\b|\bslip my mind\b|\bjot this down\b|\bnote this down\b|\bdon'?t (let me )?forget\b
 - intent: reminders.add
   regex: \b(rappelle[\s-]?moi|r[eé]gler\s+une\s+alarme|mettre?\s+une\s+alarme|fixer?\s+une\s+alarme|cr[eé]er?\s+un\s+rappel|d[eé]finir?\s+un\s+rappel|mettre?\s+un\s+rappel|poser\s+un\s+rappel|ajouter\s+un\s+rappel|planifier\s+un\s+rappel|configurer\s+un\s+rappel)\b
 - intent: Cmd.VolumeDecrease
-  regex: \b(too|way|so|very|really)\s+(hot|loud|bright|much)\b|\bcoming in (way )?too
-    (hot|loud)\b|\btake the edge off\b
+  regex: \b(too|way|so|very|really)\s+(hot|loud|bright|much)\b|\bcoming in (way )?too (hot|loud)\b|\btake
+    the edge off\b
 - intent: Cmd.VolumeDecrease
   not_regex: \b(increase|raise|louder|up)\b
   regex: \b(dim|soften|dampen|quieten)\b.{0,15}\b(audio|sound|volume|it)\b
 - intent: Help_DeviceSettings
   regex: \b(everything|audio|sounds?)\b.{0,15}\b(muffled|distorted|garbled|warped)\b
 - intent: Cmd.BatteryLevel
-  regex: \b(power|battery)\s+(reading|level|status|left|remaining)\b|\b(die|dying|run
-    out|running out)\b.{0,20}\b(on me|battery|charge|power)\b|\bhow (much|long).{0,20}\b(battery|charge|power|life)\b
+  regex: \b(power|battery)\s+(reading|level|status|left|remaining)\b|\b(die|dying|run out|running out)\b.{0,20}\b(on
+    me|battery|charge|power)\b|\bhow (much|long).{0,20}\b(battery|charge|power|life)\b
 - intent: Help_FindMyHearingAids
-  regex: \bping\b.{0,15}\b(hearing aids?|aids?|devices?)\b|\b(locate|find|where).{0,20}\b(hearing
-    aids?|aids?|devices?)\b|\bcannot? (find|locate).{0,20}\b(device|aid)\b
+  regex: \bping\b.{0,15}\b(hearing aids?|aids?|devices?)\b|\b(locate|find|where).{0,20}\b(hearing aids?|aids?|devices?)\b|\bcannot?
+    (find|locate).{0,20}\b(device|aid)\b
 - intent: Cmd.SendMessage
   regex: \bget word to\b|\bping\b.{0,20}\b(my )?(daughter|son|wife|husband|brother|sister|mom|dad|mother|father|friend|family|partner)\b
 - intent: Cmd.StreamingStart
-  not_regex: \b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another
-    person|someone)\b
+  not_regex: \b(can i|how (do|does)|what|feature|help|accessor|clip[- ]?on|another person|someone)\b
   regex: \bpatch\b.{0,15}\b(sound|audio)\b.{0,10}\bthrough\b|\bstream\b.{0,15}\b(from|phone|tv|device)\b
 - intent: Cmd.MemoryChange
   not_regex: \b(what is|tell me about|help with|explain|how does|what does|about)\b
@@ -171,8 +154,8 @@ keyword_triggers:
 - intent: Cmd.MemoryChange
   regex: \b(swap|switch|change|flip)\b.{0,15}\b(to the |to my )?(program|memory|setting|mode|profile)\b.{0,20}\bfor\b
 - intent: Help_Home
-  regex: \bwhat features\b|\bfeatures (are )?available\b|\bpoint me in the right direction\b|\bhow
-    does (this|it|everything) work\b
+  regex: \bwhat features\b|\bfeatures (are )?available\b|\bpoint me in the right direction\b|\bhow does
+    (this|it|everything) work\b
 lexicon:
   carriers:
   - ^\s*(?:can|could|would|will)\s+you\s+(?:please\s+)?
@@ -186,25 +169,6 @@ lexicon:
   - ^\s*(?:set|start)(?:\s+up)?\s+(?:an?\s+)?(?:reminder|alarm|timer)\b\s*(?:(?:to|about|for)\b)?\s*
   - ^\s*make\s+sure\s+(?:i|to)\b\s*
   - ^\s*i\s+(?:need|have|want)\s+to\b\s*
-  leading_connectors:
-  - for
-  - about
-  - of
-  - 'on'
-  - to
-  - that
-  - regarding
-  - with
-  negation_cues:
-  - not
-  - don't
-  - dont
-  - do not
-  - never
-  - without
-  - no need to
-  - stop
-  - cancel
   fuzzyStopwords:
   - the
   - a
@@ -212,7 +176,7 @@ lexicon:
   - of
   - to
   - in
-  - "on"
+  - 'on'
   - at
   - is
   - it
@@ -248,6 +212,25 @@ lexicon:
   - would
   - do
   - does
+  leading_connectors:
+  - for
+  - about
+  - of
+  - 'on'
+  - to
+  - that
+  - regarding
+  - with
+  negation_cues:
+  - not
+  - don't
+  - dont
+  - do not
+  - never
+  - without
+  - no need to
+  - stop
+  - cancel
   trailingFunctionWords:
   - a
   - an
@@ -256,7 +239,7 @@ lexicon:
   - for
   - at
   - in
-  - "on"
+  - 'on'
   - of
   - and
   - or
@@ -293,19 +276,6 @@ negative:
 - do not
 - never mind
 - nevermind
-# Added from the authored Cmd.SendMessage decline phrases. Without these,
-# "forget send" and "skip send" resolved to YES — `send` is in the affirmative
-# list above and nothing negative matched, so a decline sent the message.
-#
-# `forget it` was already a cancel cue but NOT a negative, so it cancelled a
-# slot flow and did nothing in a confirmation. `forget` covers both.
-#
-# NOTE, deliberately visible: `negative` is also read by `_is_cancel` during
-# slot filling, where a refusal of <= 2 tokens abandons the flow. So `skip`,
-# `leave it`, `leave message`, `not now` and `hold on` now also cancel an
-# in-progress reminder. That is the intended reading for four of them; `leave
-# message` is the odd one and is here because the authored list treats it as a
-# decline of a send.
 - forget
 - skip
 - leave it

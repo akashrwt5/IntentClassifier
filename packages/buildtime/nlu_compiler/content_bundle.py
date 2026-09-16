@@ -773,6 +773,24 @@ def compile_guards(schema: dict, out: Path) -> list[str]:
                          if k in ("intent", "pattern", "redirect")})
     guards["polarity"] = polarity
 
+    # Bare-value guard: the whole utterance being nothing but an entity value is
+    # not a request. The values are NOT copied into the guard — the entity stays
+    # the single source, so adding a memory covers it automatically.
+    bare = []
+    for g in schema.get("bare_value_guard") or []:
+        intent, entity = g.get("intent"), g.get("entity")
+        if intent not in known:
+            raise ValueError(
+                f"bare_value_guard names intent {intent!r}, absent from nlu_schema.json")
+        redirect = g.get("redirect")
+        if redirect and redirect not in known:
+            raise ValueError(
+                f"bare_value_guard redirect {redirect!r} absent from nlu_schema.json")
+        bare.append({k: v for k, v in sorted(g.items())
+                     if k in ("intent", "entity", "redirect")})
+    if bare:
+        guards["bare_value"] = bare
+
     _write(out / "runtime" / "guards.json", guards)
     return gaps
 

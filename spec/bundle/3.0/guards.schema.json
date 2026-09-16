@@ -10,7 +10,10 @@
       "description": "Redirects a command intent to its help counterpart when the utterance is phrased as a question. 'how do i turn up the volume' must show help, not change the volume.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["markers", "pairs"],
+      "required": [
+        "markers",
+        "pairs"
+      ],
       "properties": {
         "markers": {
           "description": "Portable-subset regex (spec/bundle/portable-regex.md, compiler stage 10) matched against the normalized utterance. A match arms the redirect.",
@@ -36,13 +39,47 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["intent", "pattern"],
+        "required": [
+          "intent",
+          "pattern"
+        ],
         "properties": {
           "intent": {
             "type": "string",
             "pattern": "^[A-Za-z0-9_. -]+$"
           },
-          "pattern": { "$ref": "defs.schema.json#/$defs/nonEmptyString" },
+          "pattern": {
+            "$ref": "defs.schema.json#/$defs/nonEmptyString"
+          },
+          "redirect": {
+            "description": "Intent to substitute. Omitted means suppress to the out-of-scope fallback.",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_. -]+$"
+          }
+        }
+      }
+    },
+    "bare_value": {
+      "description": "Suppresses an intent when the WHOLE utterance is nothing but one of a closed entity's values. A memory is named 'Outdoors'; a user who says only 'outdoors' has not asked for anything, and a device that switches programs on a stray word heard by an always-on mic is the worst failure this pack can produce. Switching stays available through the explicit forms ('switch to outdoors') and through the slot prompt, neither of which this guard touches.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "intent",
+          "entity"
+        ],
+        "properties": {
+          "intent": {
+            "description": "Intent id to suppress. Must exist in the pack (compiler-enforced).",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_. -]+$"
+          },
+          "entity": {
+            "description": "Closed entity whose values arm the guard. Must exist in the pack (compiler-enforced). The values are NOT copied here — the entity remains the single source, so a new value is covered with no change to this file.",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_.-]+$"
+          },
           "redirect": {
             "description": "Intent to substitute. Omitted means suppress to the out-of-scope fallback.",
             "type": "string",

@@ -268,6 +268,20 @@ class NLUEngine:
         # help, never start recording). Redirects the action to its read-only
         # help.* sibling. Read-only queries (activity/battery) are deliberately
         # NOT paired — "how many steps" is a legitimate query, not a help ask.
+        # Bare-value guard — a memory is named "Outdoors", and a user who says
+        # only "outdoors" has not asked for anything. Switching programs on a
+        # stray word an always-on mic picked up is the worst action this engine
+        # can take, and no confidence makes it right: the utterance carries no
+        # request, only a noun. The explicit forms ("switch to outdoors") and the
+        # slot prompt ("which memory?" -> "outdoors") are untouched, which is
+        # where a bare value IS unambiguous.
+        #
+        # Values are read from the entity itself, never copied here, so a memory
+        # added to the pack is covered without touching this guard.
+        self._bare_value_guard = [
+            g for g in (self.schema.get("bare_value_guard") or [])
+            if g.get("intent") and g.get("entity")]
+
         hmg = self.schema.get("help_marker_guard", {})
         self._help_pairs = dict(hmg.get("pairs", {}))
         _markers = hmg.get("markers", "")
@@ -1174,6 +1188,38 @@ class NLUEngine:
             return hits[0]
         return intent
 
+    def _apply_bare_value_guard(self, text: str, intent: str) -> str:
+        """Suppress an intent when the utterance is ONLY an entity value.
+
+        "outdoors" is the name of a memory, so the classifier reads it as a
+        request to switch to that memory — it is the one label the token carries
+        in the corpus. But a bare noun is not an instruction, and acting on it
+        turns any stray word into a device state change.
+
+        Deliberately narrow, on three counts. It fires only on a FULL-string
+        match, so "switch to outdoors" and "the outdoors program" are unaffected.
+        It is reached only from `_handle_new_intent`, so a bare value answering
+        "which memory?" still fills the slot. And it names one intent and one
+        entity in the pack rather than a word list, so it cannot drift from the
+        entity it is protecting.
+        """
+        if not self._bare_value_guard:
+            return intent
+        t = text.strip().lower()
+        if not t:
+            return intent
+        for g in self._bare_value_guard:
+            if g["intent"] != intent:
+                continue
+            value, span, conf = self.entities.extract_enum(g["entity"], t, fuzzy=False)
+            if value is None or conf < 1.0 or (span or "").strip().lower() != t:
+                continue
+            redirect = g.get("redirect") or "Default Fallback Intent"
+            logger.info("nlu.bare_value_guard", extra={"nlu": {
+                "blocked": intent, "entity": g["entity"], "value": value}})
+            return redirect
+        return intent
+
     def _apply_help_guard(self, text: str, intent: str) -> str:
         """ND-14: if the model predicts a state-changing ACTION but the utterance
         carries explicit help/question markers ("how do I…", "guide", "comment…"),
@@ -1195,7 +1241,8 @@ class NLUEngine:
     def _handle_new_intent(self, session, text, now=0.0):
         session.decrement_contexts()
         intent, conf = self.classifier.classify(text)
-        guarded = self._apply_help_guard(text, self._apply_polarity_guards(text, intent))
+        guarded = self._apply_bare_value_guard(
+            text, self._apply_help_guard(text, self._apply_polarity_guards(text, intent)))
         if guarded != intent:
             # A guard changed WHICH intent we report, so the confidence must be
             # re-read for the intent actually being reported. Inheriting the

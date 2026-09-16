@@ -636,27 +636,6 @@
       "^\\s*make\\s+sure\\s+(?:i|to)\\b\\s*",
       "^\\s*i\\s+(?:need|have|want)\\s+to\\b\\s*"
     ],
-    "leading_connectors": [
-      "for",
-      "about",
-      "of",
-      "on",
-      "to",
-      "that",
-      "regarding",
-      "with"
-    ],
-    "negation_cues": [
-      "not",
-      "don't",
-      "dont",
-      "do not",
-      "never",
-      "without",
-      "no need to",
-      "stop",
-      "cancel"
-    ],
     "fuzzyStopwords": [
       "the",
       "a",
@@ -701,6 +680,27 @@
       "do",
       "does"
     ],
+    "leading_connectors": [
+      "for",
+      "about",
+      "of",
+      "on",
+      "to",
+      "that",
+      "regarding",
+      "with"
+    ],
+    "negation_cues": [
+      "not",
+      "don't",
+      "dont",
+      "do not",
+      "never",
+      "without",
+      "no need to",
+      "stop",
+      "cancel"
+    ],
     "trailingFunctionWords": [
       "a",
       "an",
@@ -739,18 +739,24 @@
     "markers": "(how\\s+(to|do\\b|does|can\\b|is|would\\b)\\b)|(\\bguide\\b)|(\\bexplain\\b)|(\\btutorial\\b)|(what\\s+(is|are|does)\\b)|(where\\s+(can|do)\\s+i\\s+(see|find|view))|(is\\s+there\\s+a\\s+way)|(help\\s+(with|me\\s+understand|for|understanding))|(how\\s+to\\s+use)|(\\w+\\s+help\\b)|(does\\s+\\w+\\s+(keep|save|store|record|work))|(can\\s+the\\s+app)",
     "pairs": {
       "Cmd.MemoryChange": "Help_MemoryOptions",
+      "Cmd.StreamingStart": "Help_Accessories",
+      "Cmd.StreamingStop": "Help_Accessories",
+      "Cmd.TranscribeStart": "Help_Transcribe",
+      "Cmd.TranslationStart": "Help_Translate",
       "Cmd.VolumeDecrease": "Help_Volume",
       "Cmd.VolumeIncrease": "Help_Volume",
       "Cmd.VolumeMute": "Help_Volume",
       "Cmd.VolumeUnmute": "Help_Volume",
-      "reminders.complete": "Help_Reminder",
       "reminders.add": "Help_Reminder",
-      "Cmd.StreamingStart": "Help_Accessories",
-      "Cmd.StreamingStop": "Help_Accessories",
-      "Cmd.TranscribeStart": "Help_Transcribe",
-      "Cmd.TranslationStart": "Help_Translate"
+      "reminders.complete": "Help_Reminder"
     }
   },
+  "bare_value_guard": [
+    {
+      "entity": "memory",
+      "intent": "Cmd.MemoryChange"
+    }
+  ],
   "uncertain_confirm": {
     "cancel_message": "Okay, I won't."
   }
