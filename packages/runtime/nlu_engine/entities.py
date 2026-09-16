@@ -229,9 +229,11 @@ class EntityExtractor:
             [p for name, spec in tod.items() if name != "midnight" for p in spec.get("names", [])])
         self._strip_patterns_cache = None
 
-    _UNIT_DELTA = {"minute": "minutes", "hour": "hours", "day": "days", "week": "weeks"}
-
-    _UNIT_DELTA = {"minute": "minutes", "hour": "hours", "day": "days", "week": "weeks"}
+    # Keys are the canonical unit names in the pack's `relative_units`; values are
+    # timedelta keyword arguments. `month` is deliberately absent — timedelta has
+    # no months, so a month offset needs calendar arithmetic, not a constant.
+    _UNIT_DELTA = {"second": "seconds", "minute": "minutes", "hour": "hours",
+                   "day": "days", "week": "weeks"}
 
     def _rel_delta(self, canon: str, n: int) -> timedelta:
         return timedelta(**{self._UNIT_DELTA[canon]: n})
