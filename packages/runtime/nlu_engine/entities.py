@@ -236,12 +236,24 @@ class EntityExtractor:
     def _rel_delta(self, canon: str, n: int) -> timedelta:
         return timedelta(**{self._UNIT_DELTA[canon]: n})
 
-    def _match_relative_duration(self, t: str, now):
+    def _match_relative_duration(self, t: str, now, bare: bool = False):
         """Resolve "in/for N <unit>" forms, or None if the text carries none.
 
         Extracted so `extract_datetime` can try it BOTH before and after word-number
         normalisation: the patterns need a digit, so a spelled-out duration only
         becomes matchable once "five" has become "5".
+
+        `bare` admits a duration with NO marker — "10 minutes", "an hour". It is
+        off by default and must stay that way for free text, where the marker is
+        the only thing separating a time from a mention of one: "I have a 30
+        minute meeting" and "it took 10 minutes" are not requests to be reminded.
+        The caller turns it on for exactly one case — the answer to an awaited
+        sys.date-time slot, where the engine has just asked "when?" and the turn
+        cannot be a mention.
+
+        Even then the bare forms are anchored to the WHOLE turn, the same purity
+        argument `_is_cancel` makes: "10 minutes" is an answer, "remind me after
+        the 10 minute call" is not.
         """
         # "in N <unit>" / "for N <unit>"
         m = re.search(rf"\b(?:{self._alt_in_for})\s+(\d+)\s*({self._alt_unit})\b", t)
@@ -264,6 +276,28 @@ class EntityExtractor:
         if self._alt_half_an_hour and re.search(
                 rf"\b(?:{self._alt_in})\s+(?:{self._alt_half_an_hour})\b", t):
             return self._to_utc_iso(now + timedelta(minutes=30)), "in half an hour", 1.0, True, False
+
+        if bare:
+            # Whole-turn only. `^...$` is the guard, not a formality.
+            b = t.strip()
+            m = re.fullmatch(rf"(\d+)\s*({self._alt_unit})", b)
+            if m:
+                canon = self._unit_canon[m.group(2).lower()]
+                return (self._to_utc_iso(now + self._rel_delta(canon, int(m.group(1)))),
+                        m.group(), 1.0, True, False)
+            m = re.fullmatch(rf"(?:{self._alt_article})\s+({self._alt_unit})", b)
+            if m:
+                canon = self._unit_canon[m.group(1).lower()]
+                return (self._to_utc_iso(now + self._rel_delta(canon, 1)),
+                        m.group(), 1.0, True, False)
+            for qalt, qn in self._quant_specs:
+                m = re.fullmatch(rf"(?:{qalt})\s*({self._alt_unit_mh})", b)
+                if m:
+                    canon = self._unit_canon[m.group(1).lower()]
+                    return (self._to_utc_iso(now + self._rel_delta(canon, qn)),
+                            m.group(), 1.0, True, False)
+            if self._alt_half_an_hour and re.fullmatch(rf"(?:{self._alt_half_an_hour})", b):
+                return self._to_utc_iso(now + timedelta(minutes=30)), b, 1.0, True, False
         return None
 
     # ----- Lexicon-driven datetime: reverse-lookup tables (built once) -----
@@ -880,7 +914,8 @@ class EntityExtractor:
 
         return None
 
-    def extract_datetime(self, text: str, now: datetime = None):
+    def extract_datetime(self, text: str, now: datetime = None,
+                         bare_duration: bool = False):
         """Return (iso, span, confidence, time_explicit).
 
         time_explicit is True when the user actually specified a time-of-day
@@ -908,7 +943,7 @@ class EntityExtractor:
         t = text.lower().strip()
 
         # --- 1. Relative durations (markers/units/quantifiers from the grammar) ---
-        hit = self._match_relative_duration(t, now)
+        hit = self._match_relative_duration(t, now, bare_duration)
         if hit is not None:
             return hit
 
@@ -931,7 +966,7 @@ class EntityExtractor:
         # the same utterance answered differently in CI, on a dev box, and on iOS
         # (which has no dateparser at all). Matching it here keeps it in the
         # deterministic, Swift-portable grammar.
-        hit = self._match_relative_duration(t, now)
+        hit = self._match_relative_duration(t, now, bare_duration)
         if hit is not None:
             return hit
 

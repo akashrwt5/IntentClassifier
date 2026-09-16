@@ -1028,7 +1028,10 @@ class NLUEngine:
         if awaiting:
             slot = self._slot_def(cfg, awaiting)
             if slot["entity"] == "sys.date-time":
-                iso, filled = self._resolve_datetime(session, text)
+                # The engine asked "when?", so a bare duration ("10 minutes") is
+                # an answer, not a mention. Only here — the first-turn scan below
+                # keeps requiring the in/for marker.
+                iso, filled = self._resolve_datetime(session, text, bare_duration=True)
                 if filled:
                     session.pending_slots[slot["name"]] = iso
             else:
@@ -1385,7 +1388,7 @@ class NLUEngine:
             if value is not None:
                 slots[slot["name"]] = value
 
-    def _resolve_datetime(self, session, text: str):
+    def _resolve_datetime(self, session, text: str, bare_duration: bool = False):
         """Resolve a date-time slot value from `text`.
 
         Returns (iso, filled). `filled` is True only when an explicit time was
@@ -1398,7 +1401,8 @@ class NLUEngine:
         # carries its OWN day ("tomorrow at 4") — in which case it wins and we
         # must NOT anchor, or the anchored day would advance ("tomorrow" relative
         # to the parked tomorrow → day after).
-        iso, _span, _conf, time_explicit, explicit_day = self.entities.extract_datetime(text)
+        iso, _span, _conf, time_explicit, explicit_day = self.entities.extract_datetime(
+            text, bare_duration=bare_duration)
         if iso is None:
             return None, False
 
@@ -1408,7 +1412,8 @@ class NLUEngine:
             try:
                 anchor = datetime.fromisoformat(session.partial_datetime).astimezone()
                 iso, _span, _conf, time_explicit, explicit_day = \
-                    self.entities.extract_datetime(text, now=anchor)
+                    self.entities.extract_datetime(text, now=anchor,
+                                                   bare_duration=bare_duration)
             except ValueError:
                 pass
 
