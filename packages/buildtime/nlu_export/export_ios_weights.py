@@ -36,10 +36,21 @@ import numpy as np
 import joblib
 from pathlib import Path
 
+# The featurizer normalisation the TRAINER applied before fitting the vectorizer
+# (contraction expansion, apostrophe removal, plural folding). This file used to
+# do `.str.lower().str.strip()` instead, so the device temperature was fitted on
+# text that tokenises against a vocabulary built from something else: every
+# apostrophe row produced wrong device logits, and after plural folding every
+# folded row would too. One function, or the two diverge silently.
+from nlu_engine.text_norm import normalize_text
+
 BASE_DIR = Path(__file__).resolve().parents[3]
 PIPELINE_PATH = None
 LABELS_PATH   = None
 DATA_PATH     = None
+# Set beside the paths below in __main__. `_featurize_text` needs it to load the
+# right pack's contraction and lemma tables.
+LANG          = "en"
 
 CONF_THRESHOLD     = 0.70
 CONF_GAP_THRESHOLD = 0.20
@@ -48,12 +59,25 @@ ROUND = 4   # decimal places — 4 dp is sufficient for LR inference
 T_BOUNDS = (0.05, 10.0)   # bounded search range for the scalar temperature `T`
 
 
+def _featurize_text(series_or_list, lang: str):
+    """Apply the trainer's normalisation with THIS language's pack tables."""
+    import json as _j
+    base = BASE_DIR / "language_packs" / lang
+
+    def _table(name):
+        f = base / f"{name}.json"
+        return _j.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+
+    conts, lem = _table("contractions"), _table("lemmas")
+    return [normalize_text(t, contractions=conts, lemmas=lem)
+            for t in series_or_list]
+
 def _get_balanced_training_data():
     import pandas as pd
     
     data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
     data.columns = [c.strip().lower() for c in data.columns]
-    data["text"]   = data["text"].astype(str).str.lower().str.strip()
+    data["text"]   = _featurize_text(data["text"].astype(str), LANG)
     data["intent"] = data["intent"].astype(str).str.strip()
     data = data.dropna().drop_duplicates(subset=["text", "intent"])
 
@@ -204,7 +228,7 @@ def _fit_temperature(labels, vocab, idf, coef, intercept):
     data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
     data.columns = [c.strip().lower() for c in data.columns]
     data = data.dropna(subset=["text", "intent"])
-    texts = data["text"].astype(str).str.lower().str.strip().tolist()
+    texts = _featurize_text(data["text"].astype(str), LANG)
     intents = data["intent"].astype(str).str.strip().tolist()
 
     # Device logits in `labels` order; map each true intent to its label index.
@@ -368,6 +392,7 @@ if __name__ == "__main__":
                         help="Top N features per class by |coef| to keep (default: 30)")
     args = parser.parse_args()
     
+    LANG          = args.lang
     PIPELINE_PATH = BASE_DIR / "models" / "intent" / args.lang / "pipeline.pkl"
     LABELS_PATH   = BASE_DIR / "models" / "intent" / args.lang / "labels.pkl"
     DATA_PATH     = BASE_DIR / "language_packs" / args.lang / "train.csv"

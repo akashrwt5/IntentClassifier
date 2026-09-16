@@ -67,14 +67,27 @@ GATE_WAIVERS = {"da"}
 
 
 def _normalize(texts, language: str):
+    """The featurizer normalisation, with the pack's own tables.
+
+    MUST mirror train.py — the model's vocabulary was fitted on the output of
+    this transform, so evaluating on anything else measures a featurizer the
+    model was never trained for.
+
+    `contractions.json` and `lemmas.json` are FLAT maps. This used to read
+    `.get("contractions", {})` on the loaded file, which always returned `{}`
+    because no such key exists — so evaluation silently ran with contraction
+    expansion disabled while training ran with it on.
+    """
     from nlu_engine.text_norm import normalize_text
     import json
     from pathlib import Path
-    contractions_path = Path("language_packs") / language / "contractions.json"
-    conts = {}
-    if contractions_path.exists():
-        conts = json.loads(contractions_path.read_text(encoding="utf-8")).get("contractions", {})
-    return [normalize_text(t, contractions=conts) for t in texts]
+
+    def _table(name):
+        path = Path("language_packs") / language / f"{name}.json"
+        return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+    conts, lem = _table("contractions"), _table("lemmas")
+    return [normalize_text(t, contractions=conts, lemmas=lem) for t in texts]
 
 
 def _softmax(z: np.ndarray) -> np.ndarray:

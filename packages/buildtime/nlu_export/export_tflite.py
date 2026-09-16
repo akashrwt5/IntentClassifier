@@ -131,7 +131,20 @@ def _fit_int8_temperature(tf, blob: bytes, pipe, lang: str):
 
     # Downsample for speed: max 50 per intent is plenty for a scalar temperature
     data = data.groupby("intent").head(50)
-    texts = data["text"].astype(str).tolist()
+    # Raw text here fitted the int8 temperature against a vocabulary built from
+    # NORMALISED text — the same defect as export_ios_weights had. The vectorizer
+    # lowercases on its own, which hid it; contraction expansion and plural
+    # folding it cannot do.
+    from nlu_engine.text_norm import normalize_text
+    _base = BASE_DIR / "language_packs" / lang
+
+    def _table(name):
+        f = _base / f"{name}.json"
+        return json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+
+    _conts, _lem = _table("contractions"), _table("lemmas")
+    texts = [normalize_text(t, contractions=_conts, lemmas=_lem)
+             for t in data["text"].astype(str)]
     intents = data["intent"].astype(str).str.strip().tolist()
 
     clf = pipe.named_steps.get("clf") or pipe.named_steps.get("classifier")
