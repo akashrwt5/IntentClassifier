@@ -51,6 +51,19 @@ affirmative:
 - i approve
 - approved
 agreement_threshold: 0.5
+# Explicit cancellation cues, honoured only while a slot-filling flow is open.
+# Verbatim the tuple that `NLUEngine._cancel_cues` carried as a code default:
+# moved here so every runtime reads one list instead of each carrying its own,
+# and so a language pack can replace them. See VIK-068.
+cancel_cues:
+- cancel
+- stop
+- never mind
+- nevermind
+- forget it
+- forget about it
+- quit
+- abort
 confidence_threshold: 0.7
 help_marker_guard:
   markers: (how\s+(to|do\b|does|can\b|is|would\b)\b)|(\bguide\b)|(\bexplain\b)|(\btutorial\b)|(what\s+(is|are|does)\b)|(where\s+(can|do)\s+i\s+(see|find|view))|(is\s+there\s+a\s+way)|(help\s+(with|me\s+understand|for|understanding))|(how\s+to\s+use)|(\w+\s+help\b)|(does\s+\w+\s+(keep|save|store|record|work))|(can\s+the\s+app)
