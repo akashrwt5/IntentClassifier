@@ -44,6 +44,12 @@ _parser.add_argument("--lang", "-l", default="en",
                      help="language to train (default: en). Reads "
                           "language_packs/<lang>/train.csv — adding a language means "
                           "adding that directory, not editing this script.")
+_parser.add_argument("--lemmas", choices=("keep", "generate", "off"), default="keep",
+                     help="plural-folding table (language_packs/<lang>/lemmas.json). "
+                          "keep: use the file as it stands (default — the run is "
+                          "reproducible and the table is reviewable in git). "
+                          "generate: re-derive it from this corpus and overwrite. "
+                          "off: ignore it entirely.")
 _args = _parser.parse_args()
 
 # ---------- Paths ----------
@@ -93,12 +99,64 @@ PIPELINE_PATH = MODELS_DIR / "pipeline.pkl"
 import os as _os
 MIN_TEST_ACCURACY = float(_os.environ.get("MIN_TEST_ACCURACY", "0.85"))
 
+# ---------- 0b. Plural folding table ----------
+# See nlu_engine.text_norm for WHY, and nlu_training.fit_lemmas for HOW the
+# table is chosen. The short version: the featurizer has no stemmer, so
+# `program` and `programs` are unrelated vocabulary slots, and when one form
+# dominates a label and the other dominates a different label, plurality itself
+# becomes the intent predictor.
+#
+# WHICH pairs to fold is decided by ABLATION — fold the pair, refit, measure —
+# never by a rule of thumb. Two rules of thumb were tried and measured wrong: a
+# plural-share ratio, and Jensen-Shannon divergence between the two forms\' label
+# distributions, which gives the OPPOSITE answer because the divergence it
+# detects IS the bug being fixed. fit_lemmas documents both.
+LEMMAS_PATH = DATA_DIR / "lemmas.json"
+
 # ---------- 1. Load & clean data ----------
 data = pd.read_csv(DATA_PATH, encoding="utf-8-sig", header=0)
 
 data.columns = [c.strip().lower() for c in data.columns]
-data["text"] = data["text"].astype(str).map(normalize_text)  # lower+strip+contractions
+# Normalise WITHOUT folding first. The generator needs the base word forms, and
+# `text_norm`'s module-level table is whatever was on disk when this process
+# imported it — which a `--lemmas generate` run is about to replace.
+data["text"] = data["text"].astype(str).map(lambda t: normalize_text(t, lemmas={}))
 data["intent"] = data["intent"].astype(str).str.strip()   # preserve exact Dialogflow casing
+
+if _args.lemmas == "generate":
+    # Minutes, not seconds: one pipeline fit per candidate per seed. It is a
+    # build step and it runs only when asked for — the default is `keep`.
+    from nlu_training.fit_lemmas import fit as _fit_lemmas
+    print("Plural folding: running the ablation (this takes a few minutes)...")
+    _res = _fit_lemmas(LANG, verbose=True)
+    LEMMAS = _res["table"]
+    LEMMAS_PATH.write_text(_json.dumps(LEMMAS, indent=1, sort_keys=True) + "\n",
+                           encoding="utf-8")
+    print(f"Plural folding: kept {len(LEMMAS)} of {_res['n_candidates']} "
+          f"candidates -> {LEMMAS_PATH.relative_to(BASE_DIR)}")
+elif _args.lemmas == "off":
+    LEMMAS = {}
+    print("Plural folding: DISABLED (--lemmas off)")
+else:
+    LEMMAS = (_json.loads(LEMMAS_PATH.read_text(encoding="utf-8"))
+              if LEMMAS_PATH.exists() else {})
+    print(f"Plural folding: {len(LEMMAS)} entries from "
+          f"{LEMMAS_PATH.relative_to(BASE_DIR)}")
+
+
+def _norm(text):
+    """The featurizer normalisation for THIS run, folding included.
+
+    Every text that reaches the vectorizer — training rows, the leakage guard,
+    the holdout — must pass through this one function. `normalize_text`'s own
+    default table is not enough here: a `generate` run has just rewritten the
+    file the module read at import time.
+    """
+    return normalize_text(text, lemmas=LEMMAS)
+
+
+if LEMMAS:
+    data["text"] = data["text"].map(lambda t: _norm(t))
 data = data.dropna()
 data = data.drop_duplicates(subset=["text", "intent"])
 
@@ -116,7 +174,7 @@ if HOLDOUT_PATH.exists():
     if _text_col is None:
         _text_col = holdout_raw.columns[0]
         print(f"  [holdout] no standard text column found, using first column: '{_text_col}'")
-    holdout_texts = holdout_raw[_text_col].astype(str).map(normalize_text).tolist()
+    holdout_texts = holdout_raw[_text_col].astype(str).map(_norm).tolist()
     # NORMALISED comparison (case, punctuation, spacing). A raw-string compare
     # missed any pair differing only by a trailing '?' — which is how a
     # 99.9%-leaked English holdout passed this guard for so long (Review-F5
@@ -222,7 +280,7 @@ if HOLDOUT_PATH.exists():
     hdf.columns = [c.strip().lower() for c in hdf.columns]
     _htext = next((c for c in hdf.columns if c in ("text", "utterance", "query", "sentence", "phrase")), hdf.columns[0])
     _hint  = next((c for c in hdf.columns if c in ("intent", "label", "class")), hdf.columns[1])
-    hdf[_htext] = hdf[_htext].astype(str).map(normalize_text)  # same norm as train
+    hdf[_htext] = hdf[_htext].astype(str).map(_norm)  # same norm as train, folding included
     hdf = hdf.dropna(subset=[_htext, _hint])
     _holdout = (hdf, _htext, _hint)
     h_pred = pipeline.predict(hdf[_htext])

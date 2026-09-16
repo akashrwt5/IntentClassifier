@@ -54,6 +54,25 @@ BASE_DIR = Path(__file__).resolve().parents[3]
 
 _DEFAULT_CONTRACTIONS = json.loads((BASE_DIR / "language_packs" / "en" / "contractions.json").read_text(encoding="utf-8"))
 
+# Plural -> singular folding for the TF-IDF featurizer. GENERATED, not
+# hand-maintained: `nlu_training.train` derives it from the training corpus
+# (suffix rule -> vocabulary guard -> ratio guard -> exception list) and writes
+# it here, the same status as `vocab` and `idf`. A hand-written table would only
+# ever cover the words someone remembered to type into it.
+#
+# WHY. The featurizer is a stock TfidfVectorizer with no stemmer, so `program`
+# and `programs` are two unrelated vocabulary slots. When one form dominates a
+# label and the other dominates a different label, PLURALITY ITSELF becomes the
+# intent predictor. Measured on en: `program` 623 rows under Cmd.MemoryChange vs
+# 23 under Help_ChangingMemories, while `programs` runs 6 vs 44 — so "change
+# programs" classified as help and "change program" as a command.
+#
+# Like `contractions`, a pack supplies its own via `normalize_text(lemmas=...)`
+# and an absent file simply means no folding.
+_LEMMAS_PATH = BASE_DIR / "language_packs" / "en" / "lemmas.json"
+_DEFAULT_LEMMAS = (json.loads(_LEMMAS_PATH.read_text(encoding="utf-8"))
+                   if _LEMMAS_PATH.exists() else {})
+
 _APOSTROPHES = ("’", "ʼ", "`")
 _SPACE_RE = re.compile(r"\s+")
 
@@ -70,12 +89,26 @@ def _contraction_re(keys: tuple[str, ...]) -> "re.Pattern":
     return re.compile(r"\b(" + "|".join(re.escape(k) for k in ordered) + r")\b")
 
 
-def normalize_text(text: str, contractions: dict | None = None) -> str:
-    """lowercase -> unify apostrophes -> expand contractions -> drop residual
-    apostrophes -> collapse whitespace.
+@lru_cache(maxsize=8)
+def _lemma_re(keys: tuple[str, ...]) -> "re.Pattern":
+    """Compiled alternation for one lemma table, built once per table.
 
-    `contractions` comes from the pack/lexicon for the language being processed;
-    None uses the English fallback table, so existing callers behave as before.
+    Same construction as `_contraction_re` — longest-first so a key that
+    prefixes another cannot shadow it, cached on the key tuple so a pack's
+    table costs the same as the default one.
+    """
+    ordered = sorted(keys, key=len, reverse=True)
+    return re.compile(r"\b(" + "|".join(re.escape(k) for k in ordered) + r")\b")
+
+
+def normalize_text(text: str, contractions: dict | None = None,
+                   lemmas: dict | None = None) -> str:
+    """lowercase -> unify apostrophes -> expand contractions -> drop residual
+    apostrophes -> fold plurals -> collapse whitespace.
+
+    `contractions` and `lemmas` come from the pack/lexicon for the language
+    being processed; None uses the English fallback table, so existing callers
+    behave as before. An empty `lemmas` table disables folding entirely.
 
     Examples:
         "what's up"        -> "what is up"
@@ -90,6 +123,12 @@ def normalize_text(text: str, contractions: dict | None = None) -> str:
     if table:
         t = _contraction_re(tuple(table)).sub(lambda m: table[m.group(1)], t)
     t = t.replace("'", "")            # residual possessives / o'clock -> oclock
+    # Plural folding runs AFTER contraction expansion and apostrophe removal so
+    # it sees clean word forms, and before whitespace collapse. The table maps
+    # only to forms already in the corpus, so the transform stays idempotent.
+    lem = lemmas if lemmas is not None else _DEFAULT_LEMMAS
+    if lem:
+        t = _lemma_re(tuple(lem)).sub(lambda m: lem[m.group(1)], t)
     return _SPACE_RE.sub(" ", t).strip()
 
 
