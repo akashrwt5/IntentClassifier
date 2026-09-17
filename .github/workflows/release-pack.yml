@@ -137,7 +137,7 @@ jobs:
       - name: Export the TFLite head (fp32 + int8)
         run: python -m nlu_export.export_tflite --lang "${{ github.event.inputs.language || 'en' }}"
         env:
-          PYTHONPATH: packages/buildtime
+          PYTHONPATH: packages/buildtime:packages/runtime
 
       # --langs is REQUIRED: it defaults to all four languages, and only the one
       # being released has a model in this job, so the gate would fail on the
@@ -252,7 +252,7 @@ jobs:
           python -m nlu_export.export_ios_weights --lang "$LANG_ARG" --top-per-class 0 \
             --out "models/intent/$LANG_ARG/intent_classifier_weights_full.json"
         env:
-          PYTHONPATH: packages/buildtime
+          PYTHONPATH: packages/buildtime:packages/runtime
 
       # --skip-minilm because semantic rescue is disabled, so the 23 MB MiniLM
       # encoder is not part of what ships. export_coreml builds both intent heads:
