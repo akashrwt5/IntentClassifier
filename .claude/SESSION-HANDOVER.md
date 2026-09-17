@@ -1242,3 +1242,146 @@ Cmd.MemoryChange    1984 ->  707      leakage guard        331 ->  331
 Line endings: the second and third passes wrote with
 `csv.DictWriter(..., lineterminator="\n")`. Verify with
 `grep -qU $'\r' <file>` after ANY corpus rewrite — see the trap in §10.10.
+
+---
+
+# 11. THE PLAN WE ARE FOLLOWING, and exactly where it stands
+
+The plan is `STT/docs/NLU-Quality-Plan.md` (iOS repo, **not** this one) —
+768 lines, priority-ordered, with a measured or bounded effect per item. It is
+the spine of this engagement. Everything in §§4–10 of this handover is
+execution against it, plus findings the plan did not know about.
+
+**Audited item by item against the repo on 2026-09-17, not from memory.**
+
+| item | status | evidence |
+|---|---|---|
+| **M0** measurement fix | **1 of 4 parts** | see below |
+| **P0** `down`/`up` particles | **DONE** — `0f0366be` | 17 wrong actions -> 1 |
+| **P1** help-marker pattern | **DONE** | `cce284e7`, widened again this session |
+| **P2** degeneracy guard (VIK-073) | **NOT STARTED** | `is_state_changing` / `isStateChanging` appears in NO file — not the schema, not `content_bundle.py`, not any Swift file |
+| **P3** vocabulary coverage | **1 of 3 parts** | see below |
+| **P4** MemoryChange vs Help | **DONE, and past the plan** | §10 — the plan never knew 26 of the 38 memories did not exist |
+| **P5** OOV guard vs ruleOnly conf | **NOT STARTED** | `NLUEngine.swift:752` still gates on `conf < bypass`; `breakdown.stage2` confidence is read for LOGGING only, two lines above |
+| **P6** cancel cues (VIK-068) | **DONE** | `fe56d953` + iOS `c445488` |
+| **P8** keyword rule hygiene | **NOT STARTED** | rule #10 unchanged at `platform.yaml:99` |
+| **Arch** delexicalise (VIK-056) | **DONE on iOS 2026-09-17** | `0a5855f` — see the stale comment below |
+
+### M0 — what is and is not done
+
+* (c) `PhraseReport.swift` columns — **DONE**. `features`, `oov` and
+  `rule_intent` are all in the TSV header.
+* (a) score slot answers in SLOT-FILLING mode — **NOT DONE**. The report still
+  calls `await engine.reset()` before every phrase, and the comment there
+  defends it as MANDATORY. That reset is exactly what the plan asks to change:
+  232 rows depress `reminders.add` from 89.2% to 51.5% purely by being asked
+  standalone.
+* (b) relabel the ~74 out-of-scope rows filed under `Help_*` — **not evident**.
+* (d) bystander sheet — **NOT DONE**. No such sheet exists.
+
+Until (a) and (d) land, the QA phrase reports still measure noise, which is
+the plan's own argument for M0 coming first.
+
+### P3 — what is and is not done
+
+`timer` is in (37 rows, `64c59b91`). Still missing: `timers` (0 rows), the 25
+absent number words (`five`, `twenty`, `thirty` — 0 rows each), `seconds`
+(1 row), the per-intent **`trigger_lexicon`** in the schema, and the build gate
+that would fail when a promised surface form is absent from the vocabulary.
+
+### P0 — done, with one deliberate exception
+
+`0f0366be`. 19 short `Default Fallback Intent` rows plus
+`turn mute hearing aids up` -> `Cmd.VolumeMute` (owner's call: it is a mute
+command, not out of scope).
+
+```
+wrong device actions on the plan's 22 phrases   17 -> 1
+engine holdout      1155/1290 -> 1155/1290      unchanged, not one row
+out-of-scope budget      6/195 -> 6/195         still passing
+```
+
+`quiet down` still fires `Cmd.VolumeDecrease` 0.969. **The owner chose to leave
+it** — said to a hearing aid it has a perfectly good reading as a volume
+command, and `quiet` is too strong a signal for one row to outweigh. This is a
+decision, not an unfinished fix. Do not "fix" it without asking.
+
+Unrequested improvement that came with it: `turn mute on` was FALLBACK 0.509
+earlier in this branch and is now `Cmd.VolumeMute` 0.801.
+
+### A comment I made stale today — fix it
+
+`PackEngineFactory.swift:413` still says:
+
+> "iOS applies no normalisation at all today (VIK-056), so both paths currently
+> see the same string; the distinction ... becomes load-bearing the day
+> normalisation lands."
+
+Normalisation landed in `0a5855f`. The keyword stage and the model path now see
+DIFFERENT strings — which is correct and matches Python (`classifier.py`: the
+keyword stage matches raw text) — but the comment now tells the reader the
+opposite. Two minutes, and it is the kind of stale comment that caused the
+38-memory defect in the first place.
+
+## 11.1 What to do next, cheapest first
+
+1. **`PackEngineFactory.swift:413` comment** — 2 minutes.
+2. **P8** — narrow rule #10 (`\b(too|so|very|really)\s+(quiet|low|soft|faint)\b`)
+   to the audio context the way #11 does, or fold it into #11. The plan is
+   explicit that #11–#17 must NOT be deleted on current evidence: they encode
+   empathetic phrasings this corpus contains none of. Record the finding either
+   way.
+3. **P5** — gate the OOV guard on the model's confidence in the RETURNED intent
+   rather than the arbitration verdict's synthetic `1.0`.
+   `IntentResult.breakdown.stage2` already carries it, so no new plumbing. Add
+   the unit test the plan asks for: a `ruleOnly` turn with a high OOV ratio is
+   still refused. Measured effect on this corpus is zero (`ruleOnly` fires twice
+   in 2,381 command rows) — it is a latent defect worth closing while the file
+   is open.
+4. **P3 remainder** — number words, `timers`, `trigger_lexicon`, build gate.
+5. **P2 / VIK-073** — the big one. Five files across three layers. The plan says
+   **land it before VIK-059**, or Android inherits the defect along with the OOV
+   guard it does not yet have.
+6. **M0 (a) and (d)** — only worth it when the QA phrase reports are being run
+   again, but nothing in the plan is properly measurable until then.
+
+## 11.2 Still open from §10, unchanged
+
+* **`i'm outdoors now`** fires `Cmd.MemoryChange`. Eighteen situational rows
+  teach this deliberately. Product question — do NOT remove without the owner.
+* **The slot contract** (§10.3) — strong/weak carrier, resolved vs unresolved
+  name, passthrough to the host. Designed and agreed, NOT implemented on either
+  platform. This is what makes "switch to temp" work for a user-named memory.
+* **iOS parity test call sites** still construct the classifier with
+  `.identity`, so the parity suite does not cover the production path.
+* **The always-on precision probe set** (§10.6) does not exist yet. It is the
+  measurement whose absence let `33213eeb` ship green.
+* **Two suite failures**: `test_confirmation_branches[Cmd.SendMessage]` and
+  `test_legacy_label_compat` — both open product decisions, both predating today.
+* **The release test gate** in `release-pack.yml` is still commented out.
+
+## 11.3 State at the end of 2026-09-17
+
+```
+IntentClassifier  4 commits today, tree clean, NOTHING PUSHED
+    0f0366be  P0 — a particle is not a command
+    5e4528dc  handover
+    70da25a3  corpus purge + weak carriers + find-an-object
+    c329a9bf  the entity: 38 memories -> 12
+
+STT              1 commit today, NOTHING PUSHED
+    0a5855f   the device never applied the normalisation its model was fitted on
+              (never compiled — the owner's Xcode build is the next step)
+    ALSO STAGED, NOT COMMITTED: the v1.0.54 -> v1.0.56 pack swap, 94 files.
+    That is the owner's change and was deliberately kept out of the commit
+    above. Note v1.0.56 was built from the PRE-purge corpus, so it may be worth
+    dropping in favour of a fresh v1.0.57.
+```
+
+Testing order the owner settled: **iOS Swift fix first, on the EXISTING
+v1.0.56 pack** — that pack already ships `lemmas` and a folded vocabulary, so
+it is the pack that exposed the bug and isolates one variable. A new pack is
+only needed for the entity and corpus work. Expect `shall we go to the gym` to
+fire MORE reliably in that round, not less: the featurizer is now correct and
+v1.0.56's model still has `gym` as a memory. That is parity with a corpus that
+was wrong, not a regression.
