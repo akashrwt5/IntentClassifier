@@ -148,7 +148,7 @@ keyword_triggers:
   regex: \bpatch\b.{0,15}\b(sound|audio)\b.{0,10}\bthrough\b|\bstream\b.{0,15}\b(from|phone|tv|device)\b
 - intent: Cmd.MemoryChange
   not_regex: \b(what is|tell me about|help with|explain|how does|what does|about)\b
-  regex: \b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\b.{0,10}\bmode\b
+  regex: \b(personal|restaurant|outdoors?|meeting|crowd|car|auditorium|music|television|tv|mute|mask|custom)\b.{0,10}\bmode\b
 - intent: Cmd.MemoryChange
   regex: \b(load|restore|apply|use)\b.{0,20}\b(my )?(usual|default|normal|saved|last|previous)\b.{0,15}\b(config|configuration|setting|program|profile|memory)\b
 - intent: Cmd.MemoryChange

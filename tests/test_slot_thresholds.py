@@ -11,11 +11,17 @@ by `nlu_training.fit_slot_thresholds`, and carry provenance.
 
 **Answering the live question is not a topic switch.** Several memory names are
 also commands. Asked "What is the name of the memory?", a user saying "mute" used
-to MUTE the device at 0.980 instead of switching to the Mute memory; "quiet"
-muted too, and "telephone" rang the phone. No threshold can fix it — "tinnitus"
-and "mask" classify at 1.000 — so the engine resolves it by precedence. This is a
-multi-turn defect, invisible to the single-turn holdout replay, so it needs its
-own test.
+to MUTE the device at 0.980 instead of switching to the Mute memory. No threshold
+can fix that — the colliding names classify at 1.000 — so the engine resolves it
+by precedence. This is a multi-turn defect, invisible to the single-turn holdout
+replay, so it needs its own test.
+
+The case list is READ FROM THE ENTITY, not typed here. It used to be typed, and
+four of the nine cases named memories the product does not have ("quiet",
+"telephone", "tinnitus", "mask") — inherited with the Dialogflow import and never
+checked against the device. A hand-typed list of values that live in a data file
+goes stale silently and then asserts the wrong thing forever, which is the exact
+failure this suite exists to catch.
 """
 
 import json
@@ -138,11 +144,26 @@ def _answer(engine, session, answer):
         return engine.handle(session, answer)
 
 
-# "mute"/"quiet" fired volume.mute, "telephone" rang the phone, and
-# "tinnitus"/"mask" classify at 1.000 — the reason a threshold cannot fix this.
-@pytest.mark.parametrize("answer", ["mute", "quiet", "telephone", "tinnitus",
-                                    "mask", "custom 1", "custom one",
-                                    "restaurant", "outdoors"])
+def _memory_surfaces() -> list[str]:
+    """Every spoken form of every memory the product actually has.
+
+    Canonical values plus their synonyms, straight from the entity. Adding a
+    memory to the pack therefore adds a case here with no edit, and REMOVING one
+    cannot leave a test asserting that a memory which no longer exists still
+    fills the slot.
+    """
+    path = _ROOT / "language_packs" / "en" / "nlu_entities.json"
+    values = json.loads(path.read_text(encoding="utf-8"))["memory"]["values"]
+    surfaces = set()
+    for canonical, synonyms in values.items():
+        surfaces.add(canonical.lower())
+        surfaces.update(s.lower() for s in synonyms)
+    return sorted(surfaces)
+
+
+# "mute" fired volume.mute and "music" reaches Cmd.ListenMessage — colliding
+# names classify at 1.000, which is the reason a threshold cannot fix this.
+@pytest.mark.parametrize("answer", _memory_surfaces())
 def test_memory_name_that_is_also_a_command_fills_the_slot(engine, answer):
     r = _answer(engine, f"slot-{answer}", answer)
     assert r.intent == "Cmd.MemoryChange", (

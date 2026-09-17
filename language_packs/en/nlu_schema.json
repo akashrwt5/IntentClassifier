@@ -144,7 +144,7 @@
     {
       "intent": "Cmd.MemoryChange",
       "not_regex": "\\b(what is|tell me about|help with|explain|how does|what does|about)\\b",
-      "regex": "\\b(party|outdoor|restaurant|meeting|tv|music|quiet|calm|noise)\\b.{0,10}\\bmode\\b"
+      "regex": "\\b(personal|restaurant|outdoors?|meeting|crowd|car|auditorium|music|television|tv|mute|mask|custom)\\b.{0,10}\\bmode\\b"
     },
     {
       "intent": "Cmd.MemoryChange",
