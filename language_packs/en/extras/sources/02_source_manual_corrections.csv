@@ -20,12 +20,9 @@ please make this quieter,Cmd.VolumeDecrease
 switch my hearing program,Cmd.MemoryChange
 i need a different memory for this location,Cmd.MemoryChange
 change to restaurant mode,Cmd.MemoryChange
-activate my office program,Cmd.MemoryChange
 set it to the outdoor setting,Cmd.MemoryChange
 use the music program instead,Cmd.MemoryChange
-i need my quiet program,Cmd.MemoryChange
 go back to my standard setting,Cmd.MemoryChange
-pick my telephone program,Cmd.MemoryChange
 i'm in the car now,Cmd.MemoryChange
 use my driving setting,Cmd.MemoryChange
 activate speech focus,Help_EdgeMode
@@ -268,9 +265,7 @@ set me up for a concert,Cmd.MemoryChange
 i need the setting for dining out,Cmd.MemoryChange
 move to my church program,Cmd.MemoryChange
 change profiles for this room,Cmd.MemoryChange
-dial in the mode for traffic noise,Cmd.MemoryChange
 i'm settling in for tv time,Cmd.MemoryChange
-switch over to my gym preset,Cmd.MemoryChange
 how charged are my aids,Cmd.BatteryLevel
 got enough battery for a movie,Cmd.BatteryLevel
 is my battery about to run out,Cmd.BatteryLevel
@@ -394,7 +389,6 @@ change programs,Cmd.MemoryChange
 change the memories,Cmd.MemoryChange
 change the programs,Cmd.MemoryChange
 change to custom,Cmd.MemoryChange
-put it on custom,Cmd.MemoryChange
 set my program to custom,Cmd.MemoryChange
 switch memories,Cmd.MemoryChange
 switch my memories,Cmd.MemoryChange
@@ -476,46 +470,13 @@ start a timer for 5 minutes,reminders.add
 start the timer,reminders.add
 start timer,reminders.add
 timer for 10 minutes,reminders.add
-go to auditorium,Cmd.MemoryChange
-go to car,Cmd.MemoryChange
-go to crowd,Cmd.MemoryChange
-go to custom one,Cmd.MemoryChange
-go to everyday,Cmd.MemoryChange
-go to golf,Cmd.MemoryChange
-go to gym,Cmd.MemoryChange
-go to home,Cmd.MemoryChange
-go to kitchen,Cmd.MemoryChange
-go to music,Cmd.MemoryChange
-go to office,Cmd.MemoryChange
-go to quiet,Cmd.MemoryChange
-go to television,Cmd.MemoryChange
 go to the crowd memory,Cmd.MemoryChange
 go to the meeting memory,Cmd.MemoryChange
 go to the music memory,Cmd.MemoryChange
 go to the outdoors memory,Cmd.MemoryChange
 go to the personal memory,Cmd.MemoryChange
 go to the restaurant memory,Cmd.MemoryChange
-go to train,Cmd.MemoryChange
-put it on auditorium,Cmd.MemoryChange
-put it on car,Cmd.MemoryChange
-put it on crowd,Cmd.MemoryChange
-put it on custom one,Cmd.MemoryChange
-put it on everyday,Cmd.MemoryChange
-put it on golf,Cmd.MemoryChange
-put it on gym,Cmd.MemoryChange
-put it on home,Cmd.MemoryChange
-put it on kitchen,Cmd.MemoryChange
-put it on meeting,Cmd.MemoryChange
-put it on music,Cmd.MemoryChange
-put it on office,Cmd.MemoryChange
-put it on outdoors,Cmd.MemoryChange
-put it on personal,Cmd.MemoryChange
-put it on quiet,Cmd.MemoryChange
-put it on restaurant,Cmd.MemoryChange
-put it on television,Cmd.MemoryChange
-put it on train,Cmd.MemoryChange
 put my aids on crowd,Cmd.MemoryChange
-put my aids on kitchen,Cmd.MemoryChange
 put my aids on meeting,Cmd.MemoryChange
 put my aids on music,Cmd.MemoryChange
 put my aids on outdoors,Cmd.MemoryChange
@@ -526,3 +487,51 @@ put my hearing aids on music,Cmd.MemoryChange
 put my hearing aids on outdoors,Cmd.MemoryChange
 put my hearing aids on personal,Cmd.MemoryChange
 put my hearing aids on restaurant,Cmd.MemoryChange
+help me find my keys,Default Fallback Intent
+please help me find my keys,Default Fallback Intent
+can you help me find my keys,Default Fallback Intent
+find my wallet,Default Fallback Intent
+please find my wallet,Default Fallback Intent
+can you find my wallet,Default Fallback Intent
+locate my glasses,Default Fallback Intent
+please locate my glasses,Default Fallback Intent
+can you locate my glasses,Default Fallback Intent
+look for the tv remote,Default Fallback Intent
+please look for the tv remote,Default Fallback Intent
+can you look for the tv remote,Default Fallback Intent
+help me find my book,Default Fallback Intent
+please help me find my book,Default Fallback Intent
+can you help me find my book,Default Fallback Intent
+find my umbrella,Default Fallback Intent
+please find my umbrella,Default Fallback Intent
+can you find my umbrella,Default Fallback Intent
+locate my passport,Default Fallback Intent
+please locate my passport,Default Fallback Intent
+can you locate my passport,Default Fallback Intent
+look for a pen,Default Fallback Intent
+please look for a pen,Default Fallback Intent
+can you look for a pen,Default Fallback Intent
+help me find my notebook,Default Fallback Intent
+please help me find my notebook,Default Fallback Intent
+can you help me find my notebook,Default Fallback Intent
+find the receipt,Default Fallback Intent
+please find the receipt,Default Fallback Intent
+can you find the receipt,Default Fallback Intent
+locate my jacket,Default Fallback Intent
+please locate my jacket,Default Fallback Intent
+can you locate my jacket,Default Fallback Intent
+look for my shoes,Default Fallback Intent
+please look for my shoes,Default Fallback Intent
+can you look for my shoes,Default Fallback Intent
+help me find the car keys,Default Fallback Intent
+please help me find the car keys,Default Fallback Intent
+can you help me find the car keys,Default Fallback Intent
+find my badge,Default Fallback Intent
+please find my badge,Default Fallback Intent
+can you find my badge,Default Fallback Intent
+where did i put my keys,Default Fallback Intent
+i can't find my wallet anywhere,Default Fallback Intent
+do you know where my glasses are,Default Fallback Intent
+i lost the remote again,Default Fallback Intent
+have you seen my umbrella,Default Fallback Intent
+where are my car keys,Default Fallback Intent

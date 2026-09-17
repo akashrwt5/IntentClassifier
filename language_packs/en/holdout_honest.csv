@@ -396,92 +396,36 @@ what is my bicycle goal?,Cmd.ActivityCycle
 have i biked an hour?,Cmd.ActivityCycle
 turn on restaurant program,Cmd.MemoryChange
 change to test one,Cmd.MemoryChange
-go to restaurant,Cmd.MemoryChange
-go to meeting,Cmd.MemoryChange
 change to mask,Cmd.MemoryChange
 change to mask memory,Cmd.MemoryChange
 change to crowd memory,Cmd.MemoryChange
 change to car memory,Cmd.MemoryChange
-change to home memory,Cmd.MemoryChange
-change to noise program,Cmd.MemoryChange
-change to theater program,Cmd.MemoryChange
 switch to auditorium memory,Cmd.MemoryChange
-switch to gym memory,Cmd.MemoryChange
-switch to home memory,Cmd.MemoryChange
-switch to office memory,Cmd.MemoryChange
-switch to speech memory,Cmd.MemoryChange
 switch to music program,Cmd.MemoryChange
 switch to television program,Cmd.MemoryChange
-switch to telephone program,Cmd.MemoryChange
-switch to work program,Cmd.MemoryChange
-set to telephone memory,Cmd.MemoryChange
-set to gym memory,Cmd.MemoryChange
-set to school memory,Cmd.MemoryChange
-set to tinnitus memory,Cmd.MemoryChange
-set to train memory,Cmd.MemoryChange
-set to worship memory,Cmd.MemoryChange
 set to personal program,Cmd.MemoryChange
 set to restaurant program,Cmd.MemoryChange
 set to crowd program,Cmd.MemoryChange
-set to telephone program,Cmd.MemoryChange
-set to golf program,Cmd.MemoryChange
-change memory to golf,Cmd.MemoryChange
-change program to pub,Cmd.MemoryChange
-change program to theater,Cmd.MemoryChange
-change program to work,Cmd.MemoryChange
 switch memory to personal,Cmd.MemoryChange
 switch memory to television,Cmd.MemoryChange
-switch memory to office,Cmd.MemoryChange
-switch memory to quiet,Cmd.MemoryChange
 switch program to meeting,Cmd.MemoryChange
-switch program to noise,Cmd.MemoryChange
-switch program to work,Cmd.MemoryChange
 set memory to meeting,Cmd.MemoryChange
 set memory to music,Cmd.MemoryChange
 set memory to television,Cmd.MemoryChange
-set memory to telephone,Cmd.MemoryChange
-set memory to school,Cmd.MemoryChange
 set program to personal,Cmd.MemoryChange
 set program to crowd,Cmd.MemoryChange
-set program to office,Cmd.MemoryChange
 music memory,Cmd.MemoryChange
-home memory,Cmd.MemoryChange
 outdoors program,Cmd.MemoryChange
 car program,Cmd.MemoryChange
-home program,Cmd.MemoryChange
-master program,Cmd.MemoryChange
-pub program,Cmd.MemoryChange
-quiet program,Cmd.MemoryChange
-theater program,Cmd.MemoryChange
-tinnitus program,Cmd.MemoryChange
-train program,Cmd.MemoryChange
 restaurant setting,Cmd.MemoryChange
 car setting,Cmd.MemoryChange
 television setting,Cmd.MemoryChange
-home setting,Cmd.MemoryChange
 change to outdoors,Cmd.MemoryChange
 change to crowd,Cmd.MemoryChange
 change to auditorium,Cmd.MemoryChange
 change to music,Cmd.MemoryChange
-change to noise,Cmd.MemoryChange
 switch to outdoors,Cmd.MemoryChange
 switch to car,Cmd.MemoryChange
-switch to pub,Cmd.MemoryChange
-switch to train,Cmd.MemoryChange
-change memory to one,Cmd.MemoryChange
-change setting to two,Cmd.MemoryChange
-program three,Cmd.MemoryChange
-setting four,Cmd.MemoryChange
-change to program number one,Cmd.MemoryChange
-set memory to number one,Cmd.MemoryChange
-change setting to number two,Cmd.MemoryChange
-memory number two,Cmd.MemoryChange
-switch memory to number three,Cmd.MemoryChange
-set program to number three,Cmd.MemoryChange
-setting number three,Cmd.MemoryChange
-switch memory to number four,Cmd.MemoryChange
-set setting to number four,Cmd.MemoryChange
-program number four,Cmd.MemoryChange
 please help i fallen and i can't get up,Help_FallAlert
 can you search iphone,Cmd.FindMyPhone
 can you search android,Cmd.FindMyPhone
@@ -797,8 +741,6 @@ can you have i reached my biking goal?,Cmd.ActivityCycle
 can you have i biked an hour?,Cmd.ActivityCycle
 please change to test one,Cmd.MemoryChange
 can you put hearing aids in auditorium setting,Cmd.MemoryChange
-please go to personal,Cmd.MemoryChange
-can you go to restaurant,Cmd.MemoryChange
 can you mask memory,Cmd.MemoryChange
 can you change to mask,Cmd.MemoryChange
 can you set program to mask,Cmd.MemoryChange
@@ -806,170 +748,51 @@ please change program to mask,Cmd.MemoryChange
 please set to mask program,Cmd.MemoryChange
 please change to restaurant memory,Cmd.MemoryChange
 please change to crowd memory,Cmd.MemoryChange
-can you change to golf memory,Cmd.MemoryChange
-can you change to kitchen memory,Cmd.MemoryChange
-please change to noise memory,Cmd.MemoryChange
-please change to office memory,Cmd.MemoryChange
 please change to music program,Cmd.MemoryChange
 can you change to television program,Cmd.MemoryChange
-please change to telephone program,Cmd.MemoryChange
-can you change to automatic program,Cmd.MemoryChange
-can you change to everyday program,Cmd.MemoryChange
-can you change to kitchen program,Cmd.MemoryChange
-can you change to noise program,Cmd.MemoryChange
-can you change to office program,Cmd.MemoryChange
-can you change to speech program,Cmd.MemoryChange
-can you change to theater program,Cmd.MemoryChange
-please change to train program,Cmd.MemoryChange
 can you switch to personal memory,Cmd.MemoryChange
 can you switch to outdoors memory,Cmd.MemoryChange
 please switch to crowd memory,Cmd.MemoryChange
 please switch to television memory,Cmd.MemoryChange
-can you switch to kitchen memory,Cmd.MemoryChange
-please switch to noise memory,Cmd.MemoryChange
-please switch to speech memory,Cmd.MemoryChange
-please switch to worship memory,Cmd.MemoryChange
 please switch to personal program,Cmd.MemoryChange
 please switch to car program,Cmd.MemoryChange
-can you switch to automatic program,Cmd.MemoryChange
-can you switch to everyday program,Cmd.MemoryChange
-can you switch to golf program,Cmd.MemoryChange
-can you switch to noise program,Cmd.MemoryChange
-please switch to pub program,Cmd.MemoryChange
-please switch to theater program,Cmd.MemoryChange
 can you set to personal memory,Cmd.MemoryChange
 can you set to outdoors memory,Cmd.MemoryChange
 can you set to crowd memory,Cmd.MemoryChange
-can you set to speech memory,Cmd.MemoryChange
-please set to tinnitus memory,Cmd.MemoryChange
-can you set to worship memory,Cmd.MemoryChange
 can you set to restaurant program,Cmd.MemoryChange
 can you set to car program,Cmd.MemoryChange
 please set to television program,Cmd.MemoryChange
 please set to mute program,Cmd.MemoryChange
-can you set to telephone program,Cmd.MemoryChange
-please set to automatic program,Cmd.MemoryChange
-can you set to golf program,Cmd.MemoryChange
-can you set to gym program,Cmd.MemoryChange
-can you set to office program,Cmd.MemoryChange
-can you set to speech program,Cmd.MemoryChange
-can you set to theater program,Cmd.MemoryChange
 can you change memory to personal,Cmd.MemoryChange
 please change memory to car,Cmd.MemoryChange
 please change memory to auditorium,Cmd.MemoryChange
 can you change memory to mute,Cmd.MemoryChange
-please change memory to automatic,Cmd.MemoryChange
-can you change memory to automatic,Cmd.MemoryChange
-can you change memory to home,Cmd.MemoryChange
-can you change memory to noise,Cmd.MemoryChange
-can you change memory to quiet,Cmd.MemoryChange
-can you change memory to school,Cmd.MemoryChange
-please change memory to theater,Cmd.MemoryChange
-can you change memory to theater,Cmd.MemoryChange
-can you change memory to worship,Cmd.MemoryChange
 can you change program to television,Cmd.MemoryChange
-can you change program to master,Cmd.MemoryChange
-can you change program to pub,Cmd.MemoryChange
-please change program to school,Cmd.MemoryChange
-can you change program to school,Cmd.MemoryChange
-please change program to work,Cmd.MemoryChange
 please switch memory to crowd,Cmd.MemoryChange
 can you switch memory to car,Cmd.MemoryChange
 please switch memory to mute,Cmd.MemoryChange
-please switch memory to automatic,Cmd.MemoryChange
-please switch memory to home,Cmd.MemoryChange
-please switch memory to kitchen,Cmd.MemoryChange
-can you switch memory to pub,Cmd.MemoryChange
-please switch memory to tinnitus,Cmd.MemoryChange
-please switch memory to train,Cmd.MemoryChange
 please switch program to outdoors,Cmd.MemoryChange
 can you switch program to car,Cmd.MemoryChange
 can you switch program to auditorium,Cmd.MemoryChange
 can you switch program to television,Cmd.MemoryChange
-can you switch program to golf,Cmd.MemoryChange
-please switch program to gym,Cmd.MemoryChange
-can you switch program to gym,Cmd.MemoryChange
-please switch program to home,Cmd.MemoryChange
-please switch program to kitchen,Cmd.MemoryChange
-can you switch program to kitchen,Cmd.MemoryChange
-please switch program to quiet,Cmd.MemoryChange
-please switch program to speech,Cmd.MemoryChange
-please switch program to train,Cmd.MemoryChange
-can you switch program to train,Cmd.MemoryChange
 please set memory to personal,Cmd.MemoryChange
 can you set memory to outdoors,Cmd.MemoryChange
 please set memory to car,Cmd.MemoryChange
 can you set memory to car,Cmd.MemoryChange
 can you set memory to mute,Cmd.MemoryChange
-please set memory to telephone,Cmd.MemoryChange
-please set memory to gym,Cmd.MemoryChange
-please set memory to master,Cmd.MemoryChange
-can you set memory to noise,Cmd.MemoryChange
-please set memory to speech,Cmd.MemoryChange
-can you set memory to worship,Cmd.MemoryChange
 can you set program to outdoors,Cmd.MemoryChange
 please set program to meeting,Cmd.MemoryChange
 please set program to crowd,Cmd.MemoryChange
 can you set program to crowd,Cmd.MemoryChange
-can you set program to telephone,Cmd.MemoryChange
-please set program to kitchen,Cmd.MemoryChange
-can you set program to master,Cmd.MemoryChange
-please set program to school,Cmd.MemoryChange
-can you set program to school,Cmd.MemoryChange
 can you crowd memory,Cmd.MemoryChange
-can you noise memory,Cmd.MemoryChange
-can you pub memory,Cmd.MemoryChange
 can you crowd program,Cmd.MemoryChange
 can you television program,Cmd.MemoryChange
 can you mute program,Cmd.MemoryChange
 can you mute setting,Cmd.MemoryChange
-can you automatic setting,Cmd.MemoryChange
-can you everyday setting,Cmd.MemoryChange
-can you school setting,Cmd.MemoryChange
 please change to music,Cmd.MemoryChange
 can you change to mute,Cmd.MemoryChange
-please change to noise,Cmd.MemoryChange
-can you change to work,Cmd.MemoryChange
 can you switch to auditorium,Cmd.MemoryChange
 can you switch to mute,Cmd.MemoryChange
-can you switch to telephone,Cmd.MemoryChange
-please switch to master,Cmd.MemoryChange
-can you switch to master,Cmd.MemoryChange
-please switch to noise,Cmd.MemoryChange
-please switch to office,Cmd.MemoryChange
-can you switch to pub,Cmd.MemoryChange
-please switch to train,Cmd.MemoryChange
-can you change to program one,Cmd.MemoryChange
-can you switch program to four,Cmd.MemoryChange
-can you change setting to one,Cmd.MemoryChange
-please switch memory to one,Cmd.MemoryChange
-can you set memory to one,Cmd.MemoryChange
-can you set program to one,Cmd.MemoryChange
-please change memory to two,Cmd.MemoryChange
-please change program to two,Cmd.MemoryChange
-please switch program to two,Cmd.MemoryChange
-can you setting two,Cmd.MemoryChange
-please set setting to three,Cmd.MemoryChange
-can you setting four,Cmd.MemoryChange
-please change settings to number three,Cmd.MemoryChange
-can you change settings to number three,Cmd.MemoryChange
-please change memory to number one,Cmd.MemoryChange
-please switch memory to number one,Cmd.MemoryChange
-can you program number one,Cmd.MemoryChange
-please setting number one,Cmd.MemoryChange
-please change memory to number two,Cmd.MemoryChange
-can you switch memory to number two,Cmd.MemoryChange
-please switch program to number two,Cmd.MemoryChange
-please set setting to number two,Cmd.MemoryChange
-please switch memory to number three,Cmd.MemoryChange
-can you switch program to number three,Cmd.MemoryChange
-can you set memory to number three,Cmd.MemoryChange
-please set program to number three,Cmd.MemoryChange
-can you program number three,Cmd.MemoryChange
-please setting number three,Cmd.MemoryChange
-can you program number four,Cmd.MemoryChange
-can you memory number four,Cmd.MemoryChange
-please setting number four,Cmd.MemoryChange
 disconnect from remote,Cmd.StreamingStop
 hearing aid volume off,Cmd.VolumeMute
 how long do i have to stand,Cmd.ActivityStand
@@ -1131,7 +954,6 @@ the environment sounds harsh,Cmd.VolumeDecrease
 ease off the volume,Cmd.VolumeDecrease
 switch programs,Cmd.MemoryChange
 set me up for conversation,Cmd.MemoryChange
-use my everyday setting,Cmd.MemoryChange
 are my hearing aids getting low?,Cmd.BatteryLevel
 am i close to empty?,Cmd.BatteryLevel
 i've misplaced my hearing aids,Help_FindMyHearingAids
@@ -1426,7 +1248,6 @@ explain demo mode,Help_DemoMode
 how do i get rid of weeds,Default Fallback Intent
 make it less loud,Cmd.VolumeDecrease
 i need a different memory for this location,Cmd.MemoryChange
-activate speech focus,Cmd.MemoryChange
 are the batteries low,Cmd.BatteryLevel
 how's the charge looking,Cmd.BatteryLevel
 is there enough power remaining,Cmd.BatteryLevel
@@ -1462,7 +1283,6 @@ way too much volume for me,Cmd.VolumeDecrease
 tune my aids for this place,Cmd.MemoryChange
 set me up for a concert,Cmd.MemoryChange
 change profiles for this room,Cmd.MemoryChange
-switch over to my gym preset,Cmd.MemoryChange
 got enough battery for a movie,Cmd.BatteryLevel
 track down where my aids are,Help_FindMyHearingAids
 i can't spot my hearing aids anywhere,Help_FindMyHearingAids
