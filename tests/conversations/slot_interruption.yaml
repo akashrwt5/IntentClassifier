@@ -1,14 +1,27 @@
-# A high-confidence topic switch abandons the slot flow.
+# VIK-038: an OPEN slot does not interrupt — and the user is not trapped.
+#
+# This script used to assert the opposite: that "actually just mute my hearing
+# aids" mid-reminder abandoned the flow and muted. VIK-038 removed that
+# deliberately, with measured cause. The classifier is trained on COMMANDS, so a
+# slot answer is out-of-distribution input and its confidence is not a
+# thresholdable quantity — answering "What do you want to be reminded?" with
+# "walk the dog" scored Cmd.ActivityWalk at 1.000 and cancelled the reminder the
+# user was in the middle of setting. Raising the bar does not separate them:
+# "start my workout" (a legitimate reminder) outscores "start transcribing" (a
+# real command).
+#
+# So the gate is the awaited entity's KIND. `remind` is open free-text — every
+# utterance is a legal value, there is nothing to be right about — so the probe
+# does not run and the turn is taken as the answer. The memory flow, a closed
+# enum, still interrupts correctly.
+#
+# The escape hatch is what makes that safe, and turn 3 is here to keep it: an
+# explicit cancel abandons the flow at any point.
 lang: en
-known_gap: >-
-  VIK-038 / Bug 1 — the topic-switch probe does not fire for this turn, so
-  "actually just mute my hearing aids" is taken as an answer to the awaited
-  slot instead of a new command. Blocked on an `is_state_changing` predicate,
-  which no runtime has: it exists only in an analysis script and VIK-073
-  needs it too. Remove this line when the probe lands; an XPASS here is the
-  signal that it did.
 turns:
   - user: "set a reminder"
     expect: {type: PROMPT, intent: reminders.add}
   - user: "actually just mute my hearing aids"
-    expect: {intent: Cmd.VolumeMute}
+    expect: {not_intent: Cmd.VolumeMute, not_action: volume.mute}
+  - user: "cancel"
+    expect: {intent: sys.slot.cancelled}

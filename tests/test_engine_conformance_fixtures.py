@@ -51,7 +51,8 @@ def test_conversation_fixtures_match_live_engine():
         pytest.skip(f"fixtures cover {sorted(needed)}; no model for {missing}. "
                     f"Train with: python -m nlu_training.train --lang <lang>")
 
-    assert conversations_fixture() == committed["scripts"], (
+    regenerated, _skipped = conversations_fixture()
+    assert regenerated == committed["scripts"], (
         "engine behavior changed — regenerate the conformance fixtures and "
         "review the diff (python -m nlu_training.generate_conformance_fixtures)")
 
@@ -61,10 +62,16 @@ def test_datetime_clock_grid_matches_live_extractor():
         datetime_clock_grid_fixture)
 
     committed = json.loads((FIXTURE_DIR / "datetime_clock_grid.json").read_text())
-    live = datetime_clock_grid_fixture()
+    # The generator MERGES: rows for a language this checkout cannot rebuild are
+    # carried over from the committed file rather than dropped. Comparing those
+    # against themselves proves nothing, so only the rebuilt languages are
+    # checked — and if none were rebuilt there is nothing to verify.
+    live, skipped = datetime_clock_grid_fixture()
+    live = [r for r in live if r.get("lang") not in skipped]
     if not live:
-        pytest.skip("no datetime languages to test")
-    
+        pytest.skip(f"no datetime language could be rebuilt here "
+                    f"(skipped: {', '.join(sorted(skipped)) or 'none'})")
+
     # Check that live matches committed for the languages we have
     for live_row in live:
         assert live_row in committed["rows"], (

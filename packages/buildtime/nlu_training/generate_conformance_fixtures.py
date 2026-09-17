@@ -45,6 +45,30 @@ CLOCK_GRID = [
 ]
 
 
+MODELS = REPO / "models" / "intent"
+
+
+def _has_model(lang: str) -> bool:
+    """A language this checkout can actually build an engine for.
+
+    Only `en` is trained in this repository — de/fr/da have no train.csv and no
+    nlu_entities.json here at all — so regenerating blind either crashes or,
+    worse, writes a file missing everything it could not produce.
+    """
+    return (MODELS / lang / "model.onnx").exists()
+
+
+def _existing(name: str) -> dict:
+    """The committed fixture, or {} if there is none."""
+    path = OUT_DIR / name
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except ValueError:
+        return {}
+
+
 def _engine(lang: str):
     sys.path.insert(0, str(REPO / "packages" / "runtime"))
     from nlu_engine import NLUEngine
@@ -53,19 +77,36 @@ def _engine(lang: str):
     return eng
 
 
-def conversations_fixture() -> dict:
+def conversations_fixture(langs: set[str] | None = None) -> tuple[dict, dict]:
+    """Replay the corpus; return (scripts, skipped_by_lang).
+
+    A language is regenerated only when this checkout can build an engine for
+    it AND `langs` allows it. Everything else keeps whatever the committed
+    fixture already held — deleting a golden entry because the machine could
+    not rebuild it is how parity coverage disappears without anyone noticing.
+    """
     import yaml
 
+    previous = (_existing("conversations.json").get("scripts") or {})
     engines: dict = {}
-    scripts = {}
+    scripts: dict = {}
+    skipped: dict = {}
     for path in sorted(CORPUS.glob("*.yaml")):
         script = yaml.safe_load(path.read_text(encoding="utf-8"))
         lang = script.get("lang", "en")
+
+        wanted = langs is None or lang in langs
+        if not wanted or not _has_model(lang):
+            reason = ("not requested" if not wanted
+                      else "no trained model in this checkout")
+            skipped.setdefault(lang, []).append(path.stem)
+            if path.stem in previous:
+                scripts[path.stem] = previous[path.stem]   # keep the golden entry
+            continue
+
         if lang not in engines:
             engines[lang] = _engine(lang)
         eng = engines[lang]
-        if script.get("force_confirm"):
-            continue  # test-only override, not shipping behavior — skip
         session = f"fixture-{path.stem}"
         eng.reset(session)
         turns = []
@@ -78,19 +119,31 @@ def conversations_fixture() -> dict:
                           "confidence": round(r.confidence, 4),
                           "complete": r.complete})
         scripts[path.stem] = {"lang": lang, "turns": turns}
-    return scripts
+    return scripts, skipped
 
 
-def datetime_clock_grid_fixture() -> list[dict]:
+def datetime_clock_grid_fixture(langs: set[str] | None = None) -> tuple[list[dict], dict]:
+    """Return (rows, skipped_by_lang), keeping committed rows for any language
+    this checkout cannot rebuild.
+
+    `language_packs/{fr,de,da}/nlu_entities.json` do not exist here, so without
+    the merge a regeneration silently empties all 75 committed rows.
+    """
     from nlu_engine.entities import EntityExtractor
 
+    previous = _existing("datetime_clock_grid.json").get("rows") or []
     loc = REPO / "language_packs"
     extractors = {}
+    skipped: dict = {}
     for lang in ("fr", "de", "da"):
         path = loc / lang / "nlu_entities.json"
-        if path.exists():
+        wanted = langs is None or lang in langs
+        if wanted and path.exists():
             extractors[lang] = EntityExtractor(entities_path=path, language=lang)
-    rows = []
+        else:
+            skipped[lang] = ("not requested" if not wanted
+                             else "no nlu_entities.json in this checkout")
+    rows = [r for r in previous if r.get("lang") in skipped]
     for lang, ex in extractors.items():
         with open(DT_FIXTURES / f"nlu_datetime_parity_{lang}.csv",
                   encoding="utf-8") as f:
@@ -104,25 +157,55 @@ def datetime_clock_grid_fixture() -> list[dict]:
                              "iso": iso, "confidence": round(conf, 4),
                              "time_explicit": bool(time_explicit),
                              "explicit_day": bool(explicit_day)})
-    return rows
+    return rows, skipped
 
 
-def main() -> int:
+def _report(what: str, skipped: dict) -> None:
+    """Say out loud what was NOT regenerated.
+
+    A generator that quietly reproduces stale entries is indistinguishable from
+    one that refreshed them, and the difference is the whole value of a golden
+    file. If this prints, the fixture is part current and part inherited.
+    """
+    if not skipped:
+        return
+    print(f"  {what}: KEPT COMMITTED ENTRIES for "
+          f"{', '.join(sorted(skipped))} — not regenerated here")
+    for lang in sorted(skipped):
+        detail = skipped[lang]
+        if isinstance(detail, list):
+            detail = f"{len(detail)} script(s): no trained model in this checkout"
+        print(f"    {lang}: {detail}")
+
+
+def main(argv=None) -> int:
+    import argparse
+
+    ap = argparse.ArgumentParser(prog="nlu_training.generate_conformance_fixtures",
+                                 description=__doc__)
+    ap.add_argument("--langs", nargs="+", default=None,
+                    help="languages to REGENERATE (default: every language this "
+                         "checkout has a model for). Any other language keeps "
+                         "its committed entries rather than losing them.")
+    args = ap.parse_args(argv)
+    langs = set(args.langs) if args.langs else None
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    convs = conversations_fixture()
+    convs, conv_skipped = conversations_fixture(langs)
     (OUT_DIR / "conversations.json").write_text(
         json.dumps({"generator": "python-engine (executable spec, ADR-011)",
                     "semantic_enabled": False, "scripts": convs},
                    indent=2, ensure_ascii=False) + "\n")
     print(f"conversations.json: {len(convs)} scripts")
+    _report("conversations.json", conv_skipped)
 
-    grid = datetime_clock_grid_fixture()
+    grid, grid_skipped = datetime_clock_grid_fixture(langs)
     (OUT_DIR / "datetime_clock_grid.json").write_text(
         json.dumps({"generator": "python-engine EntityExtractor",
                     "clock_grid": CLOCK_GRID, "rows": grid},
                    indent=2, ensure_ascii=False) + "\n")
-    print(f"datetime_clock_grid.json: {len(grid)} rows "
-          f"({len(CLOCK_GRID)} clocks × parity utterances × 3 langs)")
+    print(f"datetime_clock_grid.json: {len(grid)} rows")
+    _report("datetime_clock_grid.json", grid_skipped)
     return 0
 
 

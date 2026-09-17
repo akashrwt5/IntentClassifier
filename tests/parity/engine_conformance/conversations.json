@@ -10,7 +10,7 @@
           "type": "FULFILL",
           "intent": "Cmd.ActivityCalories",
           "action": "activity.calories",
-          "confidence": 0.9886,
+          "confidence": 0.9957,
           "complete": true
         }
       ]
@@ -23,7 +23,7 @@
           "type": "FULFILL",
           "intent": "Cmd.ActivityExercise",
           "action": "activity.exercise",
-          "confidence": 0.8665,
+          "confidence": 0.9992,
           "complete": true
         }
       ]
@@ -36,7 +36,7 @@
           "type": "FULFILL",
           "intent": "Cmd.ActivityStep",
           "action": "activity.step",
-          "confidence": 0.9982,
+          "confidence": 0.9998,
           "complete": true
         }
       ]
@@ -49,7 +49,7 @@
           "type": "FULFILL",
           "intent": "Cmd.BatteryLevel",
           "action": "battery.level",
-          "confidence": 0.75,
+          "confidence": 0.9993,
           "complete": true
         }
       ]
@@ -122,7 +122,7 @@
           "type": "FULFILL",
           "intent": "Cmd.FindMyPhone",
           "action": "phone.find",
-          "confidence": 0.97,
+          "confidence": 1.0,
           "complete": true
         }
       ]
@@ -187,16 +187,16 @@
           "type": "FULFILL",
           "intent": "Help_Pairing",
           "action": "help.pairing",
-          "confidence": 0.9767,
+          "confidence": 0.9884,
           "complete": true
         },
         {
           "user": "how does volume control work in the app",
-          "type": "FALLBACK",
-          "intent": "GENAI",
-          "action": "genai.fallback",
-          "confidence": 0.6768,
-          "complete": false
+          "type": "FULFILL",
+          "intent": "Help_Volume",
+          "action": "help.volume",
+          "confidence": 0.847,
+          "complete": true
         }
       ]
     },
@@ -208,7 +208,7 @@
           "type": "FULFILL",
           "intent": "Help_Pairing",
           "action": "help.pairing",
-          "confidence": 0.9957,
+          "confidence": 0.9995,
           "complete": true
         },
         {
@@ -216,7 +216,7 @@
           "type": "FULFILL",
           "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
-          "confidence": 0.97,
+          "confidence": 0.9882,
           "complete": true
         }
       ]
@@ -229,7 +229,7 @@
           "type": "FALLBACK",
           "intent": "GENAI",
           "action": "genai.fallback",
-          "confidence": 0.2316,
+          "confidence": 0.6679,
           "complete": false
         }
       ]
@@ -242,7 +242,7 @@
           "type": "FULFILL",
           "intent": "Cmd.ListenMessage",
           "action": "message.listen",
-          "confidence": 0.9992,
+          "confidence": 0.9999,
           "complete": true
         }
       ]
@@ -268,7 +268,7 @@
           "type": "FALLBACK",
           "intent": "GENAI",
           "action": "genai.fallback",
-          "confidence": 0.2913,
+          "confidence": 0.8183,
           "complete": false
         },
         {
@@ -276,7 +276,7 @@
           "type": "FALLBACK",
           "intent": "GENAI",
           "action": "genai.fallback",
-          "confidence": 0.7724,
+          "confidence": 0.9321,
           "complete": false
         }
       ]
@@ -289,7 +289,7 @@
           "type": "FALLBACK",
           "intent": "GENAI",
           "action": "genai.fallback",
-          "confidence": 0.6527,
+          "confidence": 0.9447,
           "complete": false
         },
         {
@@ -297,7 +297,7 @@
           "type": "FULFILL",
           "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
-          "confidence": 0.97,
+          "confidence": 0.9882,
           "complete": true
         }
       ]
@@ -307,19 +307,11 @@
       "turns": [
         {
           "user": "turn mute on",
-          "type": "CONFIRM",
-          "intent": "Cmd.VolumeMute",
-          "action": "volume.mute",
-          "confidence": 0.6485,
+          "type": "FALLBACK",
+          "intent": "GENAI",
+          "action": "genai.fallback",
+          "confidence": 0.5094,
           "complete": false
-        },
-        {
-          "user": "yes",
-          "type": "FULFILL",
-          "intent": "Cmd.VolumeMute",
-          "action": "volume.mute",
-          "confidence": 1.0,
-          "complete": true
         }
       ]
     },
@@ -328,10 +320,10 @@
       "turns": [
         {
           "user": "i need it more quiet",
-          "type": "CONFIRM",
-          "intent": "Cmd.VolumeDecrease",
-          "action": "volume.decrease",
-          "confidence": 0.75,
+          "type": "FALLBACK",
+          "intent": "GENAI",
+          "action": "genai.fallback",
+          "confidence": 0.6,
           "complete": false
         }
       ]
@@ -352,7 +344,7 @@
           "type": "FULFILL",
           "intent": "reminders.complete",
           "action": "reminders.complete",
-          "confidence": 0.9872,
+          "confidence": 0.9973,
           "complete": true
         }
       ]
@@ -404,11 +396,11 @@
       "turns": [
         {
           "user": "send a message to my wife",
-          "type": "FULFILL",
+          "type": "CONFIRM",
           "intent": "Cmd.SendMessage",
           "action": "message.compose",
-          "confidence": 0.9,
-          "complete": true
+          "confidence": 1.0,
+          "complete": false
         }
       ]
     },
@@ -425,10 +417,18 @@
         },
         {
           "user": "actually just mute my hearing aids",
+          "type": "PROMPT",
+          "intent": "reminders.add",
+          "action": null,
+          "confidence": 1.0,
+          "complete": false
+        },
+        {
+          "user": "cancel",
           "type": "FULFILL",
-          "intent": "Cmd.VolumeMute",
-          "action": "volume.mute",
-          "confidence": 0.8958,
+          "intent": "sys.slot.cancelled",
+          "action": null,
+          "confidence": 1.0,
           "complete": true
         }
       ]
@@ -441,7 +441,7 @@
           "type": "FULFILL",
           "intent": "Cmd.StreamingStop",
           "action": "streaming.stop",
-          "confidence": 0.9986,
+          "confidence": 0.9998,
           "complete": true
         }
       ]
@@ -454,7 +454,7 @@
           "type": "FULFILL",
           "intent": "Cmd.TranscribeStart",
           "action": "transcribe.open",
-          "confidence": 0.9,
+          "confidence": 0.9993,
           "complete": true
         }
       ]
@@ -467,7 +467,7 @@
           "type": "FULFILL",
           "intent": "Cmd.TranslationStart",
           "action": "translate.open",
-          "confidence": 0.9,
+          "confidence": 0.9969,
           "complete": true
         }
       ]
@@ -480,7 +480,7 @@
           "type": "FULFILL",
           "intent": "Cmd.VolumeMute",
           "action": "volume.mute",
-          "confidence": 0.97,
+          "confidence": 0.9882,
           "complete": true
         },
         {
@@ -488,23 +488,15 @@
           "type": "FULFILL",
           "intent": "Cmd.VolumeUnmute",
           "action": "volume.unmute",
-          "confidence": 0.97,
+          "confidence": 0.9998,
           "complete": true
         },
         {
           "user": "turn the volume up",
-          "type": "CONFIRM",
-          "intent": "Cmd.VolumeIncrease",
-          "action": "volume.increase",
-          "confidence": 0.75,
-          "complete": false
-        },
-        {
-          "user": "yes",
           "type": "FULFILL",
           "intent": "Cmd.VolumeIncrease",
           "action": "volume.increase",
-          "confidence": 1.0,
+          "confidence": 0.9927,
           "complete": true
         }
       ]
