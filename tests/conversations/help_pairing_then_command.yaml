@@ -2,6 +2,6 @@
 lang: en
 turns:
   - user: "how do i pair my hearing aids with my phone"
-    expect: {intent_prefix: help.}
+    expect: {intent_prefix: Help_}
   - user: "mute"
     expect: {type: FULFILL, intent: Cmd.VolumeMute}

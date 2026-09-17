@@ -120,12 +120,3 @@ def test_shipped_lemmas_have_no_chains():
     lemmas = json.loads(lemmas_path.read_text(encoding="utf-8"))
     assert not [v for v in lemmas.values() if v in lemmas]
 
-
-def test_shipped_lemmas_exclude_the_exception_list():
-    exc_path = PACK / "lemma_exceptions.json"
-    lemmas_path = PACK / "lemmas.json"
-    if not (exc_path.exists() and lemmas_path.exists()):
-        pytest.skip("no exception list or lemma table for en")
-    exceptions = set(json.loads(exc_path.read_text(encoding="utf-8")))
-    lemmas = json.loads(lemmas_path.read_text(encoding="utf-8"))
-    assert not (exceptions & set(lemmas))

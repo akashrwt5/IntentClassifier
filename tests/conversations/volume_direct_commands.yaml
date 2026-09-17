@@ -1,5 +1,10 @@
-# Confident commands fulfil without friction; a mid-confidence volume change
-# (0.75 < the 0.80 confirm bar) correctly asks first — intended ND-11(a) behavior.
+# Direct volume commands fulfil without friction.
+#
+# Turn 3 used to expect `type: CONFIRM` — 0.75 sat under ND-11(a)'s 0.80 confirm
+# bar. That gate went in 0ad05a7e ("one fire threshold, no confidence-driven
+# confirmation"), and the turn now scores 0.99 and fires, which is the intended
+# behaviour under a single threshold. The "yes" that answered the confirm went
+# with it; there is nothing left to answer.
 lang: en
 turns:
   - user: "mute"
@@ -7,6 +12,4 @@ turns:
   - user: "unmute"
     expect: {type: FULFILL, intent: Cmd.VolumeUnmute}
   - user: "turn the volume up"
-    expect: {type: CONFIRM, intent: Cmd.VolumeIncrease}
-  - user: "yes"
     expect: {type: FULFILL, intent: Cmd.VolumeIncrease, action: volume.increase}

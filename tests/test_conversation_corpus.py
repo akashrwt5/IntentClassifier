@@ -37,7 +37,13 @@ _ENGINES: dict[str, object] = {}
 
 
 def _engine(lang: str):
-    if not (MODELS / lang / f"{lang}_intent_model.onnx").exists():
+    # `models/intent/<lang>/model.onnx` — the layout `resolve_model_set` reads
+    # and `train.py` writes. This asked for `<lang>_intent_model.onnx`, the name
+    # the flat legacy tree used before 2607eb1c retired it, so the file never
+    # existed under the per-language layout and EVERY script in this corpus
+    # skipped. Silently: `pytest -ra` prints the skip and CI stays green, so 35
+    # golden conversations have been asserting nothing.
+    if not (MODELS / lang / "model.onnx").exists():
         pytest.skip(f"trained artifacts for '{lang}' not present")
     pytest.importorskip("onnxruntime")
     if lang not in _ENGINES:
@@ -71,11 +77,16 @@ def _check(expect: dict, r, where: str):
 
 
 @pytest.mark.parametrize("script_path", CORPUS, ids=lambda p: p.stem)
-def test_conversation(script_path: Path, monkeypatch):
+def test_conversation(script_path: Path):
     script = yaml.safe_load(script_path.read_text(encoding="utf-8"))
     engine = _engine(script.get("lang", "en"))
-    if script.get("force_confirm"):
-        monkeypatch.setattr(engine, "_confirm_below", 1.01)
+    # `known_gap` marks a script the engine is EXPECTED to fail, with the reason
+    # and the ticket beside the script rather than in a list here. xfail, not
+    # skip: if the gap is ever closed this reports XPASS and the marker has to
+    # be removed, where a skip would keep the script quiet forever — which is
+    # how this whole corpus came to assert nothing.
+    if gap := script.get("known_gap"):
+        pytest.xfail(gap)
     session = f"corpus-{script_path.stem}"
     engine.reset(session)
     for i, turn in enumerate(script["turns"]):

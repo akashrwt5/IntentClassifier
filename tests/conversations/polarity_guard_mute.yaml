@@ -1,8 +1,15 @@
-# ND-11(b)+(a): 'turn mute on' must never fire unmute; at borderline
-# confidence it asks first, and yes fires MUTE (guard applied pre-confirm).
+# ND-11(b): "turn mute on" must never fire UNMUTE.
+#
+# "mute" and "on" pull in opposite directions and the turn reads as an unmute to
+# a bag-of-words model. What matters is not which intent wins but which one must
+# not: firing unmute here would raise the volume on a user asking for silence.
+#
+# This script used to assert `type: CONFIRM` as well, from ND-11(a)'s
+# uncertainty-confirm gate. That gate was removed deliberately in 0ad05a7e
+# ("one fire threshold, no confidence-driven confirmation"), so the turn now
+# falls back at 0.51 rather than asking. The polarity half is the part that was
+# always the safety property, and it is what this asserts now.
 lang: en
 turns:
   - user: "turn mute on"
-    expect: {type: CONFIRM, intent: Cmd.VolumeMute}
-  - user: "yes"
-    expect: {type: FULFILL, intent: Cmd.VolumeMute, action: volume.mute}
+    expect: {not_intent: Cmd.VolumeUnmute, not_action: volume.unmute}

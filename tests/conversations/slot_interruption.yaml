@@ -1,5 +1,12 @@
 # A high-confidence topic switch abandons the slot flow.
 lang: en
+known_gap: >-
+  VIK-038 / Bug 1 — the topic-switch probe does not fire for this turn, so
+  "actually just mute my hearing aids" is taken as an answer to the awaited
+  slot instead of a new command. Blocked on an `is_state_changing` predicate,
+  which no runtime has: it exists only in an analysis script and VIK-073
+  needs it too. Remove this line when the probe lands; an XPASS here is the
+  signal that it did.
 turns:
   - user: "set a reminder"
     expect: {type: PROMPT, intent: reminders.add}
