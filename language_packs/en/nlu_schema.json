@@ -757,6 +757,13 @@
       "intent": "Cmd.MemoryChange"
     }
   ],
+  "slot_passthrough": [
+    {
+      "entity": "memory",
+      "carrier": "^\\s*(?:please\\s+|can\\s+you\\s+|could\\s+you\\s+|would\\s+you\\s+)?(?:switch|change|set)\\s+(?:me\\s+)?(?:my\\s+|the\\s+)?(?:hearing\\s+aids?\\s+)?(?:program|memory|profile|setting|mode)?\\s*(?:back\\s+)?(?:to|on|into|over\\s+to)\\s+(?:the\\s+|my\\s+|a\\s+)?",
+      "trailing": "\\s*(?:program|memory|profile|setting|mode)\\s*$"
+    }
+  ],
   "uncertain_confirm": {
     "cancel_message": "Okay, I won't."
   }

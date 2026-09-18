@@ -48,6 +48,10 @@ class Session:
     pending_slots: dict = field(default_factory=dict)
     awaiting_slot: Optional[str] = None
     slot_attempts: int = 0          # failed attempts to fill awaiting_slot
+    # Slot names filled by `slot_passthrough` — the value is what the user SAID,
+    # not a value this pack recognised. Carried on the session because the fill
+    # and the FULFILL that reports it are different turns.
+    unresolved_slots: set = field(default_factory=set)
     # Non-answers to an authored yes/no `followup`. Bounded for the same reason
     # as slot_attempts: the confirmation re-sets its own context each time it
     # re-asks, so without a budget a user who is never understood is held in it
@@ -153,6 +157,7 @@ class Session:
         self.pending_slots = {}
         self.awaiting_slot = None
         self.slot_attempts = 0
+        self.unresolved_slots = set()
         self.partial_datetime = None
 
     def record_fulfillment(self, intent: str, params: dict):

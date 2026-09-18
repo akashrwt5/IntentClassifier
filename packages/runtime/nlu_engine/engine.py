@@ -132,6 +132,12 @@ class NLUResult:
     semantic_rescue: bool = False         # True when MiniLM rescued a TF-IDF miss
     tfidf_intent: Optional[str] = None   # what TF-IDF predicted before semantic overruled
     tfidf_confidence: float = 0.0        # TF-IDF confidence before semantic overruled
+    # Slots whose value is what the user SAID, not a value this pack knows. The
+    # host owns the real list — a memory the user renamed "temp" cannot be in a
+    # build-time enum — so the engine reports the spoken name and says plainly
+    # that it did not recognise it. Empty on every turn that resolved, and
+    # `to_dict` drops empties, so a host ignoring the field sees today's shape.
+    unresolved_slots: list = field(default_factory=list)
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if v is not None and v != {} and v != ""}
@@ -281,6 +287,24 @@ class NLUEngine:
         self._bare_value_guard = [
             g for g in (self.schema.get("bare_value_guard") or [])
             if g.get("intent") and g.get("entity")]
+
+        # `slot_passthrough` — an entity whose values the PACK cannot own.
+        #
+        # `Custom` is one value in a list of twelve, but the user names their
+        # custom memory themselves, so that name can never be in a build-time
+        # enum. Without this the engine asks "What is the name of the memory?",
+        # is told "temp", cannot match it, and asks again until
+        # `max_slot_attempts` runs out: three dead prompts and no way through.
+        #
+        # The carrier is DERIVED, not typed. Of 527 corpus rows that name a real
+        # memory, `change` (104), `switch` (96) and `set` (63) plus their
+        # domain-noun forms account for 461 — 87%. `go to` (6) and `put it on`
+        # (7) are the long tail and are deliberately NOT here: they are ordinary
+        # speech, and with the microphone open for a whole session "put it on
+        # the shelf" must not become a request for a memory called "the shelf".
+        self._slot_passthrough = {
+            g["entity"]: g for g in (self.schema.get("slot_passthrough") or [])
+            if g.get("entity")}
 
         hmg = self.schema.get("help_marker_guard", {})
         self._help_pairs = dict(hmg.get("pairs", {}))
@@ -1058,8 +1082,20 @@ class NLUEngine:
                     value = text.strip() or None
                 else:
                     value, _, _conf = self.entities.extract(slot["entity"], text)
+                    if value is None:
+                        # WE ASKED. The user answered with a name this pack does
+                        # not carry — their own custom memory, most likely. The
+                        # host owns the real list, so hand the spoken name over
+                        # and mark it unresolved rather than asking twice more
+                        # and abandoning the flow.
+                        spoken = self._passthrough_name(slot["entity"], text,
+                                                        prompted=True)
+                        if spoken is not None:
+                            session.pending_slots[slot["name"]] = spoken
+                            session.unresolved_slots.add(slot["name"])
                 if value is not None:
                     session.pending_slots[slot["name"]] = value
+                    session.unresolved_slots.discard(slot["name"])
         # Opportunistically fill OTHER slots mentioned in the same answer, but
         # skip the slot we just handled — re-resolving it (e.g. a parked
         # date-time anchored to itself) would double-advance the day.
@@ -1099,11 +1135,13 @@ class NLUEngine:
                                  parameters=dict(session.pending_slots),
                                  message=slot["prompt"], confidence=1.0)
         params = dict(session.pending_slots)
+        unresolved = sorted(session.unresolved_slots & set(params))
         session.reset_slot_filling()
         session.record_fulfillment(intent_name, params)
         return NLUResult(type="FULFILL", intent=intent_name, action=cfg.get("action"),
                          parameters=params, message=cfg.get("fulfillment", ""),
-                         confidence=1.0, complete=True)
+                         confidence=1.0, complete=True,
+                         unresolved_slots=unresolved)
 
     def _try_back_reference(self, session, text: str) -> Optional["NLUResult"]:
         """Pre-pass: resolve back/again phrases using declarative schema back_reference entries."""
@@ -1409,6 +1447,89 @@ class NLUEngine:
         session.record_fulfillment(intent, {})
         return result
 
+    # Sounds a user makes while thinking. Not a memory name, and not covered by
+    # `_UNCERTAIN`, which carries phrases rather than fillers.
+    _FILLERS = frozenset({"um", "umm", "uh", "uhh", "hmm", "hm", "er", "erm", "eh"})
+
+    # Openers that make an utterance a question rather than an answer.
+    _QUESTION_WORDS = frozenset({"who", "what", "where", "when", "why", "how",
+                                 "which", "whose", "is", "are", "do", "does",
+                                 "can", "could", "should", "would"})
+
+    def _passthrough_name(self, entity: str, text: str, prompted: bool):
+        """The name the user spoke for a slot this pack cannot resolve, or None.
+
+        TWO CASES, and the difference is who raised the subject.
+
+        `prompted` — the engine asked "What is the name of the memory?" and this
+        turn is the answer. The user has already committed to changing a memory,
+        so whatever they say IS the name. No carrier to strip; the utterance is
+        the payload. This is the same reasoning the OPEN-entity branch uses.
+
+        Not prompted — first turn. A name was given unasked, so it only counts
+        when the utterance carries an explicit change verb. `switch to temp` has
+        no second reading; `put it on the shelf` has nothing else BUT a second
+        reading, and the microphone is open all session. The carrier that
+        decides this is pack data, derived from the corpus — see `__init__`.
+
+        Returns None rather than an empty string when nothing is left after the
+        carrier, so `change my memory` still PROMPTS instead of fulfilling with
+        a blank name.
+        """
+        spec = self._slot_passthrough.get(entity)
+        if not spec:
+            return None
+        t = str(text).strip()
+        if not prompted:
+            carrier = spec.get("carrier")
+            if not carrier:
+                return None
+            m = re.match(carrier, t, flags=re.I)
+            if not m or m.end() >= len(t):
+                return None
+            t = t[m.end():]
+        t = t.strip().strip(" .,!?")
+        trailing = spec.get("trailing")
+        if trailing:
+            t = re.sub(trailing, "", t, count=1, flags=re.I).strip()
+        # A refusal is not a name. Mid-flow these already reach `_is_cancel`;
+        # this is the belt for the turn where they somehow do not.
+        if not t or self._yes_no(t) is not None:
+            return None
+        # Neither is a non-answer. `_yes_no` returns None for BOTH "this is
+        # uncertain" and "this is neither yes nor no", so it cannot be used to
+        # tell them apart — check the uncertainty vocabulary directly, or
+        # "i don't know" becomes a memory called "i don't know".
+        low = t.lower()
+        if any(u in low for u in self._UNCERTAIN) or low in self._FILLERS:
+            return None
+        # And a name made only of function words is not a name: "switch to the"
+        # leaves "the" behind, which is the carrier's own tail, not the user's
+        # answer. The stopword list is the pack's.
+        words = [w for w in re.split(r"\W+", low) if w]
+        if words and all(w in self.entities.fuzzy_stopwords for w in words):
+            return None
+        # A NAME IS NOT A SENTENCE, and this is the guard that matters.
+        #
+        # Answer the memory prompt with "who is the prime minister of india"
+        # and without this the engine files that as the memory's name and
+        # fulfils. It is the same failure `_is_cancel` guards with its <= 2
+        # token purity check — "is this a bare value or a whole utterance?" —
+        # so it uses the same bound rather than inventing a second one.
+        #
+        # The corpus agrees: all 600 memory spans it contains are ONE word, and
+        # so are all 22 surfaces the pack ships. Two leaves room for a custom
+        # memory the user named "tv time" without admitting a sentence. The
+        # asymmetry is deliberate — too strict costs a re-prompt, too loose
+        # turns an overheard question into a device action.
+        if len(words) > 2:
+            return None
+        # A question is not a name either, and two words is short enough that
+        # one can slip through on length alone ("what now?").
+        if low.endswith("?") or words[:1] and words[0] in self._QUESTION_WORDS:
+            return None
+        return t
+
     def _extract_all_slots(self, session, cfg, text, slots: dict, skip: str = None):
         # One-shot / bulk full-sentence scan: disable fuzzy enum matching so a
         # common word (e.g. "care", "cup") doesn't get mis-read as a memory
@@ -1432,6 +1553,16 @@ class NLUEngine:
             if self.entities.is_open(slot["entity"]):
                 continue
             value, _, _conf = self.entities.extract(slot["entity"], text, fuzzy=False)
+            if value is None:
+                # FIRST TURN. Nobody asked, so a name only counts when the
+                # utterance carries an explicit change verb — see
+                # `_passthrough_name`. "switch to temp" qualifies; "put it on
+                # the shelf" does not, and must not.
+                spoken = self._passthrough_name(slot["entity"], text, prompted=False)
+                if spoken is not None:
+                    slots[slot["name"]] = spoken
+                    session.unresolved_slots.add(slot["name"])
+                    continue
             if value is not None:
                 slots[slot["name"]] = value
 

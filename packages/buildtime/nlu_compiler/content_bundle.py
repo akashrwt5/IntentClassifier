@@ -791,6 +791,33 @@ def compile_guards(schema: dict, out: Path) -> list[str]:
     if bare:
         guards["bare_value"] = bare
 
+    # `slot_passthrough` — the entities whose values the PACK cannot own.
+    #
+    # The user names their own custom memory, so that name can never be in a
+    # build-time enum. Without this the runtime asks for the name, cannot match
+    # what it is told, and asks again until the slot budget runs out.
+    #
+    # The carrier is the load-bearing half and it ships as a PATTERN, checked by
+    # `check_pattern` like every other regex in the bundle: a device that cannot
+    # compile it would otherwise accept any utterance as a memory name, which is
+    # the opposite of the narrowing this key exists to express.
+    passthrough = []
+    for spec in schema.get("slot_passthrough") or []:
+        entity, carrier = spec.get("entity"), spec.get("carrier")
+        if not entity or not carrier:
+            continue
+        for field in ("carrier", "trailing"):
+            pattern = spec.get(field)
+            if not pattern:
+                continue
+            problems = check_pattern(pattern)
+            if problems:
+                gaps.append(f"slot_passthrough[{entity}].{field}: {'; '.join(problems)}")
+        passthrough.append({k: v for k, v in sorted(spec.items())
+                            if k in ("entity", "carrier", "trailing")})
+    if passthrough:
+        guards["slot_passthrough"] = passthrough
+
     _write(out / "runtime" / "guards.json", guards)
     return gaps
 

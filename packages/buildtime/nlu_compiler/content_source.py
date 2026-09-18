@@ -40,7 +40,7 @@ PLATFORM_KEYS = ("version", "confidence_threshold",
                  "interrupt_threshold", "agreement_threshold", "oov_reject_ratio", "oov_bypass_confidence",
                  "semantic_threshold", "semantic_rescue_enabled", "max_slot_attempts",
                  "keyword_triggers", "affirmative", "negative", "cancel_cues", "lexicon",
-                 "polarity_guards", "help_marker_guard", "bare_value_guard",
+                 "polarity_guards", "help_marker_guard", "bare_value_guard", "slot_passthrough",
                  "uncertain_confirm")
 
 
@@ -148,7 +148,8 @@ def assemble(write: bool = True) -> dict:
             ordered[key] = schema[key]
     ordered["intents"] = intents
     for key in ("affirmative", "negative", "cancel_cues", "lexicon", "polarity_guards",
-                "help_marker_guard", "bare_value_guard", "uncertain_confirm"):
+                "help_marker_guard", "bare_value_guard", "slot_passthrough",
+                "uncertain_confirm"):
         if key in schema:
             ordered[key] = schema[key]
     # The layout above is a second, hand-maintained list of the same keys, so it

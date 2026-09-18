@@ -87,6 +87,35 @@
           }
         }
       }
+    },
+    "slot_passthrough": {
+      "description": "Entities whose VALUES the pack cannot own. A user names their own custom memory, so that name can never appear in a build-time enum; without this a runtime asks for the name, fails to match what it is told, and re-asks until the slot budget is spent. An entry says: for this entity, when enum matching fails, the spoken name may be handed to the host instead — marked unresolved, never as a recognised value. `carrier` is what makes it narrow: on the FIRST turn the utterance must carry an explicit change verb, because an always-open microphone must not read 'put it on the shelf' as a request for a memory called 'the shelf'. Additive; a runtime that ignores this section keeps today's re-prompt behaviour.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entity",
+          "carrier"
+        ],
+        "properties": {
+          "entity": {
+            "type": "string",
+            "description": "The entity whose values the pack cannot enumerate.",
+            "pattern": "^[A-Za-z0-9_.-]+$"
+          },
+          "carrier": {
+            "type": "string",
+            "description": "Portable-subset pattern, anchored at the start, matching the explicit request wrapper. What remains after it is the candidate name. Only consulted on an unprompted first turn.",
+            "minLength": 1
+          },
+          "trailing": {
+            "type": "string",
+            "description": "Optional portable-subset pattern for a domain noun to strip off the end (\"switch to temp memory\" -> \"temp\").",
+            "minLength": 1
+          }
+        }
+      }
     }
   }
 }
